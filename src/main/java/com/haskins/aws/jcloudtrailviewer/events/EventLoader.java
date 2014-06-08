@@ -10,6 +10,7 @@ import com.haskins.aws.jcloudtrailviewer.PropertiesSingleton;
 import com.haskins.aws.jcloudtrailviewer.models.Event;
 import com.haskins.aws.jcloudtrailviewer.models.Records;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
+import java.util.zip.ZipException;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -28,6 +30,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -84,10 +87,12 @@ public class EventLoader {
     }
 
     private void readLogFile(File file) throws IOException {
-
+        
         byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
         String strFile = new String(encoded, StandardCharsets.UTF_8);
 
+        System.out.println("Reading File : " + file.getName());
+        
         readLogEvents(strFile);
     }
     
@@ -106,7 +111,7 @@ public class EventLoader {
         
         GZIPInputStream gzis = new GZIPInputStream(s3Object.getObjectContent());
         BufferedReader bf = new BufferedReader(new InputStreamReader(gzis, "UTF-8"));        
-        
+
         String outStr = "";
         String line;
         while ((line=bf.readLine())!=null) {
@@ -122,25 +127,64 @@ public class EventLoader {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        Records records = mapper.readValue(jsonString, Records.class);
-
-        List<Event> events = records.getLogEvents();
-        int count = 1;
-
-        for (Event event : events) {
-
-            String rawJson = mapper.defaultPrettyPrintingWriter().writeValueAsString(event);
-            event.setRawJSON(rawJson);
-
-            eventsProgress.setProgress(count);
-
-            count++;
+        Records records = null;
+        
+        try {
+            
+            records = mapper.readValue(jsonString, Records.class);
+            
+        } catch(JsonParseException jpe) {
+            
+            System.out.println(jpe.getMessage());
         }
+        
+        if (records == null) {
+            
+            try {
+                final int BUFFER_SIZE = 32;
+                byte[] bytes = jsonString.getBytes("ISO-8859-1");
+                ByteArrayInputStream is = new ByteArrayInputStream(bytes);
+                
+                GZIPInputStream gzis = new GZIPInputStream(is, BUFFER_SIZE);
+                
+                BufferedReader bf = new BufferedReader(new InputStreamReader(gzis, "UTF-8"));        
 
-        for (EventLoaderListener l : listeners) {
+                String outStr = "";
+                String line;
+                while ((line=bf.readLine())!=null) {
+                  outStr += line;
+                }
+                bf.close();
+                gzis.close();
 
-            l.newEvents(events);
+                records = mapper.readValue(outStr, Records.class);
+                
+            } catch (ZipException | JsonParseException ex) {
+                
+                System.out.println(ex.getMessage());
+            }
         }
+        
+        if (records != null) {
+            List<Event> events = records.getLogEvents();
+            int count = 1;
+
+            for (Event event : events) {
+
+                String rawJson = mapper.defaultPrettyPrintingWriter().writeValueAsString(event);
+                event.setRawJSON(rawJson);
+
+                eventsProgress.setProgress(count);
+
+                count++;
+            }
+
+            for (EventLoaderListener l : listeners) {
+
+                l.newEvents(events);
+            }
+        }
+       
     }
 
     private void buildDialog(Stage stage) {

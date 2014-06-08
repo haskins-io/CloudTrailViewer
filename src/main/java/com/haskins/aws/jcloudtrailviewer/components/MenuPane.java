@@ -127,12 +127,10 @@ public class MenuPane {
                 dlg.hide();
              }
         };
-        
+                
         dlg.getActions().addAll(actionOpen, Dialog.Actions.CANCEL);
         
         dlg.show();
-        
-        s3FileChooser.reloadContents();
         
         return selectedFiles;
     }
