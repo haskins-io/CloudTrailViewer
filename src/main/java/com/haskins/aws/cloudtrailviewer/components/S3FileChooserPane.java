@@ -1,4 +1,25 @@
-package com.haskins.aws.jcloudtrailviewer.components;
+/*    
+CloudTrail Log Viewer, is a Java desktop application for reading AWS CloudTrail
+logs files.
+
+Copyright (C) 2014  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+package com.haskins.aws.cloudtrailviewer.components;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -7,14 +28,14 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.haskins.aws.jcloudtrailviewer.PropertiesSingleton;
+import com.haskins.aws.cloudtrailviewer.PropertiesSingleton;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -29,10 +50,10 @@ import org.controlsfx.control.BreadCrumbBar.BreadCrumbActionEvent;
  */
 public class S3FileChooserPane extends Pane {
     
-    private ObservableList<String> items = FXCollections.observableArrayList ();
+    private final ObservableList<String> items = FXCollections.observableArrayList ();
     
-    private ListView<String> list = new ListView<>();
-    private BreadCrumbBar breadCrumb = new BreadCrumbBar();       
+    private final ListView<String> list = new ListView<>();
+    private final BreadCrumbBar breadCrumb = new BreadCrumbBar();       
     
     private String prefix = "";
     
@@ -78,6 +99,7 @@ public class S3FileChooserPane extends Pane {
         });
         
         // files area
+        list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         list.setItems(items);
         list.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override

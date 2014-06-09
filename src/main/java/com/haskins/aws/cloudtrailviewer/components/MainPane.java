@@ -1,9 +1,33 @@
-package com.haskins.aws.jcloudtrailviewer.components;
+/*    
+CloudTrail Log Viewer, is a Java desktop application for reading AWS CloudTrail
+logs files.
 
-import com.haskins.aws.jcloudtrailviewer.events.EventsDatabase;
-import com.haskins.aws.jcloudtrailviewer.models.Event;
-import com.haskins.aws.jcloudtrailviewer.models.EventDetail;
+Copyright (C) 2014  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+package com.haskins.aws.cloudtrailviewer.components;
+
+import com.haskins.aws.cloudtrailviewer.events.EventsDatabase;
+import com.haskins.aws.cloudtrailviewer.models.Event;
+import com.haskins.aws.cloudtrailviewer.models.EventDetail;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -23,27 +47,23 @@ import org.codehaus.jackson.map.ObjectMapper;
  *
  * @author mark
  */
-public class MainPane {
-    
-    private final Scene scene;
+public class MainPane extends AbstractPane {
+            
+    private final ObservableList accountList = FXCollections.observableArrayList();
+    private final ObservableList<EventDetail> detailTableModel = FXCollections.observableArrayList();
     
     private final BorderPane borderPane = new BorderPane();
     private final TableView mainTable = new TableView();
     private final TableView detailTable = new TableView();
     private final TextArea jsonTextArea = new TextArea();
-    
-    private final EventsDatabase eventsDatabase;
-    
-    private final ObservableList<EventDetail> detailTableModel = FXCollections.observableArrayList();
-    
+        
     private final ObjectMapper mapper = new ObjectMapper();
     
-    public MainPane(Scene scene, EventsDatabase eventsDatabase) {
+    public MainPane(Scene scene, EventsDatabase eventsDatabase, FilterPane filterPane) {
         
-        this.eventsDatabase = eventsDatabase;
-        this.scene = scene;
+        super(scene);
         
-        addListeners();
+        eventsDatabase.addListeners(this);
     }
     
     public BorderPane getPane() {
@@ -56,25 +76,43 @@ public class MainPane {
         
         return borderPane;
     }
+    
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///// EventsDatabaseListener methods
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void onEventsUpdated(Map<String, Event> updatedEvents) {
+        
+        Collection<Event> events = updatedEvents.values();
+        
+        Map<String, Event> eventMap   = new HashMap<>();
+        
+        for(Event event : events) {
+            
+            eventMap.put(event.getEventId(), event);
+ 
+        }
+        
+        accountList.setAll(events);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///// protected methods
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    protected void widthChanged(Number newWidth) {
+         borderPane.setPrefWidth(newWidth.doubleValue());
+    }
+    
+    @Override
+    protected void heightChanged(Number newHeight) {
+        borderPane.setPrefHeight(newHeight.doubleValue() - 60);
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
-    ////////////////////////////////////////////////////////////////////////////
-    private void addListeners() {
-                
-        scene.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                borderPane.setPrefWidth(newSceneWidth.doubleValue());
-            }
-        });
-        
-        scene.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                borderPane.setPrefHeight(newSceneHeight.doubleValue() - 60);
-            }
-        }); 
-    }
-    
+    ////////////////////////////////////////////////////////////////////////////    
     private void createMainTablePane() { 
  
         TableColumn eventTimeCol = new TableColumn("Date/Time");
@@ -119,7 +157,7 @@ public class MainPane {
             }
         });
         
-        mainTable.setItems(eventsDatabase.getEventsTableModel());
+        mainTable.setItems(accountList);
         
         borderPane.setCenter(mainTable);
     }

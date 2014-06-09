@@ -1,4 +1,25 @@
-package com.haskins.aws.jcloudtrailviewer.events;
+/*    
+CloudTrail Log Viewer, is a Java desktop application for reading AWS CloudTrail
+logs files.
+
+Copyright (C) 2014  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+package com.haskins.aws.cloudtrailviewer.events;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -6,9 +27,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
-import com.haskins.aws.jcloudtrailviewer.PropertiesSingleton;
-import com.haskins.aws.jcloudtrailviewer.models.Event;
-import com.haskins.aws.jcloudtrailviewer.models.Records;
+import com.haskins.aws.cloudtrailviewer.PropertiesSingleton;
+import com.haskins.aws.cloudtrailviewer.models.Event;
+import com.haskins.aws.cloudtrailviewer.models.Records;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -90,8 +111,6 @@ public class EventLoader {
         
         byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
         String strFile = new String(encoded, StandardCharsets.UTF_8);
-
-        System.out.println("Reading File : " + file.getName());
         
         readLogEvents(strFile);
     }

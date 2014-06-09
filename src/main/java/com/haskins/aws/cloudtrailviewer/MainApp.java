@@ -1,17 +1,37 @@
-package com.haskins.aws.jcloudtrailviewer;
+/*    
+CloudTrail Log Viewer, is a Java desktop application for reading AWS CloudTrail
+logs files.
 
-import com.haskins.aws.jcloudtrailviewer.events.EventLoader;
-import com.haskins.aws.jcloudtrailviewer.components.FilterPane;
-import com.haskins.aws.jcloudtrailviewer.components.MainPane;
+Copyright (C) 2014  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+package com.haskins.aws.cloudtrailviewer;
+
+import com.haskins.aws.cloudtrailviewer.events.EventLoader;
+import com.haskins.aws.cloudtrailviewer.components.FilterPane;
+import com.haskins.aws.cloudtrailviewer.components.MainPane;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import com.haskins.aws.jcloudtrailviewer.components.MenuPane;
-import com.haskins.aws.jcloudtrailviewer.events.EventsDatabase;
-import com.haskins.aws.jcloudtrailviewer.filters.Filters;
+import com.haskins.aws.cloudtrailviewer.components.MenuPane;
+import com.haskins.aws.cloudtrailviewer.events.EventsDatabase;
+import com.haskins.aws.cloudtrailviewer.filters.Filters;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 
@@ -62,10 +82,9 @@ public class MainApp extends Application {
         borderPane.setTop(filterPane.getPane());
         
         // --- Center
-        MainPane mainPane = new MainPane(scene, eventsDatabase);
+        MainPane mainPane = new MainPane(scene, eventsDatabase, filterPane);
         borderPane.setCenter(mainPane.getPane());
         
-     
         ((Group) scene.getRoot()).getChildren().addAll(menuBar, borderPane);
     }
     
