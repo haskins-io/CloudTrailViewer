@@ -45,7 +45,7 @@ public class MenuPane extends AbstractPane {
     
     private final EventLoader eventLoader;
     
-    private S3FileChooserDialog s3FileDialog;
+    private final S3FileChooserDialog s3FileDialog;
     
     private final Stage stage;
     
