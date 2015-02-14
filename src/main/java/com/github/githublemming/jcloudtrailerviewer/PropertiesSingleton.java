@@ -11,8 +11,10 @@ import java.util.Properties;
 public class PropertiesSingleton {
     
     private static PropertiesSingleton instance = null;
-    
+        
     private final Properties configProp = new Properties();
+    
+    private boolean configLoaded = false;
     
     public static PropertiesSingleton getInstance() {
      
@@ -30,13 +32,18 @@ public class PropertiesSingleton {
         return this.configProp.getProperty(key);
     }
     
+    public boolean configLoaded() {
+        return this.configLoaded;
+    }
+    
     private void loadConfigFile() {
                 
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream in = classloader.getResourceAsStream("config/config.cfg");
-        
+            
         try {
             configProp.load(in);
+            configLoaded = true;
         } catch (IOException e) {
             e.printStackTrace();
         }

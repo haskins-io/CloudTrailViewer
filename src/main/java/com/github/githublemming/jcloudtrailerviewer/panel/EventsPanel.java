@@ -47,7 +47,8 @@ public class EventsPanel extends JPanel implements MouseListener {
         tableModel = new EventsTableModel(eventsDatabase);
         detailTableModel = new EventDetailTableModel();
         
-        analysisOverviewPanel = new AnalysisOverviewPanel(eventsDatabase);
+        analysisOverviewPanel = new AnalysisOverviewPanel();
+        eventsDatabase.addListeners(analysisOverviewPanel);
         
         buildUI();
     }
@@ -78,7 +79,8 @@ public class EventsPanel extends JPanel implements MouseListener {
     private void buildUI() {
         
         // Create the filter panel
-        FilterPanel filterPanel = new FilterPanel(eventsDatabase, filters);
+        FilterPanel filterPanel = new FilterPanel(filters);
+        eventsDatabase.addListeners(filterPanel);
         
         // Create the primary Events table
         table = new EventsTable(tableModel, eventsDatabase);

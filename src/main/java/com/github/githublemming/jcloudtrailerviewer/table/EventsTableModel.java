@@ -5,6 +5,7 @@ import com.github.githublemming.jcloudtrailerviewer.event.EventsDatabaseListener
 import com.github.githublemming.jcloudtrailerviewer.model.Event;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -37,7 +38,7 @@ public class EventsTableModel extends DefaultTableModel implements EventsDatabas
     ///////////////////////////////////////////////////////////////////////////
     
     @Override
-    public void onEventsUpdated(List<Event> updatedEvents)
+    public void onEventsUpdated(CopyOnWriteArrayList<Event> updatedEvents)
     {          
         if (updatedEvents != null) {
             filteredEvents = updatedEvents;

@@ -8,7 +8,9 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.ui.HorizontalAlignment;
 
@@ -50,7 +52,25 @@ public class ChartCreator {
         return sourcePanel;
     }
     
-    public static void updateChartDataset(String source, DefaultPieDataset dataset) {
+    public static ChartPanel createLineChart(String title, DefaultCategoryDataset dataset, int width, int height) {
+        
+        JFreeChart chart = ChartFactory.createLineChart(
+            title,
+            "","",
+            dataset,
+            PlotOrientation.VERTICAL,
+            true,
+            true,
+            false
+        );
+                
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(width, height));
+                        
+        return chartPanel;
+    }
+    
+    public static void updatePieChartDataset(String source, DefaultPieDataset dataset) {
 
         if (source != null) {
             int count = 1;
@@ -65,6 +85,25 @@ public class ChartCreator {
             }
 
             dataset.setValue(source, count);
+        }
+    }
+    
+    public static void updateLineChartDataset(String row, String source, DefaultCategoryDataset dataset) {
+                
+        if (source != null) {
+            
+            int count = 1;
+
+            try {
+                Number existingCount = dataset.getValue(row, source);
+                if (existingCount != null) {
+                    count = existingCount.intValue() + 1;
+                } 
+            } catch (Exception e) {
+                count = 1;
+            }
+
+            dataset.setValue(count, row, source);
         }
     }
 }

@@ -9,12 +9,14 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.github.githublemming.jcloudtrailerviewer.PropertiesSingleton;
 import com.github.githublemming.jcloudtrailerviewer.model.Event;
 import com.github.githublemming.jcloudtrailerviewer.model.Records;
+import com.github.githublemming.jcloudtrailerviewer.panel.StatusBarPanel;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 public class EventLoader {
 
+    private final int BUFFER_SIZE = 32;
+    
     private final List<EventLoaderListener> listeners = new ArrayList<>();
 
     public void addListener(EventLoaderListener l) {
@@ -41,22 +45,39 @@ public class EventLoader {
     public void loadFromLocalFiles(final File[] files) {
 
         if (files != null && files.length > 0) {
-
+            
+            int numFiles = files.length;
+            int count = 0;
+            
             for (File file : files) {
+                
+                count++;
+                
                 try {
+                    
+                    StatusBarPanel.getInstance().setMessage("Reading file " + count + " of " + numFiles);
+                    
+                    long start = System.currentTimeMillis();
                     readLogFile(file);
+                    long end = System.currentTimeMillis();
+                    
+                    System.out.println("Loading File took : " + (end - start));
+                    
                 }
                 catch (IOException ex) {
                     Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            
+            StatusBarPanel.getInstance().setMessage("Finished loading files");
+            StatusBarPanel.getInstance().setLoadedFiles(files.length);
         }
     }
 
     public void loadFromS3Files(final List<String> keys) {
 
         if (keys != null && keys.size() > 0) {
-
+            
             AWSCredentials credentials
                 = new BasicAWSCredentials(
                     PropertiesSingleton.getInstance().getProperty("Key"),
@@ -66,73 +87,88 @@ public class EventLoader {
             AmazonS3 s3Client = new AmazonS3Client(credentials);
             String bucketName = PropertiesSingleton.getInstance().getProperty("Bucket");
 
+            int numFiles = keys.size();
+            int count = 0;
+            
             for (String key : keys) {
                 try {
+                    
+                    StatusBarPanel.getInstance().setMessage("Reading file " + count + " of " + numFiles);
+                    
                     readS3File(s3Client, bucketName, key);
                 }
                 catch (IOException ex) {
                     Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            
+            StatusBarPanel.getInstance().setMessage("Finished loading files");
+            StatusBarPanel.getInstance().setLoadedFiles(keys.size());
         }
     }
 
     private void readLogFile(File file) throws IOException {
 
         byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
-
+        
         readLogEvents(encoded);
     }
 
     private void readS3File(AmazonS3 s3Client, String bucketName, String key) throws IOException {
 
         S3Object s3Object = s3Client.getObject(new GetObjectRequest(bucketName, key));
-
-        uncompress(s3Object.getObjectContent());
+        processStream(s3Object.getObjectContent());
     }
 
     private void readLogEvents(byte[] encoded) throws IOException {
 
-        try {
-            
-            ByteArrayInputStream is = new ByteArrayInputStream(encoded);
-
-            uncompress(is);
-        }
-        catch (IOException ex) {
-
-            System.out.println(ex.getMessage());
+        ByteArrayInputStream is = new ByteArrayInputStream(encoded);
+        processStream(is);
+    }
+    
+    private void processStream(InputStream stream) {
+        
+        String rawJson = uncompress(stream);
+        
+        if (rawJson.length() > 0) {
+            Records records = createRecords(rawJson);
+            if (records != null) {
+                processRecords(records);  
+            }
         }
     }
     
-    private void uncompress(InputStream stream) throws IOException {
+    private String uncompress(InputStream stream) {
+        
+        String jsonString = "";
         
         try {
             
-            final int BUFFER_SIZE = 32;
-            
             GZIPInputStream gzis = new GZIPInputStream(stream, BUFFER_SIZE);
-
             BufferedReader bf = new BufferedReader(new InputStreamReader(gzis, "UTF-8"));
 
-            String outStr = "";
             String line;
             while ((line = bf.readLine()) != null) {
-                outStr += line;
+                jsonString += line;
             }
             bf.close();
             gzis.close();
-            
-            convertStringToJson(outStr);
 
         }
         catch (ZipException | JsonParseException ex) {
-
-            System.out.println(ex.getMessage());
+            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (IOException ex) {
+            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
         }  
+        
+        return jsonString;
     }
     
-    private void convertStringToJson(String json_string) {
+    private Records createRecords(String json_string) {
         
         ObjectMapper mapper = new ObjectMapper();
 
@@ -142,37 +178,24 @@ public class EventLoader {
             records = mapper.readValue(json_string, Records.class);
         }
         catch (IOException jpe) {
-
-            System.out.println(jpe.getMessage());
+            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, jpe);
         }
         
-        if (records != null) {
-            
-            processRecords(records);
-        }
+        return records;
     }
     
     private void processRecords(Records records) {
         
-        ObjectMapper mapper = new ObjectMapper();
+        long start = System.currentTimeMillis(); 
         
         List<Event> events = records.getLogEvents();
-
-        for (Event event : events) {
-
-            String rawJson;
-            try {
-                rawJson = mapper.defaultPrettyPrintingWriter().writeValueAsString(event);
-                event.setRawJSON(rawJson);
-
-            } catch (IOException ex) {
-                Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
 
         for (EventLoaderListener l : listeners) {
 
             l.newEvents(events);
         }
+        
+        long end = System.currentTimeMillis();
+        System.out.println("Processing Records took : " + (end - start) );
     }
 }

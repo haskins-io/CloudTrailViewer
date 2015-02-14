@@ -30,7 +30,11 @@ public class ApplicationPanel extends JPanel {
         MenuPanel menuPane = new MenuPanel(eventLoader);
         MainPanel mainPanel = new MainPanel(eventLoader);
         
+        StatusBarPanel.getInstance();
+        JPanel statusBarPanel = StatusBarPanel.getInstance().getStatusBar();
+        
         this.add(menuPane, BorderLayout.NORTH);
         this.add(mainPanel, BorderLayout.CENTER);
+        this.add(statusBarPanel, BorderLayout.SOUTH);
     }
 }

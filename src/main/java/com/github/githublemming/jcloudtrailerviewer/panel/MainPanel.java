@@ -30,7 +30,9 @@ public class MainPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         EventsPanel eventsPanel = new EventsPanel(eventsDatabase, filters);
-        AnalysisPanel analysisPanel = new AnalysisPanel(eventsDatabase);
+        AnalysisPanel analysisPanel = new AnalysisPanel();
+        
+        eventsDatabase.addListeners(analysisPanel);
         
         JTabbedPane tabbedPanel = new JTabbedPane();
         tabbedPanel.add("Events", eventsPanel);

@@ -3,8 +3,13 @@ package com.github.githublemming.jcloudtrailerviewer.event;
 import com.github.githublemming.jcloudtrailerviewer.filter.Filters;
 import com.github.githublemming.jcloudtrailerviewer.filter.FiltersListener;
 import com.github.githublemming.jcloudtrailerviewer.model.Event;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
@@ -12,7 +17,9 @@ import java.util.List;
  */
 public class EventsDatabase implements EventLoaderListener, FiltersListener {
     
-    private final List<Event> masterEventsMap = new ArrayList<>();
+    private final ObjectMapper mapper = new ObjectMapper();
+    
+    private final CopyOnWriteArrayList<Event> masterEvents = new CopyOnWriteArrayList<>();
     private final List<EventsDatabaseListener> listeners = new ArrayList<>();
     
     private final Filters filters;
@@ -31,26 +38,44 @@ public class EventsDatabase implements EventLoaderListener, FiltersListener {
     
     public int size()
     {
-        return masterEventsMap.size();
+        return masterEvents.size();
     }
     
     public Event getRecordByIndex(int rowIndex)
     {
-        return masterEventsMap.get(rowIndex);
+        return masterEvents.get(rowIndex);
     }
         
     ////////////////////////////////////////////////////////////////////////////
     ///// EventLoaderListener implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void newEvents(List<Event> events) {
+    public void newEvents(final List<Event> events) {
             
         for(Event event : events) {
-            masterEventsMap.add( event);
+            masterEvents.add( event);
         }
         
+        Thread createRawJSONForEvent = new Thread() {
+            @Override
+            public void run() {
+                for (Event event : events) {
+
+                    String rawJson;
+                    try {
+                        rawJson = mapper.defaultPrettyPrintingWriter().writeValueAsString(event);
+                        event.setRawJSON(rawJson);
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } 
+            }
+        };
+        createRawJSONForEvent.start();
+        
         for (EventsDatabaseListener listener : listeners) {
-            listener.onEventsUpdated(masterEventsMap);
+            listener.onEventsUpdated(masterEvents);
         }
     }
     
@@ -60,7 +85,7 @@ public class EventsDatabase implements EventLoaderListener, FiltersListener {
     @Override
     public void onFilterChanged() {
         
-        List<Event> filteredEvents = filters.filterEvents(masterEventsMap);
+        CopyOnWriteArrayList<Event> filteredEvents = filters.filterEvents(masterEvents);
         
         for (EventsDatabaseListener listener : listeners) {
             listener.onEventsUpdated(filteredEvents);

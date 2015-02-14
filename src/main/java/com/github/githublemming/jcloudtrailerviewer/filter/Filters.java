@@ -4,6 +4,7 @@ import com.github.githublemming.jcloudtrailerviewer.model.Event;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
@@ -23,9 +24,9 @@ public class Filters implements EventFilterListener {
         this.listeners.add(l);
     }
     
-    public List<Event> filterEvents(Collection<Event> events) {
+    public CopyOnWriteArrayList<Event> filterEvents(Collection<Event> events) {
         
-        List<Event> filteredEvents = new ArrayList<>();
+        CopyOnWriteArrayList<Event> filteredEvents = new CopyOnWriteArrayList<>();
         
         for (Event event : events) {
             

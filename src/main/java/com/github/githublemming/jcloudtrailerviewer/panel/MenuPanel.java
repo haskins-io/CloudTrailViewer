@@ -1,5 +1,6 @@
 package com.github.githublemming.jcloudtrailerviewer.panel;
 
+import com.github.githublemming.jcloudtrailerviewer.PropertiesSingleton;
 import com.github.githublemming.jcloudtrailerviewer.event.EventLoader;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -11,6 +12,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -36,6 +38,14 @@ public class MenuPanel extends JPanel {
         
         // -- Menu : File
         JMenu menuFile = new JMenu("File");
+        JMenuItem exit = new JMenuItem(new AbstractAction("Exit") {
+            
+            @Override
+            public void actionPerformed(ActionEvent t) {
+                
+                System.exit(0);
+            }
+        });
         
         menu.add(menuFile);
         
@@ -48,9 +58,21 @@ public class MenuPanel extends JPanel {
             public void actionPerformed(ActionEvent t) {
                 
                 int status = fileChooser.showOpenDialog(null);
-                if (status == JFileChooser.APPROVE_OPTION)
-                {
-                    openLocalFiles();
+                if (status == JFileChooser.APPROVE_OPTION) {
+                    
+                    StatusBarPanel.getInstance().setMessage("Loading Files from Disk");
+                    
+                    SwingWorker worker = new SwingWorker<Void, Void>() {
+                      
+                        @Override
+                        public Void doInBackground() {
+                            
+                            openLocalFiles();
+                            
+                            return null;
+                        };
+                    };
+                    worker.execute();
                 }
             }
         });
@@ -61,16 +83,33 @@ public class MenuPanel extends JPanel {
             public void actionPerformed(ActionEvent t) {
                 
                 S3FileChooserDialog s3Dialog = new S3FileChooserDialog();
-                List<String> files = s3Dialog.showDialog();
+                final List<String> files = s3Dialog.showDialog();
                                
                 if (!files.isEmpty()) {
-                    eventLoader.loadFromS3Files(files);
+                    
+                    StatusBarPanel.getInstance().setMessage("Loading Files from S3");
+                    
+                    SwingWorker worker = new SwingWorker<Void, Void>() {
+                      
+                        @Override
+                        public Void doInBackground() {
+                            
+                            eventLoader.loadFromS3Files(files);
+                            
+                            return null;
+                        };
+                    };
+                    worker.execute();
                 }
             }
         });
         
         menuLogs.add(loadLocal);
         menuLogs.add(loadS3);
+        
+        if (!PropertiesSingleton.getInstance().configLoaded()) {
+            loadS3.setEnabled(false);
+        }
         
         menu.add(menuLogs);
      

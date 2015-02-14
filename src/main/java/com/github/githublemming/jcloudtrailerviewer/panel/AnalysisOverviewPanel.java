@@ -1,12 +1,12 @@
 package com.github.githublemming.jcloudtrailerviewer.panel;
 
-import com.github.githublemming.jcloudtrailerviewer.event.EventsDatabase;
 import com.github.githublemming.jcloudtrailerviewer.event.EventsDatabaseListener;
 import com.github.githublemming.jcloudtrailerviewer.model.Event;
 import com.github.githublemming.jcloudtrailerviewer.util.ChartCreator;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartPanel;
 import org.jfree.data.general.DefaultPieDataset;
@@ -17,37 +17,42 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class AnalysisOverviewPanel extends JPanel implements EventsDatabaseListener {
     
-    private final EventsDatabase eventsDatabase;
-   
+    private final List<ChartPanel> chartPanels = new ArrayList<>();
+    
     private final DefaultPieDataset sourceDataset = new DefaultPieDataset();
     private final DefaultPieDataset typeDataset = new DefaultPieDataset();
     private final DefaultPieDataset identityDataset = new DefaultPieDataset();
     private final DefaultPieDataset nameDataset = new DefaultPieDataset();
     
-    List<ChartPanel> chartPanels = new ArrayList<>();
+    private CopyOnWriteArrayList<Event> filteredEvents = new CopyOnWriteArrayList<>();
     
-    public AnalysisOverviewPanel(EventsDatabase database) {
-        
-        eventsDatabase = database;
-        eventsDatabase.addListeners(this);
-        
+    public AnalysisOverviewPanel() {
+
         buildUI();
     }
     
     @Override
-    public void onEventsUpdated(List<Event> events) {
+    public void onEventsUpdated(CopyOnWriteArrayList<Event> events) {
         
-        clearDatasets();
+        filteredEvents = events;
         
-        for (Event event : events) {
-            
-            ChartCreator.updateChartDataset(event.getEventSource(), sourceDataset);
-            ChartCreator.updateChartDataset(event.getEventType(), typeDataset);
-            ChartCreator.updateChartDataset(event.getEventName(), nameDataset);
-            ChartCreator.updateChartDataset(event.getUserIdentity().getUserName(), nameDataset);
-        }
-        
-        reloadCharts();
+        Thread updateCharts = new Thread() {
+            @Override
+            public void run() {
+                clearDatasets();
+
+                for (Event event : filteredEvents) {
+
+                    ChartCreator.updatePieChartDataset(event.getEventSource(), sourceDataset);
+                    ChartCreator.updatePieChartDataset(event.getEventType(), typeDataset);
+                    ChartCreator.updatePieChartDataset(event.getEventName(), nameDataset);
+                    ChartCreator.updatePieChartDataset(event.getUserIdentity().getUserName(), nameDataset);
+                }
+
+                reloadCharts();
+            }
+        };
+        updateCharts.start(); 
         
         this.setVisible(true);
     }

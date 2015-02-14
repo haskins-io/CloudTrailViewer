@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -44,10 +45,8 @@ public class FilterPanel extends JPanel implements EventsDatabaseListener {
     private final RegionFilter regionFilter = new RegionFilter();
     private final UsernameFilter usernameFilter = new UsernameFilter();
     
-    public FilterPanel(EventsDatabase eventsDatabase, Filters filters) {
-                
-        eventsDatabase.addListeners(this);
-        
+    public FilterPanel(Filters filters) {
+
         this.filters = filters;
         addFilters();
         
@@ -58,7 +57,7 @@ public class FilterPanel extends JPanel implements EventsDatabaseListener {
     ///// EventsDatabaseListener methods
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void onEventsUpdated(List<Event> events) {
+    public void onEventsUpdated(CopyOnWriteArrayList<Event> events) {
         
         updateControls(events);
     }
@@ -97,7 +96,7 @@ public class FilterPanel extends JPanel implements EventsDatabaseListener {
         });
         
         this.setLayout(new BorderLayout());
-        this.add(comboPanel, BorderLayout.WEST);
+        //this.add(comboPanel, BorderLayout.WEST);
         this.add(search, BorderLayout.CENTER);
     }
 
