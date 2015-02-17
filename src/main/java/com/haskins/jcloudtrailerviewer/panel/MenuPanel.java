@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -25,9 +26,12 @@ public class MenuPanel extends JPanel {
     
     private final EventLoader eventLoader;
     
-    public MenuPanel(EventLoader eventLoader) {
+    private final JFrame parentFrame;
+    
+    public MenuPanel(EventLoader eventLoader, JFrame frame) {
         
         this.eventLoader = eventLoader;
+        this.parentFrame = frame;
         
         buildUI();
     }
@@ -82,8 +86,7 @@ public class MenuPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent t) {
                 
-                S3FileChooserDialog s3Dialog = new S3FileChooserDialog();
-                final List<String> files = s3Dialog.showDialog();
+                final List<String> files = S3FileChooserDialog.showDialog(parentFrame);
                                
                 if (!files.isEmpty()) {
                     

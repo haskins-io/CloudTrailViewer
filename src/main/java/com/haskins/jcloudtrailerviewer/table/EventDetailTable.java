@@ -1,8 +1,12 @@
 package com.haskins.jcloudtrailerviewer.table;
 
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -18,6 +22,23 @@ public class EventDetailTable extends JTable {
         setupTable();
     }
     
+    @Override
+    public String getToolTipText(MouseEvent e) {
+        
+        String tip = "";
+        
+        java.awt.Point p = e.getPoint();
+        int rowIndex = rowAtPoint(p);
+        
+        TableModel model = getModel();
+        
+        
+        
+        tip = (String)model.getValueAt(rowIndex, 1);
+        
+        return tip;
+    }
+        
     private void setupTable() {
         
         setRowSelectionAllowed(true);

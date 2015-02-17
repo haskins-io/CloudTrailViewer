@@ -9,48 +9,46 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import java.awt.BorderLayout;
-import static java.awt.Dialog.ModalityType.APPLICATION_MODAL;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 /**
  *
  * @author mark
  */
 public class S3FileChooserDialog extends JDialog implements ActionListener {
-
-    public static final int STATUS_CLOSED = 1;
-    public static final int STATUS_FILES_SECLECTED = 2;
     
-    private final DefaultListModel s3ListModel = new DefaultListModel();
-    private final JList s3List = new JList(s3ListModel);
+    private static S3FileChooserDialog dialog;
+    private static final List<String> selectedKeys = new ArrayList<>();
     
-    private final JButton btnClose = new JButton("Close");
-    private final JButton btnLoad = new JButton("Load");
-
+    private final DefaultListModel<String> s3ListModel = new DefaultListModel();
+    private final JList s3List;
+    
     private String prefix = "";
-    
-    private final List<String> selectedKeys = new ArrayList<>();
-    
-    public S3FileChooserDialog() {
-
-        buildUI();
-    }
     
     @Override
     public void actionPerformed(ActionEvent e) {
         
-        if (e.getSource().equals(btnLoad)) {
+        if ("Load".equals(e.getActionCommand())) {
             
             List<String> selectedItems = s3List.getSelectedValuesList();
             for (String key : selectedItems) {
@@ -59,27 +57,32 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
             }
         }
         
-        this.setVisible(false);
+        S3FileChooserDialog.dialog.setVisible(false);
     }
 
-    public List<String> showDialog() {
-
-        selectedKeys.clear();
+    public static List<String> showDialog(Component parent) {
         
-        reloadContents();
-
-        this.setVisible(true);
+        Frame frame = JOptionPane.getFrameForComponent(parent);
+        dialog = new S3FileChooserDialog(frame);
+        
+        dialog.setVisible(true);
         
         return selectedKeys;
     }
 
-    private void buildUI() {
+    private S3FileChooserDialog(Frame frame) {
 
-        this.setTitle("S3 File Browser");
-
-        this.setModalityType(APPLICATION_MODAL);
-        this.setLayout(new BorderLayout());
-
+        super(frame, "S3 File Browser", true);
+                
+        final JButton btnLoad = new JButton("Load");
+        btnLoad.setActionCommand("Load");
+        btnLoad.addActionListener(this);
+        getRootPane().setDefaultButton(btnLoad);
+        
+        JButton btnCancel = new JButton("Cancel");
+        btnCancel.addActionListener(this);
+        
+        s3List = new JList(s3ListModel);
         s3List.setPreferredSize(new Dimension(400, 480));
         s3List.addMouseListener(new MouseAdapter() {
 
@@ -106,18 +109,39 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
             }
         });
         
-        btnClose.addActionListener(this);
-        btnLoad.addActionListener(this);
+        s3List.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        s3List.setLayoutOrientation(JList.VERTICAL);
+        s3List.setVisibleRowCount(-1);
         
-        JPanel btnPanel = new JPanel();
-        btnPanel.add(btnClose);
-        btnPanel.add(btnLoad);
-
-        this.add(s3List, BorderLayout.CENTER);
-        this.add(btnPanel, BorderLayout.SOUTH);
-
-        this.setPreferredSize(new Dimension(640, 480));
-        this.pack();
+        
+        JScrollPane listScroller = new JScrollPane(s3List);
+        listScroller.setPreferredSize(new Dimension(400,480));
+        listScroller.setAlignmentX(LEFT_ALIGNMENT);
+        
+        JPanel listPane = new JPanel();
+        listPane.setLayout(new BoxLayout(listPane, BoxLayout.PAGE_AXIS));
+        listPane.add(Box.createRigidArea(new Dimension(0,5)));
+        listPane.add(listScroller);
+        listPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+ 
+        //Lay out the buttons from left to right.
+        JPanel buttonPane = new JPanel();
+        buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
+        buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+        buttonPane.add(Box.createHorizontalGlue());
+        buttonPane.add(btnCancel);
+        buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPane.add(btnLoad);
+ 
+        //Put everything together, using the content pane's BorderLayout.
+        Container contentPane = getContentPane();
+        contentPane.add(listPane, BorderLayout.CENTER);
+        contentPane.add(buttonPane, BorderLayout.PAGE_END);
+ 
+        //Initialize values.
+        reloadContents();
+        pack();
+        setLocationRelativeTo(frame);  
     }
 
     private void handleDoubleClickEvent() {
@@ -181,6 +205,8 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         for (String key : tmp) {
             this.s3ListModel.addElement(key);
         }
+        
+        s3List.revalidate();
     }
 
     private String stripPrefix(String key) {
@@ -200,5 +226,4 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
 
         return stripped;
     }
-
 }

@@ -81,7 +81,7 @@ public class AnalysisPanel extends JPanel implements EventsDatabaseListener {
                 List<Entry<String,Integer>> top5 = getTopX(sorted, 5);
                 
                 reloadTopEventsCharts(top5);
-                reloadActivtyChart(top5);
+                //reloadActivtyChart(top5);
 
             };
         };

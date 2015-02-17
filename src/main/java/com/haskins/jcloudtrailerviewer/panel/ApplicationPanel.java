@@ -21,14 +21,14 @@ public class ApplicationPanel extends JPanel {
                 
         PropertiesSingleton.getInstance();
         
-        buildUI();
+        buildUI(frame);
     }
     
-    private void buildUI() {
+    private void buildUI(JFrame frame) {
         
         this.setLayout(new BorderLayout());
         
-        MenuPanel menuPane = new MenuPanel(eventLoader);
+        MenuPanel menuPane = new MenuPanel(eventLoader, frame);
         MainPanel mainPanel = new MainPanel(eventLoader);
         
         StatusBarPanel.getInstance();

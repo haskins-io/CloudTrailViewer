@@ -44,7 +44,7 @@ public class EventDetailTableModel extends AbstractTableModel {
 
         return retVal;
     }
-
+    
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object value = "";

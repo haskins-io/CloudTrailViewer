@@ -93,6 +93,9 @@ public class EventLoader {
             int count = 0;
             
             for (String key : keys) {
+                
+                count++;
+                
                 try {
                     
                     StatusBarPanel.getInstance().setMessage("Reading file " + count + " of " + numFiles);
