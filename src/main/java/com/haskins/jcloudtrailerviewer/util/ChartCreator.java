@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.List;
+import java.util.Map.Entry;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -20,7 +22,19 @@ import org.jfree.ui.HorizontalAlignment;
  */
 public class ChartCreator {
     
-    public static ChartPanel createPieChart(DefaultPieDataset dataset, int width, int height) {
+    public static ChartPanel createPieChart(List<Entry<String,Integer>> events, int width, int height) {
+        
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        
+        int count = 5;
+        if (events.size() < 5) {
+            count = events.size();
+        }
+        
+        for (int i=0; i<count; i++) {
+            Entry<String,Integer> obj = events.get(i);
+            dataset.setValue(obj.getKey(), obj.getValue());
+        }
         
         JFreeChart chart = ChartFactory.createPieChart(
             "",

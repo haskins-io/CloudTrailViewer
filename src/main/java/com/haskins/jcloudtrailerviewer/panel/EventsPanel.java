@@ -73,11 +73,7 @@ public class EventsPanel extends JPanel implements MouseListener {
     ///// private methods
     ////////////////////////////////////////////////////////////////////////////    
     private void buildUI() {
-        
-        // Create the filter panel
-        FilterPanel filterPanel = new FilterPanel(filters);
-        eventsDatabase.addListeners(filterPanel);
-        
+                
         // Create the primary Events table
         table = new EventsTable(tableModel, eventsDatabase);
         table.getSelectionModel().addListSelectionListener( new ListSelectionListener() {
@@ -118,7 +114,6 @@ public class EventsPanel extends JPanel implements MouseListener {
         
         setLayout(new BorderLayout());
         
-        add(filterPanel, BorderLayout.NORTH);
         add(split, BorderLayout.CENTER);
     }
     

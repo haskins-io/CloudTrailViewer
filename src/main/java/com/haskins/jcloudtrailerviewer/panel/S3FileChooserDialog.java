@@ -83,7 +83,6 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         btnCancel.addActionListener(this);
         
         s3List = new JList(s3ListModel);
-        s3List.setPreferredSize(new Dimension(400, 480));
         s3List.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -112,7 +111,6 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         s3List.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         s3List.setLayoutOrientation(JList.VERTICAL);
         s3List.setVisibleRowCount(-1);
-        
         
         JScrollPane listScroller = new JScrollPane(s3List);
         listScroller.setPreferredSize(new Dimension(400,480));
@@ -163,7 +161,7 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         }
         else {
             // it must be a file so we'll close the dialog
-            this.setVisible(false);
+            S3FileChooserDialog.dialog.setVisible(false);
         }
     }
     
@@ -205,8 +203,6 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         for (String key : tmp) {
             this.s3ListModel.addElement(key);
         }
-        
-        s3List.revalidate();
     }
 
     private String stripPrefix(String key) {

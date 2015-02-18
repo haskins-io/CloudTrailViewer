@@ -28,7 +28,6 @@ public class EventsTableModel extends DefaultTableModel implements EventsDatabas
     public EventsTableModel(EventsDatabase database) {
         
         eventsDatabase = database;
-        eventsDatabase.addListeners(this);
         
         filteredEvents = new ArrayList();
     }
