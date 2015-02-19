@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -30,6 +31,8 @@ public class ChartDialog extends JDialog implements ActionListener {
     private final JComboBox chartStyleCombo;
     private final JComboBox chartSourceCombo;
     private final JComboBox chartTypeCombo;
+    
+    private final JCheckBox ignoreRootCheckBox;
     
     private static ChartData chartData = null;
     
@@ -53,6 +56,8 @@ public class ChartDialog extends JDialog implements ActionListener {
             chartData.setChartSource(chartSourceCombo.getSelectedItem().toString());
             chartData.setChartStyle(chartStyleCombo.getSelectedItem().toString());
             chartData.setChartType(chartTypeCombo.getSelectedItem().toString());
+            
+            chartData.setIgnoreRoot(ignoreRootCheckBox.isSelected());
         }
         
         ChartDialog.dialog.setVisible(false);
@@ -79,27 +84,28 @@ public class ChartDialog extends JDialog implements ActionListener {
         buttonPanel.add(btnLoad);
  
         JPanel optionsPanel = new JPanel();
-        optionsPanel.setLayout(new GridLayout(3,2));
+        optionsPanel.setLayout(new GridLayout(4,2));
         
-        JLabel chartStyleLabel = new JLabel("Chart Style");
         String[] styles = {"Pie"};
         chartStyleCombo = new JComboBox(styles);
         
-        JLabel chartSourceLabel = new JLabel("Chart Source");
         String[] sources = {"eventName", "eventSource", "sourceIPAddress", "userAgent", "principalId", "arn", "userName", "invokedBy"};
         chartSourceCombo = new JComboBox(sources);
         
-        JLabel chartTypeLabel = new JLabel("Chart Type");
         String[] type = {"Top"};
         chartTypeCombo = new JComboBox(type);
         
-        optionsPanel.add(chartStyleLabel);
+        ignoreRootCheckBox = new JCheckBox();
+        
+        optionsPanel.add(new JLabel("Chart Style"));
         optionsPanel.add(chartStyleCombo);
-        optionsPanel.add(chartSourceLabel);
+        optionsPanel.add(new JLabel("Chart Source"));
         optionsPanel.add(chartSourceCombo);
-        optionsPanel.add(chartTypeLabel);
+        optionsPanel.add(new JLabel("Chart Type"));
         optionsPanel.add(chartTypeCombo);
         
+        optionsPanel.add(new JLabel("Ignore Root"));
+        optionsPanel.add(ignoreRootCheckBox);
         
         Container contentPane = getContentPane();
         contentPane.add(optionsPanel, BorderLayout.CENTER);

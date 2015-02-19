@@ -22,12 +22,12 @@ public class EventUtils {
         List<Entry<K,V>> sortedEntries = new ArrayList<>(map.entrySet());
 
         Collections.sort(sortedEntries, 
-                new Comparator<Entry<K,V>>() {
-                    @Override
-                    public int compare(Entry<K,V> e1, Entry<K,V> e2) {
-                        return e2.getValue().compareTo(e1.getValue());
-                    }
+            new Comparator<Entry<K,V>>() {
+                @Override
+                public int compare(Entry<K,V> e1, Entry<K,V> e2) {
+                    return e2.getValue().compareTo(e1.getValue());
                 }
+            }
         );
 
         return sortedEntries;
@@ -50,10 +50,14 @@ public class EventUtils {
         
         for (Event event : masterEvents) {
             
-            String property = getEventProperty(chartData.getChartSource(), event);
+            if (chartData.isIgnoreRoot() && isRootEvent(event)) {
+                continue;
+            }
             
+            String property = getEventProperty(chartData.getChartSource(), event);
+
             if (property != null) {
-                
+
                 int count = 1;
                 if (eventsByOccurance.containsKey(property)) {
                     count = eventsByOccurance.get(property);
@@ -61,7 +65,6 @@ public class EventUtils {
                 }
                 eventsByOccurance.put(property, count);
             }
-            
         }
         
         if (!eventsByOccurance.isEmpty()) {
@@ -69,7 +72,6 @@ public class EventUtils {
         } else {
             return null;
         }
-
     }
     
     private List<Entry<String,Integer>> getTopX(List<Entry<String,Integer>> sorted, ChartData chartData) {
@@ -124,5 +126,16 @@ public class EventUtils {
         }
         
         return requiredValue;
+    }
+    
+    private boolean isRootEvent(Event event) {
+        
+        boolean isRootEvent = false;
+        
+        if (event.getUserIdentity().getType().equalsIgnoreCase("root")) {
+            isRootEvent = true;
+        }
+        
+        return isRootEvent;
     }
 }

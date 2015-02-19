@@ -1,6 +1,5 @@
 package com.haskins.jcloudtrailerviewer.table;
 
-import com.haskins.jcloudtrailerviewer.event.EventsDatabase;
 import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
@@ -10,15 +9,11 @@ import javax.swing.table.TableColumn;
  * @author mark.haskins
  */
 public class EventsTable extends JTable {
-    
-    private EventsDatabase database = null;
-    
-    public EventsTable(EventsTableModel model, EventsDatabase database) {
+        
+    public EventsTable(EventsTableModel model) {
         
         super(model);
         super.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        
-        this.database = database;
                 
         setupTable();
     }

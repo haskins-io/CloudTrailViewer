@@ -41,6 +41,10 @@ public class StatusBarPanel {
         this.filesLoaded.setText(String.valueOf(numLoadedFiles));
     }
     
+    public int getLoadFileCount() {
+        return Integer.parseInt(this.filesLoaded.getText());
+    }
+    
     public void setEventsLoaded(int events) {
         this.eventsLoaded.setText(String.valueOf(events));
     }

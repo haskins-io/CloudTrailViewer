@@ -1,18 +1,14 @@
 package com.haskins.jcloudtrailerviewer.table;
 
-import com.haskins.jcloudtrailerviewer.event.EventsDatabase;
-import com.haskins.jcloudtrailerviewer.event.EventsDatabaseListener;
 import com.haskins.jcloudtrailerviewer.model.Event;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author mark.haskins
  */
-public class EventsTableModel extends DefaultTableModel implements EventsDatabaseListener {
+public class EventsTableModel extends DefaultTableModel {
 
     private final static int COLUMN_DATE_TIME = 0;
     private final static int COLUMN_EVENT_NAME = 1;
@@ -20,31 +16,20 @@ public class EventsTableModel extends DefaultTableModel implements EventsDatabas
     private final static int COLUMN_EVENT_SOURCE = 3;
     private final static int COLUMN_REGION = 4;
     private final static int COLUMN_USER_AGENT = 5;
-    
-    private static EventsDatabase eventsDatabase;
-    
-    private List<Event> filteredEvents;
-    
-    public EventsTableModel(EventsDatabase database) {
         
-        eventsDatabase = database;
+    private final List<Event> events;
+    
+    public EventsTableModel(List<Event> events) {
         
-        filteredEvents = new ArrayList();
+        this.events = events;
+        
     }
     
-    ///////////////////////////////////////////////////////////////////////////
-    // EventsDatabaseListener implementation
-    ///////////////////////////////////////////////////////////////////////////
-    
-    @Override
-    public void onEventsUpdated(CopyOnWriteArrayList<Event> updatedEvents)
-    {          
-        if (updatedEvents != null) {
-            filteredEvents = updatedEvents;
-            fireTableDataChanged(); 
-        }
+    public Event getEventAt(int i) {
+        
+        return events.get(i-1);
     }
-
+    
     ///////////////////////////////////////////////////////////////////////////
     // AbstractTableModel implementation
     ///////////////////////////////////////////////////////////////////////////
@@ -64,8 +49,8 @@ public class EventsTableModel extends DefaultTableModel implements EventsDatabas
     {
         int i = 0;
         
-        if (filteredEvents != null) {
-            i = filteredEvents.size();
+        if (events != null) {
+            i = events.size();
         }
         
         return i;
@@ -74,7 +59,7 @@ public class EventsTableModel extends DefaultTableModel implements EventsDatabas
     @Override
     public Object getValueAt(int rowIndex, int columnIndex)
     {        
-        Event event = filteredEvents.get(rowIndex);
+        Event event = events.get(rowIndex);
 
         Object value = null;
 
