@@ -28,7 +28,10 @@ public class ChartDialog extends JDialog implements ActionListener {
     
     private final String[] type = {"Top"};
     private final String[] styles = {"Pie", "Bar"};
-    private final String[] sources = {"eventName", "eventSource", "sourceIPAddress", "userAgent", "principalId", "arn", "userName", "invokedBy"};
+    private final String[] sources = {
+        "EventName", "EventSource", "SourceIPAddress", "UserAgent", "AwsRegion", "ErrorCode", "ErrorMessage", "EventType",
+        "UserIdentity.PrincipalId", "UserIdentity.Arn", "UserIdentity.UserName", "UserIdentity.InvokedBy", "UserIdentity.AccessKeyId"
+    };
     
     private static ChartDialog dialog;
     

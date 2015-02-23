@@ -2,6 +2,9 @@ package com.haskins.jcloudtrailerviewer.util;
 
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
+import com.haskins.jcloudtrailerviewer.model.UserIdentity;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -93,39 +97,44 @@ public class EventUtils {
     
     private String getEventProperty(String property, Event event) {
         
-        String requiredValue;
-        
-        switch(property) {
+        String requiredValue = null;
+                
+        if (property.indexOf(".") > 1) {
             
-            case "eventSource":
-                requiredValue = event.getEventSource();
-                break;
-            case "eventName":
-                requiredValue = event.getEventName();
-                break;
-            case "sourceIPAddress":
-                requiredValue = event.getSourceIPAddress();
-                break;
-            case "userAgent":
-                requiredValue = event.getUserAgent();
-                break;
-            case "principalId":
-                requiredValue = event.getUserIdentity().getPrincipalId();
-                break;
-            case "arn":
-                requiredValue = event.getUserIdentity().getArn();
-                break;
-            case "userName":
-                requiredValue = event.getUserIdentity().getUserName();
-                break;
-            case "invokedBy":
-                requiredValue = event.getUserIdentity().getInvokedBy();
-                break;
-            default:
-                requiredValue = "Not Supported";
+            String[] parts = property.split(Pattern.quote("."));
+            
+            Object subClassObj = callMethod(parts[0], event);
+            
+            if (parts[0].equalsIgnoreCase("UserIdentity")) {
+                
+                UserIdentity userIdentity = (UserIdentity) subClassObj;
+                requiredValue = (String) callMethod(parts[1], userIdentity);
+            }
+            
+        } else {
+            
+            requiredValue = (String) callMethod(property, event);
         }
         
         return requiredValue;
+    }
+    
+    private Object callMethod(String property, Object reflectionClass) {
+        
+        Object result;
+        
+        try {
+            String getProperty = "get" + property;
+            Method method = reflectionClass.getClass().getMethod(getProperty);
+            
+            result = method.invoke(reflectionClass);
+            
+        }
+        catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            result = null;
+        }
+        
+        return result;
     }
     
     private boolean isRootEvent(Event event) {
