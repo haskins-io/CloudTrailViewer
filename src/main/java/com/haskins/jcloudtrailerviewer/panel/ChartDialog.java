@@ -26,6 +26,10 @@ import javax.swing.JPanel;
  */
 public class ChartDialog extends JDialog implements ActionListener {
     
+    private final String[] type = {"Top"};
+    private final String[] styles = {"Pie", "Bar"};
+    private final String[] sources = {"eventName", "eventSource", "sourceIPAddress", "userAgent", "principalId", "arn", "userName", "invokedBy"};
+    
     private static ChartDialog dialog;
     
     private final JComboBox chartStyleCombo;
@@ -86,13 +90,8 @@ public class ChartDialog extends JDialog implements ActionListener {
         JPanel optionsPanel = new JPanel();
         optionsPanel.setLayout(new GridLayout(4,2));
         
-        String[] styles = {"Pie", "Bar"};
         chartStyleCombo = new JComboBox(styles);
-        
-        String[] sources = {"eventName", "eventSource", "sourceIPAddress", "userAgent", "principalId", "arn", "userName", "invokedBy"};
         chartSourceCombo = new JComboBox(sources);
-        
-        String[] type = {"Top"};
         chartTypeCombo = new JComboBox(type);
         
         ignoreRootCheckBox = new JCheckBox();

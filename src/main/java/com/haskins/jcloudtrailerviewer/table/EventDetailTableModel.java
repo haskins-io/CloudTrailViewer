@@ -39,7 +39,7 @@ public class EventDetailTableModel extends AbstractTableModel {
         int retVal = 0;
 
         if (detailEvent != null) {
-            retVal = 17;
+            retVal = 19;
         }
 
         return retVal;
@@ -180,6 +180,18 @@ public class EventDetailTableModel extends AbstractTableModel {
                             
                         }
                     }
+                }
+                break;
+            case 17:
+                value = "Event Id";
+                if (columnIndex == 1) {
+                    value = detailEvent.getEventId();
+                }
+                break;
+            case 18:
+                value = "API Version";
+                if (columnIndex == 1) {
+                    value = detailEvent.getApiVersion();
                 }
                 break;
         }
