@@ -16,7 +16,7 @@ import java.util.Map.Entry;
  */
 public class EventUtils {
     
-    static <K,V extends Comparable<? super V>> 
+    public static <K,V extends Comparable<? super V>> 
                 List<Entry<K, V>> entriesSortedByValues(Map<K,V> map) {
 
         List<Entry<K,V>> sortedEntries = new ArrayList<>(map.entrySet());

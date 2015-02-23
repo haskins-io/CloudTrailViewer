@@ -4,17 +4,17 @@ import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.util.ChartCreator;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.util.List;
 import java.util.Map.Entry;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.plot.PlotOrientation;
 
 /**
  *
@@ -40,7 +40,7 @@ public class ChartWindow extends JInternalFrame {
         this.setLayout(new BorderLayout());
         
         this.setTitle(chartData.getChartSource());
-        this.setSize(640, 480);
+        this.setSize(500, 280);
         
         if (!events.isEmpty()) {
             
@@ -59,16 +59,36 @@ public class ChartWindow extends JInternalFrame {
     
     private void addChart(JTabbedPane panel) {
                 
+        final ChartPanel chartPanel;
+        
         if (chartData.getChartStyle().equalsIgnoreCase("Pie")) {
 
-            ChartPanel chartPanel = ChartCreator.createPieChart(events, 600, 440);
-            JPopupMenu chartMenu = chartPanel.getPopupMenu();
-            
-            JMenuItem newItem = new JMenuItem("Drill Down");
-            chartMenu.add(newItem);
-            
+            chartPanel = ChartCreator.createPieChart(events, 480, 260);
+
+        } else if (chartData.getChartStyle().equalsIgnoreCase("Bar")) {
+
+            chartPanel = ChartCreator.createBarChart(
+                    events, 
+                    480, 260,
+                    chartData.getChartSource(), "Count",
+                    PlotOrientation.VERTICAL);
+        } else {
+            chartPanel = null;
+        }
+        
+        if (chartPanel != null) {
+                        
+//            JPopupMenu chartMenu = chartPanel.getPopupMenu();
+//            JMenuItem newItem = new JMenuItem(new AbstractAction("Drill Down") {
+//            
+//                @Override
+//                public void actionPerformed(ActionEvent t) {                    
+//                }
+//            });
+//            chartMenu.add(newItem);
+
             panel.addTab("Chart", chartPanel);
-        } 
+        }
     }
     
     private void addTable(JTabbedPane panel) {
@@ -76,16 +96,14 @@ public class ChartWindow extends JInternalFrame {
         DefaultTableModel tableModel = new DefaultTableModel();
         
         JTable table = new JTable(tableModel);
-        table.setPreferredSize(new Dimension(600, 440));
-                
+        table.setPreferredSize(new Dimension(480, 260));
+        
         tableModel.addColumn("Property");
         tableModel.addColumn("Value");
-        
+                
         for (Entry entry : events) {
             tableModel.addRow(new Object[] { entry.getKey(), entry.getValue() });
         }
-        
-        table.setVisible(false);
         
         panel.addTab("Table", table);
     }
@@ -96,6 +114,7 @@ public class ChartWindow extends JInternalFrame {
         
         JTextArea dataTextArea = new JTextArea();
         dataTextArea.setPreferredSize(new Dimension(600, 440));
+        dataTextArea.setFont(new Font("Verdana", Font.PLAIN, 12));
         
         StringBuilder dataString = new StringBuilder();
         for (Entry entry : events) {
@@ -104,8 +123,7 @@ public class ChartWindow extends JInternalFrame {
         }
         
         dataTextArea.setText(dataString.toString());
-        dataTextArea.setVisible(false);
         
-         panel.addTab("Data", dataTextArea);
+        panel.addTab("Data", dataTextArea);
     }
 }

@@ -1,8 +1,16 @@
 package com.haskins.jcloudtrailerviewer.panel;
 
+import com.haskins.jcloudtrailerviewer.event.EventsDatabase;
+import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
+import com.haskins.jcloudtrailerviewer.model.Event;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 
 /**
  *
@@ -14,10 +22,14 @@ public class StatusBarPanel {
     
     private final JPanel ui = new JPanel();
     
-    private final JLabel filesLoaded = new JLabel("0");
+    private JButton btnIamWarning;
+    private JButton btnSecWarning;
+    private JButton btnErrWarning;
+    
     private final JLabel message = new JLabel("Load some CloudTrail events");
     private final JLabel eventsLoaded = new JLabel("0");
-    private final JLabel memoryUsed = new JLabel("0");
+    
+    private EventsDatabase eventsDatabase;
     
     private StatusBarPanel() {
         buildUI();
@@ -33,16 +45,12 @@ public class StatusBarPanel {
         return instance;
     }
     
+    public void setEventsDatabase(EventsDatabase database) {
+        eventsDatabase = database;
+    }
+    
     public JPanel getStatusBar() {
         return this.ui;
-    }
-    
-    public void setLoadedFiles(int numLoadedFiles) {
-        this.filesLoaded.setText(String.valueOf(numLoadedFiles));
-    }
-    
-    public int getLoadFileCount() {
-        return Integer.parseInt(this.filesLoaded.getText());
     }
     
     public void setEventsLoaded(int events) {
@@ -58,45 +66,80 @@ public class StatusBarPanel {
     }
     
     public void setMessage(String message) {
+        
         this.message.setText(message);
-        
-        this.message.revalidate();
-        this.ui.revalidate();
     }
     
-    public void setMemory(long memory) {
-        this.memoryUsed.setText(String.valueOf(memory));
-        
+    public void showErrorWarning() {
+        btnErrWarning.setVisible(true);
     }
     
+    public void showIamWarning() {
+        btnIamWarning.setVisible(true);
+    }
+    
+    public void showSecurityWarning() {
+        btnSecWarning.setVisible(true);
+    }
+
     private void buildUI() {
         
-        JPanel leftSection = new JPanel();
-        JPanel middleSection = new JPanel();
+        btnIamWarning = new JButton("IAM Warnings");
+        btnIamWarning.setVisible(false);
+        btnIamWarning.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showTable("IAM Warnings", eventsDatabase.getErrorEvents());
+            }
+        });
+        
+        btnSecWarning = new JButton("Security Warnings");
+        btnSecWarning.setVisible(false);
+        btnSecWarning.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        
+        btnErrWarning = new JButton("Error Warnings");
+        btnErrWarning.setVisible(false);
+        btnErrWarning.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        
+        JToolBar warnings = new JToolBar();
+        warnings.setFloatable(false);
+        
         JPanel rightSection = new JPanel();
+        rightSection.add(new JLabel("Events Loaded :"));
+        rightSection.add(eventsLoaded);
         
-        // Left Section
-        leftSection.add(new JLabel("Files Loaded :"));
-        leftSection.add(filesLoaded);
-        
-        leftSection.add(new JLabel("  Events Loaded :"));
-        leftSection.add(eventsLoaded);
-        
-        // middle section
-        middleSection.add(message);
-        
-        // right section
-        rightSection.add(new JLabel("Memory Used :"));
-        rightSection.add(memoryUsed);
-        rightSection.add(new JLabel("Mb"));
-        
-        // put everything together
         this.ui.setLayout(new BorderLayout());
-        this.ui.add(leftSection, BorderLayout.WEST);
-        this.ui.add(middleSection, BorderLayout.CENTER);
+        this.ui.add(warnings, BorderLayout.WEST);
+        this.ui.add(message, BorderLayout.CENTER);
         this.ui.add(rightSection, BorderLayout.EAST);
         
         this.ui.setVisible(true);
     }
     
+    private void showTable(String windowTitle, List<Event> events) {
+        
+        TableWindow window = new TableWindow(windowTitle, events);
+        window.setVisible(true);
+
+        jCloudTrailViewer.DESKTOP.add(window);
+
+        try {
+            window.setSelected(true);
+        }
+        catch (java.beans.PropertyVetoException pve) {
+        }
+    }   
 }

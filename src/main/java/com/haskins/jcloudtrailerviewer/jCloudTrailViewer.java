@@ -18,15 +18,15 @@ import javax.swing.JPanel;
  */
 public class jCloudTrailViewer extends JFrame {
 
-    private JDesktopPane desktop;
+    public final static JDesktopPane DESKTOP = new JDesktopPane();
         
     private final EventLoader eventLoader;
-    private final EventsDatabase eventsDatabase;
+    public EventsDatabase eventsDatabase;
     
     public jCloudTrailViewer() {
         
         super("jCloudTrailViewer");
-
+        
         eventsDatabase = new EventsDatabase();
         
         eventLoader = new EventLoader();
@@ -45,19 +45,19 @@ public class jCloudTrailViewer extends JFrame {
                 screenSize.width / 2,
                 screenSize.height / 2);
 
-        desktop = new JDesktopPane(); //a specialized layered pane
+        
         
         StatusBarPanel.getInstance();
         JPanel statusBarPanel = StatusBarPanel.getInstance().getStatusBar();
                 
         JPanel layout = new JPanel();
         layout.setLayout(new BorderLayout());
-        layout.add(new ToolBarPanel(eventsDatabase, desktop), BorderLayout.NORTH);
-        layout.add(desktop, BorderLayout.CENTER);
+        layout.add(new ToolBarPanel(eventsDatabase), BorderLayout.NORTH);
+        layout.add(DESKTOP, BorderLayout.CENTER);
         layout.add(statusBarPanel, BorderLayout.SOUTH);
         
         setContentPane(layout);
-        setJMenuBar(new MenuPanel(eventLoader, desktop));
+        setJMenuBar(new MenuPanel(eventLoader, eventsDatabase));
     }
       
     private static void createAndShowGUI() {

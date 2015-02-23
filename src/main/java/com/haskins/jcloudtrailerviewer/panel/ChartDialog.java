@@ -86,7 +86,7 @@ public class ChartDialog extends JDialog implements ActionListener {
         JPanel optionsPanel = new JPanel();
         optionsPanel.setLayout(new GridLayout(4,2));
         
-        String[] styles = {"Pie"};
+        String[] styles = {"Pie", "Bar"};
         chartStyleCombo = new JComboBox(styles);
         
         String[] sources = {"eventName", "eventSource", "sourceIPAddress", "userAgent", "principalId", "arn", "userName", "invokedBy"};

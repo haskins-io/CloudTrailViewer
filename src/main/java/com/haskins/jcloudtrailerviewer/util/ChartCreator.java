@@ -64,13 +64,13 @@ public class ChartCreator {
         return sourcePanel;
     }
     
-    public static ChartPanel createLineChart(DefaultCategoryDataset dataset, int width, int height) {
+    public static ChartPanel createLineChart(List<Entry<String,Integer>> events, int width, int height) {
         
         JFreeChart chart = ChartFactory.createLineChart(
             "",
             "",
             "",
-            dataset,
+            null,
             PlotOrientation.VERTICAL,
             true,
             true,
@@ -83,12 +83,28 @@ public class ChartCreator {
         return chartPanel;
     }
     
-    public static ChartPanel createBarChart(DefaultCategoryDataset dataset, int width, int height, PlotOrientation orientation) {
+    public static ChartPanel createBarChart(
+            List<Entry<String,Integer>> events, 
+            int width, int height, 
+            String xLabel, String yLabel,
+            PlotOrientation orientation) {
+        
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        int count = 5;
+        if (events.size() < 5) {
+            count = events.size();
+        }
+        
+        for (int i=0; i<count; i++) {
+            Entry<String,Integer> obj = events.get(i);
+            dataset.addValue(obj.getValue().intValue(), obj.getKey(), "");
+        }
         
         JFreeChart chart = ChartFactory.createBarChart(
             "", 
-            "Drink", 
-            "Share", 
+            xLabel, 
+            yLabel, 
             dataset,
             orientation, 
             false, 

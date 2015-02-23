@@ -10,7 +10,6 @@ import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.Records;
 import com.haskins.jcloudtrailerviewer.panel.StatusBarPanel;
-import com.haskins.jcloudtrailerviewer.util.JvmUtils;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -57,14 +56,7 @@ public class EventLoader {
                 try {
                     
                     StatusBarPanel.getInstance().setMessage("Reading file " + count + " of " + numFiles);
-                    
-                    long start = System.currentTimeMillis();
                     readLogFile(file);
-                    long end = System.currentTimeMillis();
-                    
-                    System.out.println("Loading File took : " + (end - start));
-                    
-                    StatusBarPanel.getInstance().setMemory(JvmUtils.getMemoryUsed());
                 }
                 catch (IOException ex) {
                     Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,7 +64,6 @@ public class EventLoader {
             }
             
             StatusBarPanel.getInstance().setMessage("Finished loading files");
-            StatusBarPanel.getInstance().setLoadedFiles(files.length);
         }
     }
 
@@ -101,8 +92,6 @@ public class EventLoader {
                     StatusBarPanel.getInstance().setMessage("Reading file " + count + " of " + numFiles);
                     
                     readS3File(s3Client, bucketName, key);
-                    
-                    StatusBarPanel.getInstance().setMemory(JvmUtils.getMemoryUsed());
                 }
                 catch (IOException ex) {
                     Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,7 +99,6 @@ public class EventLoader {
             }
             
             StatusBarPanel.getInstance().setMessage("Finished loading files");
-            StatusBarPanel.getInstance().setLoadedFiles(keys.size());
         }
     }
 

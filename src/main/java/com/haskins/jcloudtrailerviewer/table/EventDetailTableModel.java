@@ -39,7 +39,7 @@ public class EventDetailTableModel extends AbstractTableModel {
         int retVal = 0;
 
         if (detailEvent != null) {
-            retVal = 19;
+            retVal = 17;
         }
 
         return retVal;
@@ -66,7 +66,7 @@ public class EventDetailTableModel extends AbstractTableModel {
                         try {
                             value = mapper.defaultPrettyPrintingWriter().writeValueAsString(detailEvent.getUserIdentity());
                         } catch (IOException ex) {
-                            detailEvent.setRawUserIdentity("");
+                            
                         }
                     }
                 }
@@ -115,7 +115,7 @@ public class EventDetailTableModel extends AbstractTableModel {
                         try {
                             value = mapper.defaultPrettyPrintingWriter().writeValueAsString(detailEvent.getRequestParameters());
                         } catch (IOException ex) {
-                            detailEvent.setRawUserIdentity("");
+                            
                         }
                     }
                 }
@@ -128,74 +128,48 @@ public class EventDetailTableModel extends AbstractTableModel {
                         try {
                             value = mapper.defaultPrettyPrintingWriter().writeValueAsString(detailEvent.getResponseElements());
                         } catch (IOException ex) {
-                            detailEvent.setRawUserIdentity("");
+                            
                         }
                     }
                 }
                 break;
             case 10:
-                value = "Session Issuer";
-                if (columnIndex == 1) {
-                    value = "";
-                    if (detailEvent.getSessionIssuer() != null) {
-                        try {
-                            value = mapper.defaultPrettyPrintingWriter().writeValueAsString(detailEvent.getSessionIssuer());
-                        } catch (IOException ex) {
-                            detailEvent.setRawUserIdentity("");
-                        }
-                    }
-                }
-                break;
-            case 11:
                 value = "Request Id";
                 if (columnIndex == 1) {
                     value = detailEvent.getRequestId();
                 }
                 break;
-            case 12:
+            case 11:
                 value = "Event Type";
                 if (columnIndex == 1) {
                     value = detailEvent.getEventType();
                 }
                 break;
-            case 13:
+            case 12:
                 value = "Recipient Account";
                 if (columnIndex == 1) {
                     value = detailEvent.getRecipientAccountId();
                 }
                 break;
-            case 14:
+            case 13:
                 value = "Error Code";
                 if (columnIndex == 1) {
                     value = detailEvent.getErrorCode();
                 }
                 break;
-            case 15:
+            case 14:
                 value = "Error Message";
                 if (columnIndex == 1) {
                     value = detailEvent.getErrorMessage();
                 }
                 break;
-            case 16:
-                value = "Additional Event Data";
-                if (columnIndex == 1) {
-                    value = "";
-                    if (detailEvent.getAdditionalEventData() != null) {
-                        try {
-                            value = mapper.defaultPrettyPrintingWriter().writeValueAsString(detailEvent.getAdditionalEventData());
-                        } catch (IOException ex) {
-                            detailEvent.setRawUserIdentity("");
-                        }
-                    }
-                }
-                break;
-            case 17:
+            case 15:
                 value = "Read Only";
                 if (columnIndex == 1) {
                     value = detailEvent.getReadOnly();
                 }
                 break;
-            case 18:
+            case 16:
                 value = "Resources";
                 if (columnIndex == 1) {
                     value = "";
@@ -203,7 +177,7 @@ public class EventDetailTableModel extends AbstractTableModel {
                         try {
                             value = mapper.defaultPrettyPrintingWriter().writeValueAsString(detailEvent.getResources());
                         } catch (IOException ex) {
-                            detailEvent.setRawUserIdentity("");
+                            
                         }
                     }
                 }

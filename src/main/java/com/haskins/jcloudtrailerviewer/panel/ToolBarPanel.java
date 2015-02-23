@@ -19,7 +19,6 @@ import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,15 +34,13 @@ public class ToolBarPanel extends JToolBar {
     private final EventUtils eventFilter = new EventUtils();
 
     private final EventsDatabase eventsDatabase;
-    private final JDesktopPane desktop;
 
     private final Filters filters = new Filters();
     private final FreeformFilter freeFormFilter = new FreeformFilter();
 
-    public ToolBarPanel(EventsDatabase database, JDesktopPane jdesktop) {
+    public ToolBarPanel(EventsDatabase database) {
 
         eventsDatabase = database;
-        desktop = jdesktop;
 
         filters.addEventFilter(freeFormFilter);
 
@@ -52,9 +49,10 @@ public class ToolBarPanel extends JToolBar {
 
     private void buildToolBar() {
 
+        this.setFloatable(false);
         this.setLayout(new BorderLayout());
 
-        JButton btnNewChart = new JButton("New Chart");
+        JButton btnNewChart = new JButton();
         btnNewChart.setActionCommand("NewChart");
         btnNewChart.setToolTipText("Add new Chart");
 
@@ -63,6 +61,7 @@ public class ToolBarPanel extends JToolBar {
             btnNewChart.setIcon(new ImageIcon(imageUrl));
         }
         catch (Exception e) {
+            btnNewChart.setText("New Chart");
         }
 
         btnNewChart.addActionListener(new ActionListener() {
@@ -78,7 +77,7 @@ public class ToolBarPanel extends JToolBar {
                 else {
 
                     JOptionPane.showMessageDialog(
-                        desktop,
+                        jCloudTrailViewer.DESKTOP,
                         "No Events Loaded!",
                         "Data Error",
                         JOptionPane.WARNING_MESSAGE);
@@ -86,7 +85,7 @@ public class ToolBarPanel extends JToolBar {
             }
         });
 
-        JButton btnEvents = new JButton("Events");
+        JButton btnEvents = new JButton();
         btnEvents.setActionCommand("Events");
         btnEvents.setToolTipText("Show All Events");
 
@@ -95,7 +94,7 @@ public class ToolBarPanel extends JToolBar {
             btnEvents.setIcon(new ImageIcon(imageUrl));
         }
         catch (Exception e) {
-
+            btnEvents.setText("Events");
         }
 
         btnEvents.addActionListener(new ActionListener() {
@@ -108,7 +107,7 @@ public class ToolBarPanel extends JToolBar {
                     TableWindow window = new TableWindow("All Events", eventsDatabase.getEvents());
                     window.setVisible(true);
 
-                    desktop.add(window);
+                    jCloudTrailViewer.DESKTOP.add(window);
 
                     try {
                         window.setSelected(true);
@@ -120,7 +119,7 @@ public class ToolBarPanel extends JToolBar {
                 else {
 
                     JOptionPane.showMessageDialog(
-                        desktop,
+                        jCloudTrailViewer.DESKTOP,
                         "No Events Loaded!",
                         "Data Error",
                         JOptionPane.WARNING_MESSAGE);
@@ -163,23 +162,35 @@ public class ToolBarPanel extends JToolBar {
             public void keyPressed(KeyEvent e) {
 
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    
+                    if (!eventsDatabase.getEvents().isEmpty()) {
 
-                    String searchCriteria = searchBox.getText().trim();
+                        String searchCriteria = searchBox.getText().trim();
 
-                    if (searchCriteria.length() > 0) {
-                        freeFormFilter.setValue(searchCriteria);
-                        List<Event> events = filters.filterEvents(eventsDatabase.getEvents());
+                        if (searchCriteria.length() > 0) {
+                            freeFormFilter.setValue(searchCriteria);
+                            List<Event> events = filters.filterEvents(eventsDatabase.getEvents());
 
-                        TableWindow window = new TableWindow("Filtered by : " + searchCriteria, events);
-                        window.setVisible(true);
+                            TableWindow window = new TableWindow("Filtered by : " + searchCriteria, events);
+                            window.setVisible(true);
 
-                        desktop.add(window);
+                            jCloudTrailViewer.DESKTOP.add(window);
 
-                        try {
-                            window.setSelected(true);
+                            try {
+                                window.setSelected(true);
+                            }
+                            catch (java.beans.PropertyVetoException pve) {
+                            }
                         }
-                        catch (java.beans.PropertyVetoException pve) {
-                        }
+
+                    }
+                    else {
+
+                        JOptionPane.showMessageDialog(
+                            jCloudTrailViewer.DESKTOP,
+                            "No Events Loaded!",
+                            "Data Error",
+                            JOptionPane.WARNING_MESSAGE);
                     }
                 }
             }
@@ -196,7 +207,7 @@ public class ToolBarPanel extends JToolBar {
 
     private void createAndShowChart() {
 
-        ChartData chartData = ChartDialog.showDialog(desktop);
+        ChartData chartData = ChartDialog.showDialog(jCloudTrailViewer.DESKTOP);
 
         if (chartData != null) {
 
@@ -205,7 +216,7 @@ public class ToolBarPanel extends JToolBar {
             ChartWindow chart = new ChartWindow(chartData, events);
             chart.setVisible(true);
 
-            desktop.add(chart);
+            jCloudTrailViewer.DESKTOP.add(chart);
 
             try {
                 chart.setSelected(true);

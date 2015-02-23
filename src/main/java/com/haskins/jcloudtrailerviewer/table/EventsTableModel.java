@@ -17,12 +17,12 @@ public class EventsTableModel extends DefaultTableModel {
     private final static int COLUMN_REGION = 4;
     private final static int COLUMN_USER_AGENT = 5;
         
-    private final List<Event> events;
+    private List<Event> events;
     
-    public EventsTableModel(List<Event> events) {
+    public void setData(List<Event> data) {
         
-        this.events = events;
-        
+        this.events = data;
+        fireTableDataChanged(); 
     }
     
     public Event getEventAt(int i) {

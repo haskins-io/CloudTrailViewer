@@ -2,11 +2,15 @@ package com.haskins.jcloudtrailerviewer.panel;
 
 import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.event.EventLoader;
+import com.haskins.jcloudtrailerviewer.event.EventsDatabase;
+import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
+import com.haskins.jcloudtrailerviewer.model.ChartData;
+import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import javax.swing.AbstractAction;
-import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -21,16 +25,18 @@ public class MenuPanel extends JMenuBar {
     
     private final JFileChooser fileChooser = new JFileChooser();
     
+    private final EventsDatabase eventsDatabase;
     private final EventLoader eventLoader;
     
-    public MenuPanel(EventLoader eventLoader, JDesktopPane desktop) {
+    public MenuPanel(EventLoader eventLoader, EventsDatabase database) {
         
         this.eventLoader = eventLoader;
+        eventsDatabase = database;
         
-        buildMenu(desktop);
+        buildMenu();
     }
     
-    private void buildMenu(final JDesktopPane desktop) {
+    private void buildMenu() {
         
         fileChooser.setMultiSelectionEnabled(true);
         
@@ -51,14 +57,14 @@ public class MenuPanel extends JMenuBar {
         this.add(menuFile);
         
         // -- Menu : Logs
-        JMenu menuLogs = new JMenu("Events");
+        JMenu menuEvents = new JMenu("Events");
         
         JMenuItem loadLocal = new JMenuItem(new AbstractAction("Load Local Files") {
             
             @Override
             public void actionPerformed(ActionEvent t) {
                 
-                int status = fileChooser.showOpenDialog(desktop);
+                int status = fileChooser.showOpenDialog(jCloudTrailViewer.DESKTOP);
                 if (status == JFileChooser.APPROVE_OPTION) {
                     
                     StatusBarPanel.getInstance().setMessage("Loading Files from Disk");
@@ -83,7 +89,7 @@ public class MenuPanel extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent t) {
                 
-                final List<String> files = S3FileChooserDialog.showDialog(desktop);
+                final List<String> files = S3FileChooserDialog.showDialog(jCloudTrailViewer.DESKTOP);
                                
                 if (!files.isEmpty()) {
                     
@@ -104,14 +110,41 @@ public class MenuPanel extends JMenuBar {
             }
         });
         
-        menuLogs.add(loadLocal);
-        menuLogs.add(loadS3);
+        JMenuItem eventsByService = new JMenuItem(new AbstractAction("Events by Service") {
+            
+            @Override
+            public void actionPerformed(ActionEvent t) {
+                
+                ChartData chartData = new ChartData();
+                chartData.setChartStyle("bar");
+                chartData.setChartSource("Events by Service");
+
+                List<Map.Entry<String, Integer>> events = EventUtils.entriesSortedByValues(eventsDatabase.getEventsPerService());
+
+                ChartWindow chart = new ChartWindow(chartData, events);
+                chart.setVisible(true);
+
+                jCloudTrailViewer.DESKTOP.add(chart);
+
+                try {
+                    chart.setSelected(true);
+                }
+                catch (java.beans.PropertyVetoException e) { }
+            }
+        });
+        
+        
+        
+        menuEvents.add(loadLocal);
+        menuEvents.add(loadS3);
+        menuEvents.addSeparator();
+        menuEvents.add(eventsByService);
         
         if (!PropertiesSingleton.getInstance().configLoaded()) {
             loadS3.setEnabled(false);
         }
         
-        this.add(menuLogs);
+        this.add(menuEvents);
     }
     
     private void openLocalFiles() {
