@@ -2,7 +2,11 @@ package com.haskins.jcloudtrailerviewer.model;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class UserIdentity {
+/**
+ *
+ * @author mark.haskins
+ */
+public class SessionIssuer {
     
     @JsonProperty("type")
     private String type;
@@ -16,21 +20,8 @@ public class UserIdentity {
     @JsonProperty("accountId")
     private String accountId;
     
-    @JsonProperty("accessKeyId")
-    private String accessKeyId;
-    
     @JsonProperty("userName")
     private String userName;
-    
-    @JsonProperty("sessionContext")
-    private SessionContext sessionContext;
-    
-    @JsonProperty("invokedBy")
-    private String invokedBy;
-    
-    @JsonProperty("webIdFederationData")
-    private String webIdFederationData;
-    
 
     /**
      * @return the type
@@ -89,20 +80,6 @@ public class UserIdentity {
     }
 
     /**
-     * @return the accessKeyId
-     */
-    public String getAccessKeyId() {
-        return accessKeyId;
-    }
-
-    /**
-     * @param accessKeyId the accessKeyId to set
-     */
-    public void setAccessKeyId(String accessKeyId) {
-        this.accessKeyId = accessKeyId;
-    }
-
-    /**
      * @return the userName
      */
     public String getUserName() {
@@ -114,47 +91,5 @@ public class UserIdentity {
      */
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    /**
-     * @return the invokedBy
-     */
-    public String getInvokedBy() {
-        return invokedBy;
-    }
-
-    /**
-     * @param invokedBy the invokedBy to set
-     */
-    public void setInvokedBy(String invokedBy) {
-        this.invokedBy = invokedBy;
-    }
-
-    /**
-     * @return the sessionContext
-     */
-    public SessionContext getSessionContext() {
-        return sessionContext;
-    }
-
-    /**
-     * @param sessionContext the sessionContext to set
-     */
-    public void setSessionContext(SessionContext sessionContext) {
-        this.sessionContext = sessionContext;
-    }
-
-    /**
-     * @return the webIdFederationData
-     */
-    public String getWebIdFederationData() {
-        return webIdFederationData;
-    }
-
-    /**
-     * @param webIdFederationData the webIdFederationData to set
-     */
-    public void setWebIdFederationData(String webIdFederationData) {
-        this.webIdFederationData = webIdFederationData;
     }
 }

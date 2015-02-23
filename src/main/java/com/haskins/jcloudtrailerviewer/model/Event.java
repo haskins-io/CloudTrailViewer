@@ -6,17 +6,14 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class Event {
     
+    @JsonProperty("eventTime")
+    private String eventTime = "";
+    
     @JsonProperty("eventVersion")
     private String eventVersion = "";
     
     @JsonProperty("userIdentity")
     private UserIdentity userIdentity;
-    
-    @JsonProperty("eventTime")
-    private String eventTime = "";
-    
-    @JsonProperty("eventSource")
-    private String eventSource = "";
     
     @JsonProperty("eventName")
     private String eventName = "";
@@ -30,65 +27,50 @@ public class Event {
     @JsonProperty("userAgent")
     private String userAgent = "";
     
-    @JsonProperty("requestParameters")
-    private Map requestParameters;
+    @JsonProperty("eventSource")
+    private String eventSource = "";
     
-    @JsonProperty("responseElements")
-    private Map responseElements;
-
-    @JsonProperty("sessionIssuer")
-    private Map sessionIssuer;
-    
-    public String getEventType() {
-        return eventType;
-    }
-
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
-    }
-
-    public String getRecipientAccountId() {
-        return recipientAccountId;
-    }
-
-    public void setRecipientAccountId(String recipientAccountId) {
-        this.recipientAccountId = recipientAccountId;
-    }
-
-    @JsonProperty("requestID")
-    private String requestId = "";
-    
-    @JsonProperty("eventID")
-    private String eventId = "";
-
-    @JsonProperty("eventType")
-    private String eventType = "";
-
-    @JsonProperty("recipientAccountId")
-    private String recipientAccountId = "";
-    
-    
-    // optional
     @JsonProperty("errorCode")
     private String errorCode = "";
     
     @JsonProperty("errorMessage")
     private String errorMessage = "";
+
+    @JsonProperty("requestParameters")
+    private Map requestParameters;
     
+    @JsonProperty("responseElements")
+    private Map responseElements;
+    
+    @JsonProperty("requestID")
+    private String requestId = "";
+    
+    @JsonProperty("eventID")
+    private String eventId = "";
+    
+    @JsonProperty("eventType")
+    private String eventType = "";
+    
+    @JsonProperty("apiVersion")
+    private String apiVersion = "";
+    
+    @JsonProperty("recipientAccountId")
+    private String recipientAccountId = "";
+    
+    
+    // NOT MENTIONED IN DOCS
     @JsonProperty("additionalEventData")
-    private Map additionalEventData;
+    private AdditionalEventData additionalEventData;
     
     @JsonProperty("readOnly")
-    private String readOnly = "";   
-    
+    private String readOnly = "";  
+       
     @JsonProperty("resources")
-    private List<Resource> resources;  
+    private List<Resource> resources; 
     
+
     /** Internal Use **/
     private String rawJson;
-    private String rawRequestParameters;
-    private String rawResponseElements;
-    private String rawUserIdentity;
     
     public void setRawJSON(String json) {
         this.rawJson = json;
@@ -96,27 +78,7 @@ public class Event {
     public String getRawJSON() {
     	return this.rawJson;
     }
-    
-    public void setRawRequestParameters(String json) {
-        this.rawRequestParameters = json;
-    }
-    public String getRawRequestParameters() {
-        return this.rawRequestParameters;
-    }
-    
-    public void setRawResponseElements(String json) {
-        this.rawResponseElements = json;
-    }
-    public String getRawResponseElements() {
-        return this.rawResponseElements;
-    }
-    
-    public void setRawUserIdentity(String json) {
-        this.rawUserIdentity = json;
-    }
-    public String getRawUserIdentity() {
-        return this.rawUserIdentity;
-    }
+
 
     /**
      * @return the eventVersion
@@ -315,20 +277,6 @@ public class Event {
     }
 
     /**
-     * @return the additionalEventData
-     */
-    public Map getAdditionalEventData() {
-        return additionalEventData;
-    }
-
-    /**
-     * @param additionalEventData the additionalEventData to set
-     */
-    public void setAdditionalEventData(Map additionalEventData) {
-        this.additionalEventData = additionalEventData;
-    }
-
-    /**
      * @return the readOnly
      */
     public String getReadOnly() {
@@ -343,20 +291,6 @@ public class Event {
     }
 
     /**
-     * @return the sessionIssuer
-     */
-    public Map getSessionIssuer() {
-        return sessionIssuer;
-    }
-
-    /**
-     * @param sessionIssuer the sessionIssuer to set
-     */
-    public void setSessionIssuer(Map sessionIssuer) {
-        this.sessionIssuer = sessionIssuer;
-    }
-
-    /**
      * @return the resources
      */
     public List getResources() {
@@ -368,5 +302,49 @@ public class Event {
      */
     public void setResources(List resources) {
         this.resources = resources;
+    }
+    
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public String getRecipientAccountId() {
+        return recipientAccountId;
+    }
+
+    public void setRecipientAccountId(String recipientAccountId) {
+        this.recipientAccountId = recipientAccountId;
+    }
+
+    /**
+     * @return the additionalEventData
+     */
+    public AdditionalEventData getAdditionalEventData() {
+        return additionalEventData;
+    }
+
+    /**
+     * @param additionalEventData the additionalEventData to set
+     */
+    public void setAdditionalEventData(AdditionalEventData additionalEventData) {
+        this.additionalEventData = additionalEventData;
+    }
+
+    /**
+     * @return the apiVersion
+     */
+    public String getApiVersion() {
+        return apiVersion;
+    }
+
+    /**
+     * @param apiVersion the apiVersion to set
+     */
+    public void setApiVersion(String apiVersion) {
+        this.apiVersion = apiVersion;
     }
 }
