@@ -133,12 +133,32 @@ public class MenuPanel extends JMenuBar {
             }
         });
         
-        
+        JMenuItem serviceTps = new JMenuItem(new AbstractAction("Service TPS") {
+            
+            @Override
+            public void actionPerformed(ActionEvent t) {
+                
+                ChartData chartData = new ChartData();
+                chartData.setChartStyle("TimeSeries");
+                chartData.setChartSource("Service TPS");
+
+                ChartWindow chart = new ChartWindow(chartData, eventsDatabase.getTransactionsPerService());
+                chart.setVisible(true);
+
+                jCloudTrailViewer.DESKTOP.add(chart);
+
+                try {
+                    chart.setSelected(true);
+                }
+                catch (java.beans.PropertyVetoException e) { }
+            }
+        });
         
         menuEvents.add(loadLocal);
         menuEvents.add(loadS3);
         menuEvents.addSeparator();
         menuEvents.add(eventsByService);
+        menuEvents.add(serviceTps);
         
         if (!PropertiesSingleton.getInstance().configLoaded()) {
             loadS3.setEnabled(false);

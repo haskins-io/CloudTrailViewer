@@ -28,6 +28,8 @@ public class EventsDatabase implements EventLoaderListener {
     
     private final Map<String, Integer> eventsPerService = new HashMap<>();
     
+    private final Map<String, Map<String, Integer>> tpsMap = new HashMap<>();
+    
     public int size()
     {
         return masterEvents.size();
@@ -57,6 +59,10 @@ public class EventsDatabase implements EventLoaderListener {
     public Map<String, Integer> getEventsPerService() {
         return eventsPerService;
     }
+    
+    public Map<String, Map<String, Integer>> getTransactionsPerService() {
+       return tpsMap;
+    }
         
     ////////////////////////////////////////////////////////////////////////////
     ///// EventLoaderListener implementation
@@ -83,12 +89,11 @@ public class EventsDatabase implements EventLoaderListener {
                     } catch (IOException ex) {
                         Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
-                    
-                    // sort events by AWS Service
+                                        
                     int posPeriod = event.getEventSource().indexOf(".");
                     String service = event.getEventSource().substring(0, posPeriod);
                     
+                    // sort events by AWS Service
                     int count = 0;
                     if (eventsPerService.containsKey(service)) {
                         count = eventsPerService.get(service);
@@ -98,11 +103,39 @@ public class EventsDatabase implements EventLoaderListener {
                     eventsPerService.put(service, count);
                     
                     
-                    // Check for warning
+                    // Check for warnings
                     if (event.getErrorCode().length() > 1) {
                         errorsEvents.add(event);
                         StatusBarPanel.getInstance().showErrorWarning();
                     }
+                    
+                    // Sort TPS be service
+                    int tpsCount = 1;
+                    String dateTime = event.getEventTime();
+                    if (tpsMap.containsKey(service)) {
+                        
+                        Map<String, Integer> serviceTps = tpsMap.get(service);
+                        if (serviceTps.containsKey(dateTime)) {
+                            
+                            tpsCount = serviceTps.get(dateTime);
+                            tpsCount++;
+                            
+                            serviceTps.put(dateTime, tpsCount);
+                            tpsMap.put(service, serviceTps);
+                        }
+                        else {
+                            
+                            serviceTps.put(dateTime, tpsCount);  
+                            tpsMap.put(service, serviceTps);
+                        }    
+                    }
+                    else {
+                        
+                         Map<String, Integer> serviceTps = new HashMap<>();
+                         serviceTps.put(dateTime, tpsCount);
+                         tpsMap.put(service, serviceTps);
+                    }
+                    
                 } 
             }
         };

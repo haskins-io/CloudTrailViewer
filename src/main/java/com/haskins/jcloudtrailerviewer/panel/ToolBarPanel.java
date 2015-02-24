@@ -29,14 +29,16 @@ import javax.swing.JToolBar;
  *
  * @author mark.haskins
  */
-public class ToolBarPanel extends JToolBar {
+public class ToolBarPanel extends JToolBar implements KeyListener {
 
-    private final EventUtils eventFilter = new EventUtils();
+    private final EventUtils eventUtils = new EventUtils();
 
     private final EventsDatabase eventsDatabase;
 
     private final Filters filters = new Filters();
     private final FreeformFilter freeFormFilter = new FreeformFilter();
+    
+    private final JTextField searchBox = new JTextField();
 
     public ToolBarPanel(EventsDatabase database) {
 
@@ -72,7 +74,6 @@ public class ToolBarPanel extends JToolBar {
                 if (!eventsDatabase.getEvents().isEmpty()) {
 
                     createAndShowChart();
-
                 }
                 else {
 
@@ -133,8 +134,6 @@ public class ToolBarPanel extends JToolBar {
         buttonsPanel.add(btnEvents);
 
         this.add(buttonsPanel, BorderLayout.WEST);
-
-        // Spacer panel so Search Field can be on the Right
         this.add(new JPanel(), BorderLayout.CENTER);
 
         JPanel searchPanel = new JPanel();
@@ -150,55 +149,9 @@ public class ToolBarPanel extends JToolBar {
         catch (Exception e) {
         }
 
-        final JTextField searchBox = new JTextField();
+        
         searchBox.setSize(220, 20);
-        searchBox.addKeyListener(new KeyListener() {
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    
-                    if (!eventsDatabase.getEvents().isEmpty()) {
-
-                        String searchCriteria = searchBox.getText().trim();
-
-                        if (searchCriteria.length() > 0) {
-                            freeFormFilter.setValue(searchCriteria);
-                            List<Event> events = filters.filterEvents(eventsDatabase.getEvents());
-
-                            TableWindow window = new TableWindow("Filtered by : " + searchCriteria, events);
-                            window.setVisible(true);
-
-                            jCloudTrailViewer.DESKTOP.add(window);
-
-                            try {
-                                window.setSelected(true);
-                            }
-                            catch (java.beans.PropertyVetoException pve) {
-                            }
-                        }
-
-                    }
-                    else {
-
-                        JOptionPane.showMessageDialog(
-                            jCloudTrailViewer.DESKTOP,
-                            "No Events Loaded!",
-                            "Data Error",
-                            JOptionPane.WARNING_MESSAGE);
-                    }
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-        });
+        searchBox.addKeyListener(this);
 
         searchPanel.add(searchBox, BorderLayout.CENTER);
 
@@ -211,7 +164,7 @@ public class ToolBarPanel extends JToolBar {
 
         if (chartData != null) {
 
-            List<Map.Entry<String, Integer>> events = eventFilter.getRequiredEvents(eventsDatabase.getEvents(), chartData);
+            List<Map.Entry<String, Integer>> events = eventUtils.getRequiredEvents(eventsDatabase.getEvents(), chartData);
 
             ChartWindow chart = new ChartWindow(chartData, events);
             chart.setVisible(true);
@@ -225,4 +178,50 @@ public class ToolBarPanel extends JToolBar {
             }
         }
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // KeyListener
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            if (!eventsDatabase.getEvents().isEmpty()) {
+
+                String searchCriteria = searchBox.getText().trim();
+
+                if (searchCriteria.length() > 0) {
+                    
+                    freeFormFilter.setValue(searchCriteria);
+                    List<Event> events = filters.filterEvents(eventsDatabase.getEvents());
+
+                    TableWindow window = new TableWindow("Filtered by : " + searchCriteria, events);
+                    window.setVisible(true);
+
+                    jCloudTrailViewer.DESKTOP.add(window);
+
+                    try {
+                        window.setSelected(true);
+                    }
+                    catch (java.beans.PropertyVetoException pve) {
+                    }
+                }
+            }
+            else {
+
+                JOptionPane.showMessageDialog(
+                    jCloudTrailViewer.DESKTOP,
+                    "No Events Loaded!",
+                    "Data Error",
+                    JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) { }
+    
+    @Override
+    public void keyTyped(KeyEvent e) { }
 }
