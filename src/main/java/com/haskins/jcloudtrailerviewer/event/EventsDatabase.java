@@ -20,7 +20,7 @@ public class EventsDatabase implements EventLoaderListener {
     
     private final ObjectMapper mapper = new ObjectMapper();
     
-    private final CopyOnWriteArrayList<Event> masterEvents = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<Event> masterEvents = new CopyOnWriteArrayList<>();
     
     private final List<Event> errorsEvents = new ArrayList<>();
     private final List<Event> iamEvents = new ArrayList<>();
@@ -30,13 +30,16 @@ public class EventsDatabase implements EventLoaderListener {
     
     private final Map<String, Map<String, Integer>> tpsMap = new HashMap<>();
     
-    public int size()
-    {
+    public void clear() {
+        masterEvents = new CopyOnWriteArrayList<>();
+        StatusBarPanel.getInstance().setEventsLoaded(0);
+    }
+    
+    public int size() {
         return masterEvents.size();
     }
     
-    public Event getRecordByIndex(int rowIndex)
-    {
+    public Event getRecordByIndex(int rowIndex) {
         return masterEvents.get(rowIndex);
     }
     

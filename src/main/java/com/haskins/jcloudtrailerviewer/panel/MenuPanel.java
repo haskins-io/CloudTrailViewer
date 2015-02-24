@@ -154,11 +154,21 @@ public class MenuPanel extends JMenuBar {
             }
         });
         
+        JMenuItem clearDatabase = new JMenuItem(new AbstractAction("Clear Events") {
+            
+            @Override
+            public void actionPerformed(ActionEvent t) {
+                eventsDatabase.clear();
+            }
+        });
+        
         menuEvents.add(loadLocal);
         menuEvents.add(loadS3);
         menuEvents.addSeparator();
         menuEvents.add(eventsByService);
         menuEvents.add(serviceTps);
+        menuEvents.addSeparator();
+        menuEvents.add(clearDatabase);
         
         if (!PropertiesSingleton.getInstance().configLoaded()) {
             loadS3.setEnabled(false);
