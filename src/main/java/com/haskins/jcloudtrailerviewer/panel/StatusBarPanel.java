@@ -1,11 +1,12 @@
 package com.haskins.jcloudtrailerviewer.panel;
 
-import com.haskins.jcloudtrailerviewer.event.EventsDatabase;
+import com.haskins.jcloudtrailerviewer.event.EventsDatabaseListener;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,8 +17,8 @@ import javax.swing.JToolBar;
  *
  * @author mark
  */
-public class StatusBarPanel {
-    
+public class StatusBarPanel implements EventsDatabaseListener {
+        
     private static StatusBarPanel instance = null;
     
     private final JPanel ui = new JPanel();
@@ -28,8 +29,18 @@ public class StatusBarPanel {
     
     private final JLabel message = new JLabel("Load some CloudTrail events");
     private final JLabel eventsLoaded = new JLabel("0");
+        
+    private final List<Event> errorsEvents = new ArrayList<>();
+    private final List<Event> iamEvents = new ArrayList<>();
+    private final List<Event> securityEvents = new ArrayList<>();
     
-    private EventsDatabase eventsDatabase;
+
+    @Override
+    public void onEvent(Event event) {
+        updateWarnings(event);
+        updateIamWarnings(event);
+    }
+    
     
     private StatusBarPanel() {
         buildUI();
@@ -38,17 +49,12 @@ public class StatusBarPanel {
     public static StatusBarPanel getInstance() {
      
         if (instance == null) {
-            
             instance = new StatusBarPanel();
         }
         
         return instance;
     }
-    
-    public void setEventsDatabase(EventsDatabase database) {
-        eventsDatabase = database;
-    }
-    
+        
     public JPanel getStatusBar() {
         return this.ui;
     }
@@ -69,18 +75,6 @@ public class StatusBarPanel {
         
         this.message.setText(message);
     }
-    
-    public void showErrorWarning() {
-        btnErrWarning.setVisible(true);
-    }
-    
-    public void showIamWarning() {
-        btnIamWarning.setVisible(true);
-    }
-    
-    public void showSecurityWarning() {
-        btnSecWarning.setVisible(true);
-    }
 
     private void buildUI() {
         
@@ -90,7 +84,7 @@ public class StatusBarPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                showTable("IAM Warnings", eventsDatabase.getErrorEvents());
+                showTable("IAM Warnings", errorsEvents);
             }
         });
         
@@ -142,4 +136,20 @@ public class StatusBarPanel {
         catch (java.beans.PropertyVetoException pve) {
         }
     }   
+    
+    private void updateWarnings(Event event) {
+        
+        if (event.getErrorCode().length() > 1) {
+            errorsEvents.add(event);
+            btnErrWarning.setVisible(true);
+        }
+    }
+    
+    private void updateIamWarnings(Event event) {
+        
+        if(event.getEventSource().equalsIgnoreCase("iam.amazonaws.com")) {
+            iamEvents.add(event);
+            btnIamWarning.setVisible(true); 
+        }
+    }
 }

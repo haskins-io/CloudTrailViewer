@@ -1,7 +1,6 @@
 package com.haskins.jcloudtrailerviewer.event;
 
 import com.haskins.jcloudtrailerviewer.model.Event;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
@@ -9,6 +8,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public interface EventsDatabaseListener {
     
-    public void onEventsUpdated(CopyOnWriteArrayList<Event> updatedEvents);
+    public void onEvent(Event event);
     
 }

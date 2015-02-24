@@ -48,6 +48,7 @@ public class jCloudTrailViewer extends JFrame {
         
         
         StatusBarPanel.getInstance();
+        eventsDatabase.addListeners(StatusBarPanel.getInstance());
         JPanel statusBarPanel = StatusBarPanel.getInstance().getStatusBar();
                 
         JPanel layout = new JPanel();

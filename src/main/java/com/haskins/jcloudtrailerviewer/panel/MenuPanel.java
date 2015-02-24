@@ -7,6 +7,7 @@ import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ import javax.swing.SwingWorker;
  *
  * @author mark.haskins
  */
-public class MenuPanel extends JMenuBar {
+public class MenuPanel extends JMenuBar implements ActionListener {
     
     private final JFileChooser fileChooser = new JFileChooser();
     
@@ -36,11 +37,31 @@ public class MenuPanel extends JMenuBar {
         buildMenu();
     }
     
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        String actionCommand = e.getActionCommand();
+        
+        switch(actionCommand) {
+            case "LoadLocal":
+                loadFiles();
+                break;
+            case "LoadS3":
+                loadS3Files();
+                break;
+            case "EventsByService":
+                showEventsByServiceChart();
+                break;
+            case "ServiceTps":
+                showServiceTpsChart();
+                break;
+        }
+    }
+        
     private void buildMenu() {
         
         fileChooser.setMultiSelectionEnabled(true);
         
-        //Set up the lone menu.
         // -- Menu : File
         JMenu menuFile = new JMenu("File");
         JMenuItem exit = new JMenuItem(new AbstractAction("Exit") {
@@ -54,105 +75,21 @@ public class MenuPanel extends JMenuBar {
         
         menuFile.add(exit);
         
-        this.add(menuFile);
         
-        // -- Menu : Logs
+        // -- Menu : Events
         JMenu menuEvents = new JMenu("Events");
         
-        JMenuItem loadLocal = new JMenuItem(new AbstractAction("Load Local Files") {
-            
-            @Override
-            public void actionPerformed(ActionEvent t) {
-                
-                int status = fileChooser.showOpenDialog(jCloudTrailViewer.DESKTOP);
-                if (status == JFileChooser.APPROVE_OPTION) {
-                    
-                    StatusBarPanel.getInstance().setMessage("Loading Files from Disk");
-                    
-                    SwingWorker worker = new SwingWorker<Void, Void>() {
-                      
-                        @Override
-                        public Void doInBackground() {
-                            
-                            openLocalFiles();
-                            
-                            return null;
-                        };
-                    };
-                    worker.execute();
-                }
-            }
-        });
+        JMenuItem loadLocal = new JMenuItem("Load Local Files");
+        loadLocal.setActionCommand("LoadLocal");
+        loadLocal.addActionListener(this);
         
-        JMenuItem loadS3 = new JMenuItem(new AbstractAction("Load S3 Files") {
-            
-            @Override
-            public void actionPerformed(ActionEvent t) {
-                
-                final List<String> files = S3FileChooserDialog.showDialog(jCloudTrailViewer.DESKTOP);
-                               
-                if (!files.isEmpty()) {
-                    
-                    StatusBarPanel.getInstance().setMessage("Loading Files from S3");
-                    
-                    SwingWorker worker = new SwingWorker<Void, Void>() {
-                      
-                        @Override
-                        public Void doInBackground() {
-                            
-                            eventLoader.loadFromS3Files(files);
-                            
-                            return null;
-                        };
-                    };
-                    worker.execute();
-                }
-            }
-        });
+        JMenuItem loadS3 = new JMenuItem("Load S3 Files");
+        loadS3.setActionCommand("LoadS3");
+        loadS3.addActionListener(this);
         
-        JMenuItem eventsByService = new JMenuItem(new AbstractAction("Events by Service") {
-            
-            @Override
-            public void actionPerformed(ActionEvent t) {
-                
-                ChartData chartData = new ChartData();
-                chartData.setChartStyle("bar");
-                chartData.setChartSource("Events by Service");
-
-                List<Map.Entry<String, Integer>> events = EventUtils.entriesSortedByValues(eventsDatabase.getEventsPerService());
-
-                ChartWindow chart = new ChartWindow(chartData, events);
-                chart.setVisible(true);
-
-                jCloudTrailViewer.DESKTOP.add(chart);
-
-                try {
-                    chart.setSelected(true);
-                }
-                catch (java.beans.PropertyVetoException e) { }
-            }
-        });
-        
-        JMenuItem serviceTps = new JMenuItem(new AbstractAction("Service TPS") {
-            
-            @Override
-            public void actionPerformed(ActionEvent t) {
-                
-                ChartData chartData = new ChartData();
-                chartData.setChartStyle("TimeSeries");
-                chartData.setChartSource("Service TPS");
-
-                ChartWindow chart = new ChartWindow(chartData, eventsDatabase.getTransactionsPerService());
-                chart.setVisible(true);
-
-                jCloudTrailViewer.DESKTOP.add(chart);
-
-                try {
-                    chart.setSelected(true);
-                }
-                catch (java.beans.PropertyVetoException e) { }
-            }
-        });
+        if (!PropertiesSingleton.getInstance().configLoaded()) {
+            loadS3.setEnabled(false);
+        }
         
         JMenuItem clearDatabase = new JMenuItem(new AbstractAction("Clear Events") {
             
@@ -165,34 +102,108 @@ public class MenuPanel extends JMenuBar {
         menuEvents.add(loadLocal);
         menuEvents.add(loadS3);
         menuEvents.addSeparator();
-        menuEvents.add(eventsByService);
-        menuEvents.add(serviceTps);
-        menuEvents.addSeparator();
         menuEvents.add(clearDatabase);
         
-        if (!PropertiesSingleton.getInstance().configLoaded()) {
-            loadS3.setEnabled(false);
-        }
         
+        // -- Menu : Services
+        JMenu menuServices = new JMenu("Services");
+        
+        JMenuItem eventsByService = new JMenuItem("Events by Service");
+        eventsByService.setActionCommand("EventsByService");
+        eventsByService.addActionListener(this);
+        
+        JMenuItem serviceTps = new JMenuItem("Service Tps");
+        serviceTps.setActionCommand("ServiceTps");
+        serviceTps.addActionListener(this);
+        
+        menuServices.add(eventsByService);
+        menuServices.add(serviceTps);
+
+        this.add(menuFile);
         this.add(menuEvents);
+        this.add(menuServices);
     }
     
-    private void openLocalFiles() {
+    private void loadFiles() {
         
-        File[] list;
-        
-        if (fileChooser.getSelectedFiles().length != 0)  {
-            
-            list = fileChooser.getSelectedFiles();
-            
-        } else {
-            
-            list = new File[1];
-            list[0] = fileChooser.getSelectedFile();
+        int status = fileChooser.showOpenDialog(jCloudTrailViewer.DESKTOP);
+        if (status == JFileChooser.APPROVE_OPTION) {
+
+            StatusBarPanel.getInstance().setMessage("Loading Files from Disk");
+
+            SwingWorker worker = new SwingWorker<Void, Void>() {
+
+                @Override
+                public Void doInBackground() {
+
+                    File[] list;
+
+                    if (fileChooser.getSelectedFiles().length != 0)  {
+
+                        list = fileChooser.getSelectedFiles();
+
+                    } else {
+
+                        list = new File[1];
+                        list[0] = fileChooser.getSelectedFile();
+                    }
+
+                    if (list != null) {
+                        eventLoader.loadFromLocalFiles(list);
+                    }
+
+                    return null;
+                };
+            };
+            worker.execute();
         }
+    }
+    
+    private void loadS3Files() {
         
-        if (list != null) {
-            eventLoader.loadFromLocalFiles(list);
+        final List<String> files = S3FileChooserDialog.showDialog(jCloudTrailViewer.DESKTOP);
+
+        if (!files.isEmpty()) {
+
+            StatusBarPanel.getInstance().setMessage("Loading Files from S3");
+
+            SwingWorker worker = new SwingWorker<Void, Void>() {
+
+                @Override
+                public Void doInBackground() {
+
+                    eventLoader.loadFromS3Files(files);
+
+                    return null;
+                };
+            };
+            worker.execute();
         }
+    }
+    
+    private void showEventsByServiceChart() {
+        
+        ChartData chartData = new ChartData();
+        chartData.setChartStyle("bar");
+        chartData.setChartSource("Events by Service");
+
+        List<Map.Entry<String, Integer>> events = EventUtils.entriesSortedByValues(eventsDatabase.getEventsPerService());
+
+        ChartWindow chart = new ChartWindow(chartData, events);
+        chart.setVisible(true);
+
+        jCloudTrailViewer.DESKTOP.add(chart);
+    }
+    
+    private void showServiceTpsChart() {
+        
+        ChartData chartData = new ChartData();
+        chartData.setChartStyle("TimeSeries");
+        chartData.setChartSource("Service TPS");
+
+        ChartWindow chart = new ChartWindow(chartData, eventsDatabase.getTransactionsPerService());
+        chart.setVisible(true);
+
+        jCloudTrailViewer.DESKTOP.add(chart);
     }
 }
