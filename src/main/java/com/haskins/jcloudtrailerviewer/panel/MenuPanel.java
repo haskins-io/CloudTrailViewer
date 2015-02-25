@@ -8,7 +8,6 @@ import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 import javax.swing.AbstractAction;
@@ -16,7 +15,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.SwingWorker;
 
 /**
  *
@@ -126,59 +124,12 @@ public class MenuPanel extends JMenuBar implements ActionListener {
     
     private void loadFiles() {
         
-        int status = fileChooser.showOpenDialog(jCloudTrailViewer.DESKTOP);
-        if (status == JFileChooser.APPROVE_OPTION) {
-
-            StatusBarPanel.getInstance().setMessage("Loading Files from Disk");
-
-            SwingWorker worker = new SwingWorker<Void, Void>() {
-
-                @Override
-                public Void doInBackground() {
-
-                    File[] list;
-
-                    if (fileChooser.getSelectedFiles().length != 0)  {
-
-                        list = fileChooser.getSelectedFiles();
-
-                    } else {
-
-                        list = new File[1];
-                        list[0] = fileChooser.getSelectedFile();
-                    }
-
-                    if (list != null) {
-                        eventLoader.loadFromLocalFiles(list);
-                    }
-
-                    return null;
-                };
-            };
-            worker.execute();
-        }
+        eventLoader.showFileBrowser();
     }
     
     private void loadS3Files() {
         
-        final List<String> files = S3FileChooserDialog.showDialog(jCloudTrailViewer.DESKTOP);
-
-        if (!files.isEmpty()) {
-
-            StatusBarPanel.getInstance().setMessage("Loading Files from S3");
-
-            SwingWorker worker = new SwingWorker<Void, Void>() {
-
-                @Override
-                public Void doInBackground() {
-
-                    eventLoader.loadFromS3Files(files);
-
-                    return null;
-                };
-            };
-            worker.execute();
-        }
+        eventLoader.showS3Browser();
     }
     
     private void showEventsByServiceChart() {

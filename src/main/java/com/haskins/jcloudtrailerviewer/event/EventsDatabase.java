@@ -2,15 +2,12 @@ package com.haskins.jcloudtrailerviewer.event;
 
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.panel.StatusBarPanel;
-import java.io.IOException;
+import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
@@ -18,7 +15,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 public class EventsDatabase implements EventLoaderListener {
     
-    private final ObjectMapper mapper = new ObjectMapper();
+    
     
     private CopyOnWriteArrayList<Event> masterEvents = new CopyOnWriteArrayList<>();
         
@@ -72,7 +69,7 @@ public class EventsDatabase implements EventLoaderListener {
                 
                 for (Event event : events) {
                     
-                    addRawJson(event);
+                    EventUtils.addRawJson(event);
                     
                     tpsPerService(event);
                     eventsPerService(event);
@@ -85,19 +82,7 @@ public class EventsDatabase implements EventLoaderListener {
         };
         createRawJSONForEvent.start();
     }
-    
-    private void addRawJson(Event event) {
         
-        String rawJson;
-        try {
-            rawJson = mapper.defaultPrettyPrintingWriter().writeValueAsString(event);
-            event.setRawJSON(rawJson);
-
-        } catch (IOException ex) {
-            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-    }
-    
     private void eventsPerService(Event event) {
         
         int posPeriod = event.getEventSource().indexOf(".");

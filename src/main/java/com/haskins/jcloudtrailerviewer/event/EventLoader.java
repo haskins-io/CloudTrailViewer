@@ -7,8 +7,10 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
+import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.Records;
+import com.haskins.jcloudtrailerviewer.panel.S3FileChooserDialog;
 import com.haskins.jcloudtrailerviewer.panel.StatusBarPanel;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -25,6 +27,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
+import javax.swing.JFileChooser;
+import javax.swing.SwingWorker;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -36,13 +40,75 @@ public class EventLoader {
 
     private final int BUFFER_SIZE = 32;
     
+    private final JFileChooser fileChooser = new JFileChooser();
+    
     private final List<EventLoaderListener> listeners = new ArrayList<>();
 
+    public EventLoader() {
+        fileChooser.setMultiSelectionEnabled(true);
+    }
+    
     public void addListener(EventLoaderListener l) {
         this.listeners.add(l);
     }
 
-    public void loadFromLocalFiles(final File[] files) {
+    public void showFileBrowser() {
+        
+        int status = fileChooser.showOpenDialog(jCloudTrailViewer.DESKTOP);
+        if (status == JFileChooser.APPROVE_OPTION) {
+
+            StatusBarPanel.getInstance().setMessage("Loading Files from Disk");
+
+            SwingWorker worker = new SwingWorker<Void, Void>() {
+
+                @Override
+                public Void doInBackground() {
+
+                    File[] list;
+
+                    if (fileChooser.getSelectedFiles().length != 0)  {
+
+                        list = fileChooser.getSelectedFiles();
+
+                    } else {
+
+                        list = new File[1];
+                        list[0] = fileChooser.getSelectedFile();
+                    }
+
+                    if (list != null) {
+                        loadFromLocalFiles(list);
+                    }
+
+                    return null;
+                };
+            };
+            worker.execute();
+        }
+    }
+    
+    public void showS3Browser() {
+        
+         final List<String> files = S3FileChooserDialog.showDialog(jCloudTrailViewer.DESKTOP);
+
+        if (!files.isEmpty()) {
+
+            StatusBarPanel.getInstance().setMessage("Loading Files from S3");
+
+            SwingWorker worker = new SwingWorker<Void, Void>() {
+
+                @Override
+                public Void doInBackground() {
+
+                    loadFromS3Files(files);
+                    return null;
+                };
+            };
+            worker.execute();
+        }
+    }
+    
+    private void loadFromLocalFiles(final File[] files) {
 
         if (files != null && files.length > 0) {
             
@@ -67,7 +133,7 @@ public class EventLoader {
         }
     }
 
-    public void loadFromS3Files(final List<String> keys) {
+    private void loadFromS3Files(final List<String> keys) {
 
         if (keys != null && keys.size() > 0) {
             

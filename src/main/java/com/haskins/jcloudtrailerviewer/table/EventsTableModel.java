@@ -1,6 +1,7 @@
 package com.haskins.jcloudtrailerviewer.table;
 
 import com.haskins.jcloudtrailerviewer.model.Event;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,9 +26,19 @@ public class EventsTableModel extends DefaultTableModel {
         fireTableDataChanged(); 
     }
     
+    public void addEvent(Event event) {
+        
+        if (events == null) {
+            events = new ArrayList<>();
+        }
+        
+        events.add(event);
+        fireTableDataChanged(); 
+    }
+    
     public Event getEventAt(int i) {
         
-        return events.get(i-1);
+        return events.get(i);
     }
     
     ///////////////////////////////////////////////////////////////////////////

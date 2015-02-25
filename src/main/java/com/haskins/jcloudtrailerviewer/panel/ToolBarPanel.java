@@ -29,7 +29,7 @@ import javax.swing.JToolBar;
  *
  * @author mark.haskins
  */
-public class ToolBarPanel extends JToolBar implements KeyListener {
+public class ToolBarPanel extends JToolBar implements ActionListener, KeyListener {
 
     private final EventUtils eventUtils = new EventUtils();
 
@@ -47,136 +47,6 @@ public class ToolBarPanel extends JToolBar implements KeyListener {
         filters.addEventFilter(freeFormFilter);
 
         buildToolBar();
-    }
-
-    private void buildToolBar() {
-
-        this.setFloatable(false);
-        this.setLayout(new BorderLayout());
-
-        JButton btnNewChart = new JButton();
-        btnNewChart.setActionCommand("NewChart");
-        btnNewChart.setToolTipText("Add new Chart");
-
-        try {
-            URL imageUrl = jCloudTrailViewer.class.getResource("../../../icons/chart-pie.png");
-            btnNewChart.setIcon(new ImageIcon(imageUrl));
-        }
-        catch (Exception e) {
-            btnNewChart.setText("New Chart");
-        }
-
-        btnNewChart.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if (!eventsDatabase.getEvents().isEmpty()) {
-
-                    createAndShowChart();
-                }
-                else {
-
-                    JOptionPane.showMessageDialog(
-                        jCloudTrailViewer.DESKTOP,
-                        "No Events Loaded!",
-                        "Data Error",
-                        JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        });
-
-        JButton btnEvents = new JButton();
-        btnEvents.setActionCommand("Events");
-        btnEvents.setToolTipText("Show All Events");
-
-        try {
-            URL imageUrl = jCloudTrailViewer.class.getResource("../../../icons/table.gif");
-            btnEvents.setIcon(new ImageIcon(imageUrl));
-        }
-        catch (Exception e) {
-            btnEvents.setText("Events");
-        }
-
-        btnEvents.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if (!eventsDatabase.getEvents().isEmpty()) {
-
-                    TableWindow window = new TableWindow("All Events", eventsDatabase.getEvents());
-                    window.setVisible(true);
-
-                    jCloudTrailViewer.DESKTOP.add(window);
-
-                    try {
-                        window.setSelected(true);
-                    }
-                    catch (java.beans.PropertyVetoException pve) {
-                    }
-
-                }
-                else {
-
-                    JOptionPane.showMessageDialog(
-                        jCloudTrailViewer.DESKTOP,
-                        "No Events Loaded!",
-                        "Data Error",
-                        JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        });
-
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
-        buttonsPanel.add(btnNewChart);
-        buttonsPanel.add(btnEvents);
-
-        this.add(buttonsPanel, BorderLayout.WEST);
-        this.add(new JPanel(), BorderLayout.CENTER);
-
-        JPanel searchPanel = new JPanel();
-        searchPanel.setLayout(new BorderLayout());
-        searchPanel.setPreferredSize(new Dimension(250, 20));
-
-        try {
-            URL imageUrl = jCloudTrailViewer.class.getResource("../../../icons/Search.png");
-            JLabel searchIcon = new JLabel();
-            searchIcon.setIcon(new ImageIcon(imageUrl));
-            searchPanel.add(searchIcon, BorderLayout.WEST);
-        }
-        catch (Exception e) {
-        }
-
-        
-        searchBox.setSize(220, 20);
-        searchBox.addKeyListener(this);
-
-        searchPanel.add(searchBox, BorderLayout.CENTER);
-
-        this.add(searchPanel, BorderLayout.EAST);
-    }
-
-    private void createAndShowChart() {
-
-        ChartData chartData = ChartDialog.showDialog(jCloudTrailViewer.DESKTOP);
-
-        if (chartData != null) {
-
-            List<Map.Entry<String, Integer>> events = eventUtils.getRequiredEvents(eventsDatabase.getEvents(), chartData);
-
-            ChartWindow chart = new ChartWindow(chartData, events);
-            chart.setVisible(true);
-
-            jCloudTrailViewer.DESKTOP.add(chart);
-
-            try {
-                chart.setSelected(true);
-            }
-            catch (java.beans.PropertyVetoException e) {
-            }
-        }
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -219,9 +89,163 @@ public class ToolBarPanel extends JToolBar implements KeyListener {
         }
     }
 
+
     @Override
     public void keyReleased(KeyEvent e) { }
     
     @Override
     public void keyTyped(KeyEvent e) { }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // KeyListener
+    ////////////////////////////////////////////////////////////////////////////    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        String actionCommand = e.getActionCommand();
+        
+        switch(actionCommand) {
+            case "NewChart":
+                createChart();
+                break;
+            case "Events":
+                createAllEventsTable();
+                break;
+            case "SecurityScan":
+                securityScan();
+                break;
+                
+        }
+    }
+
+    private void buildToolBar() {
+
+        this.setFloatable(false);
+        this.setLayout(new BorderLayout());
+
+        // New Chart Button
+        JButton btnNewChart = new JButton();
+        btnNewChart.setActionCommand("NewChart");
+        btnNewChart.setToolTipText("Add new Chart");
+        btnNewChart.addActionListener(this);
+
+        try {
+            URL imageUrl = jCloudTrailViewer.class.getResource("../../../icons/chart-pie.png");
+            btnNewChart.setIcon(new ImageIcon(imageUrl));
+        }
+        catch (Exception e) {
+            btnNewChart.setText("New Chart");
+        }
+
+        // All Events Table
+        JButton btnEvents = new JButton();
+        btnEvents.setActionCommand("Events");
+        btnEvents.setToolTipText("Show All Events");
+        btnEvents.addActionListener(this);
+
+        try {
+            URL imageUrl = jCloudTrailViewer.class.getResource("../../../icons/table.gif");
+            btnEvents.setIcon(new ImageIcon(imageUrl));
+        }
+        catch (Exception e) {
+            btnEvents.setText("Events");
+        }
+
+        // Security Scan
+        JButton btnSecurityScan = new JButton();
+        btnSecurityScan.setActionCommand("SecurityScan");
+        btnSecurityScan.setToolTipText("Security Scan");
+        btnSecurityScan.addActionListener(this);
+
+        try {
+            URL imageUrl = jCloudTrailViewer.class.getResource("../../../icons/lock.png");
+            btnSecurityScan.setIcon(new ImageIcon(imageUrl));
+        }
+        catch (Exception e) {
+            btnSecurityScan.setText("Security Scan");
+        }
+        
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
+        buttonsPanel.add(btnNewChart);
+        buttonsPanel.add(btnEvents);
+        buttonsPanel.add(btnSecurityScan);
+
+        this.add(buttonsPanel, BorderLayout.WEST);
+        this.add(new JPanel(), BorderLayout.CENTER);
+
+        JPanel searchPanel = new JPanel();
+        searchPanel.setLayout(new BorderLayout());
+        searchPanel.setPreferredSize(new Dimension(250, 20));
+
+        try {
+            URL imageUrl = jCloudTrailViewer.class.getResource("../../../icons/Search.png");
+            JLabel searchIcon = new JLabel();
+            searchIcon.setIcon(new ImageIcon(imageUrl));
+            searchPanel.add(searchIcon, BorderLayout.WEST);
+        }
+        catch (Exception e) {
+        }
+
+        
+        searchBox.setSize(220, 20);
+        searchBox.addKeyListener(this);
+
+        searchPanel.add(searchBox, BorderLayout.CENTER);
+
+        this.add(searchPanel, BorderLayout.EAST);
+    }
+
+    private void createChart() {
+        
+        if (!eventsDatabase.getEvents().isEmpty()) {
+
+            ChartData chartData = ChartDialog.showDialog(jCloudTrailViewer.DESKTOP);
+
+            if (chartData != null) {
+
+                List<Map.Entry<String, Integer>> events = eventUtils.getRequiredEvents(eventsDatabase.getEvents(), chartData);
+
+                ChartWindow chart = new ChartWindow(chartData, events);
+                chart.setVisible(true);
+
+                jCloudTrailViewer.DESKTOP.add(chart);
+            }
+        }
+        else {
+
+            JOptionPane.showMessageDialog(
+                jCloudTrailViewer.DESKTOP,
+                "No Events Loaded!",
+                "Data Error",
+                JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    private void createAllEventsTable() {
+        
+        if (!eventsDatabase.getEvents().isEmpty()) {
+
+            TableWindow window = new TableWindow("All Events", eventsDatabase.getEvents());
+            window.setVisible(true);
+
+            jCloudTrailViewer.DESKTOP.add(window);
+        }
+        else {
+
+            JOptionPane.showMessageDialog(
+                jCloudTrailViewer.DESKTOP,
+                "No Events Loaded!",
+                "Data Error",
+                JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    private void securityScan() {
+        
+        SecurityPanel securityPanel = new SecurityPanel();
+        securityPanel.setVisible(true);
+
+        jCloudTrailViewer.DESKTOP.add(securityPanel);
+    }
 }

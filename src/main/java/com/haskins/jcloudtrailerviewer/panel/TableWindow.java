@@ -38,11 +38,8 @@ public class TableWindow extends JInternalFrame {
     private final JTextArea rawJsonPanel = new JTextArea();
 
     private final List<Event> masterEvents;
-
     private final EventUtils eventFilter = new EventUtils();
     
-    
-
     public TableWindow(String title, List<Event> events) {
 
         super(title, true, true, false, true);
@@ -96,7 +93,6 @@ public class TableWindow extends JInternalFrame {
 
         JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
-
         toolbar.add(btnShowChart);
 
         EventDetailTable detailTable = new EventDetailTable(detailTableModel);

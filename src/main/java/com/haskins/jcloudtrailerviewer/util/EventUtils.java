@@ -1,8 +1,10 @@
 package com.haskins.jcloudtrailerviewer.util;
 
+import com.haskins.jcloudtrailerviewer.event.EventLoader;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.UserIdentity;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -12,13 +14,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
  * @author mark
  */
 public class EventUtils {
+    
+    private static final ObjectMapper mapper = new ObjectMapper();
     
     public static <K,V extends Comparable<? super V>> 
                 List<Entry<K, V>> entriesSortedByValues(Map<K,V> map) {
@@ -37,6 +44,19 @@ public class EventUtils {
         return sortedEntries;
     }
     
+    public static void addRawJson(Event event) {
+        
+        String rawJson;
+        try {
+            rawJson = mapper.defaultPrettyPrintingWriter().writeValueAsString(event);
+            event.setRawJSON(rawJson);
+
+        } catch (IOException ex) {
+            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+    }            
+                
     public List<Entry<String,Integer>> getRequiredEvents(List<Event> masterEvents, ChartData chartData) {
                 
         List<Entry<String,Integer>> events = getEventsBySource(masterEvents, chartData);
