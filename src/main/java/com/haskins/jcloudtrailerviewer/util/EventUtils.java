@@ -1,3 +1,23 @@
+/*    
+CloudTrail Log Viewer, is a Java desktop application for reading AWS CloudTrail
+logs files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.haskins.jcloudtrailerviewer.util;
 
 import com.haskins.jcloudtrailerviewer.event.EventLoader;
@@ -7,6 +27,7 @@ import com.haskins.jcloudtrailerviewer.model.UserIdentity;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,6 +45,8 @@ import org.codehaus.jackson.map.ObjectMapper;
  * @author mark
  */
 public class EventUtils {
+    
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     
     private static final ObjectMapper mapper = new ObjectMapper();
     
@@ -44,6 +67,22 @@ public class EventUtils {
         return sortedEntries;
     }
     
+    public static void addTimestamp(Event event) {
+        
+        event.setTimestamp(getTimestamp(event.getEventTime()));
+    }
+    
+    public static long getTimestamp(String dateString) {
+        
+        long millis = 0;
+        
+        try {
+            millis = sdf.parse(dateString).getTime();
+        } catch (Exception ex) { } 
+        
+        return millis;
+    }
+                
     public static void addRawJson(Event event) {
         
         String rawJson;

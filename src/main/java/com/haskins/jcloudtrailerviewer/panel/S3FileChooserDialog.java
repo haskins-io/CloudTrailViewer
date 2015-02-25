@@ -1,3 +1,23 @@
+/*    
+CloudTrail Log Viewer, is a Java desktop application for reading AWS CloudTrail
+logs files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.haskins.jcloudtrailerviewer.panel;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -37,6 +57,8 @@ import javax.swing.ListSelectionModel;
  */
 public class S3FileChooserDialog extends JDialog implements ActionListener {
     
+    private static final String MOVE_BACK = "..";
+    
     private static S3FileChooserDialog dialog;
     private static final List<String> selectedKeys = new ArrayList<>();
     
@@ -50,11 +72,7 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         
         if ("Load".equals(e.getActionCommand())) {
             
-            List<String> selectedItems = s3List.getSelectedValuesList();
-            for (String key : selectedItems) {
-                
-                selectedKeys.add(this.prefix + key);
-            }
+            addSelectedKeys();
         }
         
         S3FileChooserDialog.dialog.setVisible(false);
@@ -94,7 +112,6 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
                     
                 } else if (mouseEvent.getClickCount() == 1) {
                     
-                    // enable / disable the Open button
                     String selected = s3List.getSelectedValue().toString();
                     
                     if (selected.contains("/")) {
@@ -146,22 +163,41 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         
         String selected = s3List.getSelectedValue().toString();
         
-        // remove any slashes at the beginning
-        int firstSlash = selected.indexOf("/");
-        if (firstSlash == 0) {
-            selected = selected.substring(1, selected.length());
-        }
-        
-        // remove any trailing slashes
-        int lastSlash = selected.lastIndexOf("/") + 1;
-        if (lastSlash == selected.length()) {
+        if (selected.equalsIgnoreCase(MOVE_BACK)) {
+           
+            // update prefix and reload
+            int lastSlash = prefix.lastIndexOf("/");
+            String tmpPrefix = prefix.substring(0,lastSlash);
             
-            prefix = prefix + selected;
+            if (tmpPrefix.contains("/")) {
+                
+                lastSlash = tmpPrefix.lastIndexOf("/") + 1;
+                prefix = tmpPrefix.substring(0,lastSlash);
+                
+            } else {
+                prefix = "";
+            }
+
             reloadContents();
-        }
-        else {
-            // it must be a file so we'll close the dialog
-            S3FileChooserDialog.dialog.setVisible(false);
+            
+        } else {
+        
+            int firstSlash = selected.indexOf("/");
+            if (firstSlash == 0) {
+                selected = selected.substring(1, selected.length());
+            }
+
+            int lastSlash = selected.lastIndexOf("/") + 1;
+            if (lastSlash == selected.length()) {
+
+                prefix = prefix + selected;
+                reloadContents();
+            }
+            else {
+                // it must be a file so we'll close the dialog
+                addSelectedKeys();                
+                S3FileChooserDialog.dialog.setVisible(false);
+            }
         }
     }
     
@@ -186,6 +222,11 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
 
         ObjectListing objectListing = s3Client.listObjects(listObjectsRequest);
 
+        // Add .. if not at root
+        if (prefix.trim().length() != 0) {
+            tmp.add(MOVE_BACK);
+        }
+        
         // these are directories
         List<String> directories = objectListing.getCommonPrefixes();
         for (String directory : directories) {
@@ -221,5 +262,14 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         }
 
         return stripped;
+    }
+    
+    private void addSelectedKeys() {
+        
+        List<String> selectedItems = s3List.getSelectedValuesList();
+        for (String key : selectedItems) {
+
+            selectedKeys.add(this.prefix + key);
+        }
     }
 }

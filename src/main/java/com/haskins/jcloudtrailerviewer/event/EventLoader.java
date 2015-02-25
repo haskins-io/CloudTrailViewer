@@ -1,3 +1,23 @@
+/*    
+CloudTrail Log Viewer, is a Java desktop application for reading AWS CloudTrail
+logs files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.haskins.jcloudtrailerviewer.event;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -21,7 +41,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +62,7 @@ public class EventLoader {
     
     private final JFileChooser fileChooser = new JFileChooser();
     
-    private final List<EventLoaderListener> listeners = new ArrayList<>();
+    private final List<EventLoaderListener> listeners = new LinkedList<>();
 
     public EventLoader() {
         fileChooser.setMultiSelectionEnabled(true);
@@ -89,7 +109,7 @@ public class EventLoader {
     
     public void showS3Browser() {
         
-         final List<String> files = S3FileChooserDialog.showDialog(jCloudTrailViewer.DESKTOP);
+        final List<String> files = S3FileChooserDialog.showDialog(jCloudTrailViewer.DESKTOP);
 
         if (!files.isEmpty()) {
 
@@ -121,7 +141,7 @@ public class EventLoader {
                 
                 try {
                     
-                    StatusBarPanel.getInstance().setMessage("Reading file " + count + " of " + numFiles);
+                    StatusBarPanel.getInstance().setMessage("Processing file " + count + " of " + numFiles);
                     readLogFile(file);
                 }
                 catch (IOException ex) {
@@ -130,6 +150,10 @@ public class EventLoader {
             }
             
             StatusBarPanel.getInstance().setMessage("Finished loading files");
+            
+            for (EventLoaderListener l : listeners) {
+                l.finishedLoading();
+            }
         }
     }
 
@@ -155,13 +179,17 @@ public class EventLoader {
                 
                 try {
                     
-                    StatusBarPanel.getInstance().setMessage("Reading file " + count + " of " + numFiles);
+                    StatusBarPanel.getInstance().setMessage("Processing file " + count + " of " + numFiles);
                     
                     readS3File(s3Client, bucketName, key);
                 }
                 catch (IOException ex) {
                     Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+            
+            for (EventLoaderListener l : listeners) {
+                l.finishedLoading();
             }
             
             StatusBarPanel.getInstance().setMessage("Finished loading files");

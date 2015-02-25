@@ -18,21 +18,33 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 package com.haskins.jcloudtrailerviewer.util;
+
+import com.haskins.jcloudtrailerviewer.model.Event;
+import java.util.Comparator;
 
 /**
  *
- * @author mark
+ * @author mark.haskins
  */
-public class JvmUtils {
-    
-    public static long getMemoryUsed() {
+public class EventTimestampComparator implements Comparator<Event> {
+
+    @Override
+    public int compare(Event o1, Event o2) {
         
-        System.gc();
-        Runtime rt = Runtime.getRuntime();
-        long usedMB = (rt.totalMemory() - rt.freeMemory()) / 1024 / 1024;
+        if (o1 == null || o2 == null) {
+            return 0;
+        }
         
-        return usedMB;
+        if (o1.getTimestamp() > o2.getTimestamp()) {
+            return 1;
+        }
+        
+        if (o1.getTimestamp() < o2.getTimestamp()) {
+            return -1;
+        }
+        
+        return 0;
     }
-    
 }

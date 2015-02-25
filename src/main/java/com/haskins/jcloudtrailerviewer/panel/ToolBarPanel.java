@@ -1,3 +1,5 @@
+
+
 package com.haskins.jcloudtrailerviewer.panel;
 
 import com.haskins.jcloudtrailerviewer.event.EventsDatabase;
@@ -230,6 +232,12 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
             window.setVisible(true);
 
             jCloudTrailViewer.DESKTOP.add(window);
+            
+            try {
+                window.setSelected(true);
+            }
+            catch (java.beans.PropertyVetoException pve) {
+            }
         }
         else {
 
@@ -247,5 +255,11 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
         securityPanel.setVisible(true);
 
         jCloudTrailViewer.DESKTOP.add(securityPanel);
+        
+        try {
+            securityPanel.setSelected(true);
+        }
+        catch (java.beans.PropertyVetoException pve) {
+        }
     }
 }

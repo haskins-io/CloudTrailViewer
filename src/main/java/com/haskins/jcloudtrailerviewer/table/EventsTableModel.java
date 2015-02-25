@@ -1,7 +1,27 @@
+/*    
+CloudTrail Log Viewer, is a Java desktop application for reading AWS CloudTrail
+logs files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.haskins.jcloudtrailerviewer.table;
 
 import com.haskins.jcloudtrailerviewer.model.Event;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -11,12 +31,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class EventsTableModel extends DefaultTableModel {
 
+    private final static String[] columnNames = new String[] {
+         "Date/Time", "Event Name", "Event Source", "User Agent"
+    };
+    
     private final static int COLUMN_DATE_TIME = 0;
     private final static int COLUMN_EVENT_NAME = 1;
-    private final static int COLUMN_USERNAME = 2;
-    private final static int COLUMN_EVENT_SOURCE = 3;
-    private final static int COLUMN_REGION = 4;
-    private final static int COLUMN_USER_AGENT = 5;
+    private final static int COLUMN_EVENT_SOURCE = 2;
+    private final static int COLUMN_USER_AGENT = 3;
         
     private List<Event> events;
     
@@ -29,7 +51,7 @@ public class EventsTableModel extends DefaultTableModel {
     public void addEvent(Event event) {
         
         if (events == null) {
-            events = new ArrayList<>();
+            events = new LinkedList<>();
         }
         
         events.add(event);
@@ -39,6 +61,18 @@ public class EventsTableModel extends DefaultTableModel {
     public Event getEventAt(int i) {
         
         return events.get(i);
+    }
+    
+    public List<Event> getEvents() {
+        return this.events;
+    }
+    
+    public int size() {
+        return events.size();
+    }
+    
+    public void reloadTableModel() {
+        fireTableDataChanged(); 
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -86,19 +120,9 @@ public class EventsTableModel extends DefaultTableModel {
                 value = event.getEventName();
                 break;
             }
-            case COLUMN_USERNAME:
-            {
-                value = "";
-                break;
-            }
             case COLUMN_EVENT_SOURCE:
             {
                 value = event.getSourceIPAddress();
-                break;
-            }
-            case COLUMN_REGION:
-            {
-                value = event.getAwsRegion();
                 break;
             }
             case COLUMN_USER_AGENT:
@@ -110,12 +134,4 @@ public class EventsTableModel extends DefaultTableModel {
 
         return value;
     } 
-    
-    ////////////////////////////////////////////////////////////////////////////
-    // Private methods
-    ////////////////////////////////////////////////////////////////////////////
-    
-    private final static String[] columnNames = new String[] {
-         "Date/Time", "Event Name", "Username", "Event Source", "Region", "User Agent"
-    };
 }

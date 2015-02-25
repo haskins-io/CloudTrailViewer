@@ -1,19 +1,34 @@
+/*    
+CloudTrail Log Viewer, is a Java desktop application for reading AWS CloudTrail
+logs files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.haskins.jcloudtrailerviewer.util;
 
-import com.haskins.jcloudtrailerviewer.event.EventsDatabase;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -36,8 +51,6 @@ import org.jfree.ui.HorizontalAlignment;
  * @author mark.haskins
  */
 public class ChartCreator {
-    
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     
     public static ChartPanel createPieChart(
             List<Entry<String,Integer>> events, 
@@ -122,15 +135,9 @@ public class ChartCreator {
                 
                 String dateTime = serviceIterator.next();
                 int tps = serviceData.get(dateTime);
-                
-                try {
-                    // create a date object
-                    RegularTimePeriod t = new FixedMillisecond(sdf.parse(dateTime).getTime());                   
-                    series.add(t, tps);
-                    
-                } catch (ParseException ex) {
-                    Logger.getLogger(EventsDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                }
+               
+                RegularTimePeriod t = new FixedMillisecond(EventUtils.getTimestamp(dateTime));                   
+                series.add(t, tps);     
             }
             
             dataset.addSeries(series);
