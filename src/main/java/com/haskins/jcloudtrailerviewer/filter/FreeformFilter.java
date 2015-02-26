@@ -30,10 +30,10 @@ public class FreeformFilter extends AbstractEventFilter {
     
     private String value;
     
-    public void setValue(String value) {
+    @Override
+    public void setNeedle(String value) {
         
         this.value = value;
-        filterChanged();
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -50,7 +50,7 @@ public class FreeformFilter extends AbstractEventFilter {
             
         } else {
             
-            String lowerJSON = event.getRawJSON().toLowerCase();
+            String lowerJSON = event.toString().toLowerCase();
             String lowerFilter = this.value.toLowerCase();
 
             if (lowerJSON.contains(lowerFilter)) {

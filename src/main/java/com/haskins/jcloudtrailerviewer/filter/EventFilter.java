@@ -28,6 +28,7 @@ import com.haskins.jcloudtrailerviewer.model.Event;
  */
 public interface EventFilter {
     
+    public void setNeedle(String value);
+    
     public boolean passesFilter(Event event);
-    public void addListener(EventFilterListener l);
 }

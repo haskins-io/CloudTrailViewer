@@ -38,6 +38,13 @@ public class Filters {
         this.filters.add(filter);
     }
     
+    public void setFilterCriteria(String value) {
+        
+        for (EventFilter filter : filters) {
+            filter.setNeedle(value);
+        }
+    }
+    
     public CopyOnWriteArrayList<Event> filterEvents(Collection<Event> events) {
         
         CopyOnWriteArrayList<Event> filteredEvents = new CopyOnWriteArrayList<>();

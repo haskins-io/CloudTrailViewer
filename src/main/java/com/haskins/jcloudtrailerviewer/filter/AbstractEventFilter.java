@@ -21,8 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.jcloudtrailerviewer.filter;
 
 import com.haskins.jcloudtrailerviewer.model.Event;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  *
@@ -32,27 +30,5 @@ public abstract class AbstractEventFilter implements EventFilter {
     
     @Override
     public abstract boolean passesFilter(Event awsEvent);
-    
-    private final List<EventFilterListener> listeners = new LinkedList<>();
-    
-    
-    ////////////////////////////////////////////////////////////////////////////
-    ///// public methods
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void addListener(EventFilterListener l) {
         
-        this.listeners.add(l);
-    }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    ///// protected methods
-    ////////////////////////////////////////////////////////////////////////////
-    protected void filterChanged() {
-        
-        for (EventFilterListener l : this.listeners) {
-            
-            l.onFilterChanged();
-        }
-    }
 }

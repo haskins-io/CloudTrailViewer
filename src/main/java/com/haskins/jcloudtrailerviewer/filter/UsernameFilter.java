@@ -30,10 +30,10 @@ public class UsernameFilter extends AbstractEventFilter {
     
     private String username;
     
-    public void setUsername(String username) {
+    @Override
+    public void setNeedle(String username) {
         
         this.username = username;
-        filterChanged();
     }
     
     ////////////////////////////////////////////////////////////////////////////

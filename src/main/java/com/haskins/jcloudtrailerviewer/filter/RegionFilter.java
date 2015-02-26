@@ -30,7 +30,8 @@ public class RegionFilter extends AbstractEventFilter {
     
     private String region;
     
-    public void setRegion(String region) {
+    @Override
+    public void setNeedle(String region) {
         this.region = region;
     }
     

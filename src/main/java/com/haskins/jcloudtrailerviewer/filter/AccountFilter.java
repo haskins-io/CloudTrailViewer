@@ -30,10 +30,10 @@ public class AccountFilter extends AbstractEventFilter {
     
     private String account;
     
-    public void setAccount(String account) {
+    @Override
+    public void setNeedle(String account) {
         
         this.account = account;
-        filterChanged();
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ public class AccountFilter extends AbstractEventFilter {
             
             String needle = event.getUserIdentity().getAccountId();
 
-            if (needle != null && needle.equalsIgnoreCase(this.account)) {
+            if (needle != null && needle.contains(this.account)) {
                 passesFilter = true;
             }
         }

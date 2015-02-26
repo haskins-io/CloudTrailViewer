@@ -30,10 +30,10 @@ public class EventNameFilter extends AbstractEventFilter {
     
     private String eventName;
     
-    public void setEventName(String eventName) {
+    @Override
+    public void setNeedle(String eventName) {
         
         this.eventName = eventName;
-        filterChanged();
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ public class EventNameFilter extends AbstractEventFilter {
             
             String needle = event.getEventName();
 
-            if (needle != null && needle.equalsIgnoreCase(this.eventName)) {
+            if (needle != null && needle.contains(this.eventName)) {
                 passesFilter = true;
             }
         }
