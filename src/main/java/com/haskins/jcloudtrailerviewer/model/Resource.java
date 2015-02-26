@@ -61,4 +61,15 @@ public class Resource {
     public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
+    
+    @Override
+    public String toString() {
+        
+        StringBuilder modelData = new StringBuilder();
+        
+        if (getARN() != null) { modelData.append(getARN()).append(", "); }
+        if (getAccountId() != null) { modelData.append(getAccountId()).append(", "); }
+        
+        return modelData.toString();
+    }
 }

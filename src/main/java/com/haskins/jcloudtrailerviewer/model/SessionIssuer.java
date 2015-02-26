@@ -112,4 +112,18 @@ public class SessionIssuer {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+    
+    @Override
+    public String toString() {
+        
+        StringBuilder modelData = new StringBuilder();
+        
+        if (getType() != null) { modelData.append(getType()).append(", "); }
+        if (getPrincipalId() != null) { modelData.append(getPrincipalId()).append(", "); }
+        if (getArn() != null) { modelData.append(getArn()).append(", "); }
+        if (getAccountId() != null) { modelData.append(getAccountId()).append(", "); }
+        if (getUserName() != null) { modelData.append(getUserName()).append(", "); }
+        
+        return modelData.toString();
+    }
 }

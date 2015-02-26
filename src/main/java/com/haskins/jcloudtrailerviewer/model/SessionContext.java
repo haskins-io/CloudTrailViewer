@@ -62,4 +62,15 @@ public class SessionContext {
     public void setSessionIssuer(SessionIssuer sessionIssuer) {
         this.sessionIssuer = sessionIssuer;
     }
+    
+    @Override
+    public String toString() {
+        
+        StringBuilder modelData = new StringBuilder();
+        
+        if (getAttributes() != null) { modelData.append(getAttributes().toString()).append(", "); }
+        if (getSessionIssuer() != null) { modelData.append(getSessionIssuer().toString()).append(", "); }
+        
+        return modelData.toString();
+    }
 }

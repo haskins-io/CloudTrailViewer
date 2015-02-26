@@ -375,4 +375,31 @@ public class Event {
     public void setApiVersion(String apiVersion) {
         this.apiVersion = apiVersion;
     }
+    
+    @Override
+    public String toString() {
+        
+        StringBuilder modelData = new StringBuilder();
+        
+        if (getEventVersion() != null) { modelData.append(getEventVersion()).append(", "); }
+        if (getUserIdentity() != null) { modelData.append(getUserIdentity().toString()).append(", "); }
+        if (getEventTime() != null) { modelData.append(getEventTime()).append(", "); }
+        if (getEventSource() != null) { modelData.append(getEventSource()).append(", "); }
+        if (getEventName() != null) { modelData.append(getEventName()).append(", "); }
+        if (getAwsRegion() != null) { modelData.append(getAwsRegion()).append(", "); }
+        if (getSourceIPAddress() != null) { modelData.append(getSourceIPAddress()).append(", "); }
+        if (getUserAgent() != null) { modelData.append(getUserAgent()).append(", "); }
+        if (getRequestParameters() != null) { modelData.append(getRequestParameters().toString()).append(", "); }
+        if (getResponseElements() != null) { modelData.append(getResponseElements().toString()).append(", "); }
+        if (getRequestId() != null) { modelData.append(getRequestId()).append(", "); }
+        if (getEventId() != null) { modelData.append(getEventId()).append(", "); }
+        if (getErrorCode() != null) { modelData.append(getErrorCode()).append(", "); }
+        if (getErrorMessage() != null) { modelData.append(getErrorMessage()).append(", "); }
+        if (getReadOnly() != null) { modelData.append(getReadOnly()).append(", "); }
+        if (getResources() != null) { modelData.append(getResources().toString()).append(", "); }
+        if (getEventType() != null) { modelData.append(getEventType()).append(", "); }
+        if (getRecipientAccountId() != null) { modelData.append(getRecipientAccountId()).append(", "); }
+        
+        return modelData.toString();
+    }
 }

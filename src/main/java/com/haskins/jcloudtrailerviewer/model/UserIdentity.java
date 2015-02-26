@@ -177,4 +177,22 @@ public class UserIdentity {
     public void setWebIdFederationData(String webIdFederationData) {
         this.webIdFederationData = webIdFederationData;
     }
+    
+    @Override
+    public String toString() {
+        
+        StringBuilder modelData = new StringBuilder();
+        
+        if (getType() != null) { modelData.append(getType()).append(", "); }
+        if (getPrincipalId() != null) { modelData.append(getPrincipalId()).append(", "); }
+        if (getArn() != null) { modelData.append(getArn()).append(", "); }
+        if (getAccountId() != null) { modelData.append(getAccountId()).append(", "); }
+        if (getAccessKeyId() != null) { modelData.append(getAccessKeyId()).append(", "); }
+        if (getUserName() != null) { modelData.append(getUserName()).append(", "); }
+        if (getInvokedBy() != null) { modelData.append(getInvokedBy()).append(", "); }
+        if (getSessionContext() != null) { modelData.append(getSessionContext().toString()).append(", "); }
+        if (getWebIdFederationData() != null) { modelData.append(getWebIdFederationData()).append(", "); }
+        
+        return modelData.toString();
+    }
 }
