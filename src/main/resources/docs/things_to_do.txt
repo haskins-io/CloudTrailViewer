@@ -1,9 +1,0 @@
-
-New Features - ToDO
-===================
-
-Implement Chart Drill Down
-TPS Chart
-Time Search - As table
-Make Charts from Above tables
-
