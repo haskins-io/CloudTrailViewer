@@ -20,9 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.jcloudtrailerviewer;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -64,8 +65,8 @@ public class PropertiesSingleton {
         try {
             configProp.load(in);
             configLoaded = true;
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Logger.getLogger(PropertiesSingleton.class.getName()).log(Level.WARNING, "No config file found");
         }
     }
 }
