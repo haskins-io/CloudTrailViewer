@@ -87,7 +87,6 @@ public class EventsDatabase implements EventLoaderListener {
                 
                 for (Event event : events) {
                     
-                    EventUtils.addRawJson(event);
                     EventUtils.addTimestamp(event);
                     
                     tpsPerService(event);
@@ -103,9 +102,7 @@ public class EventsDatabase implements EventLoaderListener {
     }
     
     @Override
-    public void finishedLoading() {
-        
-    }
+    public void finishedLoading() { }
         
     ////////////////////////////////////////////////////////////////////////////
     ///// Private methods
