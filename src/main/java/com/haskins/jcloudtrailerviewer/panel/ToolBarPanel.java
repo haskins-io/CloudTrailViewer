@@ -8,7 +8,6 @@ import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
-import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -17,7 +16,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,12 +31,9 @@ import javax.swing.JToolBar;
  */
 public class ToolBarPanel extends JToolBar implements ActionListener, KeyListener {
 
-    private final EventUtils eventUtils = new EventUtils();
-
     private final EventsDatabase eventsDatabase;
 
     private final Filters filters = new Filters();
-    private final FreeformFilter freeFormFilter = new FreeformFilter();
     
     private final JTextField searchBox = new JTextField();
 
@@ -46,8 +41,7 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
 
         eventsDatabase = database;
 
-        filters.addEventFilter(freeFormFilter);
-
+        addRequiredFilters();
         buildToolBar();
     }
     
@@ -62,10 +56,9 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
             if (!eventsDatabase.getEvents().isEmpty()) {
 
                 String searchCriteria = searchBox.getText().trim();
-
                 if (searchCriteria.length() > 0) {
                     
-                    freeFormFilter.setValue(searchCriteria);
+                    filters.setFilterCriteria(searchCriteria);
                     List<Event> events = filters.filterEvents(eventsDatabase.getEvents());
 
                     TableWindow window = new TableWindow("Filtered by : " + searchCriteria, events);
@@ -116,10 +109,13 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
             case "SecurityScan":
                 securityScan();
                 break;
-                
         }
     }
 
+    private void addRequiredFilters() {
+        filters.addEventFilter(new FreeformFilter());
+    }
+    
     private void buildToolBar() {
 
         this.setFloatable(false);
@@ -188,7 +184,6 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
         }
         catch (Exception e) {
         }
-
         
         searchBox.setSize(220, 20);
         searchBox.addKeyListener(this);
@@ -206,9 +201,7 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
 
             if (chartData != null) {
 
-                List<Map.Entry<String, Integer>> events = eventUtils.getRequiredEvents(eventsDatabase.getEvents(), chartData);
-
-                ChartWindow chart = new ChartWindow(chartData, events);
+                ChartWindow chart = new ChartWindow(chartData, eventsDatabase.getEvents());
                 chart.setVisible(true);
 
                 jCloudTrailViewer.DESKTOP.add(chart);

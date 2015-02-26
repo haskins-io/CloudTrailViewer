@@ -70,9 +70,6 @@ public class MenuPanel extends JMenuBar implements ActionListener {
             case "EventsByService":
                 showEventsByServiceChart();
                 break;
-            case "ServiceTps":
-                showServiceTpsChart();
-                break;
         }
     }
         
@@ -130,25 +127,27 @@ public class MenuPanel extends JMenuBar implements ActionListener {
         eventsByService.setActionCommand("EventsByService");
         eventsByService.addActionListener(this);
         
-        JMenuItem serviceTps = new JMenuItem("Service Tps");
-        serviceTps.setActionCommand("ServiceTps");
-        serviceTps.addActionListener(this);
-        
         menuServices.add(eventsByService);
-        menuServices.add(serviceTps);
 
+        
+        // -- Menu : About
+        JMenu menuAbout = new JMenu("Help");
+        
+        JMenuItem about = new JMenuItem("Version " + jCloudTrailViewer.VERSION);
+        
+        menuAbout.add(about);
+        
         this.add(menuFile);
         this.add(menuEvents);
         this.add(menuServices);
+        this.add(menuAbout);
     }
     
     private void loadFiles() {
-        
         eventLoader.showFileBrowser();
     }
     
     private void loadS3Files() {
-        
         eventLoader.showS3Browser();
     }
     
@@ -161,24 +160,6 @@ public class MenuPanel extends JMenuBar implements ActionListener {
         List<Map.Entry<String, Integer>> events = EventUtils.entriesSortedByValues(eventsDatabase.getEventsPerService());
 
         ChartWindow chart = new ChartWindow(chartData, events);
-        chart.setVisible(true);
-
-        jCloudTrailViewer.DESKTOP.add(chart);
-        
-        try {
-            chart.setSelected(true);
-        }
-        catch (java.beans.PropertyVetoException pve) {
-        }
-    }
-    
-    private void showServiceTpsChart() {
-        
-        ChartData chartData = new ChartData();
-        chartData.setChartStyle("TimeSeries");
-        chartData.setChartSource("Service TPS");
-
-        ChartWindow chart = new ChartWindow(chartData, eventsDatabase.getTransactionsPerService());
         chart.setVisible(true);
 
         jCloudTrailViewer.DESKTOP.add(chart);

@@ -20,8 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.jcloudtrailerviewer.panel;
 
-import com.haskins.jcloudtrailerviewer.filter.Filters;
-import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
@@ -39,7 +37,6 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
@@ -67,9 +64,6 @@ public class TableWindow extends JInternalFrame
     private final JTextArea rawJsonPanel = new JTextArea();
     private final JTextField searchBox = new JTextField();
     
-    private final Filters filters = new Filters();
-    private final FreeformFilter freeFormFilter = new FreeformFilter();
-
     private final EventUtils eventFilter = new EventUtils();
     
     private final List<Event> events = new LinkedList<>();
@@ -85,8 +79,6 @@ public class TableWindow extends JInternalFrame
         tableModel = new EventsTableModel();
         tableModel.setData(events);
         
-        filters.addEventFilter(freeFormFilter);
-
         buildUI();
     }
 
@@ -167,6 +159,10 @@ public class TableWindow extends JInternalFrame
     private void showEventDetail(Event event) {
 
         detailTableModel.showDetail(event);
+        
+        if (event.getRawJSON() == null || event.getRawJSON().isEmpty()) {
+            EventUtils.addRawJson(event);
+        }
         rawJsonPanel.setText(event.getRawJSON());
     }
 
@@ -176,9 +172,7 @@ public class TableWindow extends JInternalFrame
 
         if (chartData != null) {
 
-            List<Map.Entry<String, Integer>> filteredEvents = eventFilter.getRequiredEvents(events, chartData);
-
-            ChartWindow chart = new ChartWindow(chartData, filteredEvents);
+            ChartWindow chart = new ChartWindow(chartData, events);
             chart.setVisible(true);
 
             jCloudTrailViewer.DESKTOP.add(chart);

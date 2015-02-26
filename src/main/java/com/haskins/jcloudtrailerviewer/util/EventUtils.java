@@ -93,10 +93,9 @@ public class EventUtils {
         } catch (IOException ex) {
             Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        
     }            
                 
-    public List<Entry<String,Integer>> getRequiredEvents(List<Event> masterEvents, ChartData chartData) {
+    public static List<Entry<String,Integer>> getRequiredEvents(List<Event> masterEvents, ChartData chartData) {
                 
         List<Entry<String,Integer>> events = getEventsBySource(masterEvents, chartData);
         
@@ -107,7 +106,7 @@ public class EventUtils {
         return events;
     }
     
-    private List<Entry<String,Integer>> getEventsBySource(List<Event> masterEvents, ChartData chartData) {
+    private static List<Entry<String,Integer>> getEventsBySource(List<Event> masterEvents, ChartData chartData) {
         
         Map<String, Integer> eventsByOccurance = new HashMap<>();
         
@@ -137,7 +136,7 @@ public class EventUtils {
         }
     }
     
-    private List<Entry<String,Integer>> getTopX(List<Entry<String,Integer>> sorted, ChartData chartData) {
+    private static List<Entry<String,Integer>> getTopX(List<Entry<String,Integer>> sorted, ChartData chartData) {
         
        List<Entry<String,Integer>> top = new ArrayList<>();
         
@@ -147,14 +146,13 @@ public class EventUtils {
         }
         
         for (int i=0; i<count; i++) {
-            
             top.add(sorted.get(i));
         }
         
         return top;
     }
     
-    private String getEventProperty(String property, Event event) {
+    private static String getEventProperty(String property, Event event) {
         
         String requiredValue = null;
                 
@@ -178,7 +176,7 @@ public class EventUtils {
         return requiredValue;
     }
     
-    private Object callMethod(String property, Object reflectionClass) {
+    private static Object callMethod(String property, Object reflectionClass) {
         
         Object result;
         
@@ -196,7 +194,7 @@ public class EventUtils {
         return result;
     }
     
-    private boolean isRootEvent(Event event) {
+    private static boolean isRootEvent(Event event) {
         
         boolean isRootEvent = false;
         

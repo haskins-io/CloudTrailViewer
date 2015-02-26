@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.jcloudtrailerviewer.util;
 
+import com.haskins.jcloudtrailerviewer.model.ChartData;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -52,14 +53,15 @@ import org.jfree.ui.HorizontalAlignment;
  */
 public class ChartCreator {
     
-    public static ChartPanel createPieChart(
+    public static ChartPanel createTopPieChart(
+            ChartData chartData,
             List<Entry<String,Integer>> events, 
             int width, int height) {
         
         DefaultPieDataset dataset = new DefaultPieDataset();
         
-        int count = 5;
-        if (events.size() < 5) {
+        int count = chartData.getTop();
+        if (events.size() < chartData.getTop()) {
             count = events.size();
         }
         
