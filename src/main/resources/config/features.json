@@ -1,0 +1,11 @@
+{
+  "Menus": [
+    {
+      "Menu":"AWS Services",
+      "SubMenu":"EC2",
+      "Name":"Launched EC2s",
+      "Panel":"ScanTablePanel",
+      "Actions": [ "RunInstances", "StartInstances" ]
+    }
+  ]
+}
