@@ -120,7 +120,7 @@ public class ChartWindow extends JInternalFrame implements ActionListener, Chart
                 chartSelect = categoryItemEntity.getCategory().toString(); 
             }
 
-            if (chartSelect != null) {
+            if (chartSelect != null && events != null) {
 
                 filters.setFilterCriteria(chartSelect);
                 List<Event> filteredEvents = filters.filterEvents(events);
