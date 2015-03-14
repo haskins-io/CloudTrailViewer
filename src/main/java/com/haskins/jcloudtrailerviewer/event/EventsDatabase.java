@@ -103,6 +103,9 @@ public class EventsDatabase implements EventLoaderListener {
     
     @Override
     public void finishedLoading() { }
+    
+    @Override
+    public void newMessage(String message) {}
         
     ////////////////////////////////////////////////////////////////////////////
     ///// Private methods

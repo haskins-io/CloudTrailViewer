@@ -31,5 +31,7 @@ public interface EventLoaderListener {
     
     public void newEvents(List<Event> events);
     
+    public void newMessage(String message);
+    
     public void finishedLoading();
 }

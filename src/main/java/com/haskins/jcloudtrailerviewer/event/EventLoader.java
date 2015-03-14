@@ -77,7 +77,7 @@ public class EventLoader {
         int status = fileChooser.showOpenDialog(jCloudTrailViewer.DESKTOP);
         if (status == JFileChooser.APPROVE_OPTION) {
 
-            StatusBarPanel.getInstance().setMessage("Loading Files from Disk");
+            postMessage("Loading Files from Disk");
 
             SwingWorker worker = new SwingWorker<Void, Void>() {
 
@@ -113,7 +113,7 @@ public class EventLoader {
 
         if (!files.isEmpty()) {
 
-            StatusBarPanel.getInstance().setMessage("Loading Files from S3");
+            postMessage("Loading Files from S3");
 
             SwingWorker worker = new SwingWorker<Void, Void>() {
 
@@ -141,7 +141,7 @@ public class EventLoader {
                 
                 try {
                     
-                    StatusBarPanel.getInstance().setMessage("Processing file " + count + " of " + numFiles);
+                    postMessage("Processing file " + count + " of " + numFiles);
                     readLogFile(file);
                 }
                 catch (IOException ex) {
@@ -149,7 +149,7 @@ public class EventLoader {
                 }
             }
             
-            StatusBarPanel.getInstance().setMessage("Finished loading files");
+            postMessage("Finished loading files");
             
             for (EventLoaderListener l : listeners) {
                 l.finishedLoading();
@@ -179,7 +179,7 @@ public class EventLoader {
                 
                 try {
                     
-                    StatusBarPanel.getInstance().setMessage("Processing file " + count + " of " + numFiles);
+                    postMessage("Processing file " + count + " of " + numFiles);
                     
                     readS3File(s3Client, bucketName, key);
                 }
@@ -192,7 +192,7 @@ public class EventLoader {
                 l.finishedLoading();
             }
             
-            StatusBarPanel.getInstance().setMessage("Finished loading files");
+            postMessage("Finished loading files");
         }
     }
 
@@ -282,6 +282,14 @@ public class EventLoader {
         for (EventLoaderListener l : listeners) {
 
             l.newEvents(events);
+        }
+    }
+    
+    private void postMessage(String message) {
+        
+        for (EventLoaderListener l : listeners) {
+
+            l.newMessage(message);
         }
     }
 }
