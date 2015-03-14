@@ -1,3 +1,22 @@
+/*    
+CloudTrail Log Viewer, is a Java desktop application for reading AWS CloudTrail
+logs files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 
 package com.haskins.jcloudtrailerviewer.panel;
@@ -14,7 +33,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.net.URL;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -127,11 +145,14 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
         btnNewChart.setToolTipText("Add new Chart");
         btnNewChart.addActionListener(this);
 
+        ClassLoader cl = this.getClass().getClassLoader();
+        
         try {
-            URL imageUrl = jCloudTrailViewer.class.getResource("../../../icons/chart-pie.png");
-            btnNewChart.setIcon(new ImageIcon(imageUrl));
+            
+            btnNewChart.setIcon(new ImageIcon(cl.getResource("icons/chart-pie.png")));
         }
         catch (Exception e) {
+            System.out.println(e.getMessage());
             btnNewChart.setText("New Chart");
         }
 
@@ -142,8 +163,7 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
         btnEvents.addActionListener(this);
 
         try {
-            URL imageUrl = jCloudTrailViewer.class.getResource("../../../icons/table.gif");
-            btnEvents.setIcon(new ImageIcon(imageUrl));
+            btnEvents.setIcon(new ImageIcon(cl.getResource("icons/table.gif")));
         }
         catch (Exception e) {
             btnEvents.setText("Events");
@@ -156,8 +176,7 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
         btnSecurityScan.addActionListener(this);
 
         try {
-            URL imageUrl = jCloudTrailViewer.class.getResource("../../../icons/lock.png");
-            btnSecurityScan.setIcon(new ImageIcon(imageUrl));
+            btnSecurityScan.setIcon(new ImageIcon(cl.getResource("icons/lock.png")));
         }
         catch (Exception e) {
             btnSecurityScan.setText("Security Scan");
@@ -177,9 +196,8 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
         searchPanel.setPreferredSize(new Dimension(250, 20));
 
         try {
-            URL imageUrl = jCloudTrailViewer.class.getResource("../../../icons/Search.png");
             JLabel searchIcon = new JLabel();
-            searchIcon.setIcon(new ImageIcon(imageUrl));
+            searchIcon.setIcon(new ImageIcon(cl.getResource("icons/Search.png")));
             searchPanel.add(searchIcon, BorderLayout.WEST);
         }
         catch (Exception e) {
