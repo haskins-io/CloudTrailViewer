@@ -25,16 +25,29 @@ import com.haskins.jcloudtrailerviewer.event.EventLoader;
 import com.haskins.jcloudtrailerviewer.event.EventsDatabase;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
+import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
+import com.haskins.jcloudtrailerviewer.model.MenusDefinition;
+import com.haskins.jcloudtrailerviewer.util.ConstantsActions;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
@@ -47,10 +60,16 @@ public class MenuPanel extends JMenuBar implements ActionListener {
     private final EventsDatabase eventsDatabase;
     private final EventLoader eventLoader;
     
+    private final Map<String, JMenu> menusMap = new HashMap<>();
+    
+    private final List<String> allowableMenuPanels = new ArrayList<>();
+    
     public MenuPanel(EventLoader eventLoader, EventsDatabase database) {
         
         this.eventLoader = eventLoader;
         eventsDatabase = database;
+        
+        allowableMenuPanels.addAll(Arrays.asList("ScanTablePanel"));
         
         buildMenu();
     }
@@ -140,6 +159,9 @@ public class MenuPanel extends JMenuBar implements ActionListener {
         this.add(menuFile);
         this.add(menuEvents);
         this.add(menuServices);
+        
+        createMenusFromFile();
+        
         this.add(menuAbout);
     }
     
@@ -168,6 +190,143 @@ public class MenuPanel extends JMenuBar implements ActionListener {
             chart.setSelected(true);
         }
         catch (java.beans.PropertyVetoException pve) {
+        }
+    }
+        
+    private void createMenusFromFile() {
+        
+        ObjectMapper mapper = new ObjectMapper();
+        
+        MenusDefinition menus = null;
+        
+        try {
+            
+            String path = "./config/features.json";
+            menus = mapper.readValue(new File(path), MenusDefinition.class);
+
+        } catch (Exception e1) {
+            
+            Logger.getLogger(MenuPanel.class.getName()).log(Level.WARNING, "Couldn't load features");
+                        
+            try {
+                
+                /**
+                 * This is here so I can find the file when running with within netbeans
+                 */
+                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+                File file = new File(classloader.getResource("config/features.json").getFile());
+
+                menus = mapper.readValue(file, MenusDefinition.class);
+                
+            } catch (Exception e2) {
+                Logger.getLogger(PropertiesSingleton.class.getName()).log(Level.WARNING, "Still no features file found");
+            }
+        }  
+        
+        if (menus != null) {
+            createMenusFromModels(menus);
+        }
+    }
+      
+    private JMenu getMenu(String name, JMenu parent) {
+
+        JMenu menu = null;
+        
+        int numMenus=parent.getItemCount();
+        for (int i=0; i<numMenus; i++) {
+            
+            JMenuItem tmpMenu = parent.getItem(i);
+            if (tmpMenu instanceof JMenu) {
+       
+                if (tmpMenu.getName() != null) {
+                    String tmpName = tmpMenu.getName();
+                    if (tmpName.equalsIgnoreCase(name)) {
+
+                        menu = (JMenu)tmpMenu;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return menu;
+    }
+    
+    private void createMenusFromModels(MenusDefinition menus) {
+            
+        List<MenuDefinition> definitions = menus.getMenus();
+        for (final MenuDefinition def : definitions) {
+            
+            if (!allowableMenuPanels.contains(def.getPanel())) {
+                continue;
+            }
+            
+            boolean newTopLevelMenu = false;
+            
+            String menuName = def.getMenu();
+            if (!menusMap.containsKey(menuName)) {   
+                menusMap.put(menuName, new JMenu(menuName));
+                newTopLevelMenu = true;
+            }
+            
+            JMenuItem menuItem = new JMenuItem(new AbstractAction(def.getName()) {
+
+                @Override
+                public void actionPerformed(ActionEvent t) {
+                    
+                    Object panelObj = null;
+                    try {
+                        Class<?> classz = Class.forName("com.haskins.jcloudtrailerviewer.panel." + def.getPanel());
+                        Constructor<?> constructor = classz.getConstructor(String.class, List.class);
+                        panelObj = constructor.newInstance(def.getName(), def.getActions());
+                    }
+                    catch (ClassNotFoundException | 
+                           NoSuchMethodException | 
+                           SecurityException | 
+                           InstantiationException | 
+                           IllegalAccessException | 
+                           IllegalArgumentException | 
+                           InvocationTargetException ex) {
+                        Logger.getLogger(MenuPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    if (panelObj != null) {
+                        
+                        JInternalFrame panel = (JInternalFrame)panelObj;
+                        panel.setVisible(true);
+
+                        jCloudTrailViewer.DESKTOP.add(panel);
+
+                        try {
+                            panel.setSelected(true);
+                        }
+                        catch (java.beans.PropertyVetoException pve) {
+                        }
+                    }
+                }
+            });
+            
+            JMenu parentMenu = menusMap.get(menuName);
+            
+            if (def.getSubMenu() != null && def.getSubMenu().length() > 0) {
+                
+                JMenu subMenu = getMenu(def.getSubMenu(), parentMenu);
+                if (subMenu == null) {
+                    
+                    subMenu = new JMenu(def.getSubMenu());
+                    subMenu.add(menuItem);
+                    
+                    parentMenu.add(subMenu);
+                    
+                    if (newTopLevelMenu) {
+                        this.add(parentMenu);
+                    }
+                }
+                
+            } else {
+                this.add(menuItem);
+            }
+                        
         }
     }
 }
