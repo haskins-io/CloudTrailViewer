@@ -65,7 +65,7 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
     private final DefaultListModel<String> s3ListModel = new DefaultListModel();
     private final JList s3List;
     
-    private String prefix = "";
+    private static String prefix = "";
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -75,10 +75,16 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
             addSelectedKeys();
         }
         
+        PropertiesSingleton.getInstance().setProperty("S3_Location", prefix);
         S3FileChooserDialog.dialog.setVisible(false);
     }
 
     public static List<String> showDialog(Component parent) {
+        
+        String s3_location = PropertiesSingleton.getInstance().getProperty("S3_Location");
+        if (s3_location != null) {
+            prefix = s3_location;
+        }
         
         Frame frame = JOptionPane.getFrameForComponent(parent);
         dialog = new S3FileChooserDialog(frame);
@@ -195,7 +201,9 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
             }
             else {
                 // it must be a file so we'll close the dialog
-                addSelectedKeys();                
+                addSelectedKeys();  
+                
+                PropertiesSingleton.getInstance().setProperty("S3_Location", prefix);
                 S3FileChooserDialog.dialog.setVisible(false);
             }
         }
@@ -206,7 +214,7 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         List<String> tmp = new ArrayList<>();
         this.s3ListModel.clear();
 
-        String bucketName = PropertiesSingleton.getInstance().getProperty("Bucket");
+        String bucketName = PropertiesSingleton.getInstance().getProperty("aws.bucket");
 
         ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
         listObjectsRequest.setBucketName(bucketName);
@@ -214,8 +222,8 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         listObjectsRequest.setDelimiter("/");
 
         AWSCredentials credentials= new BasicAWSCredentials(
-            PropertiesSingleton.getInstance().getProperty("Key"),
-            PropertiesSingleton.getInstance().getProperty("Secret")
+            PropertiesSingleton.getInstance().getProperty("aws.key"),
+            PropertiesSingleton.getInstance().getProperty("aws.secret")
         );
 
         AmazonS3 s3Client = new AmazonS3Client(credentials);
