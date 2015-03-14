@@ -33,7 +33,6 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,7 +45,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -62,10 +60,7 @@ public class TableWindow extends JInternalFrame
     private final EventDetailTableModel detailTableModel = new EventDetailTableModel();
 
     private final JTextArea rawJsonPanel = new JTextArea();
-    private final JTextField searchBox = new JTextField();
-    
-    private final EventUtils eventFilter = new EventUtils();
-    
+        
     private final List<Event> events = new LinkedList<>();
     
     public TableWindow(String title, List<Event> masterEvents) {
@@ -108,8 +103,8 @@ public class TableWindow extends JInternalFrame
         btnShowChart.setToolTipText("Show Chart");
 
         try {
-            URL imageUrl = jCloudTrailViewer.class.getResource("../../../icons/chart-pie.png");
-            btnShowChart.setIcon(new ImageIcon(imageUrl));
+            ClassLoader cl = this.getClass().getClassLoader();
+            btnShowChart.setIcon(new ImageIcon(cl.getResource("icons/chart-pie.png")));
         }
         catch (Exception e) {
             btnShowChart.setText("Show Chart");
