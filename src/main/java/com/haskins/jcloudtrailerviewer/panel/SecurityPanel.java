@@ -166,6 +166,8 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
         securityTableModel.reloadTableModel();
     }
     
+    @Override
+    public void newMessage(String message) {}
     
     ////////////////////////////////////////////////////////////////////////////
     ///// Private methods
