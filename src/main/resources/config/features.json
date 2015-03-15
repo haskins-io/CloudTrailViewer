@@ -28,32 +28,32 @@
         {
             "Menu": "Top",
             "Name": "Events",
-            "Property": "EventName"
+            "Property": "eventName"
         },
         {
             "Menu": "Top",
             "Name": "Users",
-            "Property": "UserIdentity.UserName"
+            "Property": "userIdentity.userName"
         },
         {
             "Menu": "Top",
             "Name": "Error Messages",
-            "Property": "ErrorMessage"
+            "Property": "errorMessage"
         },
         {
             "Menu": "Top",
             "Name": "Source",
-            "Property": "EventSource"
+            "Property": "eventSource"
         },
         {
             "Menu": "Top",
             "Name": "IP Addresses",
-            "Property": "SourceIPAddress"
+            "Property": "sourceIPAddress"
         },
         {
             "Menu": "Top",
             "Name": "User Agents",
-            "Property": "UserAgent"
+            "Property": "userAgent"
         }
     ]
 }

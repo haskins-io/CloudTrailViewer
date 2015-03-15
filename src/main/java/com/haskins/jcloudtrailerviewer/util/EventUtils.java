@@ -162,7 +162,7 @@ public class EventUtils {
             
             Object subClassObj = callMethod(parts[0], event);
             
-            if (parts[0].equalsIgnoreCase("UserIdentity")) {
+            if (parts[0].equalsIgnoreCase("userIdentity")) {
                 
                 UserIdentity userIdentity = (UserIdentity) subClassObj;
                 requiredValue = (String) callMethod(parts[1], userIdentity);
@@ -180,8 +180,10 @@ public class EventUtils {
         
         Object result;
         
+        String camelCaseProperty = property.substring(0, 1).toUpperCase() + property.substring(1);
+        
         try {
-            String getProperty = "get" + property;
+            String getProperty = "get" + camelCaseProperty;
             Method method = reflectionClass.getClass().getMethod(getProperty);
             
             result = method.invoke(reflectionClass);
