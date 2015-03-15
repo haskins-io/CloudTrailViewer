@@ -54,14 +54,14 @@ import org.jfree.ui.HorizontalAlignment;
 public class ChartCreator {
     
     public static ChartPanel createTopPieChart(
-            ChartData chartData,
+            int top,
             List<Entry<String,Integer>> events, 
             int width, int height) {
         
         DefaultPieDataset dataset = new DefaultPieDataset();
         
-        int count = chartData.getTop();
-        if (events.size() < chartData.getTop()) {
+        int count = top;
+        if (events.size() < top) {
             count = events.size();
         }
         

@@ -21,6 +21,7 @@ import com.haskins.jcloudtrailerviewer.event.EventLoaderListener;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
+import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
 import com.haskins.jcloudtrailerviewer.table.EventDetailTable;
 import com.haskins.jcloudtrailerviewer.table.EventDetailTableModel;
 import com.haskins.jcloudtrailerviewer.table.EventsTable;
@@ -62,11 +63,11 @@ public class ScanTablePanel extends JInternalFrame implements EventLoaderListene
     
     private final JTextArea rawJsonPanel = new JTextArea();
     
-    public ScanTablePanel(String windowName, List<String> actions) {
+    public ScanTablePanel(MenuDefinition menuDefinition) {
         
-        super(windowName, true, true, false, true);
+        super(menuDefinition.getName(), true, true, false, true);
         
-        scanActions = actions;
+        scanActions = menuDefinition.getActions();
                 
         eventLoader.addListener(this);
         

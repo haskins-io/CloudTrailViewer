@@ -152,7 +152,7 @@ public class EventUtils {
         return top;
     }
     
-    private static String getEventProperty(String property, Event event) {
+    public static String getEventProperty(String property, Event event) {
         
         String requiredValue = null;
                 

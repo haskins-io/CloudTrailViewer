@@ -27,15 +27,10 @@ import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
 import com.haskins.jcloudtrailerviewer.model.MenusDefinition;
-import com.haskins.jcloudtrailerviewer.util.ConstantsActions;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,16 +56,12 @@ public class MenuPanel extends JMenuBar implements ActionListener {
     private final EventLoader eventLoader;
     
     private final Map<String, JMenu> menusMap = new HashMap<>();
-    
-    private final List<String> allowableMenuPanels = new ArrayList<>();
-    
+        
     public MenuPanel(EventLoader eventLoader, EventsDatabase database) {
         
         this.eventLoader = eventLoader;
         eventsDatabase = database;
-        
-        allowableMenuPanels.addAll(Arrays.asList("ScanTablePanel"));
-        
+          
         buildMenu();
     }
     
@@ -257,10 +248,6 @@ public class MenuPanel extends JMenuBar implements ActionListener {
         List<MenuDefinition> definitions = menus.getMenus();
         for (final MenuDefinition def : definitions) {
             
-            if (!allowableMenuPanels.contains(def.getPanel())) {
-                continue;
-            }
-            
             boolean newTopLevelMenu = false;
             
             String menuName = def.getMenu();
@@ -274,25 +261,19 @@ public class MenuPanel extends JMenuBar implements ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent t) {
                     
-                    Object panelObj = null;
-                    try {
-                        Class<?> classz = Class.forName("com.haskins.jcloudtrailerviewer.panel." + def.getPanel());
-                        Constructor<?> constructor = classz.getConstructor(String.class, List.class);
-                        panelObj = constructor.newInstance(def.getName(), def.getActions());
-                    }
-                    catch (ClassNotFoundException | 
-                           NoSuchMethodException | 
-                           SecurityException | 
-                           InstantiationException | 
-                           IllegalAccessException | 
-                           IllegalArgumentException | 
-                           InvocationTargetException ex) {
-                        Logger.getLogger(MenuPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    JInternalFrame panel = null;
+                    
+                    if (def.getActions() != null && def.getActions().size() > 0) {
+                        
+                        panel = new ScanTablePanel(def);
+                        
+                    } else if (def.getProperty() != null && def.getProperty().length() > 0) {
+                        
+                        panel = new ScanChartPanel(def);
                     }
                     
-                    if (panelObj != null) {
+                    if (panel != null) {
                         
-                        JInternalFrame panel = (JInternalFrame)panelObj;
                         panel.setVisible(true);
 
                         jCloudTrailViewer.DESKTOP.add(panel);
@@ -317,14 +298,14 @@ public class MenuPanel extends JMenuBar implements ActionListener {
                     subMenu.add(menuItem);
                     
                     parentMenu.add(subMenu);
-                    
-                    if (newTopLevelMenu) {
-                        this.add(parentMenu);
-                    }
                 }
                 
             } else {
-                this.add(menuItem);
+                parentMenu.add(menuItem);
+            }
+            
+            if (newTopLevelMenu) {
+                this.add(parentMenu);
             }
                         
         }

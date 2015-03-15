@@ -1,11 +1,59 @@
 {
-  "Menus": [
-    {
-      "Menu":"AWS Services",
-      "SubMenu":"EC2",
-      "Name":"Launched EC2s",
-      "Panel":"ScanTablePanel",
-      "Actions": [ "RunInstances", "StartInstances" ]
-    }
-  ]
+    "Menus": [
+        {
+            "Menu": "AWS Services",
+            "SubMenu": "EC2",
+            "Name": "Launched EC2s",
+            "Actions": ["RunInstances", "StartInstances"]
+        },
+        {
+            "Menu": "AWS Services",
+            "SubMenu": "IAM",
+            "Name": "Policy Changes",
+            "Actions": [
+                "AttachGroupPolicy",
+                "AttachRolePolicy",
+                "AttachUserPolicy",
+                "DeleteGroupPolicy",
+                "DeleteRolePolicy",
+                "DeleteUserPolicy",
+                "DetachGroupPolicy",
+                "DetachRolePolicy",
+                "DetachUserPolicy",
+                "PutGroupPolicy",
+                "PutRolePolicy",
+                "PutUserPolicy"
+            ]
+        },
+        {
+            "Menu": "Top",
+            "Name": "Events",
+            "Property": "EventName"
+        },
+        {
+            "Menu": "Top",
+            "Name": "Users",
+            "Property": "UserIdentity.UserName"
+        },
+        {
+            "Menu": "Top",
+            "Name": "Error Messages",
+            "Property": "ErrorMessage"
+        },
+        {
+            "Menu": "Top",
+            "Name": "Source",
+            "Property": "EventSource"
+        },
+        {
+            "Menu": "Top",
+            "Name": "IP Addresses",
+            "Property": "SourceIPAddress"
+        },
+        {
+            "Menu": "Top",
+            "Name": "User Agents",
+            "Property": "UserAgent"
+        }
+    ]
 }

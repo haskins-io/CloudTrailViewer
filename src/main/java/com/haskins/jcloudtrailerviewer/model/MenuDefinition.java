@@ -33,13 +33,13 @@ public class MenuDefinition {
     
     @JsonProperty("Name")
     private String name;
-    
-    @JsonProperty("Panel")
-    private String panel;
-    
+        
     @JsonProperty("Actions")
     private List<String> actions;
-
+    
+    @JsonProperty("Property")
+    private String property;
+    
     /**
      * @return the menu
      */
@@ -83,20 +83,6 @@ public class MenuDefinition {
     }
 
     /**
-     * @return the panel
-     */
-    public String getPanel() {
-        return panel;
-    }
-
-    /**
-     * @param panel the panel to set
-     */
-    public void setPanel(String panel) {
-        this.panel = panel;
-    }
-
-    /**
      * @return the actions
      */
     public List<String> getActions() {
@@ -108,5 +94,13 @@ public class MenuDefinition {
      */
     public void setActions(List<String> actions) {
         this.actions = actions;
+    }
+    
+    public String getProperty() {
+        return property;
+    }
+
+    public void setProperty(String property) {
+        this.property = property;
     }
 }

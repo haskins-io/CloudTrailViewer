@@ -238,7 +238,7 @@ public class ChartWindow extends JInternalFrame implements ActionListener, Chart
         
         if (chartData.getChartStyle().equalsIgnoreCase("Pie")) {
 
-            chartPanel = ChartCreator.createTopPieChart(chartData, chartEvents, 480, 260);
+            chartPanel = ChartCreator.createTopPieChart(chartData.getTop(), chartEvents, 480, 260);
            
         } else if (chartData.getChartStyle().equalsIgnoreCase("Bar")) {
 
