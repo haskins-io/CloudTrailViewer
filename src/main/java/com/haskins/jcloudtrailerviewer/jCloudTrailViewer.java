@@ -69,8 +69,9 @@ public class jCloudTrailViewer extends JFrame {
 
         this.setTitle("CloudTrail viewer and analysis");
         
-        StatusBarPanel.getInstance();
-        JPanel statusBarPanel = StatusBarPanel.getInstance().getStatusBar();
+        StatusBarPanel statusBarPanel = new StatusBarPanel();
+        statusBarPanel.newMessage("Load Some Events");
+        eventLoader.addListener(statusBarPanel);
                 
         JPanel layout = new JPanel();
         layout.setLayout(new BorderLayout());

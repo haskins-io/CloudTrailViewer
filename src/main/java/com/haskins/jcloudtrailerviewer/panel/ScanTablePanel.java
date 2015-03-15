@@ -103,7 +103,7 @@ public class ScanTablePanel extends JInternalFrame implements EventLoaderListene
             
             if (scanActions.contains(event.getEventName())) {
                 if (event.getRawJSON() == null ) { EventUtils.addRawJson(event); }
-                EventUtils.addTimestamp(event);
+//                EventUtils.addTimestamp(event);
                 tableModel.addEvent(event);
             }
         }
@@ -214,8 +214,13 @@ public class ScanTablePanel extends JInternalFrame implements EventLoaderListene
         split.setAutoscrolls(false);
         split.setDividerLocation(400);
         
+        StatusBarPanel statusBarPanel = new StatusBarPanel();
+        eventLoader.addListener(statusBarPanel);
+        
         add(toolbar, BorderLayout.NORTH);
         add(split, BorderLayout.CENTER);
+        add(statusBarPanel, BorderLayout.SOUTH);
+        
     }
     
     private void showEventDetail(Event event) {

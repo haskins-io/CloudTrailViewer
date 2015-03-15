@@ -31,7 +31,7 @@ import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.Records;
 import com.haskins.jcloudtrailerviewer.panel.S3FileChooserDialog;
-import com.haskins.jcloudtrailerviewer.panel.StatusBarPanel;
+import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -277,7 +277,9 @@ public class EventLoader {
         
         List<Event> events = records.getLogEvents();
 
-        StatusBarPanel.getInstance().incrementEventsLoaded(events.size());
+        for (Event event : events) {
+            EventUtils.addTimestamp(event);
+        }
         
         for (EventLoaderListener l : listeners) {
 

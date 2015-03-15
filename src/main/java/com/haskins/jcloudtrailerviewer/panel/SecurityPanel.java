@@ -121,7 +121,7 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
             // Errors
             if (event.getErrorCode().length() > 1) {
                 if (event.getRawJSON() == null ) { EventUtils.addRawJson(event); }
-                EventUtils.addTimestamp(event);
+//                EventUtils.addTimestamp(event);
                 errorTableModel.addEvent(event);
                 tabs.setTitleAt(0, "Errors (" + errorTableModel.size() + ")");
             }
@@ -129,7 +129,7 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
             // IAM
             if (event.getEventSource().equalsIgnoreCase("iam.amazonaws.com") && actions_iam.contains(event.getEventName())) {
                 if (event.getRawJSON() == null ) { EventUtils.addRawJson(event); }
-                EventUtils.addTimestamp(event);
+//                EventUtils.addTimestamp(event);
                 iamTableModel.addEvent(event);
                 tabs.setTitleAt(1, "Iam (" + iamTableModel.size() + ")");
             }
@@ -137,7 +137,7 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
             // Security
             if (event.getEventSource().equalsIgnoreCase("ec2.amazonaws.com") && actions_network.contains(event.getEventName())) {
                 if (event.getRawJSON() == null ) { EventUtils.addRawJson(event); }
-                EventUtils.addTimestamp(event);
+//                EventUtils.addTimestamp(event);
                 securityTableModel.addEvent(event);
                 tabs.setTitleAt(2, "Network (" + securityTableModel.size() + ")");
             }
@@ -313,8 +313,12 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
         split.setAutoscrolls(false);
         split.setDividerLocation(400);
         
+        StatusBarPanel statusBarPanel = new StatusBarPanel();
+        eventLoader.addListener(statusBarPanel);
+        
         add(toolbar, BorderLayout.NORTH);
         add(split, BorderLayout.CENTER);
+        add(statusBarPanel, BorderLayout.SOUTH);
     }
     
     private void showEventDetail(Event event) {

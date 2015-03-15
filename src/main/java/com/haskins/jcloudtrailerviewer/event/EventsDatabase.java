@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.jcloudtrailerviewer.event;
 
 import com.haskins.jcloudtrailerviewer.model.Event;
-import com.haskins.jcloudtrailerviewer.panel.StatusBarPanel;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +43,6 @@ public class EventsDatabase implements EventLoaderListener {
     
     public void clear() {
         masterEvents = new CopyOnWriteArrayList<>();
-        StatusBarPanel.getInstance().setEventsLoaded(0);
     }
     
     public int size() {
@@ -87,7 +85,7 @@ public class EventsDatabase implements EventLoaderListener {
                 
                 for (Event event : events) {
                     
-                    EventUtils.addTimestamp(event);
+//                    EventUtils.addTimestamp(event);
                     
                     tpsPerService(event);
                     eventsPerService(event);

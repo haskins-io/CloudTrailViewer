@@ -185,6 +185,11 @@ public class ScanChartPanel extends JInternalFrame implements ActionListener, Ev
         menuBar.add(menuDisplay);
 
         this.setJMenuBar(menuBar);
+        
+        StatusBarPanel statusBarPanel = new StatusBarPanel();
+        eventLoader.addListener(statusBarPanel);
+
+        this.add(statusBarPanel, BorderLayout.SOUTH);
     }
 
     private void addTabs() {

@@ -20,7 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.jcloudtrailerviewer.panel;
 
-import java.awt.BorderLayout;
+import com.haskins.jcloudtrailerviewer.event.EventLoaderListener;
+import com.haskins.jcloudtrailerviewer.model.Event;
+import java.awt.GridLayout;
+import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -28,59 +32,95 @@ import javax.swing.JPanel;
  *
  * @author mark
  */
-public class StatusBarPanel {
-        
-    private static StatusBarPanel instance = null;
+public class StatusBarPanel extends JPanel implements EventLoaderListener {
     
-    private final JPanel ui = new JPanel();
-        
-    private final JLabel message = new JLabel("Load some CloudTrail events");
-    private final JLabel eventsLoaded = new JLabel("0");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd/MM/yy");
+    
+    private final JLabel lblFirstEvent = new JLabel();
+    private final JLabel lblLastEvent = new JLabel();
+    
+    private final JLabel lblMessage = new JLabel();
+    
+    private final JLabel lblEventsLoaded = new JLabel("0");
+    
+    private long firstEvent = 0;
+    private long lastEvent = 0;
                     
-    private StatusBarPanel() {
+    public  StatusBarPanel() {
         buildUI();
     }
-    
-    public static StatusBarPanel getInstance() {
-     
-        if (instance == null) {
-            instance = new StatusBarPanel();
+       
+    ////////////////////////////////////////////////////////////////////////////
+    ///// EventLoaderListener implementation
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void newEvents(List<Event> events) {
+        
+        for (Event event : events) {
+            
+            long eventTime = event.getTimestamp();
+            
+            if (firstEvent == 0 || eventTime < firstEvent) {
+                firstEvent = eventTime;
+            }
+            
+            if (lastEvent == 0 || eventTime > lastEvent) {
+                lastEvent = eventTime;
+            }   
         }
         
-        return instance;
+        incrementEventsLoaded(events.size());
     }
+
+    @Override
+    public void finishedLoading() {
         
-    public JPanel getStatusBar() {
-        return this.ui;
+        lblFirstEvent.setText(sdf.format(firstEvent));
+        lblLastEvent.setText(sdf.format(lastEvent));
+        
+        newMessage("Finished Loading Events");
+    }
+
+    @Override
+    public void newMessage(String message) {
+        lblMessage.setText(message);
+        lblMessage.setToolTipText(message);
     }
     
-    public void setEventsLoaded(int events) {
-        this.eventsLoaded.setText(String.valueOf(events));
-    }
-    public void incrementEventsLoaded(int events) {
+
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
+    private void incrementEventsLoaded(int events) {
         
-        String currentNumEvents = this.eventsLoaded.getText();
+        String currentNumEvents = this.lblEventsLoaded.getText();
         int count = Integer.valueOf(currentNumEvents);
         count = count + events;
         
-        this.eventsLoaded.setText(String.valueOf(count));
-    }
-    
-    public void setMessage(String message) {
-        
-        this.message.setText(message);
+        this.lblEventsLoaded.setText(String.valueOf(count));
+        lblEventsLoaded.setToolTipText(String.valueOf(count));
     }
 
     private void buildUI() {
   
+        JPanel leftSection = new JPanel();
+        leftSection.add(lblFirstEvent);
+        leftSection.add(new JLabel(" - "));
+        leftSection.add(lblLastEvent);
+        
+        JPanel middleSection = new JPanel();
+        middleSection.add(lblMessage);
+        
         JPanel rightSection = new JPanel();
         rightSection.add(new JLabel("Events Loaded :"));
-        rightSection.add(eventsLoaded);
+        rightSection.add(lblEventsLoaded);
         
-        this.ui.setLayout(new BorderLayout());
-        this.ui.add(message, BorderLayout.CENTER);
-        this.ui.add(rightSection, BorderLayout.EAST);
+        this.setLayout(new GridLayout(0,3));
         
-        this.ui.setVisible(true);
+        this.add(leftSection);
+        this.add(middleSection);
+        this.add(rightSection);
+        
+        this.setVisible(true);
     }
 }
