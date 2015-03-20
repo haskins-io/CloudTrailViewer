@@ -16,76 +16,85 @@
  */
 package com.haskins.jcloudtrailerviewer.panel;
 
-import com.haskins.jcloudtrailerviewer.event.EventLoader;
-import com.haskins.jcloudtrailerviewer.event.EventLoaderListener;
+import com.haskins.jcloudtrailerviewer.filter.EventFilter;
+import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
-import com.haskins.jcloudtrailerviewer.table.EventDetailTable;
-import com.haskins.jcloudtrailerviewer.table.EventDetailTableModel;
 import com.haskins.jcloudtrailerviewer.table.EventsTable;
-import com.haskins.jcloudtrailerviewer.table.EventsTableModel;
 import com.haskins.jcloudtrailerviewer.util.EventTimestampComparator;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import org.jfree.chart.ChartMouseEvent;
 
 /**
  *
  * @author mark.haskins
  */
-public class ScanTablePanel extends JInternalFrame implements EventLoaderListener {
-    
-    private final EventLoader eventLoader = new EventLoader();
-    
-    private final EventsTableModel tableModel = new EventsTableModel();
-    private final EventDetailTableModel detailTableModel = new EventDetailTableModel();
-    
-    private final List<String> scanActions;
-    
-    private final JTextArea rawJsonPanel = new JTextArea();
+public class ScanTablePanel extends AbstractInternalFrame  {
+        
+    private List<String> scanActions;
+    private String scanNeedle;
     
     public ScanTablePanel(MenuDefinition menuDefinition) {
         
-        super(menuDefinition.getName(), true, true, false, true);
+        super(menuDefinition.getName());
         
-        scanActions = menuDefinition.getActions();
+        if (menuDefinition.getActions() != null) {
+            scanActions = menuDefinition.getActions();
+        }
+        
+        if (menuDefinition.getContains() != null) {
+            
+            EventFilter filter = null;
+            
+            if (menuDefinition.getContains().contains(":")) {
                 
+                String[] parts = menuDefinition.getContains().split(":");
+                
+                String filterName = parts[0];
+                try {
+                    Class c = Class.forName("com.haskins.jcloudtrailerviewer.filter." + filterName);
+                    filter = (EventFilter)c.newInstance();
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                    Logger.getLogger(ScanTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                scanNeedle = parts[1];
+                
+            } else {
+                filter = new FreeformFilter();
+                scanNeedle = menuDefinition.getContains();
+            }
+            
+            if (filter != null) {
+                filters.addEventFilter(filter);
+            }
+        }
+               
         eventLoader.addListener(this);
         
-        Object[] options = {"Local Files", "S3 Files"};
-        int i = JOptionPane.showOptionDialog(
-            jCloudTrailViewer.DESKTOP, 
-            "Do you want to scan local files or remote files", 
-            "Choose File location", 
-            JOptionPane.YES_NO_CANCEL_OPTION, 
-            JOptionPane.QUESTION_MESSAGE, 
-            null, 
-            options, 
-            options[0]);
-        
-        if (i == 0) {
+        int scanDialogResult = showScanDialog();
+        if (scanDialogResult == 0) {
             eventLoader.showFileBrowser();
             buildUI();
-        } else if (i == 1) {
+        } else if (scanDialogResult == 1) {
             eventLoader.showS3Browser();
             buildUI();
         } else {
@@ -101,10 +110,14 @@ public class ScanTablePanel extends JInternalFrame implements EventLoaderListene
                
         for (Event event : events) {
             
-            if (scanActions.contains(event.getEventName())) {
-                if (event.getRawJSON() == null ) { EventUtils.addRawJson(event); }
-//                EventUtils.addTimestamp(event);
-                tableModel.addEvent(event);
+            if (scanActions != null && scanActions.size() > 0 && scanActions.contains(event.getEventName()) ) {
+                addEvent(event);
+            } else  {
+                
+                filters.setFilterCriteria(scanNeedle);
+                if (filters.passesFilter(event)) {
+                    addEvent(event);
+                } 
             }
         }
     }
@@ -112,9 +125,9 @@ public class ScanTablePanel extends JInternalFrame implements EventLoaderListene
     @Override
     public void finishedLoading() {
 
-        List<Event> tmpErrorList = tableModel.getEvents();
+        List<Event> tmpErrorList = eventsTableModel.getEvents();
         Collections.sort(tmpErrorList, new EventTimestampComparator());
-        tableModel.setData(tmpErrorList);
+        eventsTableModel.setData(tmpErrorList);
     }
     
     @Override
@@ -124,8 +137,6 @@ public class ScanTablePanel extends JInternalFrame implements EventLoaderListene
     ///// Private methods
     ////////////////////////////////////////////////////////////////////////////
     private void buildUI() {
-        
-        this.setLayout(new BorderLayout());
 
         this.setSize(640, 480);
         
@@ -147,7 +158,7 @@ public class ScanTablePanel extends JInternalFrame implements EventLoaderListene
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                List<Event> events = tableModel.getEvents();
+                List<Event> events = eventsTableModel.getEvents();
                                 
                 if (events != null) {
                     
@@ -176,14 +187,14 @@ public class ScanTablePanel extends JInternalFrame implements EventLoaderListene
         toolbar.setFloatable(false);
         toolbar.add(btnShowChart);
         
-        final EventsTable actionsTable = new EventsTable(tableModel);
+        final EventsTable actionsTable = new EventsTable(eventsTableModel);
         actionsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
 
                 if (e.getFirstIndex() >= 0) {
-                    Event event = tableModel.getEventAt(actionsTable.getSelectedRow());
+                    Event event = eventsTableModel.getEventAt(actionsTable.getSelectedRow());
                     showEventDetail(event);
                 }
             }
@@ -191,41 +202,42 @@ public class ScanTablePanel extends JInternalFrame implements EventLoaderListene
         actionsTable.setVisible(true);
         JScrollPane actionsScrollPane = new JScrollPane(actionsTable);
                 
-
-        // Detail area
-        EventDetailTable detailTable = new EventDetailTable(detailTableModel);
-        JScrollPane eventDetailScrollPane = new JScrollPane(detailTable);
-        JScrollPane rawJsonScrollPane = new JScrollPane(rawJsonPanel);
-
-        JTabbedPane detailPanel = new JTabbedPane();
-        detailPanel.add("Table View", eventDetailScrollPane);
-        detailPanel.add("Raw View", rawJsonScrollPane);
-        
-        rawJsonPanel.setFont(new Font("Verdana", Font.PLAIN, 12));
-
         
         // need a split pane to put everything together
         JSplitPane split = new JSplitPane();
         split.add(actionsScrollPane, JSplitPane.LEFT);
-        split.add(detailPanel, JSplitPane.RIGHT);
+        split.add(getEventDetailPanel(), JSplitPane.RIGHT);
         split.setOneTouchExpandable(true);
         split.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
         split.setDividerSize(2);
         split.setAutoscrolls(false);
         split.setDividerLocation(400);
         
-        StatusBarPanel statusBarPanel = new StatusBarPanel();
-        eventLoader.addListener(statusBarPanel);
+        addStatusBar();
         
         add(toolbar, BorderLayout.NORTH);
         add(split, BorderLayout.CENTER);
-        add(statusBarPanel, BorderLayout.SOUTH);
-        
     }
     
-    private void showEventDetail(Event event) {
-
-        detailTableModel.showDetail(event);
-        rawJsonPanel.setText(event.getRawJSON());
+    private void addEvent(Event event) {
+        eventsTableModel.addEvent(event); 
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // ChartMouseListener
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void chartMouseClicked(ChartMouseEvent cme) { }
+
+    @Override
+    public void chartMouseMoved(ChartMouseEvent cme) { }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // Abstract Methods
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    protected void updateTextArea() {}
+
+    @Override
+    protected void updateChartEvents(int newTop) { }
 }

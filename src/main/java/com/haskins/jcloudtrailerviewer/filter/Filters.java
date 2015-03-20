@@ -66,4 +66,16 @@ public class Filters {
         
         return filteredEvents;
     } 
+    
+    public boolean passesFilter(Event event) {
+        
+        boolean passed = false;
+        
+        for (EventFilter filter : filters) {
+
+            passed |= filter.passesFilter(event);
+        }
+        
+        return passed;
+    }
 }

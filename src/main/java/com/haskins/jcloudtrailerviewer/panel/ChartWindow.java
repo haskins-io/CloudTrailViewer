@@ -20,62 +20,39 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.jcloudtrailerviewer.panel;
 
-import com.haskins.jcloudtrailerviewer.filter.Filters;
 import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
-import com.haskins.jcloudtrailerviewer.util.ChartCreator;
-import com.haskins.jcloudtrailerviewer.util.EventUtils;
+import static com.haskins.jcloudtrailerviewer.panel.AbstractInternalFrame.NEWLINE;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartMouseEvent;
-import org.jfree.chart.ChartMouseListener;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.entity.PieSectionEntity;
-import org.jfree.chart.plot.PlotOrientation;
 
 /**
  *
  * @author mark.haskins
  */
-public class ChartWindow extends JInternalFrame implements ActionListener, ChartMouseListener {
-    
-    private final Filters filters = new Filters();
-    
-    private final List<Event> events;
-    private List<Map.Entry<String, Integer>> chartEvents;
-    
-    private final ChartData chartData;
-    private ChartPanel chartPanel = null;
-    
-    private final DefaultTableModel tableModel = new DefaultTableModel();   
+public class ChartWindow extends AbstractInternalFrame implements ActionListener {
     
     private final JTabbedPane tabs = new JTabbedPane();
-    private final JTextArea dataTextArea = new JTextArea();
     
     private String chartSelect = null;
         
     public ChartWindow(ChartData chartData, List data) {
         
-        super(chartData.getChartSource(), true, true, false, true);
+        super(chartData.getChartSource());
         
         this.chartData = chartData;
         
@@ -95,7 +72,13 @@ public class ChartWindow extends JInternalFrame implements ActionListener, Chart
         filters.addEventFilter(new FreeformFilter());
         
         buildGui();
-        addTabs();
+        
+        if ( (events != null && !events.isEmpty() ) || ( chartEvents != null && !chartEvents.isEmpty() )) {
+            addTabbedChartDetail(tabs, 480, 160);
+}
+        else {
+            this.add(new JLabel("No Data"), BorderLayout.CENTER);
+        }
     }
        
     ////////////////////////////////////////////////////////////////////////////
@@ -141,40 +124,15 @@ public class ChartWindow extends JInternalFrame implements ActionListener, Chart
 
     @Override
     public void chartMouseMoved(ChartMouseEvent cme) { }
-
-    ////////////////////////////////////////////////////////////////////////////
-    // ChartMouseListener
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        
-        String actionCommand = e.getActionCommand();
-        
-        switch(actionCommand) {
-            case "Top5":
-                changeTop(5);
-                reloadTable();
-                reloadData();
-                break;
-            case "Top10":
-                changeTop(10);
-                reloadTable();
-                reloadData();
-                break;
-        }
-    }
     
     ////////////////////////////////////////////////////////////////////////////
     // Private Methods
     ////////////////////////////////////////////////////////////////////////////
     private void buildGui() {
         
-        tableModel.addColumn("Property");
-        tableModel.addColumn("Value");
+        defaultTableModel.addColumn("Property");
+        defaultTableModel.addColumn("Value");
         
-        this.setLayout(new BorderLayout());
-        
-        this.setTitle(chartData.getChartSource());
         this.setSize(500, 280);
         
         JMenuItem mnuTop5 = new JMenuItem("Top 5");
@@ -199,99 +157,41 @@ public class ChartWindow extends JInternalFrame implements ActionListener, Chart
         menuBar.add(menuDisplay);
         
         this.setJMenuBar(menuBar);
-    }
-    
-    private void addTabs() {
         
-        if ( (events != null && !events.isEmpty() ) || ( chartEvents != null && !chartEvents.isEmpty() )) {
-            
-            createChart();
-            if (chartPanel != null) {
-                tabs.addTab("Chart", chartPanel);
-            }
-            
-            
-            JTable table = new JTable(tableModel);
-            table.setPreferredSize(new Dimension(480, 260));
-            reloadTable();
-            tabs.addTab("Table", table); 
-            
-            
-            dataTextArea.setPreferredSize(new Dimension(600, 440));
-            dataTextArea.setFont(new Font("Verdana", Font.PLAIN, 12));
-            reloadData();
-            tabs.addTab("Data", dataTextArea); 
-            
-            this.add(tabs, BorderLayout.CENTER);
-        }
-        else {
-            this.add(new JLabel("No Data"), BorderLayout.CENTER);
-        }
+        this.add(tabs, BorderLayout.CENTER);
     }
-    
-    private void generateInitialChartData() {
         
-        chartEvents = EventUtils.getRequiredEvents(events, chartData);
+    @Override
+    protected void updateChartEvents(int newTop) {
+        
+        generateInitialChartData();
+        updateChart(tabs, newTop);
     }
-    
-    private void createChart() {
         
-        if (chartData.getChartStyle().equalsIgnoreCase("Pie")) {
-
-            chartPanel = ChartCreator.createTopPieChart(chartData.getTop(), chartEvents, 480, 260);
-           
-        } else if (chartData.getChartStyle().equalsIgnoreCase("Bar")) {
-
-            chartPanel = ChartCreator.createBarChart(
-                    chartEvents, 
-                    480, 260,
-                    chartData.getChartSource(), "Count",
-                    PlotOrientation.VERTICAL);
-        } 
-        
-        if (chartPanel != null) {
-            chartPanel.addChartMouseListener(this);
-        }
-    }
-     
-    private void reloadTable() {
-        
-        if (events != null) {
-            
-            // first clear down tablemodel
-            for (int i = tableModel.getRowCount() -1; i>=0; i--) {
-                tableModel.removeRow(i);
-            }
-
-            for (Entry entry : chartEvents) {
-                tableModel.addRow(new Object[] { entry.getKey(), entry.getValue() });
-            }            
-        }
-    }
-    
-    private void reloadData() {
+    @Override
+    protected void updateTextArea() {
         
         if (events != null) {
          
-            String newline = "\n";
-
             StringBuilder dataString = new StringBuilder();
-            for (Entry entry : chartEvents) {
+            for (Map.Entry entry : chartEvents) {
 
-                dataString.append(entry.getKey()).append(" : ").append(entry.getValue()).append(newline);
+                dataString.append(entry.getKey()).append(" : ").append(entry.getValue()).append(NEWLINE);
             }
 
-            dataTextArea.setText(dataString.toString());
+            eventDetailTextArea.setText(dataString.toString());
         }
     }
     
-    private void changeTop(int newTop) {
-        
-        chartData.setTop(newTop);
-        generateInitialChartData();
-        createChart();
-        tabs.remove(0);
-        tabs.insertTab("Chart", null, chartPanel, "", 0);
-        tabs.setSelectedIndex(0);
-    }
+    ////////////////////////////////////////////////////////////////////////////
+    ///// EventLoaderListener implementation
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void newEvents(List<Event> events) { }
+    
+    @Override
+    public void finishedLoading() { }
+    
+    @Override
+    public void newMessage(String message) { }
 }

@@ -239,7 +239,7 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
         
         if (!eventsDatabase.getEvents().isEmpty()) {
 
-            TableWindow window = new TableWindow("All Events", eventsDatabase.getEvents());
+            CombinedPanel window = new CombinedPanel("All Events", eventsDatabase.getEvents(), null);
             window.setVisible(true);
 
             jCloudTrailViewer.DESKTOP.add(window);

@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.jcloudtrailerviewer.util;
 
-import com.haskins.jcloudtrailerviewer.model.ChartData;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -87,12 +86,13 @@ public class ChartCreator {
         plot.setBaseSectionOutlinePaint(Color.WHITE);
         plot.setSectionOutlinesVisible(true);
         plot.setBaseSectionOutlineStroke(new BasicStroke(2.0f));
-
+        
         TextTitle t = chart.getTitle();
         t.setHorizontalAlignment(HorizontalAlignment.LEFT);
         t.setFont(new Font("Arial", Font.BOLD, 16));
         
         ChartPanel sourcePanel = new ChartPanel(chart);
+        sourcePanel.setMaximumSize(new Dimension(width, height));
         sourcePanel.setPreferredSize(new Dimension(width, height));
         
         return sourcePanel;
@@ -119,7 +119,7 @@ public class ChartCreator {
         return chartPanel;
     }
     
-    public static ChartPanel createTimeSeriesChart(String title, Map<String, Map<String, Integer>> data) {
+    public static ChartPanel createTimeSeriesChart(String title, Map<String, Map<String, Integer>> data, int width, int height) {
         
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         
@@ -162,7 +162,7 @@ public class ChartCreator {
         rangeAxis2.setAutoRangeIncludesZero(false);
 
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(320, 240));
+        chartPanel.setPreferredSize(new Dimension(width, height));
                         
         return chartPanel;
     }

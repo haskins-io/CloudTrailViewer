@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.jcloudtrailerviewer.event;
 
 import com.haskins.jcloudtrailerviewer.model.Event;
-import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

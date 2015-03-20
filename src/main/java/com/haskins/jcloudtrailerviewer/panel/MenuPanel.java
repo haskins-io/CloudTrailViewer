@@ -263,9 +263,11 @@ public class MenuPanel extends JMenuBar implements ActionListener {
                     
                     JInternalFrame panel = null;
                     
-                    if (def.getActions() != null && def.getActions().size() > 0) {
+                    if ( (def.getActions() != null && def.getActions().size() > 0) ||
+                         (def.getContains() != null && def.getContains().length() > 0) ) {
                         
-                        panel = new ScanTablePanel(def);
+                        //panel = new ScanTablePanel(def);
+                        panel = new CombinedPanel(def.getName(), null, def);
                         
                     } else if (def.getProperty() != null && def.getProperty().length() > 0) {
                         

@@ -40,6 +40,9 @@ public class MenuDefinition {
     @JsonProperty("Property")
     private String property;
     
+    @JsonProperty("Contains")
+    private String contains;
+    
     /**
      * @return the menu
      */
@@ -102,5 +105,19 @@ public class MenuDefinition {
 
     public void setProperty(String property) {
         this.property = property;
+    }
+
+    /**
+     * @return the contains
+     */
+    public String getContains() {
+        return contains;
+    }
+
+    /**
+     * @param contains the contains to set
+     */
+    public void setContains(String contains) {
+        this.contains = contains;
     }
 }

@@ -20,20 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.jcloudtrailerviewer.panel;
 
-import com.haskins.jcloudtrailerviewer.event.EventLoader;
-import com.haskins.jcloudtrailerviewer.event.EventLoaderListener;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
-import com.haskins.jcloudtrailerviewer.table.EventDetailTable;
-import com.haskins.jcloudtrailerviewer.table.EventDetailTableModel;
 import com.haskins.jcloudtrailerviewer.table.EventsTable;
 import com.haskins.jcloudtrailerviewer.table.EventsTableModel;
 import com.haskins.jcloudtrailerviewer.util.ConstantsActions;
 import com.haskins.jcloudtrailerviewer.util.EventTimestampComparator;
-import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -44,34 +38,24 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import org.jfree.chart.ChartMouseEvent;
 
 /**
  *
  * @author mark
  */
-public class SecurityPanel extends JInternalFrame implements EventLoaderListener {
-
-    private final EventUtils eventUtils = new EventUtils();
-    
-    private final EventLoader eventLoader = new EventLoader();
-    
+public class SecurityPanel extends AbstractInternalFrame {
+        
     private final EventsTableModel errorTableModel;
     private final EventsTableModel iamTableModel;
     private final EventsTableModel securityTableModel;
-    
-    private final EventDetailTableModel detailTableModel = new EventDetailTableModel();
-
-    private final JTextArea rawJsonPanel = new JTextArea();
-    
+        
     private final List<String> actions_iam = new ArrayList<>();
     private final List<String> actions_network = new ArrayList<>();
     
@@ -79,7 +63,7 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
     
     public SecurityPanel() {
         
-        super("Security", true, true, false, true);
+        super("Security");
         
         eventLoader.addListener(this);
         
@@ -92,18 +76,8 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
         
         buildUI();
         
-        Object[] options = {"Load Files", "S3 Files"};
-        int i = JOptionPane.showOptionDialog(
-            jCloudTrailViewer.DESKTOP, 
-            "Do you want to checks local files or remote files", 
-            "Choose File Location", 
-            JOptionPane.YES_NO_CANCEL_OPTION, 
-            JOptionPane.QUESTION_MESSAGE, 
-            null, 
-            options, 
-            options[0]);
-        
-        if (i == 0) {
+        int scanDialogResult = showScanDialog();
+        if (scanDialogResult == 0) {
             eventLoader.showFileBrowser();
         } else {
             eventLoader.showS3Browser();
@@ -120,7 +94,6 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
             
             // Errors
             if (event.getErrorCode().length() > 1) {
-                if (event.getRawJSON() == null ) { EventUtils.addRawJson(event); }
 //                EventUtils.addTimestamp(event);
                 errorTableModel.addEvent(event);
                 tabs.setTitleAt(0, "Errors (" + errorTableModel.size() + ")");
@@ -128,7 +101,6 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
             
             // IAM
             if (event.getEventSource().equalsIgnoreCase("iam.amazonaws.com") && actions_iam.contains(event.getEventName())) {
-                if (event.getRawJSON() == null ) { EventUtils.addRawJson(event); }
 //                EventUtils.addTimestamp(event);
                 iamTableModel.addEvent(event);
                 tabs.setTitleAt(1, "Iam (" + iamTableModel.size() + ")");
@@ -136,7 +108,6 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
             
             // Security
             if (event.getEventSource().equalsIgnoreCase("ec2.amazonaws.com") && actions_network.contains(event.getEventName())) {
-                if (event.getRawJSON() == null ) { EventUtils.addRawJson(event); }
 //                EventUtils.addTimestamp(event);
                 securityTableModel.addEvent(event);
                 tabs.setTitleAt(2, "Network (" + securityTableModel.size() + ")");
@@ -173,8 +144,6 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
     ///// Private methods
     ////////////////////////////////////////////////////////////////////////////
     private void buildUI() {
-        
-        this.setLayout(new BorderLayout());
 
         this.setSize(640, 480);
         
@@ -284,19 +253,7 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
         });
         securityTable.setVisible(true);
         JScrollPane securityScrollPane = new JScrollPane(securityTable);
-        
-
-        // Detail area
-        EventDetailTable detailTable = new EventDetailTable(detailTableModel);
-        JScrollPane eventDetailScrollPane = new JScrollPane(detailTable);
-        JScrollPane rawJsonScrollPane = new JScrollPane(rawJsonPanel);
-
-        JTabbedPane detailPanel = new JTabbedPane();
-        detailPanel.add("Table View", eventDetailScrollPane);
-        detailPanel.add("Raw View", rawJsonScrollPane);
-        
-        rawJsonPanel.setFont(new Font("Verdana", Font.PLAIN, 12));
-
+                
         
         // need a tabbed pane for the tables
         tabs.add("Errors", errorScrollPane);
@@ -306,24 +263,34 @@ public class SecurityPanel extends JInternalFrame implements EventLoaderListener
         // need a split pane to put everything together
         JSplitPane split = new JSplitPane();
         split.add(tabs, JSplitPane.LEFT);
-        split.add(detailPanel, JSplitPane.RIGHT);
+        split.add(getEventDetailPanel(), JSplitPane.RIGHT);
         split.setOneTouchExpandable(true);
         split.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
         split.setDividerSize(2);
         split.setAutoscrolls(false);
         split.setDividerLocation(400);
         
-        StatusBarPanel statusBarPanel = new StatusBarPanel();
-        eventLoader.addListener(statusBarPanel);
+        addStatusBar();
         
         add(toolbar, BorderLayout.NORTH);
         add(split, BorderLayout.CENTER);
-        add(statusBarPanel, BorderLayout.SOUTH);
     }
     
-    private void showEventDetail(Event event) {
+    ////////////////////////////////////////////////////////////////////////////
+    // ChartMouseListener
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void chartMouseClicked(ChartMouseEvent cme) { }
 
-        detailTableModel.showDetail(event);
-        rawJsonPanel.setText(event.getRawJSON());
-    }
+    @Override
+    public void chartMouseMoved(ChartMouseEvent cme) { }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // Abstract Methods
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    protected void updateTextArea() {}
+    
+    @Override
+    protected void updateChartEvents(int newTop) { }
 }
