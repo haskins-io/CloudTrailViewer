@@ -40,30 +40,58 @@ public class EventsDatabase implements EventLoaderListener {
     
     private final List<EventsDatabaseListener> listeners = new ArrayList<>();
     
+    /**
+     * Clears the database of events
+     */
     public void clear() {
         masterEvents = new CopyOnWriteArrayList<>();
     }
     
+    /**
+     * returns the size of the database
+     * @return  number of events in the database
+     */
     public int size() {
         return masterEvents.size();
     }
     
+    /**
+     * returns a specific event based on it's position in the database.
+     * @param rowIndex
+     * @return 
+     */
     public Event getRecordByIndex(int rowIndex) {
         return masterEvents.get(rowIndex);
     }
     
+    /**
+     * returns all the events in the database
+     * @return 
+     */
     public List<Event> getEvents() {
         return masterEvents;
     }
       
+    /**
+     * returns a map that holds the number of events per service.
+     * @return 
+     */
     public Map<String, Integer> getEventsPerService() {
         return eventsPerService;
     }
     
+    /**
+     * returns a map that contains the TPS of a service.
+     * @return 
+     */
     public Map<String, Map<String, Integer>> getTransactionsPerService() {
        return tpsMap;
     }
     
+    /**
+     * registers a listener to the database.
+     * @param listener 
+     */
     public void addListeners(EventsDatabaseListener listener) {
         listeners.add(listener);
     }

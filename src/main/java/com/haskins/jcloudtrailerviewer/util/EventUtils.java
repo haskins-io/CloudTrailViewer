@@ -50,6 +50,13 @@ public class EventUtils {
     
     private static final ObjectMapper mapper = new ObjectMapper();
     
+    /**
+     * 
+     * @param <K>
+     * @param <V>
+     * @param map
+     * @return 
+     */
     public static <K,V extends Comparable<? super V>> 
                 List<Entry<K, V>> entriesSortedByValues(Map<K,V> map) {
 
@@ -67,11 +74,20 @@ public class EventUtils {
         return sortedEntries;
     }
     
+    /**
+     * Adds a timestamp to the Event to be used by the EventTimestampComparator
+     * @param event 
+     */
     public static void addTimestamp(Event event) {
         
         event.setTimestamp(getTimestamp(event.getEventTime()));
     }
     
+    /**
+     * Converts a date/time String into a long
+     * @param dateString
+     * @return 
+     */
     public static long getTimestamp(String dateString) {
         
         long millis = 0;
@@ -82,7 +98,12 @@ public class EventUtils {
         
         return millis;
     }
-                
+           
+    /**
+     * converts the Event model into a JSON string and adds it to the event as
+     * the RawJSON property
+     * @param event 
+     */
     public static void addRawJson(Event event) {
         
         String rawJson;
@@ -94,7 +115,8 @@ public class EventUtils {
             Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }            
-                
+           
+    
     public static List<Entry<String,Integer>> getRequiredEvents(List<Event> masterEvents, ChartData chartData) {
                 
         List<Entry<String,Integer>> events = getEventsBySource(masterEvents, chartData);

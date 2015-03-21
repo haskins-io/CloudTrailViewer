@@ -28,6 +28,11 @@ import com.haskins.jcloudtrailerviewer.model.Event;
  */
 public abstract class AbstractEventFilter implements EventFilter {
     
+    /**
+     * Checks if the event passes a test provided by the filter
+     * @param awsEvent
+     * @return 
+     */
     @Override
     public abstract boolean passesFilter(Event awsEvent);
         

@@ -47,11 +47,20 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.ui.HorizontalAlignment;
 
 /**
- *
+ * Factory class that creates JFreeCharts based on provided parameters.
+ * 
  * @author mark.haskins
  */
 public class ChartCreator {
     
+    /**
+     * Returns a Pie chart
+     * @param top number of segments in the chart
+     * @param events events to process
+     * @param width width of chart
+     * @param height height of chart
+     * @return 
+     */
     public static ChartPanel createTopPieChart(
             int top,
             List<Entry<String,Integer>> events, 
@@ -98,6 +107,13 @@ public class ChartCreator {
         return sourcePanel;
     }
     
+    /**
+     * returns a Line Chart
+     * @param events events to process
+     * @param width width of chart
+     * @param height height of chart
+     * @return 
+     */
     public static ChartPanel createLineChart(
             List<Entry<String,Integer>> events, 
             int width, int height) {
@@ -119,6 +135,14 @@ public class ChartCreator {
         return chartPanel;
     }
     
+    /**
+     * returns a TimeSeries chart
+     * @param title title of chart
+     * @param data data to include on chart
+     * @param width width of chart
+     * @param height height of chart
+     * @return 
+     */
     public static ChartPanel createTimeSeriesChart(String title, Map<String, Map<String, Integer>> data, int width, int height) {
         
         TimeSeriesCollection dataset = new TimeSeriesCollection();
@@ -167,6 +191,16 @@ public class ChartCreator {
         return chartPanel;
     }
     
+    /**
+     * Returns a Bar chatr
+     * @param events events to include on chart
+     * @param width width of chart
+     * @param height height of chart
+     * @param xLabel xAxis label
+     * @param yLabel yAxis label
+     * @param orientation Horizontal or Vertical
+     * @return 
+     */
     public static ChartPanel createBarChart(
             List<Entry<String,Integer>> events, 
             int width, int height, 

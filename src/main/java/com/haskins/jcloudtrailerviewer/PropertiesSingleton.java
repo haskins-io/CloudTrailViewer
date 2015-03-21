@@ -41,6 +41,10 @@ public class PropertiesSingleton {
 
     private boolean configLoaded = false;
 
+    /**
+     * Returns an instance of the PropertiesSingleton class
+     * @return 
+     */
     public static PropertiesSingleton getInstance() {
 
         if (instance == null) {
@@ -52,15 +56,29 @@ public class PropertiesSingleton {
         return instance;
     }
 
+    /**
+     * adds a property
+     * @param key
+     * @param value 
+     */
     public void setProperty(String key, String value) {
         this.configProp.setProperty(key, value);
     }
     
+    /**
+     * returns a property based on a key
+     * @param key
+     * @return 
+     */
     public String getProperty(String key) {
 
         return this.configProp.getProperty(key);
     }
 
+    /**
+     * Returns a boolean if the config file has been loaded.
+     * @return 
+     */
     public boolean configLoaded() {
         return this.configLoaded;
     }
@@ -91,9 +109,5 @@ public class PropertiesSingleton {
                 Logger.getLogger(PropertiesSingleton.class.getName()).log(Level.WARNING, "Still no config file found");
             }
         }
-    }
-    
-    private void saveConfig() {
-        
     }
 }

@@ -54,6 +54,9 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
+ * The EventLoad class is responsible for loading files from either the local
+ * machine or from an S3 bucket.
+ * 
  * @author mark.haskins
  */
 public class EventLoader {
@@ -68,10 +71,20 @@ public class EventLoader {
         fileChooser.setMultiSelectionEnabled(true);
     }
     
+    /**
+     * registers the provided class as a listener to EventLoaderListener events.
+     * @param l 
+     */
     public void addListener(EventLoaderListener l) {
         this.listeners.add(l);
     }
 
+    /**
+     * Shows a JFileChooser dialog for loading files from the local machine.
+     * 
+     * If files are selected they will be read in and announced via the 
+     * EventLoaderListener interface.
+     */
     public void showFileBrowser() {
         
         int status = fileChooser.showOpenDialog(jCloudTrailViewer.DESKTOP);
@@ -107,6 +120,12 @@ public class EventLoader {
         }
     }
     
+    /**
+     * Shows the S3FileChooserDialog to load files from an S3 bucket.
+     * 
+     * If files are selected they will be read in and announced via the 
+     * EventLoaderListener interface.
+     */
     public void showS3Browser() {
         
         final List<String> files = S3FileChooserDialog.showDialog(jCloudTrailViewer.DESKTOP);

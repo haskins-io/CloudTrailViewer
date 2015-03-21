@@ -25,7 +25,8 @@ import com.haskins.jcloudtrailerviewer.model.Event;
 import java.util.Comparator;
 
 /**
- *
+ * Comparator that sorts Events by it's Timestamp, earliest first.
+ * 
  * @author mark.haskins
  */
 public class EventTimestampComparator implements Comparator<Event> {

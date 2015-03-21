@@ -27,7 +27,9 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- *
+ * A container object to which multiple Filters can be added so that the can all
+ * be checked at the same time.
+ * 
  * @author mark
  */
 public class Filters {

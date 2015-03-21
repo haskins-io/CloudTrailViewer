@@ -33,7 +33,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- *
+ * Entry class for the CloudTrailView application.
  * @author mark.haskins
  */
 public class jCloudTrailViewer extends JFrame {

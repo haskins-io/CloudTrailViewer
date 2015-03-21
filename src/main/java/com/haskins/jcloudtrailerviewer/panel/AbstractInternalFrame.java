@@ -49,7 +49,9 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.plot.PlotOrientation;
 
 /**
- *
+ * Abstract class that all JinternalFrame windows should implement. It provides
+ * common logic and functionality.
+ * 
  * @author mark.haskins
  */
 public abstract class AbstractInternalFrame extends JInternalFrame implements ChartMouseListener, EventLoaderListener, ActionListener {

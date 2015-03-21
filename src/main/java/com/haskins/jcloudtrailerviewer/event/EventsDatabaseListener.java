@@ -28,6 +28,10 @@ import com.haskins.jcloudtrailerviewer.model.Event;
  */
 public interface EventsDatabaseListener {
     
+    /**
+     * fired when a new event is added to the database.
+     * @param event 
+     */
     public void onEvent(Event event);
     
 }
