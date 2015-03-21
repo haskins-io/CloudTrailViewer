@@ -151,12 +151,14 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
                 jCloudTrailViewer.DESKTOP.getWidth() - 50,
                 jCloudTrailViewer.DESKTOP.getHeight() - 50);
         
+        // addTopXmenu();
+        
         JPanel sidePanel = new JPanel();
         sidePanel.setLayout(new BoxLayout(sidePanel,BoxLayout.Y_AXIS));
         
         // create PIE Chart
-        createChart(240, 160);
-        sidePanel.add(chartPanel);
+        sidePanel.add(tabs);
+        addTabbedChartDetail(480, 160);
         
         // Detail area      
         sidePanel.add(getEventDetailPanel());
@@ -199,6 +201,8 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
         split.setResizeWeight(1.0);
         
         this.add(split, BorderLayout.CENTER);
+        
+        this.validate();
     }
     
     private void generateData(List<Event> events) {
@@ -273,7 +277,6 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
         return inTopX;
     }
     
-    
     ////////////////////////////////////////////////////////////////////////////
     // ChartMouseListener
     ////////////////////////////////////////////////////////////////////////////
@@ -287,8 +290,31 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
     // Abstract Methods
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    protected void updateTextArea() {}
+    protected void updateTextArea() {
+
+        if (chartEvents != null) {
+
+            int count = 0;
+
+            StringBuilder dataString = new StringBuilder();
+            for (Map.Entry entry : chartEvents) {
+
+                if (count >= chartData.getTop()) {
+                    break;
+                }
+
+                dataString.append(entry.getKey()).append(" : ").append(entry.getValue()).append(NEWLINE);
+                count++;
+            }
+
+            eventDetailTextArea.setText(dataString.toString());
+        }
+    }
     
     @Override
-    protected void updateChartEvents(int newTop) { }
+    protected void updateChartEvents(int newTop) { 
+    
+        chartEvents = EventUtils.entriesSortedByValues(eventMap);
+        updateChart(newTop);
+    }
 }

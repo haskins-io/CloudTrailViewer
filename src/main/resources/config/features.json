@@ -26,6 +26,13 @@
             ]
         },
         {
+            "Menu": "AWS Services",
+            "SubMenu": "Elastic Beanstalk",
+            "Name": "Describe Environments",
+            "Actions": ["DescribeEnvironments"]
+        },
+        
+        {
             "Menu": "Top",
             "Name": "Events",
             "Property": "eventName"
@@ -54,6 +61,12 @@
             "Menu": "Top",
             "Name": "User Agents",
             "Property": "userAgent"
+        },
+        
+        {
+            "Menu": "Scan",
+            "Name": "New Relic",
+            "Contains": "FreeformFilter:newrelic"
         }
     ]
 }

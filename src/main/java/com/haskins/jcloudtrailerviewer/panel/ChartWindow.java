@@ -26,15 +26,10 @@ import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import static com.haskins.jcloudtrailerviewer.panel.AbstractInternalFrame.NEWLINE;
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JTabbedPane;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.ChartEntity;
@@ -45,8 +40,6 @@ import org.jfree.chart.entity.PieSectionEntity;
  * @author mark.haskins
  */
 public class ChartWindow extends AbstractInternalFrame implements ActionListener {
-    
-    private final JTabbedPane tabs = new JTabbedPane();
     
     private String chartSelect = null;
         
@@ -61,8 +54,8 @@ public class ChartWindow extends AbstractInternalFrame implements ActionListener
             
             events = data;
             chartEvents = null;
-            
             generateInitialChartData();
+            
         } else {
             
             events = null;
@@ -74,7 +67,7 @@ public class ChartWindow extends AbstractInternalFrame implements ActionListener
         buildGui();
         
         if ( (events != null && !events.isEmpty() ) || ( chartEvents != null && !chartEvents.isEmpty() )) {
-            addTabbedChartDetail(tabs, 480, 160);
+            addTabbedChartDetail(480, 160);
 }
         else {
             this.add(new JLabel("No Data"), BorderLayout.CENTER);
@@ -130,33 +123,9 @@ public class ChartWindow extends AbstractInternalFrame implements ActionListener
     ////////////////////////////////////////////////////////////////////////////
     private void buildGui() {
         
-        defaultTableModel.addColumn("Property");
-        defaultTableModel.addColumn("Value");
-        
         this.setSize(500, 280);
         
-        JMenuItem mnuTop5 = new JMenuItem("Top 5");
-        mnuTop5.setActionCommand("Top5");
-        mnuTop5.addActionListener(this);
-        
-        JMenuItem mnuTop10 = new JMenuItem("Top 10");
-        mnuTop10.setActionCommand("Top10");
-        mnuTop10.addActionListener(this);
-        
-        JMenuItem mnuIgnoreRoot = new JMenuItem("Ignore Root");
-        mnuIgnoreRoot.setActionCommand("IgnoreRoot");
-        mnuIgnoreRoot.addActionListener(this);
-        
-        JMenu menuDisplay = new JMenu("Display");
-        menuDisplay.add(mnuTop5);
-        menuDisplay.add(mnuTop10);
-        menuDisplay.addSeparator();
-        menuDisplay.add(mnuIgnoreRoot);
-        
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.add(menuDisplay);
-        
-        this.setJMenuBar(menuBar);
+        addTopXmenu();
         
         this.add(tabs, BorderLayout.CENTER);
     }
@@ -164,8 +133,9 @@ public class ChartWindow extends AbstractInternalFrame implements ActionListener
     @Override
     protected void updateChartEvents(int newTop) {
         
+        chartData.setTop(newTop);
         generateInitialChartData();
-        updateChart(tabs, newTop);
+        updateChart(newTop);
     }
         
     @Override

@@ -33,11 +33,17 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import javax.swing.JInternalFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -79,9 +85,11 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
     protected ChartPanel chartPanel = null;
     protected ChartData chartData = new ChartData();
     protected List<Map.Entry<String, Integer>> chartEvents = new ArrayList<>();
+    protected final Map<String, Integer> eventMap = new HashMap<>();
     
     // GUI Components
     protected final JTextArea eventDetailTextArea = new JTextArea();
+    protected final JTabbedPane tabs = new JTabbedPane();
     
     public AbstractInternalFrame(String title) {
         
@@ -95,6 +103,9 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
         // set some default values
         chartData.setChartStyle("Pie");
         chartData.setTop(5);
+        
+        defaultTableModel.addColumn("Property");
+        defaultTableModel.addColumn("Value");
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -120,12 +131,8 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
     }
     
     ////////////////////////////////////////////////////////////////////////////
-    // Protected Methods
+    // GUI Methods
     ////////////////////////////////////////////////////////////////////////////
-    protected void generateInitialChartData() {
-        chartEvents = EventUtils.getRequiredEvents(events, chartData);
-    }
-    
     protected void createChart(int width, int height) {
         
         if (chartData.getChartStyle().equalsIgnoreCase("Pie")) {
@@ -144,14 +151,6 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
         if (chartPanel != null) {
             chartPanel.addChartMouseListener(this);
         }
-    }
-    
-    protected void showEventDetail(Event event) {
-
-        eventsDetailTableModel.showDetail(event);
-        
-        if (event.getRawJSON() == null ) { EventUtils.addRawJson(event); }
-        eventDetailTextArea.setText(event.getRawJSON());
     }
     
     protected JTabbedPane getEventDetailPanel() {
@@ -189,7 +188,7 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
         this.add(statusBarPanel, BorderLayout.SOUTH);
     }
     
-    protected void addTabbedChartDetail(JTabbedPane tabs, int width, int height) {
+    protected void addTabbedChartDetail(int width, int height) {
         
         createChart(width, height);
         if (chartPanel != null) {
@@ -204,22 +203,67 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
         updateTextArea();
         tabs.addTab("Data", eventDetailTextArea); 
     }
+    
+    protected void addTopXmenu() {
         
+        JMenuItem mnuTop5 = new JMenuItem("Top 5");
+        mnuTop5.setActionCommand("Top5");
+        mnuTop5.addActionListener(this);
+        
+        JMenuItem mnuTop10 = new JMenuItem("Top 10");
+        mnuTop10.setActionCommand("Top10");
+        mnuTop10.addActionListener(this);
+                
+        JMenu menuDisplay = new JMenu("Top");
+        menuDisplay.add(mnuTop5);
+        menuDisplay.add(mnuTop10);
+        
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(menuDisplay);
+        
+        this.setJMenuBar(menuBar);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // Data Methods
+    ////////////////////////////////////////////////////////////////////////////
+    protected void generateInitialChartData() {
+        chartEvents = EventUtils.getRequiredEvents(events, chartData);
+    }
+
+    protected void showEventDetail(Event event) {
+
+        eventsDetailTableModel.showDetail(event);
+        
+        if (event.getRawJSON() == null ) { EventUtils.addRawJson(event); }
+        eventDetailTextArea.setText(event.getRawJSON());
+    }
+       
     protected void reloadTable() {
         
-        if (events != null) {
+        for (int i = defaultTableModel.getRowCount() -1; i>=0; i--) {
+            defaultTableModel.removeRow(i);
+        }
+        
+        if (events != null && events.size() > 0) {
             
-            for (int i = defaultTableModel.getRowCount() -1; i>=0; i--) {
-                defaultTableModel.removeRow(i);
-            }
-
             for (Entry entry : chartEvents) {
                 defaultTableModel.addRow(new Object[] { entry.getKey(), entry.getValue() });
-            }            
+            }         
+            
+        } else if (eventMap.size() > 0) {
+        
+            Set<Entry<String, Integer>> entries = eventMap.entrySet();
+            Iterator<Entry<String, Integer>> entriesIt = entries.iterator();
+            while(entriesIt.hasNext()) {
+                
+                Entry entry = entriesIt.next();
+                defaultTableModel.addRow(new Object[] { entry.getKey(), entry.getValue() });
+            }
         }
     } 
     
-    protected void updateChart(JTabbedPane tabs, int newTop) {
+    protected void updateChart(int newTop) {
         
         chartData.setTop(newTop);
         createChart(480, 160);

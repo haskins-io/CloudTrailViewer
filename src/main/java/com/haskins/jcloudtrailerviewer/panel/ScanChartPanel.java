@@ -20,15 +20,9 @@ import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JTabbedPane;
 import org.jfree.chart.ChartMouseEvent;
 
 /**
@@ -38,10 +32,6 @@ import org.jfree.chart.ChartMouseEvent;
 public class ScanChartPanel extends AbstractInternalFrame implements ActionListener {
 
     private final MenuDefinition menuDefinition;
-
-    private final Map<String, Integer> eventMap = new HashMap<>();
-
-    private final JTabbedPane tabs = new JTabbedPane();
 
     public ScanChartPanel(MenuDefinition menuDef) {
 
@@ -69,14 +59,14 @@ public class ScanChartPanel extends AbstractInternalFrame implements ActionListe
     ///// EventLoaderListener implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void newEvents(List<Event> events) {
+    public void newEvents(List<Event> scannedEvents) {
 
-        for (Event event : events) {
-
+        for (Event event : scannedEvents) {
+            
             // get required property value and store in map with count
             String value = EventUtils.getEventProperty(menuDefinition.getProperty(), event);
             if (value != null) {
-
+                
                 int count = 1;
                 if (eventMap.containsKey(value)) {
                     count = eventMap.get(value) + 1;
@@ -92,7 +82,7 @@ public class ScanChartPanel extends AbstractInternalFrame implements ActionListe
 
         chartEvents = EventUtils.entriesSortedByValues(eventMap);
 
-        addTabbedChartDetail(tabs, 480, 160);
+        addTabbedChartDetail(480, 160);
 
         this.validate();
     }
@@ -107,29 +97,7 @@ public class ScanChartPanel extends AbstractInternalFrame implements ActionListe
 
         this.setSize(500, 280);
 
-        JMenuItem mnuTop5 = new JMenuItem("Top 5");
-        mnuTop5.setActionCommand("Top5");
-        mnuTop5.addActionListener(this);
-
-        JMenuItem mnuTop10 = new JMenuItem("Top 10");
-        mnuTop10.setActionCommand("Top10");
-        mnuTop10.addActionListener(this);
-
-        JMenuItem mnuIgnoreRoot = new JMenuItem("Ignore Root");
-        mnuIgnoreRoot.setActionCommand("IgnoreRoot");
-        mnuIgnoreRoot.addActionListener(this);
-
-        JMenu menuDisplay = new JMenu("Display");
-        menuDisplay.add(mnuTop5);
-        menuDisplay.add(mnuTop10);
-        menuDisplay.addSeparator();
-        menuDisplay.add(mnuIgnoreRoot);
-
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.add(menuDisplay);
-
-        this.setJMenuBar(menuBar);
-        
+        addTopXmenu();
         addStatusBar();
         
         this.add(tabs, BorderLayout.CENTER);
@@ -161,7 +129,7 @@ public class ScanChartPanel extends AbstractInternalFrame implements ActionListe
     protected void updateChartEvents(int newTop) {
         
         chartEvents = EventUtils.entriesSortedByValues(eventMap);
-        updateChart(tabs, newTop);
+        updateChart(newTop);
     }
         
     ////////////////////////////////////////////////////////////////////////////
