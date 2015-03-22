@@ -121,7 +121,7 @@ public class ScanChartPanel extends AbstractInternalFrame implements ActionListe
                 count++;
             }
 
-            eventDetailTextArea.setText(dataString.toString());
+            tabbedTextArea.setText(dataString.toString());
         }
     }
 

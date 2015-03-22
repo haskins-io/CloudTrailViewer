@@ -149,7 +149,7 @@ public class ChartWindow extends AbstractInternalFrame implements ActionListener
                 dataString.append(entry.getKey()).append(" : ").append(entry.getValue()).append(NEWLINE);
             }
 
-            eventDetailTextArea.setText(dataString.toString());
+            tabbedTextArea.setText(dataString.toString());
         }
     }
     

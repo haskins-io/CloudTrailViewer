@@ -307,7 +307,7 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
                 count++;
             }
 
-            eventDetailTextArea.setText(dataString.toString());
+            tabbedTextArea.setText(dataString.toString());
         }
     }
     

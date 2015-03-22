@@ -89,6 +89,7 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
     
     // GUI Components
     protected final JTextArea eventDetailTextArea = new JTextArea();
+    protected final JTextArea tabbedTextArea = new JTextArea();
     protected final JTabbedPane tabs = new JTabbedPane();
     
     public AbstractInternalFrame(String title) {
@@ -99,6 +100,7 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
         this.setLayout(new BorderLayout());
         
         eventDetailTextArea.setFont(new Font("Verdana", Font.PLAIN, 10));
+        tabbedTextArea.setFont(new Font("Verdana", Font.PLAIN, 10));
         
         // set some default values
         chartData.setChartStyle("Pie");
@@ -196,12 +198,14 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
         }
 
         JTable table = new JTable(defaultTableModel);
+        JScrollPane tablecrollPane = new JScrollPane(table);
         table.setPreferredSize(new Dimension(480, 260));
         reloadTable();
-        tabs.addTab("Table", table); 
+        tabs.addTab("Table", tablecrollPane); 
 
         updateTextArea();
-        tabs.addTab("Data", eventDetailTextArea); 
+        JScrollPane tabbedDataScrollPane = new JScrollPane(tabbedTextArea);
+        tabs.addTab("Data", tabbedDataScrollPane); 
     }
     
     protected void addTopXmenu() {
