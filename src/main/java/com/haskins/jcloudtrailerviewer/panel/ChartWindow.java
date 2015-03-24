@@ -157,7 +157,7 @@ public class ChartWindow extends AbstractInternalFrame implements ActionListener
     ///// EventLoaderListener implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void newEvents(List<Event> events) { }
+    public void newEvents(List<Event> newEvents) { }
     
     @Override
     public void finishedLoading() { }

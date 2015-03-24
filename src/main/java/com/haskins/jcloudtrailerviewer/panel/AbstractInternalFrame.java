@@ -28,7 +28,6 @@ import com.haskins.jcloudtrailerviewer.table.EventsTableModel;
 import com.haskins.jcloudtrailerviewer.util.ChartCreator;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,6 +72,7 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
     // Events
     protected final EventLoader eventLoader = new EventLoader();
     protected List<Event> events = new LinkedList<>();
+    protected List<Event> topXEvents = new LinkedList<>();
     protected final EventUtils eventUtils = new EventUtils();
         
     // Table
@@ -199,7 +199,6 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
 
         JTable table = new JTable(defaultTableModel);
         JScrollPane tablecrollPane = new JScrollPane(table);
-        table.setPreferredSize(new Dimension(480, 260));
         reloadTable();
         tabs.addTab("Table", tablecrollPane); 
 
@@ -249,22 +248,23 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
             defaultTableModel.removeRow(i);
         }
         
-        if (events != null && events.size() > 0) {
+        if (chartEvents != null && chartEvents.size() > 0) {
             
             for (Entry entry : chartEvents) {
                 defaultTableModel.addRow(new Object[] { entry.getKey(), entry.getValue() });
             }         
             
-        } else if (eventMap.size() > 0) {
-        
-            Set<Entry<String, Integer>> entries = eventMap.entrySet();
-            Iterator<Entry<String, Integer>> entriesIt = entries.iterator();
-            while(entriesIt.hasNext()) {
-                
-                Entry entry = entriesIt.next();
-                defaultTableModel.addRow(new Object[] { entry.getKey(), entry.getValue() });
-            }
-        }
+        } 
+//        else if (eventMap.size() > 0) {
+//        
+//            Set<Entry<String, Integer>> entries = eventMap.entrySet();
+//            Iterator<Entry<String, Integer>> entriesIt = entries.iterator();
+//            while(entriesIt.hasNext()) {
+//                
+//                Entry entry = entriesIt.next();
+//                defaultTableModel.addRow(new Object[] { entry.getKey(), entry.getValue() });
+//            }
+//        }
     } 
     
     protected void updateChart(int newTop) {

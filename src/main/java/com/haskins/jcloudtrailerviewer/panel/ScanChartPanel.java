@@ -31,13 +31,11 @@ import org.jfree.chart.ChartMouseEvent;
  */
 public class ScanChartPanel extends AbstractInternalFrame implements ActionListener {
 
-    private final MenuDefinition menuDefinition;
-
     public ScanChartPanel(MenuDefinition menuDef) {
 
         super(menuDef.getName());
 
-        menuDefinition = menuDef;
+        chartData.setChartSource(menuDef.getProperty());
 
         eventLoader.addListener(this);
 
@@ -59,20 +57,14 @@ public class ScanChartPanel extends AbstractInternalFrame implements ActionListe
     ///// EventLoaderListener implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void newEvents(List<Event> scannedEvents) {
+    public void newEvents(List<Event> newEvents) {
 
-        for (Event event : scannedEvents) {
+        for (Event event : newEvents) {
             
             // get required property value and store in map with count
-            String value = EventUtils.getEventProperty(menuDefinition.getProperty(), event);
+            String value = EventUtils.getEventProperty(chartData.getChartSource(), event);
             if (value != null) {
-                
-                int count = 1;
-                if (eventMap.containsKey(value)) {
-                    count = eventMap.get(value) + 1;
-                }
-
-                eventMap.put(value, count);
+                events.add(event);
             }
         }
     }
@@ -80,8 +72,7 @@ public class ScanChartPanel extends AbstractInternalFrame implements ActionListe
     @Override
     public void finishedLoading() {
 
-        chartEvents = EventUtils.entriesSortedByValues(eventMap);
-
+        generateInitialChartData();
         addTabbedChartDetail(480, 160);
 
         this.validate();

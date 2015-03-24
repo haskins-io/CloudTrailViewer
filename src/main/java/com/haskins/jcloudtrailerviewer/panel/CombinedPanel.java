@@ -54,12 +54,13 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
     private List<String> scanActions;
     private String scanNeedle;
     
-    public CombinedPanel(String title, List<Event> events, MenuDefinition menuDefinition) {
+    public CombinedPanel(String title, List<Event> logEvents, MenuDefinition menuDefinition) {
         
         super(title);
         
-        if (events != null) {
-            generateData(events);
+        if (logEvents != null) {
+            events = logEvents;
+            generateData(logEvents);
             buildUI();
             
         } else {
@@ -205,7 +206,7 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
         this.validate();
     }
     
-    private void generateData(List<Event> events) {
+    private void generateData(List<Event> eventsData) {
         
         // generate Chart data
         chartData.setChartSource("EventName");
@@ -213,13 +214,13 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
         chartData.setChartStyle("Pie");
         chartData.setChartType("Top");
         
-        chartEvents = EventUtils.getRequiredEvents(events, chartData);
+        generateInitialChartData();
         
         // generate TPS data
-        tpsPerService(events);
+        tpsPerService(eventsData);
         
         // Populate Table Model
-        eventsTableModel.setData(events);
+        eventsTableModel.setData(eventsData);
     }
         
     private void createTpsChart() {
@@ -227,9 +228,9 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
         tpsPanel = ChartCreator.createTimeSeriesChart("Transactions Per Sections", tpsMap, 400, 250);
     }
     
-    private void tpsPerService(List<Event> events) {
+    private void tpsPerService(List<Event> eventsData) {
         
-        for (Event event : events) {
+        for (Event event : eventsData) {
             
             String eventName = event.getEventName();
             if (inTopX(event)) {
