@@ -205,5 +205,4 @@ public class EventsDatabaseTest {
         
         assertEquals(expResult, result);
     }
-    
 }
