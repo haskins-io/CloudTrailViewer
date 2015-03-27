@@ -107,33 +107,33 @@ public class ChartCreator {
         return sourcePanel;
     }
     
-    /**
-     * returns a Line Chart
-     * @param events events to process
-     * @param width width of chart
-     * @param height height of chart
-     * @return 
-     */
-    public static ChartPanel createLineChart(
-            List<Entry<String,Integer>> events, 
-            int width, int height) {
-        
-        JFreeChart chart = ChartFactory.createLineChart(
-            "",
-            "",
-            "",
-            null,
-            PlotOrientation.VERTICAL,
-            true,
-            true,
-            false
-        );
-                
-        ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(width, height));
-               
-        return chartPanel;
-    }
+//    /**
+//     * returns a Line Chart
+//     * @param events events to process
+//     * @param width width of chart
+//     * @param height height of chart
+//     * @return 
+//     */
+//    public static ChartPanel createLineChart(
+//            List<Entry<String,Integer>> events, 
+//            int width, int height) {
+//        
+//        JFreeChart chart = ChartFactory.createLineChart(
+//            "",
+//            "",
+//            "",
+//            null,
+//            PlotOrientation.VERTICAL,
+//            true,
+//            true,
+//            false
+//        );
+//                
+//        ChartPanel chartPanel = new ChartPanel(chart);
+//        chartPanel.setPreferredSize(new Dimension(width, height));
+//               
+//        return chartPanel;
+//    }
     
     /**
      * returns a TimeSeries chart
@@ -192,7 +192,8 @@ public class ChartCreator {
     }
     
     /**
-     * Returns a Bar chatr
+     * Returns a Bar chart
+     * @param top number of events to show
      * @param events events to include on chart
      * @param width width of chart
      * @param height height of chart
@@ -202,6 +203,7 @@ public class ChartCreator {
      * @return 
      */
     public static ChartPanel createBarChart(
+            int top,
             List<Entry<String,Integer>> events, 
             int width, int height, 
             String xLabel, String yLabel,
@@ -209,8 +211,8 @@ public class ChartCreator {
         
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
-        int count = 5;
-        if (events.size() < 5) {
+        int count = top;
+        if (events.size() < top) {
             count = events.size();
         }
         
