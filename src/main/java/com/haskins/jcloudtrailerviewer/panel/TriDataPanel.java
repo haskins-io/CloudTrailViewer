@@ -21,14 +21,20 @@ import com.haskins.jcloudtrailerviewer.model.Event;
 import static com.haskins.jcloudtrailerviewer.panel.AbstractInternalFrame.NEWLINE;
 import com.haskins.jcloudtrailerviewer.util.ChartCreator;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartPanel;
@@ -40,16 +46,66 @@ import org.jfree.chart.plot.PlotOrientation;
  */
 public class TriDataPanel extends JPanel implements ActionListener {
     
-    private List<Event> events = new LinkedList<>();
+    private final List<Event> masterEvents = new LinkedList<>();
     private List<Map.Entry<String, Integer>> chartEvents = new ArrayList<>();
     
     private ChartPanel chartPanel = null;
-    private final ChartData chartData = new ChartData();
+    private final ChartData chartData;
     
     private final DefaultTableModel defaultTableModel = new DefaultTableModel();   
     
     private final JTextArea tabbedTextArea = new JTextArea();
     private final JTabbedPane tabs = new JTabbedPane();
+    
+    public TriDataPanel(ChartData data) {
+        chartData = data;
+        buildDisplay();
+    }
+    
+    public void setEvents(List<Event> events) {
+        
+        masterEvents.clear();
+        masterEvents.addAll(events);
+        
+        updatePanel(5);
+    }
+    
+    public JMenuBar getChartMenu() {
+        
+        JMenuItem mnuTop5 = new JMenuItem("Top 5");
+        mnuTop5.setActionCommand("Top5");
+        mnuTop5.addActionListener(this);
+        
+        JMenuItem mnuTop10 = new JMenuItem("Top 10");
+        mnuTop10.setActionCommand("Top10");
+        mnuTop10.addActionListener(this);
+                
+        JMenu menuTop = new JMenu("Top");
+        menuTop.add(mnuTop5);
+        menuTop.add(mnuTop10);
+        
+        
+        JMenuItem mnuPie = new JMenuItem("Pie");
+        mnuPie.setActionCommand("Pie");
+        mnuPie.addActionListener(this);
+        
+        JMenuItem mnuBar = new JMenuItem("Bar");
+        mnuBar.setActionCommand("Bar");
+        mnuBar.addActionListener(this);
+                
+        JMenu menuStyle = new JMenu("Style");
+        menuStyle.add(mnuPie);
+        menuStyle.add(mnuBar);
+        
+        JMenu menuChart = new JMenu("Chart");
+        menuChart.add(menuTop);
+        menuChart.add(menuStyle);
+        
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(menuChart);
+        
+        return menuBar;
+    }
     
     ////////////////////////////////////////////////////////////////////////////
     // ActionListener
@@ -61,16 +117,10 @@ public class TriDataPanel extends JPanel implements ActionListener {
         
         switch(actionCommand) {
             case "Top5":
-                chartData.setTop(5);
-                updateChartEvents();
-                reloadTable();
-                updateTextArea();
+                updatePanel(5);
                 break;
             case "Top10":
-                chartData.setTop(10);
-                updateChartEvents();
-                reloadTable();
-                updateTextArea();
+                updatePanel(10);
                 break;
             case "Pie":
                 chartData.setChartStyle("Pie");
@@ -86,6 +136,37 @@ public class TriDataPanel extends JPanel implements ActionListener {
     ////////////////////////////////////////////////////////////////////////////
     // private methods
     ////////////////////////////////////////////////////////////////////////////
+    private void buildDisplay() {
+        
+        this.setLayout(new BorderLayout());
+        
+        createChart();
+        if (chartPanel != null) {
+            tabs.addTab("Chart", chartPanel);
+        }
+                
+        defaultTableModel.addColumn("Property");
+        defaultTableModel.addColumn("Value");
+        
+        JTable table = new JTable(defaultTableModel);
+        JScrollPane tablecrollPane = new JScrollPane(table);
+        reloadTable();
+        tabs.addTab("Table", tablecrollPane); 
+
+        updateTextArea();
+        JScrollPane tabbedDataScrollPane = new JScrollPane(tabbedTextArea);
+        tabs.addTab("Data", tabbedDataScrollPane); 
+        
+        this.add(tabs, BorderLayout.CENTER);
+    }
+        
+    private void updatePanel(int top) {
+        chartData.setTop(top);
+        updateChartEvents();
+        reloadTable();
+        updateTextArea();
+    }
+    
     private void reloadTable() {
         
         for (int i = defaultTableModel.getRowCount() -1; i>=0; i--) {
@@ -94,15 +175,21 @@ public class TriDataPanel extends JPanel implements ActionListener {
         
         if (chartEvents != null && chartEvents.size() > 0) {
             
+            int count = 0;
             for (Map.Entry entry : chartEvents) {
                 defaultTableModel.addRow(new Object[] { entry.getKey(), entry.getValue() });
+                count++;
+                
+                if (count >= chartData.getTop()) {
+                    break;
+                }
             }         
         } 
     } 
     
     private void updateChart() {
         
-        createChart(480, 160);
+        createChart();
         tabs.remove(0);
         tabs.insertTab("Chart", null, chartPanel, "", 0);
         tabs.setSelectedIndex(0);
@@ -136,21 +223,20 @@ public class TriDataPanel extends JPanel implements ActionListener {
     }
     
     private void generateInitialChartData() {
-        chartEvents = EventUtils.getRequiredEvents(events, chartData);
+        chartEvents = EventUtils.getRequiredEvents(masterEvents, chartData);
     }
     
-    private void createChart(int width, int height) {
+    private void createChart() {
         
         if (chartData.getChartStyle().equalsIgnoreCase("Pie")) {
 
-            chartPanel = ChartCreator.createTopPieChart(chartData.getTop(), chartEvents, width, height);
+            chartPanel = ChartCreator.createTopPieChart(chartData.getTop(), chartEvents);
            
         } else if (chartData.getChartStyle().equalsIgnoreCase("Bar")) {
 
             chartPanel = ChartCreator.createBarChart(
                 chartData.getTop(),
                 chartEvents, 
-                width, height,
                 chartData.getChartSource(), "Count",
                 PlotOrientation.VERTICAL);
         } 

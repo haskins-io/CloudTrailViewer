@@ -25,6 +25,7 @@ import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
 import com.haskins.jcloudtrailerviewer.table.EventsTable;
 import com.haskins.jcloudtrailerviewer.util.ChartCreator;
+import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.HashMap;
@@ -53,9 +54,17 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
     private List<String> scanActions;
     private String scanNeedle;
     
+    private final TriDataPanel triPanel;
+    
     public CombinedPanel(String title, List<Event> logEvents, MenuDefinition menuDefinition) {
         
         super(title);
+        
+        chartData.setTop(5);
+        chartData.setChartSource("eventName");
+        chartData.setChartType("Top");
+        
+        triPanel = new TriDataPanel(chartData);
         
         if (logEvents != null) {
             events = logEvents;
@@ -63,6 +72,8 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
             buildUI();
             
         } else {
+            
+            chartData.setChartSource(menuDefinition.getProperty());
             
             if (menuDefinition.getActions() != null) {
                 scanActions = menuDefinition.getActions();
@@ -100,8 +111,10 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
 
             int scanDialogResult = showScanDialog();
             if (scanDialogResult == 0) {
+                buildUI();
                 eventLoader.showFileBrowser();
             } else if (scanDialogResult == 1) {
+                buildUI();
                 eventLoader.showS3Browser();
             } else {
                 this.dispose();
@@ -135,7 +148,7 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
     public void finishedLoading() { 
     
         generateData(events);
-        buildUI();
+        
         this.revalidate();
     }
     
@@ -150,15 +163,13 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
         this.setSize(
                 jCloudTrailViewer.DESKTOP.getWidth() - 50,
                 jCloudTrailViewer.DESKTOP.getHeight() - 50);
-        
-        addTopXmenu();
-        
+                
         JPanel sidePanel = new JPanel();
         sidePanel.setLayout(new BoxLayout(sidePanel,BoxLayout.Y_AXIS));
         
         // create PIE Chart
-        sidePanel.add(tabs);
-        addTabbedChartDetail(480, 160);
+        sidePanel.add(triPanel);
+        this.setJMenuBar(triPanel.getChartMenu());
         
         // Detail area      
         sidePanel.add(getEventDetailPanel());
@@ -206,14 +217,8 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
     }
     
     private void generateData(List<Event> eventsData) {
-        
-        // generate Chart data
-        chartData.setChartSource("EventName");
-        chartData.setTop(5);
-        chartData.setChartStyle("Pie");
-        chartData.setChartType("Top");
-        
-        generateInitialChartData();
+               
+        triPanel.setEvents(eventsData);
         
         // generate TPS data
         tpsPerService(eventsData);
@@ -228,6 +233,8 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
     }
     
     private void tpsPerService(List<Event> eventsData) {
+        
+        chartEvents = EventUtils.getRequiredEvents(eventsData, chartData);
         
         for (Event event : eventsData) {
             

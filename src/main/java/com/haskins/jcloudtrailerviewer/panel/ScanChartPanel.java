@@ -29,12 +29,16 @@ import org.jfree.chart.ChartMouseEvent;
  */
 public class ScanChartPanel extends AbstractInternalFrame {
 
+    private final TriDataPanel triPanel;
+    
     public ScanChartPanel(MenuDefinition menuDef) {
 
         super(menuDef.getName());
 
         chartData.setChartSource(menuDef.getProperty());
         chartData.setTop(5);
+        
+        triPanel = new TriDataPanel(chartData);
 
         eventLoader.addListener(this);
 
@@ -71,10 +75,7 @@ public class ScanChartPanel extends AbstractInternalFrame {
     @Override
     public void finishedLoading() {
 
-        generateInitialChartData();
-        addTabbedChartDetail(480, 160);
-
-        this.validate();
+        triPanel.setEvents(events);
     }
 
     @Override
@@ -87,10 +88,8 @@ public class ScanChartPanel extends AbstractInternalFrame {
 
         this.setSize(500, 280);
 
-        addTopXmenu();
-        addStatusBar();
-        
-        this.add(tabs, BorderLayout.CENTER);
+        this.setJMenuBar(triPanel.getChartMenu());
+        this.add(triPanel, BorderLayout.CENTER);
     }
         
     ////////////////////////////////////////////////////////////////////////////

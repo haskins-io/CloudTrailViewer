@@ -57,14 +57,11 @@ public class ChartCreator {
      * Returns a Pie chart
      * @param top number of segments in the chart
      * @param events events to process
-     * @param width width of chart
-     * @param height height of chart
      * @return 
      */
     public static ChartPanel createTopPieChart(
             int top,
-            List<Entry<String,Integer>> events, 
-            int width, int height) {
+            List<Entry<String,Integer>> events) {
         
         DefaultPieDataset dataset = new DefaultPieDataset();
         
@@ -101,8 +98,6 @@ public class ChartCreator {
         t.setFont(new Font("Arial", Font.BOLD, 16));
         
         ChartPanel sourcePanel = new ChartPanel(chart);
-        sourcePanel.setMaximumSize(new Dimension(width, height));
-        sourcePanel.setPreferredSize(new Dimension(width, height));
         
         return sourcePanel;
     }
@@ -143,7 +138,12 @@ public class ChartCreator {
      * @param height height of chart
      * @return 
      */
-    public static ChartPanel createTimeSeriesChart(String title, Map<String, Map<String, Integer>> data, int width, int height) {
+    public static ChartPanel createTimeSeriesChart(
+        String title, 
+        Map<String, 
+        Map<String, Integer>> data, 
+        int width, 
+        int height) {
         
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         
@@ -195,8 +195,6 @@ public class ChartCreator {
      * Returns a Bar chart
      * @param top number of events to show
      * @param events events to include on chart
-     * @param width width of chart
-     * @param height height of chart
      * @param xLabel xAxis label
      * @param yLabel yAxis label
      * @param orientation Horizontal or Vertical
@@ -205,7 +203,6 @@ public class ChartCreator {
     public static ChartPanel createBarChart(
             int top,
             List<Entry<String,Integer>> events, 
-            int width, int height, 
             String xLabel, String yLabel,
             PlotOrientation orientation) {
         
@@ -233,7 +230,6 @@ public class ChartCreator {
         );
         
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(width, height));
                         
         return chartPanel;
     }

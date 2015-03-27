@@ -39,19 +39,20 @@ import org.jfree.chart.entity.PieSectionEntity;
 public class ChartWindow extends AbstractInternalFrame {
     
     private String chartSelect = null;
+    
+    private final TriDataPanel triPanel;
         
     public ChartWindow(ChartData chartData, List data) {
         
         super(chartData.getChartSource());
         
-        this.chartData = chartData;
+        triPanel = new TriDataPanel(chartData);
         
         Object firstDataElement = data.get(0);
         if (firstDataElement instanceof Event) {
             
             events = data;
             chartEvents = null;
-            generateInitialChartData();
             
         } else {
             
@@ -64,7 +65,7 @@ public class ChartWindow extends AbstractInternalFrame {
         buildGui();
         
         if ( (events != null && !events.isEmpty() ) || ( chartEvents != null && !chartEvents.isEmpty() )) {
-            addTabbedChartDetail(480, 160);
+            triPanel.setEvents(events);
 }
         else {
             this.add(new JLabel("No Data"), BorderLayout.CENTER);
@@ -122,9 +123,8 @@ public class ChartWindow extends AbstractInternalFrame {
         
         this.setSize(500, 280);
         
-        addTopXmenu();
-        
-        this.add(tabs, BorderLayout.CENTER);
+        this.setJMenuBar(triPanel.getChartMenu());
+        this.add(triPanel, BorderLayout.CENTER);
     }
             
     ////////////////////////////////////////////////////////////////////////////
