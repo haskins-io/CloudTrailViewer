@@ -59,4 +59,36 @@ public class EventTimestampComparatorTest extends AbstractTest {
         
         assertEquals(expResult, result);
     }
+    
+    /**
+     * Test of compare method, of class EventTimestampComparator.
+     */
+    @Test
+    public void testCompare3() {
+        
+        EventTimestampComparator instance = new EventTimestampComparator();
+        
+        EventUtils.addTimestamp(eventOne);
+        
+        int expResult = 0;
+        int result = instance.compare(eventOne, eventOne);
+        
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of compare method, of class EventTimestampComparator.
+     */
+    @Test
+    public void testCompare4() {
+        
+        EventTimestampComparator instance = new EventTimestampComparator();
+        
+        EventUtils.addTimestamp(eventOne);
+        
+        int expResult = 0;
+        int result = instance.compare(null, eventOne);
+        
+        assertEquals(expResult, result);
+    }
 }

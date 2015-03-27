@@ -16,6 +16,8 @@
  */
 package com.haskins.jcloudtrailerviewer.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -102,33 +104,34 @@ public class MenuDefinitionTest {
         instance.setName(menu);
         assertEquals(menu, instance.getName());
     }
-//
-//    /**
-//     * Test of getActions method, of class MenuDefinition.
-//     */
-//    @Test
-//    public void testGetActions() {
-//        System.out.println("getActions");
-//        MenuDefinition instance = new MenuDefinition();
-//        List<String> expResult = null;
-//        List<String> result = instance.getActions();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setActions method, of class MenuDefinition.
-//     */
-//    @Test
-//    public void testSetActions() {
-//        System.out.println("setActions");
-//        List<String> actions = null;
-//        MenuDefinition instance = new MenuDefinition();
-//        instance.setActions(actions);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+
+    /**
+     * Test of getActions method, of class MenuDefinition.
+     */
+    @Test
+    public void testGetActions() {
+        
+        MenuDefinition instance = new MenuDefinition();
+        List<String> expResult = new ArrayList();
+        
+        instance.setActions(expResult);
+
+        assertEquals(expResult, instance.getActions());
+    }
+
+    /**
+     * Test of setActions method, of class MenuDefinition.
+     */
+    @Test
+    public void testSetActions() {
+        
+        MenuDefinition instance = new MenuDefinition();
+        List<String> expResult = new ArrayList();
+        
+        instance.setActions(expResult);
+
+        assertEquals(expResult, instance.getActions());
+    }
 
     /**
      * Test of getProperty method, of class MenuDefinition.
