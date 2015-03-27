@@ -26,14 +26,14 @@ import com.haskins.jcloudtrailerviewer.model.Event;
  *
  * @author mark
  */
-public class FreeformFilter extends AbstractEventFilter {
+public class FreeformFilter implements EventFilter {
     
-    private String value;
+    private String needle;
     
     @Override
     public void setNeedle(String value) {
         
-        this.value = value;
+        this.needle = value;
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -44,14 +44,14 @@ public class FreeformFilter extends AbstractEventFilter {
         
         boolean passesFilter = false;
         
-        if (value == null || value.trim().length() == 0) {
+        if (needle == null || needle.trim().length() == 0) {
             
             passesFilter = true;
             
         } else {
             
             String lowerJSON = event.toString().toLowerCase();
-            String lowerFilter = this.value.toLowerCase();
+            String lowerFilter = this.needle.toLowerCase();
 
             if (lowerJSON.contains(lowerFilter)) {
                 passesFilter = true;

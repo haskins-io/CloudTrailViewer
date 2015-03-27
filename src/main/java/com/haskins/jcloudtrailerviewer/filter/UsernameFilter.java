@@ -26,14 +26,14 @@ import com.haskins.jcloudtrailerviewer.model.Event;
  *
  * @author mark
  */
-public class UsernameFilter extends AbstractEventFilter {
+public class UsernameFilter implements EventFilter {
     
-    private String username;
+    private String needle;
     
     @Override
     public void setNeedle(String username) {
         
-        this.username = username;
+        this.needle = username;
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -44,15 +44,22 @@ public class UsernameFilter extends AbstractEventFilter {
         
         boolean passesFilter = false;
         
-        if (username == null || username.trim().length() == 0) {
+        if (needle == null || needle.trim().length() == 0) {
             
             passesFilter = true;
             
         } else {
         
-            String needle = event.getUserIdentity().getUserName();
-
-            if (needle != null && needle.equalsIgnoreCase(this.username)) {
+            String value;
+            
+            if (event.getUserIdentity().getSessionContext() != null && event.getUserIdentity().getSessionContext().getSessionIssuer() != null) {
+                value = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
+            }
+            else {
+                value = event.getUserIdentity().getUserName();
+            }
+           
+            if (value != null && value.equalsIgnoreCase(this.needle)) {
 
                 passesFilter = true;
             }

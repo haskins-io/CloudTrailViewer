@@ -26,13 +26,13 @@ import com.haskins.jcloudtrailerviewer.model.Event;
  *
  * @author mark
  */
-public class RegionFilter extends AbstractEventFilter {
+public class RegionFilter implements EventFilter {
     
-    private String region;
+    private String needle;
     
     @Override
     public void setNeedle(String region) {
-        this.region = region;
+        this.needle = region;
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -43,15 +43,15 @@ public class RegionFilter extends AbstractEventFilter {
         
         boolean passesFilter = false;
         
-        if (region == null || region.trim().length() == 0) {
+        if (needle == null || needle.trim().length() == 0) {
             
             passesFilter = true;
             
         } else {
         
-            String needle = event.getAwsRegion();
+            String value = event.getAwsRegion();
 
-            if (needle != null && needle.equalsIgnoreCase(this.region)) {
+            if (value != null && value.equalsIgnoreCase(this.needle)) {
                 passesFilter = true;
             }
         }

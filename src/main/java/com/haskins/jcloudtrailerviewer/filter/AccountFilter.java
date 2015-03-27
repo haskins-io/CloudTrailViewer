@@ -26,14 +26,14 @@ import com.haskins.jcloudtrailerviewer.model.Event;
  *
  * @author mark
  */
-public class AccountFilter extends AbstractEventFilter {
+public class AccountFilter implements EventFilter {
     
-    private String account;
+    private String needle;
     
     @Override
     public void setNeedle(String account) {
         
-        this.account = account;
+        this.needle = account;
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -44,15 +44,15 @@ public class AccountFilter extends AbstractEventFilter {
         
         boolean passesFilter = false;
         
-        if (account == null || account.trim().length() == 0) {
+        if (needle == null || needle.trim().length() == 0) {
             
             passesFilter = true;
             
         } else {
             
-            String needle = event.getUserIdentity().getAccountId();
+            String value = event.getUserIdentity().getAccountId();
 
-            if (needle != null && needle.contains(this.account)) {
+            if (value != null && value.contains(this.needle)) {
                 passesFilter = true;
             }
         }
