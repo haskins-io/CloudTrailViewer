@@ -28,9 +28,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -54,6 +54,11 @@ public class TriDataPanel extends JPanel implements ActionListener {
     
     private final DefaultTableModel defaultTableModel = new DefaultTableModel();   
     
+    JCheckBoxMenuItem mnuTop5 = new JCheckBoxMenuItem("Top 5");
+    JCheckBoxMenuItem mnuTop10 = new JCheckBoxMenuItem("Top 10");
+    JCheckBoxMenuItem mnuPie = new JCheckBoxMenuItem("Pie");
+    JCheckBoxMenuItem mnuBar = new JCheckBoxMenuItem("Bar");
+    
     private final JTextArea tabbedTextArea = new JTextArea();
     private final JTabbedPane tabs = new JTabbedPane();
     
@@ -72,11 +77,9 @@ public class TriDataPanel extends JPanel implements ActionListener {
     
     public JMenuBar getChartMenu() {
         
-        JMenuItem mnuTop5 = new JMenuItem("Top 5");
         mnuTop5.setActionCommand("Top5");
         mnuTop5.addActionListener(this);
         
-        JMenuItem mnuTop10 = new JMenuItem("Top 10");
         mnuTop10.setActionCommand("Top10");
         mnuTop10.addActionListener(this);
                 
@@ -85,11 +88,9 @@ public class TriDataPanel extends JPanel implements ActionListener {
         menuTop.add(mnuTop10);
         
         
-        JMenuItem mnuPie = new JMenuItem("Pie");
         mnuPie.setActionCommand("Pie");
         mnuPie.addActionListener(this);
         
-        JMenuItem mnuBar = new JMenuItem("Bar");
         mnuBar.setActionCommand("Bar");
         mnuBar.addActionListener(this);
                 
@@ -117,16 +118,24 @@ public class TriDataPanel extends JPanel implements ActionListener {
         
         switch(actionCommand) {
             case "Top5":
+                mnuTop5.setState(true);
+                mnuTop10.setState(false);
                 updatePanel(5);
                 break;
             case "Top10":
+                mnuTop5.setState(false);
+                mnuTop10.setState(true);
                 updatePanel(10);
                 break;
             case "Pie":
+                mnuPie.setState(true);
+                mnuBar.setState(false);
                 chartData.setChartStyle("Pie");
                 updateChartEvents();
                 break;
             case "Bar":
+                mnuPie.setState(false);
+                mnuBar.setState(true);
                 chartData.setChartStyle("Bar");
                 updateChartEvents();
                 break;
@@ -139,6 +148,18 @@ public class TriDataPanel extends JPanel implements ActionListener {
     private void buildDisplay() {
         
         this.setLayout(new BorderLayout());
+        
+        if (chartData.getTop() == 5) {
+            mnuTop5.setState(true);
+        } else if (chartData.getTop() == 10) {
+            mnuTop10.setState(true);
+        }
+        
+        if (chartData.getChartStyle().equalsIgnoreCase("Pie")) {
+            mnuPie.setState(true);
+        } else if (chartData.getChartStyle().equalsIgnoreCase("Bar")) {
+            mnuBar.setState(true);
+        }
         
         createChart();
         if (chartPanel != null) {
