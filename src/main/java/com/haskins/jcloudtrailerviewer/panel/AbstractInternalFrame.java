@@ -33,12 +33,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -60,9 +58,6 @@ import org.jfree.chart.plot.PlotOrientation;
  * @author mark.haskins
  */
 public abstract class AbstractInternalFrame extends JInternalFrame implements ChartMouseListener, EventLoaderListener, ActionListener {
-    
-    protected abstract void updateTextArea();
-    protected abstract void updateChartEvents(int newTop);
     
     protected final static String NEWLINE = "\n";
     
@@ -120,14 +115,24 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
         
         switch(actionCommand) {
             case "Top5":
-                updateChartEvents(5);
+                chartData.setTop(5);
+                updateChartEvents();
                 reloadTable();
                 updateTextArea();
                 break;
             case "Top10":
-                updateChartEvents(10);
+                chartData.setTop(10);
+                updateChartEvents();
                 reloadTable();
                 updateTextArea();
+                break;
+            case "Pie":
+                chartData.setChartStyle("Pie");
+                updateChartEvents();
+                break;
+            case "Bar":
+                chartData.setChartStyle("Bar");
+                updateChartEvents();
                 break;
         }
     }
@@ -144,6 +149,7 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
         } else if (chartData.getChartStyle().equalsIgnoreCase("Bar")) {
 
             chartPanel = ChartCreator.createBarChart(
+                chartData.getTop(),
                 chartEvents, 
                 width, height,
                 chartData.getChartSource(), "Count",
@@ -217,12 +223,29 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
         mnuTop10.setActionCommand("Top10");
         mnuTop10.addActionListener(this);
                 
-        JMenu menuDisplay = new JMenu("Top");
-        menuDisplay.add(mnuTop5);
-        menuDisplay.add(mnuTop10);
+        JMenu menuTop = new JMenu("Top");
+        menuTop.add(mnuTop5);
+        menuTop.add(mnuTop10);
+        
+        
+        JMenuItem mnuPie = new JMenuItem("Pie");
+        mnuPie.setActionCommand("Pie");
+        mnuPie.addActionListener(this);
+        
+        JMenuItem mnuBar = new JMenuItem("Bar");
+        mnuBar.setActionCommand("Bar");
+        mnuBar.addActionListener(this);
+                
+        JMenu menuStyle = new JMenu("Style");
+        menuStyle.add(mnuPie);
+        menuStyle.add(mnuBar);
+        
+        JMenu menuChart = new JMenu("Chart");
+        menuChart.add(menuTop);
+        menuChart.add(menuStyle);
         
         JMenuBar menuBar = new JMenuBar();
-        menuBar.add(menuDisplay);
+        menuBar.add(menuChart);
         
         this.setJMenuBar(menuBar);
     }
@@ -253,26 +276,41 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ch
             for (Entry entry : chartEvents) {
                 defaultTableModel.addRow(new Object[] { entry.getKey(), entry.getValue() });
             }         
-            
         } 
-//        else if (eventMap.size() > 0) {
-//        
-//            Set<Entry<String, Integer>> entries = eventMap.entrySet();
-//            Iterator<Entry<String, Integer>> entriesIt = entries.iterator();
-//            while(entriesIt.hasNext()) {
-//                
-//                Entry entry = entriesIt.next();
-//                defaultTableModel.addRow(new Object[] { entry.getKey(), entry.getValue() });
-//            }
-//        }
     } 
     
-    protected void updateChart(int newTop) {
+    protected void updateChart() {
         
-        chartData.setTop(newTop);
         createChart(480, 160);
         tabs.remove(0);
         tabs.insertTab("Chart", null, chartPanel, "", 0);
         tabs.setSelectedIndex(0);
+    }
+    
+    private void updateTextArea() {
+
+        if (chartEvents != null) {
+
+            int count = 0;
+
+            StringBuilder dataString = new StringBuilder();
+            for (Map.Entry entry : chartEvents) {
+
+                if (count >= chartData.getTop()) {
+                    break;
+                }
+
+                dataString.append(entry.getKey()).append(" : ").append(entry.getValue()).append(NEWLINE);
+                count++;
+            }
+
+            tabbedTextArea.setText(dataString.toString());
+        }
+    }
+    
+    private void updateChartEvents() {
+        
+        generateInitialChartData();
+        updateChart();
     }
 }

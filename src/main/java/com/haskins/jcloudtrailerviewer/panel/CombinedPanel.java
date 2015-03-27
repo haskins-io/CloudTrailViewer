@@ -25,7 +25,6 @@ import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
 import com.haskins.jcloudtrailerviewer.table.EventsTable;
 import com.haskins.jcloudtrailerviewer.util.ChartCreator;
-import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.HashMap;
@@ -152,7 +151,7 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
                 jCloudTrailViewer.DESKTOP.getWidth() - 50,
                 jCloudTrailViewer.DESKTOP.getHeight() - 50);
         
-        // addTopXmenu();
+        addTopXmenu();
         
         JPanel sidePanel = new JPanel();
         sidePanel.setLayout(new BoxLayout(sidePanel,BoxLayout.Y_AXIS));
@@ -286,36 +285,4 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
 
     @Override
     public void chartMouseMoved(ChartMouseEvent cme) { }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    // Abstract Methods
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    protected void updateTextArea() {
-
-        if (chartEvents != null) {
-
-            int count = 0;
-
-            StringBuilder dataString = new StringBuilder();
-            for (Map.Entry entry : chartEvents) {
-
-                if (count >= chartData.getTop()) {
-                    break;
-                }
-
-                dataString.append(entry.getKey()).append(" : ").append(entry.getValue()).append(NEWLINE);
-                count++;
-            }
-
-            tabbedTextArea.setText(dataString.toString());
-        }
-    }
-    
-    @Override
-    protected void updateChartEvents(int newTop) { 
-    
-        chartEvents = EventUtils.entriesSortedByValues(eventMap);
-        updateChart(newTop);
-    }
 }

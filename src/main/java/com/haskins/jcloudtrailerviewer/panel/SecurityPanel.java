@@ -285,12 +285,4 @@ public class SecurityPanel extends AbstractInternalFrame {
     @Override
     public void chartMouseMoved(ChartMouseEvent cme) { }
     
-    ////////////////////////////////////////////////////////////////////////////
-    // Abstract Methods
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    protected void updateTextArea() {}
-    
-    @Override
-    protected void updateChartEvents(int newTop) { }
 }

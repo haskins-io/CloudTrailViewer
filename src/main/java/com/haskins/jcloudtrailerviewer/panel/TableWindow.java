@@ -153,13 +153,4 @@ public class TableWindow extends AbstractInternalFrame {
     
     @Override
     public void newMessage(String message) { }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    // Abstract Methods
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    protected void updateTextArea() {}
-    
-    @Override
-    protected void updateChartEvents(int newTop) { }
 }

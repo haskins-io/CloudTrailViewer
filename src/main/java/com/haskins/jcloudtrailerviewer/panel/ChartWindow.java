@@ -24,11 +24,8 @@ import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
-import static com.haskins.jcloudtrailerviewer.panel.AbstractInternalFrame.NEWLINE;
 import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Map;
 import javax.swing.JLabel;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.entity.CategoryItemEntity;
@@ -39,7 +36,7 @@ import org.jfree.chart.entity.PieSectionEntity;
  *
  * @author mark.haskins
  */
-public class ChartWindow extends AbstractInternalFrame implements ActionListener {
+public class ChartWindow extends AbstractInternalFrame {
     
     private String chartSelect = null;
         
@@ -129,30 +126,7 @@ public class ChartWindow extends AbstractInternalFrame implements ActionListener
         
         this.add(tabs, BorderLayout.CENTER);
     }
-        
-    @Override
-    protected void updateChartEvents(int newTop) {
-        
-        chartData.setTop(newTop);
-        generateInitialChartData();
-        updateChart(newTop);
-    }
-        
-    @Override
-    protected void updateTextArea() {
-        
-        if (events != null) {
-         
-            StringBuilder dataString = new StringBuilder();
-            for (Map.Entry entry : chartEvents) {
-
-                dataString.append(entry.getKey()).append(" : ").append(entry.getValue()).append(NEWLINE);
-            }
-
-            tabbedTextArea.setText(dataString.toString());
-        }
-    }
-    
+            
     ////////////////////////////////////////////////////////////////////////////
     ///// EventLoaderListener implementation
     ////////////////////////////////////////////////////////////////////////////

@@ -20,22 +20,21 @@ import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Map;
 import org.jfree.chart.ChartMouseEvent;
 
 /**
  *
  * @author mark
  */
-public class ScanChartPanel extends AbstractInternalFrame implements ActionListener {
+public class ScanChartPanel extends AbstractInternalFrame {
 
     public ScanChartPanel(MenuDefinition menuDef) {
 
         super(menuDef.getName());
 
         chartData.setChartSource(menuDef.getProperty());
+        chartData.setTop(5);
 
         eventLoader.addListener(this);
 
@@ -92,35 +91,6 @@ public class ScanChartPanel extends AbstractInternalFrame implements ActionListe
         addStatusBar();
         
         this.add(tabs, BorderLayout.CENTER);
-    }
-
-    @Override
-    protected void updateTextArea() {
-
-        if (chartEvents != null) {
-
-            int count = 0;
-
-            StringBuilder dataString = new StringBuilder();
-            for (Map.Entry entry : chartEvents) {
-
-                if (count >= chartData.getTop()) {
-                    break;
-                }
-
-                dataString.append(entry.getKey()).append(" : ").append(entry.getValue()).append(NEWLINE);
-                count++;
-            }
-
-            tabbedTextArea.setText(dataString.toString());
-        }
-    }
-
-    @Override
-    protected void updateChartEvents(int newTop) {
-        
-        chartEvents = EventUtils.entriesSortedByValues(eventMap);
-        updateChart(newTop);
     }
         
     ////////////////////////////////////////////////////////////////////////////
