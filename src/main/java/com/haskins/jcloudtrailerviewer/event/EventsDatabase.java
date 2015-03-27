@@ -37,9 +37,7 @@ public class EventsDatabase implements EventLoaderListener {
         
     private final Map<String, Integer> eventsPerService = new HashMap<>();
     private final Map<String, Map<String, Integer>> tpsMap = new HashMap<>();
-    
-    private final List<EventsDatabaseListener> listeners = new ArrayList<>();
-    
+     
     /**
      * Clears the database of events
      */
@@ -87,15 +85,7 @@ public class EventsDatabase implements EventLoaderListener {
     public Map<String, Map<String, Integer>> getTransactionsPerService() {
        return tpsMap;
     }
-    
-    /**
-     * registers a listener to the database.
-     * @param listener 
-     */
-    public void addListeners(EventsDatabaseListener listener) {
-        listeners.add(listener);
-    }
-        
+            
     ////////////////////////////////////////////////////////////////////////////
     ///// EventLoaderListener implementation
     ////////////////////////////////////////////////////////////////////////////
@@ -111,15 +101,10 @@ public class EventsDatabase implements EventLoaderListener {
             public void run() {
                 
                 for (Event event : events) {
-                    
-//                    EventUtils.addTimestamp(event);
-                    
+                                        
                     tpsPerService(event);
                     eventsPerService(event);
-                    
-                    for (EventsDatabaseListener listener : listeners) {
-                        listener.onEvent(event);
-                    }
+
                 } 
             }
         };
@@ -137,8 +122,12 @@ public class EventsDatabase implements EventLoaderListener {
     ////////////////////////////////////////////////////////////////////////////
     private void eventsPerService(Event event) {
         
+        String service = event.getEventSource();
+        
         int posPeriod = event.getEventSource().indexOf(".");
-        String service = event.getEventSource().substring(0, posPeriod);
+        if (posPeriod != -1) {
+            service = event.getEventSource().substring(0, posPeriod);
+        }
         
         // sort events by AWS Service
         int count = 0;
@@ -152,8 +141,12 @@ public class EventsDatabase implements EventLoaderListener {
     
     private void tpsPerService(Event event) {
         
+        String service = event.getEventSource();
+        
         int posPeriod = event.getEventSource().indexOf(".");
-        String service = event.getEventSource().substring(0, posPeriod);
+        if (posPeriod != -1) {
+            service = event.getEventSource().substring(0, posPeriod);
+        }
         
         int tpsCount = 1;
         String dateTime = event.getEventTime();
