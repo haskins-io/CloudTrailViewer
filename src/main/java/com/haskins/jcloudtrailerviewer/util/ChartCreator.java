@@ -61,7 +61,8 @@ public class ChartCreator {
      */
     public static ChartPanel createTopPieChart(
             int top,
-            List<Entry<String,Integer>> events) {
+            List<Entry<String,Integer>> events,
+            Boolean chart3d) {
         
         DefaultPieDataset dataset = new DefaultPieDataset();
         
@@ -75,13 +76,25 @@ public class ChartCreator {
             dataset.setValue(obj.getKey(), obj.getValue());
         }
         
-        JFreeChart chart = ChartFactory.createPieChart(
-            "",
-            dataset,
-            false,
-            true,
-            false
-        );
+        JFreeChart chart;
+        if (chart3d) {
+            chart = ChartFactory.createPieChart3D(
+                "",
+                dataset,
+                false,
+                true,
+                false
+            );
+        } else {
+            chart = ChartFactory.createPieChart(
+                "",
+                dataset,
+                false,
+                true,
+                false
+            );
+        }
+        
         
         PiePlot plot = (PiePlot) chart.getPlot();
         plot.setBackgroundPaint(null);
@@ -204,7 +217,8 @@ public class ChartCreator {
             int top,
             List<Entry<String,Integer>> events, 
             String xLabel, String yLabel,
-            PlotOrientation orientation) {
+            PlotOrientation orientation, 
+            Boolean chart3d) {
         
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
@@ -218,19 +232,31 @@ public class ChartCreator {
             dataset.addValue(obj.getValue().intValue(), obj.getKey(), "");
         }
         
-        JFreeChart chart = ChartFactory.createBarChart(
-            "", 
-            xLabel, 
-            yLabel, 
-            dataset,
-            orientation, 
-            true, 
-            true, 
-            false
-        );
-        
-        ChartPanel chartPanel = new ChartPanel(chart);
-                        
-        return chartPanel;
+        JFreeChart chart;
+        if (chart3d) {
+            chart = ChartFactory.createBarChart3D(
+                "", 
+                xLabel, 
+                yLabel, 
+                dataset,
+                orientation, 
+                true, 
+                true, 
+                false
+            );
+        } else {
+            chart = ChartFactory.createBarChart(
+                "", 
+                xLabel, 
+                yLabel, 
+                dataset,
+                orientation, 
+                true, 
+                true, 
+                false
+            );
+        }
+                    
+        return new ChartPanel(chart);
     }
 }

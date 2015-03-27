@@ -56,8 +56,11 @@ public class TriDataPanel extends JPanel implements ActionListener {
     
     JCheckBoxMenuItem mnuTop5 = new JCheckBoxMenuItem("Top 5");
     JCheckBoxMenuItem mnuTop10 = new JCheckBoxMenuItem("Top 10");
+    
     JCheckBoxMenuItem mnuPie = new JCheckBoxMenuItem("Pie");
+    JCheckBoxMenuItem mnuPie3d = new JCheckBoxMenuItem("Pie 3D");
     JCheckBoxMenuItem mnuBar = new JCheckBoxMenuItem("Bar");
+    JCheckBoxMenuItem mnuBar3d = new JCheckBoxMenuItem("Bar 3d");
     
     private final JTextArea tabbedTextArea = new JTextArea();
     private final JTabbedPane tabs = new JTabbedPane();
@@ -91,12 +94,20 @@ public class TriDataPanel extends JPanel implements ActionListener {
         mnuPie.setActionCommand("Pie");
         mnuPie.addActionListener(this);
         
+        mnuPie3d.setActionCommand("Pie3d");
+        mnuPie3d.addActionListener(this);
+        
         mnuBar.setActionCommand("Bar");
         mnuBar.addActionListener(this);
+        
+        mnuBar3d.setActionCommand("Bar3d");
+        mnuBar3d.addActionListener(this);
                 
         JMenu menuStyle = new JMenu("Style");
         menuStyle.add(mnuPie);
+        menuStyle.add(mnuPie3d);
         menuStyle.add(mnuBar);
+        menuStyle.add(mnuBar3d);
         
         JMenu menuChart = new JMenu("Chart");
         menuChart.add(menuTop);
@@ -130,14 +141,34 @@ public class TriDataPanel extends JPanel implements ActionListener {
             case "Pie":
                 mnuPie.setState(true);
                 mnuBar.setState(false);
+                mnuPie3d.setState(false);
+                mnuBar3d.setState(false);
                 chartData.setChartStyle("Pie");
-                updateChartEvents();
+                updateChartEvents(false);
                 break;
             case "Bar":
                 mnuPie.setState(false);
                 mnuBar.setState(true);
+                mnuPie3d.setState(false);
+                mnuBar3d.setState(false);
                 chartData.setChartStyle("Bar");
-                updateChartEvents();
+                updateChartEvents(false);
+                break;
+            case "Pie3d":
+                mnuPie.setState(false);
+                mnuBar.setState(false);
+                mnuPie3d.setState(true);
+                mnuBar3d.setState(false);
+                chartData.setChartStyle("Pie");
+                updateChartEvents(true);
+                break;
+            case "Bar3d":
+                mnuPie.setState(false);
+                mnuBar.setState(false);
+                mnuPie3d.setState(false);
+                mnuBar3d.setState(true);
+                chartData.setChartStyle("Bar");
+                updateChartEvents(true);
                 break;
         }
     }
@@ -161,7 +192,7 @@ public class TriDataPanel extends JPanel implements ActionListener {
             mnuBar.setState(true);
         }
         
-        createChart();
+        createChart(false);
         if (chartPanel != null) {
             tabs.addTab("Chart", chartPanel);
         }
@@ -182,8 +213,14 @@ public class TriDataPanel extends JPanel implements ActionListener {
     }
         
     private void updatePanel(int top) {
+        
+        boolean chart3d = false;
+        if (mnuPie3d.getState() || mnuBar3d.getState()) {
+            chart3d = true;
+        }
+        
         chartData.setTop(top);
-        updateChartEvents();
+        updateChartEvents(chart3d);
         reloadTable();
         updateTextArea();
     }
@@ -208,9 +245,9 @@ public class TriDataPanel extends JPanel implements ActionListener {
         } 
     } 
     
-    private void updateChart() {
+    private void updateChart(boolean chart3d) {
         
-        createChart();
+        createChart(chart3d);
         tabs.remove(0);
         tabs.insertTab("Chart", null, chartPanel, "", 0);
         tabs.setSelectedIndex(0);
@@ -237,29 +274,33 @@ public class TriDataPanel extends JPanel implements ActionListener {
         }
     }
     
-    private void updateChartEvents() {
+    private void updateChartEvents(boolean chart3d) {
         
         generateInitialChartData();
-        updateChart();
+        updateChart(chart3d);
     }
     
     private void generateInitialChartData() {
         chartEvents = EventUtils.getRequiredEvents(masterEvents, chartData);
     }
     
-    private void createChart() {
+    private void createChart(boolean chart3d) {
         
-        if (chartData.getChartStyle().equalsIgnoreCase("Pie")) {
+        if (mnuPie.getState() || mnuPie3d.getState()) {
 
-            chartPanel = ChartCreator.createTopPieChart(chartData.getTop(), chartEvents);
+            chartPanel = ChartCreator.createTopPieChart(
+                chartData.getTop(), 
+                chartEvents, 
+                chart3d);
            
-        } else if (chartData.getChartStyle().equalsIgnoreCase("Bar")) {
+        } else if (mnuBar.getState() || mnuBar3d.getState()) {
 
             chartPanel = ChartCreator.createBarChart(
                 chartData.getTop(),
                 chartEvents, 
                 chartData.getChartSource(), "Count",
-                PlotOrientation.VERTICAL);
+                PlotOrientation.VERTICAL,
+                chart3d);
         } 
         
 //        if (chartPanel != null) {
