@@ -20,12 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.jcloudtrailerviewer.panel;
 
+import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.table.EventsTable;
 import com.haskins.jcloudtrailerviewer.table.EventsTableModel;
-import com.haskins.jcloudtrailerviewer.util.ConstantsActions;
 import com.haskins.jcloudtrailerviewer.util.EventTimestampComparator;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -70,8 +70,11 @@ public class SecurityPanel extends AbstractInternalFrame {
         iamTableModel = new EventsTableModel();
         securityTableModel = new EventsTableModel();
         
-        actions_iam.addAll(Arrays.asList(ConstantsActions.ACTIONS_IAM));
-        actions_network.addAll(Arrays.asList(ConstantsActions.ACTIONS_NETWORK));
+        String ntwActions = PropertiesSingleton.getInstance().getProperty("sc.ntw");
+        String iamActions = PropertiesSingleton.getInstance().getProperty("sc.iam");
+        
+        actions_iam.addAll(Arrays.asList(iamActions.split(",")));
+        actions_network.addAll(Arrays.asList(ntwActions.split(",")));
         
         buildUI();
         
