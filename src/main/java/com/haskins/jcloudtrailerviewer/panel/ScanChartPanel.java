@@ -21,7 +21,6 @@ import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
 import java.util.List;
-import org.jfree.chart.ChartMouseEvent;
 
 /**
  *
@@ -91,13 +90,4 @@ public class ScanChartPanel extends AbstractInternalFrame {
         this.setJMenuBar(triPanel.getChartMenu());
         this.add(triPanel, BorderLayout.CENTER);
     }
-        
-    ////////////////////////////////////////////////////////////////////////////
-    // ChartMouseListener
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void chartMouseClicked(ChartMouseEvent cme) { }
-
-    @Override
-    public void chartMouseMoved(ChartMouseEvent cme) { }
 }

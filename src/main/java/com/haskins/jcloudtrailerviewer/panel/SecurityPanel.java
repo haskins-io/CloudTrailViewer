@@ -43,7 +43,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import org.jfree.chart.ChartMouseEvent;
 
 /**
  *
@@ -272,14 +271,4 @@ public class SecurityPanel extends AbstractInternalFrame {
         add(toolbar, BorderLayout.NORTH);
         add(split, BorderLayout.CENTER);
     }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    // ChartMouseListener
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void chartMouseClicked(ChartMouseEvent cme) { }
-
-    @Override
-    public void chartMouseMoved(ChartMouseEvent cme) { }
-    
 }

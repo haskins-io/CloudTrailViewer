@@ -41,7 +41,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import org.jfree.chart.ChartMouseEvent;
 
 /**
  *
@@ -222,13 +221,4 @@ public class ScanTablePanel extends AbstractInternalFrame  {
     private void addEvent(Event event) {
         eventsTableModel.addEvent(event); 
     }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    // ChartMouseListener
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void chartMouseClicked(ChartMouseEvent cme) { }
-
-    @Override
-    public void chartMouseMoved(ChartMouseEvent cme) { }
 }

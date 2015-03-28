@@ -36,7 +36,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import org.jfree.chart.ChartMouseEvent;
 
 /**
  *
@@ -132,15 +131,6 @@ public class TableWindow extends AbstractInternalFrame {
             }
         }
     }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    // ChartMouseListener
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void chartMouseClicked(ChartMouseEvent cme) { }
-
-    @Override
-    public void chartMouseMoved(ChartMouseEvent cme) { }
     
     ////////////////////////////////////////////////////////////////////////////
     ///// EventLoaderListener implementation

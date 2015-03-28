@@ -39,7 +39,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartPanel;
 
 /**
@@ -283,13 +282,4 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
         
         return inTopX;
     }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    // ChartMouseListener
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void chartMouseClicked(ChartMouseEvent cme) { }
-
-    @Override
-    public void chartMouseMoved(ChartMouseEvent cme) { }
 }

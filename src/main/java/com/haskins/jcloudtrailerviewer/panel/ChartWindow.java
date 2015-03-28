@@ -20,26 +20,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.jcloudtrailerviewer.panel;
 
-import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
-import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import java.awt.BorderLayout;
 import java.util.List;
 import javax.swing.JLabel;
-import org.jfree.chart.ChartMouseEvent;
-import org.jfree.chart.entity.CategoryItemEntity;
-import org.jfree.chart.entity.ChartEntity;
-import org.jfree.chart.entity.PieSectionEntity;
 
 /**
  *
  * @author mark.haskins
  */
 public class ChartWindow extends AbstractInternalFrame {
-    
-    private String chartSelect = null;
-    
+        
     private final TriDataPanel triPanel;
         
     public ChartWindow(ChartData chartData, List data) {
@@ -49,8 +41,6 @@ public class ChartWindow extends AbstractInternalFrame {
         triPanel = new TriDataPanel(chartData);
         
         events = data;
-
-        filters.addEventFilter(new FreeformFilter());
         
         buildGui();
         
@@ -61,51 +51,7 @@ public class ChartWindow extends AbstractInternalFrame {
             this.add(new JLabel("No Data"), BorderLayout.CENTER);
         }
     }
-       
-    ////////////////////////////////////////////////////////////////////////////
-    // ChartMouseListener
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void chartMouseClicked(ChartMouseEvent cme) {
-
-        if (cme.getTrigger().getClickCount() == 2) {
-            
-            Object object = cme.getEntity(); 
-            ChartEntity cie = (ChartEntity)object; 
-
-            if (chartData.getChartStyle().equalsIgnoreCase("Pie")) {
-
-                PieSectionEntity categoryItemEntity = (PieSectionEntity)cie;
-                chartSelect = categoryItemEntity.getSectionKey().toString();
-
-            } else if (chartData.getChartStyle().equalsIgnoreCase("Bar")) {
-
-                CategoryItemEntity categoryItemEntity = (CategoryItemEntity)cie;
-                chartSelect = categoryItemEntity.getCategory().toString(); 
-            }
-
-            if (chartSelect != null && events != null) {
-
-                filters.setFilterCriteria(chartSelect);
-                List<Event> filteredEvents = filters.filterEvents(events);
-
-                TableWindow window = new TableWindow("Filtered by : " + chartSelect, filteredEvents);
-                window.setVisible(true);
-
-                jCloudTrailViewer.DESKTOP.add(window);
-
-                try {
-                    window.setSelected(true);
-                }
-                catch (java.beans.PropertyVetoException pve) {
-                }
-            } 
-        }
-    }
-
-    @Override
-    public void chartMouseMoved(ChartMouseEvent cme) { }
-    
+        
     ////////////////////////////////////////////////////////////////////////////
     // Private Methods
     ////////////////////////////////////////////////////////////////////////////

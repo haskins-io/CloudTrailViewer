@@ -37,7 +37,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import org.jfree.chart.ChartMouseListener;
 
 /**
  * Abstract class that all JinternalFrame windows should implement. It provides
@@ -45,7 +44,7 @@ import org.jfree.chart.ChartMouseListener;
  * 
  * @author mark.haskins
  */
-public abstract class AbstractInternalFrame extends JInternalFrame implements ChartMouseListener, EventLoaderListener {
+public abstract class AbstractInternalFrame extends JInternalFrame implements EventLoaderListener {
     
     protected final static String NEWLINE = "\n";
     
