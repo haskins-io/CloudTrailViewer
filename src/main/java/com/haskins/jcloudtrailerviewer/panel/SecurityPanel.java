@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -94,21 +93,18 @@ public class SecurityPanel extends AbstractInternalFrame {
             
             // Errors
             if (event.getErrorCode().length() > 1) {
-//                EventUtils.addTimestamp(event);
                 errorTableModel.addEvent(event);
                 tabs.setTitleAt(0, "Errors (" + errorTableModel.size() + ")");
             }
             
             // IAM
             if (event.getEventSource().equalsIgnoreCase("iam.amazonaws.com") && actions_iam.contains(event.getEventName())) {
-//                EventUtils.addTimestamp(event);
                 iamTableModel.addEvent(event);
                 tabs.setTitleAt(1, "Iam (" + iamTableModel.size() + ")");
             }
             
             // Security
             if (event.getEventSource().equalsIgnoreCase("ec2.amazonaws.com") && actions_network.contains(event.getEventName())) {
-//                EventUtils.addTimestamp(event);
                 securityTableModel.addEvent(event);
                 tabs.setTitleAt(2, "Network (" + securityTableModel.size() + ")");
             }
@@ -186,9 +182,7 @@ public class SecurityPanel extends AbstractInternalFrame {
 
                     if (chartData != null) {
 
-                        List<Map.Entry<String, Integer>> chartMetrics = eventUtils.getRequiredEvents(events, chartData);
-
-                        ChartWindow chart = new ChartWindow(chartData, chartMetrics);
+                        ChartWindow chart = new ChartWindow(chartData, events);
                         chart.setVisible(true);
 
                         jCloudTrailViewer.DESKTOP.add(chart);

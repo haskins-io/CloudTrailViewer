@@ -48,23 +48,13 @@ public class ChartWindow extends AbstractInternalFrame {
         
         triPanel = new TriDataPanel(chartData);
         
-        Object firstDataElement = data.get(0);
-        if (firstDataElement instanceof Event) {
-            
-            events = data;
-            chartEvents = null;
-            
-        } else {
-            
-            events = null;
-            chartEvents = data;
-        }
-        
+        events = data;
+
         filters.addEventFilter(new FreeformFilter());
         
         buildGui();
         
-        if ( (events != null && !events.isEmpty() ) || ( chartEvents != null && !chartEvents.isEmpty() )) {
+        if (events != null && !events.isEmpty()) {
             triPanel.setEvents(events);
 }
         else {
