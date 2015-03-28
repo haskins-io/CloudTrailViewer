@@ -59,14 +59,13 @@ public class PropertiesSingletonTest {
      * Test of configLoaded method, of class PropertiesSingleton.
      */
     @Test
-    public void testConfigLoaded() {
+    public void testValidS3Credentials() {
         
         PropertiesSingleton.getInstance();
         boolean expResult = true;
-        boolean result = PropertiesSingleton.getInstance().configLoaded();
+        boolean result = PropertiesSingleton.getInstance().validS3Credentials();
         
         assertEquals(expResult, result);
-
     }
     
 }

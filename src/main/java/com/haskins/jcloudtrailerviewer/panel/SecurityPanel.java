@@ -77,11 +77,16 @@ public class SecurityPanel extends AbstractInternalFrame {
         
         buildUI();
         
-        int scanDialogResult = showScanDialog();
+        int scanDialogResult = 0;
+        if (PropertiesSingleton.getInstance().validS3Credentials()) {
+            scanDialogResult = showScanDialog();
+        }
         if (scanDialogResult == 0) {
             eventLoader.showFileBrowser();
-        } else {
+        }  else if (scanDialogResult == 1) {
             eventLoader.showS3Browser();
+        } else {
+            this.dispose();
         }
     }
     

@@ -16,6 +16,7 @@
  */
 package com.haskins.jcloudtrailerviewer.panel;
 
+import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.filter.EventFilter;
 import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
@@ -89,13 +90,17 @@ public class ScanTablePanel extends AbstractInternalFrame  {
                
         eventLoader.addListener(this);
         
-        int scanDialogResult = showScanDialog();
+        int scanDialogResult = 0;
+        if (PropertiesSingleton.getInstance().validS3Credentials()) {
+            scanDialogResult = showScanDialog();
+        }
+        
         if (scanDialogResult == 0) {
+            buildUI();
             eventLoader.showFileBrowser();
-            buildUI();
         } else if (scanDialogResult == 1) {
-            eventLoader.showS3Browser();
             buildUI();
+            eventLoader.showS3Browser();
         } else {
             this.dispose();
         }

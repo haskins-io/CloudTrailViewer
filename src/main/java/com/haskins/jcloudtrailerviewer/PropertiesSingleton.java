@@ -26,6 +26,8 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -38,8 +40,8 @@ public class PropertiesSingleton {
     private static PropertiesSingleton instance = null;
 
     private final Properties configProp = new Properties();
-
-    private boolean configLoaded = false;
+    
+    private boolean validS3Credentials = false;
 
     /**
      * Returns an instance of the PropertiesSingleton class
@@ -51,6 +53,7 @@ public class PropertiesSingleton {
 
             instance = new PropertiesSingleton();
             instance.loadConfigFile();
+            instance.checkS3Credentials();
         }
 
         return instance;
@@ -75,14 +78,10 @@ public class PropertiesSingleton {
         return this.configProp.getProperty(key);
     }
 
-    /**
-     * Returns a boolean if the config file has been loaded.
-     * @return 
-     */
-    public boolean configLoaded() {
-        return this.configLoaded;
+    public boolean validS3Credentials() {
+        return validS3Credentials;
     }
-
+    
     private void loadConfigFile() {
 
         try {
@@ -91,7 +90,6 @@ public class PropertiesSingleton {
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 
             configProp.load(in);
-            configLoaded = true;
         } catch (Exception e1) {
             
             Logger.getLogger(PropertiesSingleton.class.getName()).log(Level.WARNING, "No config file found");
@@ -104,10 +102,43 @@ public class PropertiesSingleton {
 
             try {
                 configProp.load(in);
-                configLoaded = true;
             } catch (Exception e2) {
                 Logger.getLogger(PropertiesSingleton.class.getName()).log(Level.WARNING, "Still no config file found");
             }
+        }
+    }
+    
+    private void checkS3Credentials() {
+        
+        String keyRegex = "(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])";
+        String secretRegex = "(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])";
+     
+        Pattern keyPattern = Pattern.compile(keyRegex);
+        Pattern secretPattern = Pattern.compile(secretRegex);
+        
+        boolean keyOK = false;
+        if (getProperty("aws.key") != null) {
+            Matcher keyMatcher = keyPattern.matcher(getProperty("aws.key"));
+            if (keyMatcher.matches()) {
+                keyOK = true;
+            }  
+        }
+        
+        boolean secretOK = false;
+        if (getProperty("aws.secret") != null) {
+            Matcher secretMatcher = secretPattern.matcher(getProperty("aws.secret"));
+            if (secretMatcher.matches()) {
+                secretOK = true;
+            }
+        }
+
+        boolean bucketProvided = false;
+        if (getProperty("aws.secret") != null && getProperty("aws.secret").length() >= 3) {
+            bucketProvided = true;
+        }
+        
+        if (keyOK && secretOK && bucketProvided) {
+            validS3Credentials = true;
         }
     }
 }

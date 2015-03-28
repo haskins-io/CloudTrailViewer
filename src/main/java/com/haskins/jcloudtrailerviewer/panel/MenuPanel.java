@@ -113,7 +113,7 @@ public class MenuPanel extends JMenuBar implements ActionListener {
         loadS3.setActionCommand("LoadS3");
         loadS3.addActionListener(this);
         
-        if (!PropertiesSingleton.getInstance().configLoaded()) {
+        if (!PropertiesSingleton.getInstance().validS3Credentials()) {
             loadS3.setEnabled(false);
         }
         

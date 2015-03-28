@@ -16,6 +16,7 @@
  */
 package com.haskins.jcloudtrailerviewer.panel;
 
+import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
@@ -41,16 +42,18 @@ public class ScanChartPanel extends AbstractInternalFrame {
 
         eventLoader.addListener(this);
 
-        int scanDialogResult = showScanDialog();
+        int scanDialogResult = 0;
+        if (PropertiesSingleton.getInstance().validS3Credentials()) {
+            scanDialogResult = showScanDialog();
+        }
+        
         if (scanDialogResult == 0) {
+            buildUI();
             eventLoader.showFileBrowser();
+        } else if (scanDialogResult == 1) {
             buildUI();
-        }
-        else if (scanDialogResult == 1) {
             eventLoader.showS3Browser();
-            buildUI();
-        }
-        else {
+        } else {
             this.dispose();
         }
     }
