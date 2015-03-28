@@ -42,6 +42,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -166,22 +167,35 @@ public class MenuPanel extends JMenuBar implements ActionListener {
     
     private void showEventsByServiceChart() {
         
-        ChartData chartData = new ChartData();
-        chartData.setChartStyle("bar");
-        chartData.setChartSource("Events by Service");
+        if (eventsDatabase.getEventsPerService().size() > 0) {
+            
+            ChartData chartData = new ChartData();
+            chartData.setChartStyle("bar");
+            chartData.setChartSource("Events by Service");
 
-        List<Map.Entry<String, Integer>> events = EventUtils.entriesSortedByValues(eventsDatabase.getEventsPerService());
+            List<Map.Entry<String, Integer>> events = EventUtils.entriesSortedByValues(eventsDatabase.getEventsPerService());
 
-        ChartWindow chart = new ChartWindow(chartData, events);
-        chart.setVisible(true);
+            ChartWindow chart = new ChartWindow(chartData, events);
+            chart.setVisible(true);
 
-        jCloudTrailViewer.DESKTOP.add(chart);
+            jCloudTrailViewer.DESKTOP.add(chart);
+
+            try {
+                chart.setSelected(true);
+            }
+            catch (java.beans.PropertyVetoException pve) {
+            }
+           
+        }
+        else {
+
+            JOptionPane.showMessageDialog(
+                jCloudTrailViewer.DESKTOP,
+                "No Events Loaded!",
+                "Data Error",
+                JOptionPane.WARNING_MESSAGE);
+        }
         
-        try {
-            chart.setSelected(true);
-        }
-        catch (java.beans.PropertyVetoException pve) {
-        }
     }
         
     private void createMenusFromFile() {
