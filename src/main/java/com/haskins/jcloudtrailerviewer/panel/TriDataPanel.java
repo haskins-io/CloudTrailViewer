@@ -76,12 +76,12 @@ public class TriDataPanel extends JPanel implements ActionListener, ChartMouseLi
     private final JTextArea tabbedTextArea = new JTextArea();
     private final JTabbedPane tabs = new JTabbedPane();
     
-    public TriDataPanel(ChartData data) {
+    public TriDataPanel(ChartData data, boolean showMenu) {
         
         chartData = data;
         filters.addEventFilter(new FreeformFilter());
         
-        buildDisplay();
+        buildDisplay(showMenu);
     }
     
     public void setEvents(List<Event> events) {
@@ -234,7 +234,7 @@ public class TriDataPanel extends JPanel implements ActionListener, ChartMouseLi
     ////////////////////////////////////////////////////////////////////////////
     // private methods
     ////////////////////////////////////////////////////////////////////////////
-    private void buildDisplay() {
+    private void buildDisplay(boolean showMenu) {
         
         this.setLayout(new BorderLayout());
         
@@ -266,6 +266,10 @@ public class TriDataPanel extends JPanel implements ActionListener, ChartMouseLi
         updateTextArea();
         JScrollPane tabbedDataScrollPane = new JScrollPane(tabbedTextArea);
         tabs.addTab("Data", tabbedDataScrollPane); 
+        
+        if (showMenu) {
+            this.add(getChartMenu(), BorderLayout.NORTH);
+        }
         
         this.add(tabs, BorderLayout.CENTER);
     }

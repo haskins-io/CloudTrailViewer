@@ -38,7 +38,7 @@ public class ChartWindow extends AbstractInternalFrame {
         
         super(chartData.getChartSource());
         
-        triPanel = new TriDataPanel(chartData);
+        triPanel = new TriDataPanel(chartData, false);
         
         events = data;
         

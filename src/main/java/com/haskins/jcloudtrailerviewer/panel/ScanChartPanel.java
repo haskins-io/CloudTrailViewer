@@ -38,7 +38,7 @@ public class ScanChartPanel extends AbstractInternalFrame {
         chartData.setChartSource(menuDef.getProperty());
         chartData.setTop(5);
         
-        triPanel = new TriDataPanel(chartData);
+        triPanel = new TriDataPanel(chartData, false);
 
         eventLoader.addListener(this);
 
