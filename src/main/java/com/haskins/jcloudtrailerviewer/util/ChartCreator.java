@@ -57,12 +57,13 @@ public class ChartCreator {
      * Returns a Pie chart
      * @param top number of segments in the chart
      * @param events events to process
+     * @param chart3d show 3d version of chart
      * @return 
      */
     public static ChartPanel createTopPieChart(
             int top,
             List<Entry<String,Integer>> events,
-            Boolean chart3d) {
+            boolean chart3d) {
         
         DefaultPieDataset dataset = new DefaultPieDataset();
         
@@ -211,6 +212,7 @@ public class ChartCreator {
      * @param xLabel xAxis label
      * @param yLabel yAxis label
      * @param orientation Horizontal or Vertical
+     * @param chart3d show 3d version of chart
      * @return 
      */
     public static ChartPanel createBarChart(
@@ -218,7 +220,7 @@ public class ChartCreator {
             List<Entry<String,Integer>> events, 
             String xLabel, String yLabel,
             PlotOrientation orientation, 
-            Boolean chart3d) {
+            boolean chart3d) {
         
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
