@@ -23,7 +23,6 @@ package com.haskins.jcloudtrailerviewer.util;
 import com.haskins.jcloudtrailerviewer.event.EventLoader;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
-import com.haskins.jcloudtrailerviewer.model.UserIdentity;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -37,7 +36,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -116,7 +114,6 @@ public class EventUtils {
         } 
     }            
            
-    
     public static List<Entry<String,Integer>> getRequiredEvents(List<Event> masterEvents, ChartData chartData) {
                 
         List<Entry<String,Integer>> events = getEventsBySource(masterEvents, chartData);
@@ -174,28 +171,29 @@ public class EventUtils {
         return top;
     }
     
-    public static String getEventProperty(String property, Event event) {
+    public static String getEventProperty(String property, Object event) {
         
-        String requiredValue = null;
-                
-        if (property.indexOf(".") > 1) {
+        String requiredValue;
+        
+        if (property.contains(".")) {
             
-            String[] parts = property.split(Pattern.quote("."));
-            
-            Object subClassObj = callMethod(parts[0], event);
-            
-            if (parts[0].equalsIgnoreCase("userIdentity")) {
-                
-                UserIdentity userIdentity = (UserIdentity) subClassObj;
-                requiredValue = (String) callMethod(parts[1], userIdentity);
+            int pos = property.indexOf(".");
+            String field = property.substring(0, pos);
+             
+            Object subClass = callMethod(field, event);
+            if (subClass != null) {
+                property = property.substring(pos + 1);
+                return getEventProperty(property, subClass); 
+            } else {
+                return null;
             }
             
         } else {
             
             requiredValue = (String) callMethod(property, event);
         }
-        
-        return requiredValue;
+       
+        return requiredValue; 
     }
     
     private static Object callMethod(String property, Object reflectionClass) {

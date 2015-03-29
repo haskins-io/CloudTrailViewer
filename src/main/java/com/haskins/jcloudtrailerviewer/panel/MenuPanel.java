@@ -28,6 +28,9 @@ import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
 import com.haskins.jcloudtrailerviewer.model.MenusDefinition;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,12 +43,15 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -189,8 +195,21 @@ public class MenuPanel extends JMenuBar implements ActionListener, KeyListener {
         
         
         // -- Menu : Scan
+        JPanel scanSearchPanel = new JPanel();
+        scanSearchPanel.setBackground(Color.WHITE);
+        scanSearchPanel.setLayout(new BorderLayout());
+        
+        JLabel iconLabel = new JLabel();
+        try{
+            iconLabel.setIcon(new ImageIcon(this.getClass().getClassLoader().getResource("icons/Search.png")));
+        } catch (Exception e)
+        { }
+        
+        scanSearchPanel.add(iconLabel, BorderLayout.WEST);
+        scanSearchPanel.add(menuScanTextField, BorderLayout.CENTER);
+        
         JMenu menuScan = new JMenu("Scan");
-        menuScan.add(menuScanTextField);
+        menuScan.add(scanSearchPanel);
         menuScan.addSeparator();
         menuScan.addMenuListener(new MenuListener(){
             @Override
