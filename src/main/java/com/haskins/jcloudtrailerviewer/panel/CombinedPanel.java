@@ -64,7 +64,7 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
         chartData.setChartSource("eventName");
         chartData.setChartType("Top");
         
-        triPanel = new TriDataPanel(chartData);
+        triPanel = new TriDataPanel(chartData, true);
         
         if (logEvents != null) {
             events = logEvents;
@@ -73,7 +73,9 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
             
         } else {
             
-            chartData.setChartSource(menuDefinition.getProperty());
+            if (menuDefinition.getProperty() != null) {
+                chartData.setChartSource(menuDefinition.getProperty());
+            }
             
             if (menuDefinition.getActions() != null) {
                 scanActions = menuDefinition.getActions();
@@ -174,7 +176,7 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
         
         // create PIE Chart
         sidePanel.add(triPanel);
-        this.setJMenuBar(triPanel.getChartMenu());
+        //this.setJMenuBar(triPanel.getChartMenu());
         
         // Detail area      
         sidePanel.add(getEventDetailPanel());
