@@ -28,8 +28,11 @@ import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
 import com.haskins.jcloudtrailerviewer.model.MenusDefinition;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -43,13 +46,16 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
  * @author mark.haskins
  */
-public class MenuPanel extends JMenuBar implements ActionListener {
+public class MenuPanel extends JMenuBar implements ActionListener, KeyListener {
     
     private final JFileChooser fileChooser = new JFileChooser();
     
@@ -57,6 +63,8 @@ public class MenuPanel extends JMenuBar implements ActionListener {
     private final EventLoader eventLoader;
     
     private final Map<String, JMenu> menusMap = new HashMap<>();
+    
+    private final JTextField menuScanTextField = new JTextField();
         
     public MenuPanel(EventLoader eventLoader, EventsDatabase database) {
         
@@ -66,6 +74,9 @@ public class MenuPanel extends JMenuBar implements ActionListener {
         buildMenu();
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    // ActionListener
+    ////////////////////////////////////////////////////////////////////////////
     @Override
     public void actionPerformed(ActionEvent e) {
         
@@ -83,10 +94,46 @@ public class MenuPanel extends JMenuBar implements ActionListener {
                 break;
         }
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // KeyListener
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+        if (e.getKeyCode() == KeyEvent.VK_ENTER && menuScanTextField.getText().trim().length() > 0) {
+            
+            MenuDefinition def = new MenuDefinition();
+            def.setName(menuScanTextField.getText());
+            def.setContains("FreeformFilter:" + menuScanTextField.getText().trim());
+            
+            JInternalFrame panel = new CombinedPanel(def.getName(), null, def);
+            panel.setVisible(true);
+
+            jCloudTrailViewer.DESKTOP.add(panel);
+
+            try {
+                panel.setSelected(true);
+            }
+            catch (java.beans.PropertyVetoException pve) {
+            }
+            
+            menuScanTextField.setText("");
+        }
+    }
+
+
+    @Override
+    public void keyReleased(KeyEvent e) { }
+    
+    @Override
+    public void keyTyped(KeyEvent e) { }
         
     private void buildMenu() {
         
         fileChooser.setMultiSelectionEnabled(true);
+        
+        menuScanTextField.addKeyListener(this);
         
         // -- Menu : File
         JMenu menuFile = new JMenu("File");
@@ -139,7 +186,29 @@ public class MenuPanel extends JMenuBar implements ActionListener {
         eventsByService.addActionListener(this);
         
         menuServices.add(eventsByService);
-
+        
+        
+        // -- Menu : Scan
+        JMenu menuScan = new JMenu("Scan");
+        menuScan.add(menuScanTextField);
+        menuScan.addSeparator();
+        menuScan.addMenuListener(new MenuListener(){
+            @Override
+            public void menuCanceled(MenuEvent e) {}
+            @Override
+            public void menuDeselected(MenuEvent e) {}
+            @Override
+            public void menuSelected(MenuEvent e) {
+                EventQueue.invokeLater(new Runnable(){
+                    @Override
+                    public void run() {
+                        menuScanTextField.grabFocus();
+                    }
+                });
+            }
+        });
+        
+        menusMap.put("Scan", menuScan);
         
         // -- Menu : About
         JMenu menuAbout = new JMenu("Help");
@@ -151,6 +220,7 @@ public class MenuPanel extends JMenuBar implements ActionListener {
         this.add(menuFile);
         this.add(menuEvents);
         this.add(menuServices);
+        this.add(menuScan);
         
         createMenusFromFile();
         
