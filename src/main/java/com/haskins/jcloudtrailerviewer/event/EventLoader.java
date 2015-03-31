@@ -30,7 +30,7 @@ import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.Records;
-import com.haskins.jcloudtrailerviewer.panel.S3FileChooserDialog;
+import com.haskins.jcloudtrailerviewer.components.S3FileChooserDialog;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

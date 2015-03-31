@@ -18,8 +18,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.jcloudtrailerviewer.panel;
+package com.haskins.jcloudtrailerviewer.components;
 
+import com.haskins.jcloudtrailerviewer.frame.ScanChartWindow;
+import com.haskins.jcloudtrailerviewer.frame.CombinedWindow;
+import com.haskins.jcloudtrailerviewer.frame.ChartWindow;
 import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.event.EventLoader;
 import com.haskins.jcloudtrailerviewer.event.EventsDatabase;
@@ -30,7 +33,6 @@ import com.haskins.jcloudtrailerviewer.model.MenusDefinition;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -61,7 +63,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  *
  * @author mark.haskins
  */
-public class MenuPanel extends JMenuBar implements ActionListener, KeyListener {
+public class MainMenu extends JMenuBar implements ActionListener, KeyListener {
     
     private final JFileChooser fileChooser = new JFileChooser();
     
@@ -72,7 +74,7 @@ public class MenuPanel extends JMenuBar implements ActionListener, KeyListener {
     
     private final JTextField menuScanTextField = new JTextField();
         
-    public MenuPanel(EventLoader eventLoader, EventsDatabase database) {
+    public MainMenu(EventLoader eventLoader, EventsDatabase database) {
         
         this.eventLoader = eventLoader;
         eventsDatabase = database;
@@ -113,7 +115,7 @@ public class MenuPanel extends JMenuBar implements ActionListener, KeyListener {
             def.setName(menuScanTextField.getText());
             def.setContains("FreeformFilter:" + menuScanTextField.getText().trim());
             
-            JInternalFrame panel = new CombinedPanel(def.getName(), null, def);
+            JInternalFrame panel = new CombinedWindow(def.getName(), null, def);
             panel.setVisible(true);
 
             jCloudTrailViewer.DESKTOP.add(panel);
@@ -300,7 +302,7 @@ public class MenuPanel extends JMenuBar implements ActionListener, KeyListener {
 
         } catch (Exception e1) {
             
-            Logger.getLogger(MenuPanel.class.getName()).log(Level.WARNING, "Couldn't load features");
+            Logger.getLogger(MainMenu.class.getName()).log(Level.WARNING, "Couldn't load features");
                         
             try {
                 
@@ -370,11 +372,11 @@ public class MenuPanel extends JMenuBar implements ActionListener, KeyListener {
                          (def.getContains() != null && def.getContains().length() > 0) ) {
                         
                         //panel = new ScanTablePanel(def);
-                        panel = new CombinedPanel(def.getName(), null, def);
+                        panel = new CombinedWindow(def.getName(), null, def);
                         
                     } else if (def.getProperty() != null && def.getProperty().length() > 0) {
                         
-                        panel = new ScanChartPanel(def);
+                        panel = new ScanChartWindow(def);
                     }
                     
                     if (panel != null) {

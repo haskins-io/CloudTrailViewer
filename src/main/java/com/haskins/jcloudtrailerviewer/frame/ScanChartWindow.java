@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.jcloudtrailerviewer.panel;
+package com.haskins.jcloudtrailerviewer.frame;
 
 import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
+import com.haskins.jcloudtrailerviewer.components.TriDataPanel;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
 import java.util.List;
@@ -27,11 +28,11 @@ import java.util.List;
  *
  * @author mark
  */
-public class ScanChartPanel extends AbstractInternalFrame {
+public class ScanChartWindow extends AbstractInternalFrame {
 
     private final TriDataPanel triPanel;
     
-    public ScanChartPanel(MenuDefinition menuDef) {
+    public ScanChartWindow(MenuDefinition menuDef) {
 
         super(menuDef.getName());
 

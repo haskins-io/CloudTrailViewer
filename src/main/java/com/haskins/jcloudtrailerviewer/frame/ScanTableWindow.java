@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.jcloudtrailerviewer.panel;
+package com.haskins.jcloudtrailerviewer.frame;
 
+import com.haskins.jcloudtrailerviewer.frame.ChartWindow;
 import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.filter.EventFilter;
 import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
@@ -23,6 +24,7 @@ import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
+import com.haskins.jcloudtrailerviewer.components.ChartDialog;
 import com.haskins.jcloudtrailerviewer.table.EventsTable;
 import com.haskins.jcloudtrailerviewer.util.EventTimestampComparator;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
@@ -47,12 +49,12 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author mark.haskins
  */
-public class ScanTablePanel extends AbstractInternalFrame  {
+public class ScanTableWindow extends AbstractInternalFrame  {
         
     private List<String> scanActions;
     private String scanNeedle;
     
-    public ScanTablePanel(MenuDefinition menuDefinition) {
+    public ScanTableWindow(MenuDefinition menuDefinition) {
         
         super(menuDefinition.getName());
         
@@ -73,7 +75,7 @@ public class ScanTablePanel extends AbstractInternalFrame  {
                     Class c = Class.forName("com.haskins.jcloudtrailerviewer.filter." + filterName);
                     filter = (EventFilter)c.newInstance();
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-                    Logger.getLogger(ScanTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ScanTableWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
                 scanNeedle = parts[1];

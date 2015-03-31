@@ -19,8 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-package com.haskins.jcloudtrailerviewer.panel;
+package com.haskins.jcloudtrailerviewer.components;
 
+import com.haskins.jcloudtrailerviewer.frame.SecurityWindow;
+import com.haskins.jcloudtrailerviewer.frame.TableWindow;
+import com.haskins.jcloudtrailerviewer.frame.CombinedWindow;
+import com.haskins.jcloudtrailerviewer.frame.ChartWindow;
 import com.haskins.jcloudtrailerviewer.event.EventsDatabase;
 import com.haskins.jcloudtrailerviewer.filter.Filters;
 import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
@@ -47,7 +51,7 @@ import javax.swing.JToolBar;
  *
  * @author mark.haskins
  */
-public class ToolBarPanel extends JToolBar implements ActionListener, KeyListener {
+public class MainToolBar extends JToolBar implements ActionListener, KeyListener {
 
     private final EventsDatabase eventsDatabase;
 
@@ -55,7 +59,7 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
     
     private final JTextField searchBox = new JTextField();
 
-    public ToolBarPanel(EventsDatabase database) {
+    public MainToolBar(EventsDatabase database) {
 
         eventsDatabase = database;
 
@@ -239,7 +243,7 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
         
         if (!eventsDatabase.getEvents().isEmpty()) {
 
-            CombinedPanel window = new CombinedPanel("All Events", eventsDatabase.getEvents(), null);
+            CombinedWindow window = new CombinedWindow("All Events", eventsDatabase.getEvents(), null);
             window.setVisible(true);
 
             jCloudTrailViewer.DESKTOP.add(window);
@@ -262,7 +266,7 @@ public class ToolBarPanel extends JToolBar implements ActionListener, KeyListene
     
     private void securityScan() {
         
-        SecurityPanel securityPanel = new SecurityPanel();
+        SecurityWindow securityPanel = new SecurityWindow();
         securityPanel.setVisible(true);
 
         jCloudTrailViewer.DESKTOP.add(securityPanel);

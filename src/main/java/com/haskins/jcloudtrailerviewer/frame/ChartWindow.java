@@ -18,10 +18,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.jcloudtrailerviewer.panel;
+package com.haskins.jcloudtrailerviewer.frame;
 
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
+import com.haskins.jcloudtrailerviewer.components.TriDataPanel;
 import java.awt.BorderLayout;
 import java.util.List;
 import javax.swing.JLabel;

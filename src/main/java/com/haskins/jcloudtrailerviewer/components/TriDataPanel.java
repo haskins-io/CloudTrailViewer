@@ -14,14 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.jcloudtrailerviewer.panel;
+package com.haskins.jcloudtrailerviewer.components;
 
+import com.haskins.jcloudtrailerviewer.frame.TableWindow;
 import com.haskins.jcloudtrailerviewer.filter.Filters;
 import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
+import com.haskins.jcloudtrailerviewer.frame.AbstractInternalFrame;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
-import static com.haskins.jcloudtrailerviewer.panel.AbstractInternalFrame.NEWLINE;
 import com.haskins.jcloudtrailerviewer.util.ChartCreator;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
@@ -326,7 +327,7 @@ public class TriDataPanel extends JPanel implements ActionListener, ChartMouseLi
                     break;
                 }
 
-                dataString.append(entry.getKey()).append(" : ").append(entry.getValue()).append(NEWLINE);
+                dataString.append(entry.getKey()).append(" : ").append(entry.getValue()).append(AbstractInternalFrame.NEWLINE);
                 count++;
             }
 

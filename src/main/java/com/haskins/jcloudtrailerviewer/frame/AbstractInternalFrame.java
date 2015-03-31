@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.jcloudtrailerviewer.panel;
+package com.haskins.jcloudtrailerviewer.frame;
 
 import com.haskins.jcloudtrailerviewer.event.EventLoader;
 import com.haskins.jcloudtrailerviewer.event.EventLoaderListener;
@@ -22,6 +22,7 @@ import com.haskins.jcloudtrailerviewer.filter.Filters;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
+import com.haskins.jcloudtrailerviewer.components.StatusBar;
 import com.haskins.jcloudtrailerviewer.table.EventDetailTable;
 import com.haskins.jcloudtrailerviewer.table.EventDetailTableModel;
 import com.haskins.jcloudtrailerviewer.table.EventsTableModel;
@@ -46,7 +47,7 @@ import javax.swing.JTextArea;
  */
 public abstract class AbstractInternalFrame extends JInternalFrame implements EventLoaderListener {
     
-    protected final static String NEWLINE = "\n";
+    public final static String NEWLINE = "\n";
     
     // Filtering
     protected final Filters filters = new Filters();
@@ -112,7 +113,7 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ev
     
     protected void addStatusBar() {
         
-        StatusBarPanel statusBarPanel = new StatusBarPanel();
+        StatusBar statusBarPanel = new StatusBar();
         eventLoader.addListener(statusBarPanel);
 
         this.add(statusBarPanel, BorderLayout.SOUTH);

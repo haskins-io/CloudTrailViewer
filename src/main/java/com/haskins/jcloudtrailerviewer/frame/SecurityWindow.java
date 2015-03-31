@@ -18,12 +18,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.jcloudtrailerviewer.panel;
+package com.haskins.jcloudtrailerviewer.frame;
 
+import com.haskins.jcloudtrailerviewer.frame.ChartWindow;
 import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
+import com.haskins.jcloudtrailerviewer.components.ChartDialog;
 import com.haskins.jcloudtrailerviewer.table.EventsTable;
 import com.haskins.jcloudtrailerviewer.table.EventsTableModel;
 import com.haskins.jcloudtrailerviewer.util.EventTimestampComparator;
@@ -48,7 +50,7 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author mark
  */
-public class SecurityPanel extends AbstractInternalFrame {
+public class SecurityWindow extends AbstractInternalFrame {
         
     private final EventsTableModel errorTableModel;
     private final EventsTableModel iamTableModel;
@@ -59,7 +61,7 @@ public class SecurityPanel extends AbstractInternalFrame {
     
     private final JTabbedPane tabs = new JTabbedPane();
     
-    public SecurityPanel() {
+    public SecurityWindow() {
         
         super("Security");
         

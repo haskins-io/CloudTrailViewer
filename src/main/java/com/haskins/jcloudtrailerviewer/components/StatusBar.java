@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.jcloudtrailerviewer.panel;
+package com.haskins.jcloudtrailerviewer.components;
 
 import com.haskins.jcloudtrailerviewer.event.EventLoaderListener;
 import com.haskins.jcloudtrailerviewer.model.Event;
@@ -32,7 +32,7 @@ import javax.swing.JPanel;
  *
  * @author mark
  */
-public class StatusBarPanel extends JPanel implements EventLoaderListener {
+public class StatusBar extends JPanel implements EventLoaderListener {
     
     private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd/MM/yy");
     
@@ -46,7 +46,7 @@ public class StatusBarPanel extends JPanel implements EventLoaderListener {
     private long firstEvent = 0;
     private long lastEvent = 0;
                     
-    public  StatusBarPanel() {
+    public  StatusBar() {
         buildUI();
     }
        

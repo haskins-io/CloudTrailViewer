@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.jcloudtrailerviewer.table;
 
 import com.haskins.jcloudtrailerviewer.model.Event;
-import java.io.IOException;
+import com.haskins.jcloudtrailerviewer.resource.ResourceLookup;
 import javax.swing.table.AbstractTableModel;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -59,7 +59,7 @@ public class EventDetailTableModel extends AbstractTableModel {
         int retVal = 0;
 
         if (detailEvent != null) {
-            retVal = 19;
+            retVal = 11;
         }
 
         return retVal;
@@ -67,156 +67,86 @@ public class EventDetailTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
+        
         Object value = "";
 
         switch (rowIndex) {
 
             case 0:
-                value = "Event Version";
+                value = "Event Time";
                 if (columnIndex == 1) {
-                    value = detailEvent.getEventVersion();
+                    value = detailEvent.getEventTime();
                 }
                 break;
             case 1:
                 value = "User Identity";
                 if (columnIndex == 1) {
 
-                    value = "";
-                    if (detailEvent.getUserIdentity() != null) {
-                        try {
-                            value = mapper.defaultPrettyPrintingWriter().writeValueAsString(detailEvent.getUserIdentity());
-                        } catch (IOException ex) {
-                            
-                        }
-                    }
+                    value = TableUtils.getUserName(detailEvent);
                 }
                 break;
             case 2:
-                value = "Event Time";
-                if (columnIndex == 1) {
-                    value = detailEvent.getEventTime();
-                }
-                break;
-            case 3:
-                value = "Event Source";
-                if (columnIndex == 1) {
-                    value = detailEvent.getEventSource();
-                }
-                break;
-            case 4:
                 value = "Event Name";
                 if (columnIndex == 1) {
                     value = detailEvent.getEventName();
                 }
                 break;
-            case 5:
-                value = "AWS Region";
-                if (columnIndex == 1) {
-                    value = detailEvent.getAwsRegion();
-                }
-                break;
-            case 6:
+            case 3:
                 value = "Source IP";
                 if (columnIndex == 1) {
                     value = detailEvent.getSourceIPAddress();
                 }
                 break;
-            case 7:
-                value = "User Agent";
+            case 4:
+                value = "Resource Name";
                 if (columnIndex == 1) {
-                    value = detailEvent.getUserAgent();
+                    value = ResourceLookup.getResource(detailEvent);
                 }
                 break;
-            case 8:
-                value = "Request Parameters";
-                if (columnIndex == 1) {
-                    value = "";
-                    if (detailEvent.getRequestParameters() != null) {
-                        try {
-                            value = mapper.defaultPrettyPrintingWriter().writeValueAsString(detailEvent.getRequestParameters());
-                        } catch (IOException ex) {
-                            
-                        }
-                    }
-                }
-                break;
-            case 9:
-                value = "Response Elements";
-                if (columnIndex == 1) {
-                    value = "";
-                    if (detailEvent.getResponseElements() != null) {
-                        try {
-                            value = mapper.defaultPrettyPrintingWriter().writeValueAsString(detailEvent.getResponseElements());
-                        } catch (IOException ex) {
-                            
-                        }
-                    }
-                }
-                break;
-            case 10:
-                value = "Request Id";
-                if (columnIndex == 1) {
-                    value = detailEvent.getRequestId();
-                }
-                break;
-            case 11:
-                value = "Event Type";
-                if (columnIndex == 1) {
-                    value = detailEvent.getEventType();
-                }
-                break;
-            case 12:
-                value = "Recipient Account";
-                if (columnIndex == 1) {
-                    value = detailEvent.getRecipientAccountId();
-                }
-                break;
-            case 13:
+            case 5:
                 value = "Error Code";
                 if (columnIndex == 1) {
                     value = detailEvent.getErrorCode();
                 }
                 break;
-            case 14:
-                value = "Error Message";
+            case 6:
+                value = "AWS Region";
                 if (columnIndex == 1) {
-                    value = detailEvent.getErrorMessage();
+                    value = detailEvent.getAwsRegion();
                 }
                 break;
-            case 15:
-                value = "Read Only";
-                if (columnIndex == 1) {
-                    value = detailEvent.getReadOnly();
-                }
-                break;
-            case 16:
-                value = "Resources";
-                if (columnIndex == 1) {
-                    value = "";
-                    if (detailEvent.getResources() != null) {
-                        try {
-                            value = mapper.defaultPrettyPrintingWriter().writeValueAsString(detailEvent.getResources());
-                        } catch (IOException ex) {
-                            
-                        }
-                    }
-                }
-                break;
-            case 17:
+            case 7:
                 value = "Event Id";
                 if (columnIndex == 1) {
                     value = detailEvent.getEventId();
                 }
                 break;
-            case 18:
-                value = "API Version";
+            case 8:
+                value = "Request Id";
                 if (columnIndex == 1) {
-                    value = detailEvent.getApiVersion();
+                    value = detailEvent.getRequestId();
+                }
+                break;
+            case 9:
+                value = "Event Source";
+                if (columnIndex == 1) {
+                    value = detailEvent.getEventSource();
+                }
+                break;
+            case 10:
+                value = "AWS Access Key";
+                if (columnIndex == 1) {
+                    value = detailEvent.getUserIdentity().getAccessKeyId();
                 }
                 break;
         }
 
         return value;
+    }
+    
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
     }
 
     ////////////////////////////////////////////////////////////////////////////

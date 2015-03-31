@@ -22,9 +22,9 @@ package com.haskins.jcloudtrailerviewer;
 
 import com.haskins.jcloudtrailerviewer.event.EventLoader;
 import com.haskins.jcloudtrailerviewer.event.EventsDatabase;
-import com.haskins.jcloudtrailerviewer.panel.MenuPanel;
-import com.haskins.jcloudtrailerviewer.panel.StatusBarPanel;
-import com.haskins.jcloudtrailerviewer.panel.ToolBarPanel;
+import com.haskins.jcloudtrailerviewer.components.MainMenu;
+import com.haskins.jcloudtrailerviewer.components.StatusBar;
+import com.haskins.jcloudtrailerviewer.components.MainToolBar;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -69,18 +69,18 @@ public class jCloudTrailViewer extends JFrame {
 
         this.setTitle("CloudTrail viewer and analysis");
         
-        StatusBarPanel statusBarPanel = new StatusBarPanel();
+        StatusBar statusBarPanel = new StatusBar();
         statusBarPanel.newMessage("Load Some Events");
         eventLoader.addListener(statusBarPanel);
                 
         JPanel layout = new JPanel();
         layout.setLayout(new BorderLayout());
-        layout.add(new ToolBarPanel(eventsDatabase), BorderLayout.NORTH);
+        layout.add(new MainToolBar(eventsDatabase), BorderLayout.NORTH);
         layout.add(DESKTOP, BorderLayout.CENTER);
         layout.add(statusBarPanel, BorderLayout.SOUTH);
         
         setContentPane(layout);
-        setJMenuBar(new MenuPanel(eventLoader, eventsDatabase));
+        setJMenuBar(new MainMenu(eventLoader, eventsDatabase));
     }
       
     private static void createAndShowGUI() {

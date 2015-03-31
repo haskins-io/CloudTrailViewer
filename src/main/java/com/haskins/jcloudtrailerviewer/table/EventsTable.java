@@ -33,7 +33,7 @@ public class EventsTable extends JTable {
     public EventsTable(EventsTableModel model) {
         
         super(model);
-        super.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        super.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
                 
         setupTable();
     }

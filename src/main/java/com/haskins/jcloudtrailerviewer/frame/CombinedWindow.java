@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.haskins.jcloudtrailerviewer.panel;
+package com.haskins.jcloudtrailerviewer.frame;
 
 import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.event.EventLoaderListener;
@@ -24,6 +24,7 @@ import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
+import com.haskins.jcloudtrailerviewer.components.TriDataPanel;
 import com.haskins.jcloudtrailerviewer.table.EventsTable;
 import com.haskins.jcloudtrailerviewer.util.ChartCreator;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
@@ -46,7 +47,7 @@ import org.jfree.chart.ChartPanel;
  *
  * @author mark.haskins
  */
-public class CombinedPanel extends AbstractInternalFrame implements EventLoaderListener {
+public class CombinedWindow extends AbstractInternalFrame implements EventLoaderListener {
          
     private final Map<String, Map<String, Integer>> tpsMap = new HashMap<>();
     private ChartPanel tpsPanel = null;
@@ -56,7 +57,7 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
     
     private final TriDataPanel triPanel;
     
-    public CombinedPanel(String title, List<Event> logEvents, MenuDefinition menuDefinition) {
+    public CombinedWindow(String title, List<Event> logEvents, MenuDefinition menuDefinition) {
         
         super(title);
         
@@ -94,7 +95,7 @@ public class CombinedPanel extends AbstractInternalFrame implements EventLoaderL
                         Class c = Class.forName("com.haskins.jcloudtrailerviewer.filter." + filterName);
                         filter = (EventFilter)c.newInstance();
                     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-                        Logger.getLogger(ScanTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ScanTableWindow.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     scanNeedle = parts[1];
