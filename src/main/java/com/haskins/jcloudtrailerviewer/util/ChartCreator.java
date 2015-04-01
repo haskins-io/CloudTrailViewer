@@ -57,13 +57,10 @@ public class ChartCreator {
      * Returns a Pie chart
      * @param top number of segments in the chart
      * @param events events to process
-     * @param chart3d show 3d version of chart
+     * @param style type of PieBar
      * @return 
      */
-    public static ChartPanel createTopPieChart(
-            int top,
-            List<Entry<String,Integer>> events,
-            boolean chart3d) {
+    public static ChartPanel createTopPieChart(int top, List<Entry<String,Integer>> events, String style) {
         
         DefaultPieDataset dataset = new DefaultPieDataset();
         
@@ -78,22 +75,10 @@ public class ChartCreator {
         }
         
         JFreeChart chart;
-        if (chart3d) {
-            chart = ChartFactory.createPieChart3D(
-                "",
-                dataset,
-                false,
-                true,
-                false
-            );
+        if (style.contains("3d")) {
+            chart = ChartFactory.createPieChart3D("", dataset, false, true, false);
         } else {
-            chart = ChartFactory.createPieChart(
-                "",
-                dataset,
-                false,
-                true,
-                false
-            );
+            chart = ChartFactory.createPieChart("", dataset, false, true, false);
         }
         
         
@@ -116,33 +101,40 @@ public class ChartCreator {
         return sourcePanel;
     }
     
-//    /**
-//     * returns a Line Chart
-//     * @param events events to process
-//     * @param width width of chart
-//     * @param height height of chart
-//     * @return 
-//     */
-//    public static ChartPanel createLineChart(
-//            List<Entry<String,Integer>> events, 
-//            int width, int height) {
-//        
-//        JFreeChart chart = ChartFactory.createLineChart(
-//            "",
-//            "",
-//            "",
-//            null,
-//            PlotOrientation.VERTICAL,
-//            true,
-//            true,
-//            false
-//        );
-//                
-//        ChartPanel chartPanel = new ChartPanel(chart);
-//        chartPanel.setPreferredSize(new Dimension(width, height));
-//               
-//        return chartPanel;
-//    }
+    
+    /**
+     * Returns a Bar chart
+     * @param top number of events to show
+     * @param events events to include on chart
+     * @param xLabel xAxis label
+     * @param yLabel yAxis label
+     * @param orientation Horizontal or Vertical
+     * @param style style of Bar Chart
+     * @return 
+     */
+    public static ChartPanel createBarChart(int top, List<Entry<String,Integer>> events, String xLabel, String yLabel, PlotOrientation orientation, String style) {
+        
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        int count = top;
+        if (events.size() < top) {
+            count = events.size();
+        }
+        
+        for (int i=0; i<count; i++) {
+            Entry<String,Integer> obj = events.get(i);
+            dataset.addValue(obj.getValue().intValue(), obj.getKey(), "");
+        }
+        
+        JFreeChart chart;
+        if (style.contains("3d")) {
+            chart = ChartFactory.createBarChart3D("",  xLabel, yLabel, dataset, orientation, true, true, false);
+        } else {
+            chart = ChartFactory.createBarChart("", xLabel, yLabel, dataset, orientation, true, true, false);
+        }
+                    
+        return new ChartPanel(chart);
+    }
     
     /**
      * returns a TimeSeries chart
@@ -203,62 +195,5 @@ public class ChartCreator {
         chartPanel.setPreferredSize(new Dimension(width, height));
                         
         return chartPanel;
-    }
-    
-    /**
-     * Returns a Bar chart
-     * @param top number of events to show
-     * @param events events to include on chart
-     * @param xLabel xAxis label
-     * @param yLabel yAxis label
-     * @param orientation Horizontal or Vertical
-     * @param chart3d show 3d version of chart
-     * @return 
-     */
-    public static ChartPanel createBarChart(
-            int top,
-            List<Entry<String,Integer>> events, 
-            String xLabel, String yLabel,
-            PlotOrientation orientation, 
-            boolean chart3d) {
-        
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        
-        int count = top;
-        if (events.size() < top) {
-            count = events.size();
-        }
-        
-        for (int i=0; i<count; i++) {
-            Entry<String,Integer> obj = events.get(i);
-            dataset.addValue(obj.getValue().intValue(), obj.getKey(), "");
-        }
-        
-        JFreeChart chart;
-        if (chart3d) {
-            chart = ChartFactory.createBarChart3D(
-                "", 
-                xLabel, 
-                yLabel, 
-                dataset,
-                orientation, 
-                true, 
-                true, 
-                false
-            );
-        } else {
-            chart = ChartFactory.createBarChart(
-                "", 
-                xLabel, 
-                yLabel, 
-                dataset,
-                orientation, 
-                true, 
-                true, 
-                false
-            );
-        }
-                    
-        return new ChartPanel(chart);
     }
 }

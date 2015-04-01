@@ -26,17 +26,12 @@ import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.util.ChartCreator;
 import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import javax.swing.ButtonGroup;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -54,7 +49,7 @@ import org.jfree.chart.plot.PlotOrientation;
  *
  * @author mark.haskins
  */
-public class TriDataPanel extends JPanel implements ActionListener, ChartMouseListener {
+public class TriDataPanel extends JPanel implements TriDataPanelMenuListener, ChartMouseListener {
     
     protected final Filters filters = new Filters();
     
@@ -66,22 +61,18 @@ public class TriDataPanel extends JPanel implements ActionListener, ChartMouseLi
     private String chartSelect = null;
     
     private final DefaultTableModel defaultTableModel = new DefaultTableModel();   
-    
-    JRadioButtonMenuItem mnuTop5 = new JRadioButtonMenuItem("Top 5");
-    JRadioButtonMenuItem mnuTop10 = new JRadioButtonMenuItem("Top 10");
-    
-    JRadioButtonMenuItem mnuPie = new JRadioButtonMenuItem("Pie");
-    JRadioButtonMenuItem mnuPie3d = new JRadioButtonMenuItem("Pie 3D");
-    JRadioButtonMenuItem mnuBar = new JRadioButtonMenuItem("Bar");
-    JRadioButtonMenuItem mnuBar3d = new JRadioButtonMenuItem("Bar 3d");
-    
+        
     private final JTextArea tabbedTextArea = new JTextArea();
     private final JTabbedPane tabs = new JTabbedPane();
+    
+    private final TriDataPanelMenu menu = new TriDataPanelMenu();
     
     public TriDataPanel(ChartData data, boolean showMenu) {
         
         chartData = data;
         filters.addEventFilter(new FreeformFilter());
+        
+        menu.addListener(this);
         
         buildDisplay(showMenu);
     }
@@ -95,85 +86,28 @@ public class TriDataPanel extends JPanel implements ActionListener, ChartMouseLi
     }
     
     public JMenuBar getChartMenu() {
-        
-        mnuTop5.setActionCommand("Top5");
-        mnuTop5.addActionListener(this);
-        
-        mnuTop10.setActionCommand("Top10");
-        mnuTop10.addActionListener(this);
-                
-        ButtonGroup topGroup = new ButtonGroup();
-        topGroup.add(mnuTop5);
-        topGroup.add(mnuTop10);
-        
-
-        JMenu menuTop = new JMenu("Top");
-        menuTop.add(mnuTop5);
-        menuTop.add(mnuTop10);
-        
-        
-        mnuPie.setActionCommand("Pie");
-        mnuPie.addActionListener(this);
-        
-        mnuPie3d.setActionCommand("Pie3d");
-        mnuPie3d.addActionListener(this);
-        
-        mnuBar.setActionCommand("Bar");
-        mnuBar.addActionListener(this);
-        
-        mnuBar3d.setActionCommand("Bar3d");
-        mnuBar3d.addActionListener(this);
-        
-        ButtonGroup styleGroup = new ButtonGroup();
-        styleGroup.add(mnuPie);
-        styleGroup.add(mnuPie3d);
-        styleGroup.add(mnuBar);
-        styleGroup.add(mnuBar3d);
-                
-        JMenu menuStyle = new JMenu("Style");
-        menuStyle.add(mnuPie);
-        menuStyle.add(mnuPie3d);
-        menuStyle.add(mnuBar);
-        menuStyle.add(mnuBar3d);
-        
-        JMenu menuChart = new JMenu("Chart");
-        menuChart.add(menuTop);
-        menuChart.add(menuStyle);
-        
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.add(menuChart);
-        
-        return menuBar;
+        return menu;
     }
-    
+        
     ////////////////////////////////////////////////////////////////////////////
-    // ActionListener
+    // TriDataPanelMenuListener
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void actionPerformed(ActionEvent e) {
-        
-        String actionCommand = e.getActionCommand();
-        
-        switch(actionCommand) {
-            case "Top5":
-                updatePanel(5);
-                break;
-            case "Top10":
-                updatePanel(10);
-                break;
-            case "Pie":
-                updateChartEvents("Pie", false);
-                break;
-            case "Bar":;
-                updateChartEvents("Bar", false);
-                break;
-            case "Pie3d":
-                updateChartEvents("Pie", true);
-                break;
-            case "Bar3d":
-                updateChartEvents("Bar", true);
-                break;
-        }
+    public void topUpdated(int newTop) {
+        chartData.setTop(newTop);
+        updatePanel(newTop);
+    }
+    
+    @Override
+    public void styleUpdated(String newStyle) {
+        chartData.setChartStyle(newStyle);
+        updateChart();
+    }
+    
+    @Override
+    public void sourceUpdated(String newSource) {
+        chartData.setChartSource(newSource);
+        updateChart();
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -229,7 +163,7 @@ public class TriDataPanel extends JPanel implements ActionListener, ChartMouseLi
         
         selectInitialMenus();
         
-        createChart(false);
+        createChart();
         if (chartPanel != null) {
             tabs.addTab("Chart", chartPanel);
         }
@@ -255,33 +189,15 @@ public class TriDataPanel extends JPanel implements ActionListener, ChartMouseLi
     
     private void selectInitialMenus() {
         
-        // TOP
-        if (chartData.getTop() == 5) {
-            mnuTop5.setSelected(true);
-        } else if (chartData.getTop() == 10) {
-            mnuTop10.setSelected(true);
-        }
-        
-        // STYLE
-        if (chartData.getChartStyle().equalsIgnoreCase("Pie")) {
-            mnuPie.setSelected(true);
-        } else if (chartData.getChartStyle().equalsIgnoreCase("Bar")) {
-            mnuBar.setSelected(true);
-        } 
-        
-        // PROPERTY
-        
+        menu.setTop(chartData.getTop());
+        menu.setStyle(chartData.getChartStyle());
+        menu.setSource(chartData.getChartSource());
     }
         
     private void updatePanel(int top) {
-        
-        boolean chart3d = false;
-        if (mnuPie3d.isSelected() || mnuBar3d.isSelected()) {
-            chart3d = true;
-        }
-        
+               
         chartData.setTop(top);
-        updateChartEvents(chartData.getChartStyle(), chart3d);
+        updateChart();
         reloadTable();
         updateTextArea();
     }
@@ -306,9 +222,10 @@ public class TriDataPanel extends JPanel implements ActionListener, ChartMouseLi
         } 
     } 
     
-    private void updateChart(boolean chart3d) {
+    private void updateChart() {
         
-        createChart(chart3d);
+        generateChartData();
+        createChart();
         tabs.remove(0);
         tabs.insertTab("Chart", null, chartPanel, "", 0);
         tabs.setSelectedIndex(0);
@@ -334,36 +251,28 @@ public class TriDataPanel extends JPanel implements ActionListener, ChartMouseLi
             tabbedTextArea.setText(dataString.toString());
         }
     }
-    
-    private void updateChartEvents(String style, boolean chart3d) {
         
-        chartData.setChartStyle(style);
-        
-        generateInitialChartData();
-        updateChart(chart3d);
-    }
-    
-    private void generateInitialChartData() {
+    private void generateChartData() {
         chartEvents = EventUtils.getRequiredEvents(masterEvents, chartData);
     }
     
-    private void createChart(boolean chart3d) {
+    private void createChart() {
         
-        if (mnuPie.isSelected() || mnuPie3d.isSelected()) {
+        if (chartData.getChartStyle().contains("Pie")) {
 
             chartPanel = ChartCreator.createTopPieChart(
                 chartData.getTop(), 
                 chartEvents, 
-                chart3d);
+                chartData.getChartStyle());
            
-        } else if (mnuBar.isSelected() || mnuBar3d.isSelected()) {
+        } else if (chartData.getChartStyle().contains("Bar")) {
 
             chartPanel = ChartCreator.createBarChart(
                 chartData.getTop(),
                 chartEvents, 
                 chartData.getChartSource(), "Count",
                 PlotOrientation.VERTICAL,
-                chart3d);
+                chartData.getChartStyle());
         } 
         
         if (chartPanel != null) {
