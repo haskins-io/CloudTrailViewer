@@ -182,12 +182,12 @@ public class EventLoader {
             
             AWSCredentials credentials
                 = new BasicAWSCredentials(
-                    PropertiesSingleton.getInstance().getProperty("Key"),
-                    PropertiesSingleton.getInstance().getProperty("Secret")
+                    PropertiesSingleton.getInstance().getProperty("aws.key"),
+                    PropertiesSingleton.getInstance().getProperty("aws.secret")
                 );
 
             AmazonS3 s3Client = new AmazonS3Client(credentials);
-            String bucketName = PropertiesSingleton.getInstance().getProperty("Bucket");
+            String bucketName = PropertiesSingleton.getInstance().getProperty("aws.bucket");
 
             int numFiles = keys.size();
             int count = 0;
@@ -202,7 +202,7 @@ public class EventLoader {
                     
                     readS3File(s3Client, bucketName, key);
                 }
-                catch (IOException ex) {
+                catch (Exception ex) {
                     Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
