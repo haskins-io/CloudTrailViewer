@@ -33,33 +33,33 @@
         },
         
         {
-            "Menu": "Top",
-            "Name": "Events",
+            "Menu": "Scan",
+            "Name": "Top Events",
             "Property": "eventName"
         },
         {
-            "Menu": "Top",
-            "Name": "Users",
+            "Menu": "Scan",
+            "Name": "Top Users",
             "Property": "userIdentity.userName"
         },
         {
-            "Menu": "Top",
-            "Name": "Error Messages",
+            "Menu": "Scan",
+            "Name": "Top Error Messages",
             "Property": "errorMessage"
         },
         {
-            "Menu": "Top",
-            "Name": "Source",
+            "Menu": "Scan",
+            "Name": "Top Source",
             "Property": "eventSource"
         },
         {
-            "Menu": "Top",
-            "Name": "IP Addresses",
+            "Menu": "Scan",
+            "Name": "Top IP Addresses",
             "Property": "sourceIPAddress"
         },
         {
-            "Menu": "Top",
-            "Name": "User Agents",
+            "Menu": "Scan",
+            "Name": "Top User Agents",
             "Property": "userAgent"
         },
         
