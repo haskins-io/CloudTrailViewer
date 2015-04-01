@@ -261,12 +261,11 @@ public class MainMenu extends JMenuBar implements ActionListener, KeyListener {
         if (eventsDatabase.getEventsPerService().size() > 0) {
             
             ChartData chartData = new ChartData();
-            chartData.setChartStyle("bar");
-            chartData.setChartSource("Events by Service");
+            chartData.setChartStyle("Bar");
+            chartData.setChartSource("EventSource");
+            chartData.setTop(5);
 
-            List<Map.Entry<String, Integer>> events = EventUtils.entriesSortedByValues(eventsDatabase.getEventsPerService());
-
-            ChartWindow chart = new ChartWindow(chartData, events);
+            ChartWindow chart = new ChartWindow(chartData, eventsDatabase.getEvents());
             chart.setVisible(true);
 
             jCloudTrailViewer.DESKTOP.add(chart);
@@ -371,7 +370,6 @@ public class MainMenu extends JMenuBar implements ActionListener, KeyListener {
                     if ( (def.getActions() != null && def.getActions().size() > 0) ||
                          (def.getContains() != null && def.getContains().length() > 0) ) {
                         
-                        //panel = new ScanTablePanel(def);
                         panel = new CombinedWindow(def.getName(), null, def);
                         
                     } else if (def.getProperty() != null && def.getProperty().length() > 0) {
@@ -410,7 +408,7 @@ public class MainMenu extends JMenuBar implements ActionListener, KeyListener {
             } else {
                 parentMenu.add(menuItem);
             }
-            
+                        
             if (newTopLevelMenu) {
                 this.add(parentMenu);
             }
