@@ -50,7 +50,7 @@ public class EbResource implements Resource {
         String resource = "";
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters.containsKey("environmentId")) {
+        if (requestParameters != null && requestParameters.containsKey("environmentId")) {
             resource = (String)requestParameters.get("environmentId");
         }
         
@@ -62,7 +62,7 @@ public class EbResource implements Resource {
         String resource = "";
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters.containsKey("environmentId")) {
+        if (requestParameters != null && requestParameters.containsKey("environmentId")) {
             resource = (String)requestParameters.get("environmentId");
         }
         
@@ -74,7 +74,7 @@ public class EbResource implements Resource {
         StringBuilder resource = new StringBuilder();
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters.containsKey("environmentName")) {
+        if (requestParameters != null && requestParameters.containsKey("environmentName")) {
             resource.append((String)requestParameters.get("environmentName"));
             resource.append(" : ");
             resource.append((String)requestParameters.get("applicationName"));
@@ -88,7 +88,7 @@ public class EbResource implements Resource {
         String resource = "";
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters.containsKey("applicationName")) {
+        if (requestParameters != null && requestParameters.containsKey("applicationName")) {
             resource = (String)requestParameters.get("applicationName");
         }
         
@@ -100,7 +100,7 @@ public class EbResource implements Resource {
         String resource = "";
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters.containsKey("stackName")) {
+        if (requestParameters != null && requestParameters.containsKey("stackName")) {
             resource = (String)requestParameters.get("stackName");
         }
         

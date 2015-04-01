@@ -52,7 +52,7 @@ public class Ec2Resource implements Resource {
         StringBuilder resource = new StringBuilder();
 
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters.containsKey("instancesSet")) {
+        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
             
             Map<String, List> items = (Map)requestParameters.get("instancesSet");
             for (Map.Entry<String, List> entry : items.entrySet()) {

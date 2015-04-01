@@ -44,7 +44,7 @@ public class ElbResoure implements Resource {
         String resource = "";
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters.containsKey("loadBalancerName")) {
+        if (requestParameters != null && requestParameters.containsKey("loadBalancerName")) {
             resource = (String)requestParameters.get("loadBalancerName");
         }
         
@@ -56,7 +56,7 @@ public class ElbResoure implements Resource {
         String resource = "";
         
 //        Map requestParameters = event.getRequestParameters();
-//        if (requestParameters.containsKey("applicationName")) {
+//        if (requestParameters != null && requestParameters.containsKey("applicationName")) {
 //            resource = (String)requestParameters.get("applicationName");
 //        }
         

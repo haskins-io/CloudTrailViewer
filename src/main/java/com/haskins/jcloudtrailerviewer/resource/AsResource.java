@@ -45,7 +45,7 @@ public class AsResource implements Resource {
         String resource = "";
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters.containsKey("autoScalingGroupName")) {
+        if (requestParameters != null && requestParameters.containsKey("autoScalingGroupName")) {
             resource = (String)requestParameters.get("autoScalingGroupName");
         }
         
@@ -57,7 +57,7 @@ public class AsResource implements Resource {
         StringBuilder resource = new StringBuilder();
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters.containsKey("autoScalingGroupNames")) {
+        if (requestParameters != null && requestParameters.containsKey("autoScalingGroupNames")) {
             
             List<String> groups = (List)requestParameters.get("autoScalingGroupNames");
             for (String group : groups) {

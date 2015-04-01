@@ -42,7 +42,7 @@ public class CsResource implements Resource {
         String resource = "";
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters.containsKey("domainName")) {
+        if (requestParameters != null && requestParameters.containsKey("domainName")) {
             resource = (String)requestParameters.get("domainName");
         }
         

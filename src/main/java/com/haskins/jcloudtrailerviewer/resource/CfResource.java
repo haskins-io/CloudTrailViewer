@@ -44,7 +44,7 @@ public class CfResource implements Resource {
         String resource = "";
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters.containsKey("stackName")) {
+        if (requestParameters != null && requestParameters.containsKey("stackName")) {
             resource = (String)requestParameters.get("stackName");
         }
         
@@ -56,7 +56,7 @@ public class CfResource implements Resource {
         String resource = "";
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters.containsKey("stackName")) {
+        if (requestParameters != null && requestParameters.containsKey("stackName")) {
             resource = (String)requestParameters.get("stackName");
         }
         

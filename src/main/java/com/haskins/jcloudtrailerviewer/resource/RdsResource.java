@@ -41,7 +41,7 @@ public class RdsResource implements Resource {
         String resource = "";
         
 //        Map requestParameters = event.getRequestParameters();
-//        if (requestParameters.containsKey("applicationName")) {
+//        if (requestParameters != null && requestParameters.containsKey("applicationName")) {
 //            resource = (String)requestParameters.get("applicationName");
 //        }
         
