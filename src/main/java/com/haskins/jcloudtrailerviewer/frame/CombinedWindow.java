@@ -18,6 +18,7 @@
 package com.haskins.jcloudtrailerviewer.frame;
 
 import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
+import com.haskins.jcloudtrailerviewer.components.StatusBar;
 import com.haskins.jcloudtrailerviewer.event.EventLoaderListener;
 import com.haskins.jcloudtrailerviewer.filter.EventFilter;
 import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
@@ -220,6 +221,11 @@ public class CombinedWindow extends AbstractInternalFrame implements EventLoader
         split.setResizeWeight(1.0);
         
         this.add(split, BorderLayout.CENTER);
+        
+        StatusBar statusBarPanel = new StatusBar();
+        statusBarPanel.newMessage("Load Some Events");
+        eventLoader.addListener(statusBarPanel);
+        this.add(statusBarPanel, BorderLayout.SOUTH);
         
         this.validate();
     }
