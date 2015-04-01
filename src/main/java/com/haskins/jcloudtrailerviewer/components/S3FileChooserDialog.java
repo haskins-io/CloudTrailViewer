@@ -81,6 +81,8 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
 
     public static List<String> showDialog(Component parent) {
         
+        selectedKeys.clear();
+        
         String s3_location = PropertiesSingleton.getInstance().getProperty("S3_Location");
         if (s3_location != null) {
             prefix = s3_location;
@@ -106,6 +108,7 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         JButton btnCancel = new JButton("Cancel");
         btnCancel.addActionListener(this);
         
+        s3ListModel.clear();
         s3List = new JList(s3ListModel);
         s3List.addMouseListener(new MouseAdapter() {
 
@@ -258,9 +261,9 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
 
         String stripped = key;
 
-        if (this.prefix.trim().length() > 0) {
+        if (S3FileChooserDialog.prefix.trim().length() > 0) {
 
-            int prefixLength = this.prefix.length() - 1;
+            int prefixLength = S3FileChooserDialog.prefix.length() - 1;
             stripped = key.substring(prefixLength, key.length());
 
             int firstSlash = stripped.indexOf("/");
@@ -277,7 +280,7 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         List<String> selectedItems = s3List.getSelectedValuesList();
         for (String key : selectedItems) {
 
-            selectedKeys.add(this.prefix + key);
+            selectedKeys.add(S3FileChooserDialog.prefix + key);
         }
     }
 }
