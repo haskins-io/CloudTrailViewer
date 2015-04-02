@@ -40,7 +40,7 @@ public class jCloudTrailViewer extends JFrame {
 
     public final static JDesktopPane DESKTOP = new JDesktopPane();
     
-    public final static String VERSION = "1.0";
+    public final static String VERSION = "2.0";
         
     private final EventLoader eventLoader;
     public EventsDatabase eventsDatabase;
