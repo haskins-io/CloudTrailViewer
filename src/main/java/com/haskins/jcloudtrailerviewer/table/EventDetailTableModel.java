@@ -23,15 +23,12 @@ package com.haskins.jcloudtrailerviewer.table;
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.resource.ResourceLookup;
 import javax.swing.table.AbstractTableModel;
-import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
  * @author mark.haskins
  */
 public class EventDetailTableModel extends AbstractTableModel {
-
-    private final ObjectMapper mapper = new ObjectMapper();
 
     private Event detailEvent = null;
 
@@ -98,42 +95,48 @@ public class EventDetailTableModel extends AbstractTableModel {
                 }
                 break;
             case 4:
-                value = "Resource Name";
+                value = "Resource Type";
                 if (columnIndex == 1) {
-                    value = ResourceLookup.getResource(detailEvent);
+                    value = ResourceLookup.getResourceInfo(detailEvent).getTypes();
                 }
                 break;
             case 5:
+                value = "Resource Name";
+                if (columnIndex == 1) {
+                    value = ResourceLookup.getResourceInfo(detailEvent).getNames();
+                }
+                break;
+            case 6:
                 value = "Error Code";
                 if (columnIndex == 1) {
                     value = detailEvent.getErrorCode();
                 }
                 break;
-            case 6:
+            case 7:
                 value = "AWS Region";
                 if (columnIndex == 1) {
                     value = detailEvent.getAwsRegion();
                 }
                 break;
-            case 7:
+            case 8:
                 value = "Event Id";
                 if (columnIndex == 1) {
                     value = detailEvent.getEventId();
                 }
                 break;
-            case 8:
+            case 9:
                 value = "Request Id";
                 if (columnIndex == 1) {
                     value = detailEvent.getRequestId();
                 }
                 break;
-            case 9:
+            case 10:
                 value = "Event Source";
                 if (columnIndex == 1) {
                     value = detailEvent.getEventSource();
                 }
                 break;
-            case 10:
+            case 11:
                 value = "AWS Access Key";
                 if (columnIndex == 1) {
                     value = detailEvent.getUserIdentity().getAccessKeyId();

@@ -33,14 +33,9 @@ import javax.swing.table.DefaultTableModel;
 public class EventsTableModel extends DefaultTableModel {
 
     private final static String[] columnNames = new String[] {
-         "Date/Time", "User Name", "Event Name", "Resource Name"
+         "Date/Time", "User Name", "Event Name", "Resource Type", "Resource Name"
     };
-    
-    private final static int COLUMN_DATE_TIME = 0;
-    private final static int COLUMN_USER_NAME = 1;
-    private final static int COLUMN_EVENT_NAME = 2;
-    private final static int COLUMN_RESOURCE_NAME = 3;
-        
+            
     private List<Event> events;
     
     public void setData(List<Event> data) {
@@ -60,7 +55,6 @@ public class EventsTableModel extends DefaultTableModel {
     }
     
     public Event getEventAt(int i) {
-        
         return events.get(i);
     }
     
@@ -111,26 +105,21 @@ public class EventsTableModel extends DefaultTableModel {
 
         switch(columnIndex) {
             
-            case COLUMN_DATE_TIME:
-            {
+            case 0:
                 value = event.getEventTime();
                 break;
-            }
-            case COLUMN_USER_NAME:
-            {
+            case 1:
                 value = TableUtils.getUserName(event);
                 break;
-            }
-            case COLUMN_EVENT_NAME:
-            {
+            case 2:
                 value = event.getEventName();
                 break;
-            }
-            case COLUMN_RESOURCE_NAME:
-            {
-                value = ResourceLookup.getResource(event);
+            case 3:
+                value = ResourceLookup.getResourceInfo(event).getTypes();
                 break;
-            }
+            case 4:
+                value = ResourceLookup.getResourceInfo(event).getNames();
+                break;
         }
 
         return value;

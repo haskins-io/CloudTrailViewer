@@ -17,8 +17,11 @@
 package com.haskins.jcloudtrailerviewer.resource;
 
 import com.haskins.jcloudtrailerviewer.model.Event;
-import java.util.HashMap;
+import com.haskins.jcloudtrailerviewer.model.ResourceInfo;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -26,27 +29,44 @@ import java.util.Map;
  */
 public class ResourceLookup {
     
-    private static final Map<String, Resource> resolvers = new HashMap<>();
-    static {
-        resolvers.put("ec2.amazonaws.com", new Ec2Resource());
-        resolvers.put("autoscaling.amazonaws.com", new AsResource());
-        resolvers.put("elasticbeanstalk.amazonaws.com", new EbResource());
-        resolvers.put("elasticloadbalancing.amazonaws.com", new ElbResoure());
-        resolvers.put("rds.amazonaws.com", new RdsResource());
-        resolvers.put("sns.amazonaws.com", new SnsResource());
-        resolvers.put("cloudsearch.amazonaws.com", new CsResource());
-        resolvers.put("cloudformation.amazonaws.com", new CfResource());
-    }
-    
-    public static String getResource(Event event) {
+    public static ResourceInfo getResourceInfo(Event event) {
         
-	    Resource resourceResolver = resolvers.get(event.getEventSource());
-	
-	    if (resourceResolver != null) {
-	       return resourceResolver.getResource(event);
-	    }
-	    else {
-	      return "";
-	    }
+        ResourceInfo resourceInfo = new ResourceInfo();
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null) {
+            
+            Set<String> keys = requestParameters.keySet();
+            Iterator<String> it = keys.iterator();
+            while(it.hasNext()) {
+                
+                String type = it.next();
+                Object resourcesObj = requestParameters.get(type);
+
+                if (resourcesObj instanceof List || resourcesObj instanceof String) {
+
+                    resourceInfo.addType(type);
+
+                    if (resourcesObj instanceof List) {
+
+                        List resources = (List)requestParameters.get(type);
+                        if (!resources.isEmpty() && resources.get(0) instanceof String) {
+                            
+                            List<String> stringResources = (List)requestParameters.get(type);
+                            for (String resource : stringResources) {
+                                resourceInfo.addName(resource);
+                            }
+                        }
+                        
+                    } else {
+
+                        String resource = (String)requestParameters.get(type);
+                        resourceInfo.addName(resource);
+                    }
+                } 
+            }
+        }
+        
+        return resourceInfo;
     }
 }

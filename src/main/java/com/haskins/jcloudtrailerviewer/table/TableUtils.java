@@ -34,10 +34,6 @@ public class TableUtils {
             int lastSlash = arn.lastIndexOf(":");
             username = arn.substring(lastSlash + 1);
             
-            if (username.equalsIgnoreCase("root")) {
-                username = "";
-            }
-            
         } else {
             String arn = event.getUserIdentity().getArn();
             int lastSlash = arn.lastIndexOf("/");
