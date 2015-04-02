@@ -78,7 +78,7 @@ public class Event {
     private String recipientAccountId = "";
     
     
-    // NOT MENTIONED IN DOCS
+    // NOT MENTIONED IN DOCS - old version
     @JsonProperty("additionalEventData")
     private AdditionalEventData additionalEventData;
     

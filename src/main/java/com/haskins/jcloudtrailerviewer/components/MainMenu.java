@@ -130,7 +130,6 @@ public class MainMenu extends JMenuBar implements ActionListener, KeyListener {
         }
     }
 
-
     @Override
     public void keyReleased(KeyEvent e) { }
     
@@ -285,7 +284,6 @@ public class MainMenu extends JMenuBar implements ActionListener, KeyListener {
                 "Data Error",
                 JOptionPane.WARNING_MESSAGE);
         }
-        
     }
         
     private void createMenusFromFile() {
