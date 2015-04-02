@@ -110,6 +110,12 @@ public class TriDataPanel extends JPanel implements TriDataPanelMenuListener, Ch
         updateChart();
     }
     
+    @Override
+    public void orientationUpdated(PlotOrientation newOrientation) {
+        chartData.setOrientation(newOrientation);
+        updateChart();
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
     // ChartMouseListener
     ////////////////////////////////////////////////////////////////////////////
@@ -192,6 +198,7 @@ public class TriDataPanel extends JPanel implements TriDataPanelMenuListener, Ch
         menu.setTop(chartData.getTop());
         menu.setStyle(chartData.getChartStyle());
         menu.setSource(chartData.getChartSource());
+        menu.setOrientation(chartData.getOrientation());
     }
         
     private void updatePanel(int top) {
@@ -258,23 +265,18 @@ public class TriDataPanel extends JPanel implements TriDataPanelMenuListener, Ch
     
     private void createChart() {
         
-        if (chartData.getChartStyle().contains("Pie")) {
-
-            chartPanel = ChartCreator.createTopPieChart(
-                chartData.getTop(), 
-                chartEvents, 
-                chartData.getChartStyle());
-           
-        } else if (chartData.getChartStyle().contains("Bar")) {
-
-            chartPanel = ChartCreator.createBarChart(
-                chartData.getTop(),
-                chartEvents, 
-                chartData.getChartSource(), "Count",
-                PlotOrientation.VERTICAL,
-                chartData.getChartStyle());
-        } 
+        int count = chartData.getTop();
+        if (chartEvents.size() < chartData.getTop()) {
+            count = chartEvents.size();
+        }
         
+        List<Map.Entry<String,Integer>> topEvents = new ArrayList<>();
+        for (int i=0; i<count; i++) {
+            topEvents.add(chartEvents.get(i));
+        }
+        
+        chartPanel = ChartCreator.createChart(topEvents, chartData);
+ 
         if (chartPanel != null) {
             chartPanel.addChartMouseListener(this);
         }

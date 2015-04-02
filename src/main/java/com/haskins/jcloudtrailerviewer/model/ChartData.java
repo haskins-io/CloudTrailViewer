@@ -20,15 +20,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.jcloudtrailerviewer.model;
 
+import org.jfree.chart.plot.PlotOrientation;
+
 /**
  *
  * @author mark.haskins
  */
 public class ChartData {
     
-    private String chartType = "";
-    private String chartStyle = "";
-    private String chartSource = "";
+    public static final PlotOrientation HORIZONTAL = PlotOrientation.HORIZONTAL;
+    public static final PlotOrientation VERTICAL = PlotOrientation.VERTICAL;
+    
+    private String chartType = "Top";
+    private String chartStyle = "Pie";
+    private String chartSource = "EventName";
+    private PlotOrientation orientation = VERTICAL;
     
     private boolean ignoreRoot = false;
     
@@ -62,12 +68,18 @@ public class ChartData {
         this.top = top;
     }
 
-
     public boolean isIgnoreRoot() {
         return ignoreRoot;
     }
     public void setIgnoreRoot(boolean ignoreRoot) {
         this.ignoreRoot = ignoreRoot;
+    }
+
+    public PlotOrientation getOrientation() {
+        return orientation;
+    }
+    public void setOrientation(PlotOrientation orientation) {
+        this.orientation = orientation;
     }
     
 }

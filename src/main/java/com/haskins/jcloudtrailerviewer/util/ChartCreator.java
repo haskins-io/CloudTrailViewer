@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.jcloudtrailerviewer.util;
 
+import com.haskins.jcloudtrailerviewer.model.ChartData;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -53,38 +54,50 @@ import org.jfree.ui.HorizontalAlignment;
  */
 public class ChartCreator {
     
+    public static ChartPanel createChart(List<Entry<String,Integer>> events, ChartData chartData) {
+        
+        if (chartData.getChartStyle().contains("Pie")) {
+            return ChartCreator.createPieChart(events, chartData);
+        } else {
+            return ChartCreator.createBarChart(events, chartData);
+        } 
+    }
+    
     /**
      * Returns a Pie chart
-     * @param top number of segments in the chart
      * @param events events to process
-     * @param style type of PieBar
      * @return 
      */
-    public static ChartPanel createTopPieChart(int top, List<Entry<String,Integer>> events, String style) {
+    private static ChartPanel createPieChart(List<Entry<String,Integer>> events, ChartData chartData) {
         
         DefaultPieDataset dataset = new DefaultPieDataset();
         
-        int count = top;
-        if (events.size() < top) {
-            count = events.size();
-        }
-        
-        for (int i=0; i<count; i++) {
-            Entry<String,Integer> obj = events.get(i);
-            dataset.setValue(obj.getKey(), obj.getValue());
+        for (Entry<String,Integer> event : events) {
+            dataset.setValue(event.getKey(), event.getValue());
         }
         
         JFreeChart chart;
-        if (style.contains("3d")) {
-            chart = ChartFactory.createPieChart3D("", dataset, false, true, false);
+        if (chartData.getChartStyle().contains("3d")) {
+            chart = ChartFactory.createPieChart3D(
+                "", 
+                dataset, 
+                false, 
+                true, 
+                false
+            );
         } else {
-            chart = ChartFactory.createPieChart("", dataset, false, true, false);
+            chart = ChartFactory.createPieChart(
+                "", 
+                dataset, 
+                false, 
+                true, 
+                false
+            );
         }
-        
         
         PiePlot plot = (PiePlot) chart.getPlot();
         plot.setBackgroundPaint(null);
-        plot.setInteriorGap(0.04);
+        plot.setInteriorGap(0.10);
         plot.setOutlineVisible(false);
 
         // use gradients and white borders for the section colours
@@ -101,36 +114,42 @@ public class ChartCreator {
         return sourcePanel;
     }
     
-    
     /**
      * Returns a Bar chart
-     * @param top number of events to show
      * @param events events to include on chart
-     * @param xLabel xAxis label
-     * @param yLabel yAxis label
-     * @param orientation Horizontal or Vertical
-     * @param style style of Bar Chart
      * @return 
      */
-    public static ChartPanel createBarChart(int top, List<Entry<String,Integer>> events, String xLabel, String yLabel, PlotOrientation orientation, String style) {
+    private static ChartPanel createBarChart(List<Entry<String,Integer>> events, ChartData chartData) {
         
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        
-        int count = top;
-        if (events.size() < top) {
-            count = events.size();
-        }
-        
-        for (int i=0; i<count; i++) {
-            Entry<String,Integer> obj = events.get(i);
-            dataset.addValue(obj.getValue().intValue(), obj.getKey(), "");
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();        
+
+        for (Entry<String,Integer> event : events) {
+            dataset.addValue(event.getValue().intValue(), event.getKey(), "");
         }
         
         JFreeChart chart;
-        if (style.contains("3d")) {
-            chart = ChartFactory.createBarChart3D("",  xLabel, yLabel, dataset, orientation, true, true, false);
+        if (chartData.getChartStyle().contains("3d")) {
+            chart = ChartFactory.createBarChart3D(
+                "", 
+                chartData.getChartSource(), 
+                "", 
+                dataset, 
+                chartData.getOrientation(), 
+                true, 
+                true, 
+                false
+            );
         } else {
-            chart = ChartFactory.createBarChart("", xLabel, yLabel, dataset, orientation, true, true, false);
+            chart = ChartFactory.createBarChart(
+                "", 
+                chartData.getChartSource(), 
+                "", 
+                dataset, 
+                chartData.getOrientation(),
+                true, 
+                true, 
+                false
+            );
         }
                     
         return new ChartPanel(chart);
@@ -138,14 +157,12 @@ public class ChartCreator {
     
     /**
      * returns a TimeSeries chart
-     * @param title title of chart
      * @param data data to include on chart
      * @param width width of chart
      * @param height height of chart
      * @return 
      */
     public static ChartPanel createTimeSeriesChart(
-        String title, 
         Map<String, 
         Map<String, Integer>> data, 
         int width, 
@@ -176,7 +193,7 @@ public class ChartCreator {
         }
         
         JFreeChart chart = ChartFactory.createTimeSeriesChart(
-            title, "Time", "Value", dataset, true, true, false
+            "", "Time", "Value", dataset, true, true, false
         );
         chart.setBackgroundPaint(Color.white);
         

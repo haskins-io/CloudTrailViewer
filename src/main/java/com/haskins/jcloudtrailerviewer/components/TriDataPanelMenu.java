@@ -16,6 +16,7 @@
  */
 package com.haskins.jcloudtrailerviewer.components;
 
+import com.haskins.jcloudtrailerviewer.model.ChartData;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JRadioButtonMenuItem;
+import org.jfree.chart.plot.PlotOrientation;
 
 /**
  *
@@ -33,13 +35,19 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
     
     private final List<TriDataPanelMenuListener> listeners = new ArrayList<>();
     
+    // Top
     JRadioButtonMenuItem mnuTop5 = new JRadioButtonMenuItem("Top 5");
     JRadioButtonMenuItem mnuTop10 = new JRadioButtonMenuItem("Top 10");
     
+    // Style
     JRadioButtonMenuItem mnuPie = new JRadioButtonMenuItem("Pie");
     JRadioButtonMenuItem mnuPie3d = new JRadioButtonMenuItem("Pie 3D");
     JRadioButtonMenuItem mnuBar = new JRadioButtonMenuItem("Bar");
     JRadioButtonMenuItem mnuBar3d = new JRadioButtonMenuItem("Bar 3d");
+    
+    // Top
+    JRadioButtonMenuItem mnuHorizontal = new JRadioButtonMenuItem("Horizontal");
+    JRadioButtonMenuItem mnuVertical = new JRadioButtonMenuItem("Vertical");
     
     //event
     JRadioButtonMenuItem mnuEventName = new JRadioButtonMenuItem("Event Name");
@@ -70,6 +78,7 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
         
         this.add(getTopMenu());
         this.add(getStyleMenu());
+        this.add(getOrientationMenu());
         this.add(getSourceMenu());
     }
     
@@ -95,9 +104,19 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
         }
     }
     
+    public void setOrientation(PlotOrientation orientation) {
+        
+        if (orientation == ChartData.HORIZONTAL) {
+            mnuHorizontal.setSelected(true);
+        } else if (orientation == ChartData.VERTICAL) {
+            mnuVertical.setSelected(true);
+        }
+    }
+    
     public void setSource(String source) {
         
     }
+    
     
     ////////////////////////////////////////////////////////////////////////////
     // ActionListener
@@ -109,6 +128,7 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
         
         handleTopActions(actionCommand);
         handleStyleActions(actionCommand);
+        handleSOrientationActions(actionCommand);
         handleSourceActions(actionCommand);
     }
     
@@ -161,6 +181,25 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
         menuStyle.add(mnuBar3d);
         
         return menuStyle;
+    }
+    
+    private JMenu getOrientationMenu() {
+        
+        mnuHorizontal.setActionCommand("orientation.horizontal");
+        mnuHorizontal.addActionListener(this);
+        
+        mnuVertical.setActionCommand("orientation.vertical");
+        mnuVertical.addActionListener(this);
+        
+        ButtonGroup styleGroup = new ButtonGroup();
+        styleGroup.add(mnuHorizontal);
+        styleGroup.add(mnuVertical);
+                
+        JMenu menu = new JMenu("Orientation");
+        menu.add(mnuHorizontal);
+        menu.add(mnuVertical);
+        
+        return menu;
     }
     
     private JMenu getSourceMenu() {
@@ -321,6 +360,18 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
         }
     }
     
+    private void handleSOrientationActions(String actionCommand) {
+        
+        switch(actionCommand) {
+            case "orientation.horizontal":
+                fireOrientationUpdated(PlotOrientation.HORIZONTAL);
+                break;
+            case "orientation.vertical":
+                fireOrientationUpdated(PlotOrientation.VERTICAL);
+                break;
+        }
+    }
+    
     private void handleSourceActions(String actionCommand) {
         
         switch(actionCommand) {
@@ -359,6 +410,13 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
         
         for (TriDataPanelMenuListener l : listeners) {
             l.styleUpdated(newStyle);
+        }
+    }
+    
+    private void fireOrientationUpdated(PlotOrientation newOrientation) {
+        
+        for (TriDataPanelMenuListener l : listeners) {
+            l.orientationUpdated(newOrientation);
         }
     }
     

@@ -16,6 +16,8 @@
  */
 package com.haskins.jcloudtrailerviewer.components;
 
+import org.jfree.chart.plot.PlotOrientation;
+
 /**
  *
  * @author mark
@@ -25,6 +27,8 @@ public interface TriDataPanelMenuListener {
     public void topUpdated(int newTop);
     
     public void styleUpdated(String newStyle);
+    
+    public void orientationUpdated(PlotOrientation newOrientation);
     
     public void sourceUpdated(String newSource);
 }

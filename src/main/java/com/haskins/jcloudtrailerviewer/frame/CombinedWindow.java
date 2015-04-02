@@ -113,7 +113,6 @@ public class CombinedWindow extends AbstractInternalFrame implements EventLoader
             
             eventLoader.addListener(this);
 
-            
             int scanDialogResult = 0;
             if (PropertiesSingleton.getInstance().validS3Credentials()) {
                 scanDialogResult = showScanDialog();
@@ -140,9 +139,7 @@ public class CombinedWindow extends AbstractInternalFrame implements EventLoader
         for (Event event : eventLoaderEvent) { 
         
             if (scanActions != null && scanActions.size() > 0 && scanActions.contains(event.getEventName()) ) {
-                
                 events.add(event);
-                
             } else {
 
                 filters.setFilterCriteria(scanNeedle);
@@ -155,9 +152,7 @@ public class CombinedWindow extends AbstractInternalFrame implements EventLoader
     
     @Override
     public void finishedLoading() { 
-    
         generateData(events);
-        
         this.revalidate();
     }
     
@@ -233,17 +228,12 @@ public class CombinedWindow extends AbstractInternalFrame implements EventLoader
     private void generateData(List<Event> eventsData) {
                
         triPanel.setEvents(eventsData);
-        
-        // generate TPS data
         tpsPerService(eventsData);
-        
-        // Populate Table Model
         eventsTableModel.setData(eventsData);
     }
         
     private void createTpsChart() {
-        
-        tpsPanel = ChartCreator.createTimeSeriesChart("Transactions Per Sections", tpsMap, 400, 250);
+        tpsPanel = ChartCreator.createTimeSeriesChart(tpsMap, 400, 250);
     }
     
     private void tpsPerService(List<Event> eventsData) {
