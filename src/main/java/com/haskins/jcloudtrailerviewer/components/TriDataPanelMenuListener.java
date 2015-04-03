@@ -22,7 +22,7 @@ import org.jfree.chart.plot.PlotOrientation;
  * Interface that models a Listener.
  * 
  * The methods on this interface are called when changes are made to Menu provided
- * by @see com.haskins.jcloudtrailerviewer.components.TriDataPanelMenu
+ * by {@link com.haskins.jcloudtrailerviewer.components.TriDataPanelMenu}
  * 
  * @author mark
  */
