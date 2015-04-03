@@ -24,6 +24,11 @@ import com.haskins.jcloudtrailerviewer.model.Event;
  */
 public class TableUtils {
     
+    /**
+     * Returns the username for the event.
+     * @param event Event to check
+     * @return
+     */
     public static String getUserName(Event event) {
         
         String username;

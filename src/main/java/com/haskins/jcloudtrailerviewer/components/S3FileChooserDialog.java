@@ -52,7 +52,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 /**
- *
+ * Provides a File Dialog that shows files in an S3 bucket.
+ * 
  * @author mark
  */
 public class S3FileChooserDialog extends JDialog implements ActionListener {
@@ -67,18 +68,11 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
     
     private static String prefix = "";
     
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        
-        if ("Load".equals(e.getActionCommand())) {
-            
-            addSelectedKeys();
-        }
-        
-        PropertiesSingleton.getInstance().setProperty("S3_Location", prefix);
-        S3FileChooserDialog.dialog.setVisible(false);
-    }
-
+    /**
+     * Shows the Dialog.
+     * @param parent The Frame to which the dialog will be associated
+     * @return a List of String that are S3 bucket keys.
+     */
     public static List<String> showDialog(Component parent) {
         
         selectedKeys.clear();
@@ -95,7 +89,25 @@ public class S3FileChooserDialog extends JDialog implements ActionListener {
         
         return selectedKeys;
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // ActionListener
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        if ("Load".equals(e.getActionCommand())) {
+            
+            addSelectedKeys();
+        }
+        
+        PropertiesSingleton.getInstance().setProperty("S3_Location", prefix);
+        S3FileChooserDialog.dialog.setVisible(false);
+    }
 
+    ////////////////////////////////////////////////////////////////////////////
+    // Private methods
+    ///////////////////////////////////////////////////////////////////////////
     private S3FileChooserDialog(Frame frame) {
 
         super(frame, "S3 File Browser", true);

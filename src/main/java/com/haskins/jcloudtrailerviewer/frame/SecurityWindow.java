@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.jcloudtrailerviewer.frame;
 
-import com.haskins.jcloudtrailerviewer.frame.ChartWindow;
 import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
@@ -47,7 +46,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- *
+ * Class that represents a Internal Frame Windows that shows the Security Window.
+ * 
  * @author mark
  */
 public class SecurityWindow extends AbstractInternalFrame {
@@ -61,6 +61,9 @@ public class SecurityWindow extends AbstractInternalFrame {
     
     private final JTabbedPane tabs = new JTabbedPane();
     
+    /**
+     * Default Constructor
+     */
     public SecurityWindow() {
         
         super("Security");

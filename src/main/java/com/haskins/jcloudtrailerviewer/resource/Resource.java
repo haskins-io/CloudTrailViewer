@@ -22,10 +22,16 @@ package com.haskins.jcloudtrailerviewer.resource;
 import com.haskins.jcloudtrailerviewer.model.Event;
 
 /**
- *
+ * All Resource classes should implement this
+ * 
  * @author mark
  */
 public interface Resource {
     
+    /**
+     * Return the resource for the passed Event
+     * @param event Event from which the resource is require
+     * @return either the resource name or an empty string if the EventName is not handled.
+     */
     public String getResource(Event event);
 }

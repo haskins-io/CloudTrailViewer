@@ -39,11 +39,17 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- *
+ * Class that represents a Internal Frame Windows that shows a table.
+ * 
  * @author mark.haskins
  */
 public class TableWindow extends AbstractInternalFrame {
             
+    /**
+     * Default Constructor
+     * @param title String to be used as title for Window
+     * @param masterEvents collection of events to be shown in table.
+     */
     public TableWindow(String title, List<Event> masterEvents) {
 
         super(title);
@@ -57,6 +63,9 @@ public class TableWindow extends AbstractInternalFrame {
         buildUI();
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    // Private methods
+    //////////////////////////////////////////////////////////////////////////// 
     private void buildUI() {
 
         this.setSize(640, 480);

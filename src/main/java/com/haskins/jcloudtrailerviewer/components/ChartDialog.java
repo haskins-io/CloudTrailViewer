@@ -41,13 +41,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- *
+ * Provides an implementation of JDialog that allows the user to define the
+ * attributes of a chart.
+ * 
  * @author mark.haskins
  */
 public class ChartDialog extends JDialog implements ActionListener {
     
     private final String[] type = {"Top"};
-    private final String[] styles = {"Pie", "Bar"};
+    private final String[] styles = {"Pie", "Pie3d", "Bar", "Bar3d"};
     private final String[] sources = {
         "EventName", "EventSource", "SourceIPAddress", "UserAgent", "AwsRegion", "ErrorCode", "ErrorMessage", "EventType",
         "UserIdentity.PrincipalId", "UserIdentity.Arn", "UserIdentity.UserName", "UserIdentity.InvokedBy", "UserIdentity.AccessKeyId"
@@ -63,6 +65,11 @@ public class ChartDialog extends JDialog implements ActionListener {
     
     private static ChartData chartData = null;
     
+    /**
+     * shows the dialog.
+     * @param parent The parent window for the dialog to be associated with.
+     * @return A ChartData object containing the required chart configuration.
+     */
     public static ChartData showDialog(Component parent) {
         
         chartData = null;
@@ -74,6 +81,9 @@ public class ChartDialog extends JDialog implements ActionListener {
         return chartData;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    // ActionListener
+    ////////////////////////////////////////////////////////////////////////////
     @Override
     public void actionPerformed(ActionEvent e) {
         
@@ -90,6 +100,9 @@ public class ChartDialog extends JDialog implements ActionListener {
         ChartDialog.dialog.setVisible(false);
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    // private methods
+    ////////////////////////////////////////////////////////////////////////////
     private ChartDialog(Frame frame) {
 
         super(frame, "New Chart", true);

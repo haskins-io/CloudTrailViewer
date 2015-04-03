@@ -24,7 +24,9 @@ import com.haskins.jcloudtrailerviewer.model.Event;
 import java.util.List;
 
 /**
- *
+ * Should be implemented by any class that needs to know what the EventLoader
+ * is doing.
+ * 
  * @author mark.haskins
  */
 public interface EventLoaderListener {

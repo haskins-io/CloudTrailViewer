@@ -29,7 +29,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- *
+ * Provides a Status Bar
+ * 
  * @author mark
  */
 public class StatusBar extends JPanel implements EventLoaderListener {
@@ -46,6 +47,11 @@ public class StatusBar extends JPanel implements EventLoaderListener {
     private long firstEvent = 0;
     private long lastEvent = 0;
                     
+    /**
+     * Default Constructor.
+     * 
+     * Creates the UI.
+     */
     public  StatusBar() {
         buildUI();
     }

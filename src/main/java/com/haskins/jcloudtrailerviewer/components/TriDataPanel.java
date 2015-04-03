@@ -46,12 +46,15 @@ import org.jfree.chart.entity.PieSectionEntity;
 import org.jfree.chart.plot.PlotOrientation;
 
 /**
- *
+ * A JPanel that represents data in three different formats.
+ * 
+ * This panel provides a Chart, Table and Text Area.
+ * 
  * @author mark.haskins
  */
 public class TriDataPanel extends JPanel implements TriDataPanelMenuListener, ChartMouseListener {
     
-    protected final Filters filters = new Filters();
+    private final Filters filters = new Filters();
     
     private final List<Event> masterEvents = new LinkedList<>();
     private List<Map.Entry<String, Integer>> chartEvents = new ArrayList<>();
@@ -67,6 +70,13 @@ public class TriDataPanel extends JPanel implements TriDataPanelMenuListener, Ch
     
     private final TriDataPanelMenu menu = new TriDataPanelMenu();
     
+    /**
+     * Default constructor
+     * @param data A ChartData object that defines how the chart should look.
+     * @param showMenu  A boolean flag that indicates where the panel should show
+     * a menu. If this set to False then you can use the getChartMenu() method
+     * to replace the menu to be used else where.
+     */
     public TriDataPanel(ChartData data, boolean showMenu) {
         
         chartData = data;
@@ -77,14 +87,22 @@ public class TriDataPanel extends JPanel implements TriDataPanelMenuListener, Ch
         buildDisplay(showMenu);
     }
     
+    /**
+     * Set the events that are to be represented on the chart.
+     * @param events 
+     */
     public void setEvents(List<Event> events) {
         
         masterEvents.clear();
         masterEvents.addAll(events);
         
-        updatePanel(5);
+        updatePanel(chartData.getTop());
     }
     
+    /**
+     * return the Menu options for controlling the Chart
+     * @return 
+     */
     public JMenuBar getChartMenu() {
         return menu;
     }

@@ -30,7 +30,6 @@ import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.MenuDefinition;
 import com.haskins.jcloudtrailerviewer.model.MenusDefinition;
-import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -60,7 +59,8 @@ import javax.swing.event.MenuListener;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- *
+ * Provides the Menu that is attached to the JDesktop
+ * 
  * @author mark.haskins
  */
 public class MainMenu extends JMenuBar implements ActionListener, KeyListener {
@@ -74,6 +74,14 @@ public class MainMenu extends JMenuBar implements ActionListener, KeyListener {
     
     private final JTextField menuScanTextField = new JTextField();
         
+    /**
+     * Default Constructor.
+     * 
+     * Takes an event loader and an event database
+     * 
+     * @param eventLoader an instance of EventLoader 
+     * @param database and instance of EventsDatase
+     */
     public MainMenu(EventLoader eventLoader, EventsDatabase database) {
         
         this.eventLoader = eventLoader;
@@ -136,6 +144,9 @@ public class MainMenu extends JMenuBar implements ActionListener, KeyListener {
     @Override
     public void keyTyped(KeyEvent e) { }
         
+    ////////////////////////////////////////////////////////////////////////////
+    // private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildMenu() {
         
         fileChooser.setMultiSelectionEnabled(true);

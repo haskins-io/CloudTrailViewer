@@ -38,13 +38,22 @@ import javax.swing.JPanel;
  */
 public class jCloudTrailViewer extends JFrame {
 
+    /** Main Window */
     public final static JDesktopPane DESKTOP = new JDesktopPane();
     
+    /** Version of the application */
     public final static String VERSION = "2.0";
         
-    private final EventLoader eventLoader;
+    /** Master EventsDatabase */
     public EventsDatabase eventsDatabase;
     
+    private final EventLoader eventLoader;
+    
+    /**
+     * Default Constructor.
+     * 
+     * Called by the main method to run the application
+     */
     public jCloudTrailViewer() {
         
         super("jCloudTrailViewer");
@@ -93,6 +102,10 @@ public class jCloudTrailViewer extends JFrame {
         frame.setVisible(true);
     }
     
+    /**
+     * Main Class used to run the application
+     * @param args Array of arguments
+     */
     public static void main(String[] args) {
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {

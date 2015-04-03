@@ -23,7 +23,8 @@ package com.haskins.jcloudtrailerviewer.filter;
 import com.haskins.jcloudtrailerviewer.model.Event;
 
 /**
- *
+ * An EventFilter implementation that filters on the AccountId
+ * 
  * @author mark
  */
 public class AccountFilter implements EventFilter {

@@ -45,7 +45,15 @@ import javax.swing.event.ListSelectionListener;
 import org.jfree.chart.ChartPanel;
 
 /**
- *
+ * Class that represents a Internal Frame Windows that shows a multiple items.
+ * 
+ * This window shows the following items
+ * 
+ * A time series chart that shows the Events Per X of the data.
+ * A chart that shows the Top X of the loaded data
+ * A table that shows all the loaded data
+ * A tabbed area that shows the details of an event selected in the Event table.
+ * 
  * @author mark.haskins
  */
 public class CombinedWindow extends AbstractInternalFrame implements EventLoaderListener {
@@ -58,6 +66,12 @@ public class CombinedWindow extends AbstractInternalFrame implements EventLoader
     
     private final TriDataPanel triPanel;
     
+    /**
+     * Default Constructor
+     * @param title String to be used as Window title
+     * @param logEvents Collection of Events to be used to generate window data
+     * @param menuDefinition  
+     */
     public CombinedWindow(String title, List<Event> logEvents, MenuDefinition menuDefinition) {
         
         super(title);

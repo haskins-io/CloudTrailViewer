@@ -25,13 +25,20 @@ import java.awt.BorderLayout;
 import java.util.List;
 
 /**
- *
+ * Class that represents a Internal Frame Windows that shows a chart.
+ * 
+ * This chart will be populated on the fly as part of a Scan operation.
+ * 
  * @author mark
  */
 public class ScanChartWindow extends AbstractInternalFrame {
 
     private final TriDataPanel triPanel;
     
+    /**
+     * Default Constructor
+     * @param menuDef 
+     */
     public ScanChartWindow(MenuDefinition menuDef) {
 
         super(menuDef.getName());

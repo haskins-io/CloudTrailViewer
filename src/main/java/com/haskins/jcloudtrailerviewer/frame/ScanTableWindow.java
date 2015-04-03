@@ -16,7 +16,6 @@
  */
 package com.haskins.jcloudtrailerviewer.frame;
 
-import com.haskins.jcloudtrailerviewer.frame.ChartWindow;
 import com.haskins.jcloudtrailerviewer.PropertiesSingleton;
 import com.haskins.jcloudtrailerviewer.filter.EventFilter;
 import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
@@ -46,7 +45,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- *
+ * Class that represents a Internal Frame Windows that shows a table.
+ * 
+ * This table is populated on the fly as part of a Scan operation.
+ * 
  * @author mark.haskins
  */
 public class ScanTableWindow extends AbstractInternalFrame  {
@@ -54,6 +56,10 @@ public class ScanTableWindow extends AbstractInternalFrame  {
     private List<String> scanActions;
     private String scanNeedle;
     
+    /**
+     * Default Constructor
+     * @param menuDefinition 
+     */
     public ScanTableWindow(MenuDefinition menuDefinition) {
         
         super(menuDefinition.getName());

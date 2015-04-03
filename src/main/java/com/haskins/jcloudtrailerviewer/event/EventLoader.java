@@ -67,6 +67,9 @@ public class EventLoader {
     
     private final List<EventLoaderListener> listeners = new LinkedList<>();
 
+    /**
+     * Default Constructor.
+     */
     public EventLoader() {
         fileChooser.setMultiSelectionEnabled(true);
     }
@@ -147,6 +150,9 @@ public class EventLoader {
         }
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void loadFromLocalFiles(final File[] files) {
 
         if (files != null && files.length > 0) {

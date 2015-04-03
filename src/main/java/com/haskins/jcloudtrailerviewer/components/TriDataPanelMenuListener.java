@@ -19,16 +19,36 @@ package com.haskins.jcloudtrailerviewer.components;
 import org.jfree.chart.plot.PlotOrientation;
 
 /**
- *
+ * Interface that models a Listener.
+ * 
+ * The methods on this interface are called when changes are made to Menu provided
+ * by @see com.haskins.jcloudtrailerviewer.components.TriDataPanelMenu
+ * 
  * @author mark
  */
 public interface TriDataPanelMenuListener {
     
+    /**
+     * called when the Top value is updated.
+     * @param newTop new Top value
+     */
     public void topUpdated(int newTop);
     
+    /**
+     * called when the style of the chart is updated.
+     * @param newStyle new style of the chart e.g. Pie
+     */
     public void styleUpdated(String newStyle);
     
+    /**
+     * Called when the chart orientation is changed.
+     * @param newOrientation new Orientation e.g. HORIZONTAL
+     */
     public void orientationUpdated(PlotOrientation newOrientation);
     
+    /**
+     * called when the source of the chart is changed.
+     * @param newSource new source e.g. EventName or UserIdentity.UserName
+     */
     public void sourceUpdated(String newSource);
 }

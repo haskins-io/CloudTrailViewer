@@ -78,6 +78,11 @@ public class PropertiesSingleton {
         return this.configProp.getProperty(key);
     }
 
+    /**
+     * Checks to see if any S3 credentials provided in the configuration file
+     * are present and look to be correct.
+     * @return True is they are OK otherwise False.
+     */
     public boolean validS3Credentials() {
         return validS3Credentials;
     }

@@ -114,6 +114,12 @@ public class EventUtils {
         } 
     }            
            
+    /**
+     * Returns all the events that match the Source provided by the ChartData object.
+     * @param masterEvents Collection of events to check
+     * @param chartData ChartData object that contains the required filter.
+     * @return Collection of Entries that match the requirements.
+     */
     public static List<Entry<String,Integer>> getRequiredEvents(List<Event> masterEvents, ChartData chartData) {
                 
         List<Entry<String,Integer>> events = getEventsBySource(masterEvents, chartData);
@@ -171,6 +177,12 @@ public class EventUtils {
         return top;
     }
     
+    /**
+     * Returns the JSON value associated with the property
+     * @param property Required property
+     * @param event Object to check
+     * @return Will return either a String if the property was found otherwise NULL
+     */
     public static String getEventProperty(String property, Object event) {
         
         String requiredValue;

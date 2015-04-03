@@ -30,6 +30,12 @@ import javax.swing.table.TableColumn;
  */
 public class EventsTable extends JTable {
         
+    /**
+     * Default Constructor.
+     * 
+     * Create a new JTable with a EventTableModel as its TableModel
+     * @param model 
+     */
     public EventsTable(EventsTableModel model) {
         
         super(model);

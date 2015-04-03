@@ -48,7 +48,8 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
 /**
- *
+ *  Provides the toolbar that is attached to the JDesktop.
+ * 
  * @author mark.haskins
  */
 public class MainToolBar extends JToolBar implements ActionListener, KeyListener {
@@ -59,6 +60,10 @@ public class MainToolBar extends JToolBar implements ActionListener, KeyListener
     
     private final JTextField searchBox = new JTextField();
 
+    /**
+     * Default Constructor.
+     * @param database an Events Database instance.
+     */
     public MainToolBar(EventsDatabase database) {
 
         eventsDatabase = database;
@@ -134,6 +139,9 @@ public class MainToolBar extends JToolBar implements ActionListener, KeyListener
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    // private methods
+    //////////////////////////////////////////////////////////////////////////// 
     private void addRequiredFilters() {
         filters.addEventFilter(new FreeformFilter());
     }

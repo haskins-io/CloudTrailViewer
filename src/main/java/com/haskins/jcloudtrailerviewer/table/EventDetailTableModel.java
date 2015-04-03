@@ -32,6 +32,10 @@ public class EventDetailTableModel extends AbstractTableModel {
 
     private Event detailEvent = null;
 
+    /**
+     * Adds the Event to the table model
+     * @param event Event to be shown
+     */
     public void showDetail(Event event) {
 
         detailEvent = event;

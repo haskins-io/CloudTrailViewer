@@ -36,10 +36,18 @@ public class Filters {
     
     private final List<EventFilter> filters = new ArrayList<>();
     
+    /**
+     * Adds a new filter to the collection to be included in all checks.
+     * @param filter 
+     */
     public void addEventFilter(EventFilter filter) {
         this.filters.add(filter);
     }
     
+    /**
+     * Sets the Needle on all filters
+     * @param value 
+     */
     public void setFilterCriteria(String value) {
         
         for (EventFilter filter : filters) {
@@ -47,6 +55,15 @@ public class Filters {
         }
     }
     
+    /**
+     * Calling this will check every Event in the list against all filters.
+     * 
+     * If an Event in the list matches any of the filters it will be added to
+     * the list of Events that are returned.
+     * 
+     * @param events List of events to check.
+     * @return List of events that are matched by one or more of the filters.
+     */
     public CopyOnWriteArrayList<Event> filterEvents(Collection<Event> events) {
         
         CopyOnWriteArrayList<Event> filteredEvents = new CopyOnWriteArrayList<>();
@@ -69,6 +86,11 @@ public class Filters {
         return filteredEvents;
     } 
     
+    /**
+     * Checks if the event passes one or more of the filters.
+     * @param event Event to check
+     * @return True if it matches one or more filters, otherwise false.
+     */
     public boolean passesFilter(Event event) {
         
         boolean passed = false;

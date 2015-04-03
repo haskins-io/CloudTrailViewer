@@ -23,12 +23,24 @@ package com.haskins.jcloudtrailerviewer.filter;
 import com.haskins.jcloudtrailerviewer.model.Event;
 
 /**
- *
+ * All classes that provide filtering on Events should implement this.
+ * 
  * @author mark
  */
 public interface EventFilter {
     
+    /**
+     * Sets the needle to be searched for.
+     * @param value A string
+     */
     public void setNeedle(String value);
     
+    /**
+     * An event passed into this method will be checked to see if it matched
+     * by the filter.
+     * 
+     * @param event The event to check.
+     * @return True if it matches otherwise False.
+     */
     public boolean passesFilter(Event event);
 }

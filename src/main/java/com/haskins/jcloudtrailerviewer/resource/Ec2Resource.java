@@ -26,6 +26,11 @@ import java.util.Map;
  */
 public class Ec2Resource implements Resource {
 
+    /**
+     * Return the resource for the passed Event
+     * @param event Event from which the resource is require
+     * @return either the resource name or an empty string if the EventName is not handled.
+     */
     @Override
     public String getResource(Event event) {
         

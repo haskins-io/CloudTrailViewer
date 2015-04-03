@@ -28,7 +28,8 @@ import javax.swing.JRadioButtonMenuItem;
 import org.jfree.chart.plot.PlotOrientation;
 
 /**
- *
+ *  Extends JMenuBar to provide menu options for the TriDataPanel.
+ * 
  * @author mark
  */
 public class TriDataPanelMenu extends JMenuBar implements ActionListener {
@@ -74,6 +75,9 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
     JRadioButtonMenuItem mnuSiAccountId = new JRadioButtonMenuItem("Account Id");
     JRadioButtonMenuItem mnuSiUsername = new JRadioButtonMenuItem("Username");
         
+    /**
+     * Default contructor.
+     */
     public TriDataPanelMenu() {
         
         this.add(getTopMenu());
@@ -82,10 +86,18 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
         this.add(getSourceMenu());
     }
     
+    /**
+     * Register a listener to the class.
+     * @param l A class that implments TriDataPanelMenuListener
+     */
     public void addListener(TriDataPanelMenuListener l) {
         listeners.add(l);
     }
     
+    /**
+     * Sets the appropriate MenuItem on the Top menu as selected.
+     * @param top Should be either 5 or 10.
+     */
     public void setTop(int top) {
         
         if (top == 5) {
@@ -95,6 +107,10 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
         }
     }
     
+    /**
+     * Sets the appropriate MenuItem on the Style menu as selected.
+     * @param style Should be either Pie or Bar
+     */
     public void setStyle(String style) {
         
         if (style.equalsIgnoreCase("Pie")) {
@@ -104,6 +120,10 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
         }
     }
     
+    /**
+     * Sets the appropriate MenuItem on the Orientation menu as selected.
+     * @param orientation Should be either Horizontal or Veritical
+     */
     public void setOrientation(PlotOrientation orientation) {
         
         if (orientation == ChartData.HORIZONTAL) {
@@ -113,10 +133,13 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
         }
     }
     
+    /**
+     * Sets the appropriate MenuItem on the Source menu as selected.
+     * @param source 
+     */
     public void setSource(String source) {
         
     }
-    
     
     ////////////////////////////////////////////////////////////////////////////
     // ActionListener

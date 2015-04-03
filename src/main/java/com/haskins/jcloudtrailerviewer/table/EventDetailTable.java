@@ -32,6 +32,10 @@ import javax.swing.table.TableModel;
  */
 public class EventDetailTable extends JTable {
        
+    /**
+     * Creates a new JTable using an EventDetailTableModel as its model.
+     * @param model 
+     */
     public EventDetailTable(EventDetailTableModel model) {
         
         super(model);

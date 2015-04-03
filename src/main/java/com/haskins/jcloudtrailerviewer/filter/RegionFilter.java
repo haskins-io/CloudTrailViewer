@@ -23,7 +23,8 @@ package com.haskins.jcloudtrailerviewer.filter;
 import com.haskins.jcloudtrailerviewer.model.Event;
 
 /**
- *
+ * An EventFilter implementation that filters on AWS Region
+ * 
  * @author mark
  */
 public class RegionFilter implements EventFilter {

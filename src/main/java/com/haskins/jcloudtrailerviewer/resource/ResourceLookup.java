@@ -29,6 +29,7 @@ import java.util.Set;
  */
 public class ResourceLookup {
     
+    
     public static ResourceInfo getResourceInfo(Event event) {
         
         ResourceInfo resourceInfo = new ResourceInfo();

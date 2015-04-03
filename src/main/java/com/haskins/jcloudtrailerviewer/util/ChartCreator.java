@@ -36,7 +36,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -54,6 +53,12 @@ import org.jfree.ui.HorizontalAlignment;
  */
 public class ChartCreator {
     
+    /**
+     * Creates and returns a ChartPanel for the appropriate chart.
+     * @param events Collection of String,Inter data to show on the chart.
+     * @param chartData ChartData object that models the required chart
+     * @return a ChartPanel object with a chart.
+     */
     public static ChartPanel createChart(List<Entry<String,Integer>> events, ChartData chartData) {
         
         if (chartData.getChartStyle().contains("Pie")) {

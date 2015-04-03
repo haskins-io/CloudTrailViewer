@@ -23,7 +23,8 @@ package com.haskins.jcloudtrailerviewer.filter;
 import com.haskins.jcloudtrailerviewer.model.Event;
 
 /**
- *
+ * An EventFilter implementation that filters on any part of the Event.
+ * 
  * @author mark
  */
 public class FreeformFilter implements EventFilter {

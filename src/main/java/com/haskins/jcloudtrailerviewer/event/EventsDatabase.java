@@ -27,7 +27,8 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- *
+ * The event database holds all the events that are loaded (not scanned).
+ * 
  * @author mark.haskins
  */
 public class EventsDatabase implements EventLoaderListener {

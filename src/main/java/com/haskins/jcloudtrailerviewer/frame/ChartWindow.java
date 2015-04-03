@@ -28,13 +28,19 @@ import java.util.List;
 import javax.swing.JLabel;
 
 /**
- *
+ *  Class that represents a Internal Frame Windows that shows a chart.
+ * 
  * @author mark.haskins
  */
 public class ChartWindow extends AbstractInternalFrame {
         
     private final TriDataPanel triPanel;
         
+    /**
+     * Default Constructor
+     * @param chartData Model containing state of chart
+     * @param data data to be shown on the chart
+     */
     public ChartWindow(ChartData chartData, List data) {
         
         super(chartData.getChartSource());

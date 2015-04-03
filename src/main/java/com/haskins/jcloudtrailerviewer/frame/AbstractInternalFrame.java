@@ -47,26 +47,44 @@ import javax.swing.JTextArea;
  */
 public abstract class AbstractInternalFrame extends JInternalFrame implements EventLoaderListener {
     
+    /** Constant that defines a new live character */
     public final static String NEWLINE = "\n";
     
     // Filtering
+    /** collection of EventFilter objects */
     protected final Filters filters = new Filters();
     
     // Events
+    /** EventLoader */
     protected final EventLoader eventLoader = new EventLoader();
+    
+    /** Collection of Events */
     protected List<Event> events = new LinkedList<>();
+    
+    /** Utility Class for Event */
     protected final EventUtils eventUtils = new EventUtils();
             
+    /** TableModel for events */
     protected final EventsTableModel eventsTableModel = new EventsTableModel();
+    
+    /** TableModel for Event Detail */
     protected final EventDetailTableModel eventsDetailTableModel = new EventDetailTableModel();
     
     // Chart
+    /** ChartData object for storing state of Chart */
     protected ChartData chartData = new ChartData();
+    
+    /** Collection of Key, Value pair information for generating the charts */
     protected List<Map.Entry<String, Integer>> chartEvents = new ArrayList<>();
     
     // GUI Components
+    /** JTextAre component for showing the raw JSON representation of an Event */ 
     protected final JTextArea eventDetailTextArea = new JTextArea();
     
+    /**
+     * Default Constructor.
+     * @param title String to be used as the window title
+     */
     public AbstractInternalFrame(String title) {
         
         super(title, true, true, false, true);
@@ -84,6 +102,10 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ev
     ////////////////////////////////////////////////////////////////////////////
     // GUI Methods
     ////////////////////////////////////////////////////////////////////////////    
+    /**
+     * Returns a Tabbed Pane for the Event Detail.
+     * @return 
+     */
     protected JTabbedPane getEventDetailPanel() {
         
         EventDetailTable detailTable = new EventDetailTable(eventsDetailTableModel);
@@ -97,6 +119,10 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ev
         return detailPanel;
     }
     
+    /**
+     * Shows the Scan Dialog
+     * @return return the outcome of operations on the dialog
+     */
     protected int showScanDialog() {
         
         Object[] options = {"Local Files", "S3 Files"};
@@ -111,6 +137,9 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ev
             options[0]);   
     }
     
+    /**
+     * Adds a Status bar to the layout.
+     */
     protected void addStatusBar() {
         
         StatusBar statusBarPanel = new StatusBar();
@@ -122,6 +151,10 @@ public abstract class AbstractInternalFrame extends JInternalFrame implements Ev
     ////////////////////////////////////////////////////////////////////////////
     // Data Methods
     ////////////////////////////////////////////////////////////////////////////
+    /**
+     * Shows the selected Event in the Event Detail Tabbed Pane.
+     * @param event 
+     */
     protected void showEventDetail(Event event) {
 
         eventsDetailTableModel.showDetail(event);

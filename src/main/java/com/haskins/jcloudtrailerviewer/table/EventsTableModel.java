@@ -38,12 +38,20 @@ public class EventsTableModel extends DefaultTableModel {
             
     private List<Event> events;
     
+    /**
+     * Overrides the current data in the model with the passed data
+     * @param data collection of events to be used by the model
+     */
     public void setData(List<Event> data) {
         
         this.events = data;
         fireTableDataChanged(); 
     }
     
+    /**
+     * Adds a new Event to the existing data held by the model
+     * @param event new Event to add
+     */
     public void addEvent(Event event) {
         
         if (events == null) {
@@ -54,18 +62,34 @@ public class EventsTableModel extends DefaultTableModel {
         fireTableDataChanged(); 
     }
     
+    /**
+     * Returns the event object held within the model at the required position
+     * @param i position in model
+     * @return 
+     */
     public Event getEventAt(int i) {
         return events.get(i);
     }
     
+    /**
+     * Returns all the events in the model
+     * @return collection of Events
+     */
     public List<Event> getEvents() {
         return this.events;
     }
     
+    /**
+     * Returns the number of Events in the model
+     * @return number of events
+     */
     public int size() {
         return events.size();
     }
     
+    /**
+     * Forces the Model to reload the data.
+     */
     public void reloadTableModel() {
         fireTableDataChanged(); 
     }

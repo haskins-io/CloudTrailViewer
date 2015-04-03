@@ -28,7 +28,10 @@ import org.jfree.chart.plot.PlotOrientation;
  */
 public class ChartData {
     
+    /** Constant that defines a Horizontal Chart Plot */
     public static final PlotOrientation HORIZONTAL = PlotOrientation.HORIZONTAL;
+    
+    /** Constant that defines a Vertical Chart Plot */
     public static final PlotOrientation VERTICAL = PlotOrientation.VERTICAL;
     
     private String chartType = "Top";
@@ -40,6 +43,10 @@ public class ChartData {
     
     private int top = 5;
 
+    /**
+     * 
+     * @return 
+     */
     public String getChartType() {
         return chartType;
     }
