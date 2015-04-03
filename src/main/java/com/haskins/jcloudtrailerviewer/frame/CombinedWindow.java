@@ -85,7 +85,7 @@ public class CombinedWindow extends AbstractInternalFrame implements EventLoader
         if (logEvents != null) {
             events = logEvents;
             generateData(logEvents);
-            buildUI();
+            buildUI(false);
             
         } else {
             
@@ -133,10 +133,10 @@ public class CombinedWindow extends AbstractInternalFrame implements EventLoader
             }
             
             if (scanDialogResult == 0) {
-                buildUI();
+                buildUI(true);
                 eventLoader.showFileBrowser();
             } else if (scanDialogResult == 1) {
-                buildUI();
+                buildUI(true);
                 eventLoader.showS3Browser();
             } else {
                 this.dispose();
@@ -176,7 +176,7 @@ public class CombinedWindow extends AbstractInternalFrame implements EventLoader
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     ////////////////////////////////////////////////////////////////////////////
-    private void buildUI() {
+    private void buildUI(boolean showStatusBar) {
         
         this.setSize(
                 jCloudTrailViewer.DESKTOP.getWidth() - 50,
@@ -231,11 +231,13 @@ public class CombinedWindow extends AbstractInternalFrame implements EventLoader
         
         this.add(split, BorderLayout.CENTER);
         
-        StatusBar statusBarPanel = new StatusBar();
-        statusBarPanel.newMessage("Load Some Events");
-        eventLoader.addListener(statusBarPanel);
-        this.add(statusBarPanel, BorderLayout.SOUTH);
-        
+        if (showStatusBar) {
+            StatusBar statusBarPanel = new StatusBar();
+            statusBarPanel.newMessage("Load Some Events");
+            eventLoader.addListener(statusBarPanel);
+            this.add(statusBarPanel, BorderLayout.SOUTH);  
+        }
+
         this.validate();
     }
     
