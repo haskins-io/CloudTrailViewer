@@ -45,6 +45,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class EventUtils {
     
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private static final SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
     
     private static final ObjectMapper mapper = new ObjectMapper();
     
@@ -95,6 +96,10 @@ public class EventUtils {
         } catch (Exception ex) { } 
         
         return millis;
+    }
+    
+    public static String getFormatedDateTime(long millis) {
+        return sdf2.format(millis);
     }
            
     /**

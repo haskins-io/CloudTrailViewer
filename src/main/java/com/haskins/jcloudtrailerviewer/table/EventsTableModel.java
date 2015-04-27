@@ -22,6 +22,7 @@ package com.haskins.jcloudtrailerviewer.table;
 
 import com.haskins.jcloudtrailerviewer.model.Event;
 import com.haskins.jcloudtrailerviewer.resource.ResourceLookup;
+import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -33,7 +34,7 @@ import javax.swing.table.DefaultTableModel;
 public class EventsTableModel extends DefaultTableModel {
 
     private final static String[] columnNames = new String[] {
-         "Date/Time", "User Name", "Event Name", "Resource Type", "Resource Name"
+         "Date/Time", "User Name", "Service", "Name", "Resource Type", "Resource Name"
     };
             
     private List<Event> events;
@@ -130,18 +131,21 @@ public class EventsTableModel extends DefaultTableModel {
         switch(columnIndex) {
             
             case 0:
-                value = event.getEventTime();
+                value = EventUtils.getFormatedDateTime(event.getTimestamp());
                 break;
             case 1:
                 value = TableUtils.getUserName(event);
                 break;
             case 2:
-                value = event.getEventName();
+                value =  TableUtils.getService(event);
                 break;
             case 3:
-                value = ResourceLookup.getResourceInfo(event).getTypes();
+                value =  event.getEventName();
                 break;
             case 4:
+                value = ResourceLookup.getResourceInfo(event).getTypes();
+                break;
+            case 5:
                 value = ResourceLookup.getResourceInfo(event).getNames();
                 break;
         }

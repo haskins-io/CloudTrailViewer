@@ -227,26 +227,6 @@ public class TriDataPanel extends JPanel implements TriDataPanelMenuListener, Ch
         updateTextArea();
     }
     
-    private void reloadTable() {
-        
-        for (int i = defaultTableModel.getRowCount() -1; i>=0; i--) {
-            defaultTableModel.removeRow(i);
-        }
-        
-        if (chartEvents != null && chartEvents.size() > 0) {
-            
-            int count = 0;
-            for (Map.Entry entry : chartEvents) {
-                defaultTableModel.addRow(new Object[] { entry.getKey(), entry.getValue() });
-                count++;
-                
-                if (count >= chartData.getTop()) {
-                    break;
-                }
-            }         
-        } 
-    } 
-    
     private void updateChart() {
         
         generateChartData();
@@ -256,9 +236,33 @@ public class TriDataPanel extends JPanel implements TriDataPanelMenuListener, Ch
         tabs.setSelectedIndex(0);
     }
     
+    private void generateChartData() {
+        chartEvents = EventUtils.getRequiredEvents(masterEvents, chartData);
+    }
+    
+    private void reloadTable() {
+        
+        if (chartEvents != null && chartEvents.size() > 0) {
+            
+            for (int i = defaultTableModel.getRowCount() -1; i>=0; i--) {
+                defaultTableModel.removeRow(i);
+            }
+
+            int count = 0;
+            for (Map.Entry entry : chartEvents) {
+                defaultTableModel.addRow(new Object[] { entry.getKey(), entry.getValue() });
+                count++;
+
+                if (count >= chartData.getTop()) {
+                    break;
+                }
+            }         
+        }
+    } 
+    
     private void updateTextArea() {
 
-        if (chartEvents != null) {
+        if (chartEvents != null && chartEvents.size() > 0) {
 
             int count = 0;
 
@@ -276,27 +280,26 @@ public class TriDataPanel extends JPanel implements TriDataPanelMenuListener, Ch
             tabbedTextArea.setText(dataString.toString());
         }
     }
-        
-    private void generateChartData() {
-        chartEvents = EventUtils.getRequiredEvents(masterEvents, chartData);
-    }
     
     private void createChart() {
         
-        int count = chartData.getTop();
-        if (chartEvents.size() < chartData.getTop()) {
-            count = chartEvents.size();
-        }
-        
-        List<Map.Entry<String,Integer>> topEvents = new ArrayList<>();
-        for (int i=0; i<count; i++) {
-            topEvents.add(chartEvents.get(i));
-        }
-        
-        chartPanel = ChartCreator.createChart(topEvents, chartData);
- 
-        if (chartPanel != null) {
-            chartPanel.addChartMouseListener(this);
+        if (chartEvents != null && chartEvents.size() > 0) {
+            
+            int count = chartData.getTop();
+            if (chartEvents.size() < chartData.getTop()) {
+                count = chartEvents.size();
+            }
+
+            List<Map.Entry<String,Integer>> topEvents = new ArrayList<>();
+            for (int i=0; i<count; i++) {
+                topEvents.add(chartEvents.get(i));
+            }
+
+            chartPanel = ChartCreator.createChart(topEvents, chartData);
+
+            if (chartPanel != null) {
+                chartPanel.addChartMouseListener(this);
+            } 
         }
     }
 }

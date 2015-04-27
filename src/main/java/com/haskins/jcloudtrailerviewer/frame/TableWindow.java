@@ -115,9 +115,10 @@ public class TableWindow extends AbstractInternalFrame {
         split.add(getEventDetailPanel(), JSplitPane.RIGHT);
         split.setOneTouchExpandable(true);
         split.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-        split.setDividerSize(2);
+        split.setDividerSize(10);
         split.setAutoscrolls(false);
-        split.setDividerLocation(400);
+        split.setDividerLocation(this.getWidth() - 300);
+        split.setResizeWeight(1.0);
         
         add(toolbar, BorderLayout.NORTH);
         add(split, BorderLayout.CENTER);

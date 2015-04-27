@@ -48,4 +48,11 @@ public class TableUtils {
         return username;
     }
     
+    public static String getService(Event event) {
+        
+        String source = event.getEventSource();
+        int periodPos = source.indexOf(".");
+        
+        return source.substring(0,periodPos);
+    }
 }

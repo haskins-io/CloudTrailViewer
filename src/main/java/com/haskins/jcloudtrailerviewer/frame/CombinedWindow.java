@@ -151,14 +151,16 @@ public class CombinedWindow extends AbstractInternalFrame implements EventLoader
     public void newEvents(List<Event> eventLoaderEvent) {
                
         for (Event event : eventLoaderEvent) { 
-        
+            
             if (scanActions != null && scanActions.size() > 0 && scanActions.contains(event.getEventName()) ) {
                 events.add(event);
+                eventsTableModel.addEvent(event);
             } else {
 
                 filters.setFilterCriteria(scanNeedle);
                 if (filters.passesFilter(event)) {
                    events.add(event);
+                   eventsTableModel.addEvent(event);
                 } 
             }
         }
@@ -167,6 +169,7 @@ public class CombinedWindow extends AbstractInternalFrame implements EventLoader
     @Override
     public void finishedLoading() { 
         generateData(events);
+        createTpsChart();
         this.revalidate();
     }
     

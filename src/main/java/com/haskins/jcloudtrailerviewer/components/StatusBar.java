@@ -22,8 +22,8 @@ package com.haskins.jcloudtrailerviewer.components;
 
 import com.haskins.jcloudtrailerviewer.event.EventLoaderListener;
 import com.haskins.jcloudtrailerviewer.model.Event;
+import com.haskins.jcloudtrailerviewer.util.EventUtils;
 import java.awt.GridLayout;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,8 +34,6 @@ import javax.swing.JPanel;
  * @author mark
  */
 public class StatusBar extends JPanel implements EventLoaderListener {
-    
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd/MM/yy");
     
     private final JLabel lblFirstEvent = new JLabel();
     private final JLabel lblLastEvent = new JLabel();
@@ -81,8 +79,8 @@ public class StatusBar extends JPanel implements EventLoaderListener {
     @Override
     public void finishedLoading() {
         
-        lblFirstEvent.setText(sdf.format(firstEvent));
-        lblLastEvent.setText(sdf.format(lastEvent));
+        lblFirstEvent.setText(EventUtils.getFormatedDateTime(firstEvent));
+        lblLastEvent.setText(EventUtils.getFormatedDateTime(lastEvent));
         
         newMessage("Finished Loading Events");
     }

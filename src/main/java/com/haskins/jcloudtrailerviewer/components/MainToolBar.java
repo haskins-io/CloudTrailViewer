@@ -28,6 +28,7 @@ import com.haskins.jcloudtrailerviewer.frame.ChartWindow;
 import com.haskins.jcloudtrailerviewer.event.EventsDatabase;
 import com.haskins.jcloudtrailerviewer.filter.Filters;
 import com.haskins.jcloudtrailerviewer.filter.FreeformFilter;
+import com.haskins.jcloudtrailerviewer.frame.AbstractInternalFrame;
 import com.haskins.jcloudtrailerviewer.jCloudTrailViewer;
 import com.haskins.jcloudtrailerviewer.model.ChartData;
 import com.haskins.jcloudtrailerviewer.model.Event;
@@ -128,10 +129,13 @@ public class MainToolBar extends JToolBar implements ActionListener, KeyListener
         
         switch(actionCommand) {
             case "NewChart":
-                createChart();
+                showChart();
                 break;
-            case "Events":
-                createAllEventsTable();
+            case "Table":
+                showTable(false);
+                break;
+            case "Combined":
+                showTable(true);
                 break;
             case "SecurityScan":
                 securityScan();
@@ -169,17 +173,31 @@ public class MainToolBar extends JToolBar implements ActionListener, KeyListener
         }
 
         // All Events Table
-        JButton btnEvents = new JButton();
-        btnEvents.setActionCommand("Events");
-        btnEvents.setToolTipText("Show All Events");
-        btnEvents.addActionListener(this);
+        JButton btnTable = new JButton();
+        btnTable.setActionCommand("Table");
+        btnTable.setToolTipText("Events Table");
+        btnTable.addActionListener(this);
 
         try {
-            btnEvents.setIcon(new ImageIcon(cl.getResource("icons/table.gif")));
+            btnTable.setIcon(new ImageIcon(cl.getResource("icons/table.gif")));
         }
         catch (Exception e) {
-            btnEvents.setText("Events");
+            btnTable.setText("Table");
         }
+        
+        // All Events Table
+        JButton btnCombined = new JButton();
+        btnCombined.setActionCommand("Combined");
+        btnCombined.setToolTipText("Combined");
+        btnCombined.addActionListener(this);
+
+        try {
+            btnCombined.setIcon(new ImageIcon(cl.getResource("icons/combined.png")));
+        }
+        catch (Exception e) {
+            btnCombined.setText("Events");
+        }
+
 
         // Security Scan
         JButton btnSecurityScan = new JButton();
@@ -197,7 +215,8 @@ public class MainToolBar extends JToolBar implements ActionListener, KeyListener
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
         buttonsPanel.add(btnNewChart);
-        buttonsPanel.add(btnEvents);
+        buttonsPanel.add(btnTable);
+        buttonsPanel.add(btnCombined);
         buttonsPanel.add(btnSecurityScan);
 
         this.add(buttonsPanel, BorderLayout.WEST);
@@ -223,7 +242,7 @@ public class MainToolBar extends JToolBar implements ActionListener, KeyListener
         this.add(searchPanel, BorderLayout.EAST);
     }
 
-    private void createChart() {
+    private void showChart() {
         
         if (!eventsDatabase.getEvents().isEmpty()) {
 
@@ -247,11 +266,19 @@ public class MainToolBar extends JToolBar implements ActionListener, KeyListener
         }
     }
     
-    private void createAllEventsTable() {
+    private void showTable(boolean combined) {
         
         if (!eventsDatabase.getEvents().isEmpty()) {
 
-            CombinedWindow window = new CombinedWindow("All Events", eventsDatabase.getEvents(), null);
+            AbstractInternalFrame window;
+            
+            if (combined) {
+                window = new CombinedWindow("All Events", eventsDatabase.getEvents(), null);
+            }
+            else {
+                window = new TableWindow("All Evetns", eventsDatabase.getEvents());
+            }
+            
             window.setVisible(true);
 
             jCloudTrailViewer.DESKTOP.add(window);

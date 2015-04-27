@@ -74,7 +74,6 @@ public class ScanChartWindow extends AbstractInternalFrame {
 
         for (Event event : newEvents) {
             
-            // get required property value and store in map with count
             String value = EventUtils.getEventProperty(chartData.getChartSource(), event);
             if (value != null) {
                 events.add(event);

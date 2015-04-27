@@ -198,7 +198,7 @@ public class ChartCreator {
         }
         
         JFreeChart chart = ChartFactory.createTimeSeriesChart(
-            "", "Time", "Value", dataset, true, true, false
+            "", "Time", "Rate", dataset, true, true, false
         );
         chart.setBackgroundPaint(Color.white);
         

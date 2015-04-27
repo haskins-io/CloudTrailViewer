@@ -87,17 +87,26 @@ public class ChartDialog extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         
-        if ("Show".equals(e.getActionCommand())) {
-            
-            chartData = new ChartData();
-            chartData.setChartSource(chartSourceCombo.getSelectedItem().toString());
-            chartData.setChartStyle(chartStyleCombo.getSelectedItem().toString());
-            chartData.setChartType(chartTypeCombo.getSelectedItem().toString());
-            
-            chartData.setIgnoreRoot(ignoreRootCheckBox.isSelected());
-        }
+        String actionCommand = e.getActionCommand();
         
-        ChartDialog.dialog.setVisible(false);
+        switch(actionCommand) {
+            case "Cancel":
+                ChartDialog.dialog.setVisible(false);
+                break;
+            case "Show":
+                chartData = new ChartData();
+                chartData.setChartSource(chartSourceCombo.getSelectedItem().toString());
+                chartData.setChartStyle(chartStyleCombo.getSelectedItem().toString());
+                chartData.setChartType(chartTypeCombo.getSelectedItem().toString());
+                chartData.setIgnoreRoot(ignoreRootCheckBox.isSelected());
+                
+                ChartDialog.dialog.setVisible(false);
+                break;
+            case "TypeChange":
+                System.out.println("Top Changned : " + chartTypeCombo.getSelectedItem().toString() );
+                break;
+                
+        }           
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -113,6 +122,7 @@ public class ChartDialog extends JDialog implements ActionListener {
         getRootPane().setDefaultButton(btnLoad);
         
         JButton btnCancel = new JButton("Cancel");
+        btnCancel.setActionCommand("Cancel");
         btnCancel.addActionListener(this);
         
         JPanel buttonPanel = new JPanel();
@@ -129,6 +139,8 @@ public class ChartDialog extends JDialog implements ActionListener {
         chartStyleCombo = new JComboBox(styles);
         chartSourceCombo = new JComboBox(sources);
         chartTypeCombo = new JComboBox(type);
+        chartTypeCombo.setActionCommand("TypeChange");
+        chartTypeCombo.addActionListener(this);
         
         ignoreRootCheckBox = new JCheckBox();
         
