@@ -76,7 +76,7 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
     JRadioButtonMenuItem mnuSiUsername = new JRadioButtonMenuItem("Username");
         
     /**
-     * Default contructor.
+     * Default constructor.
      */
     public TriDataPanelMenu() {
         
@@ -88,7 +88,7 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
     
     /**
      * Register a listener to the class.
-     * @param l A class that implments TriDataPanelMenuListener
+     * @param l A class that implements TriDataPanelMenuListener
      */
     public void addListener(TriDataPanelMenuListener l) {
         listeners.add(l);
@@ -326,19 +326,19 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
     
     private JMenu getSessionIssuerMenu(ButtonGroup buttonGroup) {
                 
-        mnuSiType.setActionCommand("SessionContext.SessionIssuer.UserIdentity.Type");
+        mnuSiType.setActionCommand("UserIdentity.SessionContext.SessionIssuer.Type");
         mnuSiType.addActionListener(this);
         
-        mnuSiPrincipalId.setActionCommand("SessionContext.SessionIssuer.UserIdentity.PrincipalId");
+        mnuSiPrincipalId.setActionCommand("UserIdentity.SessionContext.SessionIssuer.PrincipalId");
         mnuSiPrincipalId.addActionListener(this);
         
-        mnuSiArn.setActionCommand("SessionContext.SessionIssuer.UserIdentity.Arn");
+        mnuSiArn.setActionCommand("UserIdentity.SessionContext.SessionIssuer.Arn");
         mnuSiArn.addActionListener(this);
         
-        mnuSiAccountId.setActionCommand("SessionContext.SessionIssuer.UserIdentity.AccountId");
+        mnuSiAccountId.setActionCommand("UserIdentity.SessionContext.SessionIssuer.AccountId");
         mnuSiAccountId.addActionListener(this);
                 
-        mnuSiUsername.setActionCommand("SessionContext.SessionIssuer.UserIdentity.UserName");
+        mnuSiUsername.setActionCommand("UserIdentity.SessionContext.SessionIssuer.UserName");
         mnuSiUsername.addActionListener(this);
         
          
@@ -397,29 +397,7 @@ public class TriDataPanelMenu extends JMenuBar implements ActionListener {
     
     private void handleSourceActions(String actionCommand) {
         
-        switch(actionCommand) {
-            case "EventName":
-            case "EventSource":
-            case "SourceIPAddress":
-            case "UserAgent":
-            case "AwsRegion":
-            case "ErrorCode":
-            case "RecipientAccountId":
-            case "UserIdentity.Type":
-            case "UserIdentity.PrincipalId":
-            case "UserIdentity.Arn":
-            case "UserIdentity.UserName":
-            case "UserIdentity.AccountId":
-            case "UserIdentity.InvokedBy":
-            case "UserIdentity.AccessKeyId":
-            case "UserIdentity.SessionContext.SessionIssuer.Type":
-            case "UserIdentity.SessionContext.SessionIssuer.PrincipalId":
-            case "UserIdentity.SessionContext.SessionIssuer.Arn":
-            case "UserIdentity.SessionContext.SessionIssuer.UserName":
-            case "UserIdentity.SessionContext.SessionIssuer.AccountId":
-                fireSourceUpdated(actionCommand);
-                break;
-        }
+        fireSourceUpdated(actionCommand);
     }
     
     private void fireTopUpdated(int newTop) {
