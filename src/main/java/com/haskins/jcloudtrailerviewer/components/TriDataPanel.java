@@ -119,19 +119,19 @@ public class TriDataPanel extends JPanel implements TriDataPanelMenuListener, Ch
     @Override
     public void styleUpdated(String newStyle) {
         chartData.setChartStyle(newStyle);
-        updateChart();
+        updatePanel(chartData.getTop());
     }
     
     @Override
     public void sourceUpdated(String newSource) {
         chartData.setChartSource(newSource);
-        updateChart();
+        updatePanel(chartData.getTop());
     }
     
     @Override
     public void orientationUpdated(PlotOrientation newOrientation) {
         chartData.setOrientation(newOrientation);
-        updateChart();
+        updatePanel(chartData.getTop());
     }
     
     ////////////////////////////////////////////////////////////////////////////
