@@ -33,7 +33,8 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -61,7 +62,9 @@ public class ChartDialog extends JDialog implements ActionListener {
     private final JComboBox chartSourceCombo;
     private final JComboBox chartTypeCombo;
     
-    private final JCheckBox ignoreRootCheckBox;
+    private final JRadioButton allRadioButton;
+    private final JRadioButton ignoreRootRadio;
+    private final JRadioButton justRootRadio;
     
     private static ChartData chartData = null;
     
@@ -98,7 +101,8 @@ public class ChartDialog extends JDialog implements ActionListener {
                 chartData.setChartSource(chartSourceCombo.getSelectedItem().toString());
                 chartData.setChartStyle(chartStyleCombo.getSelectedItem().toString());
                 chartData.setChartType(chartTypeCombo.getSelectedItem().toString());
-                chartData.setIgnoreRoot(ignoreRootCheckBox.isSelected());
+                chartData.setIgnoreRoot(ignoreRootRadio.isSelected());
+                chartData.setJustRoot(justRootRadio.isSelected());
                 
                 ChartDialog.dialog.setVisible(false);
                 break;
@@ -141,9 +145,7 @@ public class ChartDialog extends JDialog implements ActionListener {
         chartTypeCombo = new JComboBox(type);
         chartTypeCombo.setActionCommand("TypeChange");
         chartTypeCombo.addActionListener(this);
-        
-        ignoreRootCheckBox = new JCheckBox();
-        
+                
         optionsPanel.add(new JLabel("Chart Style"));
         optionsPanel.add(chartStyleCombo);
         optionsPanel.add(new JLabel("Chart Source"));
@@ -151,11 +153,31 @@ public class ChartDialog extends JDialog implements ActionListener {
         optionsPanel.add(new JLabel("Chart Type"));
         optionsPanel.add(chartTypeCombo);
         
-        optionsPanel.add(new JLabel("Ignore Root"));
-        optionsPanel.add(ignoreRootCheckBox);
+        ignoreRootRadio = new JRadioButton();
+        justRootRadio = new JRadioButton();
+        allRadioButton = new JRadioButton();
+        allRadioButton.setSelected(true);
+        
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(allRadioButton);
+        buttonGroup.add(ignoreRootRadio);
+        buttonGroup.add(justRootRadio);
+        
+        JPanel rootPanel = new JPanel();
+        rootPanel.add(new JLabel("All"));
+        rootPanel.add(allRadioButton);
+        rootPanel.add(new JLabel("Ignore Root"));
+        rootPanel.add(ignoreRootRadio);
+        rootPanel.add(new JLabel("Just Root"));
+        rootPanel.add(justRootRadio);
+                
+        JPanel layoutPanel = new JPanel();
+        layoutPanel.setLayout(new BorderLayout());
+        layoutPanel.add(optionsPanel, BorderLayout.CENTER);
+        layoutPanel.add(rootPanel, BorderLayout.SOUTH);
         
         Container contentPane = getContentPane();
-        contentPane.add(optionsPanel, BorderLayout.CENTER);
+        contentPane.add(layoutPanel, BorderLayout.CENTER);
         contentPane.add(buttonPanel, BorderLayout.PAGE_END);
  
         pack();

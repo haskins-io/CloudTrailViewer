@@ -146,6 +146,10 @@ public class EventUtils {
                 continue;
             }
             
+            if (chartData.isJustRoot() && !isRootEvent(event)) {
+                continue;
+            }
+            
             String property = getEventProperty(chartData.getChartSource(), event);
 
             if (property != null) {

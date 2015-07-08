@@ -40,6 +40,7 @@ public class ChartData {
     private PlotOrientation orientation = VERTICAL;
     
     private boolean ignoreRoot = false;
+    private boolean justRoot = false;
     
     private int top = 5;
 
@@ -82,6 +83,13 @@ public class ChartData {
         this.ignoreRoot = ignoreRoot;
     }
 
+    public void setJustRoot(boolean justRoot) {
+        this.justRoot = justRoot;
+    }
+    public boolean isJustRoot() {
+        return this.justRoot;
+    }
+    
     public PlotOrientation getOrientation() {
         return orientation;
     }
