@@ -276,7 +276,7 @@ public class MainToolBar extends JToolBar implements ActionListener, KeyListener
                 window = new CombinedWindow("All Events", eventsDatabase.getEvents(), null);
             }
             else {
-                window = new TableWindow("All Evetns", eventsDatabase.getEvents());
+                window = new TableWindow("All Events", eventsDatabase.getEvents());
             }
             
             window.setVisible(true);
