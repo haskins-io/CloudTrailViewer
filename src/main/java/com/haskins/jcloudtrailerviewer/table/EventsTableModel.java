@@ -34,7 +34,7 @@ import javax.swing.table.DefaultTableModel;
 public class EventsTableModel extends DefaultTableModel {
 
     private final static String[] columnNames = new String[] {
-         "Date/Time", "User Name", "Service", "Name", "Resource Type", "Resource Name"
+         "Date/Time", "Invoke By", "Service", "Name", "Resource Type", "Resource Name"
     };
             
     private List<Event> events;

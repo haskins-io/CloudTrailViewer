@@ -38,7 +38,7 @@ public class TableUtils {
         } else if (event.getUserIdentity().getType().equalsIgnoreCase("AssumedRole")) {
             username = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
         } else if (event.getUserIdentity().getType().equalsIgnoreCase("Root")) {
-            username = "Root";
+            username = event.getUserIdentity().getInvokedBy();
         } else {
             username = "";
         }
