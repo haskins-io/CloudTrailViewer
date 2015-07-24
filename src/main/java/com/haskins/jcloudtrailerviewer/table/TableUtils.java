@@ -33,16 +33,14 @@ public class TableUtils {
         
         String username;
         
-        if (event.getUserIdentity().getUserName() != null &&  event.getUserIdentity().getUserName().length() > 0) {
-            
-            String arn = event.getUserIdentity().getArn();
-            int lastSlash = arn.lastIndexOf(":");
-            username = arn.substring(lastSlash + 1);
-            
+        if (event.getUserIdentity().getType().equalsIgnoreCase("IAMUser")) {
+            username = event.getUserIdentity().getUserName();
+        } else if (event.getUserIdentity().getType().equalsIgnoreCase("AssumedRole")) {
+            username = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
+        } else if (event.getUserIdentity().getType().equalsIgnoreCase("Root")) {
+            username = "Root";
         } else {
-            String arn = event.getUserIdentity().getArn();
-            int lastSlash = arn.lastIndexOf("/");
-            username = arn.substring(lastSlash + 1);
+            username = "";
         }
         
         return username;
