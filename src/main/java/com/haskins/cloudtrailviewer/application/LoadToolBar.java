@@ -1,8 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*    
+CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
+files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
@@ -25,16 +38,21 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 /**
- *
+ * Provides the Load / Scan Event Tool Bar
+ * 
  * @author mark
  */
 public class LoadToolBar extends JToolBar {
 
     private final JFileChooser fileChooser = new JFileChooser();
     
-    private final TrailSenseApplication application;
+    private final CloudTrailViewerApplication application;
     
-    public LoadToolBar(TrailSenseApplication application) {
+    /**
+     * Default Constructor
+     * @param application reference to the application.
+     */
+    public LoadToolBar(CloudTrailViewerApplication application) {
         
         this.application = application;
         fileChooser.setMultiSelectionEnabled(true);
@@ -149,7 +167,7 @@ public class LoadToolBar extends JToolBar {
             }
 
             if (list != null) {
-                 application.newLocalFiles(list, filter);
+                 application.loadLocalFiles(list, filter);
             }
         }
     }

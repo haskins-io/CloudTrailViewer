@@ -1,8 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*    
+CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
+files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.haskins.cloudtrailviewer.dialog;
 
 import com.haskins.cloudtrailviewer.components.SearchPanel;
@@ -45,10 +58,33 @@ public class SearchOptions extends JDialog implements ActionListener {
         return CLOSE_STATE;
     }
     
+    /**
+     * Returns the current filter
+     * @return 
+     */
     public static Filter getSearchFilter() {
         return searchPanel.getFilter();
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // ActionListener methods
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void actionPerformed(ActionEvent e) {
         
+        if ("OK".equals(e.getActionCommand())) {
+            CLOSE_STATE = SCAN_OK;
+        }
+        else {
+            CLOSE_STATE = SCAN_CANCELLED;
+        }
+        
+        SearchOptions.dialog.setVisible(false);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // Private methods
+    ////////////////////////////////////////////////////////////////////////////
     private SearchOptions(Frame frame) {
 
         super(frame, "Scan", true);
@@ -78,18 +114,5 @@ public class SearchOptions extends JDialog implements ActionListener {
         
         pack();
         setLocationRelativeTo(frame);  
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        
-        if ("OK".equals(e.getActionCommand())) {
-            CLOSE_STATE = SCAN_OK;
-        }
-        else {
-            CLOSE_STATE = SCAN_CANCELLED;
-        }
-        
-        SearchOptions.dialog.setVisible(false);
     }
 }

@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class was taken from https://tips4java.wordpress.com/2008/11/06/wrap-layout/
  */
 package com.haskins.cloudtrailviewer.layout;
 
@@ -13,10 +11,6 @@ import java.awt.Insets;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-/**
- *
- * @author mark.haskins
- */
 public class WrapLayout extends FlowLayout {
 
     private Dimension preferredLayoutSize;

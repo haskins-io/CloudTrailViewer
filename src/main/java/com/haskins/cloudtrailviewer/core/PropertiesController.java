@@ -1,8 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*    
+CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
+files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.haskins.cloudtrailviewer.core;
 
 import com.haskins.cloudtrailviewer.dialog.AwsAccount;
@@ -11,15 +24,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
+ * Class that stores and retrieves properties from OS provided Preferences implementation.
+ * 
+ * The class is a Singleton
+ * 
  * @author mark
  */
 public class PropertiesController {
     
     private static PropertiesController instance = null;
     
-    private final Preferences prefs = Preferences.userRoot().node("TrailSense");
+    private final Preferences prefs = Preferences.userRoot().node("CloudTrailViewer");
     
+    /**
+     * Returns an instance of the class
+     * @return 
+     */
     public static PropertiesController getInstance() {
 
         if (instance == null) {
@@ -29,14 +49,29 @@ public class PropertiesController {
         return instance;
     }
     
+    /**
+     * Saves a Preference
+     * @param key Unique Id of the preference
+     * @param value perference to save
+     */
     public void setProperty(String key, String value) {
         prefs.put(key, value);
     }
     
+    /**
+     * returns a preference
+     * @param key Unique Id of the preference
+     * @return 
+     */
     public String getProperty(String key) {
         return prefs.get(key, "");
     }
     
+    /**
+     * Utility method that checks if provided AWS API credentials and bucket name
+     * are valid
+     * @return 
+     */
     public boolean checkS3Credentials() {
         
         boolean validS3Credentials = false;

@@ -1,8 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*    
+CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
+files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.haskins.cloudtrailviewer.core;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -37,7 +50,8 @@ import javax.swing.SwingWorker;
 
 
 /**
- *
+ * Class responsible for Loading events into the database.
+ * 
  * @author mark
  */
 public class EventLoader {
@@ -50,14 +64,26 @@ public class EventLoader {
     
     private final ObjectMapper mapper = new ObjectMapper();
     
+    /**
+     * Default Constructor
+     * @param database Database that events should be added too
+     */
     public EventLoader(FilteredEventDatabase database) {
         eventDb = database;
     }
     
+    /**
+     * registers a listener to the Loaded
+     * @param listener reference to a listener
+     */
     public void addEventLoaderListener(EventLoaderListener listener) {
         listeners.add(listener);
     }
     
+    /**
+     * Loads Events fro the local file system
+     * @param request 
+     */
     public void loadEventsFromLocalFiles(final LoadFileRequest request) {
 
         SwingWorker worker = new SwingWorker<Void, Void>() {
@@ -100,6 +126,10 @@ public class EventLoader {
        worker.execute();
     }
     
+    /**
+     * Loads events from S3
+     * @param request 
+     */
     public void loadEventsFromS3(final LoadFileRequest request) {
 
         SwingWorker worker = new SwingWorker<Void, Void>() {
@@ -149,13 +179,16 @@ public class EventLoader {
         worker.execute();
     }
 
-    public InputStream loadEventFromLocalFile(final String file) throws IOException {
+    private InputStream loadEventFromLocalFile(final String file) throws IOException {
 
         byte[] encoded = Files.readAllBytes(Paths.get(file));
         return new ByteArrayInputStream(encoded);  
     }
     
-    public InputStream loadEventFromS3(AmazonS3 s3Client, String bucketName, final String key) throws IOException {
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
+    private InputStream loadEventFromS3(AmazonS3 s3Client, String bucketName, final String key) throws IOException {
         
         S3Object s3Object = s3Client.getObject(new GetObjectRequest(bucketName, key));
         return s3Object.getObjectContent();

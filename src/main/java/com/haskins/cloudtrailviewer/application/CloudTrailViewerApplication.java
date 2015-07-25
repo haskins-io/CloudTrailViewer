@@ -1,8 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*    
+CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
+files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.features.Feature;
@@ -34,10 +47,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- *
+ * Main Application class, in some ways it acts as a Controller to controller the views (or features).
+ * 
  * @author mark
  */
-public class TrailSenseApplication extends JFrame implements EventLoaderListener {
+public class CloudTrailViewerApplication extends JFrame implements EventLoaderListener {
         
     private final FilteredEventDatabase database ;
     private final EventLoader eventLoader;
@@ -52,7 +66,10 @@ public class TrailSenseApplication extends JFrame implements EventLoaderListener
     
     private final Filter filter = new AllFilter();
     
-    public TrailSenseApplication() {
+    /**
+     * Default Constructor
+     */
+    public CloudTrailViewerApplication() {
         
         super("CloudTrail Analyser");
         
@@ -68,7 +85,14 @@ public class TrailSenseApplication extends JFrame implements EventLoaderListener
         buildUI();
     }
         
-    public void newLocalFiles(File[] files, Filter filter) {
+    /**
+     * Loads files from the local file system.
+     * 
+     * @param files An Array of FILEs to be loaded
+     * @param filter An object to filter only specific events. Pass NULL in if no
+     * filtering is required.
+     */
+    public void loadLocalFiles(File[] files, Filter filter) {
         
         if (files != null && files.length > 0) {
             
@@ -84,6 +108,13 @@ public class TrailSenseApplication extends JFrame implements EventLoaderListener
         }
     }
     
+    /**
+     * Loads files from the an AWS S3 Bucket.
+     * 
+     * @param files A List of S3 Bucket Keys as a String
+     * @param filter An object to filter only specific events. Pass NULL in if no
+     * filtering is required.
+     */
     public void newS3Files(List<String> files, Filter filter) {
     
         if (files != null && files.size() > 0) {
@@ -95,12 +126,19 @@ public class TrailSenseApplication extends JFrame implements EventLoaderListener
         }
     }
     
+    /**
+     * Causing the Sidebar to be toggle into / out of view
+     */
     public void toggleSidebar() {
         
         Feature feature = featureMap.get(currentFeature);
         feature.toggleSideBar();
     } 
     
+    /**
+     * Changes the feature that is visible.
+     * @param name The name of the Feature to show.
+     */
     public void changeFeature(String name) {
             
         currentFeature = name;
