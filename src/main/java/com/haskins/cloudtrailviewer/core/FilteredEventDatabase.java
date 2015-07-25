@@ -36,7 +36,7 @@ public class FilteredEventDatabase extends EventDatabase implements FilterListen
     private final Filter filter;
     
     /**
-     * Default Contructor
+     * Default Constructor
      * @param filter Filter to be use for filtering
      */
     public FilteredEventDatabase (Filter filter) {

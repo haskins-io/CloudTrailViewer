@@ -74,11 +74,11 @@ public class FeatureToolBar extends JToolBar implements ActionListener {
     
     public void addFeature(Feature feature) {
         
-        JButton btnLocal = new JButton();
-        btnLocal.setActionCommand(feature.getName());
-        btnLocal.addActionListener(this);
+        JButton btn = new JButton();
+        btn.setActionCommand(feature.getName());
+        btn.addActionListener(this);
         
-        ToolBarUtils.addImageToButton(btnLocal, feature.getIcon(), feature.getName(), feature.getTooltip());
-        buttonsPanel.add(btnLocal);
+        ToolBarUtils.addImageToButton(btn, feature.getIcon(), feature.getName(), feature.getTooltip());
+        buttonsPanel.add(btn);
     }
 }

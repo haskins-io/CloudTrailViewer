@@ -34,20 +34,18 @@ public class TableUtils {
      * @param event Event to check
      * @return
      */
-    public static String getUserName(Event event) {
+    public static String getInvokedBy(Event event) {
         
         String username;
         
-        if (event.getUserIdentity().getUserName() != null &&  event.getUserIdentity().getUserName().length() > 0) {
-            
-            String arn = event.getUserIdentity().getArn();
-            int lastSlash = arn.lastIndexOf(":");
-            username = arn.substring(lastSlash + 1);
-            
+        if (event.getUserIdentity().getType().equalsIgnoreCase("IAMUser")) {
+            username = event.getUserIdentity().getUserName();
+        } else if (event.getUserIdentity().getType().equalsIgnoreCase("AssumedRole")) {
+            username = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
+        } else if (event.getUserIdentity().getType().equalsIgnoreCase("Root")) {
+            username = event.getUserIdentity().getInvokedBy();
         } else {
-            String arn = event.getUserIdentity().getArn();
-            int lastSlash = arn.lastIndexOf("/");
-            username = arn.substring(lastSlash + 1);
+            username = "";
         }
         
         return username;

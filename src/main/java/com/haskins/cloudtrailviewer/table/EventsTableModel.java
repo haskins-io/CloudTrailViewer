@@ -95,7 +95,7 @@ public class EventsTableModel extends AbstractTableModel implements EventDatabas
                 value = TableUtils.getFormatedDateTime(event.getTimestamp());;
                 break;
             case 1:
-                value = TableUtils.getUserName(event);
+                value = TableUtils.getInvokedBy(event);
                 break;
             case 2:
                 value = TableUtils.getService(event);

@@ -43,7 +43,7 @@ public class ServiceCountPanel extends JPanel {
         g.setColor(Color.lightGray);
         g.fillOval(13, 8, 175, 175);
         
-        g.setColor(Color.green);
+        g.setColor(new Color(9,112,84));
         g.fillOval(10, 5, 175, 175);
     }
     
