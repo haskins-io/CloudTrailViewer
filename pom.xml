@@ -5,13 +5,13 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     
     <modelVersion>4.0.0</modelVersion>
-
+    
     <groupId>com.haskins</groupId>
-    <artifactId>CloudTrailViewer</artifactId>
-    <version>1.0</version>
+    <artifactId>cloudtrail-viewer</artifactId>
+    <version>3</version>
     <packaging>jar</packaging>
 
-    <name>CloudTrailViewer</name>
+    <name>CloudTrail Viewer</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,61 +25,122 @@
     
     <dependencies>
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.8.5</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.6.0</version>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk</artifactId>
-            <version>1.7.11</version>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.10.4</version>
         </dependency>
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>1.0.19</version>
         </dependency>
-        
-        <!-- Used for unit testing -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.2</version>
-        </dependency>
     </dependencies>
-        
+    
     <build>
-        <!--
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>**/config.cfg</exclude>
-                </excludes>
-            </resource>
-        </resources>
-        -->
+        
+        <finalName>${project.artifactId}</finalName>
+        
         <plugins>
+                     
             <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.1.201405082137</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+                           
+            <plugin>
+                <groupId>sh.tak.appbundler</groupId>
+                <artifactId>appbundle-maven-plugin</artifactId>
+                <version>1.0.2</version>
+                <configuration>
+                    <mainClass>com.haskins.cloudtrailviewer.CloudTrailViewer</mainClass>
+                    <dictionaryFile>Info.plist</dictionaryFile>
+                    <iconFile>icons/Icons.icns</iconFile>
+                </configuration>
                 <executions>
                     <execution>
+                        <phase>package</phase>
                         <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
+                            <goal>bundle</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.7.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <shadedClassifierName>shaded</shadedClassifierName>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>com.haskins.cloudtrailviewer.CloudTrailViewer</mainClass>
+                        </transformer>
+                    </transformers>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>1.7.7</version>
+                <executions>
+                    <execution>
+                        <id>l4j-clui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <jar>${project.build.directory}/${artifactId}-${version}-shaded.jar</jar>
+                            <outfile>${project.build.directory}/${artifactId}/CloudTrailViwer.exe</outfile>
+                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <classPath>
+                                <mainClass>com.haskins.cloudtrailviewer.CloudTrailViewer</mainClass>
+                                <preCp>anything</preCp>
+                            </classPath>
+                            <icon>src/main/resources/icons/application.ico</icon>
+                            <jre>
+                                <minVersion>1.7.0</minVersion>
+                                <jdkPreference>preferJre</jdkPreference>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>${project.name}</fileDescription>
+                                <copyright>2015 haskins.com</copyright>
+                                <productVersion>1.0.0.0</productVersion>
+                                <txtProductVersion>1.0.0.0</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <companyName>haskins.com</companyName>
+                                <internalName>cloudtrailviewer</internalName>
+                                <originalFilename>CloudTrailViewer.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
         </plugins>
     </build>
-
 </project>

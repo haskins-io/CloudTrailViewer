@@ -1,0 +1,226 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.haskins.cloudtrailviewer.core;
+
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.haskins.cloudtrailviewer.model.event.Event;
+import com.haskins.cloudtrailviewer.model.event.Records;
+import com.haskins.cloudtrailviewer.model.filter.AllFilter;
+import com.haskins.cloudtrailviewer.model.filter.Filter;
+import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
+import com.haskins.cloudtrailviewer.utils.EventUtils;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.ZipException;
+import javax.swing.SwingWorker;
+
+
+/**
+ *
+ * @author mark
+ */
+public class EventLoader {
+
+    private final int BUFFER_SIZE = 32;
+    
+    private final FilteredEventDatabase eventDb;
+    
+    private final List<EventLoaderListener> listeners = new ArrayList<>();
+    
+    private final ObjectMapper mapper = new ObjectMapper();
+    
+    public EventLoader(FilteredEventDatabase database) {
+        eventDb = database;
+    }
+    
+    public void addEventLoaderListener(EventLoaderListener listener) {
+        listeners.add(listener);
+    }
+    
+    public void loadEventsFromLocalFiles(final LoadFileRequest request) {
+
+        SwingWorker worker = new SwingWorker<Void, Void>() {
+
+            @Override
+            public Void doInBackground() {
+
+                if (request.getFilter() == null) {
+                    request.setFilter(new AllFilter());
+                }
+                
+                int count = 0;
+                
+                List<String> filenames = request.getFilenames();
+                for (String filename : filenames) {
+                    
+                    count++;
+                    
+                    for (EventLoaderListener l : listeners) {
+                        l.processingFile(count);
+                    }
+                    
+                    try {
+                        InputStream stream = loadEventFromLocalFile(filename);
+                        processStream(stream, request.getFilter());
+
+                    } catch (IOException ioe) {
+                        ioe.printStackTrace();
+                    }
+                }
+
+                for (EventLoaderListener l : listeners) {
+                    l.finishedLoading();
+                }
+                
+                return null;
+            };
+        };
+
+       worker.execute();
+    }
+    
+    public void loadEventsFromS3(final LoadFileRequest request) {
+
+        SwingWorker worker = new SwingWorker<Void, Void>() {
+
+            @Override
+            public Void doInBackground() {
+
+                int count = 0;
+                
+                AWSCredentials credentials= new BasicAWSCredentials(
+                    PropertiesController.getInstance().getProperty("aws.key"),
+                    PropertiesController.getInstance().getProperty("aws.secret")
+                );
+
+                AmazonS3 s3Client = new AmazonS3Client(credentials);
+                String bucketName = PropertiesController.getInstance().getProperty("aws.bucket");
+                
+                if (request.getFilter() == null) {
+                    request.setFilter(new AllFilter());
+                }
+                
+                List<String> filenames = request.getFilenames();
+                for (String filename : filenames) {
+                    
+                    count++;
+                    
+                    for (EventLoaderListener l : listeners) {
+                        l.processingFile(count);
+                    }
+                    
+                    try (InputStream stream = loadEventFromS3(s3Client, bucketName, filename);) {
+                        processStream(stream, request.getFilter());
+
+                    } catch (IOException ioe) {
+                        ioe.printStackTrace();
+                    }
+                }
+
+                for (EventLoaderListener l : listeners) {
+                    l.finishedLoading();
+                }
+                
+                return null;
+            };
+        };
+
+        worker.execute();
+    }
+
+    public InputStream loadEventFromLocalFile(final String file) throws IOException {
+
+        byte[] encoded = Files.readAllBytes(Paths.get(file));
+        return new ByteArrayInputStream(encoded);  
+    }
+    
+    public InputStream loadEventFromS3(AmazonS3 s3Client, String bucketName, final String key) throws IOException {
+        
+        S3Object s3Object = s3Client.getObject(new GetObjectRequest(bucketName, key));
+        return s3Object.getObjectContent();
+    }
+    
+    private String uncompress(InputStream stream) {
+        
+        String jsonString = "";
+        
+        try (GZIPInputStream gzis = new GZIPInputStream(stream, BUFFER_SIZE)) {
+            
+            try (BufferedReader bf = new BufferedReader(new InputStreamReader(gzis, "UTF-8"));) {
+                
+                String line;
+                while ((line = bf.readLine()) != null) {
+                    jsonString += line;
+                }
+            }
+        }
+        catch (ZipException | JsonParseException ex) {
+            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (IOException ex) {
+            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        
+        return jsonString;
+    }
+    
+    private Records createRecords(String json_string) {
+        
+        Records records = null;
+        
+        if (json_string != null) {
+            
+            try {
+                records = mapper.readValue(json_string, Records.class);
+            }
+            catch (IOException jpe) {
+                Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, jpe);
+            }  
+        }
+
+        return records;
+    }
+    
+    private void processStream(InputStream stream, Filter filter) {
+        
+        Records records = createRecords(uncompress(stream));
+            
+        if (records != null) {
+            
+            List<Event> events = records.getLogEvents();
+            for (Event event : events) {
+
+                if (filter.passesFilter(event)) {
+                    
+                    EventUtils.addTimestamp(event);
+                    
+                    eventDb.addEvent(event);
+                }
+            }
+        }
+    }
+}

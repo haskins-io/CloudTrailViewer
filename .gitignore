@@ -1,3 +1,4 @@
 /target/
 /src/main/resources/config/config.cfg
 /nbactions.xml
+/nb-configuration.xml
