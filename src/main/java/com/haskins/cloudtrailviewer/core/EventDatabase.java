@@ -50,6 +50,14 @@ public class EventDatabase {
          
         fireUpdate(event);
     }
+    
+    /**
+     * Adds all the Events to the database
+     * @param events 
+     */
+    public void addEvents(List<Event> events) {
+        this.events.addAll(events);
+    }
      
     /**
      * returns the Event in the database at the specified position

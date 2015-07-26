@@ -18,12 +18,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.features.serviceoverview;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -34,37 +34,46 @@ import javax.swing.JPanel;
 public class ServiceCountPanel extends JPanel {
     
     private final JLabel eventCount = new JLabel(String.valueOf(0));
-    
-    @Override
-    protected void paintComponent(Graphics g) {
         
-        super.paintComponent(g);
+    public ServiceCountPanel(String name, Color bgColour) {
+        
+        this.setBackground(bgColour);
+        
+        this.setLayout(new BorderLayout());
+        this.setMinimumSize(new Dimension(90,45));
+        this.setMaximumSize(new Dimension(90,45));
+        this.setPreferredSize(new Dimension(90,45));
                 
-        g.setColor(Color.lightGray);
-        g.fillOval(13, 8, 175, 175);
-        
-        g.setColor(new Color(9,112,84));
-        g.fillOval(10, 5, 175, 175);
-    }
-    
-    public ServiceCountPanel() {
-        
-        this.setLayout(new GridBagLayout());
-        this.setMinimumSize(new Dimension(180,180));
-        this.setMaximumSize(new Dimension(180,180));
-        this.setPreferredSize(new Dimension(180,180));
-        
-        GridBagConstraints cl = new GridBagConstraints();
-        
+        Font labelFont = eventCount.getFont();
         eventCount.setForeground(Color.white);
         eventCount.setAlignmentX(CENTER_ALIGNMENT);
+        eventCount.setFont(new Font(labelFont.getName(), labelFont.getStyle(), 30));
         
-        Font labelFont = eventCount.getFont();
-        eventCount.setFont(new Font(labelFont.getName(), labelFont.getStyle(), 60));
+        JPanel countPanel = new JPanel();
+        countPanel.setLayout(new BoxLayout(countPanel,BoxLayout.PAGE_AXIS));
+        countPanel.add(Box.createHorizontalGlue());
+        countPanel.add(Box.createVerticalGlue());
+        countPanel.add(eventCount);
+        countPanel.add(Box.createHorizontalGlue());
+        countPanel.add(Box.createVerticalGlue());
+        countPanel.setOpaque(false);
         
-        this.add(eventCount, cl);
         
-        this.setOpaque(false);
+        
+        this.add(countPanel, BorderLayout.CENTER);
+        
+        JLabel title = new JLabel(name);
+        title.setForeground(Color.white);
+        this.add(title, BorderLayout.PAGE_START);
+        
+        JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(new BoxLayout(titlePanel,BoxLayout.PAGE_AXIS));
+        titlePanel.add(Box.createHorizontalGlue());
+        titlePanel.add(title);
+        titlePanel.add(Box.createHorizontalGlue());
+        titlePanel.setOpaque(false);
+        
+        this.setOpaque(true);
     }
     
     public void incrementCount() {

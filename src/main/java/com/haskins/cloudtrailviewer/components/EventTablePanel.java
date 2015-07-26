@@ -18,6 +18,7 @@ package com.haskins.cloudtrailviewer.components;
 
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.sidebar.EventJson;
 import com.haskins.cloudtrailviewer.sidebar.EventTree;
 import com.haskins.cloudtrailviewer.sidebar.EventsStats;
@@ -27,6 +28,7 @@ import com.haskins.cloudtrailviewer.table.EventsTableModel;
 import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -54,7 +56,15 @@ public class EventTablePanel extends JPanel{
     private final JTextField filterTextField = new JTextField();
     
     /**
-     * Default constructor
+     *  This Constructor creates it's own EventsDatabase.
+     */
+    public EventTablePanel() {
+        this(new FilteredEventDatabase(new AllFilter()));
+    }
+    
+    /**
+     * This Constructor tables an existing EventsDatabase
+     * 
      * @param eventsDatabase reference to an Event Database 
      */
     public EventTablePanel(FilteredEventDatabase eventsDatabase) {
@@ -79,10 +89,18 @@ public class EventTablePanel extends JPanel{
         }
     }
     
+    public void clearEvents() {
+        eventDb.clear();
+    }
+    
+    public void setEvents(List<Event> events) {
+        eventDb.addEvents(events);
+        sideBar.eventLoadingComplete();
+    }
+    
     public void eventLoadingComplete() {
         tableModel.orderTimeStamps();
         sideBar.eventLoadingComplete();
-    
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -146,24 +164,7 @@ public class EventTablePanel extends JPanel{
         add(filterPanel, BorderLayout.PAGE_START);
         add(jsp, BorderLayout.CENTER);
     }
-    
-    private void toggleColumnVisibleState(String columnName) {
         
-        int position = tableModel.findColumn(columnName);
-
-        if (table.getColumnModel().getColumn(position).getWidth() == 0) {
-            table.getColumnModel().getColumn(position).setMaxWidth(100);
-            table.getColumnModel().getColumn(position).setMinWidth(100);
-            table.getColumnModel().getColumn(position).setPreferredWidth(100);
-            table.getColumnModel().getColumn(position).setResizable(true);
-        } else {
-            table.getColumnModel().getColumn(position).setMaxWidth(0);
-            table.getColumnModel().getColumn(position).setMinWidth(0);
-            table.getColumnModel().getColumn(position).setPreferredWidth(0);
-            table.getColumnModel().getColumn(position).setResizable(false);
-        }
-    }
-    
     private void filterUpdate()
     {
         String text = filterTextField.getText();

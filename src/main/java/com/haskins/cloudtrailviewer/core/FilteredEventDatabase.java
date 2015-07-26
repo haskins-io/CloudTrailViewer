@@ -52,7 +52,7 @@ public class FilteredEventDatabase extends EventDatabase implements FilterListen
     public Filter getFilter() {
         return this.filter;
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////
     ///// Overridden EventDatabase methods
     ////////////////////////////////////////////////////////////////////////////
@@ -85,6 +85,16 @@ public class FilteredEventDatabase extends EventDatabase implements FilterListen
     @Override
     public int size() {
         return filteredEvents.size();
+    }
+    
+    @Override
+    public void addEvents(List<Event> events) {
+        
+        super.addEvents(events);
+        
+        for (Event event : events) {
+            addInternal(event);
+        } 
     }
     
     ////////////////////////////////////////////////////////////////////////////

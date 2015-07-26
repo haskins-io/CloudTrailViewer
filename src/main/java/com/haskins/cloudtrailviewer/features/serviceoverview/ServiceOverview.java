@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.features.serviceoverview;
 
+import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
 import com.haskins.cloudtrailviewer.features.Feature;
@@ -26,10 +27,15 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.table.TableUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
 /**
  *
@@ -42,6 +48,9 @@ public class ServiceOverview extends JPanel implements Feature, EventDatabaseLis
     private final Map<String, ServiceOverviewPanel> servicesMap = new HashMap<>();
     
     private final JPanel servicesContainer = new JPanel(new WrapLayout());
+    private final EventTablePanel eventTable = new EventTablePanel();
+    
+    private JSplitPane jsp;
     
     public ServiceOverview(FilteredEventDatabase eventsDatabase) {
         
@@ -54,9 +63,7 @@ public class ServiceOverview extends JPanel implements Feature, EventDatabaseLis
     ///// Feature implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void eventLoadingComplete() {
-        // do something
-    }
+    public void eventLoadingComplete() { }
 
     @Override
     public boolean providesSideBar() {
@@ -91,18 +98,39 @@ public class ServiceOverview extends JPanel implements Feature, EventDatabaseLis
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void eventAdded(Event event) {
-                
-        // add new ServicePanel to layout   
+                 
         String serviceName = TableUtils.getService(event);
         
-        ServiceOverviewPanel service = servicesMap.get(serviceName);
-        if (service == null) {
-            service = new ServiceOverviewPanel(serviceName);
-            servicesMap.put(serviceName, service);
-            servicesContainer.add(service);
+        final ServiceOverviewPanel servicePanel;
+        
+        if (!servicesMap.containsKey(serviceName)) {
+            
+            servicePanel = new ServiceOverviewPanel(serviceName);
+            servicePanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            
+            servicePanel.addMouseListener(new MouseAdapter() {
+                
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    
+                    List<Event> serviceEvents = servicePanel.getEvents();
+                    jsp.setDividerLocation(0.8);
+                    jsp.setDividerSize(3);
+                    eventTable.clearEvents();
+                    eventTable.setEvents(serviceEvents);
+                    eventTable.setVisible(true);
+                }
+                
+            });
+            
+            servicesMap.put(serviceName, servicePanel);
+            servicesContainer.add(servicePanel);
+            
+        } else {
+            servicePanel = servicesMap.get(serviceName);
         }
         
-        service.incrementCount();
+        servicePanel.addEvent(event);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -113,7 +141,16 @@ public class ServiceOverview extends JPanel implements Feature, EventDatabaseLis
         servicesContainer.setBackground(Color.white);
         JScrollPane sPane = new JScrollPane(servicesContainer);
         
+        eventTable.setVisible(false);
+        
+        jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, sPane, eventTable);
+        jsp.setDividerSize(0);
+        jsp.setResizeWeight(1);
+        jsp.setDividerLocation(jsp.getSize().height
+                             - jsp.getInsets().bottom
+                             - jsp.getDividerSize());
+        
         this.setLayout(new BorderLayout());
-        this.add(sPane, BorderLayout.CENTER);
+        this.add(jsp, BorderLayout.CENTER);
     }
 }

@@ -44,7 +44,6 @@ public class EventsTableModel extends AbstractTableModel implements EventDatabas
     }
             
     public void orderTimeStamps() {
-        
         Collections.sort(eventsDb.getEvents(), new TimeStampComparator());
         reloadTableModel();
     }
