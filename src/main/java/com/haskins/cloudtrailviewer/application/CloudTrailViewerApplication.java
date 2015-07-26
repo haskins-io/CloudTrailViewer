@@ -96,7 +96,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         
         if (files != null && files.length > 0) {
             
-            changeFeature(ServiceOverview.NAME);
+            changeFeature(ServiceOverview.NAME, true);
             
             List<String> filePaths = new ArrayList<>();
             for (File file : files) {
@@ -119,7 +119,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     
         if (files != null && files.size() > 0) {
             
-            changeFeature(ServiceOverview.NAME);
+            changeFeature(ServiceOverview.NAME, true);
             
             LoadFileRequest loadRequest = new LoadFileRequest(files, null);
             eventLoader.loadEventsFromS3(loadRequest);
@@ -138,10 +138,11 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     /**
      * Changes the feature that is visible.
      * @param name The name of the Feature to show.
+     * @param loading 
      */
-    public void changeFeature(String name) {
+    public void changeFeature(String name, boolean loading) {
             
-        if (database.size() > 0) {
+        if (database.size() > 0 || loading) {
         
             currentFeature = name;
 
@@ -155,7 +156,6 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
                 sidePanelToolBar.showSideBarButton(false);
             }  
         }
-  
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -218,7 +218,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         NoData noData = new NoData();
         featureMap.put(noData.getName(), noData);
         features.add((JPanel)noData, noData.getName());
-        changeFeature(NoData.NAME);
+        changeFeature(NoData.NAME, true);
         
         SimpleTable simpleTable = new SimpleTable(database);
         featureMap.put(simpleTable.getName(), simpleTable);

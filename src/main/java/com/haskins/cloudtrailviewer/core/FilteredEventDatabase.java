@@ -64,7 +64,16 @@ public class FilteredEventDatabase extends EventDatabase implements FilterListen
         
     @Override
     public Event getEventByIndex(int index) {
-        return filteredEvents.get(index);
+        
+        Event event = null;
+        try {
+            event = filteredEvents.get(index);
+        }
+        catch(ArrayIndexOutOfBoundsException e) {
+            
+        }
+        
+        return event;
     }
      
     @Override

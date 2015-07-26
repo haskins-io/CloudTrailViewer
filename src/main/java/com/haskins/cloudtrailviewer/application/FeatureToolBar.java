@@ -55,7 +55,7 @@ public class FeatureToolBar extends JToolBar implements ActionListener {
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void actionPerformed(ActionEvent e) {        
-        this.application.changeFeature(e.getActionCommand());
+        this.application.changeFeature(e.getActionCommand(), false);
     }
     
     ////////////////////////////////////////////////////////////////////////////
