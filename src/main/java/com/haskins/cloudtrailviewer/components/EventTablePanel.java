@@ -26,6 +26,7 @@ import com.haskins.cloudtrailviewer.sidebar.SideBarPanel;
 import com.haskins.cloudtrailviewer.table.EventsTable;
 import com.haskins.cloudtrailviewer.table.EventsTableModel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
@@ -96,6 +97,7 @@ public class EventTablePanel extends JPanel{
     public void setEvents(List<Event> events) {
         eventDb.addEvents(events);
         sideBar.eventLoadingComplete();
+        tableModel.reloadTableModel();
     }
     
     public void eventLoadingComplete() {
@@ -109,6 +111,7 @@ public class EventTablePanel extends JPanel{
     private void buildUI() {
 
         this.setLayout(new BorderLayout());
+        this.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
         
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -158,6 +161,7 @@ public class EventTablePanel extends JPanel{
         });
         
         JPanel filterPanel = new JPanel(new BorderLayout());
+        filterPanel.setBackground(Color.white);
         filterPanel.add(new JLabel("Filter"), BorderLayout.WEST);
         filterPanel.add(filterTextField, BorderLayout.CENTER);
                 

@@ -33,6 +33,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -140,6 +141,7 @@ public class ServiceOverview extends JPanel implements Feature, EventDatabaseLis
 
         servicesContainer.setBackground(Color.white);
         JScrollPane sPane = new JScrollPane(servicesContainer);
+        sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
         
         eventTable.setVisible(false);
         
@@ -149,6 +151,7 @@ public class ServiceOverview extends JPanel implements Feature, EventDatabaseLis
         jsp.setDividerLocation(jsp.getSize().height
                              - jsp.getInsets().bottom
                              - jsp.getDividerSize());
+        jsp.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
         
         this.setLayout(new BorderLayout());
         this.add(jsp, BorderLayout.CENTER);

@@ -36,7 +36,7 @@ public class EventUtils {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     
     private static final ObjectMapper mapper = new ObjectMapper();
-    
+        
     public static void addTimestamp(Event event) {
         
         event.setTimestamp(getTimestamp(event.getEventTime()));
