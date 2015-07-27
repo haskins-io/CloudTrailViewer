@@ -61,13 +61,10 @@ public class ServiceCountPanel extends JPanel {
         this.add(countPanel, BorderLayout.CENTER);
         
         JLabel title = new JLabel(name);
-        title.setMinimumSize(new Dimension(90,25));
-        title.setMaximumSize(new Dimension(90,25));
-        title.setPreferredSize(new Dimension(90,25));
         title.setForeground(Color.white);
+        title.setAlignmentX(CENTER_ALIGNMENT);
         
         JPanel titlePanel = new JPanel();
-        titlePanel.setAlignmentX(CENTER_ALIGNMENT);
         titlePanel.setLayout(new BoxLayout(titlePanel,BoxLayout.PAGE_AXIS));
         titlePanel.add(Box.createHorizontalGlue());
         titlePanel.add(title, BorderLayout.CENTER);

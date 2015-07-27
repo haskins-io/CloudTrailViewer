@@ -47,9 +47,9 @@ public class ServiceOverviewPanel extends JPanel {
     public ServiceOverviewPanel(String serviceName) {
 
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(200,100));
-        this.setMaximumSize(new Dimension(200,100));
-        this.setPreferredSize(new Dimension(200,100));
+        this.setMinimumSize(new Dimension(200,120));
+        this.setMaximumSize(new Dimension(200,120));
+        this.setPreferredSize(new Dimension(200,120));
         this.setBackground(Color.white);
         this.setOpaque(true);
         
