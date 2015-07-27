@@ -82,6 +82,11 @@ public class ServiceCountPanel extends JPanel {
         count++;
         eventCount.setText(String.valueOf(count));
         
+        Font labelFont = eventCount.getFont();
+        if (eventCount.getText().length() >= 6) {
+            eventCount.setFont(new Font(labelFont.getName(), labelFont.getStyle(), 20));
+        }
+        
         this.revalidate();
     }
 }
