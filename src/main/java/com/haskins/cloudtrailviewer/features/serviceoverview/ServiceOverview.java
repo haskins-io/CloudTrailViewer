@@ -151,9 +151,7 @@ public class ServiceOverview extends JPanel implements Feature, EventDatabaseLis
         jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, sPane, eventTable);
         jsp.setDividerSize(0);
         jsp.setResizeWeight(1);
-        jsp.setDividerLocation(jsp.getSize().height
-                             - jsp.getInsets().bottom
-                             - jsp.getDividerSize());
+        jsp.setDividerLocation(jsp.getSize().height - jsp.getInsets().bottom - jsp.getDividerSize());
         jsp.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
         
         this.setLayout(new BorderLayout());

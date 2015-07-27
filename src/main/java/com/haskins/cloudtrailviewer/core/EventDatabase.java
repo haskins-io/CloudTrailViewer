@@ -41,11 +41,7 @@ public class EventDatabase {
     public EventDatabase(StatusBar sbar) {
         this.statusBar = sbar;
     }
-    
-    public void orderTimeStamps() { 
-        Collections.sort(events, new TimeStampComparator());
-    }
-    
+        
     /**
      * adds a listener to the database
      * @param l reference to a listener
@@ -60,6 +56,8 @@ public class EventDatabase {
      */
     public void addEvent(Event event) {
         events.add(event);
+        
+        Collections.sort(events, new TimeStampComparator());
         
         if (this.statusBar != null) {
             this.statusBar.setLoadedEvents(this.events.size());

@@ -101,7 +101,6 @@ public class EventTablePanel extends JPanel{
     }
     
     public void eventLoadingComplete() {
-        tableModel.orderTimeStamps();
         sideBar.eventLoadingComplete();
     }
     
@@ -169,8 +168,8 @@ public class EventTablePanel extends JPanel{
         add(jsp, BorderLayout.CENTER);
     }
         
-    private void filterUpdate()
-    {
+    private void filterUpdate() {
+        
         String text = filterTextField.getText();
         this.eventDb.getFilter().setNeedle(text);
     }

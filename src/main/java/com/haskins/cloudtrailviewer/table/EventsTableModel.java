@@ -40,12 +40,7 @@ public class EventsTableModel extends AbstractTableModel implements EventDatabas
         eventsDb = eventsDatabase;
         eventsDb.addListener(this);
     }
-            
-    public void orderTimeStamps() {
-        eventsDb.orderTimeStamps();
-        reloadTableModel();
-    }
-    
+                
     public void reloadTableModel() {
         fireTableDataChanged(); 
     }
