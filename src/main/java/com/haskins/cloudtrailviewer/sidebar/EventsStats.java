@@ -162,9 +162,9 @@ public class EventsStats extends JPanel implements SideBar, ActionListener {
                     break;
 
                 case 2:
-                    column.setMinWidth(40);
-                    column.setMaxWidth(40);
-                    column.setPreferredWidth(40);
+                    column.setMinWidth(70);
+                    column.setMaxWidth(70);
+                    column.setPreferredWidth(70);
                     break;
             }
         }
