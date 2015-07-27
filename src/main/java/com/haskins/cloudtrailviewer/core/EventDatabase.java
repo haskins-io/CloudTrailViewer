@@ -20,7 +20,9 @@ package com.haskins.cloudtrailviewer.core;
 
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import com.haskins.cloudtrailviewer.utils.TimeStampComparator;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,6 +40,10 @@ public class EventDatabase {
     
     public EventDatabase(StatusBar sbar) {
         this.statusBar = sbar;
+    }
+    
+    public void orderTimeStamps() { 
+        Collections.sort(events, new TimeStampComparator());
     }
     
     /**

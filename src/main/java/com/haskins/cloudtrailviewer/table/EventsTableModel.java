@@ -22,8 +22,6 @@ import com.haskins.cloudtrailviewer.core.EventDatabase;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.core.resource.ResourceLookup;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.utils.TimeStampComparator;
-import java.util.Collections;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -44,7 +42,7 @@ public class EventsTableModel extends AbstractTableModel implements EventDatabas
     }
             
     public void orderTimeStamps() {
-        Collections.sort(eventsDb.getEvents(), new TimeStampComparator());
+        eventsDb.orderTimeStamps();
         reloadTableModel();
     }
     

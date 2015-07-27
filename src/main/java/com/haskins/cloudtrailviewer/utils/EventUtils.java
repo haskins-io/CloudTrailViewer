@@ -38,7 +38,6 @@ public class EventUtils {
     private static final ObjectMapper mapper = new ObjectMapper();
         
     public static void addTimestamp(Event event) {
-        
         event.setTimestamp(getTimestamp(event.getEventTime()));
     }
     
