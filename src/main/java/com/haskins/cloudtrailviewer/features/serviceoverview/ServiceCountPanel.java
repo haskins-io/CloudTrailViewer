@@ -58,20 +58,23 @@ public class ServiceCountPanel extends JPanel {
         countPanel.add(Box.createVerticalGlue());
         countPanel.setOpaque(false);
         
-        
-        
         this.add(countPanel, BorderLayout.CENTER);
         
         JLabel title = new JLabel(name);
+        title.setMinimumSize(new Dimension(90,25));
+        title.setMaximumSize(new Dimension(90,25));
+        title.setPreferredSize(new Dimension(90,25));
         title.setForeground(Color.white);
-        this.add(title, BorderLayout.PAGE_START);
         
         JPanel titlePanel = new JPanel();
+        titlePanel.setAlignmentX(CENTER_ALIGNMENT);
         titlePanel.setLayout(new BoxLayout(titlePanel,BoxLayout.PAGE_AXIS));
         titlePanel.add(Box.createHorizontalGlue());
-        titlePanel.add(title);
+        titlePanel.add(title, BorderLayout.CENTER);
         titlePanel.add(Box.createHorizontalGlue());
         titlePanel.setOpaque(false);
+        
+        this.add(titlePanel, BorderLayout.PAGE_START);
         
         this.setOpaque(true);
     }
