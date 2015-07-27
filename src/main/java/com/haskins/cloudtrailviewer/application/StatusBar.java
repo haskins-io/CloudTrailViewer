@@ -18,8 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.application;
 
-import java.awt.Color;
 import java.awt.GridLayout;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -64,8 +64,6 @@ public class StatusBar extends JPanel {
     ////////////////////////////////////////////////////////////////////////////
     private void buildStatusBar() {
         
-        this.setBackground(Color.WHITE);
-        
         JPanel leftSection = new JPanel();
         leftSection.add(loadedEvents);
         
@@ -82,7 +80,5 @@ public class StatusBar extends JPanel {
         this.add(rightSection);
         
         this.setVisible(true);
-        
     }
-
 }

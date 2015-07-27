@@ -60,7 +60,7 @@ public class EventTablePanel extends JPanel{
      *  This Constructor creates it's own EventsDatabase.
      */
     public EventTablePanel() {
-        this(new FilteredEventDatabase(new AllFilter()));
+        this(new FilteredEventDatabase(new AllFilter(), null));
     }
     
     /**

@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.core;
 
+import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,12 @@ public class EventDatabase {
     
     private final List<Event> events = new ArrayList<>();
     
+    private final StatusBar statusBar;
+    
+    public EventDatabase(StatusBar sbar) {
+        this.statusBar = sbar;
+    }
+    
     /**
      * adds a listener to the database
      * @param l reference to a listener
@@ -47,6 +54,10 @@ public class EventDatabase {
      */
     public void addEvent(Event event) {
         events.add(event);
+        
+        if (this.statusBar != null) {
+            this.statusBar.setLoadedEvents(this.events.size());
+        }
          
         fireUpdate(event);
     }

@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.core;
 
+import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.model.filter.FilterListener;
@@ -34,12 +35,10 @@ public class FilteredEventDatabase extends EventDatabase implements FilterListen
     private final List<Event> filteredEvents = new ArrayList<>();
     
     private final Filter filter;
-    
-    /**
-     * Default Constructor
-     * @param filter Filter to be use for filtering
-     */
-    public FilteredEventDatabase (Filter filter) {
+        
+    public FilteredEventDatabase(Filter filter, StatusBar sbar) {
+        
+        super(sbar);
         
         this.filter = filter;
         this.filter.addListener(this);

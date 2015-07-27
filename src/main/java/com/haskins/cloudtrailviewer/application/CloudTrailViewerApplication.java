@@ -74,7 +74,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         
         super("CloudTrail Analyser");
         
-        database = new FilteredEventDatabase(filter);
+        database = new FilteredEventDatabase(filter, statusBar);
         
         eventLoader = new EventLoader(database);
         eventLoader.addEventLoaderListener(this);
