@@ -20,12 +20,14 @@ import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.table.TableUtils;
 import com.haskins.cloudtrailviewer.utils.GeneralUtils;
+import com.haskins.cloudtrailviewer.utils.TimeStampComparator;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,6 +90,9 @@ public class UserComponent extends JPanel {
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    
+                    Collections.sort(events, new TimeStampComparator());
+                    
                     eventTable.clearEvents();
                     eventTable.setEvents(events);
                     eventTable.setVisible(true);

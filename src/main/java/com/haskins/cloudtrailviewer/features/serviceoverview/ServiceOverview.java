@@ -25,11 +25,13 @@ import com.haskins.cloudtrailviewer.features.Feature;
 import com.haskins.cloudtrailviewer.layout.WrapLayout;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.table.TableUtils;
+import com.haskins.cloudtrailviewer.utils.TimeStampComparator;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,13 +117,14 @@ public class ServiceOverview extends JPanel implements Feature, EventDatabaseLis
                 public void mouseClicked(MouseEvent e) {
                     
                     List<Event> serviceEvents = servicePanel.getEvents();
-                    jsp.setDividerLocation(0.8);
+                    Collections.sort(serviceEvents, new TimeStampComparator());
+                    
+                    jsp.setDividerLocation(0.5);
                     jsp.setDividerSize(3);
                     eventTable.clearEvents();
                     eventTable.setEvents(serviceEvents);
                     eventTable.setVisible(true);
                 }
-                
             });
             
             servicesMap.put(serviceName, servicePanel);
