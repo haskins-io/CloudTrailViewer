@@ -1,7 +1,7 @@
 /*
  * This class was taken from https://tips4java.wordpress.com/2008/11/06/wrap-layout/
  */
-package com.haskins.cloudtrailviewer.layout;
+package com.haskins.cloudtrailviewer.thirdparty;
 
 import java.awt.Component;
 import java.awt.Container;

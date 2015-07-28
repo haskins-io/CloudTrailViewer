@@ -22,7 +22,7 @@ import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
 import com.haskins.cloudtrailviewer.features.Feature;
-import com.haskins.cloudtrailviewer.layout.WrapLayout;
+import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.table.TableUtils;
 import com.haskins.cloudtrailviewer.utils.TimeStampComparator;

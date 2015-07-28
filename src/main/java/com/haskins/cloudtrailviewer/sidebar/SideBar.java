@@ -18,13 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.sidebar;
 
+import com.haskins.cloudtrailviewer.core.Printable;
 import com.haskins.cloudtrailviewer.model.event.Event;
 
 /**
  *
  * @author mark
  */
-public interface SideBar {
+public interface SideBar extends Printable {
     
     public void eventLoadingComplete();
     

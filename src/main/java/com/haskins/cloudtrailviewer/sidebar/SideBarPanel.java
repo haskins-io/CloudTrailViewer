@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.sidebar;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import com.haskins.cloudtrailviewer.utils.GeneralUtils;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -29,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -41,6 +43,7 @@ public class SideBarPanel extends JPanel implements ActionListener {
             
     private final JPanel sideBars = new JPanel(new CardLayout());
     private final Map<String, SideBar> sideBarMap = new HashMap<>();
+    private SideBar currentSideBar = null;
     
     private final JPanel buttonsPanel = new JPanel();
     
@@ -62,10 +65,13 @@ public class SideBarPanel extends JPanel implements ActionListener {
             
             ToolBarUtils.addImageToButton(btnLocal, sidebar.getIcon(), sidebar.getName(), sidebar.getTooltip());
             buttonsPanel.add(btnLocal);
-        }
+        }        
     }    
     
     public void showSideBar(String name) {
+        
+        currentSideBar = sideBarMap.get(name);
+        
         CardLayout cl = (CardLayout)(sideBars.getLayout());
         cl.show(sideBars, name);
     }
@@ -100,6 +106,14 @@ public class SideBarPanel extends JPanel implements ActionListener {
         
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
                 
+        JButton print = new JButton("Print");
+        print.setActionCommand("Print");
+        print.addActionListener(this);
+        ToolBarUtils.addImageToButton(print, "", "Print", "Print Sidebar");
+        
+        buttonsPanel.add(print);
+        buttonsPanel.add(Box.createHorizontalGlue());
+        
         this.add(buttonsPanel, BorderLayout.PAGE_START);
         this.add(sideBars, BorderLayout.CENTER);
     }
@@ -107,7 +121,13 @@ public class SideBarPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         
-        String sideBar = e.getActionCommand();
-        showSideBar(sideBar);
+        if (e.getActionCommand().equalsIgnoreCase("Print")) {
+            
+            GeneralUtils.savePanelAsImage(currentSideBar);
+            
+        } else {
+            String sideBar = e.getActionCommand();
+            showSideBar(sideBar);
+        }
     }
 }

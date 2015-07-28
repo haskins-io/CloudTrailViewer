@@ -17,11 +17,18 @@
  */
 package com.haskins.cloudtrailviewer.utils;
 
+import com.haskins.cloudtrailviewer.CloudTrailViewer;
+import com.haskins.cloudtrailviewer.core.Printable;
+import com.haskins.cloudtrailviewer.thirdparty.ScreenImage;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 
 /**
  *
@@ -29,6 +36,8 @@ import java.util.Locale;
  */
 public class GeneralUtils {
 
+    private static JFileChooser fileChooser = new JFileChooser();
+    
     public static <T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c) {
         List<T> list = new ArrayList<>(c);
         java.util.Collections.sort(list);
@@ -101,5 +110,24 @@ public class GeneralUtils {
         }
 
         return isMac;
+    }
+    
+    public static void savePanelAsImage(Printable panel) {
+        
+        fileChooser.setDialogTitle("Save Image");   
+
+        int userSelection = fileChooser.showSaveDialog(CloudTrailViewer.frame);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            
+            File fileToSave = fileChooser.getSelectedFile();
+            
+            BufferedImage bi = ScreenImage.createImage((JPanel)panel);
+            try {
+                ScreenImage.writeImage(bi, fileToSave.getAbsolutePath());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }
