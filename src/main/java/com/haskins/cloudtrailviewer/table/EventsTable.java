@@ -28,7 +28,6 @@ import javax.swing.table.TableColumn;
  */
 public class EventsTable extends JTable {
        
-    
     /**
      * Default Constructor.
      * 

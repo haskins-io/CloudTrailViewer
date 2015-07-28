@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -144,9 +142,9 @@ public class GeneralUtils {
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             
-            try {
-                TableModel model = table.getModel();
-                FileWriter csvFile = new FileWriter(fileChooser.getSelectedFile());
+            TableModel model = table.getModel();
+
+            try (FileWriter csvFile = new FileWriter(fileChooser.getSelectedFile());) {
 
                 for(int i = 0; i < model.getColumnCount(); i++){
                     csvFile.write(model.getColumnName(i) + ",");
@@ -162,13 +160,9 @@ public class GeneralUtils {
                     csvFile.write("\n");
                 }
 
-                csvFile.close();
-            }
-            catch (IOException ex) {
-                Logger.getLogger(GeneralUtils.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }        
         }
     }
 }
