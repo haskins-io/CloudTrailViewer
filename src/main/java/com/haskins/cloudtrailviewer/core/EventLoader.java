@@ -98,12 +98,14 @@ public class EventLoader {
                 int count = 0;
                 
                 List<String> filenames = request.getFilenames();
+                int total = filenames.size();
+                
                 for (String filename : filenames) {
                     
                     count++;
                     
                     for (EventLoaderListener l : listeners) {
-                        l.processingFile(count);
+                        l.processingFile(count, total);
                     }
                     
                     try {
@@ -152,12 +154,14 @@ public class EventLoader {
                 }
                 
                 List<String> filenames = request.getFilenames();
+                int total = filenames.size();
+                
                 for (String filename : filenames) {
                     
                     count++;
                     
                     for (EventLoaderListener l : listeners) {
-                        l.processingFile(count);
+                        l.processingFile(count, total);
                     }
                     
                     try (InputStream stream = loadEventFromS3(s3Client, bucketName, filename);) {

@@ -163,8 +163,8 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     ///// EventLoaderListener implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void processingFile(int fileCount) {
-        this.statusBar.setStatusMessage("Processing file " + fileCount);
+    public void processingFile(int fileCount, int total) {
+        this.statusBar.setStatusMessage("Processing file " + fileCount + " of " + total);
     }
 
     @Override
