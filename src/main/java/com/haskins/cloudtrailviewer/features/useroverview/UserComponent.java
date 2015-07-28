@@ -16,18 +16,15 @@
  */
 package com.haskins.cloudtrailviewer.features.useroverview;
 
-import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.table.TableUtils;
 import com.haskins.cloudtrailviewer.utils.GeneralUtils;
-import com.haskins.cloudtrailviewer.utils.TimeStampComparator;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,14 +38,15 @@ import javax.swing.JPanel;
  */
 public class UserComponent extends JPanel {
     
-    private final JPanel servicePanel = new JPanel();
-    private final EventTablePanel eventTable = new EventTablePanel();
-    
+    private final JPanel servicePanel = new JPanel();    
     private final Map<String, List<Event>> eventsPerService = new HashMap<>();
+    
+    private final UserOverview parent;
         
-    public UserComponent(String name) {
-        
+    public UserComponent(UserOverview parent, String name) {
+                
         this.setLayout(new BorderLayout());
+        this.parent = parent;
 
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(new JLabel(name), BorderLayout.WEST);
@@ -56,10 +54,7 @@ public class UserComponent extends JPanel {
         topPanel.setBackground(Color.white);
         topPanel.setOpaque(true);
         
-        eventTable.setVisible(false);
-        
         this.add(topPanel, BorderLayout.PAGE_START);
-        this.add(eventTable, BorderLayout.CENTER);
     }
     
     public void addEvent(Event event) {
@@ -90,12 +85,7 @@ public class UserComponent extends JPanel {
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    
-                    Collections.sort(events, new TimeStampComparator());
-                    
-                    eventTable.clearEvents();
-                    eventTable.setEvents(events);
-                    eventTable.setVisible(true);
+                    parent.showEvents(events);
                 }
             });
             

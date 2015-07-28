@@ -18,15 +18,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.features.useroverview;
 
+import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
 import com.haskins.cloudtrailviewer.features.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.GeneralUtils;
+import com.haskins.cloudtrailviewer.utils.TimeStampComparator;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +37,7 @@ import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
 /**
  *
@@ -43,15 +47,16 @@ public class UserOverview extends JPanel implements Feature, EventDatabaseListen
     
     public static final String NAME = "User Overview";
     
-    private final JPanel userComponentPanel = new JPanel(new GridBagLayout());
+    private final Map<String, UserComponent> userMap = new HashMap<>();
     private final GridBagConstraints gbc = new GridBagConstraints();
     
-    private final Map<String, UserComponent> userMap = new HashMap<>();
+    private final JPanel userOverviewPanel = new JPanel();
+    private final EventTablePanel eventTable = new EventTablePanel();
+    private JSplitPane jsp;
     
     public UserOverview(FilteredEventDatabase eventsDatabase) {
         
         eventsDatabase.addListener(this);
-        
         buidUI();
     }
     
@@ -60,20 +65,44 @@ public class UserOverview extends JPanel implements Feature, EventDatabaseListen
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
         
-        userComponentPanel.setBackground(Color.white);
-        userComponentPanel.setOpaque(true);
-        
+        userOverviewPanel.setLayout(new GridBagLayout());
+        userOverviewPanel.setBackground(Color.white);
+        userOverviewPanel.setOpaque(true);
+       
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
+
+        JScrollPane sPane = new JScrollPane(userOverviewPanel);
+        sPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        sPane.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
         
-        JScrollPane jsp = new JScrollPane(userComponentPanel);
-        jsp.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jsp.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
+        eventTable.setVisible(false);
         
+        jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, sPane, eventTable);
+        jsp.setDividerSize(0);
+        jsp.setResizeWeight(1);
+        jsp.setDividerLocation(jsp.getSize().height - jsp.getInsets().bottom - jsp.getDividerSize());
+        jsp.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
+        
+        this.setLayout(new BorderLayout());
         this.add(jsp, BorderLayout.CENTER);
+    }
+    
+    public void showEvents(List<Event> events) {
+        
+        Collections.sort(events, new TimeStampComparator());
+
+        if (!eventTable.isVisible()) {
+            jsp.setDividerLocation(0.5);
+            jsp.setDividerSize(3); 
+            eventTable.setVisible(true);
+        }
+
+        eventTable.clearEvents();
+        eventTable.setEvents(events);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -81,7 +110,7 @@ public class UserOverview extends JPanel implements Feature, EventDatabaseListen
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void eventLoadingComplete() {
-        
+
         Set<String> keys = userMap.keySet();
         List<String> sorted = GeneralUtils.asSortedList(keys);
         
@@ -96,7 +125,7 @@ public class UserOverview extends JPanel implements Feature, EventDatabaseListen
             UserComponent component = userMap.get(userName);
             component.buildUI();
             
-            userComponentPanel.add(component, gbc);
+            userOverviewPanel.add(component, gbc);
             
             count++;
         }
@@ -143,7 +172,7 @@ public class UserOverview extends JPanel implements Feature, EventDatabaseListen
             String username = event.getUserIdentity().getUserName();
             UserComponent component = userMap.get(username);
             if (component == null) {
-                component = new UserComponent(username);
+                component = new UserComponent(this, username);
                 userMap.put(username, component);
             }
             

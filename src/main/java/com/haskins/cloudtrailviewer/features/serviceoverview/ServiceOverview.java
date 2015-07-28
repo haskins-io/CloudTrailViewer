@@ -119,11 +119,13 @@ public class ServiceOverview extends JPanel implements Feature, EventDatabaseLis
                     List<Event> serviceEvents = servicePanel.getEvents();
                     Collections.sort(serviceEvents, new TimeStampComparator());
                     
-                    jsp.setDividerLocation(0.5);
-                    jsp.setDividerSize(3);
+                    if (!eventTable.isVisible()) {
+                        jsp.setDividerLocation(0.5);
+                        jsp.setDividerSize(3);
+                        eventTable.setVisible(true);
+                    }
                     eventTable.clearEvents();
                     eventTable.setEvents(serviceEvents);
-                    eventTable.setVisible(true);
                 }
             });
             

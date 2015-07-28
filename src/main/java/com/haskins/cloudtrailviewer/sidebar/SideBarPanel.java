@@ -106,10 +106,10 @@ public class SideBarPanel extends JPanel implements ActionListener {
         
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
                 
-        JButton print = new JButton("Print");
+        JButton print = new JButton();
         print.setActionCommand("Print");
         print.addActionListener(this);
-        ToolBarUtils.addImageToButton(print, "", "Print", "Print Sidebar");
+        ToolBarUtils.addImageToButton(print, "Save-32.png", "Print", "Print Sidebar");
         
         buttonsPanel.add(print);
         buttonsPanel.add(Box.createHorizontalGlue());
