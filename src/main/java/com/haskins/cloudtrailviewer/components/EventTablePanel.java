@@ -25,12 +25,17 @@ import com.haskins.cloudtrailviewer.sidebar.EventsStats;
 import com.haskins.cloudtrailviewer.sidebar.SideBarPanel;
 import com.haskins.cloudtrailviewer.table.EventsTable;
 import com.haskins.cloudtrailviewer.table.EventsTableModel;
+import com.haskins.cloudtrailviewer.utils.GeneralUtils;
+import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -163,6 +168,20 @@ public class EventTablePanel extends JPanel{
         filterPanel.setBackground(Color.white);
         filterPanel.add(new JLabel("Filter"), BorderLayout.WEST);
         filterPanel.add(filterTextField, BorderLayout.CENTER);
+        
+        JButton export = new JButton();
+        export.setActionCommand("");
+        export.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GeneralUtils.saveTableAsCsv(table);
+            }
+        
+        });
+        ToolBarUtils.addImageToButton(export, "CSV-Export-32.png", "Export", "Save to CSV");
+        
+        filterPanel.add(export, BorderLayout.EAST);
                 
         add(filterPanel, BorderLayout.PAGE_START);
         add(jsp, BorderLayout.CENTER);

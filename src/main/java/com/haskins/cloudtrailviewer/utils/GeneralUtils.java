@@ -22,13 +22,18 @@ import com.haskins.cloudtrailviewer.core.Printable;
 import com.haskins.cloudtrailviewer.thirdparty.ScreenImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -128,6 +133,42 @@ public class GeneralUtils {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+    
+    public static void saveTableAsCsv(JTable table) {
+        
+        fileChooser.setDialogTitle("Save Table");   
+
+        int userSelection = fileChooser.showSaveDialog(CloudTrailViewer.frame);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            
+            try {
+                TableModel model = table.getModel();
+                FileWriter csvFile = new FileWriter(fileChooser.getSelectedFile());
+
+                for(int i = 0; i < model.getColumnCount(); i++){
+                    csvFile.write(model.getColumnName(i) + ",");
+                }
+
+                csvFile.write(System.lineSeparator());
+
+                for(int i=0; i< model.getRowCount(); i++) {
+
+                    for(int j=0; j < model.getColumnCount(); j++) {
+                        csvFile.write(model.getValueAt(i,j).toString()+",");
+                    }
+                    csvFile.write("\n");
+                }
+
+                csvFile.close();
+            }
+            catch (IOException ex) {
+                Logger.getLogger(GeneralUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            
         }
     }
 }

@@ -27,7 +27,8 @@ import javax.swing.table.TableColumn;
  * @author mark.haskins
  */
 public class EventsTable extends JTable {
-        
+       
+    
     /**
      * Default Constructor.
      * 
@@ -38,7 +39,7 @@ public class EventsTable extends JTable {
         
         super(model);
         super.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-                
+                        
         setupTable();
     }
     
@@ -49,7 +50,7 @@ public class EventsTable extends JTable {
         
         setRowSelectionAllowed(true);
         setFont(new Font("Arial", Font.PLAIN, 12));
-        
+                
         for (int i = 0; i<this.dataModel.getColumnCount(); i++) {
             
             TableColumn column = this.getColumnModel().getColumn(i);
