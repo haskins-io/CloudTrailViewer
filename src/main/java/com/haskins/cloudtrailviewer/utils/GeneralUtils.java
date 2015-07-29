@@ -20,6 +20,7 @@ package com.haskins.cloudtrailviewer.utils;
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.core.Printable;
 import com.haskins.cloudtrailviewer.thirdparty.ScreenImage;
+import com.haskins.cloudtrailviewer.thirdparty.XTableColumnModel;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
@@ -31,6 +32,7 @@ import java.util.Locale;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 /**
@@ -143,19 +145,27 @@ public class GeneralUtils {
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             
             TableModel model = table.getModel();
-
+            XTableColumnModel columnModel = (XTableColumnModel)table.getColumnModel();
+                    
             try (FileWriter csvFile = new FileWriter(fileChooser.getSelectedFile());) {
 
                 for(int i = 0; i < model.getColumnCount(); i++){
-                    csvFile.write(model.getColumnName(i) + ",");
+                    
+                    TableColumn column = columnModel.getColumnByModelIndex(i);
+                    if (columnModel.isColumnVisible(column)) {
+                        csvFile.write("\"" + model.getColumnName(i) + "\",");
+                    }
                 }
 
                 csvFile.write(System.lineSeparator());
 
                 for(int i=0; i< model.getRowCount(); i++) {
-
                     for(int j=0; j < model.getColumnCount(); j++) {
-                        csvFile.write(model.getValueAt(i,j).toString()+",");
+                        
+                        TableColumn column = columnModel.getColumnByModelIndex(j);
+                        if (columnModel.isColumnVisible(column)) {
+                            csvFile.write("\"" + model.getValueAt(i,j).toString()+"\",");
+                        }
                     }
                     csvFile.write("\n");
                 }
