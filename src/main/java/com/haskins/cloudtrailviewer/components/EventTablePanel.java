@@ -39,19 +39,22 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableColumn;
 
 /**
  *
  * @author mark
  */
-public class EventTablePanel extends JPanel {
+public class EventTablePanel extends JPanel implements ActionListener {
 
     public static final String NAME = "Simple Table";
 
@@ -65,6 +68,7 @@ public class EventTablePanel extends JPanel {
     private final JTextField filterTextField = new JTextField();
 
     private final XTableColumnModel customColumnModel = new XTableColumnModel();
+    private final JPopupMenu columnPopupMenu = new JPopupMenu();
 
     /**
      * This Constructor creates it's own EventsDatabase.
@@ -125,6 +129,8 @@ public class EventTablePanel extends JPanel {
 
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
+        
+        createPopupMenu();
 
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -148,10 +154,10 @@ public class EventTablePanel extends JPanel {
 
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
+            public void mouseClicked(MouseEvent e) {
                 
-                if (mouseEvent.isPopupTrigger()) {
-                    // show a popup menu
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    columnPopupMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
             };
         });
@@ -207,5 +213,39 @@ public class EventTablePanel extends JPanel {
 
         String text = filterTextField.getText();
         this.eventDb.getFilter().setNeedle(text);
+    }
+    
+    private void createPopupMenu() {
+        
+        addMenuItem("Date/Time", 0, true);
+        addMenuItem("User Name", 1, true);
+        addMenuItem("Service", 2, true);
+        addMenuItem("Name", 3, true);
+        addMenuItem("Resource Type", 4, true);
+        addMenuItem("Resource Name", 5, true);
+
+    }
+
+    private void addMenuItem(String name, int position, boolean visible) {
+         
+        JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem(name);
+        menuItem.setActionCommand(String.valueOf(position));
+        menuItem.addActionListener(this);
+        menuItem.setSelected(visible);
+        columnPopupMenu.add(menuItem);
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+                
+        String action = e.getActionCommand();
+        int columnId = Integer.parseInt(action);
+        
+        TableColumn column = customColumnModel.getColumnByModelIndex(columnId);
+        boolean visible = customColumnModel.isColumnVisible(column);
+        
+        JCheckBoxMenuItem selected = (JCheckBoxMenuItem)e.getSource();
+        selected.setSelected(!visible);
+        customColumnModel.setColumnVisible(column, !visible);
     }
 }
