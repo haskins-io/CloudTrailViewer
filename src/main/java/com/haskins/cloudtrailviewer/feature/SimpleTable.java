@@ -82,6 +82,14 @@ public class SimpleTable extends JPanel implements Feature {
     public String getName() {
         return SimpleTable.NAME;
     }
+    
+    @Override
+    public void is_hidden() { }
+    
+    @Override
+    public void is_visible() {
+        tablePanel.is_visible();
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods

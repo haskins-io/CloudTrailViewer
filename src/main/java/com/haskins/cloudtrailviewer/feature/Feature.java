@@ -67,4 +67,8 @@ public interface Feature {
      * @return 
      */
     public String getTooltip();
+    
+    public void is_hidden();
+    
+    public void is_visible();
 }

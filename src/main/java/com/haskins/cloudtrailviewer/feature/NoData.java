@@ -79,6 +79,12 @@ public class NoData extends JPanel implements Feature {
         return NoData.NAME;
     }
     
+    @Override
+    public void is_hidden() { }
+    
+    @Override
+    public void is_visible() { }
+    
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     ////////////////////////////////////////////////////////////////////////////

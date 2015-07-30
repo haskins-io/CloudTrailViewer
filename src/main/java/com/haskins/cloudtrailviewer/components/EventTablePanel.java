@@ -105,6 +105,10 @@ public class EventTablePanel extends JPanel implements ActionListener {
             jsp.setDividerSize(0);
         }
     }
+    
+    public void is_visible() {
+        tableModel.reloadTableModel();
+    }
 
     public void clearEvents() {
         eventDb.clear();

@@ -160,6 +160,12 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     public String getName() {
         return UserFeature.NAME;
     }
+    
+    @Override
+    public void is_hidden() { }
+    
+    @Override
+    public void is_visible() { }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation

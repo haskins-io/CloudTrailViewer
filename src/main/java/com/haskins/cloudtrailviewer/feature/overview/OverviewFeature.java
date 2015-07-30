@@ -103,6 +103,12 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     public String getName() {
         return OverviewFeature.NAME;
     }
+    
+    @Override
+    public void is_hidden() { }
+    
+    @Override
+    public void is_visible() { }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation

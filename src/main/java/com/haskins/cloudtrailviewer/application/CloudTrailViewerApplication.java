@@ -145,12 +145,18 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
             
         if (database.size() > 0 || loading) {
         
+            for (Component component : features.getComponents()) {
+                Feature feature = (Feature)component;
+                feature.is_hidden();
+            }
+            
             currentFeature = name;
 
             CardLayout cl = (CardLayout)(features.getLayout());
             cl.show(features, name);
 
             Feature feature = featureMap.get(name);
+            feature.is_visible();
             if (feature.providesSideBar()) {
                 sidePanelToolBar.showSideBarButton(true);
             } else {

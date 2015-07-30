@@ -18,7 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.application;
 
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -31,6 +33,7 @@ public class StatusBar extends JPanel {
     
     private final JLabel loadedEvents = new JLabel();
     private final JLabel statusMessage = new JLabel();
+    private final static JLabel memory = new JLabel();
     
     /**
      * Default Constructor
@@ -38,6 +41,9 @@ public class StatusBar extends JPanel {
     public StatusBar() {
         
         buildStatusBar();
+        
+        Thread t = new Thread(new MemoryCheck());
+        t.start();
     }
     
     /**
@@ -63,21 +69,54 @@ public class StatusBar extends JPanel {
     ////////////////////////////////////////////////////////////////////////////
     private void buildStatusBar() {
         
-        JPanel leftSection = new JPanel();
-        leftSection.add(loadedEvents);
+        JPanel visibleEventsLabel = new JPanel();
+        visibleEventsLabel.add(loadedEvents);
         
-        JPanel middleSection = new JPanel();
-        middleSection.add(statusMessage);
+        JPanel messageLabel = new JPanel();
+        messageLabel.add(statusMessage);
         
-        JPanel rightSection = new JPanel();
-        rightSection.add(loadedEvents);
+        JPanel loadedEventsLabel = new JPanel();
+        loadedEventsLabel.add(loadedEvents);
         
-        this.setLayout(new GridLayout(0,3));
+        JPanel memoryLabel = new JPanel();
+        memoryLabel.add(memory);
         
-        this.add(leftSection);
-        this.add(middleSection);
-        this.add(rightSection);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
         
+        panel.add(visibleEventsLabel);
+        panel.add(messageLabel);
+        panel.add(loadedEventsLabel);
+        panel.add(Box.createHorizontalGlue());
+        panel.add(memoryLabel);
+        
+        this.setLayout(new BorderLayout());
+        this.add(panel, BorderLayout.CENTER);
         this.setVisible(true);
+    }
+    
+    private static class MemoryCheck implements Runnable {
+
+        private final Runtime runtime = Runtime.getRuntime();
+        
+        @Override
+        public void run() {
+            
+            while (true) {
+                
+                try {
+                    long total = runtime.totalMemory() / 1024 / 1024;
+                    long free = runtime.freeMemory() / 1024 / 1024;
+                    long max = runtime.maxMemory() / 1024 / 1024;
+                    long used = total - free;
+
+                    memory.setText(String.format("Memory Used : %sMb | Memory Free %dMb | Max Available : %dMb", used, free, max));
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    
+                }
+            }
+        }
+        
     }
 }
