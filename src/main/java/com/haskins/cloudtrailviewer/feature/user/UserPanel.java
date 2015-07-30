@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.features.useroverview;
+package com.haskins.cloudtrailviewer.feature.user;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.table.TableUtils;
@@ -36,14 +36,14 @@ import javax.swing.JPanel;
  *
  * @author mark
  */
-public class UserComponent extends JPanel {
+public class UserPanel extends JPanel {
     
     private final JPanel servicePanel = new JPanel();    
     private final Map<String, List<Event>> eventsPerService = new HashMap<>();
     
-    private final UserOverview parent;
+    private final UserFeature parent;
         
-    public UserComponent(UserOverview parent, String name) {
+    public UserPanel(UserFeature parent, String name) {
                 
         this.setLayout(new BorderLayout());
         this.parent = parent;

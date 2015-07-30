@@ -32,8 +32,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -178,14 +176,15 @@ public class EventTablePanel extends JPanel implements ActionListener {
             - jsp.getInsets().right
             - jsp.getDividerSize());
 
-        filterTextField.addKeyListener(new KeyAdapter() {
+        filterTextField.addActionListener(new ActionListener() {
+
             @Override
-            public void keyTyped(KeyEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 filterUpdate();
             }
-
+        
         });
-
+        
         JPanel filterPanel = new JPanel(new BorderLayout());
         filterPanel.setBackground(Color.white);
         filterPanel.add(new JLabel("Filter"), BorderLayout.WEST);

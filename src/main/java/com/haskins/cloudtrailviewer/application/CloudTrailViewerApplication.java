@@ -18,14 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.application;
 
-import com.haskins.cloudtrailviewer.features.Feature;
-import com.haskins.cloudtrailviewer.features.NoData;
-import com.haskins.cloudtrailviewer.features.SimpleTable;
+import com.haskins.cloudtrailviewer.feature.Feature;
+import com.haskins.cloudtrailviewer.feature.NoData;
+import com.haskins.cloudtrailviewer.feature.SimpleTable;
 import com.haskins.cloudtrailviewer.core.EventLoader;
 import com.haskins.cloudtrailviewer.core.EventLoaderListener;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
-import com.haskins.cloudtrailviewer.features.serviceoverview.ServiceOverview;
-import com.haskins.cloudtrailviewer.features.useroverview.UserOverview;
+import com.haskins.cloudtrailviewer.feature.overview.OverviewFeature;
+import com.haskins.cloudtrailviewer.feature.user.UserFeature;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
@@ -39,8 +39,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -58,7 +58,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     private final EventLoader eventLoader;
     
     private final JPanel features = new JPanel(new CardLayout());
-    private final Map<String,Feature> featureMap = new HashMap<>();
+    private final Map<String,Feature> featureMap = new LinkedHashMap<>();
     private String currentFeature;
     
     private final StatusBar statusBar = new StatusBar();
@@ -97,7 +97,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         
         if (files != null && files.length > 0) {
             
-            changeFeature(ServiceOverview.NAME, true);
+            changeFeature(OverviewFeature.NAME, true);
             
             List<String> filePaths = new ArrayList<>();
             for (File file : files) {
@@ -120,7 +120,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     
         if (files != null && files.size() > 0) {
             
-            changeFeature(ServiceOverview.NAME, true);
+            changeFeature(OverviewFeature.NAME, true);
             
             LoadFileRequest loadRequest = new LoadFileRequest(files, null);
             eventLoader.loadEventsFromS3(loadRequest);
@@ -221,18 +221,18 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         features.add((JPanel)noData, noData.getName());
         changeFeature(NoData.NAME, true);
         
-        UserOverview userOverview = new UserOverview(database);
-        featureMap.put(userOverview.getName(), userOverview);
-        features.add((JPanel)userOverview, userOverview.getName());
+        OverviewFeature serviceOverview = new OverviewFeature(database);
+        featureMap.put(serviceOverview.getName(), serviceOverview);
+        features.add((JPanel)serviceOverview, serviceOverview.getName());
         
         SimpleTable simpleTable = new SimpleTable(database);
         featureMap.put(simpleTable.getName(), simpleTable);
         features.add((JPanel)simpleTable, simpleTable.getName());
         
-        ServiceOverview serviceOverview = new ServiceOverview(database);
-        featureMap.put(serviceOverview.getName(), serviceOverview);
-        features.add((JPanel)serviceOverview, serviceOverview.getName());
-        
+        UserFeature userOverview = new UserFeature(database);
+        featureMap.put(userOverview.getName(), userOverview);
+        features.add((JPanel)userOverview, userOverview.getName());
+       
         Set<String> keys = featureMap.keySet();
         Iterator<String> it = keys.iterator();
         while (it.hasNext()) {

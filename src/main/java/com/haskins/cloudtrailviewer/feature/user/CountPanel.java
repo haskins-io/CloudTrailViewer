@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.features.useroverview;
+package com.haskins.cloudtrailviewer.feature.user;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,7 +28,7 @@ import javax.swing.JPanel;
  *
  * @author mark
  */
-public class ServiceCount extends JPanel {
+public class CountPanel extends JPanel {
     
     private final JLabel countLabel = new JLabel();
     
@@ -41,7 +41,7 @@ public class ServiceCount extends JPanel {
         g.fillOval(0, 3, countLabel.getWidth(), 20);
     }
     
-    public ServiceCount(int count) {
+    public CountPanel(int count) {
                         
         this.countLabel.setText(String.valueOf(count));
         this.setBackground(Color.white);

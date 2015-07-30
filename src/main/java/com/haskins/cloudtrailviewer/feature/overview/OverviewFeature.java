@@ -16,22 +16,17 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.features.serviceoverview;
+package com.haskins.cloudtrailviewer.feature.overview;
 
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
-import com.haskins.cloudtrailviewer.features.Feature;
+import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.table.TableUtils;
-import com.haskins.cloudtrailviewer.utils.TimeStampComparator;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,22 +39,35 @@ import javax.swing.JSplitPane;
  *
  * @author mark
  */
-public class ServiceOverview extends JPanel implements Feature, EventDatabaseListener {
+public class OverviewFeature extends JPanel implements Feature, EventDatabaseListener {
     
     public static final String NAME = "Service Overview";
     
-    private final Map<String, ServiceOverviewPanel> servicesMap = new HashMap<>();
+    private final Map<String, OverviewPanel> servicesMap = new HashMap<>();
     
     private final JPanel servicesContainer = new JPanel(new WrapLayout());
     private final EventTablePanel eventTable = new EventTablePanel();
     
     private JSplitPane jsp;
     
-    public ServiceOverview(FilteredEventDatabase eventsDatabase) {
+    public OverviewFeature(FilteredEventDatabase eventsDatabase) {
         
         eventsDatabase.addListener(this);
         
         buildUI();
+    }
+    
+    public void showEventsTable(List<Event> events) {
+        
+        if (!eventTable.isVisible()) {
+            
+            jsp.setDividerLocation(0.5);
+            jsp.setDividerSize(3);
+            eventTable.setVisible(true);
+        }
+        
+        eventTable.clearEvents();
+        eventTable.setEvents(events);
     }
         
     ////////////////////////////////////////////////////////////////////////////
@@ -93,7 +101,7 @@ public class ServiceOverview extends JPanel implements Feature, EventDatabaseLis
     
     @Override
     public String getName() {
-        return ServiceOverview.NAME;
+        return OverviewFeature.NAME;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -104,30 +112,11 @@ public class ServiceOverview extends JPanel implements Feature, EventDatabaseLis
                  
         String serviceName = TableUtils.getService(event);
         
-        final ServiceOverviewPanel servicePanel;
+        final OverviewPanel servicePanel;
         
         if (!servicesMap.containsKey(serviceName)) {
             
-            servicePanel = new ServiceOverviewPanel(serviceName);
-            servicePanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            
-            servicePanel.addMouseListener(new MouseAdapter() {
-                
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    
-                    List<Event> serviceEvents = servicePanel.getEvents();
-                    Collections.sort(serviceEvents, new TimeStampComparator());
-                    
-                    if (!eventTable.isVisible()) {
-                        jsp.setDividerLocation(0.5);
-                        jsp.setDividerSize(3);
-                        eventTable.setVisible(true);
-                    }
-                    eventTable.clearEvents();
-                    eventTable.setEvents(serviceEvents);
-                }
-            });
+            servicePanel = new OverviewPanel(serviceName, this);
             
             servicesMap.put(serviceName, servicePanel);
             servicesContainer.add(servicePanel);
@@ -159,4 +148,5 @@ public class ServiceOverview extends JPanel implements Feature, EventDatabaseLis
         this.setLayout(new BorderLayout());
         this.add(jsp, BorderLayout.CENTER);
     }
+   
 }

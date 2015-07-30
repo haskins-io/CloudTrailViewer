@@ -16,15 +16,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.features.serviceoverview;
+package com.haskins.cloudtrailviewer.feature.overview;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -35,24 +33,22 @@ import javax.swing.JPanel;
  *
  * @author mark
  */
-public class ServiceOverviewPanel extends JPanel {
+public class OverviewPanel extends JPanel {
     
-    private final ServiceCountPanel awsCountPanel;
-    private final ServiceCountPanel iamCountPanel;
+    private final CountPanel awsCountPanel;
+    private final CountPanel iamCountPanel;
     
-    private final ServiceEPSPanel awsEpsPanel;
-    private final ServiceEPSPanel iamEpsPanel;
+    private final EpsPanel awsEpsPanel;
+    private final EpsPanel iamEpsPanel;
     
     private final JLabel totalLabel = new JLabel("0");
     
-    private final List<Event> events = new ArrayList<>();
-    
-    public ServiceOverviewPanel(String serviceName) {
-
+    public OverviewPanel(String serviceName, OverviewFeature p) {
+        
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(200,140));
-        this.setMaximumSize(new Dimension(200,140));
-        this.setPreferredSize(new Dimension(200,140));
+        this.setMinimumSize(new Dimension(250,140));
+        this.setMaximumSize(new Dimension(250,140));
+        this.setPreferredSize(new Dimension(250,140));
         this.setBackground(Color.white);
         this.setOpaque(true);
         
@@ -68,14 +64,15 @@ public class ServiceOverviewPanel extends JPanel {
         labelPanel.add(Box.createHorizontalGlue());
         labelPanel.setOpaque(false);
         
-        awsCountPanel = new ServiceCountPanel("AWS", new Color(51, 102, 153));
-        iamCountPanel = new ServiceCountPanel("IAM", new Color(102, 153, 153));
+        awsCountPanel = new CountPanel("AWS", new Color(51, 102, 153), p);        
+        iamCountPanel = new CountPanel("IAM", new Color(102, 153, 153), p);
+      
         JPanel countsPanel = new JPanel(new GridLayout(1,2));
         countsPanel.add(awsCountPanel);
         countsPanel.add(iamCountPanel);
         
-        awsEpsPanel = new ServiceEPSPanel(new Color(51, 102, 153));
-        iamEpsPanel = new ServiceEPSPanel(new Color(102, 153, 153));
+        awsEpsPanel = new EpsPanel(new Color(51, 102, 153));
+        iamEpsPanel = new EpsPanel(new Color(102, 153, 153));
         JPanel epsPanel = new JPanel(new GridLayout(1,2));
         epsPanel.add(awsEpsPanel);
         epsPanel.add(iamEpsPanel);
@@ -94,14 +91,12 @@ public class ServiceOverviewPanel extends JPanel {
     }
 
     public void addEvent(Event event) {
-        
-        events.add(event);
-        
+                
         if (event.getUserIdentity().getType().equalsIgnoreCase("Root")) {
-            awsCountPanel.incrementCount();
+            awsCountPanel.newEvent(event);
             awsEpsPanel.newEvent(event);
         } else {
-            iamCountPanel.incrementCount();
+            iamCountPanel.newEvent(event);
             iamEpsPanel.newEvent(event);
         }
         
@@ -111,9 +106,5 @@ public class ServiceOverviewPanel extends JPanel {
         totalLabel.setText(String.valueOf(intCount));
         
         this.revalidate();
-    }
-
-    public List getEvents() {
-        return this.events;
     }
 }

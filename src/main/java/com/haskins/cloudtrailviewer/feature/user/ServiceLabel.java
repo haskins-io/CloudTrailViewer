@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.features.useroverview;
+package com.haskins.cloudtrailviewer.feature.user;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -38,7 +38,7 @@ public class ServiceLabel extends JPanel {
         serviceName.setText(name);
           
         this.add(serviceName, BorderLayout.CENTER);
-        this.add(new ServiceCount(count), BorderLayout.EAST);
+        this.add(new CountPanel(count), BorderLayout.EAST);
     }
     
     public String getServiceName() {

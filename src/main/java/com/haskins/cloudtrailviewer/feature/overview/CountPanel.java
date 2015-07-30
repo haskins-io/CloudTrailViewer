@@ -16,34 +16,67 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.features.serviceoverview;
+package com.haskins.cloudtrailviewer.feature.overview;
 
+import com.haskins.cloudtrailviewer.model.event.Event;
+import com.haskins.cloudtrailviewer.utils.TimeStampComparator;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- *
+ * Panel that show the number of Events that have been received.
+ * 
  * @author mark
  */
-public class ServiceCountPanel extends JPanel {
+public class CountPanel extends JPanel {
+    
+    private final List<Event> events = new ArrayList<>();
+    
+    private final OverviewFeature parent;
     
     private final JLabel eventCount = new JLabel(String.valueOf(0));
+    
+    private boolean sorted = false;
         
-    public ServiceCountPanel(String name, Color bgColour) {
+    public CountPanel(String name, Color bgColour, OverviewFeature p) {
+        
+        this.parent = p;
         
         this.setBackground(bgColour);
         
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(90,45));
-        this.setMaximumSize(new Dimension(90,45));
-        this.setPreferredSize(new Dimension(90,45));
+        this.setMinimumSize(new Dimension(125,45));
+        this.setMaximumSize(new Dimension(125,45));
+        this.setPreferredSize(new Dimension(125,45));
                 
+        eventCount.setToolTipText("Total Events for the Service");
+        eventCount.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        eventCount.addMouseListener(new MouseAdapter() {
+                
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                if (!sorted) {
+                    Collections.sort(events, new TimeStampComparator());
+                    sorted = true;
+                }
+
+                parent.showEventsTable(events);
+            }
+        });
+        
         Font labelFont = eventCount.getFont();
         eventCount.setForeground(Color.white);
         eventCount.setAlignmentX(CENTER_ALIGNMENT);
@@ -76,7 +109,8 @@ public class ServiceCountPanel extends JPanel {
         this.setOpaque(true);
     }
     
-    public void incrementCount() {
+    public void newEvent(Event event) {
+        this.events.add(event);
         
         int count = Integer.parseInt(eventCount.getText());
         count++;

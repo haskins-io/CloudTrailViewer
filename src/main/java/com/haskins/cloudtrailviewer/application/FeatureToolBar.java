@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.application;
 
-import com.haskins.cloudtrailviewer.features.Feature;
+import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
