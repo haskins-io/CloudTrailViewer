@@ -40,6 +40,9 @@ public class ServiceOverviewPanel extends JPanel {
     private final ServiceCountPanel awsCountPanel;
     private final ServiceCountPanel iamCountPanel;
     
+    private final ServiceEPSPanel awsEpsPanel;
+    private final ServiceEPSPanel iamEpsPanel;
+    
     private final JLabel totalLabel = new JLabel("0");
     
     private final List<Event> events = new ArrayList<>();
@@ -47,9 +50,9 @@ public class ServiceOverviewPanel extends JPanel {
     public ServiceOverviewPanel(String serviceName) {
 
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(200,120));
-        this.setMaximumSize(new Dimension(200,120));
-        this.setPreferredSize(new Dimension(200,120));
+        this.setMinimumSize(new Dimension(200,140));
+        this.setMaximumSize(new Dimension(200,140));
+        this.setPreferredSize(new Dimension(200,140));
         this.setBackground(Color.white);
         this.setOpaque(true);
         
@@ -65,29 +68,41 @@ public class ServiceOverviewPanel extends JPanel {
         labelPanel.add(Box.createHorizontalGlue());
         labelPanel.setOpaque(false);
         
-        JPanel countsPanel = new JPanel(new GridLayout(1,2));
         awsCountPanel = new ServiceCountPanel("AWS", new Color(51, 102, 153));
         iamCountPanel = new ServiceCountPanel("IAM", new Color(102, 153, 153));
-        
+        JPanel countsPanel = new JPanel(new GridLayout(1,2));
         countsPanel.add(awsCountPanel);
         countsPanel.add(iamCountPanel);
+        
+        awsEpsPanel = new ServiceEPSPanel(new Color(51, 102, 153));
+        iamEpsPanel = new ServiceEPSPanel(new Color(102, 153, 153));
+        JPanel epsPanel = new JPanel(new GridLayout(1,2));
+        epsPanel.add(awsEpsPanel);
+        epsPanel.add(iamEpsPanel);
+        
+        JPanel statsContainer = new JPanel(new GridLayout(2,0));
+        statsContainer.add(countsPanel);
+        statsContainer.add(epsPanel);
         
         JPanel totalPanel = new JPanel();
         totalPanel.add(new JLabel("Total : "));
         totalPanel.add(totalLabel);
         
         this.add(labelPanel, BorderLayout.PAGE_START);
-        this.add(countsPanel, BorderLayout.CENTER);
+        this.add(statsContainer, BorderLayout.CENTER);
         this.add(totalPanel, BorderLayout.PAGE_END);
     }
 
     public void addEvent(Event event) {
+        
         events.add(event);
         
         if (event.getUserIdentity().getType().equalsIgnoreCase("Root")) {
             awsCountPanel.incrementCount();
+            awsEpsPanel.newEvent(event);
         } else {
             iamCountPanel.incrementCount();
+            iamEpsPanel.newEvent(event);
         }
         
         String strTotal = totalLabel.getText();
