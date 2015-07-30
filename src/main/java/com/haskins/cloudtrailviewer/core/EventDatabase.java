@@ -30,7 +30,7 @@ import java.util.List;
  * 
  * @author mark
  */
-public class EventDatabase {
+public class EventDatabase implements EventLoaderListener {
     
     private final List<EventDatabaseListener> listeners = new ArrayList<>();
     
@@ -104,6 +104,17 @@ public class EventDatabase {
      */
     public int size() {
         return events.size();
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///// EventLoaderListener methods
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void processingFile(int fileCount, int total) { }
+
+    @Override
+    public void finishedLoading() {
+        Collections.sort(events, new TimeStampComparator());
     }
     
     /**

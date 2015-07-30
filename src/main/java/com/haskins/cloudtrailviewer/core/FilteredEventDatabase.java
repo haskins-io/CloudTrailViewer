@@ -99,6 +99,17 @@ public class FilteredEventDatabase extends EventDatabase implements FilterListen
     }
     
     ////////////////////////////////////////////////////////////////////////////
+    ///// EventLoaderListener methods
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void finishedLoading() {
+        
+        super.finishedLoading();
+        
+        Collections.sort(filteredEvents, new TimeStampComparator());
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
     ///// FilterListener methods
     ////////////////////////////////////////////////////////////////////////////
     @Override
@@ -122,7 +133,6 @@ public class FilteredEventDatabase extends EventDatabase implements FilterListen
     	
         if (filter.passesFilter(event)) {
             filteredEvents.add(event);
-            Collections.sort(filteredEvents, new TimeStampComparator());
         }
     }
 }

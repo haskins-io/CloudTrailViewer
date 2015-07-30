@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.table;
 
 import com.haskins.cloudtrailviewer.core.EventDatabase;
-import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.core.resource.ResourceLookup;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import javax.swing.table.AbstractTableModel;
@@ -28,7 +27,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author mark.haskins
  */
-public class EventsTableModel extends AbstractTableModel implements EventDatabaseListener {
+public class EventsTableModel extends AbstractTableModel {
     
     public final String[] columnNames = new String[] {
          "Date/Time", "User Name", "Service", "Name", "Resource Type", "Resource Name"
@@ -38,7 +37,6 @@ public class EventsTableModel extends AbstractTableModel implements EventDatabas
         
     public EventsTableModel(EventDatabase eventsDatabase) {
         eventsDb = eventsDatabase;
-        eventsDb.addListener(this);
     }
                 
     public void reloadTableModel() {
@@ -109,13 +107,5 @@ public class EventsTableModel extends AbstractTableModel implements EventDatabas
     @Override
     public boolean isCellEditable(int row, int column) {
         return false;
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // EventDatabaseListener implementation
-    ///////////////////////////////////////////////////////////////////////////
-    @Override
-    public void eventAdded(Event event) {
-        reloadTableModel();
     }
 }

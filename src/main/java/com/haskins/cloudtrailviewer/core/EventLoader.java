@@ -70,6 +70,7 @@ public class EventLoader {
      */
     public EventLoader(FilteredEventDatabase database) {
         eventDb = database;
+        listeners.add(eventDb);
     }
     
     /**
@@ -116,7 +117,7 @@ public class EventLoader {
                         ioe.printStackTrace();
                     }
                 }
-
+                
                 for (EventLoaderListener l : listeners) {
                     l.finishedLoading();
                 }
@@ -254,7 +255,6 @@ public class EventLoader {
                 if (filter.passesFilter(event)) {
                     
                     EventUtils.addTimestamp(event);
-                    
                     eventDb.addEvent(event);
                 }
             }

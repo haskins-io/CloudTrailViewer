@@ -110,11 +110,9 @@ public class CountPanel extends JPanel {
     }
     
     public void newEvent(Event event) {
-        this.events.add(event);
         
-        int count = Integer.parseInt(eventCount.getText());
-        count++;
-        eventCount.setText(String.valueOf(count));
+        this.events.add(event);
+        eventCount.setText(String.valueOf(this.events.size()));
         
         Font labelFont = eventCount.getFont();
         if (eventCount.getText().length() >= 6) {
