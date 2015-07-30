@@ -23,7 +23,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>CFBundleDisplayName</key>
-	<string>Hello World</string>
+	<string>${bundleName}</string>
 	<key>NSHighResolutionCapable</key>
 	<true/>
         <key>JVMMainClassName</key>
