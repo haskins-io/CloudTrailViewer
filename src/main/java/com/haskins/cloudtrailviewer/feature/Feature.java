@@ -26,7 +26,7 @@ package com.haskins.cloudtrailviewer.feature;
 public interface Feature {
     
     /**
-     * Called when all evnts have loaded
+     * Called when all events have loaded
      */
     public void eventLoadingComplete();
     

@@ -8,7 +8,7 @@
     
     <groupId>com.haskins</groupId>
     <artifactId>cloudtrail-viewer</artifactId>
-    <version>2.1.1</version>
+    <version>2.1.4</version>
     <packaging>jar</packaging>
 
     <name>CloudTrail Viewer</name>
@@ -113,7 +113,7 @@
                         <configuration>
                             <headerType>gui</headerType>
                             <jar>${project.build.directory}/${artifactId}-${version}-shaded.jar</jar>
-                            <outfile>${project.build.directory}/${artifactId}/CloudTrailViwer.exe</outfile>
+                            <outfile>${project.build.directory}/${artifactId}/CloudTrailViewer.exe</outfile>
                             <downloadUrl>http://java.com/download</downloadUrl>
                             <classPath>
                                 <mainClass>com.haskins.cloudtrailviewer.CloudTrailViewer</mainClass>

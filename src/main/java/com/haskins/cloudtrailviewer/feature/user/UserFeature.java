@@ -111,24 +111,6 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     @Override
     public void eventLoadingComplete() {
 
-        Set<String> keys = userMap.keySet();
-        List<String> sorted = GeneralUtils.asSortedList(keys);
-        
-        int count = 1;
-        for (String userName : sorted) {
-            
-            if (count == sorted.size()) {
-                gbc.weightx = 1.0;
-                gbc.weighty = 1.0;
-            }
-            
-            UserPanel component = userMap.get(userName);
-            component.buildUI();
-            
-            userOverviewPanel.add(component, gbc);
-            
-            count++;
-        }
     }
 
     @Override
@@ -165,7 +147,27 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     public void is_hidden() { }
     
     @Override
-    public void is_visible() { }
+    public void is_visible() {
+        
+        Set<String> keys = userMap.keySet();
+        List<String> sorted = GeneralUtils.asSortedList(keys);
+        
+        int count = 1;
+        for (String userName : sorted) {
+            
+            if (count == sorted.size()) {
+                gbc.weightx = 1.0;
+                gbc.weighty = 1.0;
+            }
+            
+            UserPanel component = userMap.get(userName);
+            component.buildUI();
+            
+            userOverviewPanel.add(component, gbc);
+            
+            count++;
+        }
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
