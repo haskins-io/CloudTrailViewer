@@ -51,16 +51,16 @@ public class PropertiesController {
     
     /**
      * Saves a Preference
-     * @param key Unique Id of the preference
-     * @param value perference to save
+     * @param key Unique Id of the property
+     * @param value property to save
      */
     public void setProperty(String key, String value) {
         prefs.put(key, value);
     }
     
     /**
-     * returns a preference
-     * @param key Unique Id of the preference
+     * returns a property
+     * @param key Unique Id of the property
      * @return 
      */
     public String getProperty(String key) {
@@ -109,5 +109,4 @@ public class PropertiesController {
         
         return validS3Credentials;
     }
-    
 }

@@ -123,7 +123,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
             
             changeFeature(OverviewFeature.NAME, true);
             
-            LoadFileRequest loadRequest = new LoadFileRequest(files, null);
+            LoadFileRequest loadRequest = new LoadFileRequest(files, filter);
             eventLoader.loadEventsFromS3(loadRequest);
         }
     }

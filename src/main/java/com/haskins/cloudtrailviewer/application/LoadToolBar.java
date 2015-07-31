@@ -106,8 +106,7 @@ public class LoadToolBar extends JToolBar {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 
-                if (SearchOptions.showDialog(CloudTrailViewer.frame) == SearchOptions.SCAN_OK && 
-                    SearchOptions.getSearchFilter() != null) {
+                if (SearchOptions.showDialog(CloudTrailViewer.frame) == SearchOptions.SCAN_OK && SearchOptions.getSearchFilter() != null) {
                     
                     loadLocalFiles(SearchOptions.getSearchFilter());
                 }
@@ -142,7 +141,10 @@ public class LoadToolBar extends JToolBar {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
 
-                loadS3files(null);
+                if (SearchOptions.showDialog(CloudTrailViewer.frame) == SearchOptions.SCAN_OK && SearchOptions.getSearchFilter() != null) {
+                    
+                    loadS3files(SearchOptions.getSearchFilter());
+                }
             }
         }); 
         
