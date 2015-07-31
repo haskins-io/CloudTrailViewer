@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature.overview;
 
+import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.TimeStampComparator;
 import java.awt.BorderLayout;
@@ -44,15 +45,15 @@ public class CountPanel extends JPanel {
     
     private final List<Event> events = new ArrayList<>();
     
-    private final OverviewFeature parent;
+    private final Feature feature;
     
     private final JLabel eventCount = new JLabel(String.valueOf(0));
     
     private boolean sorted = false;
         
-    public CountPanel(String name, Color bgColour, OverviewFeature p) {
+    public CountPanel(String name, Color bgColour, Feature f) {
         
-        this.parent = p;
+        this.feature = f;
         
         this.setBackground(bgColour);
         
@@ -73,7 +74,7 @@ public class CountPanel extends JPanel {
                     sorted = true;
                 }
 
-                parent.showEventsTable(events);
+                feature.showEventsTable(events);
             }
         });
         

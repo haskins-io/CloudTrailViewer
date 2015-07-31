@@ -20,7 +20,9 @@ package com.haskins.cloudtrailviewer.feature;
 
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
+import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -30,7 +32,7 @@ import javax.swing.JPanel;
  */
 public class SimpleTable extends JPanel implements Feature {
     
-    public static final String NAME = "Simple Table";
+    public static final String NAME = "Table Feature";
         
     private final EventTablePanel tablePanel;
     
@@ -90,6 +92,9 @@ public class SimpleTable extends JPanel implements Feature {
     public void will_appear() {
         tablePanel.will_appear();
     }
+    
+    @Override
+    public void showEventsTable(List<Event> events) {}
 
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods

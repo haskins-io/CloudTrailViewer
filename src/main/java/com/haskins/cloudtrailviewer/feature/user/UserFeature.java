@@ -45,7 +45,7 @@ import javax.swing.JSplitPane;
  */
 public class UserFeature extends JPanel implements Feature, EventDatabaseListener {
     
-    public static final String NAME = "User Overview";
+    public static final String NAME = "User Feature";
     
     private final Map<String, UserPanel> userMap = new HashMap<>();
     private final GridBagConstraints gbc = new GridBagConstraints();
@@ -172,6 +172,9 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
             count++;
         }
     }
+    
+    @Override
+    public void showEventsTable(List<Event> events) {}
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation

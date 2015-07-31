@@ -1,3 +1,4 @@
+
 /*    
 CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
 files.
@@ -15,50 +16,51 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-package com.haskins.cloudtrailviewer.feature.overview;
+package com.haskins.cloudtrailviewer.feature.error;
 
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
 import com.haskins.cloudtrailviewer.feature.Feature;
-import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.table.TableUtils;
-import com.haskins.cloudtrailviewer.utils.GeneralUtils;
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.ListSelectionModel;
 
 /**
  *
- * @author mark
+ * @author mark.haskins
  */
-public class OverviewFeature extends JPanel implements Feature, EventDatabaseListener {
+public class ErrorFeature extends JPanel implements Feature, EventDatabaseListener {
     
-    public static final String NAME = "Overview Feature";
+    public static final String NAME = "Error Feature";
     
-    private final Map<String, OverviewPanel> servicesMap = new HashMap<>();
+    private final Map<String, List<Event>> errorsMap = new HashMap<>();
     
-    private final JPanel servicesContainer = new JPanel(new WrapLayout());
+    private final DefaultListModel errorListModel = new DefaultListModel();
     private final EventTablePanel eventTable = new EventTablePanel();
     
     private JSplitPane jsp;
     
-    public OverviewFeature(FilteredEventDatabase eventsDatabase) {
+    public ErrorFeature(FilteredEventDatabase eventsDatabase) {
         
         eventsDatabase.addListener(this);
         
         buildUI();
     }
-           
+            
     ////////////////////////////////////////////////////////////////////////////
     ///// Feature implementation
     ////////////////////////////////////////////////////////////////////////////
@@ -85,12 +87,12 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
 
     @Override
     public String getTooltip() {
-        return "Service API Overview";
+        return "Error Overview";
     }
     
     @Override
     public String getName() {
-        return OverviewFeature.NAME;
+        return ErrorFeature.NAME;
     }
     
     @Override
@@ -119,29 +121,23 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     @Override
     public void eventAdded(Event event) {
                  
-        String serviceName = TableUtils.getService(event);
-        
-        final OverviewPanel servicePanel;
-        
-        if (!servicesMap.containsKey(serviceName)) {
+        String errorName = event.getErrorCode();
+        if (errorName.trim().length() > 0) {
             
-            servicePanel = new OverviewPanel(serviceName, this);
+            List<Event> errorEvents;
+
+            if (!errorsMap.containsKey(errorName)) {
+
+                errorEvents = new ArrayList<>();
+                errorsMap.put(errorName, errorEvents);
+                errorListModel.addElement(errorName);
             
-            servicesMap.put(serviceName, servicePanel);
-            
-            servicesContainer.removeAll();
-            
-            Set keys = servicesMap.keySet();
-            List<String> sorted = GeneralUtils.asSortedList(keys);
-            for (String service : sorted) {
-                OverviewPanel panel = servicesMap.get(service);
-                servicesContainer.add(panel);
-            }            
-        } else {
-            servicePanel = servicesMap.get(serviceName);
+            } else {
+                errorEvents = errorsMap.get(errorName);
+            }
+
+            errorEvents.add(event);
         }
-        
-        servicePanel.addEvent(event);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -149,20 +145,34 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     //////////////////////////////////////////////////////////////////////////// 
     private void buildUI() {
 
-        servicesContainer.setBackground(Color.white);
-        JScrollPane sPane = new JScrollPane(servicesContainer);
-        sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
+        final JList errorList = new JList(errorListModel);
+        errorList.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                                          
+                String selected = (String)errorList.getSelectedValue();
+                List<Event> eEvents = errorsMap.get(selected);
+                
+                eventTable.clearEvents();
+                eventTable.setEvents(eEvents);
+            }
+        });
         
-        eventTable.setVisible(false);
+        errorList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        errorList.setLayoutOrientation(JList.VERTICAL);
+        errorList.setVisibleRowCount(-1);
+
+        JScrollPane sPane = new JScrollPane(errorList);
+        sPane.setMinimumSize(new Dimension(300, 400));
+        sPane.setPreferredSize(new Dimension(300, 400));
+        sPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         
-        jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, sPane, eventTable);
-        jsp.setDividerSize(0);
-        jsp.setResizeWeight(1);
-        jsp.setDividerLocation(jsp.getSize().height - jsp.getInsets().bottom - jsp.getDividerSize());
-        jsp.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        
+        eventTable.setVisible(true);
+
+        this.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0)); 
         this.setLayout(new BorderLayout());
-        this.add(jsp, BorderLayout.CENTER);
+        this.add(sPane, BorderLayout.WEST);
+        this.add(eventTable, BorderLayout.CENTER);
     }
-   
 }

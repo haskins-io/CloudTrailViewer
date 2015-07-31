@@ -24,6 +24,7 @@ import com.haskins.cloudtrailviewer.feature.SimpleTable;
 import com.haskins.cloudtrailviewer.core.EventLoader;
 import com.haskins.cloudtrailviewer.core.EventLoaderListener;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
+import com.haskins.cloudtrailviewer.feature.error.ErrorFeature;
 import com.haskins.cloudtrailviewer.feature.overview.OverviewFeature;
 import com.haskins.cloudtrailviewer.feature.user.UserFeature;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
@@ -238,6 +239,10 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         UserFeature userOverview = new UserFeature(database);
         featureMap.put(userOverview.getName(), userOverview);
         features.add((JPanel)userOverview, userOverview.getName());
+        
+        ErrorFeature errorFeature = new ErrorFeature(database);
+        featureMap.put(errorFeature.getName(), errorFeature);
+        features.add((JPanel)errorFeature, errorFeature.getName());
        
         Set<String> keys = featureMap.keySet();
         Iterator<String> it = keys.iterator();

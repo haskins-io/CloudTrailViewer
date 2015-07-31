@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature.overview;
 
+import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -43,7 +44,7 @@ public class OverviewPanel extends JPanel {
     
     private final JLabel totalLabel = new JLabel("0");
     
-    public OverviewPanel(String serviceName, OverviewFeature p) {
+    public OverviewPanel(String serviceName, Feature f) {
         
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(250,140));
@@ -64,8 +65,8 @@ public class OverviewPanel extends JPanel {
         labelPanel.add(Box.createHorizontalGlue());
         labelPanel.setOpaque(false);
         
-        awsCountPanel = new CountPanel("AWS", new Color(51, 102, 153), p);        
-        iamCountPanel = new CountPanel("IAM", new Color(102, 153, 153), p);
+        awsCountPanel = new CountPanel("AWS", new Color(51, 102, 153), f);        
+        iamCountPanel = new CountPanel("IAM", new Color(102, 153, 153), f);
       
         JPanel countsPanel = new JPanel(new GridLayout(1,2));
         countsPanel.add(awsCountPanel);

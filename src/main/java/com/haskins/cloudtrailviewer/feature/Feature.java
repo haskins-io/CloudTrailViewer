@@ -18,6 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature;
 
+import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.List;
+
 /**
  * Interface that all Features need to implement
  * 
@@ -71,4 +74,6 @@ public interface Feature {
     public void will_hide();
     
     public void will_appear();
+    
+    public void showEventsTable(List<Event> events);
 }

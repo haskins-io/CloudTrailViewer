@@ -18,7 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature;
 
+import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.GridBagLayout;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -84,6 +86,9 @@ public class NoData extends JPanel implements Feature {
     
     @Override
     public void will_appear() { }
+    
+    @Override
+    public void showEventsTable(List<Event> events) {}
     
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
