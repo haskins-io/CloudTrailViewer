@@ -84,11 +84,11 @@ public class SimpleTable extends JPanel implements Feature {
     }
     
     @Override
-    public void is_hidden() { }
+    public void will_hide() { }
     
     @Override
-    public void is_visible() {
-        tablePanel.is_visible();
+    public void will_appear() {
+        tablePanel.will_appear();
     }
 
     ////////////////////////////////////////////////////////////////////////////

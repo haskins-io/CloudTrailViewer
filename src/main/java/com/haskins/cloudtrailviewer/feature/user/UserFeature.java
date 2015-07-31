@@ -144,10 +144,10 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     }
     
     @Override
-    public void is_hidden() { }
+    public void will_hide() { }
     
     @Override
-    public void is_visible() {
+    public void will_appear() {
         
         Set<String> keys = userMap.keySet();
         List<String> sorted = GeneralUtils.asSortedList(keys);

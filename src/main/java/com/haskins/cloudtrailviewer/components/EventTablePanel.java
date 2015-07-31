@@ -106,9 +106,11 @@ public class EventTablePanel extends JPanel implements ActionListener {
         }
     }
     
-    public void is_visible() {
+    public void will_appear() {
         tableModel.reloadTableModel();
     }
+    
+    public void will_hide() { }
 
     public void clearEvents() {
         eventDb.clear();

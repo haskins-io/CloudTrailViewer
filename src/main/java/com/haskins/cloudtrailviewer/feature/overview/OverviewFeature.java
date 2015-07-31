@@ -107,10 +107,10 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     }
     
     @Override
-    public void is_hidden() { }
+    public void will_hide() { }
     
     @Override
-    public void is_visible() { }
+    public void will_appear() { }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
