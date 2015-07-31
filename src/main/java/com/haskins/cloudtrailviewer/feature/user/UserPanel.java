@@ -75,21 +75,21 @@ public class UserPanel extends JPanel {
         servicePanel.setBackground(Color.white);
         servicePanel.setOpaque(true);
         
-        Set<String> keys = eventsPerService.keySet();
-        List<String> sorted = GeneralUtils.asSortedList(keys);
-        for (String serviceName : sorted) {
-            
-            final List<Event> events = eventsPerService.get(serviceName);
-            ServiceLabel label = new ServiceLabel(serviceName, events.size());
-            label.addMouseListener(new MouseAdapter(){
-
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    parent.showEvents(events);
-                }
-            });
-            
-            servicePanel.add(label);
-        }
+//        Set<String> keys = eventsPerService.keySet();
+//        List<String> sorted = GeneralUtils.asSortedList(keys);
+//        for (String serviceName : sorted) {
+//            
+//            final List<Event> events = eventsPerService.get(serviceName);
+//            ServiceLabel label = new ServiceLabel(serviceName, events.size());
+//            label.addMouseListener(new MouseAdapter(){
+//
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//                    parent.showEvents(events);
+//                }
+//            });
+//            
+//            servicePanel.add(label);
+//        }
     }
 }

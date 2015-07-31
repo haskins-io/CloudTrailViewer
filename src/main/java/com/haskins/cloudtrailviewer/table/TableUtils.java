@@ -40,10 +40,21 @@ public class TableUtils {
         
         if (event.getUserIdentity().getType().equalsIgnoreCase("IAMUser")) {
             username = event.getUserIdentity().getUserName();
+            
         } else if (event.getUserIdentity().getType().equalsIgnoreCase("AssumedRole")) {
+            
+            if (event.getUserIdentity().getSessionContext() != null) {
+                username = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
+            } else {
+                username = event.getUserIdentity().getPrincipalId();
+            }
+                        
+        } else if (event.getUserIdentity().getType().equalsIgnoreCase("FederatedUser")) {
             username = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
+            
         } else if (event.getUserIdentity().getType().equalsIgnoreCase("Root")) {
             username = event.getUserIdentity().getInvokedBy();
+            
         } else {
             username = "";
         }

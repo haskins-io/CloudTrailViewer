@@ -23,21 +23,23 @@ import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.utils.GeneralUtils;
-import com.haskins.cloudtrailviewer.utils.TimeStampComparator;
+import com.haskins.cloudtrailviewer.thirdparty.SortedListModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.Collections;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.swing.BorderFactory;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -47,75 +49,26 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     
     public static final String NAME = "User Feature";
     
-    private final Map<String, UserPanel> userMap = new HashMap<>();
-    private final GridBagConstraints gbc = new GridBagConstraints();
+    private final Map<String, List<Event>> userMap = new HashMap<>();
+    private final SortedListModel userListModel = new SortedListModel<>();
     
-    private final JPanel userOverviewPanel = new JPanel();
+    private final Map<String, List<Event>> roleMap = new HashMap<>();
+    private final SortedListModel roleListModel = new SortedListModel<>();
+    
     private final EventTablePanel eventTable = new EventTablePanel();
-    private JSplitPane jsp;
-    
-    boolean sorted = false;
-    
+        
     public UserFeature(FilteredEventDatabase eventsDatabase) {
         
         eventsDatabase.addListener(this);
-        buidUI();
+        
+        buildUI();
     }
-    
-    private void buidUI() {
-        
-        this.setLayout(new BorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        
-        userOverviewPanel.setLayout(new GridBagLayout());
-        userOverviewPanel.setBackground(Color.white);
-        userOverviewPanel.setOpaque(true);
-       
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-
-        JScrollPane sPane = new JScrollPane(userOverviewPanel);
-        sPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        sPane.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
-        
-        eventTable.setVisible(false);
-        
-        jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, sPane, eventTable);
-        jsp.setDividerSize(0);
-        jsp.setResizeWeight(1);
-        jsp.setDividerLocation(jsp.getSize().height - jsp.getInsets().bottom - jsp.getDividerSize());
-        jsp.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        
-        this.setLayout(new BorderLayout());
-        this.add(jsp, BorderLayout.CENTER);
-    }
-    
-    public void showEvents(List<Event> events) {
-        
-        if (!sorted) {
-            Collections.sort(events, new TimeStampComparator());
-        }
-       
-        if (!eventTable.isVisible()) {
-            jsp.setDividerLocation(0.5);
-            jsp.setDividerSize(3); 
-            eventTable.setVisible(true);
-        }
-
-        eventTable.clearEvents();
-        eventTable.setEvents(events);
-    }
-    
+            
     ////////////////////////////////////////////////////////////////////////////
     ///// Feature implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void eventLoadingComplete() {
-
-    }
+    public void eventLoadingComplete() { }
 
     @Override
     public boolean providesSideBar() {
@@ -123,9 +76,7 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     }
 
     @Override
-    public void toggleSideBar() {
-        
-    }
+    public void toggleSideBar() { }
 
     @Override
     public boolean showOnToolBar() {
@@ -139,7 +90,7 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
 
     @Override
     public String getTooltip() {
-        return "View Events performs by an IAM User";
+        return "User Overview";
     }
     
     @Override
@@ -151,47 +102,149 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     public void will_hide() { }
     
     @Override
-    public void will_appear() {
-        
-        Set<String> keys = userMap.keySet();
-        List<String> sorted = GeneralUtils.asSortedList(keys);
-        
-        int count = 1;
-        for (String userName : sorted) {
-            
-            if (count == sorted.size()) {
-                gbc.weightx = 1.0;
-                gbc.weighty = 1.0;
-            }
-            
-            UserPanel component = userMap.get(userName);
-            component.buildUI();
-            
-            userOverviewPanel.add(component, gbc);
-            
-            count++;
-        }
-    }
+    public void will_appear() { }
     
     @Override
-    public void showEventsTable(List<Event> events) {}
+    public void showEventsTable(List<Event> events) {
+                
+        eventTable.clearEvents();
+        eventTable.setEvents(events);
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void eventAdded(Event event) {
-        
-        if (event.getUserIdentity().getType().equalsIgnoreCase("IAMUser")) {
+                 
+        String type = event.getUserIdentity().getType();
+        if (type.equalsIgnoreCase("IAMUser") || type.equalsIgnoreCase("AssumedRole")) {
             
-            String username = event.getUserIdentity().getUserName();
-            UserPanel component = userMap.get(username);
-            if (component == null) {
-                component = new UserPanel(this, username);
-                userMap.put(username, component);
+            if (type.equalsIgnoreCase("IAMUser")) {
+                addUser(event);
+            } else {
+                addRole(event);
             }
-            
-            component.addEvent(event);
         }
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    //////////////////////////////////////////////////////////////////////////// 
+    private void addUser(Event event) {
+        
+        String username = event.getUserIdentity().getUserName();
+        if (username == null) {
+            username = event.getUserIdentity().getPrincipalId();
+        }
+        
+        List<Event> events;
+        if (!userMap.containsKey(username)) {
+
+            events = new ArrayList();
+            userMap.put(username, events);
+            userListModel.add(username);
+
+        } else {
+            events = userMap.get(username);
+        } 
+        
+        events.add(event);
+    }
+    
+    private void addRole(Event event) {
+        
+        boolean was_role = true;
+        
+        if (event.getEventName().equalsIgnoreCase("ConsoleLogin")) {
+            was_role = false;
+            addUser(event);
+        }
+        
+        String role;
+        if (event.getUserIdentity().getSessionContext() != null) {
+            role = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
+            
+        } else {
+            role = event.getUserIdentity().getPrincipalId();
+        }
+
+        if (was_role) {
+            List<Event> events;
+            if (!roleMap.containsKey(role)) {
+
+                events = new ArrayList();
+                roleMap.put(role, events);
+                roleListModel.add(role);
+
+            } else {
+                events = roleMap.get(role);
+            }
+
+            events.add(event);
+        }
+    }
+    
+    private void buildUI() {
+
+        final JList userList = new JList(userListModel);
+        userList.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                                          
+                String selected = (String)userList.getSelectedValue();
+                
+                eventTable.clearEvents();
+                eventTable.setEvents(userMap.get(selected));
+            }
+        });
+        
+        userList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        userList.setLayoutOrientation(JList.VERTICAL);
+        userList.setVisibleRowCount(-1);
+
+        JScrollPane userPane = new JScrollPane(userList);
+        userPane.setMinimumSize(new Dimension(300, 400));
+        userPane.setPreferredSize(new Dimension(300, 400));
+        userPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        
+        final JList roleList = new JList(roleListModel);
+        roleList.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                                          
+                String selected = (String)roleList.getSelectedValue();
+                
+                eventTable.clearEvents();
+                eventTable.setEvents(roleMap.get(selected));
+            }
+        });
+        
+        roleList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        roleList.setLayoutOrientation(JList.VERTICAL);
+        roleList.setVisibleRowCount(-1);
+
+        JScrollPane rolePane = new JScrollPane(roleList);
+        rolePane.setMinimumSize(new Dimension(300, 400));
+        rolePane.setPreferredSize(new Dimension(300, 400));
+        rolePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setBackground(Color.WHITE);
+        tabbedPane.add("Users", userPane);
+        tabbedPane.add("Roles", rolePane);
+        
+        eventTable.setVisible(true);
+        
+        JSplitPane jsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, tabbedPane, eventTable);
+        jsp.setBackground(Color.WHITE);
+        jsp.setDividerSize(3);
+
+        this.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0)); 
+        this.setBackground(Color.WHITE);
+        this.setLayout(new BorderLayout());
+        this.add(jsp, BorderLayout.CENTER);
     }
 }

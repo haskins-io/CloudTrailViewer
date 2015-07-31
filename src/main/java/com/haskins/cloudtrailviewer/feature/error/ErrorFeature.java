@@ -36,7 +36,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.ListSelectionModel;
 
 /**
@@ -48,13 +47,9 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
     public static final String NAME = "Error Feature";
     
     private final Map<String, List<Event>> errorsMap = new HashMap<>();
-    
     private final SortedListModel errorListModel = new SortedListModel<>();    
-    
     private final EventTablePanel eventTable = new EventTablePanel();
-    
-    private JSplitPane jsp;
-    
+        
     public ErrorFeature(FilteredEventDatabase eventsDatabase) {
         
         eventsDatabase.addListener(this);
@@ -104,14 +99,7 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
     
     @Override
     public void showEventsTable(List<Event> events) {
-        
-        if (!eventTable.isVisible()) {
-            
-            jsp.setDividerLocation(0.5);
-            jsp.setDividerSize(3);
-            eventTable.setVisible(true);
-        }
-        
+                
         eventTable.clearEvents();
         eventTable.setEvents(events);
     }
