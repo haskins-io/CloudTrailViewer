@@ -228,7 +228,8 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         features.add((JPanel)noData, noData.getName());
         changeFeature(NoData.NAME, true);
         
-        OverviewFeature serviceOverview = new OverviewFeature(database);
+        OverviewFeature serviceOverview = new OverviewFeature();
+        database.addListener(serviceOverview);
         featureMap.put(serviceOverview.getName(), serviceOverview);
         features.add((JPanel)serviceOverview, serviceOverview.getName());
         
@@ -236,11 +237,13 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         featureMap.put(simpleTable.getName(), simpleTable);
         features.add((JPanel)simpleTable, simpleTable.getName());
         
-        UserFeature userOverview = new UserFeature(database);
+        UserFeature userOverview = new UserFeature();
+        database.addListener(userOverview);
         featureMap.put(userOverview.getName(), userOverview);
         features.add((JPanel)userOverview, userOverview.getName());
         
-        ErrorFeature errorFeature = new ErrorFeature(database);
+        ErrorFeature errorFeature = new ErrorFeature();
+        database.addListener(errorFeature);
         featureMap.put(errorFeature.getName(), errorFeature);
         features.add((JPanel)errorFeature, errorFeature.getName());
        

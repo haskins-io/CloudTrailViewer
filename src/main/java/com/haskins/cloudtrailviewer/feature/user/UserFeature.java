@@ -20,7 +20,6 @@ package com.haskins.cloudtrailviewer.feature.user;
 
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
-import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.thirdparty.SortedListModel;
@@ -57,10 +56,8 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     
     private final EventTablePanel eventTable = new EventTablePanel();
         
-    public UserFeature(FilteredEventDatabase eventsDatabase) {
-        
-        eventsDatabase.addListener(this);
-        
+    public UserFeature() {
+                
         buildUI();
     }
             
