@@ -111,6 +111,8 @@ public class EventLoader {
                         processStream(stream, request.getFilter());
                     } catch (IOException ioe) {
                         ioe.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
                 
@@ -166,6 +168,8 @@ public class EventLoader {
 
                     } catch (IOException ioe) {
                         ioe.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 

@@ -23,6 +23,7 @@ import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import com.haskins.cloudtrailviewer.thirdparty.SortedListModel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
@@ -32,7 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -49,7 +49,8 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
     
     private final Map<String, List<Event>> errorsMap = new HashMap<>();
     
-    private final DefaultListModel errorListModel = new DefaultListModel();
+    private final SortedListModel errorListModel = new SortedListModel<>();    
+    
     private final EventTablePanel eventTable = new EventTablePanel();
     
     private JSplitPane jsp;
@@ -128,9 +129,9 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
 
             if (!errorsMap.containsKey(errorName)) {
 
-                errorEvents = new ArrayList<>();
+                errorEvents = new ArrayList();
                 errorsMap.put(errorName, errorEvents);
-                errorListModel.addElement(errorName);
+                errorListModel.add(errorName);
             
             } else {
                 errorEvents = errorsMap.get(errorName);
@@ -152,10 +153,9 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
             public void mouseClicked(MouseEvent mouseEvent) {
                                           
                 String selected = (String)errorList.getSelectedValue();
-                List<Event> eEvents = errorsMap.get(selected);
                 
                 eventTable.clearEvents();
-                eventTable.setEvents(eEvents);
+                eventTable.setEvents(errorsMap.get(selected));
             }
         });
         
