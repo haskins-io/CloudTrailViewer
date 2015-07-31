@@ -25,11 +25,13 @@ import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.table.TableUtils;
+import com.haskins.cloudtrailviewer.utils.GeneralUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -125,8 +127,15 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
             servicePanel = new OverviewPanel(serviceName, this);
             
             servicesMap.put(serviceName, servicePanel);
-            servicesContainer.add(servicePanel);
             
+            servicesContainer.removeAll();
+            
+            Set keys = servicesMap.keySet();
+            List<String> sorted = GeneralUtils.asSortedList(keys);
+            for (String service : sorted) {
+                OverviewPanel panel = servicesMap.get(service);
+                servicesContainer.add(panel);
+            }            
         } else {
             servicePanel = servicesMap.get(serviceName);
         }

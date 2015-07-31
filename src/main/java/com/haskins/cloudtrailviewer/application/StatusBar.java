@@ -110,7 +110,7 @@ public class StatusBar extends JPanel {
                     long max = runtime.maxMemory() / 1024 / 1024;
                     long used = total - free;
 
-                    memory.setText(String.format("Memory Used : %sMb | Memory Free %dMb | Max Available : %dMb", used, free, max));
+                    memory.setText(String.format("Memory : Used %sMb | Free %dMb | Max Available %dMb", used, free, max));
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     
