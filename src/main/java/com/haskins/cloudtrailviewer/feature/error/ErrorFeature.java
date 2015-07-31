@@ -67,7 +67,7 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
 
     @Override
     public String getIcon() {
-        return "Service-Overview-48.png";
+        return "Error-48.png";
     }
 
     @Override
