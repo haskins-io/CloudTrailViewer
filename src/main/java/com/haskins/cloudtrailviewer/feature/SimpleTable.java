@@ -56,11 +56,6 @@ public class SimpleTable extends JPanel implements Feature {
     }
     
     @Override
-    public boolean providesSideBar() {
-        return true;
-    }
-    
-    @Override
     public boolean showOnToolBar() {
         return true;
     }
@@ -74,12 +69,7 @@ public class SimpleTable extends JPanel implements Feature {
     public String getTooltip() {
         return "Select Table view";
     }
-    
-    @Override
-    public void toggleSideBar() {
-        tablePanel.toggleSideBar();
-    } 
-    
+     
     @Override
     public String getName() {
         return SimpleTable.NAME;

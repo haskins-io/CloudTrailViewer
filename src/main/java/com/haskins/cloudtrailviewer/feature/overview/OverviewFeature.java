@@ -63,14 +63,6 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     public void eventLoadingComplete() { }
 
     @Override
-    public boolean providesSideBar() {
-        return false;
-    }
-
-    @Override
-    public void toggleSideBar() { }
-
-    @Override
     public boolean showOnToolBar() {
         return true;
     }

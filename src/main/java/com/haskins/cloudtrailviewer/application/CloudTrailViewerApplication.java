@@ -127,17 +127,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
             eventLoader.loadEventsFromS3(loadRequest);
         }
     }
-    
-    /**
-     * Causing the Sidebar to be toggle into / out of view
-     */
-    public void toggleSidebar() {
-        
-        Feature feature = featureMap.get(currentFeature);
-        feature.toggleSideBar();
-    } 
-    
-    /**
+        /**
      * Changes the feature that is visible.
      * @param name The name of the Feature to show.
      * @param loading 
@@ -154,15 +144,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
             currentFeature = name;
 
             CardLayout cl = (CardLayout)(features.getLayout());
-            cl.show(features, name);
-
-            Feature feature = featureMap.get(name);
-            feature.will_appear();
-            if (feature.providesSideBar()) {
-                sidePanelToolBar.showSideBarButton(true);
-            } else {
-                sidePanelToolBar.showSideBarButton(false);
-            }  
+            cl.show(features, name); 
         }
     }
 

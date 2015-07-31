@@ -52,15 +52,7 @@ public class NoData extends JPanel implements Feature {
     ////////////////////////////////////////////////////////////////////////////    
     @Override
     public void eventLoadingComplete() { }
-    
-    @Override
-    public void toggleSideBar() {}
-    
-    @Override
-    public boolean providesSideBar() {
-        return false;
-    }
-    
+        
     @Override
     public boolean showOnToolBar() {
         return false;

@@ -61,14 +61,6 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
     public void eventLoadingComplete() { }
 
     @Override
-    public boolean providesSideBar() {
-        return false;
-    }
-
-    @Override
-    public void toggleSideBar() { }
-
-    @Override
     public boolean showOnToolBar() {
         return true;
     }

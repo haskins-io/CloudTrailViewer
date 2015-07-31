@@ -68,14 +68,6 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     public void eventLoadingComplete() { }
 
     @Override
-    public boolean providesSideBar() {
-        return false;
-    }
-
-    @Override
-    public void toggleSideBar() { }
-
-    @Override
     public boolean showOnToolBar() {
         return true;
     }

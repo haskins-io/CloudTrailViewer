@@ -33,16 +33,6 @@ public interface Feature {
      */
     public void eventLoadingComplete();
     
-    /**
-     * Feature should return a boolean to indicate if it provides a Sidebar
-     * @return 
-     */
-    public boolean providesSideBar();
-    
-    /**
-     * 
-     */
-    public void toggleSideBar();
     
     /**
      * Feature should return a boolean to indicate if it show appear on the 
