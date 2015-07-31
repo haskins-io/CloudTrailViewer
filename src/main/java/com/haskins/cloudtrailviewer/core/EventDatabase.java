@@ -56,9 +56,7 @@ public class EventDatabase implements EventLoaderListener {
      */
     public void addEvent(Event event) {
         events.add(event);
-        
-        Collections.sort(events, new TimeStampComparator());
-        
+                
         if (this.statusBar != null) {
             this.statusBar.setLoadedEvents(this.events.size());
         }

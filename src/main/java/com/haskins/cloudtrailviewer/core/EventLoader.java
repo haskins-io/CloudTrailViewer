@@ -62,8 +62,6 @@ public class EventLoader {
     
     private final List<EventLoaderListener> listeners = new ArrayList<>();
     
-    private final ObjectMapper mapper = new ObjectMapper();
-    
     /**
      * Default Constructor
      * @param database Database that events should be added too
@@ -109,10 +107,8 @@ public class EventLoader {
                         l.processingFile(count, total);
                     }
                     
-                    try {
-                        InputStream stream = loadEventFromLocalFile(filename);
+                    try (InputStream stream = loadEventFromLocalFile(filename);) {
                         processStream(stream, request.getFilter());
-
                     } catch (IOException ioe) {
                         ioe.printStackTrace();
                     }
@@ -225,24 +221,7 @@ public class EventLoader {
         
         return jsonString;
     }
-    
-    private Records createRecords(String json_string) {
         
-        Records records = null;
-        
-        if (json_string != null) {
-            
-            try {
-                records = mapper.readValue(json_string, Records.class);
-            }
-            catch (IOException jpe) {
-                Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, jpe);
-            }  
-        }
-
-        return records;
-    }
-    
     private void processStream(InputStream stream, Filter filter) {
         
         Records records = createRecords(uncompress(stream));
@@ -259,5 +238,25 @@ public class EventLoader {
                 }
             }
         }
+    }
+    
+    private Records createRecords(String json_string) {
+        
+        Records records = null;
+        ObjectMapper mapper = new ObjectMapper();
+        
+        if (json_string != null) {
+            
+            try {
+                records = mapper.readValue(json_string, Records.class);
+                mapper = null;
+                json_string = null;
+            }
+            catch (IOException jpe) {
+                Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, jpe);
+            }  
+        }
+
+        return records;
     }
 }

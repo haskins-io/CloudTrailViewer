@@ -54,6 +54,8 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     private final EventTablePanel eventTable = new EventTablePanel();
     private JSplitPane jsp;
     
+    boolean sorted = false;
+    
     public UserFeature(FilteredEventDatabase eventsDatabase) {
         
         eventsDatabase.addListener(this);
@@ -93,8 +95,10 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     
     public void showEvents(List<Event> events) {
         
-        Collections.sort(events, new TimeStampComparator());
-
+        if (!sorted) {
+            Collections.sort(events, new TimeStampComparator());
+        }
+       
         if (!eventTable.isVisible()) {
             jsp.setDividerLocation(0.5);
             jsp.setDividerSize(3); 
