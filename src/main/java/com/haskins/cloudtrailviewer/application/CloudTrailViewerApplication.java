@@ -60,7 +60,6 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     
     private final JPanel features = new JPanel(new CardLayout());
     private final Map<String,Feature> featureMap = new LinkedHashMap<>();
-    private String currentFeature;
     
     private final StatusBar statusBar = new StatusBar();
     private final SidePanelToolBar sidePanelToolBar;
@@ -141,8 +140,6 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
                 feature.will_hide();
             }
             
-            currentFeature = name;
-
             CardLayout cl = (CardLayout)(features.getLayout());
             cl.show(features, name); 
         }
