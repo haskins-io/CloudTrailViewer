@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.core;
 
 import com.haskins.cloudtrailviewer.dialog.AwsAccount;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +37,8 @@ public class PropertiesController {
     private static PropertiesController instance = null;
     
     private final Preferences prefs = Preferences.userRoot().node("CloudTrailViewer");
+    
+    private final Map<String, String> propertiesCache = new HashMap<>();
     
     /**
      * Returns an instance of the class
@@ -55,6 +59,8 @@ public class PropertiesController {
      * @param value property to save
      */
     public void setProperty(String key, String value) {
+        
+        propertiesCache.put(key, value);
         prefs.put(key, value);
     }
     
@@ -64,7 +70,15 @@ public class PropertiesController {
      * @return 
      */
     public String getProperty(String key) {
-        return prefs.get(key, "");
+        
+        if (propertiesCache.containsKey(key)) {
+            return propertiesCache.get(key);
+        } else {
+            
+            String value = prefs.get(key, "");
+            propertiesCache.put(key, value);
+            return value;
+        }
     }
     
     /**
