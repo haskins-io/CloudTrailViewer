@@ -20,6 +20,8 @@ package com.haskins.cloudtrailviewer;
 
 import com.haskins.cloudtrailviewer.application.CloudTrailViewerApplication;
 import com.haskins.cloudtrailviewer.core.PropertiesController;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -33,7 +35,14 @@ public class CloudTrailViewer extends JFrame {
     
     private static void createAndShowGUI() {
         
-        PropertiesController.getInstance();
+        try {
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        }
+        catch (ClassNotFoundException ex) {
+            Logger.getLogger(CloudTrailViewer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        PropertiesController.getInstance().checkS3Credentials();
         
         JFrame.setDefaultLookAndFeelDecorated(true);
         
