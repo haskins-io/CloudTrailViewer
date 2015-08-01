@@ -51,6 +51,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 
 /**
@@ -68,6 +69,8 @@ public class S3FileChooser extends JDialog implements ActionListener {
     private final JList s3List;
     
     private static String prefix = "";
+    
+    private JLabel loadingLabel = new JLabel("Loading ...");
     
     /**
      * Shows the Dialog.
@@ -183,6 +186,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
         buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+        buttonPane.add(loadingLabel);
         buttonPane.add(Box.createHorizontalGlue());
         buttonPane.add(btnCancel);
         buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -195,8 +199,18 @@ public class S3FileChooser extends JDialog implements ActionListener {
  
         //Initialize values.
         pack();
-        setLocationRelativeTo(frame);          
-        reloadContents();
+        setLocationRelativeTo(frame);      
+        
+        SwingWorker worker = new SwingWorker<Void, Void>() {
+
+            @Override
+            public Void doInBackground() {
+                reloadContents();
+                return null;
+            };
+        };
+
+       worker.execute();
     }
 
     private void handleDoubleClickEvent() {
@@ -244,6 +258,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
     
     private void reloadContents() {
 
+        loadingLabel.setVisible(true);
         this.s3ListModel.clear();
 
         String bucketName = PropertiesController.getInstance().getProperty("aws.bucket");
@@ -283,6 +298,8 @@ public class S3FileChooser extends JDialog implements ActionListener {
             S3ListModel model = new S3ListModel(stripPrefix(objectSummary.getKey()), S3ListModel.FILE_DOC);
             this.s3ListModel.addElement(model);
         }
+        
+        loadingLabel.setVisible(false);
     }
 
     private String stripPrefix(String key) {
