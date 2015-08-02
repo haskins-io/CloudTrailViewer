@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.dialog;
 
-import com.haskins.cloudtrailviewer.core.PropertiesController;
+import com.haskins.cloudtrailviewer.core.PreferencesController;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -36,6 +36,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
@@ -53,7 +54,7 @@ public class AwsAccount extends JDialog implements ActionListener {
     
     private final JTextField bucket = new JTextField();
     private final JTextField key = new JTextField();
-    private final JTextField secret = new JTextField();
+    private final JPasswordField secret = new JPasswordField();
     
     /**
      * Shows the Dialog
@@ -74,9 +75,9 @@ public class AwsAccount extends JDialog implements ActionListener {
         
         if ("OK".equals(e.getActionCommand())) {
             
-            PropertiesController.getInstance().setProperty(S3_BUCKET_PROPERTY, bucket.getText());
-            PropertiesController.getInstance().setProperty(S3_KEY_PROPERTY, key.getText());
-            PropertiesController.getInstance().setProperty(S3_SECRET_PROPERTY, secret.getText());
+            PreferencesController.getInstance().setProperty(S3_BUCKET_PROPERTY, bucket.getText());
+            PreferencesController.getInstance().setProperty(S3_KEY_PROPERTY, key.getText());
+            PreferencesController.getInstance().setProperty(S3_SECRET_PROPERTY, String.valueOf(secret.getPassword()));
         }
         
         AwsAccount.dialog.setVisible(false);
@@ -99,11 +100,10 @@ public class AwsAccount extends JDialog implements ActionListener {
         JButton btnCancel = new JButton("Cancel");
         btnCancel.addActionListener(this);
         
-        
         // set existing values
-        bucket.setText(PropertiesController.getInstance().getProperty(S3_BUCKET_PROPERTY));
-        key.setText(PropertiesController.getInstance().getProperty(S3_KEY_PROPERTY));
-        secret.setText(PropertiesController.getInstance().getProperty(S3_SECRET_PROPERTY));
+        bucket.setText(PreferencesController.getInstance().getProperty(S3_BUCKET_PROPERTY));
+        key.setText(PreferencesController.getInstance().getProperty(S3_KEY_PROPERTY));
+        secret.setText(PreferencesController.getInstance().getProperty(S3_SECRET_PROPERTY));
         
         //Lay out the buttons from left to right.
         JPanel buttonPane = new JPanel();
