@@ -64,7 +64,7 @@ public class PreferencesController {
             
             if (haveDbConnection && newDb) {
                 createPreferencesTable();
-                createAccountTable();
+                createCredentialsTable();
             }
 
         }
@@ -209,21 +209,21 @@ public class PreferencesController {
         }
     }
     
-    private void createAccountTable() {
+    private void createCredentialsTable() {
         
-        StringBuilder createAccountTable = new StringBuilder();
-        createAccountTable.append("CREATE TABLE aws_account( ");
-        createAccountTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
-        createAccountTable.append("aws_name VARCHAR(50), ");
-        createAccountTable.append("aws_bucket VARCHAR(65), ");
-        createAccountTable.append("aws_key VARCHAR(30), ");
-        createAccountTable.append("aws_secret VARCHAR(50), ");
-        createAccountTable.append("aws_prefix TEXT, ");
+        StringBuilder createCredentialsTable = new StringBuilder();
+        createCredentialsTable.append("CREATE TABLE aws_credentials( ");
+        createCredentialsTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
+        createCredentialsTable.append("aws_name VARCHAR(50), ");
+        createCredentialsTable.append("aws_bucket VARCHAR(65), ");
+        createCredentialsTable.append("aws_key VARCHAR(30), ");
+        createCredentialsTable.append("aws_secret VARCHAR(50), ");
+        createCredentialsTable.append("aws_prefix TEXT, ");
         
         Statement statement = null;
         try {
             statement = dbConnection.createStatement();
-            statement.execute(createAccountTable.toString());
+            statement.execute(createCredentialsTable.toString());
             statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
