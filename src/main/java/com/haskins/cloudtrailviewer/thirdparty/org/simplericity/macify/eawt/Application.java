@@ -29,6 +29,10 @@ import java.awt.image.BufferedImage;
  *
  * The default implementation of this interface is {@link com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.DefaultApplication}.
  */
+
+/**
+ * @modifier mark.haskins
+ */
 public interface Application {
 
     static int REQUEST_USER_ATTENTION_TYPE_CRITICAL = 1 ;
@@ -171,6 +175,4 @@ public interface Application {
      * @return
      */
     boolean isMac();
-
-
 }

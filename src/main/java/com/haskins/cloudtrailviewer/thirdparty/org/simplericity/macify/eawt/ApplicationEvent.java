@@ -16,10 +16,16 @@ package com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt;
  * limitations under the License.
  */
 
+/**
+ * @modifier mark.haskins
+ */
 public interface ApplicationEvent {
+    
     String getFilename();
     boolean isHandled();
     void setHandled(boolean handled);
     Object getSource();
+    
+    @Override
     String toString();
 }

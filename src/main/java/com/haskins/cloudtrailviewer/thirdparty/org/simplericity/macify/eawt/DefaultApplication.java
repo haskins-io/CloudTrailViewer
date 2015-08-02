@@ -15,8 +15,6 @@ package com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -29,11 +27,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Implements Application by calling the Mac OS X API through reflection. If
+ * this class is used on a non-OS X platform the operations will have no effect
+ * or they will simulate what the Apple API would do for those who manipulate
+ * state. ({@link #setEnabledAboutMenu(boolean)} etc.)
+ */
 
 /**
- * Implements Application by calling the Mac OS X API through reflection.
- * If this class is used on a non-OS X platform the operations will have no effect or they will simulate
- * what the Apple API would do for those who manipulate state. ({@link #setEnabledAboutMenu(boolean)} etc.)
+ * @modifier mark.haskins
  */
 public class DefaultApplication implements Application {
 
@@ -45,9 +47,9 @@ public class DefaultApplication implements Application {
     private boolean enabledPreferencesMenu;
     private boolean aboutMenuItemPresent = true;
     private boolean preferencesMenuItemPresent;
-    private ClassLoader classLoader;
 
     public DefaultApplication() {
+        
         try {
             final File file = new File("/System/Library/Java");
             if (file.exists()) {
@@ -63,115 +65,128 @@ public class DefaultApplication implements Application {
             Class appClass = Class.forName("com.apple.eawt.Application");
             application = appClass.getMethod("getApplication", new Class[0]).invoke(null, new Object[0]);
             applicationListenerClass = Class.forName("com.apple.eawt.ApplicationListener");
-        } catch (ClassNotFoundException e) {
+        }
+        catch (ClassNotFoundException e) {
             application = null;
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (MalformedURLException e) {
+        }
+        catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException | MalformedURLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
+    @Override
     public boolean isMac() {
         return application != null;
     }
 
+    @Override
     public void addAboutMenuItem() {
         if (isMac()) {
             callMethod(application, "addAboutMenuItem");
-        } else {
+        }
+        else {
             this.aboutMenuItemPresent = true;
         }
     }
 
+    @Override
     public void addApplicationListener(ApplicationListener applicationListener) {
 
         if (!Modifier.isPublic(applicationListener.getClass().getModifiers())) {
             throw new IllegalArgumentException("ApplicationListener must be a public class");
         }
+        
         if (isMac()) {
             Object listener = Proxy.newProxyInstance(getClass().getClassLoader(),
-                    new Class[]{applicationListenerClass},
-                    new ApplicationListenerInvocationHandler(applicationListener));
+                new Class[]{applicationListenerClass},
+                new ApplicationListenerInvocationHandler(applicationListener));
 
             callMethod(application, "addApplicationListener", new Class[]{applicationListenerClass}, new Object[]{listener});
             listenerMap.put(applicationListener, listener);
-        } else {
+        }
+        else {
             listenerMap.put(applicationListener, applicationListener);
         }
     }
 
+    @Override
     public void addPreferencesMenuItem() {
         if (isMac()) {
             callMethod("addPreferencesMenuItem");
-        } else {
+        }
+        else {
             this.preferencesMenuItemPresent = true;
         }
     }
 
+    @Override
     public boolean getEnabledAboutMenu() {
         if (isMac()) {
             return callMethod("getEnabledAboutMenu").equals(Boolean.TRUE);
-        } else {
+        }
+        else {
             return enabledAboutMenu;
         }
     }
 
+    @Override
     public boolean getEnabledPreferencesMenu() {
         if (isMac()) {
             Object result = callMethod("getEnabledPreferencesMenu");
             return result.equals(Boolean.TRUE);
-        } else {
+        }
+        else {
             return enabledPreferencesMenu;
         }
     }
 
+    @Override
     public Point getMouseLocationOnScreen() {
         if (isMac()) {
             try {
                 Method method = application.getClass().getMethod("getMouseLocationOnScreen", new Class[0]);
                 return (Point) method.invoke(null, new Object[0]);
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
+            }
+            catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
-        } else {
+        }
+        else {
             return new Point(0, 0);
         }
     }
 
+    @Override
     public boolean isAboutMenuItemPresent() {
         if (isMac()) {
             return callMethod("isAboutMenuItemPresent").equals(Boolean.TRUE);
-        } else {
+        }
+        else {
             return aboutMenuItemPresent;
         }
     }
 
+    @Override
     public boolean isPreferencesMenuItemPresent() {
         if (isMac()) {
             return callMethod("isPreferencesMenuItemPresent").equals(Boolean.TRUE);
-        } else {
+        }
+        else {
             return this.preferencesMenuItemPresent;
         }
     }
 
+    @Override
     public void removeAboutMenuItem() {
         if (isMac()) {
             callMethod("removeAboutMenuItem");
-        } else {
+        }
+        else {
             this.aboutMenuItemPresent = false;
         }
     }
 
+    @Override
     public synchronized void removeApplicationListener(ApplicationListener applicationListener) {
         if (isMac()) {
             Object listener = listenerMap.get(applicationListener);
@@ -181,67 +196,69 @@ public class DefaultApplication implements Application {
         listenerMap.remove(applicationListener);
     }
 
+    @Override
     public void removePreferencesMenuItem() {
         if (isMac()) {
             callMethod("removeAboutMenuItem");
-        } else {
+        }
+        else {
             this.preferencesMenuItemPresent = false;
         }
     }
 
+    @Override
     public void setEnabledAboutMenu(boolean enabled) {
         if (isMac()) {
-            callMethod(application, "setEnabledAboutMenu", new Class[]{Boolean.TYPE}, new Object[]{Boolean.valueOf(enabled)});
-        } else {
+            callMethod(application, "setEnabledAboutMenu", new Class[]{Boolean.TYPE}, new Object[]{enabled});
+        }
+        else {
             this.enabledAboutMenu = enabled;
         }
     }
 
+    @Override
     public void setEnabledPreferencesMenu(boolean enabled) {
         if (isMac()) {
-            callMethod(application, "setEnabledPreferencesMenu", new Class[]{Boolean.TYPE}, new Object[]{Boolean.valueOf(enabled)});
-        } else {
+            callMethod(application, "setEnabledPreferencesMenu", new Class[]{Boolean.TYPE}, new Object[]{enabled});
+        }
+        else {
             this.enabledPreferencesMenu = enabled;
         }
 
     }
 
+    @Override
     public int requestUserAttention(int type) {
         if (type != REQUEST_USER_ATTENTION_TYPE_CRITICAL && type != REQUEST_USER_ATTENTION_TYPE_INFORMATIONAL) {
             throw new IllegalArgumentException("Requested user attention type is not allowed: " + type);
         }
         try {
-            Object application = getNSApplication();
-            Field critical = application.getClass().getField("UserAttentionRequestCritical");
-            Field informational = application.getClass().getField("UserAttentionRequestInformational");
+            Object nsApplication = getNSApplication();
+            Field critical = nsApplication.getClass().getField("UserAttentionRequestCritical");
+            Field informational = nsApplication.getClass().getField("UserAttentionRequestInformational");
             Field actual = type == REQUEST_USER_ATTENTION_TYPE_CRITICAL ? critical : informational;
 
-            return ((Integer) application.getClass().getMethod("requestUserAttention", new Class[]{Integer.TYPE}).invoke(application, new Object[]{actual.get(null)})).intValue();
+            return ((Integer) nsApplication.getClass().getMethod("requestUserAttention", new Class[]{Integer.TYPE}).invoke(nsApplication, new Object[]{actual.get(null)}));
 
-        } catch (ClassNotFoundException e) {
+        }
+        catch (ClassNotFoundException e) {
             return -1;
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchFieldException e) {
+        }
+        catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
     }
 
+    @Override
     public void cancelUserAttentionRequest(int request) {
         try {
-            Object application = getNSApplication();
-            application.getClass().getMethod("cancelUserAttentionRequest", new Class[]{Integer.TYPE}).invoke(application, new Object[]{new Integer(request)});
-        } catch (ClassNotFoundException e) {
+            Object nsApplication = getNSApplication();
+            nsApplication.getClass().getMethod("cancelUserAttentionRequest", new Class[]{Integer.TYPE}).invoke(nsApplication, new Object[]{request});
+        }
+        catch (ClassNotFoundException e) {
             // Nada
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
+        }
+        catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
@@ -250,15 +267,13 @@ public class DefaultApplication implements Application {
         try {
             Class applicationClass = Class.forName("com.apple.cocoa.application.NSApplication");
             return applicationClass.getMethod("sharedApplication", new Class[0]).invoke(null, new Object[0]);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
+        }
+        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
 
+    @Override
     public void setApplicationIconImage(BufferedImage image) {
         if (isMac()) {
             try {
@@ -266,18 +281,18 @@ public class DefaultApplication implements Application {
 
                 try {
                     setDockIconImage.invoke(application, image);
-                } catch (IllegalAccessException e) {
-
-                } catch (InvocationTargetException e) {
+                }
+                catch (IllegalAccessException | InvocationTargetException e) {
 
                 }
-            } catch (NoSuchMethodException mnfe) {
-
+            }
+            catch (NoSuchMethodException mnfe) {
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 try {
                     ImageIO.write(image, "png", stream);
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     throw new RuntimeException(e);
                 }
 
@@ -290,19 +305,15 @@ public class DefaultApplication implements Application {
                     Class nsImageClass = Class.forName("com.apple.cocoa.application.NSImage");
                     Object nsImage = nsImageClass.getConstructor(new Class[]{nsDataClass}).newInstance(new Object[]{nsData});
 
-                    Object application = getNSApplication();
+                    Object nsApplication = getNSApplication();
 
-                    application.getClass().getMethod("setApplicationIconImage", new Class[]{nsImageClass}).invoke(application, new Object[]{nsImage});
+                    nsApplication.getClass().getMethod("setApplicationIconImage", new Class[]{nsImageClass}).invoke(nsApplication, new Object[]{nsImage});
 
-                } catch (ClassNotFoundException e) {
+                }
+                catch (ClassNotFoundException e) {
 
-                } catch (NoSuchMethodException e) {
-                    throw new RuntimeException(e);
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                } catch (InvocationTargetException e) {
-                    throw new RuntimeException(e);
-                } catch (InstantiationException e) {
+                }
+                catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
                     throw new RuntimeException(e);
                 }
 
@@ -311,6 +322,7 @@ public class DefaultApplication implements Application {
         }
     }
 
+    @Override
     public BufferedImage getApplicationIconImage() {
         if (isMac()) {
 
@@ -318,36 +330,32 @@ public class DefaultApplication implements Application {
                 Method getDockIconImage = application.getClass().getMethod("getDockIconImage");
                 try {
                     return (BufferedImage) getDockIconImage.invoke(application);
-                } catch (IllegalAccessException e) {
-
-                } catch (InvocationTargetException e) {
+                }
+                catch (IllegalAccessException | InvocationTargetException e) {
 
                 }
-            } catch (NoSuchMethodException nsme) {
+            }
+            catch (NoSuchMethodException nsme) {
 
                 try {
                     Class nsDataClass = Class.forName("com.apple.cocoa.foundation.NSData");
                     Class nsImageClass = Class.forName("com.apple.cocoa.application.NSImage");
-                    Object application = getNSApplication();
-                    Object nsImage = application.getClass().getMethod("applicationIconImage", new Class[0]).invoke(application, new Object[0]);
+                    Object nsApplication = getNSApplication();
+                    Object nsImage = nsApplication.getClass().getMethod("applicationIconImage", new Class[0]).invoke(nsApplication, new Object[0]);
 
                     Object nsData = nsImageClass.getMethod("TIFFRepresentation", new Class[0]).invoke(nsImage, new Object[0]);
 
                     Integer length = (Integer) nsDataClass.getMethod("length", new Class[0]).invoke(nsData, new Object[0]);
-                    byte[] bytes = (byte[]) nsDataClass.getMethod("bytes", new Class[]{Integer.TYPE, Integer.TYPE}).invoke(nsData, new Object[]{Integer.valueOf(0), length});
+                    byte[] bytes = (byte[]) nsDataClass.getMethod("bytes", new Class[]{Integer.TYPE, Integer.TYPE}).invoke(nsData, new Object[]{0, length});
 
                     BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
                     return image;
 
-                } catch (ClassNotFoundException e) {
+                }
+                catch (ClassNotFoundException e) {
                     e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    throw new RuntimeException(e);
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                } catch (InvocationTargetException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
+                }
+                catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | IOException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -376,31 +384,31 @@ public class DefaultApplication implements Application {
             }
             Method addListnerMethod = object.getClass().getMethod(methodname, classes);
             return addListnerMethod.invoke(object, arguments);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
+        }
+        catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
 
     class ApplicationListenerInvocationHandler implements InvocationHandler {
-        private ApplicationListener applicationListener;
+
+        private final ApplicationListener applicationListener;
 
         ApplicationListenerInvocationHandler(ApplicationListener applicationListener) {
             this.applicationListener = applicationListener;
         }
 
+        @Override
         public Object invoke(Object object, Method appleMethod, Object[] objects) throws Throwable {
 
             ApplicationEvent event = createApplicationEvent(objects[0]);
             try {
                 Method method = applicationListener.getClass().getMethod(appleMethod.getName(), new Class[]{ApplicationEvent.class});
                 return method.invoke(applicationListener, new Object[]{event});
-            } catch (NoSuchMethodException e) {
+            }
+            catch (NoSuchMethodException e) {
                 if (appleMethod.getName().equals("equals") && objects.length == 1) {
-                    return Boolean.valueOf(object == objects[0]);
+                    return object == objects[0];
                 }
                 return null;
             }
@@ -409,6 +417,8 @@ public class DefaultApplication implements Application {
 
     private ApplicationEvent createApplicationEvent(final Object appleApplicationEvent) {
         return (ApplicationEvent) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{ApplicationEvent.class}, new InvocationHandler() {
+            
+            @Override
             public Object invoke(Object o, Method method, Object[] objects) throws Throwable {
                 return appleApplicationEvent.getClass().getMethod(method.getName(), method.getParameterTypes()).invoke(appleApplicationEvent, objects);
             }

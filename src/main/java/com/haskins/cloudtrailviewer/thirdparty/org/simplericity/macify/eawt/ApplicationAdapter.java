@@ -16,33 +16,29 @@ package com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt;
  * limitations under the License.
  */
 
+/**
+ * @modifier mark.haskins
+ */
 public class ApplicationAdapter implements ApplicationListener {
 
-    public void handleQuit(ApplicationEvent event) {
-        
-    }
+    @Override
+    public void handleQuit(ApplicationEvent event) {}
 
-    public void handleAbout(ApplicationEvent event) {
+    @Override
+    public void handleAbout(ApplicationEvent event) {}
 
-    }
+    @Override
+    public void handleOpenApplication(ApplicationEvent event) {}
 
-    public void handleOpenApplication(ApplicationEvent event) {
+    @Override
+    public void handleOpenFile(ApplicationEvent event) {}
 
-    }
+    @Override
+    public void handlePreferences(ApplicationEvent event) {}
 
-    public void handleOpenFile(ApplicationEvent event) {
+    @Override
+    public void handlePrintFile(ApplicationEvent event) {}
 
-    }
-
-    public void handlePreferences(ApplicationEvent event) {
-
-    }
-
-    public void handlePrintFile(ApplicationEvent event) {
-
-    }
-
-    public void handleReOpenApplication(ApplicationEvent event) {
-        
-    }
+    @Override
+    public void handleReOpenApplication(ApplicationEvent event) {}
 }

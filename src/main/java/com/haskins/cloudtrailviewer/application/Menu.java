@@ -18,11 +18,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.application;
 
+import com.haskins.cloudtrailviewer.CloudTrailViewer;
+import com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.Application;
+import com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.ApplicationEvent;
+import com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.ApplicationListener;
+import com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.DefaultApplication;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -30,33 +36,84 @@ import javax.swing.JMenuItem;
  * 
  * @author mark
  */
-public class Menu extends JMenuBar {
+public class Menu extends JMenuBar implements ApplicationListener {
 
+    private final Application application;
+    
     /**
      * Default Constructor
      */
     public Menu() {
         
+        this.application = new DefaultApplication();
+        application.addApplicationListener(this);
+        application.addPreferencesMenuItem();
+        application.setEnabledPreferencesMenu(true);
+        
         buildMenu();
     }
+    
+    @Override
+    public void handleAbout(ApplicationEvent event) {}
+    
+    @Override
+    public void handleOpenApplication(ApplicationEvent event) {}
+    
+    @Override
+    public void handleOpenFile(ApplicationEvent event) {}
+    
+    @Override
+    public void handlePreferences(ApplicationEvent event) {}
+    
+    @Override
+    public void handlePrintFile(ApplicationEvent event) {}
+    
+    @Override
+    public void handleQuit(ApplicationEvent event) {
+        handleCloseApplication();
+    }
+    
+    @Override
+    public void handleReOpenApplication(ApplicationEvent event) {}
     
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     ////////////////////////////////////////////////////////////////////////////
     private void buildMenu() {
         
-        // -- Menu : File
-        JMenu menuFile = new JMenu("File");
-        JMenuItem exit = new JMenuItem(new AbstractAction("Exit") {
+        if (!application.isMac()) {
             
-            @Override
-            public void actionPerformed(ActionEvent t) {
+            // -- Menu : File
+            JMenu menuFile = new JMenu("File");
+            JMenuItem exit = new JMenuItem(new AbstractAction("Exit") {
+
+                @Override
+                public void actionPerformed(ActionEvent t) {
+                    handleCloseApplication();
+                }
+            });
+
+            menuFile.add(exit);
+
+            this.add(menuFile);
+        }
+    }
+    
+    private void handleCloseApplication() {
+        
+        Object[] options = {"Yes", "No"};
+            
+        if(JOptionPane.showOptionDialog(
+            CloudTrailViewer.frame, 
+            "Are you sure you want to quit?",
+            "Quit?",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options,
+            null) == JOptionPane.OK_OPTION) {
+            
                 System.exit(0);
-            }
-        });
-        
-        menuFile.add(exit);
-        
-        this.add(menuFile);
+        }
     }
 }
