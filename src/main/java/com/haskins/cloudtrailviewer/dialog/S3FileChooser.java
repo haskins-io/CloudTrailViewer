@@ -25,7 +25,8 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.haskins.cloudtrailviewer.core.PropertiesController;
+import com.haskins.cloudtrailviewer.core.PreferencesController;
+import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import static java.awt.Component.LEFT_ALIGNMENT;
@@ -50,6 +51,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
@@ -81,7 +83,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
         
         selectedKeys.clear();
         
-        String s3_location = PropertiesController.getInstance().getProperty("S3_Location");
+        String s3_location = PreferencesController.getInstance().getProperty("S3_Location");
         if (s3_location != null) {
             prefix = s3_location;
         }
@@ -104,7 +106,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
             addSelectedKeys();
         }
         
-        PropertiesController.getInstance().setProperty("S3_Location", prefix);
+        PreferencesController.getInstance().setProperty("S3_Location", prefix);
         S3FileChooser.dialog.setVisible(false);
     }
 
@@ -194,6 +196,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
  
         //Put everything together, using the content pane's BorderLayout.
         Container contentPane = getContentPane();
+        contentPane.add(getToolbar(), BorderLayout.PAGE_START);
         contentPane.add(listPane, BorderLayout.CENTER);
         contentPane.add(buttonPane, BorderLayout.PAGE_END);
  
@@ -250,7 +253,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
             else {
                 addSelectedKeys();  
                 
-                PropertiesController.getInstance().setProperty("S3_Location", prefix);
+                PreferencesController.getInstance().setProperty("S3_Location", prefix);
                 S3FileChooser.dialog.setVisible(false);
             }
         }
@@ -261,7 +264,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
         loadingLabel.setVisible(true);
         this.s3ListModel.clear();
 
-        String bucketName = PropertiesController.getInstance().getProperty("aws.bucket");
+        String bucketName = PreferencesController.getInstance().getProperty("aws.bucket");
 
         ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
         listObjectsRequest.setBucketName(bucketName);
@@ -269,8 +272,8 @@ public class S3FileChooser extends JDialog implements ActionListener {
         listObjectsRequest.setDelimiter("/");
 
         AWSCredentials credentials= new BasicAWSCredentials(
-            PropertiesController.getInstance().getProperty("aws.key"),
-            PropertiesController.getInstance().getProperty("aws.secret")
+            PreferencesController.getInstance().getProperty("aws.key"),
+            PreferencesController.getInstance().getProperty("aws.secret")
         );
 
         AmazonS3 s3Client = new AmazonS3Client(credentials);
@@ -327,6 +330,27 @@ public class S3FileChooser extends JDialog implements ActionListener {
 
             selectedKeys.add(S3FileChooser.prefix + key.getText());
         }
+    }
+    
+    private JToolBar getToolbar() {
+        
+        JToolBar toolbar = new JToolBar();
+        toolbar.setFloatable(false);
+        
+        JButton btnHome = new JButton();
+        ToolBarUtils.addImageToButton(btnHome, "Home-32.png", "Home", "Home");
+        btnHome.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                prefix = "";
+                reloadContents();
+            }
+        }); 
+        
+        toolbar.add(btnHome);
+        
+        return toolbar;
     }
     
     ////////////////////////////////////////////////////////////////////////////
