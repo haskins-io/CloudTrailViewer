@@ -5,6 +5,7 @@
  */
 package com.haskins.cloudtrailviewer.feature.security;
 
+import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.List;
@@ -14,8 +15,10 @@ import javax.swing.JPanel;
  *
  * @author mark.haskins
  */
-public class SecurityFeature extends JPanel implements Feature {
+public class SecurityFeature extends JPanel implements Feature, EventDatabaseListener {
 
+    public static final String NAME = "Security Feature";
+    
     public SecurityFeature() {
         
     }
@@ -33,12 +36,12 @@ public class SecurityFeature extends JPanel implements Feature {
 
     @Override
     public String getIcon() {
-        return "";
+        return "Warning-48.png";
     }
 
     @Override
     public String getTooltip() {
-        return "";
+        return "Potential Security Issues";
     }
 
     @Override
@@ -50,4 +53,17 @@ public class SecurityFeature extends JPanel implements Feature {
     @Override
     public void showEventsTable(List<Event> events) { }
     
+    @Override
+    public String getName() {
+        return SecurityFeature.NAME;
+    }
+    
+
+    ////////////////////////////////////////////////////////////////////////////
+    ///// EventDatabaseListener implementation
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void eventAdded(Event event) {
+                 
+    }
 }
