@@ -81,6 +81,7 @@ public class SimpleTable extends JPanel implements Feature {
     @Override
     public void will_appear() {
         tablePanel.will_appear();
+        this.revalidate();
     }
     
     @Override
