@@ -23,6 +23,7 @@ import java.util.List;
  * @author Stephen Kelvin, mail@StephenKelvin.de
  * @see DefaultTableColumnModel
  */
+
 /**
  * @modifier mark.haskins
  */

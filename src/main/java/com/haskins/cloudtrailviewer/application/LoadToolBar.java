@@ -20,7 +20,7 @@ package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.dialog.S3FileChooser;
-import com.haskins.cloudtrailviewer.core.PropertiesController;
+import com.haskins.cloudtrailviewer.core.PreferencesController;
 import com.haskins.cloudtrailviewer.dialog.AwsAccount;
 import com.haskins.cloudtrailviewer.dialog.SearchOptions;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
@@ -176,7 +176,7 @@ public class LoadToolBar extends JToolBar {
     
     private void loadS3files(Filter filter) {
         
-        if (PropertiesController.getInstance().checkS3Credentials()) {
+        if (PreferencesController.getInstance().checkS3Credentials()) {
 
             final List<String> files = S3FileChooser.showDialog(CloudTrailViewer.frame);
             if (!files.isEmpty()) {
@@ -187,7 +187,7 @@ public class LoadToolBar extends JToolBar {
             
             AwsAccount.showDialog(CloudTrailViewer.frame);
             
-            if (PropertiesController.getInstance().checkS3Credentials()) {
+            if (PreferencesController.getInstance().checkS3Credentials()) {
                 
                 final List<String> files = S3FileChooser.showDialog(CloudTrailViewer.frame);
                 if (!files.isEmpty()) {

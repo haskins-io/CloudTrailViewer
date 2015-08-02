@@ -30,7 +30,6 @@ import com.haskins.cloudtrailviewer.feature.user.UserFeature;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
-import com.haskins.cloudtrailviewer.utils.GeneralUtils;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -46,22 +45,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.Application;
-import com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.ApplicationEvent;
-import com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.ApplicationListener;
-import com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.DefaultApplication;
 
 /**
  * Main Application class, in some ways it acts as a Controller to controller the views (or features).
  * 
  * @author mark
  */
-public class CloudTrailViewerApplication extends JFrame implements EventLoaderListener, ApplicationListener {
+public class CloudTrailViewerApplication extends JFrame implements EventLoaderListener {
         
-    private Application application;
-    
     private final FilteredEventDatabase database ;
     private final EventLoader eventLoader;
     
@@ -88,29 +80,10 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         
         sidePanelToolBar = new SidePanelToolBar(this);
         featureToolBar = new FeatureToolBar(this);
-        
-        this.application = new DefaultApplication();
-        application.addApplicationListener(this);
-        application.addPreferencesMenuItem();
-        application.setEnabledPreferencesMenu(true);
-        
+                
         defineFeatures();
         buildUI();
     }
-
-    public void handleAbout(ApplicationEvent event) {}
-    public void handleOpenApplication(ApplicationEvent event) {}
-    public void handleOpenFile(ApplicationEvent event) {}
-    public void handlePreferences(ApplicationEvent event) {}
-    public void handlePrintFile(ApplicationEvent event) {}
-    
-    public void handleQuit(ApplicationEvent event) {
-        if(JOptionPane.showConfirmDialog(CloudTrailViewerApplication.this, "Are you sure you want to quit?") == JOptionPane.OK_OPTION) {
-            CloudTrailViewerApplication.this.dispose();
-            System.exit(0);
-        }
-    }
-    public void handleReOpenApplication(ApplicationEvent event) {}
     
     /**
      * Loads files from the local file system.
@@ -207,12 +180,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
 
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
-        
-        if (!application.isMac()) {
-            Menu menu = new Menu();    
-            topPanel.add(menu, BorderLayout.NORTH);
-        }
-        
+                
         JPanel toolbars = new JPanel(new GridLayout(1, 3));
         toolbars.setBackground(Color.WHITE);
         toolbars.add(new LoadToolBar(this));

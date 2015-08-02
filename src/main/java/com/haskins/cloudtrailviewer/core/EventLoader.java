@@ -141,12 +141,12 @@ public class EventLoader {
                 int count = 0;
                 
                 AWSCredentials credentials= new BasicAWSCredentials(
-                    PropertiesController.getInstance().getProperty("aws.key"),
-                    PropertiesController.getInstance().getProperty("aws.secret")
+                    PreferencesController.getInstance().getProperty("aws.key"),
+                    PreferencesController.getInstance().getProperty("aws.secret")
                 );
 
                 AmazonS3 s3Client = new AmazonS3Client(credentials);
-                String bucketName = PropertiesController.getInstance().getProperty("aws.bucket");
+                String bucketName = PreferencesController.getInstance().getProperty("aws.bucket");
                 
                 if (request.getFilter() == null) {
                     request.setFilter(new AllFilter());

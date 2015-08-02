@@ -19,9 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer;
 
 import com.haskins.cloudtrailviewer.application.CloudTrailViewerApplication;
-import com.haskins.cloudtrailviewer.core.PropertiesController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.haskins.cloudtrailviewer.application.Menu;
+import com.haskins.cloudtrailviewer.core.PreferencesController;
 import javax.swing.JFrame;
 
 /**
@@ -34,17 +33,13 @@ public class CloudTrailViewer extends JFrame {
     public static final CloudTrailViewerApplication frame = new CloudTrailViewerApplication();
     
     private static void createAndShowGUI() {
-        
-        try {
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-        }
-        catch (ClassNotFoundException ex) {
-            Logger.getLogger(CloudTrailViewer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        PropertiesController.getInstance().checkS3Credentials();
+                
+        PreferencesController.getInstance();
         
         JFrame.setDefaultLookAndFeelDecorated(true);
+        
+        Menu menu = new Menu();    
+        frame.setJMenuBar(menu);
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
