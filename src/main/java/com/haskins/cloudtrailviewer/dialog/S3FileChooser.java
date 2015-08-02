@@ -138,7 +138,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
                     
                 } else if (mouseEvent.getClickCount() == 1) {
                     
-                    String selected = ((S3ListModel)s3List.getSelectedValue()).getText();
+                    String selected = ((S3ListModel)s3List.getSelectedValue()).getPath();
                     
                     if (selected.contains("/")) {
                         btnLoad.setEnabled(false);
@@ -168,7 +168,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
                     label.setIcon(UIManager.getIcon("FileView.fileIcon"));
                 }
                 
-                label.setText(model.getText());
+                label.setText(model.getPath());
                 
                 return label;
             }
@@ -218,7 +218,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
 
     private void handleDoubleClickEvent() {
         
-        String selected = ((S3ListModel)s3List.getSelectedValue()).getText();
+        String selected = ((S3ListModel)s3List.getSelectedValue()).getPath();
         
         if (selected.equalsIgnoreCase(MOVE_BACK)) {
            
@@ -282,7 +282,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
 
         // Add .. if not at root
         if (prefix.trim().length() != 0) {
-            S3ListModel model = new S3ListModel(MOVE_BACK, S3ListModel.FILE_BACK);
+            S3ListModel model = new S3ListModel(MOVE_BACK, "", S3ListModel.FILE_BACK);
             this.s3ListModel.addElement(model);
         }
         
@@ -290,7 +290,16 @@ public class S3FileChooser extends JDialog implements ActionListener {
         List<String> directories = objectListing.getCommonPrefixes();
         for (String directory : directories) {
 
-            S3ListModel model = new S3ListModel(stripPrefix(directory), S3ListModel.FILE_DIR);
+            String dir = stripPrefix(directory);
+            int lastSlash = dir.lastIndexOf("/");
+            String strippeDir = dir.substring(0,lastSlash);
+            
+            String alias = null;
+            if (isAccountNumber(strippeDir)) {
+                // look up to see if there is an alias
+            }
+            
+            S3ListModel model = new S3ListModel(dir, alias, S3ListModel.FILE_DIR);
             this.s3ListModel.addElement(model);
         }
 
@@ -298,7 +307,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
         List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
         for (final S3ObjectSummary objectSummary : objectSummaries) {
 
-            S3ListModel model = new S3ListModel(stripPrefix(objectSummary.getKey()), S3ListModel.FILE_DOC);
+            S3ListModel model = new S3ListModel(stripPrefix(objectSummary.getKey()), "", S3ListModel.FILE_DOC);
             this.s3ListModel.addElement(model);
         }
         
@@ -328,7 +337,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
         List<S3ListModel> selectedItems = s3List.getSelectedValuesList();
         for (S3ListModel key : selectedItems) {
 
-            selectedKeys.add(S3FileChooser.prefix + key.getText());
+            selectedKeys.add(S3FileChooser.prefix + key.getPath());
         }
     }
     
@@ -353,6 +362,21 @@ public class S3FileChooser extends JDialog implements ActionListener {
         return toolbar;
     }
     
+    private boolean isAccountNumber(String accountnumber) {
+        
+        boolean isAccountNumber = false;
+        
+        if (accountnumber.length() == 12) {
+            
+            try {
+                Integer.parseInt(accountnumber);
+                isAccountNumber = true;
+            } catch (Exception e) { }
+        }
+        
+        return isAccountNumber;
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
     // Model class
     ////////////////////////////////////////////////////////////////////////////
@@ -362,17 +386,23 @@ public class S3FileChooser extends JDialog implements ActionListener {
         public static final int FILE_DIR = 1;
         public static final int FILE_DOC = 2;
         
-        private final String text;
+        private final String path;
+        private final String alias;
         private final int fileType;
         
-        S3ListModel(String text, int fileType) {
-            this.text = text;
+        S3ListModel(String path, String alias, int fileType) {
+            this.path = path;
+            this.alias = alias;
             this.fileType = fileType;
         }
         
-        public String getText() {
-            return this.text;
+        public String getPath() {
+            return this.path;
         }
+        public String getAlias() {
+            return this.alias;
+        }
+        
         public int getFileType() {
             return this.fileType;
         }
