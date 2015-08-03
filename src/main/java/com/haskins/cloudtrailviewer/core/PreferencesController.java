@@ -18,16 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.core;
 
-import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.dialog.AwsAccountDialog;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,39 +33,13 @@ import java.util.regex.Pattern;
  * @author mark
  */
 public class PreferencesController {
-        
-    private boolean haveDbConnection = false;
-    private boolean newDb = false;
-    
-    private static final String DB_USER = "ctv_user";
-    private static final String DB_PASS = "spey4PHa";
-    
+            
     private static PreferencesController instance = null;
-    
-    private Connection dbConnection;
-    
+        
     private final Preferences prefs = Preferences.userRoot().node("CloudTrailViewer");
     
     private final Map<String, String> propertiesCache = new HashMap<>();
-    
-    public PreferencesController() {
         
-        try {
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-            
-            getDbConnection();
-            
-            if (haveDbConnection && newDb) {
-                createPreferencesTable();
-                createCredentialsTable();
-            }
-
-        }
-        catch (ClassNotFoundException ex) {
-            Logger.getLogger(CloudTrailViewer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
     /**
      * Returns an instance of the class
      * @return 
@@ -155,78 +122,5 @@ public class PreferencesController {
         }
         
         return validS3Credentials;
-    }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    ////////////////////////////////////////////////////////////////////////////    
-    private void getDbConnection() {
-
-        String userHomeDir = System.getProperty("user.home", ".");
-        String systemDir = userHomeDir + "/.cloudtrailviewer";
-        
-        StringBuilder url = new StringBuilder();
-        url.append("jdbc:derby:");
-        url.append(systemDir);
-        url.append(";user=");
-        url.append(DB_USER);
-        url.append(";password=");
-        url.append(DB_PASS);
-               
-        try {
-            dbConnection = DriverManager.getConnection(url.toString());
-            haveDbConnection = true;
-        }
-        catch (SQLException ex) {
-
-            url.append(";create=true");
-            try {
-                dbConnection = DriverManager.getConnection(url.toString());
-                haveDbConnection = true;
-                newDb = false;
-            }
-            catch (SQLException ex1) {
-                Logger.getLogger(PreferencesController.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        }
-    }
-    
-    private void createPreferencesTable() {
-        
-        StringBuilder createPrefTable = new StringBuilder();
-        createPrefTable.append("CREATE TABLE ctv_preferences( ");
-        createPrefTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
-        createPrefTable.append("ctv_key VARCHAR(100), ");
-        createPrefTable.append("ctv_vallue TEXT)");
-        
-        Statement statement = null;
-        try {
-            statement = dbConnection.createStatement();
-            statement.execute(createPrefTable.toString());
-            statement.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
-    private void createCredentialsTable() {
-        
-        StringBuilder createCredentialsTable = new StringBuilder();
-        createCredentialsTable.append("CREATE TABLE aws_credentials( ");
-        createCredentialsTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
-        createCredentialsTable.append("aws_name VARCHAR(50), ");
-        createCredentialsTable.append("aws_bucket VARCHAR(65), ");
-        createCredentialsTable.append("aws_key VARCHAR(30), ");
-        createCredentialsTable.append("aws_secret VARCHAR(50), ");
-        createCredentialsTable.append("aws_prefix TEXT, ");
-        
-        Statement statement = null;
-        try {
-            statement = dbConnection.createStatement();
-            statement.execute(createCredentialsTable.toString());
-            statement.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
     }
 }
