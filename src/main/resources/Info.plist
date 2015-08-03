@@ -21,7 +21,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>${version}</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>${version}</string>
 	<key>CFBundleDisplayName</key>
 	<string>${bundleName}</string>
 	<key>NSHighResolutionCapable</key>
