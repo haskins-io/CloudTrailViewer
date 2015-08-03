@@ -16,10 +16,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.db;
+package com.haskins.cloudtrailviewer.core;
 
-import com.haskins.cloudtrailviewer.core.PreferencesController;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,6 +38,13 @@ public class DbManager {
     public static final String DB_USER = "ctv_user";
     public static final String DB_PASS = "247spey4PHa203";
             
+    private DbManager() {
+        
+        if (getDbConnection() == null) {
+            createVersion1(0);
+        }
+    }
+    
     public static DbManager getInstance() {
 
         if (instance == null) {
@@ -99,6 +106,22 @@ public class DbManager {
         } 
     }
     
+    private boolean doesTableExists(Connection conn, String tablename) {
+        
+        boolean doesTableExist = false;
+        
+        try {
+            DatabaseMetaData dbm = conn.getMetaData();
+            ResultSet tables = dbm.getTables(null, null, tablename, null);
+            doesTableExist = true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return doesTableExist;
+    }
+    
     private Connection getDbConnection() {
         
         Connection conn = null;
@@ -119,10 +142,10 @@ public class DbManager {
         StringBuilder url = new StringBuilder();
         url.append("jdbc:derby:");
         url.append(systemDir);
-        url.append(";user=");
-        url.append(DB_USER);
-        url.append(";password=");
-        url.append(DB_PASS);
+//        url.append(";user=");
+//        url.append(DB_USER);
+//        url.append(";password=");
+//        url.append(DB_PASS);
         
         return url.toString();
     }
@@ -159,39 +182,49 @@ public class DbManager {
             }
             
             if (conn != null) {
-                                
+                         
                 // Primary Preferences table
-                StringBuilder createPrefTable = new StringBuilder();
-                createPrefTable.append("CREATE TABLE ctv_preferences( ");
-                createPrefTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
-                createPrefTable.append("ctv_key VARCHAR(100), ");
-                createPrefTable.append("ctv_vallue TEXT)");
+                if (!doesTableExists(conn, "ctv_preferences")) {
 
-                doExecute(createPrefTable.toString());
+                    
+                    StringBuilder createPrefTable = new StringBuilder();
+                    createPrefTable.append("CREATE TABLE ctv_preferences ( ");
+                    createPrefTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
+                    createPrefTable.append("ctv_key VARCHAR(100), ");
+                    createPrefTable.append("ctv_value LONGVARCHAR)");
+
+                    doExecute(createPrefTable.toString());
+                }
+                
 
                 // AWS credentials table
-                StringBuilder createCredentialsTable = new StringBuilder();
-                createCredentialsTable.append("CREATE TABLE aws_credentials( ");
-                createCredentialsTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
-                createCredentialsTable.append("aws_name VARCHAR(50), ");
-                createCredentialsTable.append("aws_bucket VARCHAR(65), ");
-                createCredentialsTable.append("aws_key VARCHAR(30), ");
-                createCredentialsTable.append("aws_secret VARCHAR(50), ");
-                createCredentialsTable.append("aws_prefix TEXT)");
+                if (!doesTableExists(conn, "aws_credentials")) {
+                    
+                    StringBuilder createCredentialsTable = new StringBuilder();
+                    createCredentialsTable.append("CREATE TABLE aws_credentials ( ");
+                    createCredentialsTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
+                    createCredentialsTable.append("aws_name VARCHAR(50), ");
+                    createCredentialsTable.append("aws_bucket VARCHAR(65), ");
+                    createCredentialsTable.append("aws_key VARCHAR(30), ");
+                    createCredentialsTable.append("aws_secret VARCHAR(50), ");
+                    createCredentialsTable.append("aws_prefix LONGVARCHAR)");
 
-                doExecute(createCredentialsTable.toString());
+                    doExecute(createCredentialsTable.toString());
+                }
                
-
-                // Version table
-                StringBuilder createVersionTable = new StringBuilder();
-                createVersionTable.append("CREATE TABLE db_properties( ");
-                createVersionTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
-                createVersionTable.append("db_version INT)");
-
-                doExecute(createVersionTable.toString());
                 
-                String insertQuery = "INSERT INTO db_properties (db_version) VALUES 1";
-                doInsertUpdate(insertQuery);
+                // Version table
+                if (!doesTableExists(conn, "db_properties")) {
+                    StringBuilder createVersionTable = new StringBuilder();
+                    createVersionTable.append("CREATE TABLE db_properties ( ");
+                    createVersionTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
+                    createVersionTable.append("db_version INT)");
+
+                    doExecute(createVersionTable.toString());
+                    
+                    String insertQuery = "INSERT INTO db_properties (db_version) VALUES 1";
+                    doInsertUpdate(insertQuery);
+                }
                 
                 currentVersion++;
             }

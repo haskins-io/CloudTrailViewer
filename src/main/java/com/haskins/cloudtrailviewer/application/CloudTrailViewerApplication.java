@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.application;
 
+import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.feature.NoData;
 import com.haskins.cloudtrailviewer.feature.SimpleTable;
@@ -73,7 +74,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     public CloudTrailViewerApplication() {
         
         super("CloudTrail Analyser");
-        
+                
         database = new FilteredEventDatabase(filter, statusBar);
         
         eventLoader = new EventLoader(database);

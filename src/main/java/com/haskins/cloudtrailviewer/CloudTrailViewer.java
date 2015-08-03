@@ -20,6 +20,7 @@ package com.haskins.cloudtrailviewer;
 
 import com.haskins.cloudtrailviewer.application.CloudTrailViewerApplication;
 import com.haskins.cloudtrailviewer.application.Menu;
+import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.core.PreferencesController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +43,9 @@ public class CloudTrailViewer extends JFrame {
         catch (ClassNotFoundException ex) {
             Logger.getLogger(CloudTrailViewer.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        DbManager.getInstance();
+//        DbManager.getInstance().sync();
         
         PreferencesController.getInstance();
         
