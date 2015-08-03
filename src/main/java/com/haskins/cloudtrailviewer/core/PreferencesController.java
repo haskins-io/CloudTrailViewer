@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.core;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
-import com.haskins.cloudtrailviewer.dialog.AwsAccount;
+import com.haskins.cloudtrailviewer.dialog.AwsAccountDialog;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -130,23 +130,23 @@ public class PreferencesController {
         Pattern secretPattern = Pattern.compile(secretRegex);
         
         boolean keyOK = false;
-        if (getProperty(AwsAccount.S3_KEY_PROPERTY) != null) {
-            Matcher keyMatcher = keyPattern.matcher(getProperty(AwsAccount.S3_KEY_PROPERTY));
+        if (getProperty(AwsAccountDialog.S3_KEY_PROPERTY) != null) {
+            Matcher keyMatcher = keyPattern.matcher(getProperty(AwsAccountDialog.S3_KEY_PROPERTY));
             if (keyMatcher.matches()) {
                 keyOK = true;
             }  
         }
         
         boolean secretOK = false;
-        if (getProperty(AwsAccount.S3_SECRET_PROPERTY) != null) {
-            Matcher secretMatcher = secretPattern.matcher(getProperty(AwsAccount.S3_SECRET_PROPERTY));
+        if (getProperty(AwsAccountDialog.S3_SECRET_PROPERTY) != null) {
+            Matcher secretMatcher = secretPattern.matcher(getProperty(AwsAccountDialog.S3_SECRET_PROPERTY));
             if (secretMatcher.matches()) {
                 secretOK = true;
             }
         }
 
         boolean bucketProvided = false;
-        if (getProperty(AwsAccount.S3_BUCKET_PROPERTY) != null && getProperty(AwsAccount.S3_BUCKET_PROPERTY).length() >= 3) {
+        if (getProperty(AwsAccountDialog.S3_BUCKET_PROPERTY) != null && getProperty(AwsAccountDialog.S3_BUCKET_PROPERTY).length() >= 3) {
             bucketProvided = true;
         }
         

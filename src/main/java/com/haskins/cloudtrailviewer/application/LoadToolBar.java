@@ -21,7 +21,7 @@ package com.haskins.cloudtrailviewer.application;
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.dialog.S3FileChooser;
 import com.haskins.cloudtrailviewer.core.PreferencesController;
-import com.haskins.cloudtrailviewer.dialog.AwsAccount;
+import com.haskins.cloudtrailviewer.dialog.AwsAccountDialog;
 import com.haskins.cloudtrailviewer.dialog.SearchOptions;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
@@ -185,7 +185,7 @@ public class LoadToolBar extends JToolBar {
             
         } else {
             
-            AwsAccount.showDialog(CloudTrailViewer.frame);
+            AwsAccountDialog.showDialog(CloudTrailViewer.frame);
             
             if (PreferencesController.getInstance().checkS3Credentials()) {
                 

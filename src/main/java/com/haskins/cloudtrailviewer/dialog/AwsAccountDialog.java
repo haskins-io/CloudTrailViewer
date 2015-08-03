@@ -44,13 +44,13 @@ import javax.swing.JTextField;
  * 
  * @author mark
  */
-public class AwsAccount extends JDialog implements ActionListener {
+public class AwsAccountDialog extends JDialog implements ActionListener {
 
     public static final String S3_BUCKET_PROPERTY = "aws.bucket";
     public static final String S3_KEY_PROPERTY = "aws.key";
     public static final String S3_SECRET_PROPERTY = "aws.secret";
     
-    private static AwsAccount dialog;
+    private static AwsAccountDialog dialog;
     
     private final JTextField bucket = new JTextField();
     private final JTextField key = new JTextField();
@@ -63,13 +63,13 @@ public class AwsAccount extends JDialog implements ActionListener {
     public static void showDialog(Component parent) {
         
         Frame frame = JOptionPane.getFrameForComponent(parent);
-        dialog = new AwsAccount(frame);
+        dialog = new AwsAccountDialog(frame);
         dialog.setVisible(true);
     }
     
     ////////////////////////////////////////////////////////////////////////////
     // ActionListener methods
-    ///////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
     @Override
     public void actionPerformed(ActionEvent e) {
         
@@ -80,13 +80,13 @@ public class AwsAccount extends JDialog implements ActionListener {
             PreferencesController.getInstance().setProperty(S3_SECRET_PROPERTY, String.valueOf(secret.getPassword()));
         }
         
-        AwsAccount.dialog.setVisible(false);
+        AwsAccountDialog.dialog.setVisible(false);
     }
     
     ////////////////////////////////////////////////////////////////////////////
     // Private methods
     ///////////////////////////////////////////////////////////////////////////
-    private AwsAccount(Frame frame) {
+    private AwsAccountDialog(Frame frame) {
 
         super(frame, "AWS Account", true);
         
