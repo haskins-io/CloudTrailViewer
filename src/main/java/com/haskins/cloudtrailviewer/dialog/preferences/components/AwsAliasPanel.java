@@ -20,6 +20,8 @@ package com.haskins.cloudtrailviewer.dialog.preferences.components;
 
 import com.haskins.cloudtrailviewer.dialog.preferences.Preferences;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,12 +29,16 @@ import javax.swing.JPanel;
  */
 public class AwsAliasPanel extends JPanel implements Preferences {
 
+    private final DefaultTableModel defaultTableModel = new DefaultTableModel();  
+    
     public AwsAliasPanel() {
         
         buildUI();
     }
     
     private void buildUI() {
+        
+        JTable table = new JTable(defaultTableModel);
         
     }
     
