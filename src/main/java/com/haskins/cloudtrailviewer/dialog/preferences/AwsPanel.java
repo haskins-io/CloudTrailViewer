@@ -17,12 +17,34 @@
 
 package com.haskins.cloudtrailviewer.dialog.preferences;
 
+import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 /**
  *
  * @author mark.haskins
  */
-public class AwsPanel extends JPanel {
+public class AwsPanel extends JPanel implements Preferences {
     
+    public AwsPanel() {
+        buildUI();
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // Preferences implementation
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void save() {
+        // update database with current state of components
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // Private methods
+    ////////////////////////////////////////////////////////////////////////////
+    private void buildUI() {
+        
+        JPanel container = new JPanel(new GridLayout(2,1));
+    }
+
+
 }

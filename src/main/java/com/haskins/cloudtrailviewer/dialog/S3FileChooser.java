@@ -168,7 +168,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
                     label.setIcon(UIManager.getIcon("FileView.fileIcon"));
                 }
                 
-                label.setText(model.getPath());
+                label.setText(model.getAlias());
                 
                 return label;
             }
@@ -294,7 +294,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
             int lastSlash = dir.lastIndexOf("/");
             String strippeDir = dir.substring(0,lastSlash);
             
-            String alias = null;
+            String alias = dir;
             if (isAccountNumber(strippeDir)) {
                 // look up to see if there is an alias
             }
@@ -307,7 +307,9 @@ public class S3FileChooser extends JDialog implements ActionListener {
         List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
         for (final S3ObjectSummary objectSummary : objectSummaries) {
 
-            S3ListModel model = new S3ListModel(stripPrefix(objectSummary.getKey()), "", S3ListModel.FILE_DOC);
+            String file = stripPrefix(objectSummary.getKey());
+            
+            S3ListModel model = new S3ListModel(file, file, S3ListModel.FILE_DOC);
             this.s3ListModel.addElement(model);
         }
         

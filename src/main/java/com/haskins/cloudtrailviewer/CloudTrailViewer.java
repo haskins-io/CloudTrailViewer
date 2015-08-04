@@ -44,8 +44,8 @@ public class CloudTrailViewer extends JFrame {
             Logger.getLogger(CloudTrailViewer.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        DbManager.getInstance();
-//        DbManager.getInstance().sync();
+//        DbManager.getInstance();
+////        DbManager.getInstance().sync();
         
         PreferencesController.getInstance();
         

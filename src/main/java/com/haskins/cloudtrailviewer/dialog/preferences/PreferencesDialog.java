@@ -79,7 +79,9 @@ public class PreferencesDialog extends JDialog implements ActionListener {
         super(frame, "AWS Account", true);
         
         this.setLayout(new BorderLayout());
-        this.setResizable(false);
+        this.setResizable(true);
+        this.setMinimumSize(new Dimension(200,300));
+        this.setPreferredSize(new Dimension(200,300));
         
         final JButton btnOK = new JButton("OK");
         btnOK.setActionCommand("OK");
@@ -108,13 +110,11 @@ public class PreferencesDialog extends JDialog implements ActionListener {
     
     private void addPreferencesPanel() {
         
-        
-        
-        
+        AwsPanel awsPreferences = new AwsPanel();
+        tPane.add("AWS", awsPreferences);
         
         Container contentPane = getContentPane();
         contentPane.add(tPane, BorderLayout.CENTER);
-        
     }
     
 }
