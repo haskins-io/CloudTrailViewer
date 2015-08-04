@@ -25,7 +25,9 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.core.PreferencesController;
+import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -38,7 +40,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -70,6 +74,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
     private final DefaultListModel<S3ListModel> s3ListModel = new DefaultListModel();
     private final JList s3List;
     
+    private static final Map<String, String> aliasMap = new HashMap<>();
     private static String prefix = "";
     
     private JLabel loadingLabel = new JLabel("Loading ...");
@@ -82,6 +87,8 @@ public class S3FileChooser extends JDialog implements ActionListener {
     public static List<String> showDialog(Component parent) {
         
         selectedKeys.clear();
+
+        getAliases();
         
         String s3_location = PreferencesController.getInstance().getProperty("S3_Location");
         if (s3_location != null) {
@@ -113,6 +120,21 @@ public class S3FileChooser extends JDialog implements ActionListener {
     ////////////////////////////////////////////////////////////////////////////
     // Private methods
     ////////////////////////////////////////////////////////////////////////////
+    private static void getAliases() {
+        
+        aliasMap.clear();
+        
+        String query = "SELECT aws_account, aws_alias FROM aws_alias";
+        List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
+        for (ResultSetRow row : rows) {
+            
+            String aws_acct = (String)row.get("aws_account");
+            String aws_alias = (String)row.get("aws_alias");
+            
+            aliasMap.put(aws_acct, aws_alias); 
+        }
+    }
+    
     private S3FileChooser(Frame frame) {
 
         super(frame, "S3 File Browser", true);
@@ -282,7 +304,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
 
         // Add .. if not at root
         if (prefix.trim().length() != 0) {
-            S3ListModel model = new S3ListModel(MOVE_BACK, "", S3ListModel.FILE_BACK);
+            S3ListModel model = new S3ListModel(MOVE_BACK, MOVE_BACK, S3ListModel.FILE_BACK);
             this.s3ListModel.addElement(model);
         }
         
@@ -296,7 +318,9 @@ public class S3FileChooser extends JDialog implements ActionListener {
             
             String alias = dir;
             if (isAccountNumber(strippeDir)) {
-                // look up to see if there is an alias
+                if (aliasMap.containsKey(strippeDir)) {
+                    alias = aliasMap.get(strippeDir);
+                }
             }
             
             S3ListModel model = new S3ListModel(dir, alias, S3ListModel.FILE_DIR);
@@ -371,7 +395,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
         if (accountnumber.length() == 12) {
             
             try {
-                Integer.parseInt(accountnumber);
+                Long.parseLong(accountnumber);
                 isAccountNumber = true;
             } catch (Exception e) { }
         }

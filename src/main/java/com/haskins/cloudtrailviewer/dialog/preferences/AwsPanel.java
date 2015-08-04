@@ -41,9 +41,7 @@ public class AwsPanel extends JPanel implements Preferences {
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void savePreferences() {
-        
         accounts.savePreferences();
-        aliases.savePreferences();
     }
     
     ////////////////////////////////////////////////////////////////////////////

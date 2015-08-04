@@ -18,11 +18,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.dialog.preferences.components;
 
+import com.haskins.cloudtrailviewer.core.DbManager;
+import com.haskins.cloudtrailviewer.dialog.preferences.AwsAliasDialog;
 import com.haskins.cloudtrailviewer.dialog.preferences.Preferences;
+import com.haskins.cloudtrailviewer.model.AwsAlias;
+import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -36,7 +41,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author mark.haskins
  */
-public class AwsAliasPanel extends JPanel implements Preferences, ActionListener {
+public class AwsAliasPanel extends JPanel implements ActionListener {
 
     private final DefaultTableModel defaultTableModel = new DefaultTableModel();  
     
@@ -44,12 +49,23 @@ public class AwsAliasPanel extends JPanel implements Preferences, ActionListener
         
         buildUI();
         
-        // read info from database and populate table
+        String query = "SELECT aws_account, aws_alias FROM aws_alias";
+        List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
+        for (ResultSetRow row : rows) {
+            
+            String aws_acct = (String)row.get("aws_account");
+            String aws_alias = (String)row.get("aws_alias");
+            
+            defaultTableModel.addRow(new Object[] { aws_acct, aws_alias }); 
+        }
     }
     
     private void buildUI() {
         
         this.setLayout(new BorderLayout());
+        
+        defaultTableModel.addColumn("Account");
+        defaultTableModel.addColumn("Alias");
         
         JTable table = new JTable(defaultTableModel);
         JScrollPane tablecrollPane = new JScrollPane(table);
@@ -62,7 +78,7 @@ public class AwsAliasPanel extends JPanel implements Preferences, ActionListener
         btnNew.addActionListener(this);
         
         final JButton btnDelete = new JButton("Delete");
-        btnNew.setActionCommand("Delete");
+        btnDelete.setActionCommand("Delete");
         btnDelete.addActionListener(this);
         
         JPanel buttonPane = new JPanel();
@@ -74,25 +90,29 @@ public class AwsAliasPanel extends JPanel implements Preferences, ActionListener
         
         this.add(buttonPane, BorderLayout.PAGE_END); 
     }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    // Preferences implementation
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void savePreferences() {
-        
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////
     // ActionListener implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void actionPerformed(ActionEvent e) {
         
         if (e.getActionCommand().equalsIgnoreCase("New")) {
-            //popup new dialog for new alias?
+            
+            AwsAlias alias = AwsAliasDialog.showDialog(this);
+            if (alias != null) {
+                StringBuilder query = new StringBuilder();
+                query.append("INSERT INTO aws_alias");
+                query.append(" (aws_account, aws_alias)");
+                query.append(" VALUES");
+                query.append(" ('").append(alias.getAccountNumber()).append("', '").append(alias.getAccountAlias()).append("')");
+                
+                DbManager.getInstance().doInsertUpdate(query.toString());
+                
+                defaultTableModel.addRow(new Object[] { alias.getAccountNumber(), alias.getAccountAlias() });
+            }
+            
         } else {
-            // delete selected row on table
+            // defaultTableModel.removeRow(i);
         }
     }
     
