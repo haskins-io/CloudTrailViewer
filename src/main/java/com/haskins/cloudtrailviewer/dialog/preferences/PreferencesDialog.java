@@ -64,7 +64,7 @@ public class PreferencesDialog extends JDialog implements ActionListener {
             for (int i = 0; i < tPane.getComponentCount(); i++) {
                 
                 Preferences p = (Preferences)tPane.getComponentAt(i);
-                p.save();
+                p.savePreferences();
             }
         }
         

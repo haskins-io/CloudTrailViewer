@@ -22,5 +22,5 @@ package com.haskins.cloudtrailviewer.dialog.preferences;
  */
 public interface Preferences {
     
-    public void save();
+    public void savePreferences();
 }

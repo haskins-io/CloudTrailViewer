@@ -17,6 +17,9 @@
 
 package com.haskins.cloudtrailviewer.dialog.preferences;
 
+import com.haskins.cloudtrailviewer.dialog.preferences.components.AwsAccountPanel;
+import com.haskins.cloudtrailviewer.dialog.preferences.components.AwsAliasPanel;
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 
@@ -26,6 +29,9 @@ import javax.swing.JPanel;
  */
 public class AwsPanel extends JPanel implements Preferences {
     
+    private final AwsAccountPanel accounts = new AwsAccountPanel();
+    private final AwsAliasPanel aliases = new AwsAliasPanel();
+    
     public AwsPanel() {
         buildUI();
     }
@@ -34,8 +40,10 @@ public class AwsPanel extends JPanel implements Preferences {
     // Preferences implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void save() {
-        // update database with current state of components
+    public void savePreferences() {
+        
+        accounts.savePreferences();
+        aliases.savePreferences();
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -44,7 +52,12 @@ public class AwsPanel extends JPanel implements Preferences {
     private void buildUI() {
         
         JPanel container = new JPanel(new GridLayout(2,1));
+        
+        container.add(accounts);
+        container.add(aliases);
+        
+        this.setLayout(new BorderLayout());
+        this.add(container, BorderLayout.CENTER);
+        this.setVisible(true);
     }
-
-
 }
