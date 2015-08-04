@@ -22,8 +22,6 @@ import com.haskins.cloudtrailviewer.application.CloudTrailViewerApplication;
 import com.haskins.cloudtrailviewer.application.Menu;
 import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.core.PreferencesController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -36,17 +34,7 @@ public class CloudTrailViewer extends JFrame {
     public static final CloudTrailViewerApplication frame = new CloudTrailViewerApplication();
     
     private static void createAndShowGUI() {
-                
-        try {
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-        }
-        catch (ClassNotFoundException ex) {
-            Logger.getLogger(CloudTrailViewer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-//        DbManager.getInstance();
-////        DbManager.getInstance().sync();
-        
+                        
         PreferencesController.getInstance();
         
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -63,6 +51,8 @@ public class CloudTrailViewer extends JFrame {
      */
     public static void main(String[] args) {
 
+        DbManager.getInstance().sync();
+        
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             
             @Override
