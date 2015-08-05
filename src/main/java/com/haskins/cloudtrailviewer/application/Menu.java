@@ -21,16 +21,16 @@ package com.haskins.cloudtrailviewer.application;
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.dialog.AboutDialog;
 import com.haskins.cloudtrailviewer.dialog.preferences.PreferencesDialog;
-import com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.Application;
-import com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.ApplicationEvent;
-import com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.ApplicationListener;
-import com.haskins.cloudtrailviewer.thirdparty.org.simplericity.macify.eawt.DefaultApplication;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import org.simplericity.macify.eawt.Application;
+import org.simplericity.macify.eawt.ApplicationEvent;
+import org.simplericity.macify.eawt.ApplicationListener;
+import org.simplericity.macify.eawt.DefaultApplication;
 
 /**
  *
