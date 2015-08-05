@@ -15,11 +15,11 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.haskins.cloudtrailviewer.core;
 
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -40,13 +40,7 @@ public class DbManager {
 
     private static DbManager instance = null;
 
-    private DbManager() {
-
-        Connection conn = getDbConnection();
-        if (conn == null) {
-            createVersion1(0);
-        }
-    }
+    private DbManager() { }
 
     /**
      * Returns an instance of the DbManager.
@@ -66,9 +60,33 @@ public class DbManager {
      */
     public void sync() {
 
-        int currentVersion = getCurrentDbVersion();
+        Integer currentVersion = 0;
+        
+        Connection dbTest = getDbConnection();
+        if (dbTest == null) {
+            
+            System.out.println("Creating Database");
+            
+            String url = getDbUrl();
+            Properties properties = new Properties();
+            properties.put("create", "true");
 
-        createVersion1(currentVersion);
+            try {
+                DriverManager.getConnection(url, properties);
+            }
+            catch (SQLException ex1) {
+                Logger.getLogger(PreferencesController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            
+        } else {
+            currentVersion = getCurrentDbVersion();
+        }
+        
+        Connection conn = getDbConnection();
+        if (conn != null) {
+            Migrations.createVersion1(conn, currentVersion);
+            Migrations.createVersion2(conn, currentVersion);
+        }
     }
 
     /**
@@ -185,10 +203,7 @@ public class DbManager {
         return updated;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    ////////////////////////////////////////////////////////////////////////////
-    private void doExecute(String query) {
+    public void doExecute(String query) {
 
         Connection conn = getDbConnection();
 
@@ -200,30 +215,7 @@ public class DbManager {
         }
     }
 
-    private boolean doesTableExists(Connection conn, String tablename) {
-
-        boolean doesTableExist = false;
-
-        String[] types = new String[]{"TABLE"};
-
-        try {
-            DatabaseMetaData dbm = conn.getMetaData();
-            ResultSet resultset = dbm.getTables(null, null, null, types);
-            while (resultset.next()) {
-
-                if (resultset.getString(3).equalsIgnoreCase(tablename)) {
-                    doesTableExist = true;
-                }
-            }
-        }
-        catch (SQLException ex) {
-            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return doesTableExist;
-    }
-
-    private Connection getDbConnection() {
+    public Connection getDbConnection() {
 
         Connection conn = null;
 
@@ -237,7 +229,7 @@ public class DbManager {
         return conn;
     }
 
-    private String getDbUrl() {
+    public String getDbUrl() {
 
         String userHomeDir = System.getProperty("user.home", ".");
         String systemDir = userHomeDir + "/.cloudtrailviewer/prefs.db";
@@ -249,6 +241,9 @@ public class DbManager {
         return url.toString();
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private int getCurrentDbVersion() {
 
         int currentVersion = 0;
@@ -258,90 +253,6 @@ public class DbManager {
 
         if (retVal != -1) {
             currentVersion = retVal;
-        }
-
-        return currentVersion;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-    ///// Migrations
-    ////////////////////////////////////////////////////////////////////////////
-    private int createVersion1(int currentVersion) {
-
-        if (currentVersion < 1) {
-
-            System.out.println("Creating Database");
-            
-            String url = getDbUrl();
-            Properties properties = new Properties();
-            properties.put("create", "true");
-
-            try {
-                DriverManager.getConnection(url, properties);
-            }
-            catch (SQLException ex1) {
-                Logger.getLogger(PreferencesController.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-
-            Connection conn = getDbConnection();
-
-            if (conn != null) {
-
-                // Primary Preferences table
-                if (!doesTableExists(conn, "ctv_preferences")) {
-
-                    StringBuilder createPrefTable = new StringBuilder();
-                    createPrefTable.append("CREATE TABLE ctv_preferences ( ");
-                    createPrefTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
-                    createPrefTable.append("ctv_key VARCHAR(100), ");
-                    createPrefTable.append("ctv_value LONG VARCHAR )");
-
-                    doExecute(createPrefTable.toString());
-                }
-
-                // AWS credentials table
-                if (!doesTableExists(conn, "aws_credentials")) {
-
-                    StringBuilder createCredentialsTable = new StringBuilder();
-                    createCredentialsTable.append("CREATE TABLE aws_credentials ( ");
-                    createCredentialsTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
-                    createCredentialsTable.append("aws_name VARCHAR(50), ");
-                    createCredentialsTable.append("aws_bucket VARCHAR(65), ");
-                    createCredentialsTable.append("aws_key VARCHAR(30), ");
-                    createCredentialsTable.append("aws_secret VARCHAR(50), ");
-                    createCredentialsTable.append("aws_prefix LONG VARCHAR )");
-
-                    doExecute(createCredentialsTable.toString());
-                }
-                
-                // AWS credentials table
-                if (!doesTableExists(conn, "aws_alias")) {
-
-                    StringBuilder createCredentialsTable = new StringBuilder();
-                    createCredentialsTable.append("CREATE TABLE aws_alias ( ");
-                    createCredentialsTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
-                    createCredentialsTable.append("aws_account VARCHAR(12), ");
-                    createCredentialsTable.append("aws_alias VARCHAR(50) )");
-
-                    doExecute(createCredentialsTable.toString());
-                }
-
-                // Version table
-                if (!doesTableExists(conn, "db_properties")) {
-
-                    StringBuilder createVersionTable = new StringBuilder();
-                    createVersionTable.append("CREATE TABLE db_properties ( ");
-                    createVersionTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
-                    createVersionTable.append("db_version INT )");
-
-                    doExecute(createVersionTable.toString());
-
-                    String insertQuery = "INSERT INTO db_properties (db_version) VALUES 1";
-                    doInsertUpdate(insertQuery);
-                }
-
-                currentVersion++;
-            }
         }
 
         return currentVersion;
