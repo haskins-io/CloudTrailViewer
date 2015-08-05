@@ -21,18 +21,23 @@ package com.haskins.cloudtrailviewer.feature.user;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.feature.Feature;
+import com.haskins.cloudtrailviewer.model.NameValueModel;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.thirdparty.SortedListModel;
+import com.haskins.cloudtrailviewer.utils.CountComparator;
+import com.haskins.cloudtrailviewer.utils.GeneralUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -45,14 +50,14 @@ import javax.swing.ListSelectionModel;
  * @author mark
  */
 public class UserFeature extends JPanel implements Feature, EventDatabaseListener {
-    
+        
     public static final String NAME = "User Feature";
     
-    private final Map<String, List<Event>> userMap = new HashMap<>();
-    private final SortedListModel userListModel = new SortedListModel<>();
+    private final Map<String, NameValueModel> userMap = new HashMap<>();
+    private final DefaultListModel<NameValueModel> userListModel = new DefaultListModel<>();
     
-    private final Map<String, List<Event>> roleMap = new HashMap<>();
-    private final SortedListModel roleListModel = new SortedListModel<>();
+    private final Map<String, NameValueModel> roleMap = new HashMap<>();
+    private final DefaultListModel<NameValueModel> roleListModel = new DefaultListModel<>();
     
     private final EventTablePanel eventTable = new EventTablePanel();
         
@@ -65,7 +70,11 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     ///// Feature implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void eventLoadingComplete() { }
+    public void eventLoadingComplete() {
+    
+        GeneralUtils.orderListByComparator(userListModel, new CountComparator()); 
+        GeneralUtils.orderListByComparator(roleListModel, new CountComparator());
+    }
 
     @Override
     public boolean showOnToolBar() {
@@ -126,51 +135,50 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
         if (username == null) {
             username = event.getUserIdentity().getPrincipalId();
         }
-        
-        List<Event> events;
+
         if (!userMap.containsKey(username)) {
 
-            events = new ArrayList();
-            userMap.put(username, events);
-            userListModel.add(username);
-
+            NameValueModel model = new NameValueModel(username, event);
+            userMap.put(username, model);
+            userListModel.addElement(model);
+           
         } else {
-            events = userMap.get(username);
+
+            NameValueModel model = userMap.get(username);
+            model.addEvent(event);
         } 
-        
-        events.add(event);
     }
     
     private void addRole(Event event) {
         
         boolean was_role = true;
-        
+
         if (event.getEventName().equalsIgnoreCase("ConsoleLogin")) {
             was_role = false;
             addUser(event);
         }
-        
+
         String role;
         if (event.getUserIdentity().getSessionContext() != null) {
             role = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
-            
+
         } else {
             role = event.getUserIdentity().getPrincipalId();
         }
 
         if (was_role) {
-            List<Event> events;
+
             if (!roleMap.containsKey(role)) {
 
-                events = new ArrayList();
-                roleMap.put(role, events);
-                roleListModel.add(role);
+                NameValueModel model = new NameValueModel(role, event);
+                roleMap.put(role, model);
+                roleListModel.addElement(model);
 
             } else {
-                events = roleMap.get(role);
-            }
 
-            events.add(event);
+                NameValueModel model = roleMap.get(role);
+                model.addEvent(event);
+            }
         }
     }
     
@@ -182,16 +190,29 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                                           
-                String selected = (String)userList.getSelectedValue();
+                NameValueModel model = (NameValueModel)userList.getSelectedValue();
                 
                 eventTable.clearEvents();
-                eventTable.setEvents(userMap.get(selected));
+                eventTable.setEvents(model.getEvents());
             }
         });
         
         userList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         userList.setLayoutOrientation(JList.VERTICAL);
         userList.setVisibleRowCount(-1);
+        userList.setCellRenderer(new DefaultListCellRenderer() {
+            
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                
+                NameValueModel model = (NameValueModel)value;
+                label.setText(model.getName() + " : " + model.getNumberOfEvents());
+                
+                return label;
+            }
+        });
 
         JScrollPane userPane = new JScrollPane(userList);
         userPane.setMinimumSize(new Dimension(300, 400));
@@ -204,16 +225,29 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                                           
-                String selected = (String)roleList.getSelectedValue();
+                NameValueModel model = (NameValueModel)userList.getSelectedValue();
                 
                 eventTable.clearEvents();
-                eventTable.setEvents(roleMap.get(selected));
+                eventTable.setEvents(model.getEvents());
             }
         });
         
         roleList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         roleList.setLayoutOrientation(JList.VERTICAL);
         roleList.setVisibleRowCount(-1);
+        roleList.setCellRenderer(new DefaultListCellRenderer() {
+            
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                
+                NameValueModel model = (NameValueModel)value;
+                label.setText(model.getName() + " : " + model.getNumberOfEvents());
+                
+                return label;
+            }
+        });
 
         JScrollPane rolePane = new JScrollPane(roleList);
         rolePane.setMinimumSize(new Dimension(300, 400));

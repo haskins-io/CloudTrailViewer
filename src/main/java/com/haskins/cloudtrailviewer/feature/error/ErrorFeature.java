@@ -1,4 +1,3 @@
-
 /*    
 CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
 files.
@@ -16,22 +15,28 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 package com.haskins.cloudtrailviewer.feature.error;
 
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.feature.Feature;
+import com.haskins.cloudtrailviewer.model.NameValueModel;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.thirdparty.SortedListModel;
+import com.haskins.cloudtrailviewer.utils.CountComparator;
+import com.haskins.cloudtrailviewer.utils.GeneralUtils;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -42,15 +47,14 @@ import javax.swing.ListSelectionModel;
  * @author mark.haskins
  */
 public class ErrorFeature extends JPanel implements Feature, EventDatabaseListener {
-    
+        
     public static final String NAME = "Error Feature";
     
-    private final Map<String, List<Event>> errorsMap = new HashMap<>();
-    private final SortedListModel errorListModel = new SortedListModel<>();    
+    private final Map<String, NameValueModel> errorsMap = new HashMap<>();
+    private final DefaultListModel<NameValueModel> errorListModel = new DefaultListModel<>();    
     private final EventTablePanel eventTable = new EventTablePanel();
         
     public ErrorFeature() {
-        
         buildUI();
     }
             
@@ -58,7 +62,9 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
     ///// Feature implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void eventLoadingComplete() { }
+    public void eventLoadingComplete() { 
+        GeneralUtils.orderListByComparator(errorListModel, new CountComparator());
+    }
 
     @Override
     public boolean showOnToolBar() {
@@ -102,19 +108,16 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
         String errorName = event.getErrorCode();
         if (errorName.trim().length() > 0) {
             
-            List<Event> errorEvents;
-
             if (!errorsMap.containsKey(errorName)) {
 
-                errorEvents = new ArrayList();
-                errorsMap.put(errorName, errorEvents);
-                errorListModel.add(errorName);
-            
+                NameValueModel errorModel = new NameValueModel(errorName, event);
+                errorsMap.put(errorName, errorModel);
+                errorListModel.addElement(errorModel);
             } else {
-                errorEvents = errorsMap.get(errorName);
+                
+                NameValueModel errorModel = errorsMap.get(errorName);
+                errorModel.addEvent(event);
             }
-
-            errorEvents.add(event);
         }
     }
     
@@ -129,16 +132,28 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                                           
-                String selected = (String)errorList.getSelectedValue();
-                
+                NameValueModel model = (NameValueModel)errorList.getSelectedValue();
                 eventTable.clearEvents();
-                eventTable.setEvents(errorsMap.get(selected));
+                eventTable.setEvents(model.getEvents());
             }
         });
         
         errorList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         errorList.setLayoutOrientation(JList.VERTICAL);
         errorList.setVisibleRowCount(-1);
+        errorList.setCellRenderer(new DefaultListCellRenderer() {
+            
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                
+                NameValueModel model = (NameValueModel)value;
+                label.setText(model.getName() + " : " + model.getNumberOfEvents());
+                
+                return label;
+            }
+        });
 
         JScrollPane sPane = new JScrollPane(errorList);
         sPane.setMinimumSize(new Dimension(300, 400));

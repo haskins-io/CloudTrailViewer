@@ -19,6 +19,7 @@ package com.haskins.cloudtrailviewer.utils;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.core.Printable;
+import com.haskins.cloudtrailviewer.model.NameValueModel;
 import com.haskins.cloudtrailviewer.thirdparty.ScreenImage;
 import com.haskins.cloudtrailviewer.thirdparty.XTableColumnModel;
 import java.awt.image.BufferedImage;
@@ -27,8 +28,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -50,7 +54,6 @@ public class GeneralUtils {
     }
 
     public enum OS {
-
         WINDOWS, UNIX, POSIX_UNIX, MAC, OTHER
     }
 
@@ -173,6 +176,18 @@ public class GeneralUtils {
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }        
+        }
+    }
+    
+    public static void orderListByComparator(DefaultListModel model, Comparator comparator) {
+        
+        List<NameValueModel> list = Collections.list(model.elements());
+        Collections.sort(list, comparator);
+            
+        model.clear();
+
+        for (NameValueModel error : list) {
+            model.addElement(error);
         }
     }
 }
