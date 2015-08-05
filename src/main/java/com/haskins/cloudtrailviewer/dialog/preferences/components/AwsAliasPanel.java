@@ -20,7 +20,6 @@ package com.haskins.cloudtrailviewer.dialog.preferences.components;
 
 import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.dialog.preferences.AwsAliasDialog;
-import com.haskins.cloudtrailviewer.dialog.preferences.Preferences;
 import com.haskins.cloudtrailviewer.model.AwsAlias;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import java.awt.BorderLayout;
