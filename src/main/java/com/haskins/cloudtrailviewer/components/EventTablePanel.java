@@ -55,9 +55,7 @@ import javax.swing.table.TableColumn;
  * @author mark
  */
 public class EventTablePanel extends JPanel implements ActionListener {
-
-    public static final String NAME = "Simple Table";
-
+    
     private final FilteredEventDatabase eventDb;
     private final EventsTableModel tableModel;
     private final EventsTable table;
@@ -94,6 +92,9 @@ public class EventTablePanel extends JPanel implements ActionListener {
         buildUI();
     }
 
+    /**
+     * When called with show or hide the sid bar
+     */
     public void toggleSideBar() {
 
         sideBar.setVisible(!sideBar.isVisible());
@@ -108,22 +109,41 @@ public class EventTablePanel extends JPanel implements ActionListener {
         }
     }
     
+    /**
+     * Should be called when the table is going to be made visible so it can reload
+     * the table.
+     */
     public void will_appear() {
         tableModel.reloadTableModel();
     }
     
+    /**
+     * Should be called when the table is going to be hidden to that the table 
+     * can be emptied to free up some memory
+     */
     public void will_hide() { }
 
+    /**
+     * Empty the database of all events.
+     */
     public void clearEvents() {
         eventDb.clear();
     }
 
+    /**
+     * Sets the Events that the table will display. Calling this will reload the
+     * table model and display the events in the table.
+     * @param events 
+     */
     public void setEvents(List<Event> events) {
         eventDb.addEvents(events);
         sideBar.eventLoadingComplete();
         tableModel.reloadTableModel();
     }
 
+    /**
+     * 
+     */
     public void eventLoadingComplete() {
         sideBar.eventLoadingComplete();
     }
