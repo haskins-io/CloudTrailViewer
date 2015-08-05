@@ -26,7 +26,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- *
+ * Dialog that is used to show Application About information
+ * 
  * @author mark.haskins
  */
 public class AboutDialog extends JPanel implements ActionListener {

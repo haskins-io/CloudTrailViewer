@@ -55,6 +55,9 @@ public class Menu extends JMenuBar implements ApplicationListener {
         buildMenu();
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// ApplicationListener implementation
+    ////////////////////////////////////////////////////////////////////////////
     @Override
     public void handleAbout(ApplicationEvent event) {
         showAboutDialog();

@@ -18,7 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.core;
 
 /**
- *
+ * Interface that all components should implement if they want to be printed.
+ * 
  * @author mark.haskins
  */
 public interface Printable {

@@ -40,7 +40,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
- * AWS Account dialog
+ * AWS Account dialog.
  * 
  * @author mark
  */
