@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.feature.overview;
+package com.haskins.cloudtrailviewer.components.servicespanel;
 
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
@@ -34,7 +34,7 @@ import javax.swing.JPanel;
  *
  * @author mark
  */
-public class OverviewPanel extends JPanel {
+public class ServicesOverviewPanel extends JPanel {
     
     private final CountPanel awsCountPanel;
     private final CountPanel iamCountPanel;
@@ -44,7 +44,7 @@ public class OverviewPanel extends JPanel {
     
     private final JLabel totalLabel = new JLabel("0");
     
-    public OverviewPanel(String serviceName, Feature f) {
+    public ServicesOverviewPanel(String serviceName, Feature f) {
         
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(250,140));

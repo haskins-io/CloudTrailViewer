@@ -19,18 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.feature.overview;
 
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
+import com.haskins.cloudtrailviewer.components.servicespanel.ServiceOverviewContainer;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.feature.Feature;
-import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.table.TableUtils;
-import com.haskins.cloudtrailviewer.utils.GeneralUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -44,15 +39,14 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     
     public static final String NAME = "Overview Feature";
     
-    private final Map<String, OverviewPanel> servicesMap = new HashMap<>();
-    
-    private final JPanel servicesContainer = new JPanel(new WrapLayout());
+    private final ServiceOverviewContainer servicesContainer;
     private final EventTablePanel eventTable = new EventTablePanel();
     
     private JSplitPane jsp;
     
     public OverviewFeature() {
         
+        servicesContainer = new ServiceOverviewContainer(this);
         buildUI();
     }
            
@@ -107,30 +101,7 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void eventAdded(Event event) {
-                 
-        String serviceName = TableUtils.getService(event);
-        
-        final OverviewPanel servicePanel;
-        
-        if (!servicesMap.containsKey(serviceName)) {
-            
-            servicePanel = new OverviewPanel(serviceName, this);
-            
-            servicesMap.put(serviceName, servicePanel);
-            
-            servicesContainer.removeAll();
-            
-            Set keys = servicesMap.keySet();
-            List<String> sorted = GeneralUtils.asSortedList(keys);
-            for (String service : sorted) {
-                OverviewPanel panel = servicesMap.get(service);
-                servicesContainer.add(panel);
-            }            
-        } else {
-            servicePanel = servicesMap.get(serviceName);
-        }
-        
-        servicePanel.addEvent(event);
+        servicesContainer.addEvent(event);
     }
     
     ////////////////////////////////////////////////////////////////////////////
