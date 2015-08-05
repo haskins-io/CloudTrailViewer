@@ -1,0 +1,11 @@
+DeleteDeliveryChannel
+DeliverConfigSnapshot
+DescribeConfigurationRecorderStatus
+DescribeConfigurationRecorders
+DescribeDeliveryChannelStatus
+DescribeDeliveryChannels
+GetResourceConfigHistory
+PutConfigurationRecorder
+PutDeliveryChannel
+StartConfigurationRecorder
+StopConfigurationRecorder

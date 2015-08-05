@@ -1,0 +1,14 @@
+AddAttachmentsToSet
+AddCommunicationToCase
+CreateCase
+DescribeAttachment
+DescribeCases
+DescribeCommunications
+DescribeServices
+DescribeSeverityLevels
+DescribeTrustedAdvisorCheckRefreshStatuses
+DescribeTrustedAdvisorCheckResult
+DescribeTrustedAdvisorCheckSummaries
+DescribeTrustedAdvisorChecks
+RefreshTrustedAdvisorCheck
+ResolveCase

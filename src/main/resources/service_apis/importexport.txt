@@ -1,0 +1,6 @@
+CancelJob
+CreateJob
+GetShippingLabel
+GetStatus
+ListJobs
+UpdateJob

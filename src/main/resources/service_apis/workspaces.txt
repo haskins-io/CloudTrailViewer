@@ -1,0 +1,7 @@
+CreateWorkspaces
+DescribeWorkspaceBundles
+DescribeWorkspaceDirectories
+DescribeWorkspaces
+RebootWorkspaces
+RebuildWorkspaces
+TerminateWorkspaces

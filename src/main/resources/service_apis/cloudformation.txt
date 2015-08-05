@@ -1,0 +1,17 @@
+CancelUpdateStack
+CreateStack
+DeleteStack
+DescribeStackEvents
+DescribeStackResource
+DescribeStackResources
+DescribeStacks
+EstimateTemplateCost
+GetStackPolicy
+GetTemplate
+GetTemplateSummary
+ListStackResources
+ListStacks
+SetStackPolicy
+SignalResource
+UpdateStack
+ValidateTemplate

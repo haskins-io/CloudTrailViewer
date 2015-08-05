@@ -1,0 +1,11 @@
+CreateFileSystem
+CreateMountTarget
+CreateTags
+DeleteFileSystem
+DeleteMountTarget
+DeleteTags
+DescribeFileSystems
+DescribeMountTargetSecurityGroups
+DescribeMountTargets
+DescribeTags
+ModifyMountTargetSecurityGroups

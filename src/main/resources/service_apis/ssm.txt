@@ -1,0 +1,11 @@
+CreateAssociation
+CreateAssociationBatch
+CreateDocument
+DeleteAssociation
+DeleteDocument
+DescribeAssociation
+DescribeDocument
+GetDocument
+ListAssociations
+ListDocuments
+UpdateAssociationStatus

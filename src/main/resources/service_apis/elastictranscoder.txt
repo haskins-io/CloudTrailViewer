@@ -1,0 +1,17 @@
+CancelJob
+CreateJob
+CreatePipeline
+CreatePreset
+DeletePipeline
+DeletePreset
+ListJobsByPipeline
+ListJobsByStatus
+ListPipelines
+ListPresets
+ReadJob
+ReadPipeline
+ReadPreset
+TestRole
+UpdatePipeline
+UpdatePipelineNotifications
+UpdatePipelineStatus

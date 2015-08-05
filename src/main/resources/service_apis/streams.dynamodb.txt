@@ -1,0 +1,4 @@
+DescribeStream
+GetRecords
+GetShardIterator
+ListStreams

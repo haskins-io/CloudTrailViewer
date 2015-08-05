@@ -1,0 +1,17 @@
+ConnectDirectory
+CreateAlias
+CreateComputer
+CreateDirectory
+CreateSnapshot
+DeleteDirectory
+DeleteSnapshot
+DescribeDirectories
+DescribeSnapshots
+DisableRadius
+DisableSso
+EnableRadius
+EnableSso
+GetDirectoryLimits
+GetSnapshotLimits
+RestoreFromSnapshot
+UpdateRadius

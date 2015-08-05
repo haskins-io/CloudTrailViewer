@@ -1,0 +1,13 @@
+AddTagsToStream
+CreateStream
+DeleteStream
+DescribeStream
+GetRecords
+GetShardIterator
+ListStreams
+ListTagsForStream
+MergeShards
+PutRecord
+PutRecords
+RemoveTagsFromStream
+SplitShard

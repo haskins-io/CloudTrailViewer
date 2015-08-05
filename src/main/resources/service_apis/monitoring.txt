@@ -1,0 +1,11 @@
+DeleteAlarms
+DescribeAlarmHistory
+DescribeAlarms
+DescribeAlarmsForMetric
+DisableAlarmActions
+EnableAlarmActions
+GetMetricStatistics
+ListMetrics
+PutMetricAlarm
+PutMetricData
+SetAlarmState

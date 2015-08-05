@@ -1,0 +1,11 @@
+BatchGetRepositories
+CreateBranch
+CreateRepository
+DeleteRepository
+GetBranch
+GetRepository
+ListBranches
+ListRepositories
+UpdateDefaultBranch
+UpdateRepositoryDescription
+UpdateRepositoryName

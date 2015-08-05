@@ -1,0 +1,13 @@
+BatchGetItem
+BatchWriteItem
+CreateTable
+DeleteItem
+DeleteTable
+DescribeTable
+GetItem
+ListTables
+PutItem
+Query
+Scan
+UpdateItem
+UpdateTable

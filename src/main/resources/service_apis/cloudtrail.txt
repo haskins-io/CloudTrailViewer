@@ -1,0 +1,8 @@
+CreateTrail
+DeleteTrail
+DescribeTrails
+GetTrailStatus
+LookupEvents
+StartLogging
+StopLogging
+UpdateTrail

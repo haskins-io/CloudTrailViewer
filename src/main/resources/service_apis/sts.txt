@@ -1,0 +1,6 @@
+AssumeRole
+AssumeRoleWithSAML
+AssumeRoleWithWebIdentity
+DecodeAuthorizationMessage
+GetFederationToken
+GetSessionToken

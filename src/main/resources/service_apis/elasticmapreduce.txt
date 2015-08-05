@@ -1,0 +1,17 @@
+AddInstanceGroups
+AddJobFlowSteps
+AddTags
+DescribeCluster
+DescribeJobFlows
+DescribeStep
+ListBootstrapActions
+ListClusters
+ListInstanceGroups
+ListInstances
+ListSteps
+ModifyInstanceGroups
+RemoveTags
+RunJobFlow
+SetTerminationProtection
+SetVisibleToAllUsers
+TerminateJobFlows

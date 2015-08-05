@@ -1,0 +1,17 @@
+CreateHapg
+CreateHsm
+CreateLunaClient
+DeleteHapg
+DeleteHsm
+DeleteLunaClient
+DescribeHapg
+DescribeHsm
+DescribeLunaClient
+GetConfig
+ListAvailableZones
+ListHapgs
+ListHsms
+ListLunaClients
+ModifyHapg
+ModifyHsm
+ModifyLunaClient

@@ -19,13 +19,14 @@ package com.haskins.cloudtrailviewer.utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,11 +41,14 @@ public class ApiExtractor {
     
     public static void main(String[] args) {
         
-        Map<String, List<String>> services = new HashMap<>();
+        String source = "/Users/mark/Temp/apis";
+        String destination = "/Users/mark/Projects/Java/jCloudTrailViewer/src/main/resources/service_apis/";
+        
+        Map<String, List<String>> services = new TreeMap<>();
         
         ObjectMapper m = new ObjectMapper();
         
-        File folder = new File("/Users/mark/Projects/Java/NodeJsApiExtractor/src/main/resources/apis");
+        File folder = new File(source);
         File[] listOfFiles = folder.listFiles();
         for (File f : listOfFiles) {
             
@@ -87,16 +91,17 @@ public class ApiExtractor {
         while(it.hasNext()) {
             
             String key = it.next();
+            String path = destination + key + ".txt";
             
-            System.out.print("===========================================");
-            System.out.print(key);
-            System.out.println("===========================================");
-            
-            List<String> apis = services.get(key);
-            for (String api : apis) {
-                System.out.println(api);
+            try (FileWriter fw = new FileWriter(path);) {
+                
+                List<String> apis = services.get(key);
+                for (String api : apis) {
+                    fw.write(api + "\r\n");
+                }   
+            } catch(IOException ioe) {
+                ioe.printStackTrace();
             }
-           
         }
     }
     
