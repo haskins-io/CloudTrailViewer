@@ -48,6 +48,10 @@ public class DbManager {
         }
     }
 
+    /**
+     * Returns an instance of the DbManager.
+     * @return 
+     */
     public static DbManager getInstance() {
 
         if (instance == null) {
@@ -57,6 +61,9 @@ public class DbManager {
         return instance;
     }
 
+    /**
+     * Checks if there any any updates to the database required and applies them.
+     */
     public void sync() {
 
         int currentVersion = getCurrentDbVersion();
@@ -64,6 +71,14 @@ public class DbManager {
         createVersion1(currentVersion);
     }
 
+    /**
+     * Executes the query and then returns the results as a List of ResultSetRow
+     * objects. All SQL objects (Connect, Statement and ResultSet) will be closed
+     * before the result is returned.
+     * @param query SQL statement to run.
+     * @return a List of results. If there were no results, or there was a problem
+     * then the list will be empty.
+     */
     public List<ResultSetRow> executeCursorStatement(String query) {
 
         List rows = new ArrayList();
@@ -93,6 +108,13 @@ public class DbManager {
         return rows;
     }
 
+    /**
+     * Executes the passed statement and returns a single integer as the result.
+     * @param query SQL statement to execute
+     * @param columnName Column name that contains the result
+     * @return The result of the query or -1 if no result was found or there was
+     * a problem.
+     */
     public int executeIntStatement(String query, String columnName) {
 
         int retVal = -1;
@@ -114,7 +136,14 @@ public class DbManager {
         return retVal;
     }
 
-    public String executeStringStatement(String query) {
+    /**
+     * Executes the passed statement and returns a single String as the result.
+     * @param query SQL statement to execute
+     * @param columnName Column name that contains the result
+     * @return The result of the query or -NULL if no result was found or there was
+     * a problem.
+     */
+    public String executeStringStatement(String query, String columnName) {
 
         String retVal = null;
 
@@ -124,7 +153,7 @@ public class DbManager {
             ResultSet rs = stmt.executeQuery(query);) {
 
             if (rs.next()) {
-                retVal = rs.getString(0);
+                retVal = rs.getString(columnName);
             }
 
         }
@@ -135,6 +164,11 @@ public class DbManager {
         return retVal;
     }
 
+    /**
+     * Executes an UPDATE or INSERT statement.
+     * @param query SQL statement to run
+     * @return returns -1
+     */
     public int doInsertUpdate(String query) {
 
         int updated = -1;
