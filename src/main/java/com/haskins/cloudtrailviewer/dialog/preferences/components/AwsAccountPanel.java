@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.dialog.preferences.components;
 
 import com.haskins.cloudtrailviewer.core.DbManager;
-import com.haskins.cloudtrailviewer.dialog.AwsAccountDialog;
+import com.haskins.cloudtrailviewer.dialog.preferences.AwsAccountDialog;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
@@ -106,7 +106,7 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
         buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPane.add(btnDelete);
         
-        JLabel title = new JLabel("AWS Aliases");
+        JLabel title = new JLabel("AWS Accounts");
         title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
