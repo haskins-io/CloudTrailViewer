@@ -103,7 +103,7 @@ public class AwsAliasPanel extends JPanel implements ActionListener {
         JLabel title = new JLabel("AWS Aliases");
         title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         JPanel titlePanel = new JPanel(new BorderLayout());
-        titlePanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
+        titlePanel.setBorder(BorderFactory.createMatteBorder(4, 0, 0, 0, Color.LIGHT_GRAY));
         titlePanel.add(title, BorderLayout.CENTER);
 
         this.add(titlePanel, BorderLayout.PAGE_START); 
