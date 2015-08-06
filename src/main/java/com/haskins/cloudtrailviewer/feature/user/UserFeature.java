@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.feature.user;
 
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
+import com.haskins.cloudtrailviewer.components.servicespanel.ServiceOverviewContainer;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.NameValueModel;
@@ -29,6 +30,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -59,10 +61,12 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     private final Map<String, NameValueModel> roleMap = new HashMap<>();
     private final DefaultListModel<NameValueModel> roleListModel = new DefaultListModel<>();
     
+    private final ServiceOverviewContainer servicesContainer;
     private final EventTablePanel eventTable = new EventTablePanel();
         
     public UserFeature() {
                 
+        servicesContainer = new ServiceOverviewContainer(this);
         buildUI();
     }
             
@@ -194,6 +198,8 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
                 
                 eventTable.clearEvents();
                 eventTable.setEvents(model.getEvents());
+                
+                servicesContainer.setEvents(model.getEvents());
             }
         });
         
@@ -225,10 +231,12 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                                           
-                NameValueModel model = (NameValueModel)userList.getSelectedValue();
+                NameValueModel model = (NameValueModel)roleList.getSelectedValue();
                 
                 eventTable.clearEvents();
                 eventTable.setEvents(model.getEvents());
+                
+                servicesContainer.setEvents(model.getEvents());
             }
         });
         
@@ -261,7 +269,11 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
         
         eventTable.setVisible(true);
         
-        JSplitPane jsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, tabbedPane, eventTable);
+        JPanel detailPanel = new JPanel(new GridLayout(2,1));
+        detailPanel.add(servicesContainer);
+        detailPanel.add(eventTable);
+        
+        JSplitPane jsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, tabbedPane, detailPanel);
         jsp.setBackground(Color.WHITE);
         jsp.setDividerSize(3);
 
