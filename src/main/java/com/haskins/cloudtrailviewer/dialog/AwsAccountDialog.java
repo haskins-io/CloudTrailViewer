@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.dialog;
 
-import com.haskins.cloudtrailviewer.core.PreferencesController;
+import com.haskins.cloudtrailviewer.model.AwsAccount;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -52,19 +52,25 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
     
     private static AwsAccountDialog dialog;
     
+    private final JTextField name = new JTextField();
     private final JTextField bucket = new JTextField();
     private final JTextField key = new JTextField();
     private final JPasswordField secret = new JPasswordField();
     
+    private static AwsAccount account = null;
+    
     /**
      * Shows the Dialog
      * @param parent 
+     * @return
      */
-    public static void showDialog(Component parent) {
+    public static AwsAccount showDialog(Component parent) {
         
         Frame frame = JOptionPane.getFrameForComponent(parent);
         dialog = new AwsAccountDialog(frame);
         dialog.setVisible(true);
+        
+        return account;
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -75,9 +81,13 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         
         if ("OK".equals(e.getActionCommand())) {
             
-            PreferencesController.getInstance().setProperty(S3_BUCKET_PROPERTY, bucket.getText());
-            PreferencesController.getInstance().setProperty(S3_KEY_PROPERTY, key.getText());
-            PreferencesController.getInstance().setProperty(S3_SECRET_PROPERTY, String.valueOf(secret.getPassword()));
+            account = new AwsAccount(
+                    name.getText(), 
+                    bucket.getText(),
+                    key.getText(),
+                    String.valueOf(secret.getPassword()),
+                    ""
+            );
         }
         
         AwsAccountDialog.dialog.setVisible(false);
@@ -98,13 +108,9 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         getRootPane().setDefaultButton(btnLoad);
         
         JButton btnCancel = new JButton("Cancel");
+        btnCancel.setActionCommand("Cancel");
         btnCancel.addActionListener(this);
-        
-        // set existing values
-        bucket.setText(PreferencesController.getInstance().getProperty(S3_BUCKET_PROPERTY));
-        key.setText(PreferencesController.getInstance().getProperty(S3_KEY_PROPERTY));
-        secret.setText(PreferencesController.getInstance().getProperty(S3_SECRET_PROPERTY));
-        
+                
         //Lay out the buttons from left to right.
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
@@ -114,15 +120,16 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPane.add(btnLoad);
          
-        JPanel preferencesPanel = new JPanel();
-        GroupLayout layout = new GroupLayout(preferencesPanel);
+        JPanel accountPanel = new JPanel();
+        GroupLayout layout = new GroupLayout(accountPanel);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
-        preferencesPanel.setLayout(layout);
-        preferencesPanel.setMinimumSize(new Dimension(500,100));
-        preferencesPanel.setMaximumSize(new Dimension(500,100));
-        preferencesPanel.setPreferredSize(new Dimension(500,100));
+        accountPanel.setLayout(layout);
+        accountPanel.setMinimumSize(new Dimension(500,150));
+        accountPanel.setMaximumSize(new Dimension(500,150));
+        accountPanel.setPreferredSize(new Dimension(500,150));
        
+        JLabel lblName = new JLabel("Name");
         JLabel lblBucket = new JLabel("Bucket Name");
         JLabel lblKey = new JLabel("IAM Key");
         JLabel lblSecret = new JLabel("IAM Secret");
@@ -130,6 +137,7 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
         hGroup.addGroup(
             layout.createParallelGroup().
+                addComponent(lblName).
                 addComponent(lblBucket).
                 addComponent(lblKey).
                 addComponent(lblSecret)
@@ -137,6 +145,7 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         
         hGroup.addGroup(
             layout.createParallelGroup().
+                addComponent(name).
                 addComponent(bucket).
                 addComponent(key).
                 addComponent(secret)
@@ -145,6 +154,11 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         layout.setHorizontalGroup(hGroup);
         
         GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+        vGroup.addGroup(
+            layout.createParallelGroup(Alignment.BASELINE).
+                addComponent(lblName).addComponent(name)
+            );
+        
         vGroup.addGroup(
             layout.createParallelGroup(Alignment.BASELINE).
                 addComponent(lblBucket).addComponent(bucket)
@@ -163,7 +177,7 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         layout.setVerticalGroup(vGroup);
                 
         Container contentPane = getContentPane();
-        contentPane.add(preferencesPanel, BorderLayout.CENTER);
+        contentPane.add(accountPanel, BorderLayout.CENTER);
         contentPane.add(buttonPane, BorderLayout.PAGE_END);
         
         pack();

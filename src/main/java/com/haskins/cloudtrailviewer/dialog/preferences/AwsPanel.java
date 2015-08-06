@@ -27,7 +27,7 @@ import javax.swing.JPanel;
  *
  * @author mark.haskins
  */
-public class AwsPanel extends JPanel {
+public class AwsPanel extends JPanel implements Preferences {
     
     private final AwsAccountPanel accounts = new AwsAccountPanel();
     private final AwsAliasPanel aliases = new AwsAliasPanel();
@@ -35,7 +35,13 @@ public class AwsPanel extends JPanel {
     public AwsPanel() {
         buildUI();
     }
-        
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // Preferences implementation
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void savePreferences() { }
+    
     ////////////////////////////////////////////////////////////////////////////
     // Private methods
     ////////////////////////////////////////////////////////////////////////////

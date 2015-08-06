@@ -26,7 +26,7 @@ import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.haskins.cloudtrailviewer.core.DbManager;
-import com.haskins.cloudtrailviewer.core.PreferencesController;
+import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
@@ -46,9 +46,11 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -74,6 +76,10 @@ public class S3FileChooser extends JDialog implements ActionListener {
     private final DefaultListModel<S3ListModel> s3ListModel = new DefaultListModel();
     private final JList s3List;
     
+    private static final DefaultComboBoxModel accountList = new DefaultComboBoxModel();
+    private static final Map<String, AwsAccount> accountMap = new HashMap<>();
+    private static AwsAccount currentAccount = null;
+    
     private static final Map<String, String> aliasMap = new HashMap<>();
     private static String prefix = "";
     
@@ -86,15 +92,13 @@ public class S3FileChooser extends JDialog implements ActionListener {
      */
     public static List<String> showDialog(Component parent) {
         
+        accountList.removeAllElements();
+        accountMap.clear();
         selectedKeys.clear();
 
         getAliases();
-        
-        String s3_location = PreferencesController.getInstance().getProperty("S3_Location");
-        if (s3_location != null) {
-            prefix = s3_location;
-        }
-        
+        getAccounts();
+
         Frame frame = JOptionPane.getFrameForComponent(parent);
         dialog = new S3FileChooser(frame);
         dialog.setVisible(true);
@@ -109,11 +113,16 @@ public class S3FileChooser extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
         if ("Load".equals(e.getActionCommand())) {
-            
             addSelectedKeys();
         }
         
-        PreferencesController.getInstance().setProperty("S3_Location", prefix);
+        StringBuilder query = new StringBuilder();
+        query.append("UPDATE aws_credentials SET aws_prefix =");
+        query.append(" '").append(currentAccount.getPrefix()).append("'");
+        query.append(" WHERE aws_name = ");
+        query.append(" '").append(currentAccount.getName()).append("'");
+        DbManager.getInstance().doInsertUpdate(query.toString());        
+        
         S3FileChooser.dialog.setVisible(false);
     }
 
@@ -135,10 +144,34 @@ public class S3FileChooser extends JDialog implements ActionListener {
         }
     }
     
+    private static void getAccounts() {
+        
+        String query = "SELECT * FROM aws_credentials";
+        List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
+        for (ResultSetRow row : rows) {
+            
+            String name = (String)row.get("aws_name");
+            
+            AwsAccount account = new AwsAccount(
+                name, 
+                (String)row.get("aws_bucket"), 
+                (String)row.get("aws_key"), 
+                (String)row.get("aws_secret"), 
+                (String)row.get("aws_prefix")
+            );
+            
+            accountMap.put(name, account); 
+            accountList.addElement(name);
+            currentAccount = account;
+        }
+        
+        prefix = currentAccount.getPrefix();
+    }
+    
     private S3FileChooser(Frame frame) {
 
         super(frame, "S3 File Browser", true);
-                
+                        
         final JButton btnLoad = new JButton("Load");
         btnLoad.setActionCommand("Load");
         btnLoad.addActionListener(this);
@@ -275,7 +308,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
             else {
                 addSelectedKeys();  
                 
-                PreferencesController.getInstance().setProperty("S3_Location", prefix);
+                currentAccount.setPrefix(prefix);
                 S3FileChooser.dialog.setVisible(false);
             }
         }
@@ -286,7 +319,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
         loadingLabel.setVisible(true);
         this.s3ListModel.clear();
 
-        String bucketName = PreferencesController.getInstance().getProperty("aws.bucket");
+        String bucketName = currentAccount.getBucket();
 
         ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
         listObjectsRequest.setBucketName(bucketName);
@@ -294,8 +327,8 @@ public class S3FileChooser extends JDialog implements ActionListener {
         listObjectsRequest.setDelimiter("/");
 
         AWSCredentials credentials= new BasicAWSCredentials(
-            PreferencesController.getInstance().getProperty("aws.key"),
-            PreferencesController.getInstance().getProperty("aws.secret")
+            currentAccount.getKey(),
+            currentAccount.getSecret()
         );
 
         AmazonS3 s3Client = new AmazonS3Client(credentials);
@@ -362,7 +395,6 @@ public class S3FileChooser extends JDialog implements ActionListener {
         
         List<S3ListModel> selectedItems = s3List.getSelectedValuesList();
         for (S3ListModel key : selectedItems) {
-
             selectedKeys.add(S3FileChooser.prefix + key.getPath());
         }
     }
@@ -382,8 +414,23 @@ public class S3FileChooser extends JDialog implements ActionListener {
                 reloadContents();
             }
         }); 
-        
         toolbar.add(btnHome);
+        
+        JComboBox accountCombo = new JComboBox(accountList);
+        accountCombo.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox cb = (JComboBox)e.getSource();
+                String newSelection = (String)cb.getSelectedItem();
+                
+                currentAccount = accountMap.get(newSelection);
+                prefix = currentAccount.getPrefix();
+                reloadContents();
+            }
+        });
+        
+        toolbar.add(accountCombo);
         
         return toolbar;
     }

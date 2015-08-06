@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.dialog.preferences.components;
 
 import com.haskins.cloudtrailviewer.core.DbManager;
-import com.haskins.cloudtrailviewer.dialog.preferences.AwsAliasDialog;
-import com.haskins.cloudtrailviewer.model.AwsAlias;
+import com.haskins.cloudtrailviewer.dialog.AwsAccountDialog;
+import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
@@ -28,12 +28,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -47,6 +50,9 @@ import javax.swing.border.CompoundBorder;
 public class AwsAccountPanel extends JPanel implements ActionListener {
 
     private final DefaultListModel defaultListModel = new DefaultListModel();  
+    private final JList list = new JList(defaultListModel);
+    
+    private int selected = -1;
     
     public AwsAccountPanel() {
         
@@ -66,11 +72,16 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
         
         this.setLayout(new BorderLayout());
                 
-        JList table = new JList(defaultListModel);
-        JScrollPane tablecrollPane = new JScrollPane(table);
-        tablecrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        this.add(tablecrollPane, BorderLayout.CENTER); 
+        list.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                selected = list.getSelectedIndex();
+            }
+        });
         
+        JScrollPane tablecrollPane = new JScrollPane(list);
+        tablecrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         
         final JButton btnNew = new JButton();
         ToolBarUtils.addImageToButton(btnNew, "Add.png", "Add", "Add Alias");
@@ -95,6 +106,14 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
         buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPane.add(btnDelete);
         
+        JLabel title = new JLabel("AWS Aliases");
+        title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
+        titlePanel.add(title, BorderLayout.CENTER);
+
+        this.add(titlePanel, BorderLayout.PAGE_START);
+        this.add(tablecrollPane, BorderLayout.CENTER); 
         this.add(buttonPane, BorderLayout.PAGE_END); 
     }
         ////////////////////////////////////////////////////////////////////////////
@@ -105,22 +124,35 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
         
         if (e.getActionCommand().equalsIgnoreCase("New")) {
             
-            AwsAlias alias = AwsAliasDialog.showDialog(this);
-            if (alias != null) {
-//                StringBuilder query = new StringBuilder();
-//                query.append("INSERT INTO aws_alias");
-//                query.append(" (aws_account, aws_alias)");
-//                query.append(" VALUES");
-//                query.append(" ('").append(alias.getAccountNumber()).append("', '").append(alias.getAccountAlias()).append("')");
-//                
-//                DbManager.getInstance().doInsertUpdate(query.toString());
-//                
-//                defaultListModel.addElement(aws_name);
+            AwsAccount account = AwsAccountDialog.showDialog(this);
+            if (account != null) {
+                StringBuilder query = new StringBuilder();
+                query.append("INSERT INTO aws_credentials");
+                query.append(" (aws_name, aws_bucket, aws_key, aws_secret, aws_prefix)");
+                query.append(" VALUES (");
+                query.append("'").append(account.getName()).append("'").append(",");
+                query.append("'").append(account.getBucket()).append("'").append(",");
+                query.append("'").append(account.getKey()).append("'").append(",");
+                query.append("'").append(account.getSecret()).append("'").append(",");
+                query.append("''"); // insert intial prefix
+                query.append(")");
+                
+                DbManager.getInstance().doInsertUpdate(query.toString());
+                defaultListModel.addElement(account.getName());
             }
             
         } else {
-            // defaultTableModel.removeRow(i);
+            
+            if (selected != -1) {
+                
+                String name = list.getSelectedValue().toString();
+                
+                String query = "DELETE FROM aws_credentials WHERE aws_name = '" +  name+ "'";
+                DbManager.getInstance().doInsertUpdate(query);
+                
+                defaultListModel.remove(selected);
+                selected = -1;
+            }
         }
     }
-    
 }

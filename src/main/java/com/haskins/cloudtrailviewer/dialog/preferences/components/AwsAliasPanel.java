@@ -48,7 +48,8 @@ import javax.swing.table.DefaultTableModel;
 public class AwsAliasPanel extends JPanel implements ActionListener {
 
     private final DefaultTableModel defaultTableModel = new DefaultTableModel();  
-    
+    private final JTable table = new JTable(defaultTableModel);
+        
     public AwsAliasPanel() {
         
         buildUI();
@@ -71,7 +72,7 @@ public class AwsAliasPanel extends JPanel implements ActionListener {
         defaultTableModel.addColumn("Account");
         defaultTableModel.addColumn("Alias");
         
-        JTable table = new JTable(defaultTableModel);
+        
         JScrollPane tablecrollPane = new JScrollPane(table);
         tablecrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         
@@ -131,8 +132,11 @@ public class AwsAliasPanel extends JPanel implements ActionListener {
             }
             
         } else {
-            // defaultTableModel.removeRow(i);
+            
+            int selected = table.getSelectedRow();
+            if (selected != -1) {
+                defaultTableModel.removeRow(selected);
+            }
         }
     }
-    
 }
