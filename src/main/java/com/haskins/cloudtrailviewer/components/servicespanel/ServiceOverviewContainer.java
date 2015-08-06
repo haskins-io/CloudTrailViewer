@@ -44,6 +44,16 @@ public class ServiceOverviewContainer extends JPanel {
         this.setLayout(new WrapLayout());
     }
     
+    public void setEvents(List<Event> events) {
+        
+        servicesMap.clear();
+        this.removeAll();
+        
+        for (Event event : events) {
+            addEvent(event);
+        }
+    }
+    
     public void addEvent(Event event) {
         
         String serviceName = TableUtils.getService(event);

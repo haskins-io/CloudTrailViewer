@@ -88,7 +88,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
 
         table.setColumnModel(customColumnModel);
         table.createDefaultColumnsFromModel();
-
+        
         buildUI();
     }
 
@@ -146,6 +146,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
      */
     public void eventLoadingComplete() {
         sideBar.eventLoadingComplete();
+        tableModel.reloadTableModel();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -187,6 +188,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
                 }
             };
         });
+        table.setAutoCreateRowSorter(true);
         
         JScrollPane eventsScrollPane = new JScrollPane(table);
         eventsScrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -244,13 +246,9 @@ public class EventTablePanel extends JPanel implements ActionListener {
     
     private void createPopupMenu() {
         
-        addMenuItem("Date/Time", 0, true);
-        addMenuItem("User Name", 1, true);
-        addMenuItem("Service", 2, true);
-        addMenuItem("Name", 3, true);
-        addMenuItem("Resource Type", 4, true);
-        addMenuItem("Resource Name", 5, true);
-
+        for (int i=0; i < EventsTableModel.COLUMN_NAMES.length; i++) {
+            addMenuItem(EventsTableModel.COLUMN_NAMES[i], i, true);
+        }
     }
 
     private void addMenuItem(String name, int position, boolean visible) {

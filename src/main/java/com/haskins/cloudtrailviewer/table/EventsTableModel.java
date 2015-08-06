@@ -29,7 +29,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class EventsTableModel extends AbstractTableModel {
     
-    public final String[] columnNames = new String[] {
+    public static final String[] COLUMN_NAMES = new String[] {
          "Date/Time", "User Name", "Service", "Name", "Resource Type", "Resource Name"
     };
             
@@ -52,12 +52,12 @@ public class EventsTableModel extends AbstractTableModel {
     ///////////////////////////////////////////////////////////////////////////
     @Override
     public String getColumnName(int index) {
-        return columnNames[index];
+        return COLUMN_NAMES[index];
     }
 
     @Override
     public int getColumnCount() {
-        return columnNames.length;
+        return COLUMN_NAMES.length;
     }
 
     @Override

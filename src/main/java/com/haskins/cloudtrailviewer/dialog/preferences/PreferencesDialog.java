@@ -80,8 +80,8 @@ public class PreferencesDialog extends JDialog implements ActionListener {
         
         this.setLayout(new BorderLayout());
         this.setResizable(true);
-        this.setMinimumSize(new Dimension(300,400));
-        this.setPreferredSize(new Dimension(300,400));
+        this.setMinimumSize(new Dimension(400,500));
+        this.setPreferredSize(new Dimension(400,500));
         
         final JButton btnOK = new JButton("OK");
         btnOK.setActionCommand("OK");

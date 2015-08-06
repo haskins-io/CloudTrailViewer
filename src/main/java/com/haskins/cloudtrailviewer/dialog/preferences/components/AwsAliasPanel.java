@@ -22,7 +22,9 @@ import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.dialog.preferences.AwsAliasDialog;
 import com.haskins.cloudtrailviewer.model.AwsAlias;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
+import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,9 +33,12 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -69,24 +74,39 @@ public class AwsAliasPanel extends JPanel implements ActionListener {
         JTable table = new JTable(defaultTableModel);
         JScrollPane tablecrollPane = new JScrollPane(table);
         tablecrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        this.add(tablecrollPane, BorderLayout.CENTER); 
         
         
-        final JButton btnNew = new JButton("New");
+        final JButton btnNew = new JButton();
+        ToolBarUtils.addImageToButton(btnNew, "Add.png", "Add", "Add Alias");
         btnNew.setActionCommand("New");
         btnNew.addActionListener(this);
         
-        final JButton btnDelete = new JButton("Delete");
+        final JButton btnDelete = new JButton();
+        ToolBarUtils.addImageToButton(btnDelete, "Minus.png", "Remove", "Remove Alias");
         btnDelete.setActionCommand("Delete");
         btnDelete.addActionListener(this);
         
         JPanel buttonPane = new JPanel();
+        buttonPane.setBackground(Color.white);
         buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
-        buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+        buttonPane.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY));
+        
+        Border border = buttonPane.getBorder();
+        Border margin = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+        buttonPane.setBorder(new CompoundBorder(border, margin));
+        
         buttonPane.add(btnNew);
         buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPane.add(btnDelete);
         
+        JLabel title = new JLabel("AWS Aliases");
+        title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
+        titlePanel.add(title, BorderLayout.CENTER);
+
+        this.add(titlePanel, BorderLayout.PAGE_START); 
+        this.add(tablecrollPane, BorderLayout.CENTER); 
         this.add(buttonPane, BorderLayout.PAGE_END); 
     }
         ////////////////////////////////////////////////////////////////////////////
