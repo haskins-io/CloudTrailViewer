@@ -50,6 +50,7 @@ public class Menu extends JMenuBar implements ApplicationListener {
         this.application = new DefaultApplication();
         application.addApplicationListener(this);
         application.addPreferencesMenuItem();
+        application.setEnabledAboutMenu(true);
         application.setEnabledPreferencesMenu(true);
         
         buildMenu();
@@ -61,6 +62,7 @@ public class Menu extends JMenuBar implements ApplicationListener {
     @Override
     public void handleAbout(ApplicationEvent event) {
         showAboutDialog();
+        event.setHandled(true);
     }
    
     @Override
@@ -127,7 +129,7 @@ public class Menu extends JMenuBar implements ApplicationListener {
             CloudTrailViewer.frame, 
             "Are you sure you want to quit?", "Quit?",
             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-            null, options, null) == JOptionPane.OK_OPTION) {
+            null, options, options[1]) == JOptionPane.OK_OPTION) {
             
                 System.exit(0);
         }
