@@ -52,6 +52,8 @@ public class ServiceOverviewContainer extends JPanel {
         for (Event event : events) {
             addEvent(event);
         }
+        
+        this.revalidate();
     }
     
     public void addEvent(Event event) {
