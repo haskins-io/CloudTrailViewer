@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.core;
 
-import com.haskins.cloudtrailviewer.dialog.AwsAccountDialog;
+import com.haskins.cloudtrailviewer.dialog.preferences.AwsAccountDialog;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.prefs.Preferences;
