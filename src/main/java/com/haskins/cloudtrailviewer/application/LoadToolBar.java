@@ -19,10 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
+import static com.haskins.cloudtrailviewer.CloudTrailViewer.frame;
 import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.dialog.S3FileChooser;
 //import com.haskins.cloudtrailviewer.core.PreferencesController;
-import com.haskins.cloudtrailviewer.dialog.AwsAccountDialog;
 import com.haskins.cloudtrailviewer.dialog.SearchOptions;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
@@ -36,6 +36,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
@@ -189,17 +190,10 @@ public class LoadToolBar extends JToolBar {
             }
             
         } else {
-            
-            AwsAccountDialog.showDialog(CloudTrailViewer.frame);
-            
-//            rows = DbManager.getInstance().executeCursorStatement(query);
-//            if (!rows.isEmpty()) {
-//            
-//                final List<String> files = S3FileChooser.showDialog(CloudTrailViewer.frame);
-//                if (!files.isEmpty()) {
-//                    application.newS3Files(files, filter);
-//                }
-//            }
+            JOptionPane.showMessageDialog(
+                CloudTrailViewer.frame, 
+                "To download file from a S3 bucket you\n will need to define an account in Preferences."
+            );
         } 
     }
 }
