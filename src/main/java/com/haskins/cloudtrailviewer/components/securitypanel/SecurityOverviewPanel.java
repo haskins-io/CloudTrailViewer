@@ -32,6 +32,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -79,7 +80,7 @@ public class SecurityOverviewPanel extends JPanel {
         totalLabel.setMinimumSize(new Dimension(50,30));
         totalLabel.setMaximumSize(new Dimension(50,30));
         totalLabel.setOpaque(true);
-        totalLabel.setAlignmentX(CENTER_ALIGNMENT);
+        totalLabel.setHorizontalAlignment(SwingConstants.CENTER);
         
         this.setLayout(new BorderLayout());
         this.add(nameLabel, BorderLayout.CENTER);
