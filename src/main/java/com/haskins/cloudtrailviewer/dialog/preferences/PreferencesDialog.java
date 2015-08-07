@@ -116,6 +116,9 @@ public class PreferencesDialog extends JDialog implements ActionListener {
         SecurityPanel security = new SecurityPanel();
         tPane.add("Security", security);
         
+        ResourcePanel resources = new ResourcePanel();
+        tPane.add("Resources", resources);
+        
         Container contentPane = getContentPane();
         contentPane.add(tPane, BorderLayout.CENTER);
     }
