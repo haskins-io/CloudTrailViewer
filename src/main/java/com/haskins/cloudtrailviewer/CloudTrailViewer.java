@@ -31,7 +31,7 @@ import javax.swing.JFrame;
  */
 public class CloudTrailViewer extends JFrame {
 
-    public static final CloudTrailViewerApplication frame = new CloudTrailViewerApplication();
+    public static CloudTrailViewerApplication frame;
     
     private static void createAndShowGUI() {
                         
@@ -52,6 +52,7 @@ public class CloudTrailViewer extends JFrame {
     public static void main(String[] args) {
 
         DbManager.getInstance().sync();
+        frame = new CloudTrailViewerApplication();
         
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             
