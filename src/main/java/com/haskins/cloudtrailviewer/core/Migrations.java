@@ -90,7 +90,7 @@ public class Migrations {
     
     public static void createVersion2(Connection conn, Integer currentVersion) {
         
-        if (currentVersion < 1) {
+        if (currentVersion < 2) {
         
             StringBuilder createVersionTable = new StringBuilder();
             createVersionTable.append("CREATE TABLE aws_security ( ");
@@ -99,10 +99,32 @@ public class Migrations {
 
             DbManager.getInstance().doExecute(createVersionTable.toString());
             
+//            StringBuilder query = new StringBuilder();
+//            query.append("INSERT INTO aws_security VALUES");
+//            query.append(" (''), ");
+//            
+//            query.append(" ('')");
+//            DbManager.getInstance().doInsertUpdate(query.toString());
+            
+            
             String insertQuery = "UPDATE db_properties SET db_version = 2 WHERE id = 1";
             DbManager.getInstance().doInsertUpdate(insertQuery);
 
             currentVersion = 2;
+        }
+    }
+    
+    public static void createVersion3(Connection conn, Integer currentVersion) {
+        
+        if (currentVersion < 3) {
+        
+            StringBuilder createVersionTable = new StringBuilder();
+            createVersionTable.append("ALTER TABLE aws_credentials ");
+            createVersionTable.append("ADD COLUMN active SMALLINT");
+
+            DbManager.getInstance().doExecute(createVersionTable.toString());
+            
+            currentVersion = 3;
         }
     }
     

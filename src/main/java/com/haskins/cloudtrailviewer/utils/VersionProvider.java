@@ -35,12 +35,13 @@ public class VersionProvider {
     private String version;
  
     private VersionProvider() {
+        
         ResourceBundle rb;
         try {
             rb = ResourceBundle.getBundle("cloudtrailviewer.properties");
             version = rb.getString("application.version");
         } catch (MissingResourceException e) {
-            LOGGER.warning("Resource bundle 'primefaces-extensions' was not found or error while reading current version.");
+            LOGGER.warning("Resource bundle 'cloudtrailviewer.properties' was not found or error while reading current version.");
         }
     }
  

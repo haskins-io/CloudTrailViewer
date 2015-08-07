@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.core;
 
-import com.haskins.cloudtrailviewer.dialog.preferences.AwsAccountDialog;
+import com.haskins.cloudtrailviewer.dialog.preferences.dialogs.AwsAccountDialog;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.prefs.Preferences;
@@ -40,6 +40,10 @@ public class PreferencesController {
     
     private final Map<String, String> propertiesCache = new HashMap<>();
         
+    private PreferencesController() {
+        
+    }
+    
     /**
      * Returns an instance of the class
      * @return 
