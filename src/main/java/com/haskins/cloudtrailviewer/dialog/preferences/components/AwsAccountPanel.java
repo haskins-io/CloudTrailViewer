@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.dialog.preferences.components;
 
 import com.haskins.cloudtrailviewer.core.DbManager;
-import com.haskins.cloudtrailviewer.dialog.preferences.AwsAccountDialog;
+import com.haskins.cloudtrailviewer.dialog.preferences.dialogs.AwsAccountDialog;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
@@ -134,7 +134,7 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
                 query.append("'").append(account.getBucket()).append("'").append(",");
                 query.append("'").append(account.getKey()).append("'").append(",");
                 query.append("'").append(account.getSecret()).append("'").append(",");
-                query.append("''"); // insert intial prefix
+                query.append("''"); // insert initial prefix
                 query.append(")");
                 
                 DbManager.getInstance().doInsertUpdate(query.toString());
