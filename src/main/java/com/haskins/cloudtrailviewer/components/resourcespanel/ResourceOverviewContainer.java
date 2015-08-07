@@ -19,29 +19,67 @@ package com.haskins.cloudtrailviewer.components.resourcespanel;
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
+import com.haskins.cloudtrailviewer.utils.GeneralUtils;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.JPanel;
 
 /**
  *
  * @author mark
  */
-public class ResourcesOverviewContainer extends JPanel {
+public class ResourceOverviewContainer extends JPanel {
     
     private final Map<String, ResourceOverviewPanel> resourcesMap = new HashMap<>();
     
     private final Feature feature;
     
-    public ResourcesOverviewContainer(Feature parent) {
+    public ResourceOverviewContainer(Feature parent) {
         
         this.feature = parent;
         
         this.setLayout(new WrapLayout());
     }
     
+    public void setEvents(List<Event> events) {
+        
+        resourcesMap.clear();
+        this.removeAll();
+        
+        for (Event event : events) {
+            addEvent(event);
+        }
+        
+        this.revalidate();
+    }
+    
     public void addEvent(Event event) {
         
+        String eventName = event.getEventName();
         
+        final ResourceOverviewPanel resourcePanel;
+        
+        if (!resourcesMap.containsKey(eventName)) {
+            
+            resourcePanel = new ResourceOverviewPanel(eventName, feature);
+            
+            resourcesMap.put(eventName, resourcePanel);
+            
+            this.removeAll();
+            
+            Set keys = resourcesMap.keySet();
+            List<String> sorted = GeneralUtils.asSortedList(keys);
+            for (String service : sorted) {
+                ResourceOverviewPanel panel = resourcesMap.get(service);
+                this.add(panel);
+            }            
+        } else {
+            resourcePanel = resourcesMap.get(eventName);
+        }
+        
+        resourcePanel.addEvent(event);
     }
+   
 }

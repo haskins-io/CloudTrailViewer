@@ -19,15 +19,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.feature.Feature;
-import com.haskins.cloudtrailviewer.feature.NoData;
-import com.haskins.cloudtrailviewer.feature.SimpleTable;
+import com.haskins.cloudtrailviewer.feature.NoDataFeature;
+import com.haskins.cloudtrailviewer.feature.SimpleTableFeature;
 import com.haskins.cloudtrailviewer.core.EventLoader;
 import com.haskins.cloudtrailviewer.core.EventLoaderListener;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
-import com.haskins.cloudtrailviewer.feature.error.ErrorFeature;
-import com.haskins.cloudtrailviewer.feature.overview.OverviewFeature;
-import com.haskins.cloudtrailviewer.feature.security.SecurityFeature;
-import com.haskins.cloudtrailviewer.feature.user.UserFeature;
+import com.haskins.cloudtrailviewer.feature.ErrorFeature;
+import com.haskins.cloudtrailviewer.feature.OverviewFeature;
+import com.haskins.cloudtrailviewer.feature.ResourceFeature;
+import com.haskins.cloudtrailviewer.feature.SecurityFeature;
+import com.haskins.cloudtrailviewer.feature.UserFeature;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
@@ -182,11 +183,11 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
                 
-        JPanel toolbars = new JPanel(new GridLayout(1, 3));
+        JPanel toolbars = new JPanel(new BorderLayout());
         toolbars.setBackground(Color.WHITE);
-        toolbars.add(new LoadToolBar(this));
-        toolbars.add(featureToolBar);
-        toolbars.add(sidePanelToolBar);
+        toolbars.add(new LoadToolBar(this), BorderLayout.WEST);
+        toolbars.add(featureToolBar, BorderLayout.CENTER);
+        toolbars.add(sidePanelToolBar, BorderLayout.EAST);
         
         topPanel.add(toolbars, BorderLayout.SOUTH);
            
@@ -197,17 +198,17 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     
     private void defineFeatures() {
 
-        NoData noData = new NoData();
+        NoDataFeature noData = new NoDataFeature();
         featureMap.put(noData.getName(), noData);
         features.add((JPanel)noData, noData.getName());
-        changeFeature(NoData.NAME, true);
+        changeFeature(NoDataFeature.NAME, true);
         
         OverviewFeature serviceOverview = new OverviewFeature();
         database.addListener(serviceOverview);
         featureMap.put(serviceOverview.getName(), serviceOverview);
         features.add((JPanel)serviceOverview, serviceOverview.getName());
         
-        SimpleTable simpleTable = new SimpleTable(database);
+        SimpleTableFeature simpleTable = new SimpleTableFeature(database);
         featureMap.put(simpleTable.getName(), simpleTable);
         features.add((JPanel)simpleTable, simpleTable.getName());
         
@@ -225,6 +226,11 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         database.addListener(securityFeature);
         featureMap.put(securityFeature.getName(), securityFeature);
         features.add((JPanel)securityFeature, securityFeature.getName());
+        
+        ResourceFeature resourceFeature = new ResourceFeature();
+        database.addListener(resourceFeature);
+        featureMap.put(resourceFeature.getName(), resourceFeature);
+        features.add((JPanel)resourceFeature, resourceFeature.getName());
        
         Set<String> keys = featureMap.keySet();
         Iterator<String> it = keys.iterator();

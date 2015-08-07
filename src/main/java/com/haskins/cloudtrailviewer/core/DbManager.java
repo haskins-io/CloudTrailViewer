@@ -84,8 +84,11 @@ public class DbManager {
         
         Connection conn = getDbConnection();
         if (conn != null) {
+            
             Migrations.createVersion1(conn, currentVersion);
             Migrations.createVersion2(conn, currentVersion);
+            Migrations.createVersion3(conn, currentVersion);
+            Migrations.createVersion4(conn, currentVersion);
         }
     }
 

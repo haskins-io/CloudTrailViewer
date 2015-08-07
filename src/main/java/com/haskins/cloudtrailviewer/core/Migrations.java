@@ -123,8 +123,38 @@ public class Migrations {
             createVersionTable.append("ADD COLUMN active SMALLINT");
 
             DbManager.getInstance().doExecute(createVersionTable.toString());
+
+            
+            String insertQuery = "UPDATE db_properties SET db_version = 3 WHERE id = 1";
+            DbManager.getInstance().doInsertUpdate(insertQuery);
             
             currentVersion = 3;
+        }
+    }
+    
+    public static void createVersion4(Connection conn, Integer currentVersion) {
+        
+        if (currentVersion < 4) {
+        
+            StringBuilder createVersionTable = new StringBuilder();
+            createVersionTable.append("CREATE TABLE aws_resources ( ");
+            createVersionTable.append("ID INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ");
+            createVersionTable.append("api_call VARCHAR(50) )");
+
+            DbManager.getInstance().doExecute(createVersionTable.toString());
+            
+//            StringBuilder query = new StringBuilder();
+//            query.append("INSERT INTO aws_resources VALUES");
+//            query.append(" (''), ");
+//            
+//            query.append(" ('')");
+//            DbManager.getInstance().doInsertUpdate(query.toString());
+            
+            
+            String insertQuery = "UPDATE db_properties SET db_version = 4 WHERE id = 1";
+            DbManager.getInstance().doInsertUpdate(insertQuery);
+
+            currentVersion = 4;
         }
     }
     
