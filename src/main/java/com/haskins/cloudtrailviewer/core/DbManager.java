@@ -18,6 +18,7 @@
 
 package com.haskins.cloudtrailviewer.core;
 
+import com.haskins.cloudtrailviewer.model.CurrentDbVersion;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -60,7 +61,7 @@ public class DbManager {
      */
     public void sync() {
 
-        Integer currentVersion = 0;
+        CurrentDbVersion currentVersion = new CurrentDbVersion();
         
         Connection dbTest = getDbConnection();
         if (dbTest == null) {
@@ -79,7 +80,7 @@ public class DbManager {
             }
             
         } else {
-            currentVersion = getCurrentDbVersion();
+            currentVersion.setDbVersion(getCurrentDbVersion());
         }
         
         Connection conn = getDbConnection();
