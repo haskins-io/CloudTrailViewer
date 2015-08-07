@@ -39,6 +39,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 
@@ -61,7 +62,7 @@ public class SecurityPanel extends JPanel implements Preferences, ActionListener
         List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
         for (ResultSetRow row : rows) {
             
-            String aws_name = (String)row.get("aws_name");
+            String aws_name = (String)row.get("api_call");
             
             defaultListModel.addElement(aws_name);
         }
@@ -106,7 +107,7 @@ public class SecurityPanel extends JPanel implements Preferences, ActionListener
         buttonPane.add(btnDelete);
         
         JLabel title = new JLabel("Security API Events");
-        title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
         titlePanel.add(title, BorderLayout.CENTER);
