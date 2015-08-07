@@ -16,10 +16,68 @@
  */
 package com.haskins.cloudtrailviewer.components;
 
+import com.haskins.cloudtrailviewer.core.Service;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+
 /**
  *
  * @author mark
  */
-public class ServiceApiPanel {
+public class ServiceApiPanel extends JPanel {
     
+    private static final DefaultComboBoxModel servicesModel = new DefaultComboBoxModel();
+    private static final DefaultComboBoxModel apisModel = new DefaultComboBoxModel();
+    
+    private JComboBox servicesCombo = null;
+    private final JComboBox apisCombo = new JComboBox(apisModel);
+    
+    public ServiceApiPanel() {
+        
+        List<String> services = Service.getInstance().getServices();
+        for (String service : services) {
+            servicesModel.addElement(service);
+        }
+        
+        buildUI();
+    }
+    
+    public String getService() {
+        return (String)servicesCombo.getSelectedItem();
+    }
+    
+    public String getApi() {
+        return (String)apisCombo.getSelectedItem();
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // Private methods
+    ////////////////////////////////////////////////////////////////////////////
+    private void buildUI() {
+        
+        servicesCombo = new JComboBox(servicesModel);
+        servicesCombo.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox cb = (JComboBox)e.getSource();
+                String service = (String)cb.getSelectedItem();
+                
+                apisModel.removeAllElements();
+                List<String> apis = Service.getInstance().getApiCallsForService(service);
+                for (String api : apis) {
+                   apisModel.addElement(api);
+                }
+            }
+        });
+        
+        this.setLayout(new GridLayout(2,1));
+        this.add(servicesCombo);
+        this.add(apisCombo);
+    }
 }
