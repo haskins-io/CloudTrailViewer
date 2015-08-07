@@ -81,7 +81,7 @@
                 <configuration>
                     <mainClass>com.haskins.cloudtrailviewer.CloudTrailViewer</mainClass>
                     <dictionaryFile>Info.plist</dictionaryFile>
-                    <iconFile>icons/Icons.icns</iconFile>
+                    <iconFile>icons/CloudTrailViewer.icns</iconFile>
                 </configuration>
                 <executions>
                     <execution>
