@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature;
 
+import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.components.securitypanel.SecurityOverviewContainer;
 import com.haskins.cloudtrailviewer.core.DbManager;
@@ -48,8 +49,11 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
     
     private JSplitPane jsp;
     
-    public SecurityFeature() {
+    private final StatusBar statusBar;
+    
+    public SecurityFeature(StatusBar sb) {
         
+        this.statusBar = sb;
         securityContainer = new SecurityOverviewContainer(this);
         
         loadSecurityEvents();
@@ -99,6 +103,7 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
         }
         
         eventTable.clearEvents();
+        statusBar.setVisibleEvents(events.size());
         eventTable.setEvents(events);
     }
 

@@ -37,7 +37,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.io.File;
 import java.util.ArrayList;
@@ -203,7 +202,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         features.add((JPanel)noData, noData.getName());
         changeFeature(NoDataFeature.NAME, true);
         
-        OverviewFeature serviceOverview = new OverviewFeature();
+        OverviewFeature serviceOverview = new OverviewFeature(statusBar);
         database.addListener(serviceOverview);
         featureMap.put(serviceOverview.getName(), serviceOverview);
         features.add((JPanel)serviceOverview, serviceOverview.getName());
@@ -217,17 +216,17 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         featureMap.put(userOverview.getName(), userOverview);
         features.add((JPanel)userOverview, userOverview.getName());
         
-        ErrorFeature errorFeature = new ErrorFeature();
+        ErrorFeature errorFeature = new ErrorFeature(statusBar);
         database.addListener(errorFeature);
         featureMap.put(errorFeature.getName(), errorFeature);
         features.add((JPanel)errorFeature, errorFeature.getName());
         
-        SecurityFeature securityFeature = new SecurityFeature();
+        SecurityFeature securityFeature = new SecurityFeature(statusBar);
         database.addListener(securityFeature);
         featureMap.put(securityFeature.getName(), securityFeature);
         features.add((JPanel)securityFeature, securityFeature.getName());
         
-        ResourceFeature resourceFeature = new ResourceFeature();
+        ResourceFeature resourceFeature = new ResourceFeature(statusBar);
         database.addListener(resourceFeature);
         featureMap.put(resourceFeature.getName(), resourceFeature);
         features.add((JPanel)resourceFeature, resourceFeature.getName());

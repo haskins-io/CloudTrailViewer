@@ -31,6 +31,7 @@ import javax.swing.JPanel;
  */
 public class StatusBar extends JPanel {
     
+    private final JLabel visibleEvents = new JLabel();
     private final JLabel loadedEvents = new JLabel();
     private final JLabel statusMessage = new JLabel();
     private final static JLabel memory = new JLabel();
@@ -51,7 +52,6 @@ public class StatusBar extends JPanel {
      * @param message message to display
      */
     public void setStatusMessage(String message) {
-        
         statusMessage.setText(message);
     }
     
@@ -60,8 +60,11 @@ public class StatusBar extends JPanel {
      * @param eventCount 
      */
     public void setLoadedEvents(int eventCount) {
-        
         loadedEvents.setText("Events Loaded : " + eventCount);
+    }
+    
+    public void setVisibleEvents(int eventCount) {
+        visibleEvents.setText("Current Events : " + eventCount);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -70,7 +73,7 @@ public class StatusBar extends JPanel {
     private void buildStatusBar() {
         
         JPanel visibleEventsLabel = new JPanel();
-        visibleEventsLabel.add(loadedEvents);
+        visibleEventsLabel.add(visibleEvents);
         
         JPanel messageLabel = new JPanel();
         messageLabel.add(statusMessage);
@@ -117,6 +120,5 @@ public class StatusBar extends JPanel {
                 }
             }
         }
-        
     }
 }

@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature;
 
+import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.model.NameValueModel;
@@ -53,7 +54,12 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
     private final DefaultListModel<NameValueModel> errorListModel = new DefaultListModel<>();    
     private final EventTablePanel eventTable = new EventTablePanel();
         
-    public ErrorFeature() {
+    private final StatusBar statusBar;
+    
+    public ErrorFeature(StatusBar sb) {
+        
+        this.statusBar = sb;
+        
         buildUI();
     }
             
@@ -94,6 +100,7 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
     @Override
     public void showEventsTable(List<Event> events) {
                 
+        statusBar.setVisibleEvents(events.size());
         eventTable.clearEvents();
         eventTable.setEvents(events);
     }
