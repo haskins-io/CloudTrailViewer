@@ -29,7 +29,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -268,17 +267,18 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
         
         eventTable.setVisible(true);
         
-        JPanel detailPanel = new JPanel(new GridLayout(2,1));
-        detailPanel.add(servicesContainer);
-        detailPanel.add(eventTable);
+        JSplitPane jsp1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, servicesContainer, eventTable);
+        jsp1.setBackground(Color.WHITE);
+        jsp1.setDividerSize(3);
+        jsp1.setDividerLocation(0.5);
         
-        JSplitPane jsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, tabbedPane, detailPanel);
-        jsp.setBackground(Color.WHITE);
-        jsp.setDividerSize(3);
+        JSplitPane jsp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, tabbedPane, jsp1);
+        jsp2.setBackground(Color.WHITE);
+        jsp2.setDividerSize(3);
 
         this.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0)); 
         this.setBackground(Color.WHITE);
         this.setLayout(new BorderLayout());
-        this.add(jsp, BorderLayout.CENTER);
+        this.add(jsp2, BorderLayout.CENTER);
     }
 }
