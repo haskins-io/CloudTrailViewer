@@ -16,12 +16,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.feature.service;
+package com.haskins.cloudtrailviewer.feature.resources;
 
 /**
  *
  * @author mark.haskins
  */
-public class ServiceFeature {
+public class ResourcesFeature {
     
 }
