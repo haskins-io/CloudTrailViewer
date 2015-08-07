@@ -16,15 +16,17 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.feature.overview;
+package com.haskins.cloudtrailviewer.feature;
 
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
-import com.haskins.cloudtrailviewer.components.servicespanel.ServiceOverviewContainer;
+import com.haskins.cloudtrailviewer.components.resourcespanel.ResourceOverviewContainer;
+import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
-import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -33,20 +35,24 @@ import javax.swing.JSplitPane;
 
 /**
  *
- * @author mark
+ * @author mark.haskins
  */
-public class OverviewFeature extends JPanel implements Feature, EventDatabaseListener {
+public class ResourceFeature extends JPanel implements Feature, EventDatabaseListener {
     
-    public static final String NAME = "Overview Feature";
+    public static final String NAME = "Resources Feature";
     
-    private final ServiceOverviewContainer servicesContainer;
+    private final List<String> resourceEvents = new ArrayList<>();
+    
+    private final ResourceOverviewContainer resourcesContainer;
     private final EventTablePanel eventTable = new EventTablePanel();
     
     private JSplitPane jsp;
     
-    public OverviewFeature() {
+    public ResourceFeature() {
         
-        servicesContainer = new ServiceOverviewContainer(this);
+        resourcesContainer = new ResourceOverviewContainer(this);
+        
+        loadSecurityEvents();
         buildUI();
     }
            
@@ -63,17 +69,17 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
 
     @Override
     public String getIcon() {
-        return "Service-Overview-48.png";
+        return "Server-48.png";
     }
 
     @Override
     public String getTooltip() {
-        return "Service API Overview";
+        return "Resources Overview";
     }
     
     @Override
     public String getName() {
-        return OverviewFeature.NAME;
+        return ResourceFeature.NAME;
     }
     
     @Override
@@ -101,7 +107,10 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void eventAdded(Event event) {
-        servicesContainer.addEvent(event);
+        
+        if (resourceEvents.contains(event.getEventName())) {
+            resourcesContainer.addEvent(event);
+        }
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -109,8 +118,8 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     //////////////////////////////////////////////////////////////////////////// 
     private void buildUI() {
 
-        servicesContainer.setBackground(Color.white);
-        JScrollPane sPane = new JScrollPane(servicesContainer);
+        resourcesContainer.setBackground(Color.white);
+        JScrollPane sPane = new JScrollPane(resourcesContainer);
         sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
         
         eventTable.setVisible(false);
@@ -124,5 +133,15 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
         this.setLayout(new BorderLayout());
         this.add(jsp, BorderLayout.CENTER);
     }
-   
+    
+    private void loadSecurityEvents() {
+        
+        String query = "SELECT api_call FROM aws_resources";
+        List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
+        for (ResultSetRow row : rows) {
+            
+            String aws_name = (String)row.get("api_call");
+            resourceEvents.add(aws_name);
+        }
+    }
 }

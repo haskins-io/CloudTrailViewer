@@ -16,18 +16,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.feature.security;
+package com.haskins.cloudtrailviewer.feature;
 
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
-import com.haskins.cloudtrailviewer.components.securitypanel.SecurityOverviewContainer;
-import com.haskins.cloudtrailviewer.core.DbManager;
+import com.haskins.cloudtrailviewer.components.servicespanel.ServiceOverviewContainer;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
-import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -36,24 +32,20 @@ import javax.swing.JSplitPane;
 
 /**
  *
- * @author mark.haskins
+ * @author mark
  */
-public class SecurityFeature extends JPanel implements Feature, EventDatabaseListener {
+public class OverviewFeature extends JPanel implements Feature, EventDatabaseListener {
     
-    public static final String NAME = "Security Feature";
+    public static final String NAME = "Overview Feature";
     
-    private final List<String> securityEvents = new ArrayList<>();
-    
-    private final SecurityOverviewContainer securityContainer;
+    private final ServiceOverviewContainer servicesContainer;
     private final EventTablePanel eventTable = new EventTablePanel();
     
     private JSplitPane jsp;
     
-    public SecurityFeature() {
+    public OverviewFeature() {
         
-        securityContainer = new SecurityOverviewContainer(this);
-        
-        loadSecurityEvents();
+        servicesContainer = new ServiceOverviewContainer(this);
         buildUI();
     }
            
@@ -70,17 +62,17 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
 
     @Override
     public String getIcon() {
-        return "Warning-48.png";
+        return "Service-Overview-48.png";
     }
 
     @Override
     public String getTooltip() {
-        return "Security Overview";
+        return "Service API Overview";
     }
     
     @Override
     public String getName() {
-        return SecurityFeature.NAME;
+        return OverviewFeature.NAME;
     }
     
     @Override
@@ -108,10 +100,7 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void eventAdded(Event event) {
-        
-        if (securityEvents.contains(event.getEventName())) {
-            securityContainer.addEvent(event);
-        }
+        servicesContainer.addEvent(event);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -119,8 +108,8 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
     //////////////////////////////////////////////////////////////////////////// 
     private void buildUI() {
 
-        securityContainer.setBackground(Color.white);
-        JScrollPane sPane = new JScrollPane(securityContainer);
+        servicesContainer.setBackground(Color.white);
+        JScrollPane sPane = new JScrollPane(servicesContainer);
         sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
         
         eventTable.setVisible(false);
@@ -134,15 +123,5 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
         this.setLayout(new BorderLayout());
         this.add(jsp, BorderLayout.CENTER);
     }
-    
-    private void loadSecurityEvents() {
-        
-        String query = "SELECT api_call FROM aws_security";
-        List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
-        for (ResultSetRow row : rows) {
-            
-            String aws_name = (String)row.get("api_call");
-            securityEvents.add(aws_name);
-        }
-    }
+   
 }

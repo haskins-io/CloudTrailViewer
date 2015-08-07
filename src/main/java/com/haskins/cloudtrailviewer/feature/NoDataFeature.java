@@ -18,82 +18,77 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature;
 
-import com.haskins.cloudtrailviewer.components.EventTablePanel;
-import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Feature that provides a Table view of the loaded events
- *  
+ * Feature that provides a "No Events Loaded" panel
  * @author mark
  */
-public class SimpleTable extends JPanel implements Feature {
-    
-    public static final String NAME = "Table Feature";
+public class NoDataFeature extends JPanel implements Feature {
         
-    private final EventTablePanel tablePanel;
+    public static final String NAME = "No Data";
+    
+    private static final String noEvents = "No Events Loaded.";
+    private static final String events = "";
+    
+    JLabel label = new JLabel(noEvents);
     
     /**
-     * Default constructor
-     * @param eventsDatabase reference to an Event Database 
+     * Default Constructor
      */
-    public SimpleTable(FilteredEventDatabase eventsDatabase) {
-              
-        tablePanel = new EventTablePanel(eventsDatabase);
-        
-        buildUI();
+    public NoDataFeature() {
+        buildPanel();
     }
     
-    ////////////////////////////////////////////////////////////////////////////
-    ///// Feature implementation
-    ////////////////////////////////////////////////////////////////////////////
+    public void showEventsAvailable() {
+        label.setText(events);
+    }
+        ////////////////////////////////////////////////////////////////////////////
+    ///// Card implementation
+    ////////////////////////////////////////////////////////////////////////////    
     @Override
-    public void eventLoadingComplete() {
-        tablePanel.eventLoadingComplete();
-    }
-    
+    public void eventLoadingComplete() { }
+        
     @Override
     public boolean showOnToolBar() {
-        return true;
+        return false;
     }
-        
+    
     @Override
     public String getIcon() {
-        return "Table-48.png";
+        return null;
     }
 
     @Override
     public String getTooltip() {
-        return "Select Table view";
+        return null;
     }
-     
+    
     @Override
     public String getName() {
-        return SimpleTable.NAME;
+        return NoDataFeature.NAME;
     }
     
     @Override
     public void will_hide() { }
     
     @Override
-    public void will_appear() {
-        tablePanel.will_appear();
-        this.revalidate();
-    }
+    public void will_appear() { }
     
     @Override
     public void showEventsTable(List<Event> events) {}
-
+    
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
-    //////////////////////////////////////////////////////////////////////////// 
-    private void buildUI() {
-
-        this.setLayout(new BorderLayout());
-        
-        add(tablePanel, BorderLayout.CENTER);
+    ////////////////////////////////////////////////////////////////////////////
+    private void buildPanel() {
+                
+        this.setLayout(new GridBagLayout());
+        this.add(label);
     }
+
 }
