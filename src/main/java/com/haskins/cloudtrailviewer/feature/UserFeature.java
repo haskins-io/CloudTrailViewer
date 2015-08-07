@@ -191,12 +191,10 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
 
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                                          
                 NameValueModel model = (NameValueModel)userList.getSelectedValue();
                 
                 eventTable.clearEvents();
                 eventTable.setEvents(model.getEvents());
-                
                 servicesContainer.setEvents(model.getEvents());
             }
         });
@@ -227,13 +225,11 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
         roleList.addMouseListener(new MouseAdapter() {
 
             @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
-                                          
+            public void mouseClicked(MouseEvent mouseEvent) {                          
                 NameValueModel model = (NameValueModel)roleList.getSelectedValue();
                 
                 eventTable.clearEvents();
                 eventTable.setEvents(model.getEvents());
-                
                 servicesContainer.setEvents(model.getEvents());
             }
         });
@@ -266,6 +262,9 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
         tabbedPane.add("Roles", rolePane);
         
         eventTable.setVisible(true);
+        
+        servicesContainer.setMinimumSize(new Dimension(300, 300));
+        servicesContainer.setPreferredSize(new Dimension(300, 300));
         
         JSplitPane jsp1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, servicesContainer, eventTable);
         jsp1.setBackground(Color.WHITE);
