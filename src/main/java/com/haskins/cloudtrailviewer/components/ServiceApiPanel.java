@@ -16,7 +16,7 @@
  */
 package com.haskins.cloudtrailviewer.components;
 
-import com.haskins.cloudtrailviewer.core.Service;
+import com.haskins.cloudtrailviewer.core.AwsService;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +39,7 @@ public class ServiceApiPanel extends JPanel {
     
     public ServiceApiPanel() {
         
-        List<String> services = Service.getInstance().getServices();
+        List<String> services = AwsService.getInstance().getServices();
         for (String service : services) {
             servicesModel.addElement(service);
         }
@@ -69,7 +69,7 @@ public class ServiceApiPanel extends JPanel {
                 String service = (String)cb.getSelectedItem();
                 
                 apisModel.removeAllElements();
-                List<String> apis = Service.getInstance().getApiCallsForService(service);
+                List<String> apis = AwsService.getInstance().getApiCallsForService(service);
                 for (String api : apis) {
                    apisModel.addElement(api);
                 }

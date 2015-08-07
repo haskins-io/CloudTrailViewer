@@ -30,16 +30,16 @@ import java.util.Set;
  *
  * @author mark.haskins
  */
-public class Service {
+public class AwsService {
 
-    private static Service instance = null;
+    private static AwsService instance = null;
 
     private final Map<String, List<String>> services = new HashMap<>();
 
-    public static Service getInstance() {
+    public static AwsService getInstance() {
 
         if (instance == null) {
-            instance = new Service();
+            instance = new AwsService();
         }
 
         return instance;
@@ -115,7 +115,7 @@ public class Service {
         return apis;
     }
 
-    private Service() {
+    private AwsService() {
 
     }
 }

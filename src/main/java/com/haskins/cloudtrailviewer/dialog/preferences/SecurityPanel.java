@@ -127,7 +127,7 @@ public class SecurityPanel extends JPanel implements Preferences, ActionListener
             String api = SecurityDialog.showDialog(this);
             if (api != null) {
                 StringBuilder query = new StringBuilder();
-                query.append("INSERT INTO aws_security");
+                query.append("INSERT INTO aws_security (api_call)");
                 query.append(" VALUES (").append("'").append(api).append("'").append(")");
                 
                 DbManager.getInstance().doInsertUpdate(query.toString());
