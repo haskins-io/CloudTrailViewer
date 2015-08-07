@@ -40,6 +40,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 
@@ -107,7 +108,7 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
         buttonPane.add(btnDelete);
         
         JLabel title = new JLabel("AWS Accounts");
-        title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
         titlePanel.add(title, BorderLayout.CENTER);

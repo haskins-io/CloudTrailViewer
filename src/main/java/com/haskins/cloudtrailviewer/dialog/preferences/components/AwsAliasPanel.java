@@ -37,6 +37,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.table.DefaultTableModel;
@@ -101,9 +102,13 @@ public class AwsAliasPanel extends JPanel implements ActionListener {
         buttonPane.add(btnDelete);
         
         JLabel title = new JLabel("AWS Aliases");
-        title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setBorder(BorderFactory.createMatteBorder(4, 0, 0, 0, Color.LIGHT_GRAY));
+        border = titlePanel.getBorder();
+        margin = BorderFactory.createEmptyBorder(4, 0, 4, 0);
+        titlePanel.setBorder(new CompoundBorder(border, margin));
+        
         titlePanel.add(title, BorderLayout.CENTER);
 
         this.add(titlePanel, BorderLayout.PAGE_START); 
