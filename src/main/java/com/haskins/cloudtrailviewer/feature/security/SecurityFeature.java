@@ -21,6 +21,8 @@ package com.haskins.cloudtrailviewer.feature.security;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -32,8 +34,11 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
 
     public static final String NAME = "Security Feature";
     
-    public SecurityFeature() {
+    private final List<String> securityEvents = new ArrayList<>();
         
+    public SecurityFeature() {
+        addSecurityEvents();
+        buildUI();
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -83,4 +88,11 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     ////////////////////////////////////////////////////////////////////////////
+    private void buildUI() {
+        
+    }
+    
+    private void addSecurityEvents() {
+                
+    }
 }

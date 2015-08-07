@@ -14,8 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.dialog.preferences;
 
+package com.haskins.cloudtrailviewer.dialog.preferences.dialogs;
+
+import com.haskins.cloudtrailviewer.components.ServiceApiPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -30,27 +32,31 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
 /**
  *
- * @author mark
+ * @author mark.haskins
  */
-public class PreferencesDialog extends JDialog implements ActionListener {
-
-    private static PreferencesDialog dialog;
+public class SecurityDialog extends JDialog implements ActionListener {
     
-    private final JTabbedPane tPane = new JTabbedPane();
+    private static SecurityDialog dialog;
+    
+    private final ServiceApiPanel servicePanel = new ServiceApiPanel();
+    
+    private static String eventApi = null;
     
     /**
      * Shows the Dialog
      * @param parent 
+     * @return
      */
-    public static void showDialog(Component parent) {
+    public static String showDialog(Component parent) {
         
         Frame frame = JOptionPane.getFrameForComponent(parent);
-        dialog = new PreferencesDialog(frame);
+        dialog = new SecurityDialog(frame);
         dialog.setVisible(true);
+        
+        return eventApi;
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -60,64 +66,44 @@ public class PreferencesDialog extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
         if ("OK".equals(e.getActionCommand())) {
-            
-            for (int i = 0; i < tPane.getComponentCount(); i++) {
-                
-                Preferences p = (Preferences)tPane.getComponentAt(i);
-                p.savePreferences();
-            }
+            eventApi = servicePanel.getApi();
         }
         
-        PreferencesDialog.dialog.setVisible(false);
+        SecurityDialog.dialog.setVisible(false);
     }
     
     ////////////////////////////////////////////////////////////////////////////
-    // private methods
-    ////////////////////////////////////////////////////////////////////////////
-    public PreferencesDialog(Frame frame) {
+    // Private methods
+    ///////////////////////////////////////////////////////////////////////////
+    private SecurityDialog(Frame frame) {
+
+        super(frame, "API Security", true);
         
-        super(frame, "AWS Account", true);
-        
-        this.setLayout(new BorderLayout());
-        this.setResizable(true);
-        this.setMinimumSize(new Dimension(400,500));
-        this.setPreferredSize(new Dimension(400,500));
-        
-        final JButton btnOK = new JButton("OK");
-        btnOK.setActionCommand("OK");
-        btnOK.addActionListener(this);
-        getRootPane().setDefaultButton(btnOK);
+        this.setResizable(false);
+                        
+        final JButton btnLoad = new JButton("OK");
+        btnLoad.setActionCommand("OK");
+        btnLoad.addActionListener(this);
+        getRootPane().setDefaultButton(btnLoad);
         
         JButton btnCancel = new JButton("Cancel");
+        btnCancel.setActionCommand("Cancel");
         btnCancel.addActionListener(this);
-        
+                
+        //Lay out the buttons from left to right.
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
         buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         buttonPane.add(Box.createHorizontalGlue());
         buttonPane.add(btnCancel);
         buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
-        buttonPane.add(btnOK);
-        
+        buttonPane.add(btnLoad);
+                         
         Container contentPane = getContentPane();
+        contentPane.add(servicePanel, BorderLayout.CENTER);
         contentPane.add(buttonPane, BorderLayout.PAGE_END);
-        
-        addPreferencesPanel();
         
         pack();
         setLocationRelativeTo(frame);  
     }
-    
-    private void addPreferencesPanel() {
-        
-        AwsPanel awsPreferences = new AwsPanel();
-        tPane.add("AWS", awsPreferences);
-        
-        SecurityPanel security = new SecurityPanel();
-        tPane.add("Security", security);
-        
-        Container contentPane = getContentPane();
-        contentPane.add(tPane, BorderLayout.CENTER);
-    }
-    
 }
