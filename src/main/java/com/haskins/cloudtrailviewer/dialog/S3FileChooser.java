@@ -119,8 +119,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
         StringBuilder query = new StringBuilder();
         query.append("UPDATE aws_credentials SET aws_prefix =");
         query.append(" '").append(currentAccount.getPrefix()).append("'");
-        query.append(" WHERE aws_name = ");
-        query.append(" '").append(currentAccount.getName()).append("'");
+        query.append(" WHERE id = ").append(currentAccount.getId());
         DbManager.getInstance().doInsertUpdate(query.toString());        
         
         S3FileChooser.dialog.setVisible(false);
@@ -153,6 +152,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
             String name = (String)row.get("aws_name");
             
             AwsAccount account = new AwsAccount(
+                (Integer)row.get("id"),
                 name, 
                 (String)row.get("aws_bucket"), 
                 (String)row.get("aws_key"), 
@@ -425,6 +425,12 @@ public class S3FileChooser extends JDialog implements ActionListener {
                 String newSelection = (String)cb.getSelectedItem();
                 
                 currentAccount = accountMap.get(newSelection);
+                String update = "UPDATE aws_credentials SET active = 0";
+                DbManager.getInstance().doInsertUpdate(update);
+                
+                String setActive = "UPDATE aws_credentials SET active = 1 WHERE ID = " + currentAccount.getId();
+                DbManager.getInstance().doInsertUpdate(setActive);
+                
                 prefix = currentAccount.getPrefix();
                 reloadContents();
             }

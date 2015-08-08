@@ -22,14 +22,16 @@ package com.haskins.cloudtrailviewer.model;
  */
 public class AwsAccount {
     
+    private final int id;
     private final String name;
     private final String bucket;
     private final String key;
     private final String secret;
     private String prefix;
     
-    public AwsAccount(String name, String bucket, String key, String secret, String prefix) {
+    public AwsAccount(int id, String name, String bucket, String key, String secret, String prefix) {
         
+        this.id = id;
         this.name = name;
         this.bucket = bucket;
         this.key = key;
@@ -37,6 +39,10 @@ public class AwsAccount {
         this.prefix = prefix;
     }
 
+    public int getId() {
+        return this.id;
+    }
+    
     /**
      * @return the name
      */

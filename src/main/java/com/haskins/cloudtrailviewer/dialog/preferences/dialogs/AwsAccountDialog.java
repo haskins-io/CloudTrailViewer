@@ -82,6 +82,7 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         if ("OK".equals(e.getActionCommand())) {
             
             account = new AwsAccount(
+                    0,
                     name.getText(), 
                     bucket.getText(),
                     key.getText(),

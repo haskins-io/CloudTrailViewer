@@ -32,6 +32,7 @@ import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
 import com.haskins.cloudtrailviewer.utils.EventUtils;
+import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -140,13 +141,20 @@ public class EventLoader {
 
                 int count = 0;
                 
+                String query = "SELECT * FROM aws_credentials WHERE active = 1";
+                List<ResultSetRow> results = DbManager.getInstance().executeCursorStatement(query);
+                if (results.size() != 1) {
+                    return null;
+                }
+                
+                ResultSetRow row = results.get(0);
                 AWSCredentials credentials= new BasicAWSCredentials(
-                    PreferencesController.getInstance().getProperty("aws.key"),
-                    PreferencesController.getInstance().getProperty("aws.secret")
+                    (String)row.get("aws.key"),
+                    (String)row.get("aws.secret")
                 );
 
                 AmazonS3 s3Client = new AmazonS3Client(credentials);
-                String bucketName = PreferencesController.getInstance().getProperty("aws.bucket");
+                String bucketName = (String)row.get("aws.bucket");
                 
                 if (request.getFilter() == null) {
                     request.setFilter(new AllFilter());

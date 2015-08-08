@@ -125,17 +125,21 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
         
         if (e.getActionCommand().equalsIgnoreCase("New")) {
             
+            String update = "UPDATE aws_credentials SET active = 0";
+            DbManager.getInstance().doInsertUpdate(update);
+            
             AwsAccount account = AwsAccountDialog.showDialog(this);
             if (account != null) {
                 StringBuilder query = new StringBuilder();
                 query.append("INSERT INTO aws_credentials");
-                query.append(" (aws_name, aws_bucket, aws_key, aws_secret, aws_prefix)");
+                query.append(" (aws_name, aws_bucket, aws_key, aws_secret, aws_prefix, active)");
                 query.append(" VALUES (");
                 query.append("'").append(account.getName()).append("'").append(",");
                 query.append("'").append(account.getBucket()).append("'").append(",");
                 query.append("'").append(account.getKey()).append("'").append(",");
                 query.append("'").append(account.getSecret()).append("'").append(",");
-                query.append("''"); // insert initial prefix
+                query.append("''").append(",");
+                query.append("1");
                 query.append(")");
                 
                 DbManager.getInstance().doInsertUpdate(query.toString());
