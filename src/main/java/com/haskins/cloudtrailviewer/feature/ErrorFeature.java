@@ -23,24 +23,21 @@ import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.model.NameValueModel;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.utils.CountComparator;
-import com.haskins.cloudtrailviewer.utils.GeneralUtils;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
+import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -50,8 +47,8 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
         
     public static final String NAME = "Error Feature";
     
+    private final DefaultTableModel errorsTableModel = new DefaultTableModel();
     private final Map<String, NameValueModel> errorsMap = new HashMap<>();
-    private final DefaultListModel<NameValueModel> errorListModel = new DefaultListModel<>();    
     private final EventTablePanel eventTable = new EventTablePanel();
         
     private final StatusBar statusBar;
@@ -68,7 +65,7 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void eventLoadingComplete() { 
-        GeneralUtils.orderListByComparator(errorListModel, new CountComparator());
+        populateTable(errorsMap, errorsTableModel);
     }
 
     @Override
@@ -118,7 +115,6 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
 
                 NameValueModel errorModel = new NameValueModel(errorName, event);
                 errorsMap.put(errorName, errorModel);
-                errorListModel.addElement(errorModel);
             } else {
                 
                 NameValueModel errorModel = errorsMap.get(errorName);
@@ -131,46 +127,61 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
     ///// private methods
     //////////////////////////////////////////////////////////////////////////// 
     private void buildUI() {
-
-        final JList errorList = new JList(errorListModel);
-        errorList.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
-                                          
-                NameValueModel model = (NameValueModel)errorList.getSelectedValue();
-                eventTable.clearEvents();
-                eventTable.setEvents(model.getEvents());
-            }
-        });
-        
-        errorList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        errorList.setLayoutOrientation(JList.VERTICAL);
-        errorList.setVisibleRowCount(-1);
-        errorList.setCellRenderer(new DefaultListCellRenderer() {
-            
-            @Override
-            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                                
-                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                
-                NameValueModel model = (NameValueModel)value;
-                label.setText(model.getName() + " : " + model.getNumberOfEvents());
-                
-                return label;
-            }
-        });
-
-        JScrollPane sPane = new JScrollPane(errorList);
-        sPane.setMinimumSize(new Dimension(300, 400));
-        sPane.setPreferredSize(new Dimension(300, 400));
-        sPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         
         eventTable.setVisible(true);
 
         this.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0)); 
         this.setLayout(new BorderLayout());
-        this.add(sPane, BorderLayout.WEST);
+        this.add(createTable(errorsTableModel, errorsMap), BorderLayout.WEST);
         this.add(eventTable, BorderLayout.CENTER);
+    }
+    
+    private void populateTable(Map<String, NameValueModel> map, DefaultTableModel model) {
+
+        Set<String> keys = map.keySet();
+        Iterator<String> it = keys.iterator();
+        while (it.hasNext()) {
+            String key = it.next();
+            NameValueModel nameValue = map.get(key);
+            model.addRow(new Object[]{key, nameValue.getNumberOfEvents()});
+        }
+    }
+
+    private JScrollPane createTable(final DefaultTableModel model, final Map<String, NameValueModel> map) {
+
+        model.addColumn("Property");
+        model.addColumn("Value");
+
+        final JTable table = new JTable(model);
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+
+                if (e.getFirstIndex() >= 0) {
+
+                    String user = (String) model.getValueAt(table.getSelectedRow(), 0);
+                    NameValueModel model = map.get(user);
+                    showEvents(model.getEvents());
+                }
+            }
+        });
+        
+        TableColumn column = table.getColumnModel().getColumn(1);
+        column.setMinWidth(75);
+        column.setPreferredWidth(75);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setMinimumSize(new Dimension(300, 400));
+        scrollPane.setPreferredSize(new Dimension(300, 400));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        
+        return scrollPane;
+    }
+    
+    private void showEvents(List<Event> events) {
+
+        eventTable.clearEvents();
+        eventTable.setEvents(events);
     }
 }

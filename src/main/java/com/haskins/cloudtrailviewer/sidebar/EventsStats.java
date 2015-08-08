@@ -66,7 +66,7 @@ public class EventsStats extends JPanel implements SideBar, ActionListener {
     
     private final EventDatabase eventDb;
     
-    private final DefaultTableModel defaultTableModel = new DefaultTableModel();  
+    private final DefaultTableModel defaultTableModel = new DefaultTableModel();
     
     public EventsStats(EventDatabase eventDatabase) {
         
