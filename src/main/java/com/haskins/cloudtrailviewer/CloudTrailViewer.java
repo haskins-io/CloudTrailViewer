@@ -21,7 +21,6 @@ package com.haskins.cloudtrailviewer;
 import com.haskins.cloudtrailviewer.application.CloudTrailViewerApplication;
 import com.haskins.cloudtrailviewer.application.Menu;
 import com.haskins.cloudtrailviewer.core.DbManager;
-import com.haskins.cloudtrailviewer.core.PreferencesController;
 import javax.swing.JFrame;
 
 /**
@@ -34,9 +33,7 @@ public class CloudTrailViewer extends JFrame {
     public static CloudTrailViewerApplication frame;
     
     private static void createAndShowGUI() {
-                        
-        PreferencesController.getInstance();
-        
+;        
         JFrame.setDefaultLookAndFeelDecorated(true);
         
         Menu menu = new Menu();    
