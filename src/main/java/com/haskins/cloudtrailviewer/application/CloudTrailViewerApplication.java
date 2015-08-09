@@ -62,7 +62,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     private final Map<String,Feature> featureMap = new LinkedHashMap<>();
     
     private final StatusBar statusBar = new StatusBar();
-    private final SidePanelToolBar sidePanelToolBar;
+    private final HelpToolBar helpToolBar = new HelpToolBar();;
     private final FeatureToolBar featureToolBar;
     
     private final Filter filter = new AllFilter();
@@ -79,7 +79,6 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         eventLoader = new EventLoader(database);
         eventLoader.addEventLoaderListener(this);
         
-        sidePanelToolBar = new SidePanelToolBar(this);
         featureToolBar = new FeatureToolBar(this);
                 
         defineFeatures();
@@ -142,6 +141,8 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
             
             CardLayout cl = (CardLayout)(features.getLayout());
             cl.show(features, name); 
+            Feature f = featureMap.get(name);
+            f.will_appear();
         }
     }
 
@@ -186,7 +187,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         toolbars.setBackground(Color.WHITE);
         toolbars.add(new LoadToolBar(this), BorderLayout.WEST);
         toolbars.add(featureToolBar, BorderLayout.CENTER);
-        toolbars.add(sidePanelToolBar, BorderLayout.EAST);
+        toolbars.add(helpToolBar, BorderLayout.EAST);
         
         topPanel.add(toolbars, BorderLayout.SOUTH);
            
@@ -202,7 +203,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         features.add((JPanel)noData, noData.getName());
         changeFeature(NoDataFeature.NAME, true);
         
-        OverviewFeature serviceOverview = new OverviewFeature(statusBar);
+        OverviewFeature serviceOverview = new OverviewFeature(statusBar, helpToolBar);
         database.addListener(serviceOverview);
         featureMap.put(serviceOverview.getName(), serviceOverview);
         features.add((JPanel)serviceOverview, serviceOverview.getName());
