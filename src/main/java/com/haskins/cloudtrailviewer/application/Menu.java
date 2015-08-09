@@ -19,8 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
+import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.dialog.AboutDialog;
 import com.haskins.cloudtrailviewer.dialog.preferences.PreferencesDialog;
+import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
+import com.haskins.cloudtrailviewer.utils.VersionProvider;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JMenu;
@@ -118,7 +121,23 @@ public class Menu extends JMenuBar implements ApplicationListener {
     }
     
     private void showAboutDialog() {
-        AboutDialog.showDialog(CloudTrailViewer.frame);
+        
+        String app_version = VersionProvider.getInstance().getVersion();
+        int db_version = DbManager.getInstance().getCurrentDbVersion();
+        
+        StringBuilder message = new StringBuilder();
+        message.append("CloudTrailViewr\n");
+        message.append(app_version);
+        message.append(" [").append(db_version).append("]");
+        
+        JOptionPane.showMessageDialog(
+            CloudTrailViewer.frame, 
+            message.toString(), 
+            "CloudTrail Viewer?",
+            JOptionPane.INFORMATION_MESSAGE,
+            ToolBarUtils.getIcon("logo_50x50.png")
+        );
+        
     }
     
     private void handleCloseApplication() {
