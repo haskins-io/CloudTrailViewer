@@ -18,10 +18,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.application;
 
+import static com.haskins.cloudtrailviewer.CloudTrailViewer.frame;
+import com.haskins.cloudtrailviewer.dialog.HelpDialog;
+import com.haskins.cloudtrailviewer.model.Help;
+import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
@@ -31,28 +38,25 @@ import javax.swing.JToolBar;
  * 
  * @author mark
  */
-public class SidePanelToolBar extends JToolBar {
+public class HelpToolBar extends JToolBar {
     
-    private final JButton btnLocal = new JButton();
-    private final CloudTrailViewerApplication application;
+    private Help help = null;
+    private final JButton btnHelp = new JButton();
     
     /**
      * Default Constructor
-     * @param application a reference to the application
      */
-    public SidePanelToolBar(CloudTrailViewerApplication application) {
-        
-        this.application = application;
+    public HelpToolBar() {
         
         buildToolBar();
     }
     
     /**
      * Sets the visible state of the Side Bar
-     * @param show TRUE side bar will be shown, otherwise side bar will be hidden
+     * @param
      */
-    public void showSideBarButton(boolean show) {
-        btnLocal.setVisible(show);
+    public void setHelp(Help help) {
+        this.help = help;
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -68,6 +72,31 @@ public class SidePanelToolBar extends JToolBar {
         buttonsPanel.setBackground(Color.WHITE);
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
                 
+        ToolBarUtils.addImageToButton(btnHelp, "Help-48.png", "Help", "Show Help page");
+        btnHelp.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                showHelp();
+            }
+        }); 
+        
+        buttonsPanel.add(btnHelp);
+        
         this.add(buttonsPanel, BorderLayout.EAST);
     }    
+    
+    private void showHelp() {
+        if (this.help == null) {
+            
+            JOptionPane.showMessageDialog(frame,
+                "No help is available for this Feature.",
+                "Help",
+                JOptionPane.ERROR_MESSAGE);
+            
+        }  else {
+
+            HelpDialog.showDialog(frame, help);
+        }
+    }
 }
