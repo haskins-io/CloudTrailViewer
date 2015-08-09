@@ -21,6 +21,7 @@ package com.haskins.cloudtrailviewer;
 import com.haskins.cloudtrailviewer.application.CloudTrailViewerApplication;
 import com.haskins.cloudtrailviewer.application.Menu;
 import com.haskins.cloudtrailviewer.core.DbManager;
+import com.haskins.cloudtrailviewer.core.PropertiesController;
 import javax.swing.JFrame;
 
 /**
@@ -49,6 +50,8 @@ public class CloudTrailViewer extends JFrame {
     public static void main(String[] args) {
 
         DbManager.getInstance().sync();
+        PropertiesController.getInstance();
+        
         frame = new CloudTrailViewerApplication();
         
         javax.swing.SwingUtilities.invokeLater(new Runnable() {

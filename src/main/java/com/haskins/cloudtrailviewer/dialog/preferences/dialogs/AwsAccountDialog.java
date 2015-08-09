@@ -26,6 +26,8 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -80,6 +82,15 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
         if ("OK".equals(e.getActionCommand())) {
+            
+            // validate the inputted database
+            
+            if (!isBucketValid() || ! isKeyValid() || !isSecretValid()) {
+                
+                
+                
+                return;
+            }
             
             account = new AwsAccount(
                     0,
@@ -185,4 +196,45 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         setLocationRelativeTo(frame);  
     }
     
+    
+    private boolean isBucketValid() {
+        
+        boolean bucketProvided = false;
+        
+        if (bucket.getText() != null && bucket.getText().length() >= 3) {
+            bucketProvided = true;
+        }
+        
+        return bucketProvided;
+    }
+    
+    private boolean isKeyValid() {
+        
+        boolean keyOK = false;
+
+        String keyRegex = "(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])";
+        Pattern keyPattern = Pattern.compile(keyRegex);
+        
+        Matcher keyMatcher = keyPattern.matcher(key.getText());
+        if (keyMatcher.matches()) {
+            keyOK = true;
+        }  
+        
+        return keyOK;
+    }
+    
+    private boolean isSecretValid() {
+        
+        boolean secretOK = false;
+        
+        String secretRegex = "(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])";
+        Pattern secretPattern = Pattern.compile(secretRegex);
+        
+        Matcher secretMatcher = secretPattern.matcher(String.valueOf(secret.getPassword()));
+        if (secretMatcher.matches()) {
+            secretOK = true;
+        }
+        
+        return secretOK;
+    }
 }
