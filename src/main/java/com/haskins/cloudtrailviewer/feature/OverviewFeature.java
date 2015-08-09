@@ -18,10 +18,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature;
 
+import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.components.servicespanel.ServiceOverviewContainer;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
+import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -39,15 +41,19 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     
     public static final String NAME = "Overview Feature";
     
+    private final Help help = new Help("Overview", "overview");
+    
     private final ServiceOverviewContainer servicesContainer;
     private final EventTablePanel eventTable = new EventTablePanel();
     
     private JSplitPane jsp;
     
+    private final HelpToolBar helpBar;
     private final StatusBar statusBar;
     
-    public OverviewFeature(StatusBar sb) {
+    public OverviewFeature(StatusBar sb, HelpToolBar helpBar) {
         
+        this.helpBar = helpBar;
         this.statusBar = sb;
         
         servicesContainer = new ServiceOverviewContainer(this);
@@ -59,7 +65,7 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void eventLoadingComplete() { }
-
+    
     @Override
     public boolean showOnToolBar() {
         return true;
@@ -81,10 +87,14 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     }
     
     @Override
-    public void will_hide() { }
+    public void will_hide() {
+        helpBar.setHelp(null);
+    }
     
     @Override
-    public void will_appear() { }
+    public void will_appear() {
+        helpBar.setHelp(help);
+    }
     
     @Override
     public void showEventsTable(List<Event> events) {
