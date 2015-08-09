@@ -245,10 +245,7 @@ public class DbManager {
         return url.toString();
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    ////////////////////////////////////////////////////////////////////////////
-    private int getCurrentDbVersion() {
+    public int getCurrentDbVersion() {
 
         int currentVersion = 0;
 
