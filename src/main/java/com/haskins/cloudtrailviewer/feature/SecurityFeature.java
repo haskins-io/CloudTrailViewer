@@ -18,11 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature;
 
+import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.components.securitypanel.SecurityOverviewContainer;
 import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
+import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import java.awt.BorderLayout;
@@ -42,6 +44,8 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
     
     public static final String NAME = "Security Feature";
     
+    private final Help help = new Help("Security Feature", "security");
+    
     private final List<String> securityEvents = new ArrayList<>();
     
     private final SecurityOverviewContainer securityContainer;
@@ -50,10 +54,13 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
     private JSplitPane jsp;
     
     private final StatusBar statusBar;
+    private final HelpToolBar helpBar;
     
-    public SecurityFeature(StatusBar sb) {
+    public SecurityFeature(StatusBar sb, HelpToolBar helpBar) {
         
+        this.helpBar = helpBar;
         this.statusBar = sb;
+        
         securityContainer = new SecurityOverviewContainer(this);
         
         loadSecurityEvents();
@@ -87,10 +94,14 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
     }
     
     @Override
-    public void will_hide() { }
+    public void will_hide() {
+        helpBar.setHelp(null);
+    }
     
     @Override
-    public void will_appear() { }
+    public void will_appear() {
+        helpBar.setHelp(help);
+    }
     
     @Override
     public void showEventsTable(List<Event> events) {

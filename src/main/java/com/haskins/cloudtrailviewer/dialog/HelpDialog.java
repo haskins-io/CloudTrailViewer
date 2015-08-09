@@ -21,6 +21,7 @@ import com.haskins.cloudtrailviewer.model.Help;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +30,10 @@ import java.net.URL;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.text.Document;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.StyleSheet;
 
 /**
  *
@@ -37,6 +42,9 @@ import javax.swing.JOptionPane;
 public class HelpDialog extends JDialog implements ActionListener {
 
     private static HelpDialog dialog;
+    
+    private final JEditorPane helpPane = new JEditorPane();
+    private final HTMLEditorKit kit = new HTMLEditorKit();
     
     /**
      * Shows the Dialog
@@ -66,8 +74,16 @@ public class HelpDialog extends JDialog implements ActionListener {
      
         super(frame, help.getHelpTitle(), true);
         
-        final JEditorPane editorPane = new JEditorPane();
-        editorPane.setEditable(false);
+        this.setMinimumSize(new Dimension(800,600));
+        this.setMaximumSize(new Dimension(800,600));
+        this.setPreferredSize(new Dimension(800,600));
+        
+        helpPane.setEditable(false);
+        helpPane.setEditorKit(kit);
+        
+        JScrollPane sp = new JScrollPane(helpPane);
+        
+        defineStyles();
         
         String helpFile = "help/" + help.getHelpFilename() + ".html";
         
@@ -79,16 +95,25 @@ public class HelpDialog extends JDialog implements ActionListener {
                 System.out.println("Sorry, unable to find " + helpFile);
             }
             
-            editorPane.setPage(url);
+            helpPane.setPage(url);
             
         } catch (IOException ioe) {
             
         }
         
         Container contentPane = getContentPane();
-        contentPane.add(editorPane, BorderLayout.CENTER);
+        contentPane.add(sp, BorderLayout.CENTER);
         
         pack();
         setLocationRelativeTo(frame); 
+    }
+    
+    private void defineStyles() {
+
+        StyleSheet styleSheet = kit.getStyleSheet();
+        styleSheet.addRule("body {color:#000; font-family:times; margin: 5px; }");
+        
+        Document doc = kit.createDefaultDocument();
+        helpPane.setDocument(doc);
     }
 }

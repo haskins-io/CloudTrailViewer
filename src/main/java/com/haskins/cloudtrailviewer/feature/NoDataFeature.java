@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature;
 
+import com.haskins.cloudtrailviewer.application.HelpToolBar;
+import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.GridBagLayout;
 import java.util.List;
@@ -32,15 +34,22 @@ public class NoDataFeature extends JPanel implements Feature {
         
     public static final String NAME = "No Data";
     
+    private final Help help = new Help("CloudTrail Viewer", "default");
+    
     private static final String noEvents = "No Events Loaded.";
     private static final String events = "";
     
-    JLabel label = new JLabel(noEvents);
+    private final JLabel label = new JLabel(noEvents);
+    
+    private final HelpToolBar helpBar;
     
     /**
      * Default Constructor
      */
-    public NoDataFeature() {
+    public NoDataFeature(HelpToolBar helpBar) {
+        
+        this.helpBar = helpBar;
+        
         buildPanel();
     }
     
@@ -74,10 +83,14 @@ public class NoDataFeature extends JPanel implements Feature {
     }
     
     @Override
-    public void will_hide() { }
+    public void will_hide() {
+        helpBar.setHelp(null);
+    }
     
     @Override
-    public void will_appear() { }
+    public void will_appear() {
+        helpBar.setHelp(help);
+    }
     
     @Override
     public void showEventsTable(List<Event> events) {}

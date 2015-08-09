@@ -18,8 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature;
 
+import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
+import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
 import java.util.List;
@@ -33,15 +35,21 @@ import javax.swing.JPanel;
 public class SimpleTableFeature extends JPanel implements Feature {
     
     public static final String NAME = "Table Feature";
+    
+    private final Help help = new Help("Table Feature", "table");
         
     private final EventTablePanel tablePanel;
+    
+    private final HelpToolBar helpBar;
     
     /**
      * Default constructor
      * @param eventsDatabase reference to an Event Database 
      */
-    public SimpleTableFeature(FilteredEventDatabase eventsDatabase) {
+    public SimpleTableFeature(FilteredEventDatabase eventsDatabase, HelpToolBar helpBar) {
               
+        this.helpBar = helpBar;
+        
         tablePanel = new EventTablePanel(eventsDatabase);
         
         buildUI();
@@ -76,10 +84,13 @@ public class SimpleTableFeature extends JPanel implements Feature {
     }
     
     @Override
-    public void will_hide() { }
+    public void will_hide() {
+        helpBar.setHelp(null);
+    }
     
     @Override
     public void will_appear() {
+        helpBar.setHelp(help);
         tablePanel.will_appear();
         this.revalidate();
     }

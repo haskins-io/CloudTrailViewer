@@ -198,7 +198,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     
     private void defineFeatures() {
 
-        NoDataFeature noData = new NoDataFeature();
+        NoDataFeature noData = new NoDataFeature(helpToolBar);
         featureMap.put(noData.getName(), noData);
         features.add((JPanel)noData, noData.getName());
         changeFeature(NoDataFeature.NAME, true);
@@ -208,26 +208,26 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         featureMap.put(serviceOverview.getName(), serviceOverview);
         features.add((JPanel)serviceOverview, serviceOverview.getName());
         
-        SimpleTableFeature simpleTable = new SimpleTableFeature(database);
+        SimpleTableFeature simpleTable = new SimpleTableFeature(database, helpToolBar);
         featureMap.put(simpleTable.getName(), simpleTable);
         features.add((JPanel)simpleTable, simpleTable.getName());
         
-        UserFeature userOverview = new UserFeature();
+        UserFeature userOverview = new UserFeature(helpToolBar);
         database.addListener(userOverview);
         featureMap.put(userOverview.getName(), userOverview);
         features.add((JPanel)userOverview, userOverview.getName());
         
-        ErrorFeature errorFeature = new ErrorFeature(statusBar);
+        ErrorFeature errorFeature = new ErrorFeature(statusBar, helpToolBar);
         database.addListener(errorFeature);
         featureMap.put(errorFeature.getName(), errorFeature);
         features.add((JPanel)errorFeature, errorFeature.getName());
         
-        SecurityFeature securityFeature = new SecurityFeature(statusBar);
+        SecurityFeature securityFeature = new SecurityFeature(statusBar, helpToolBar);
         database.addListener(securityFeature);
         featureMap.put(securityFeature.getName(), securityFeature);
         features.add((JPanel)securityFeature, securityFeature.getName());
         
-        ResourceFeature resourceFeature = new ResourceFeature(statusBar);
+        ResourceFeature resourceFeature = new ResourceFeature(statusBar, helpToolBar);
         database.addListener(resourceFeature);
         featureMap.put(resourceFeature.getName(), resourceFeature);
         features.add((JPanel)resourceFeature, resourceFeature.getName());

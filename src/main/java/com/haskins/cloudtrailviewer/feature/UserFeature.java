@@ -17,9 +17,11 @@
  */
 package com.haskins.cloudtrailviewer.feature;
 
+import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.components.servicespanel.ServiceOverviewContainer;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
+import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.NameValueModel;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
@@ -48,6 +50,8 @@ import javax.swing.table.TableColumn;
 public class UserFeature extends JPanel implements Feature, EventDatabaseListener {
 
     public static final String NAME = "User Feature";
+    
+    private final Help help = new Help("User Feature", "user");
 
     private final Map<String, NameValueModel> userMap = new HashMap<>();
     private final DefaultTableModel userTableModel = new DefaultTableModel();
@@ -57,9 +61,15 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
 
     private final ServiceOverviewContainer servicesContainer;
     private final EventTablePanel eventTable = new EventTablePanel();
+    
+    private final HelpToolBar helpBar;
 
-    public UserFeature() {
+    public UserFeature(HelpToolBar helpBar) {
+        
+        this.helpBar = helpBar;
+        
         servicesContainer = new ServiceOverviewContainer(this);
+        
         buildUI();
     }
 
@@ -91,13 +101,16 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     public String getName() {
         return UserFeature.NAME;
     }
-
+    
+    
     @Override
     public void will_hide() {
+        helpBar.setHelp(null);
     }
 
     @Override
     public void will_appear() {
+        helpBar.setHelp(help);
     }
 
     @Override

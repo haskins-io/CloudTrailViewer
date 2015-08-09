@@ -18,9 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature;
 
+import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
+import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.NameValueModel;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
@@ -47,14 +49,18 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
         
     public static final String NAME = "Error Feature";
     
+    private final Help help = new Help("Error Feature", "error");
+    
     private final DefaultTableModel errorsTableModel = new DefaultTableModel();
     private final Map<String, NameValueModel> errorsMap = new HashMap<>();
     private final EventTablePanel eventTable = new EventTablePanel();
         
     private final StatusBar statusBar;
+    private final HelpToolBar helpBar;
     
-    public ErrorFeature(StatusBar sb) {
+    public ErrorFeature(StatusBar sb, HelpToolBar helpBar) {
         
+        this.helpBar = helpBar;
         this.statusBar = sb;
         
         buildUI();
@@ -89,10 +95,14 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
     }
     
     @Override
-    public void will_hide() { }
+    public void will_hide() {
+        helpBar.setHelp(null);
+    }
     
     @Override
-    public void will_appear() { }
+    public void will_appear() {
+        helpBar.setHelp(help);
+    }
     
     @Override
     public void showEventsTable(List<Event> events) {

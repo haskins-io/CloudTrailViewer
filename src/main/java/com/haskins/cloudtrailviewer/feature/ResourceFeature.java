@@ -18,11 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature;
 
+import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.components.resourcespanel.ResourceOverviewContainer;
 import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
+import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import java.awt.BorderLayout;
@@ -42,17 +44,22 @@ public class ResourceFeature extends JPanel implements Feature, EventDatabaseLis
     
     public static final String NAME = "Resources Feature";
     
+    private final Help help = new Help("Resource Feature", "resources");
+    
     private final List<String> resourceEvents = new ArrayList<>();
     
     private final ResourceOverviewContainer resourcesContainer;
     private final EventTablePanel eventTable = new EventTablePanel();
     
+    private final HelpToolBar helpBar;
     private final StatusBar statusBar;
     private JSplitPane jsp;
     
-    public ResourceFeature(StatusBar sb) {
+    public ResourceFeature(StatusBar sb, HelpToolBar helpBar) {
         
+        this.helpBar = helpBar;
         this.statusBar = sb;
+        
         resourcesContainer = new ResourceOverviewContainer(this);
         
         loadSecurityEvents();
@@ -86,10 +93,14 @@ public class ResourceFeature extends JPanel implements Feature, EventDatabaseLis
     }
     
     @Override
-    public void will_hide() { }
+    public void will_hide() {
+        helpBar.setHelp(null);
+    }
     
     @Override
-    public void will_appear() { }
+    public void will_appear() {
+        helpBar.setHelp(help);
+    }
     
     @Override
     public void showEventsTable(List<Event> events) {
