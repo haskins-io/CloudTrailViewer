@@ -76,7 +76,7 @@ public class DbManager {
                 DriverManager.getConnection(url, properties);
             }
             catch (SQLException ex1) {
-                Logger.getLogger(PreferencesController.class.getName()).log(Level.SEVERE, null, ex1);
+                Logger.getLogger(PropertiesController.class.getName()).log(Level.SEVERE, null, ex1);
             }
             
         } else {
