@@ -333,44 +333,48 @@ public class S3FileChooser extends JDialog implements ActionListener {
 
         AmazonS3 s3Client = new AmazonS3Client(credentials);
 
-        ObjectListing objectListing = s3Client.listObjects(listObjectsRequest);
+        try {
+            ObjectListing objectListing = s3Client.listObjects(listObjectsRequest);
 
-        // Add .. if not at root
-        if (prefix.trim().length() != 0) {
-            S3ListModel model = new S3ListModel(MOVE_BACK, MOVE_BACK, S3ListModel.FILE_BACK);
-            this.s3ListModel.addElement(model);
-        }
-        
-        // these are directories
-        List<String> directories = objectListing.getCommonPrefixes();
-        for (String directory : directories) {
-
-            String dir = stripPrefix(directory);
-            int lastSlash = dir.lastIndexOf("/");
-            String strippeDir = dir.substring(0,lastSlash);
-            
-            String alias = dir;
-            if (isAccountNumber(strippeDir)) {
-                if (aliasMap.containsKey(strippeDir)) {
-                    alias = aliasMap.get(strippeDir);
-                }
+            // Add .. if not at root
+            if (prefix.trim().length() != 0) {
+                S3ListModel model = new S3ListModel(MOVE_BACK, MOVE_BACK, S3ListModel.FILE_BACK);
+                this.s3ListModel.addElement(model);
             }
-            
-            S3ListModel model = new S3ListModel(dir, alias, S3ListModel.FILE_DIR);
-            this.s3ListModel.addElement(model);
-        }
 
-        // these are files
-        List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
-        for (final S3ObjectSummary objectSummary : objectSummaries) {
+            // these are directories
+            List<String> directories = objectListing.getCommonPrefixes();
+            for (String directory : directories) {
 
-            String file = stripPrefix(objectSummary.getKey());
-            
-            S3ListModel model = new S3ListModel(file, file, S3ListModel.FILE_DOC);
-            this.s3ListModel.addElement(model);
+                String dir = stripPrefix(directory);
+                int lastSlash = dir.lastIndexOf("/");
+                String strippeDir = dir.substring(0,lastSlash);
+
+                String alias = dir;
+                if (isAccountNumber(strippeDir)) {
+                    if (aliasMap.containsKey(strippeDir)) {
+                        alias = aliasMap.get(strippeDir);
+                    }
+                }
+
+                S3ListModel model = new S3ListModel(dir, alias, S3ListModel.FILE_DIR);
+                this.s3ListModel.addElement(model);
+            }
+
+            // these are files
+            List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
+            for (final S3ObjectSummary objectSummary : objectSummaries) {
+
+                String file = stripPrefix(objectSummary.getKey());
+
+                S3ListModel model = new S3ListModel(file, file, S3ListModel.FILE_DOC);
+                this.s3ListModel.addElement(model);
+            }
+
+            loadingLabel.setVisible(false);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
-        loadingLabel.setVisible(false);
     }
 
     private String stripPrefix(String key) {
@@ -424,15 +428,17 @@ public class S3FileChooser extends JDialog implements ActionListener {
                 JComboBox cb = (JComboBox)e.getSource();
                 String newSelection = (String)cb.getSelectedItem();
                 
-                currentAccount = accountMap.get(newSelection);
-                String update = "UPDATE aws_credentials SET active = 0";
-                DbManager.getInstance().doInsertUpdate(update);
-                
-                String setActive = "UPDATE aws_credentials SET active = 1 WHERE ID = " + currentAccount.getId();
-                DbManager.getInstance().doInsertUpdate(setActive);
-                
-                prefix = currentAccount.getPrefix();
-                reloadContents();
+                if (newSelection != null) {
+                    currentAccount = accountMap.get(newSelection);
+                    String update = "UPDATE aws_credentials SET active = 0";
+                    DbManager.getInstance().doInsertUpdate(update);
+
+                    String setActive = "UPDATE aws_credentials SET active = 1 WHERE ID = " + currentAccount.getId();
+                    DbManager.getInstance().doInsertUpdate(setActive);
+
+                    prefix = currentAccount.getPrefix();
+                    reloadContents();
+                }
             }
         });
         

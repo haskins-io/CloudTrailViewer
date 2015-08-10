@@ -84,13 +84,10 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         if ("OK".equals(e.getActionCommand())) {
             
             // validate the inputted database
-            
-            if (!isBucketValid() || ! isKeyValid() || !isSecretValid()) {
-                
-                
-                
-                return;
-            }
+//            
+//            if (!isBucketValid() || ! isKeyValid() || !isSecretValid()) {
+//                return;
+//            }
             
             account = new AwsAccount(
                     0,
