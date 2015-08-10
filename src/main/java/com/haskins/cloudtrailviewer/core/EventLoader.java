@@ -148,13 +148,14 @@ public class EventLoader {
                 }
                 
                 ResultSetRow row = results.get(0);
-                AWSCredentials credentials= new BasicAWSCredentials(
-                    (String)row.get("aws.key"),
-                    (String)row.get("aws.secret")
-                );
+                
+                String key = (String)row.get("aws_key");
+                String secret = (String)row.get("aws_secret");
+                
+                AWSCredentials credentials= new BasicAWSCredentials(key, secret);
 
                 AmazonS3 s3Client = new AmazonS3Client(credentials);
-                String bucketName = (String)row.get("aws.bucket");
+                String bucketName = (String)row.get("aws_bucket");
                 
                 if (request.getFilter() == null) {
                     request.setFilter(new AllFilter());
