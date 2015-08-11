@@ -19,10 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
-import static com.haskins.cloudtrailviewer.CloudTrailViewer.frame;
 import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.dialog.S3FileChooser;
-//import com.haskins.cloudtrailviewer.core.PreferencesController;
 import com.haskins.cloudtrailviewer.dialog.SearchOptions;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
