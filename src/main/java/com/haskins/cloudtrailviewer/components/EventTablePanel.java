@@ -46,6 +46,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
@@ -74,7 +75,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
     public EventTablePanel() {
         this(new FilteredEventDatabase(new AllFilter(), null));
     }
-
+    
     /**
      * This Constructor tables an existing EventsDatabase
      *
@@ -91,24 +92,27 @@ public class EventTablePanel extends JPanel implements ActionListener {
         
         buildUI();
     }
-
-    /**
-     * When called with show or hide the sid bar
-     */
-    public void toggleSideBar() {
-
-        sideBar.setVisible(!sideBar.isVisible());
-
-        if (sideBar.isVisible()) {
-            jsp.setDividerLocation(0.8);
-            jsp.setDividerSize(3);
-        }
-        else {
-            jsp.setDividerLocation(1);
-            jsp.setDividerSize(0);
-        }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///// ActionListener methods
+    //////////////////////////////////////////////////////////////////////////// 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+                
+        String action = e.getActionCommand();
+        int columnId = Integer.parseInt(action);
+        
+        TableColumn column = customColumnModel.getColumnByModelIndex(columnId);
+        boolean visible = customColumnModel.isColumnVisible(column);
+        
+        JCheckBoxMenuItem selected = (JCheckBoxMenuItem)e.getSource();
+        selected.setSelected(!visible);
+        customColumnModel.setColumnVisible(column, !visible);
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// public methods
+    //////////////////////////////////////////////////////////////////////////// 
     /**
      * Should be called when the table is going to be made visible so it can reload
      * the table.
@@ -148,6 +152,12 @@ public class EventTablePanel extends JPanel implements ActionListener {
         sideBar.eventLoadingComplete();
         tableModel.reloadTableModel();
     }
+    
+    public void setFilterString(String needle) {
+        filterTextField.setText(needle);
+        filterUpdate();
+        tableModel.reloadTableModel();
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
@@ -170,10 +180,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
                     if (event != null) {
 
                         sideBar.currentEvent(event);
-
-                        if (!sideBar.isVisible()) {
-                            toggleSideBar();
-                        }
+                        showSideBar();
                     }
                 }
             }
@@ -195,7 +202,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
 
         sideBar.addSideBar(new EventJson());
         sideBar.addSideBar(new EventTree());
-        sideBar.addSideBar(new EventsStats(eventDb));
+        sideBar.addSideBar(new EventsStats(eventDb, this));
 
         sideBar.setVisible(false);
 
@@ -220,9 +227,16 @@ public class EventTablePanel extends JPanel implements ActionListener {
         filterPanel.add(new JLabel("Filter"), BorderLayout.WEST);
         filterPanel.add(filterTextField, BorderLayout.CENTER);
 
-        JButton export = new JButton();
-        export.setActionCommand("");
-        export.addActionListener(new ActionListener() {
+        filterPanel.add(getToolBar(), BorderLayout.EAST);
+
+        add(filterPanel, BorderLayout.PAGE_START);
+        add(jsp, BorderLayout.CENTER);
+    }
+
+    private JToolBar getToolBar() {
+        
+        JButton exportBtn = new JButton();
+        exportBtn.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -230,14 +244,29 @@ public class EventTablePanel extends JPanel implements ActionListener {
             }
 
         });
-        ToolBarUtils.addImageToButton(export, "CSV-Export-32.png", "Export", "Save to CSV");
+        ToolBarUtils.addImageToButton(exportBtn, "CSV-Export-32.png", "Export", "Save to CSV");
+        
+        JButton sideBarBtn = new JButton();
+        sideBarBtn.addActionListener(new ActionListener() {
 
-        filterPanel.add(export, BorderLayout.EAST);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleSideBar();
+            }
 
-        add(filterPanel, BorderLayout.PAGE_START);
-        add(jsp, BorderLayout.CENTER);
+        });
+        ToolBarUtils.addImageToButton(sideBarBtn, "View-Split-48.png", "SideBar", "Toogle SideBar");
+        
+        JToolBar toolBar = new JToolBar();
+        toolBar.setFloatable(false);
+        toolBar.setBackground(Color.WHITE);
+        
+        toolBar.add(exportBtn);
+        toolBar.add(sideBarBtn);
+        
+        return toolBar;
     }
-
+    
     private void filterUpdate() {
 
         String text = filterTextField.getText();
@@ -260,17 +289,27 @@ public class EventTablePanel extends JPanel implements ActionListener {
         columnPopupMenu.add(menuItem);
     }
     
-    @Override
-    public void actionPerformed(ActionEvent e) {
-                
-        String action = e.getActionCommand();
-        int columnId = Integer.parseInt(action);
+    /**
+     * When called with show or hide the sid bar
+     */
+    private void toggleSideBar() {
+
+        sideBar.setVisible(!sideBar.isVisible());
+
+        if (sideBar.isVisible()) {
+            jsp.setDividerLocation(0.8);
+            jsp.setDividerSize(3);
+        }
+        else {
+            jsp.setDividerLocation(1);
+            jsp.setDividerSize(0);
+        }
+    }
+    
+    private void showSideBar() {
         
-        TableColumn column = customColumnModel.getColumnByModelIndex(columnId);
-        boolean visible = customColumnModel.isColumnVisible(column);
-        
-        JCheckBoxMenuItem selected = (JCheckBoxMenuItem)e.getSource();
-        selected.setSelected(!visible);
-        customColumnModel.setColumnVisible(column, !visible);
+        sideBar.setVisible(true);
+        jsp.setDividerLocation(0.8);
+        jsp.setDividerSize(3); 
     }
 }
