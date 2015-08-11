@@ -289,9 +289,6 @@ public class EventTablePanel extends JPanel implements ActionListener {
         columnPopupMenu.add(menuItem);
     }
     
-    /**
-     * When called with show or hide the sid bar
-     */
     private void toggleSideBar() {
 
         sideBar.setVisible(!sideBar.isVisible());

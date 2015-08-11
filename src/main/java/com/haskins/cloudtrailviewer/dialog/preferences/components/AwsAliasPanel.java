@@ -73,10 +73,8 @@ public class AwsAliasPanel extends JPanel implements ActionListener {
         defaultTableModel.addColumn("Account");
         defaultTableModel.addColumn("Alias");
         
-        
         JScrollPane tablecrollPane = new JScrollPane(table);
         tablecrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        
         
         final JButton btnNew = new JButton();
         ToolBarUtils.addImageToButton(btnNew, "Add.png", "Add", "Add Alias");

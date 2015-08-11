@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * Resuable panel that provides search functionality
+ * Reusable panel that provides search functionality
  * 
  * @author mark
  */
