@@ -111,8 +111,17 @@ public class Menu extends JMenuBar implements ApplicationListener {
                     handleCloseApplication();
                 }
             });
+            
+            JMenuItem about = new JMenuItem(new AbstractAction("About") {
+
+                @Override
+                public void actionPerformed(ActionEvent t) {
+                    showAboutDialog();
+                }
+            });
 
             menuFile.add(preferences);
+            menuFile.add(about);
             menuFile.add(exit);
 
             this.add(menuFile);
