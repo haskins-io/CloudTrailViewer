@@ -20,7 +20,6 @@ package com.haskins.cloudtrailviewer.core.resource;
 
 
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.model.resource.ResourceInfo;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;

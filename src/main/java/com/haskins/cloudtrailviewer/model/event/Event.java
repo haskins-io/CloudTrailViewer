@@ -20,7 +20,6 @@ package com.haskins.cloudtrailviewer.model.event;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.haskins.cloudtrailviewer.model.resource.Resource;
 import java.util.List;
 import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;

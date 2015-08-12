@@ -79,7 +79,6 @@ public class SideBarPanel extends JPanel implements ActionListener {
     public void eventLoadingComplete() {
 
         for (Component component : sideBars.getComponents()) {
-            
             SideBar sideBar = (SideBar)component;
             sideBar.eventLoadingComplete();
         }

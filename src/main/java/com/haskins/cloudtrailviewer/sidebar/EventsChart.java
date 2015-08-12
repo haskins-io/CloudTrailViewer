@@ -40,13 +40,9 @@ import org.jfree.chart.plot.PlotOrientation;
  */
 public class EventsChart extends AbstractChart implements ActionListener {
 
-    private final EventDatabase eventDb;
-
     public EventsChart(EventDatabase eventDatabase, EventTablePanel eventTable) {
 
-        super(eventTable);
-        
-        eventDb = eventDatabase;
+        super(eventDatabase, eventTable);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -151,6 +147,14 @@ public class EventsChart extends AbstractChart implements ActionListener {
 
             defaultTableModel.addRow(new Object[]{col, key, entry.getValue()});
         }
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///// SideBar implementation
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void eventLoadingComplete() {
+        update();
     }
     
     ////////////////////////////////////////////////////////////////////////////

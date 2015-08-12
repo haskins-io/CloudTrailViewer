@@ -18,6 +18,7 @@
 package com.haskins.cloudtrailviewer.sidebar;
 
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
+import com.haskins.cloudtrailviewer.core.EventDatabase;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -60,6 +61,8 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
     protected final EventTablePanel eventTablePanel;
 
     protected final DefaultTableModel defaultTableModel = new DefaultTableModel();
+    
+    protected final EventDatabase eventDb;
 
     ////////////////////////////////////////////////////////////////////////////
     ///// Abstract method declarations
@@ -67,9 +70,9 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
     public abstract void update();
     public abstract void addCustomMenu();
     
-    
-    public AbstractChart(EventTablePanel eventTable) {
+    public AbstractChart(EventDatabase eventDatabase, EventTablePanel eventTable) {
 
+        eventDb = eventDatabase;
         eventTablePanel = eventTable;
 
         buildUI();
@@ -80,12 +83,7 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public String getName() {
-        return EventsStats.NAME;
-    }
-
-    @Override
-    public void eventLoadingComplete() {
-        update();
+        return AbstractChart.NAME;
     }
 
     @Override
