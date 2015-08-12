@@ -53,7 +53,7 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
     
     private final DefaultTableModel errorsTableModel = new DefaultTableModel();
     private final Map<String, NameValueModel> errorsMap = new HashMap<>();
-    private final EventTablePanel eventTable = new EventTablePanel();
+    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.EVENT_CHART);
         
     private final StatusBar statusBar;
     private final HelpToolBar helpBar;
