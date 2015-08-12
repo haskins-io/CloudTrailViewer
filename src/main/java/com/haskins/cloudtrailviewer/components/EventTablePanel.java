@@ -23,7 +23,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.sidebar.EventJson;
 import com.haskins.cloudtrailviewer.sidebar.EventTree;
-import com.haskins.cloudtrailviewer.sidebar.EventsStats;
+import com.haskins.cloudtrailviewer.sidebar.EventsChart;
 import com.haskins.cloudtrailviewer.sidebar.SideBarPanel;
 import com.haskins.cloudtrailviewer.table.EventsTable;
 import com.haskins.cloudtrailviewer.table.EventsTableModel;
@@ -57,6 +57,8 @@ import javax.swing.table.TableColumn;
  */
 public class EventTablePanel extends JPanel implements ActionListener {
     
+    public static final int EVENT_CHART = 1;
+    
     private final FilteredEventDatabase eventDb;
     private final EventsTableModel tableModel;
     private final EventsTable table;
@@ -71,17 +73,19 @@ public class EventTablePanel extends JPanel implements ActionListener {
 
     /**
      * This Constructor creates it's own EventsDatabase.
+     * @param chartType
      */
-    public EventTablePanel() {
-        this(new FilteredEventDatabase(new AllFilter(), null));
+    public EventTablePanel(int chartType) {
+        this(new FilteredEventDatabase(new AllFilter(), null), chartType);
     }
     
     /**
      * This Constructor tables an existing EventsDatabase
      *
      * @param eventsDatabase reference to an Event Database
+     * @param chartType
      */
-    public EventTablePanel(FilteredEventDatabase eventsDatabase) {
+    public EventTablePanel(FilteredEventDatabase eventsDatabase, int chartType) {
 
         eventDb = eventsDatabase;
         tableModel = new EventsTableModel(eventsDatabase);
@@ -90,7 +94,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
         table.setColumnModel(customColumnModel);
         table.createDefaultColumnsFromModel();
         
-        buildUI();
+        buildUI(chartType);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -162,7 +166,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     //////////////////////////////////////////////////////////////////////////// 
-    private void buildUI() {
+    private void buildUI(int chartType) {
 
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
@@ -202,7 +206,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
 
         sideBar.addSideBar(new EventJson());
         sideBar.addSideBar(new EventTree());
-        sideBar.addSideBar(new EventsStats(eventDb, this));
+        addChart(chartType);
 
         sideBar.setVisible(false);
 
@@ -308,5 +312,14 @@ public class EventTablePanel extends JPanel implements ActionListener {
         sideBar.setVisible(true);
         jsp.setDividerLocation(0.8);
         jsp.setDividerSize(3); 
+    }
+    
+    private void addChart(int chartType) {
+        
+        switch(chartType) {
+            case EventTablePanel.EVENT_CHART:
+                sideBar.addSideBar(new EventsChart(eventDb, this));
+                break;
+        }
     }
 }
