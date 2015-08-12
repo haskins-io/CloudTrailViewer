@@ -118,7 +118,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
         
         StringBuilder query = new StringBuilder();
         query.append("UPDATE aws_credentials SET aws_prefix =");
-        query.append(" '").append(currentAccount.getPrefix()).append("'");
+        query.append(" '").append(prefix).append("'");
         query.append(" WHERE id = ").append(currentAccount.getId());
         DbManager.getInstance().doInsertUpdate(query.toString());        
         
@@ -316,6 +316,8 @@ public class S3FileChooser extends JDialog implements ActionListener {
     
     private void reloadContents() {
 
+        // save prefix
+        
         loadingLabel.setVisible(true);
         this.s3ListModel.clear();
 
