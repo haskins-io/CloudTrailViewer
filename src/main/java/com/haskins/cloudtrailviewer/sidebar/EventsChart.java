@@ -19,9 +19,7 @@ package com.haskins.cloudtrailviewer.sidebar;
 
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
-import com.haskins.cloudtrailviewer.utils.ChartFactory;
 import com.haskins.cloudtrailviewer.utils.ChartUtils;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -29,10 +27,6 @@ import java.util.Map;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.LegendItem;
-import org.jfree.chart.LegendItemCollection;
-import org.jfree.chart.plot.PlotOrientation;
 
 /**
  *

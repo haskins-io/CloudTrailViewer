@@ -111,15 +111,24 @@ public class ResourcesChart extends AbstractChart implements ActionListener {
             Class c = Class.forName(fqcp);
             ResourceMetaData resource = (ResourceMetaData) c.newInstance();
 
+            int count = 0;
             for (String menuItem : resource.getMenuItems()) {
 
                 JRadioButtonMenuItem mnuItem = new JRadioButtonMenuItem(menuItem);
                 mnuItem.setActionCommand(menuItem);
                 mnuItem.addActionListener(this);
+                
+                count++;
+                if (count == 1) {
+                    mnuItem.setSelected(true);
+                }
 
                 sourceMenu.add(mnuItem);
+                customGroup.add(mnuItem);
             }
-
+           
+            menu.add(sourceMenu);
+            
             lastResouce = eventName;
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
@@ -135,13 +144,15 @@ public class ResourcesChart extends AbstractChart implements ActionListener {
 
             Class c = Class.forName(fqcp);
 
+            String source = customGroup.getSelection().getActionCommand();
+            
             Map<String, Integer> metadataByOccurance = new HashMap<>();
             for (Event event : eventDb.getEvents()) {
 
                 ResourceMetaData md = (ResourceMetaData) c.newInstance();
                 md.populate(event);
                 
-                String meta = md.getValueForMenuItem(eventName);
+                String meta = md.getValueForMenuItem(source);
                 
                 int count = 0;
                 if (metadataByOccurance.containsKey(meta)) {
