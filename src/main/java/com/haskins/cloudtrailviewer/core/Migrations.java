@@ -153,6 +153,83 @@ public class Migrations {
         }
     }
     
+    public static void createVersion5(Connection conn, CurrentDbVersion currentVersion) {
+        
+        if (currentVersion.getDbVersion() < 5) {
+        
+            StringBuilder truncateResources = new StringBuilder();
+            truncateResources.append("TRUNCATE TABLE aws_resources");
+            DbManager.getInstance().doExecute(truncateResources.toString());
+            
+            StringBuilder query = new StringBuilder();
+            query.append("INSERT INTO aws_resources (api_call) VALUES");
+            query.append(" ('CreateQueue'), ");
+            query.append(" ('DeleteQueue'), ");
+            query.append(" ('CreateTopic'), ");
+            query.append(" ('DeleteTopic'), ");
+            query.append(" ('CreateBucket'), ");
+            query.append(" ('DeleteBucket'), ");
+            query.append(" ('CreateCluster'), ");
+            query.append(" ('DeleteCluster'), ");
+            query.append(" ('CreateDBInstance'), ");
+            query.append(" ('DeleteDBInstance'), ");
+            query.append(" ('CreateKey'), ");
+            query.append(" ('CreateStream'), ");
+            query.append(" ('DeleteStream'), ");
+            query.append(" ('CreateLoadBalancer'), ");
+            query.append(" ('DeleteLoadBalancer'), ");
+            query.append(" ('CreateEnvironment'), ");
+            query.append(" ('TerminateEnvironment'), ");
+            query.append(" ('CreateTable'), ");
+            query.append(" ('DeleteTable'), ");
+            query.append(" ('RunInstances'), ");
+            query.append(" ('StartInstances'), ");
+            query.append(" ('StopInstances'), ");
+            query.append(" ('TerminateInstances'), ");
+            query.append(" ('CreateDistribution'), ");
+            query.append(" ('DeleteDistribution'), ");
+            query.append(" ('CreateStack'), ");
+            query.append(" ('DeleteStack'), ");
+            query.append(" ('CreateAutoScalingGroup'), ");
+            query.append(" ('CreateLaunchConfiguration'), ");
+            query.append(" ('DeleteAutoScalingGroup'), ");
+            query.append(" ('DeleteLaunchConfiguration') ");
+            DbManager.getInstance().doInsertUpdate(query.toString());
+            
+            
+            StringBuilder truncateSecurity = new StringBuilder();
+            truncateSecurity.append("TRUNCATE TABLE aws_security");
+            DbManager.getInstance().doExecute(truncateSecurity.toString());
+            
+            StringBuilder query2 = new StringBuilder();
+            query2.append("INSERT INTO aws_security (api_call) VALUES");
+            query2.append(" ('CreateGroup'), ");
+            query2.append(" ('CreateRole'), ");
+            query2.append(" ('CreateUser'), ");
+            query2.append(" ('DeleteGroup'), ");
+            query2.append(" ('DeleteRole'), ");
+            query2.append(" ('DeleteUser'), ");
+            query2.append(" ('AttachGroupPolicy'), ");
+            query2.append(" ('AttachRolePolicy'), ");
+            query2.append(" ('PutGroupPolicy'), ");
+            query2.append(" ('PutRolePolicy'), ");
+            query2.append(" ('PutUserPolicy'), ");
+            query2.append(" ('VerifyDomainIdentity'), ");
+            query2.append(" ('VerifyEmailAddress'), ");
+            query2.append(" ('AuthorizeSecurityGroupEgress'), ");
+            query2.append(" ('AuthorizeSecurityGroupIngress'), ");
+            query2.append(" ('RevokeSecurityGroupEgress'), ");
+            query2.append(" ('RevokeSecurityGroupIngress'), ");
+            query2.append(" ('AcceptVpcPeeringConnection') ");
+            DbManager.getInstance().doInsertUpdate(query2.toString());
+            
+            String insertQuery = "UPDATE db_properties SET db_version = 5 WHERE id = 1";
+            DbManager.getInstance().doInsertUpdate(insertQuery);
+
+            currentVersion.setDbVersion(5);
+        }   
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
     ///// Utility methods
     ////////////////////////////////////////////////////////////////////////////

@@ -76,7 +76,7 @@ public class DbManager {
                 DriverManager.getConnection(url, properties);
             }
             catch (SQLException ex1) {
-                Logger.getLogger(PropertiesController.class.getName()).log(Level.SEVERE, null, ex1);
+                ex1.printStackTrace();
             }
             
         } else {
@@ -90,6 +90,7 @@ public class DbManager {
             Migrations.createVersion2(conn, currentVersion);
             Migrations.createVersion3(conn, currentVersion);
             Migrations.createVersion4(conn, currentVersion);
+            Migrations.createVersion5(conn, currentVersion);
         }
     }
 
@@ -227,7 +228,7 @@ public class DbManager {
             conn = DriverManager.getConnection(getDbUrl(), new Properties());
         }
         catch (SQLException ex) {
-            ex.printStackTrace();
+            System.out.println("Can't create a connection to the database");
         }
 
         return conn;

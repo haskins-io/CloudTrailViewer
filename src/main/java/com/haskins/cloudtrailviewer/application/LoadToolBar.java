@@ -190,7 +190,7 @@ public class LoadToolBar extends JToolBar {
         } else {
             JOptionPane.showMessageDialog(
                 CloudTrailViewer.frame, 
-                "To download file from a S3 bucket you\n will need to define an account in Preferences."
+                "To download file from a S3 bucket you\nwill need to define an account in Preferences."
             );
         } 
     }
