@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.model.event;
 
+import com.haskins.cloudtrailviewer.model.event.deprecated.Resource;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
@@ -76,18 +77,7 @@ public class Event {
     
     @JsonProperty("recipientAccountId")
     private String recipientAccountId = "";
-    
-    
-    // NOT MENTIONED IN DOCS - old version
-    @JsonProperty("additionalEventData")
-    private AdditionalEventData additionalEventData;
-    
-    @JsonProperty("readOnly")
-    private String readOnly = "";  
-       
-    @JsonProperty("resources")
-    private List<Resource> resources; 
-    
+        
 
     /** Internal Use **/
     private String rawJson;
@@ -303,34 +293,6 @@ public class Event {
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
-
-    /**
-     * @return the readOnly
-     */
-    public String getReadOnly() {
-        return readOnly;
-    }
-
-    /**
-     * @param readOnly the readOnly to set
-     */
-    public void setReadOnly(String readOnly) {
-        this.readOnly = readOnly;
-    }
-
-    /**
-     * @return the resources
-     */
-    public List getResources() {
-        return resources;
-    }
-
-    /**
-     * @param resources the resources to set
-     */
-    public void setResources(List resources) {
-        this.resources = resources;
-    }
     
     public String getEventType() {
         return eventType;
@@ -346,20 +308,6 @@ public class Event {
 
     public void setRecipientAccountId(String recipientAccountId) {
         this.recipientAccountId = recipientAccountId;
-    }
-
-    /**
-     * @return the additionalEventData
-     */
-    public AdditionalEventData getAdditionalEventData() {
-        return additionalEventData;
-    }
-
-    /**
-     * @param additionalEventData the additionalEventData to set
-     */
-    public void setAdditionalEventData(AdditionalEventData additionalEventData) {
-        this.additionalEventData = additionalEventData;
     }
 
     /**
@@ -450,4 +398,41 @@ public class Event {
         
         return modelData.toString();
     }
+    
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///// Deprected Event parameters
+    ////////////////////////////////////////////////////////////////////////////
+    @JsonProperty("additionalEventData")
+    private AdditionalEventData additionalEventData;
+    
+    @JsonProperty("readOnly")
+    private String readOnly = "";  
+       
+    @JsonProperty("resources")
+    private List<Resource> resources; 
+    
+    public AdditionalEventData getAdditionalEventData() {
+        return additionalEventData;
+    }
+
+    public void setAdditionalEventData(AdditionalEventData additionalEventData) {
+        this.additionalEventData = additionalEventData;
+    }
+    
+    public String getReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(String readOnly) {
+        this.readOnly = readOnly;
+    }
+    
+    public List getResources() {
+        return resources;
+    }
+
+    public void setResources(List resources) {
+        this.resources = resources;
+    } 
 }

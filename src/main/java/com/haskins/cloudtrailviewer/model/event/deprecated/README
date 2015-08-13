@@ -1,0 +1,2 @@
+This package contains class that model parts of the CloudTrial event JSON that
+have been removed (deprecated) by AWS.
