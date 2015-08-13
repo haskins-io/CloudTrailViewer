@@ -20,12 +20,15 @@ package com.haskins.cloudtrailviewer.sidebar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import com.haskins.cloudtrailviewer.utils.ChartFactory;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
@@ -40,6 +43,10 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.LegendItem;
+import org.jfree.chart.LegendItemCollection;
+import org.jfree.chart.plot.PlotOrientation;
 
 /**
  *
@@ -112,7 +119,47 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
     public void actionPerformed(ActionEvent e) {
         update();
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///// protected methods
+    //////////////////////////////////////////////////////////////////////////// 
+    protected void updateChart(List<Map.Entry<String, Integer>> chartData) {
+        
+        chartCards.removeAll();
 
+        String style = styleGroup.getSelection().getActionCommand();
+
+        String orientationCommand = orientationGroup.getSelection().getActionCommand();
+        PlotOrientation orientation = PlotOrientation.VERTICAL;
+        if (orientationCommand.contains("horizontal")) {
+            orientation = PlotOrientation.HORIZONTAL;
+        }
+
+        ChartPanel cp = ChartFactory.createChart(style, chartData, 320, 240, orientation);
+        chartCards.add(cp, "");
+        chartCards.revalidate();
+
+        for (int i = defaultTableModel.getRowCount() - 1; i >= 0; i--) {
+            defaultTableModel.removeRow(i);
+        }
+
+        LegendItemCollection legendItems = ((ChartPanel) chartCards.getComponent(0)).getChart().getPlot().getLegendItems();
+
+        for (Map.Entry entry : chartData) {
+
+            Color col = null;
+            String key = (String) entry.getKey();
+            for (int i = 0; i < legendItems.getItemCount(); i++) {
+                LegendItem item = legendItems.get(i);
+                if (item.getLabel().equalsIgnoreCase(key)) {
+                    col = (Color) item.getFillPaint();
+                }
+            }
+
+            defaultTableModel.addRow(new Object[]{col, key, entry.getValue()});
+        }
+    }
+   
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     //////////////////////////////////////////////////////////////////////////// 

@@ -16,11 +16,17 @@
  */
 package com.haskins.cloudtrailviewer.model.resource;
 
+import com.haskins.cloudtrailviewer.model.event.Event;
+
 /**
  *
  * @author mark
  */
 public interface ResourceMetaData {
     
+    public void populate(Event event);
+    
     public String[] getMenuItems();
+    
+    public String getValueForMenuItem(String menuItem);
 }

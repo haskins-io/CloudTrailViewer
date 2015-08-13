@@ -113,40 +113,7 @@ public class EventsChart extends AbstractChart implements ActionListener {
         int top = Integer.parseInt(topStr);
 
         List<Map.Entry<String, Integer>> chartEvents = ChartUtils.getTopEvents(eventDb.getEvents(), top, source);
-
-        chartCards.removeAll();
-
-        String style = styleGroup.getSelection().getActionCommand();
-
-        String orientationCommand = orientationGroup.getSelection().getActionCommand();
-        PlotOrientation orientation = PlotOrientation.VERTICAL;
-        if (orientationCommand.contains("horizontal")) {
-            orientation = PlotOrientation.HORIZONTAL;
-        }
-
-        ChartPanel cp = ChartFactory.createChart(style, chartEvents, 320, 240, orientation);
-        chartCards.add(cp, "");
-        chartCards.revalidate();
-
-        for (int i = defaultTableModel.getRowCount() - 1; i >= 0; i--) {
-            defaultTableModel.removeRow(i);
-        }
-
-        LegendItemCollection legendItems = ((ChartPanel) chartCards.getComponent(0)).getChart().getPlot().getLegendItems();
-
-        for (Map.Entry entry : chartEvents) {
-
-            Color col = null;
-            String key = (String) entry.getKey();
-            for (int i = 0; i < legendItems.getItemCount(); i++) {
-                LegendItem item = legendItems.get(i);
-                if (item.getLabel().equalsIgnoreCase(key)) {
-                    col = (Color) item.getFillPaint();
-                }
-            }
-
-            defaultTableModel.addRow(new Object[]{col, key, entry.getValue()});
-        }
+        updateChart(chartEvents);
     }
     
     ////////////////////////////////////////////////////////////////////////////

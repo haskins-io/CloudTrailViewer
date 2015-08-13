@@ -60,7 +60,7 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
     private final DefaultTableModel roleTableModel = new DefaultTableModel();
 
     private final ServiceOverviewContainer servicesContainer;
-    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.EVENT_CHART);
+    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_EVENT);
     
     private final HelpToolBar helpBar;
 

@@ -49,7 +49,7 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
     private final List<String> securityEvents = new ArrayList<>();
     
     private final SecurityOverviewContainer securityContainer;
-    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.EVENT_CHART);
+    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_EVENT);
     
     private JSplitPane jsp;
     

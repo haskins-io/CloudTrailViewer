@@ -50,7 +50,7 @@ public class SimpleTableFeature extends JPanel implements Feature {
               
         this.helpBar = helpBar;
         
-        tablePanel = new EventTablePanel(eventsDatabase, EventTablePanel.EVENT_CHART);
+        tablePanel = new EventTablePanel(eventsDatabase, EventTablePanel.CHART_EVENT);
         
         buildUI();
     }

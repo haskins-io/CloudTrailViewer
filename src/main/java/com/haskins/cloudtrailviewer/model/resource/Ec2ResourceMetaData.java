@@ -31,6 +31,7 @@ public class Ec2ResourceMetaData implements ResourceMetaData {
     
     private static final String[] MENU_ITEMS = new String[] {"Ami Id", "Instance Type"};
     
+    @Override
     public void populate(Event event) {
         
         Map requestParams = event.getRequestParameters();
@@ -43,7 +44,23 @@ public class Ec2ResourceMetaData implements ResourceMetaData {
         instanceType = (String)requestParams.get("instanceType");
     }
     
+    @Override
     public String[] getMenuItems() {
         return Ec2ResourceMetaData.MENU_ITEMS;
+    }
+    
+    @Override
+    public String getValueForMenuItem(String menuItem) {
+        
+        String value = "";
+        
+        if (menuItem.equalsIgnoreCase("Ami Id")) {
+            value = this.imageId;
+            
+        } else if (menuItem.equalsIgnoreCase("Instance Type")) {
+            value = this.instanceType;
+        }
+        
+        return value;
     }
 }

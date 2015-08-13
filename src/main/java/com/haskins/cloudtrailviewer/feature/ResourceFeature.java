@@ -49,7 +49,7 @@ public class ResourceFeature extends JPanel implements Feature, EventDatabaseLis
     private final List<String> resourceEvents = new ArrayList<>();
     
     private final ResourceOverviewContainer resourcesContainer;
-    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.EVENT_CHART);
+    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_EVENT);
     
     private final HelpToolBar helpBar;
     private final StatusBar statusBar;

@@ -24,6 +24,7 @@ import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.sidebar.EventJson;
 import com.haskins.cloudtrailviewer.sidebar.EventTree;
 import com.haskins.cloudtrailviewer.sidebar.EventsChart;
+import com.haskins.cloudtrailviewer.sidebar.ResourcesChart;
 import com.haskins.cloudtrailviewer.sidebar.SideBarPanel;
 import com.haskins.cloudtrailviewer.table.EventsTable;
 import com.haskins.cloudtrailviewer.table.EventsTableModel;
@@ -57,7 +58,8 @@ import javax.swing.table.TableColumn;
  */
 public class EventTablePanel extends JPanel implements ActionListener {
     
-    public static final int EVENT_CHART = 1;
+    public static final int CHART_EVENT = 1;
+    public static final int CHART_RESOURCE = 2;
     
     private final FilteredEventDatabase eventDb;
     private final EventsTableModel tableModel;
@@ -317,8 +319,11 @@ public class EventTablePanel extends JPanel implements ActionListener {
     private void addChart(int chartType) {
         
         switch(chartType) {
-            case EventTablePanel.EVENT_CHART:
+            case EventTablePanel.CHART_EVENT:
                 sideBar.addSideBar(new EventsChart(eventDb, this));
+                break;
+            case EventTablePanel.CHART_RESOURCE:
+                sideBar.addSideBar(new ResourcesChart(eventDb, this));
                 break;
         }
     }

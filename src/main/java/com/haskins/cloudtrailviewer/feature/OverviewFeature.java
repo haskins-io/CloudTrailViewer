@@ -44,7 +44,7 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     private final Help help = new Help("Overview", "overview");
     
     private final ServiceOverviewContainer servicesContainer;
-    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.EVENT_CHART);
+    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_EVENT);
     
     private JSplitPane jsp;
     
