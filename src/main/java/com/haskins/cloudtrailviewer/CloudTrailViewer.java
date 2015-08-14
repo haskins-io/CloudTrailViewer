@@ -34,7 +34,7 @@ public class CloudTrailViewer extends JFrame {
     public static CloudTrailViewerApplication frame;
     
     private static void createAndShowGUI() {
-;        
+                
         JFrame.setDefaultLookAndFeelDecorated(true);
         
         Menu menu = new Menu();    
