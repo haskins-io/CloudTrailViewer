@@ -1,21 +1,20 @@
 /*    
-CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
-files.
+ CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
+ files.
 
-Copyright (C) 2015  Mark P. Haskins
+ Copyright (C) 2015  Mark P. Haskins
 
-This program is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software Foundation,
-either version 3 of the License, or (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify it under the
+ terms of the GNU General Public License as published by the Free Software Foundation,
+ either version 3 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,but WITHOUT ANY 
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,but WITHOUT ANY 
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.haskins.cloudtrailviewer.table;
 
 import com.haskins.cloudtrailviewer.core.EventDatabase;
@@ -28,25 +27,41 @@ import javax.swing.table.AbstractTableModel;
  * @author mark.haskins
  */
 public class EventsTableModel extends AbstractTableModel {
-    
-    public static final String[] COLUMN_NAMES = new String[] {
-         "Date/Time", "User Name", "Service", "Name", "Resource Type", "Resource Name"
+
+    public static final String[] COLUMN_NAMES = new String[]{
+        "Date/Time",
+        "User Name",
+        "Service",
+        "Name",
+        "Resource Type",
+        "Resource Name",
+        "Event Version",
+        "AWS Region",
+        "Source IP Address",
+        "User Agent",
+        "Event Source",
+        "Error Code",
+        "Error Message",
+        "Request Id",
+        "Event Id",
+        "Event Type",
+        "API Version"
     };
-            
+
     private final EventDatabase eventsDb;
-        
+
     public EventsTableModel(EventDatabase eventsDatabase) {
         eventsDb = eventsDatabase;
     }
-                
+
     public void reloadTableModel() {
-        fireTableDataChanged(); 
+        fireTableDataChanged();
     }
-    
+
     public Event getEventAt(int i) {
         return eventsDb.getEventByIndex(i);
     }
-  
+
     ///////////////////////////////////////////////////////////////////////////
     // AbstractTableModel implementation
     ///////////////////////////////////////////////////////////////////////////
@@ -62,27 +77,28 @@ public class EventsTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        
+
         int i = 0;
-        
+
         if (eventsDb != null) {
             i = eventsDb.size();
         }
-        
+
         return i;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        
+
         Event event = getEventAt(rowIndex);
 
         Object value = null;
 
-        switch(columnIndex) {
-            
+        switch (columnIndex) {
+
             case 0:
-                value = TableUtils.getFormatedDateTime(event.getTimestamp());;
+                value = TableUtils.getFormatedDateTime(event.getTimestamp());
+                ;
                 break;
             case 1:
                 value = TableUtils.getInvokedBy(event);
@@ -99,11 +115,41 @@ public class EventsTableModel extends AbstractTableModel {
             case 5:
                 value = ResourceLookup.getResourceInfo(event).getNames();
                 break;
+            case 6:
+                value = event.getEventVersion();
+                break;
+            case 7:
+                value = event.getAwsRegion();
+                break;
+            case 8:
+                value = event.getSourceIPAddress();
+                break;
+            case 9:
+                value = event.getUserAgent();
+                break;
+            case 10:
+                value = event.getErrorCode();
+                break;
+            case 11:
+                value = event.getErrorMessage();
+                break;
+             case 12:
+                value = event.getRequestId();
+                break;
+            case 13:
+                value = event.getEventId();
+                break;
+            case 14:
+                value = event.getEventType();
+                break;
+            case 15:
+                value = event.getApiVersion();
+                break;
         }
 
         return value;
-    } 
-    
+    }
+
     @Override
     public boolean isCellEditable(int row, int column) {
         return false;

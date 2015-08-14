@@ -45,6 +45,7 @@ public class SimpleTableFeature extends JPanel implements Feature {
     /**
      * Default constructor
      * @param eventsDatabase reference to an Event Database 
+     * @param helpBar
      */
     public SimpleTableFeature(FilteredEventDatabase eventsDatabase, HelpToolBar helpBar) {
               

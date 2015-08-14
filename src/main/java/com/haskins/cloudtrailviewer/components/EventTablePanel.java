@@ -203,6 +203,17 @@ public class EventTablePanel extends JPanel implements ActionListener {
         });
         table.setAutoCreateRowSorter(true);
         
+        // hide specific columns to start with
+        int numCols = tableModel.getColumnCount();
+        for (int i=4; i<numCols; i++) {
+            
+            TableColumn column = customColumnModel.getColumnByModelIndex(i);
+            customColumnModel.setColumnVisible(column, false);
+            
+            JCheckBoxMenuItem menuItem = (JCheckBoxMenuItem)columnPopupMenu.getComponent(i);
+            menuItem.setSelected(false);
+        }
+        
         JScrollPane eventsScrollPane = new JScrollPane(table);
         eventsScrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
@@ -327,4 +338,6 @@ public class EventTablePanel extends JPanel implements ActionListener {
                 break;
         }
     }
+    
+   
 }
