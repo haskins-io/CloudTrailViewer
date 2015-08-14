@@ -50,7 +50,7 @@ public class SecurityOverviewPanel extends JPanel {
     
     public SecurityOverviewPanel(String securityEvent, Feature f) {
      
-        this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+        this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
         this.setBackground(Color.white);
         
         this.nameLabel.setText(securityEvent);
@@ -70,7 +70,7 @@ public class SecurityOverviewPanel extends JPanel {
             }
         });
         nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
-        nameLabel.setBackground(new Color(51, 102, 153));
+        nameLabel.setBackground(Color.white);
         nameLabel.setOpaque(true);
         nameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
