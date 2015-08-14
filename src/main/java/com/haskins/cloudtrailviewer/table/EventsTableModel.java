@@ -98,7 +98,6 @@ public class EventsTableModel extends AbstractTableModel {
 
             case 0:
                 value = TableUtils.getFormatedDateTime(event.getTimestamp());
-                ;
                 break;
             case 1:
                 value = TableUtils.getInvokedBy(event);
@@ -125,24 +124,27 @@ public class EventsTableModel extends AbstractTableModel {
                 value = event.getSourceIPAddress();
                 break;
             case 9:
-                value = event.getUserAgent();
+                value = event.getEventSource();
                 break;
             case 10:
-                value = event.getErrorCode();
+                value = event.getUserAgent();
                 break;
             case 11:
+                value = event.getErrorCode();
+                break;
+            case 12:
                 value = event.getErrorMessage();
                 break;
-             case 12:
+             case 13:
                 value = event.getRequestId();
                 break;
-            case 13:
+            case 14:
                 value = event.getEventId();
                 break;
-            case 14:
+            case 15:
                 value = event.getEventType();
                 break;
-            case 15:
+            case 16:
                 value = event.getApiVersion();
                 break;
         }
