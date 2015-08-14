@@ -25,6 +25,8 @@ import java.util.List;
  */
 
 /**
+ * Haven't changed it much, replace Vector with LinkedList
+ * 
  * @modifier mark.haskins
  */
 public class XTableColumnModel extends DefaultTableColumnModel {
@@ -38,8 +40,7 @@ public class XTableColumnModel extends DefaultTableColumnModel {
     /**
      * Creates an extended table column model.
      */
-    public XTableColumnModel() {
-    }
+    public XTableColumnModel() { }
 
     /**
      * Sets the visibility of the specified TableColumn. The call is ignored if
