@@ -235,24 +235,6 @@ public class EventLoader {
         return jsonString;
     }
         
-    private void processStream(InputStream stream, Filter filter) {
-        
-        Records records = createRecords(uncompress(stream));
-            
-        if (records != null) {
-            
-            List<Event> events = records.getLogEvents();
-            for (Event event : events) {
-
-                if (filter.passesFilter(event)) {
-                    
-                    EventUtils.addTimestamp(event);
-                    eventDb.addEvent(event);
-                }
-            }
-        }
-    }
-    
     private Records createRecords(String json_string) {
         
         Records records = null;
@@ -271,5 +253,23 @@ public class EventLoader {
         }
 
         return records;
+    }
+    
+    private void processStream(InputStream stream, Filter filter) {
+        
+        Records records = createRecords(uncompress(stream));
+            
+        if (records != null) {
+            
+            List<Event> events = records.getLogEvents();
+            for (Event event : events) {
+
+                if (filter.passesFilter(event)) {
+                    
+                    EventUtils.addTimestamp(event);
+                    eventDb.addEvent(event);
+                }
+            }
+        }
     }
 }
