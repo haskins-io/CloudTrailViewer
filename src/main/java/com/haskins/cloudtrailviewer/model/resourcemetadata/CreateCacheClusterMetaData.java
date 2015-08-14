@@ -14,39 +14,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.model.resource;
+package com.haskins.cloudtrailviewer.model.resourcemetadata;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.util.List;
 import java.util.Map;
 
 /**
  *
- * @author mark
+ * @author mark.haskins
  */
-public class Ec2ResourceMetaData implements ResourceMetaData {
+public class CreateCacheClusterMetaData implements ResourceMetaData {
     
-    private String imageId;
-    private String instanceType;
+    private String engine;
+    private String cacheNodeType;
     
-    private static final String[] MENU_ITEMS = new String[] {"Ami Id", "Instance Type"};
+    private static final String[] MENU_ITEMS = new String[] {
+        "Engine", 
+        "Node Type"
+    };
     
     @Override
     public void populate(Event event) {
         
         Map requestParams = event.getRequestParameters();
-        
-        Map instancesSet = (Map)requestParams.get("instancesSet");
-        List<Map> items = (List)instancesSet.get("items");
-        Map item = items.get(0);
-        imageId = (String)item.get("imageId");
-        
-        instanceType = (String)requestParams.get("instanceType");
+                
+        engine = (String)requestParams.get("engine");
+        cacheNodeType = (String)requestParams.get("cacheNodeType");
     }
     
     @Override
     public String[] getMenuItems() {
-        return Ec2ResourceMetaData.MENU_ITEMS;
+        return CreateCacheClusterMetaData.MENU_ITEMS;
     }
     
     @Override
@@ -54,11 +52,11 @@ public class Ec2ResourceMetaData implements ResourceMetaData {
         
         String value = "";
         
-        if (menuItem.equalsIgnoreCase("Ami Id")) {
-            value = this.imageId;
+        if (menuItem.equalsIgnoreCase("Engine")) {
+            value = this.engine;
             
-        } else if (menuItem.equalsIgnoreCase("Instance Type")) {
-            value = this.instanceType;
+        } else if (menuItem.equalsIgnoreCase("Node Type")) {
+            value = this.cacheNodeType;
         }
         
         return value;

@@ -19,7 +19,7 @@ package com.haskins.cloudtrailviewer.sidebar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.model.resource.ResourceMetaData;
+import com.haskins.cloudtrailviewer.model.resourcemetadata.ResourceMetaData;
 import static com.haskins.cloudtrailviewer.utils.ChartUtils.entriesSortedByValues;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,7 +37,7 @@ import javax.swing.JRadioButtonMenuItem;
  */
 public class ResourcesChart extends AbstractChart implements ActionListener {
 
-    private static final String PACKAGE = "com.haskins.cloudtrailviewer.model.resource.";
+    private static final String PACKAGE = "com.haskins.cloudtrailviewer.model.resourcemetadata.";
 
     private final Map<String, String> resourceTypes = new HashMap<>();
 
@@ -49,16 +49,16 @@ public class ResourcesChart extends AbstractChart implements ActionListener {
 
         super(eventDatabase, eventTable);
 
-        resourceTypes.put("RunInstances", "Ec2ResourceMetaData");
+        resourceTypes.put("RunInstances", "RunInstanceMetaData");
+        resourceTypes.put("CreateDBInstance", "CreateDbInstanceMetaData");
+        resourceTypes.put("CreateCacheCluster", "CreateCacheClusterMetaData");
     }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// Abstract methods implementation
     //////////////////////////////////////////////////////////////////////////// 
     @Override
-    public void addCustomMenu() {
-
-    }
+    public void addCustomMenu() { }
 
     @Override
     public void update() {
@@ -71,6 +71,14 @@ public class ResourcesChart extends AbstractChart implements ActionListener {
         String eventName = event.getEventName();
 
         if (!resourceTypes.containsKey(eventName)) {
+            
+            sourceMenu.removeAll();
+            chartCards.removeAll();
+            
+            for (int i = defaultTableModel.getRowCount() - 1; i >= 0; i--) {
+                defaultTableModel.removeRow(i);
+            }
+            
             return;
         }
 
