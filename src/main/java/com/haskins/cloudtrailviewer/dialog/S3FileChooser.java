@@ -258,17 +258,8 @@ public class S3FileChooser extends JDialog implements ActionListener {
         //Initialize values.
         pack();
         setLocationRelativeTo(frame);      
-        
-        SwingWorker worker = new SwingWorker<Void, Void>() {
 
-            @Override
-            public Void doInBackground() {
-                reloadContents();
-                return null;
-            };
-        };
-
-       worker.execute();
+        reloadContents();
     }
 
     private void handleDoubleClickEvent() {
@@ -319,6 +310,8 @@ public class S3FileChooser extends JDialog implements ActionListener {
         // save prefix
         
         loadingLabel.setVisible(true);
+        this.revalidate();
+        
         this.s3ListModel.clear();
 
         String bucketName = currentAccount.getBucket();
@@ -374,6 +367,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
             }
 
             loadingLabel.setVisible(false);
+            this.revalidate();
         } catch (Exception e) {
             e.printStackTrace();
         }
