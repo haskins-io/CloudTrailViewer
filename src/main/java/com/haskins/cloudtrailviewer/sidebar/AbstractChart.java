@@ -209,8 +209,12 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
 
                 if (e.getFirstIndex() >= 0) {
 
-                    String value = (String) defaultTableModel.getValueAt(table.getSelectedRow(), 1);
-                    eventTablePanel.setFilterString(value);
+                    try {
+                        String value = (String) defaultTableModel.getValueAt(table.getSelectedRow(), 1);
+                        eventTablePanel.setFilterString(value); 
+                    } catch (Exception ex) {
+                        
+                    }
                 }
             }
         });
