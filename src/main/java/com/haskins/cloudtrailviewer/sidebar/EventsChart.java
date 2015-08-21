@@ -131,13 +131,13 @@ public class EventsChart extends AbstractChart implements ActionListener {
     ////////////////////////////////////////////////////////////////////////////
     private JMenu getUserIdentityMenu(ButtonGroup buttonGroup) {
 
-        JRadioButtonMenuItem mnuUiType = new JRadioButtonMenuItem("Type");
-        JRadioButtonMenuItem mnuUiPrincipalId = new JRadioButtonMenuItem("Principal Id");
-        JRadioButtonMenuItem mnuUiArn = new JRadioButtonMenuItem("Arn");
-        JRadioButtonMenuItem mnuUiAccountId = new JRadioButtonMenuItem("Account Id");
-        JRadioButtonMenuItem mnuUiAccessKeyId = new JRadioButtonMenuItem("Access Key Id");
-        JRadioButtonMenuItem mnuUiUsername = new JRadioButtonMenuItem("Username");
-        JRadioButtonMenuItem mnuUiInvokedBy = new JRadioButtonMenuItem("Invoked By");
+        JRadioButtonMenuItem mnuUiType = new JRadioButtonMenuItem("User Identity : Type");
+        JRadioButtonMenuItem mnuUiPrincipalId = new JRadioButtonMenuItem("User Identity : Principal Id");
+        JRadioButtonMenuItem mnuUiArn = new JRadioButtonMenuItem("User Identity : Arn");
+        JRadioButtonMenuItem mnuUiAccountId = new JRadioButtonMenuItem("User Identity : Account Id");
+        JRadioButtonMenuItem mnuUiAccessKeyId = new JRadioButtonMenuItem("User Identity : Access Key Id");
+        JRadioButtonMenuItem mnuUiUsername = new JRadioButtonMenuItem("User Identity : Username");
+        JRadioButtonMenuItem mnuUiInvokedBy = new JRadioButtonMenuItem("User Identity : Invoked By");
 
         mnuUiType.setActionCommand("UserIdentity.Type");
         mnuUiType.addActionListener(this);
@@ -168,7 +168,7 @@ public class EventsChart extends AbstractChart implements ActionListener {
         buttonGroup.add(mnuUiUsername);
         buttonGroup.add(mnuUiInvokedBy);
 
-        JMenu userIdentityMenu = new JMenu("User Identity");
+        JMenu userIdentityMenu = new JMenu("Invoked By");
         userIdentityMenu.add(mnuUiType);
         userIdentityMenu.add(mnuUiPrincipalId);
         userIdentityMenu.add(mnuUiArn);
@@ -176,26 +176,18 @@ public class EventsChart extends AbstractChart implements ActionListener {
         userIdentityMenu.add(mnuUiAccessKeyId);
         userIdentityMenu.add(mnuUiUsername);
         userIdentityMenu.add(mnuUiInvokedBy);
-        userIdentityMenu.add(getSessionContextMenu(buttonGroup));
+        userIdentityMenu.add(getSessionIssuerMenu(userIdentityMenu, buttonGroup));
 
         return userIdentityMenu;
     }
 
-    private JMenu getSessionContextMenu(ButtonGroup buttonGroup) {
+    private JMenu getSessionIssuerMenu(JMenu siMenu, ButtonGroup buttonGroup) {
 
-        JMenu sessionContext = new JMenu("Session Context");
-        sessionContext.add(getSessionIssuerMenu(buttonGroup));
-
-        return sessionContext;
-    }
-
-    private JMenu getSessionIssuerMenu(ButtonGroup buttonGroup) {
-
-        JRadioButtonMenuItem mnuSiType = new JRadioButtonMenuItem("Type");
-        JRadioButtonMenuItem mnuSiArn = new JRadioButtonMenuItem("Arn");
-        JRadioButtonMenuItem mnuSiPrincipalId = new JRadioButtonMenuItem("Principal Id");
-        JRadioButtonMenuItem mnuSiAccountId = new JRadioButtonMenuItem("Account Id");
-        JRadioButtonMenuItem mnuSiUsername = new JRadioButtonMenuItem("Username");
+        JRadioButtonMenuItem mnuSiType = new JRadioButtonMenuItem("Session Context : Type");
+        JRadioButtonMenuItem mnuSiArn = new JRadioButtonMenuItem("Session Context : Arn");
+        JRadioButtonMenuItem mnuSiPrincipalId = new JRadioButtonMenuItem("Session Context : Principal Id");
+        JRadioButtonMenuItem mnuSiAccountId = new JRadioButtonMenuItem("Session Context : Account Id");
+        JRadioButtonMenuItem mnuSiUsername = new JRadioButtonMenuItem("Session Context : Username");
 
         mnuSiType.setActionCommand("UserIdentity.SessionContext.SessionIssuer.Type");
         mnuSiType.addActionListener(this);
@@ -218,7 +210,6 @@ public class EventsChart extends AbstractChart implements ActionListener {
         buttonGroup.add(mnuSiAccountId);
         buttonGroup.add(mnuSiUsername);
 
-        JMenu siMenu = new JMenu("Session Issuer");
         siMenu.add(mnuSiType);
         siMenu.add(mnuSiPrincipalId);
         siMenu.add(mnuSiArn);
