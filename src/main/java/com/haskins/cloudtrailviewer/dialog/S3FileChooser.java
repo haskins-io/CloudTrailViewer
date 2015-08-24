@@ -35,6 +35,7 @@ import static java.awt.Component.LEFT_ALIGNMENT;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -59,7 +60,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingWorker;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 /**
@@ -82,6 +83,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
     
     private static final Map<String, String> aliasMap = new HashMap<>();
     private static String prefix = "";
+    private JLabel prefixLbl = new JLabel(prefix);
     
     private JLabel loadingLabel = new JLabel("Loading ...");
     
@@ -230,7 +232,7 @@ public class S3FileChooser extends JDialog implements ActionListener {
         });
         
         JScrollPane listScroller = new JScrollPane(s3List);
-        listScroller.setPreferredSize(new Dimension(400,480));
+        listScroller.setPreferredSize(new Dimension(450,480));
         listScroller.setAlignmentX(LEFT_ALIGNMENT);
         
         JPanel listPane = new JPanel();
@@ -249,9 +251,15 @@ public class S3FileChooser extends JDialog implements ActionListener {
         buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPane.add(btnLoad);
  
+        JPanel topPanel = new JPanel(new GridLayout(2,1));
+        topPanel.add(getToolbar());
+        
+        prefixLbl.setHorizontalAlignment(SwingConstants.CENTER);
+        topPanel.add(prefixLbl);
+        
         //Put everything together, using the content pane's BorderLayout.
         Container contentPane = getContentPane();
-        contentPane.add(getToolbar(), BorderLayout.PAGE_START);
+        contentPane.add(topPanel, BorderLayout.PAGE_START);
         contentPane.add(listPane, BorderLayout.CENTER);
         contentPane.add(buttonPane, BorderLayout.PAGE_END);
  
@@ -303,11 +311,11 @@ public class S3FileChooser extends JDialog implements ActionListener {
                 S3FileChooser.dialog.setVisible(false);
             }
         }
+        
+        prefixLbl.setText(prefix);
     }
     
     private void reloadContents() {
-
-        // save prefix
         
         loadingLabel.setVisible(true);
         this.revalidate();
