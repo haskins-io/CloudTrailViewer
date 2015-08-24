@@ -129,6 +129,11 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
         }
     }
     
+    @Override
+    public void finishedLoading() {
+        securityContainer.finishedLoading();
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     //////////////////////////////////////////////////////////////////////////// 

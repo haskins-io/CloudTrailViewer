@@ -133,6 +133,11 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
         }
     }
     
+    @Override
+    public void finishedLoading() {
+        
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     //////////////////////////////////////////////////////////////////////////// 

@@ -137,6 +137,11 @@ public class UserFeature extends JPanel implements Feature, EventDatabaseListene
             }
         }
     }
+    
+    @Override
+    public void finishedLoading() {
+        
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods

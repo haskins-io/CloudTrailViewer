@@ -21,6 +21,9 @@ import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
 import com.haskins.cloudtrailviewer.utils.GeneralUtils;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +56,7 @@ public class OverviewContainer extends JPanel {
             addEvent(event);
         }
 
-        this.revalidate();
+        finishedLoading();
     }
 
     public void addEvent(Event event) {
@@ -67,17 +70,7 @@ public class OverviewContainer extends JPanel {
             resourcePanel = new NameValuePanel(eventName, feature);
 
             eventsMap.put(eventName, resourcePanel);
-
-            this.removeAll();
-
-            Set keys = eventsMap.keySet();
-            List<String> sorted = GeneralUtils.asSortedList(keys);
-            
-            for (String service : sorted) {
-                
-                NameValuePanel panel = eventsMap.get(service);
-                this.add(panel);
-            }
+            this.add(resourcePanel);
 
         } else {
 
@@ -86,4 +79,46 @@ public class OverviewContainer extends JPanel {
 
         resourcePanel.addEvent(event);
     }
+
+    public void finishedLoading() {
+
+        this.removeAll();
+        
+        List<Map.Entry<String, NameValuePanel>> sortedPanels = entriesSortedByValues(eventsMap);
+        for (Map.Entry<String, NameValuePanel> aPanel : sortedPanels) {
+            
+            String service = aPanel.getKey();
+            NameValuePanel panel = eventsMap.get(service);
+            this.add(panel);
+        }
+        
+        this.revalidate();
+    }
+
+    List<Map.Entry<String, NameValuePanel>> entriesSortedByValues(Map<String, NameValuePanel> map) {
+
+        List<Map.Entry<String, NameValuePanel>> sortedEntries = new ArrayList<>(map.entrySet());
+
+        Collections.sort(sortedEntries,
+                new Comparator<Map.Entry<String, NameValuePanel>>() {
+                    @Override
+                    public int compare(Map.Entry<String, NameValuePanel> e1, Map.Entry<String, NameValuePanel> e2) {
+                        
+                        int comparisonResult = 0;
+
+                        if(e1.getValue().getEventCount() < e2.getValue().getEventCount()) {
+                            comparisonResult = 1;
+
+                        } else if(e1.getValue().getEventCount() > e2.getValue().getEventCount()) {
+                            comparisonResult = -1;
+                        }
+
+                        return comparisonResult;
+                    }
+                }
+        );
+
+        return sortedEntries;
+    }
+
 }

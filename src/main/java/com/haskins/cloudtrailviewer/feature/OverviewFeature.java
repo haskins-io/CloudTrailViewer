@@ -119,6 +119,11 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
         servicesContainer.addEvent(event);
     }
     
+    @Override
+    public void finishedLoading() {
+        
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     //////////////////////////////////////////////////////////////////////////// 

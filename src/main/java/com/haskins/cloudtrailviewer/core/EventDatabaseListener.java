@@ -32,4 +32,6 @@ public interface EventDatabaseListener {
      * @param event 
      */
     public void eventAdded(Event event);
+    
+    public void finishedLoading();
 }

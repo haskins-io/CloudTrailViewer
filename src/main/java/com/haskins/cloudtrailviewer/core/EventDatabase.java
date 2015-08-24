@@ -113,6 +113,10 @@ public class EventDatabase implements EventLoaderListener {
     @Override
     public void finishedLoading() {
         Collections.sort(events, new TimeStampComparator());
+        
+        for (EventDatabaseListener l : listeners) {
+            l.finishedLoading();
+        } 
     }
     
     /**

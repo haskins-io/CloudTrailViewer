@@ -128,6 +128,11 @@ public class ResourceFeature extends JPanel implements Feature, EventDatabaseLis
         }
     }
     
+    @Override
+    public void finishedLoading() {
+        resourcesContainer.finishedLoading();
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     //////////////////////////////////////////////////////////////////////////// 
