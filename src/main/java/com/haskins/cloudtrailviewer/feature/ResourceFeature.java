@@ -21,7 +21,7 @@ package com.haskins.cloudtrailviewer.feature;
 import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
-import com.haskins.cloudtrailviewer.components.resourcespanel.ResourceOverviewContainer;
+import com.haskins.cloudtrailviewer.components.OverviewContainer;
 import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.model.Help;
@@ -48,7 +48,7 @@ public class ResourceFeature extends JPanel implements Feature, EventDatabaseLis
     
     private final List<String> resourceEvents = new ArrayList<>();
     
-    private final ResourceOverviewContainer resourcesContainer;
+    private final OverviewContainer resourcesContainer;
     private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_RESOURCE);
     
     private final HelpToolBar helpBar;
@@ -60,7 +60,7 @@ public class ResourceFeature extends JPanel implements Feature, EventDatabaseLis
         this.helpBar = helpBar;
         this.statusBar = sb;
         
-        resourcesContainer = new ResourceOverviewContainer(this);
+        resourcesContainer = new OverviewContainer(this);
         
         loadSecurityEvents();
         buildUI();

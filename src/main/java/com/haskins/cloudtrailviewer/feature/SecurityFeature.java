@@ -21,7 +21,7 @@ package com.haskins.cloudtrailviewer.feature;
 import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
-import com.haskins.cloudtrailviewer.components.securitypanel.SecurityOverviewContainer;
+import com.haskins.cloudtrailviewer.components.OverviewContainer;
 import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.model.Help;
@@ -48,7 +48,7 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
     
     private final List<String> securityEvents = new ArrayList<>();
     
-    private final SecurityOverviewContainer securityContainer;
+    private final OverviewContainer securityContainer;
     private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_EVENT);
     
     private JSplitPane jsp;
@@ -61,7 +61,7 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
         this.helpBar = helpBar;
         this.statusBar = sb;
         
-        securityContainer = new SecurityOverviewContainer(this);
+        securityContainer = new OverviewContainer(this);
         
         loadSecurityEvents();
         buildUI();

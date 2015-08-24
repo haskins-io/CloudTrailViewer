@@ -1,20 +1,21 @@
-/*
- * Copyright (C) 2015 Mark P. Haskins
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package com.haskins.cloudtrailviewer.components.resourcespanel;
+/*    
+CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
+files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+package com.haskins.cloudtrailviewer.components;
 
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
@@ -27,7 +28,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,9 +38,9 @@ import javax.swing.SwingConstants;
 
 /**
  *
- * @author mark
+ * @author mark.haskins
  */
-public class ResourceOverviewPanel extends JPanel {
+public class NameValuePanel extends JPanel {
     
     private final List<Event> events = new ArrayList<>();
     
@@ -47,7 +50,7 @@ public class ResourceOverviewPanel extends JPanel {
     private boolean sorted = false;
     private final Feature parent;
     
-    public ResourceOverviewPanel(String securityEvent, Feature f) {
+    public NameValuePanel(String securityEvent, Feature f) {
      
         this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
         this.setBackground(Color.white);
@@ -92,5 +95,9 @@ public class ResourceOverviewPanel extends JPanel {
         totalLabel.setText(String.valueOf(events.size()));
         
         this.revalidate();
+    }
+    
+    public int getEventCount() {
+        return events.size();
     }
 }

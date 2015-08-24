@@ -35,12 +35,10 @@ public class TimeStampComparator implements Comparator {
         Event event1 = (Event)o1;
         Event event2 = (Event)o2;
         
-        if(event1.getTimestamp() < event2.getTimestamp())
-        {
+        if(event1.getTimestamp() < event2.getTimestamp()) {
             comparisonResult = -1;
-        }
-        else if(event1.getTimestamp() > event2.getTimestamp())
-        {
+            
+        } else if(event1.getTimestamp() > event2.getTimestamp()) {
             comparisonResult = 1;
         }
         
