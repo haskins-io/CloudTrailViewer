@@ -72,7 +72,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
      */
     public CloudTrailViewerApplication() {
         
-        super("CloudTrail Analyser");
+        super("CloudTrail Viewer");
                 
         database = new FilteredEventDatabase(filter, statusBar);
         
@@ -170,7 +170,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     ////////////////////////////////////////////////////////////////////////////
     private void buildUI() {
         
-        this.setTitle("CloudTrail Analyser");
+        this.setTitle("CloudTrail Viewer");
         this.setLayout(new BorderLayout());
         
         int inset = 50;
