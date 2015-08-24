@@ -90,11 +90,7 @@ public class SecurityOverviewPanel extends JPanel {
     public void addEvent(Event event) {
                 
         events.add(event);
-        
-        String strTotal = totalLabel.getText();
-        int intCount = Integer.parseInt(strTotal);
-        intCount++;
-        totalLabel.setText(String.valueOf(intCount));
+        totalLabel.setText(String.valueOf(events.size()));
         
         this.revalidate();
     }
