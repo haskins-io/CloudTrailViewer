@@ -125,7 +125,7 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
     public void eventAdded(Event event) {
         
         if (securityEvents.contains(event.getEventName())) {
-            securityContainer.addEvent(event);
+            securityContainer.addEvent(event, "EventName");
         }
     }
     

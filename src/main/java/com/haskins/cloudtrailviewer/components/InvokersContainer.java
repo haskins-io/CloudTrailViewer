@@ -38,7 +38,6 @@ public class InvokersContainer extends OverviewContainer {
         server_icon = ToolBarUtils.getIcon("Server-32.png");
     }
     
-    @Override
     public void addEvent(Event event) {
 
         String type = event.getUserIdentity().getType();
@@ -50,7 +49,6 @@ public class InvokersContainer extends OverviewContainer {
 
             addRole(event);
         }
-            
     }
     
     private void addUser(Event event) {
@@ -115,5 +113,4 @@ public class InvokersContainer extends OverviewContainer {
             }
         } 
     }
-    
 }

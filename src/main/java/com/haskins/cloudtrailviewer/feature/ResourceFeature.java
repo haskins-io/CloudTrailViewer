@@ -124,7 +124,7 @@ public class ResourceFeature extends JPanel implements Feature, EventDatabaseLis
     public void eventAdded(Event event) {
         
         if (resourceEvents.contains(event.getEventName())) {
-            resourcesContainer.addEvent(event);
+            resourcesContainer.addEvent(event, "EventName");
         }
     }
     

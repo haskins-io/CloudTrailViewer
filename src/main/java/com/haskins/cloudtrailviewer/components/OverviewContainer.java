@@ -20,6 +20,8 @@ package com.haskins.cloudtrailviewer.components;
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -51,31 +53,40 @@ public class OverviewContainer extends JPanel {
         this.removeAll();
 
         for (Event event : events) {
-            addEvent(event);
+            addEvent(event, "EventName");
         }
 
         finishedLoading();
     }
 
-    public void addEvent(Event event) {
+    public void addEvent(Event event, String property) {
+          
+        try {
+            String getProperty = "get" + property;
+            Method method = event.getClass().getMethod(getProperty);
+            Object result = method.invoke(event);
 
-        String eventName = event.getEventName();
+            String propertyValue = (String)result;
 
-        final NameValuePanel resourcePanel;
+            final NameValuePanel resourcePanel;
+            if (!eventsMap.containsKey(propertyValue)) {
 
-        if (!eventsMap.containsKey(eventName)) {
+                resourcePanel = new NameValuePanel(propertyValue, null, feature);
 
-            resourcePanel = new NameValuePanel(eventName, null, feature);
+                eventsMap.put(propertyValue, resourcePanel);
+                this.add(resourcePanel);
 
-            eventsMap.put(eventName, resourcePanel);
-            this.add(resourcePanel);
+            } else {
 
-        } else {
+                resourcePanel = eventsMap.get(propertyValue);
+            }
 
-            resourcePanel = eventsMap.get(eventName);
+            resourcePanel.addEvent(event); 
+        }
+        catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
+            //
         }
 
-        resourcePanel.addEvent(event);
     }
 
     public void finishedLoading() {
@@ -118,5 +129,4 @@ public class OverviewContainer extends JPanel {
 
         return sortedEntries;
     }
-
 }
