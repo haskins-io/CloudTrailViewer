@@ -126,37 +126,40 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
     protected void updateChart(List<Map.Entry<String, Integer>> chartData) {
         
         chartCards.removeAll();
-
-        String style = styleGroup.getSelection().getActionCommand();
-
-        String orientationCommand = orientationGroup.getSelection().getActionCommand();
-        PlotOrientation orientation = PlotOrientation.VERTICAL;
-        if (orientationCommand.contains("horizontal")) {
-            orientation = PlotOrientation.HORIZONTAL;
-        }
-
-        ChartPanel cp = ChartFactory.createChart(style, chartData, 320, 240, orientation);
-        chartCards.add(cp, "");
-        chartCards.revalidate();
-
+        
         for (int i = defaultTableModel.getRowCount() - 1; i >= 0; i--) {
             defaultTableModel.removeRow(i);
         }
+        
+        if (chartData != null && chartData.size() > 0) {
+            
+            String style = styleGroup.getSelection().getActionCommand();
 
-        LegendItemCollection legendItems = ((ChartPanel) chartCards.getComponent(0)).getChart().getPlot().getLegendItems();
-
-        for (Map.Entry entry : chartData) {
-
-            Color col = null;
-            String key = (String) entry.getKey();
-            for (int i = 0; i < legendItems.getItemCount(); i++) {
-                LegendItem item = legendItems.get(i);
-                if (item.getLabel().equalsIgnoreCase(key)) {
-                    col = (Color) item.getFillPaint();
-                }
+            String orientationCommand = orientationGroup.getSelection().getActionCommand();
+            PlotOrientation orientation = PlotOrientation.VERTICAL;
+            if (orientationCommand.contains("horizontal")) {
+                orientation = PlotOrientation.HORIZONTAL;
             }
 
-            defaultTableModel.addRow(new Object[]{col, key, entry.getValue()});
+            ChartPanel cp = ChartFactory.createChart(style, chartData, 320, 240, orientation);
+            chartCards.add(cp, "");
+            chartCards.revalidate();
+
+            LegendItemCollection legendItems = ((ChartPanel) chartCards.getComponent(0)).getChart().getPlot().getLegendItems();
+
+            for (Map.Entry entry : chartData) {
+
+                Color col = null;
+                String key = (String) entry.getKey();
+                for (int i = 0; i < legendItems.getItemCount(); i++) {
+                    LegendItem item = legendItems.get(i);
+                    if (item.getLabel().equalsIgnoreCase(key)) {
+                        col = (Color) item.getFillPaint();
+                    }
+                }
+
+                defaultTableModel.addRow(new Object[]{col, key, entry.getValue()});
+            }
         }
     }
    
@@ -199,7 +202,6 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-        ;
         };
         
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
