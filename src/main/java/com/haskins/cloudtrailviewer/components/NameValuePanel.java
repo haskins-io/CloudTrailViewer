@@ -43,7 +43,7 @@ public class NameValuePanel extends JPanel {
     
     private final List<Event> events = new ArrayList<>();
     
-    private JLabel iconPanel;
+    private final JLabel iconPanel = new JLabel();
     private final JLabel nameLabel = new JLabel();
     private final JLabel totalLabel = new JLabel("0");
     
@@ -86,7 +86,8 @@ public class NameValuePanel extends JPanel {
         
         this.setLayout(new BorderLayout());
         
-        if (iconPanel != null) {
+        if (icon != null) {
+            iconPanel.setIcon(icon);
             this.add(iconPanel, BorderLayout.WEST);
         }
         

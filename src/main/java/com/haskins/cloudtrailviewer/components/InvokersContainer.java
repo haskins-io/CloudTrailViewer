@@ -19,6 +19,8 @@ package com.haskins.cloudtrailviewer.components;
 
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
+import javax.swing.Icon;
 
 /**
  *
@@ -26,35 +28,92 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class InvokersContainer extends OverviewContainer {
     
+    private final Icon user_icon;
+    private final Icon server_icon;
+    
     public InvokersContainer(Feature parent) {
         super(parent);
+        
+        user_icon = ToolBarUtils.getIcon("User-32.png");
+        server_icon = ToolBarUtils.getIcon("Server-32.png");
     }
     
     @Override
     public void addEvent(Event event) {
 
-        String eventName = event.getEventName();
+        String type = event.getUserIdentity().getType();
+        if (type.equalsIgnoreCase("IAMUser")) {
 
-        final NameValuePanel resourcePanel;
+            addUser(event);
 
-        if (!eventsMap.containsKey(eventName)) {
+        } else if (type.equalsIgnoreCase("AssumedRole"))  {
 
-            String type = event.getUserIdentity().getType();
-            if (type.equalsIgnoreCase("IAMUser") || type.equalsIgnoreCase("AssumedRole")) {
-                resourcePanel = new NameValuePanel(eventName, null, feature);
-                
-            } else  {
-                resourcePanel = new NameValuePanel(eventName, null, feature);
-            }
+            addRole(event);
+        }
             
-            eventsMap.put(eventName, resourcePanel);
-            this.add(resourcePanel);
-
-        } else {
-
-            resourcePanel = eventsMap.get(eventName);
+    }
+    
+    private void addUser(Event event) {
+        
+        String username = event.getUserIdentity().getUserName();
+        if (username == null) {
+            username = event.getUserIdentity().getPrincipalId();
         }
 
-        resourcePanel.addEvent(event);
+        final NameValuePanel resourcePanel;
+        
+        if (!eventsMap.containsKey(username)) {
+
+            resourcePanel = new NameValuePanel(username, user_icon, feature);
+            resourcePanel.addEvent(event);
+            
+            eventsMap.put(username, resourcePanel);
+            this.add(resourcePanel); 
+        }
+        else {
+
+            resourcePanel = eventsMap.get(username);
+            resourcePanel.addEvent(event);
+        }
     }
+    
+    private void addRole(Event event) {
+        
+        boolean was_role = true;
+
+        if (event.getEventName().equalsIgnoreCase("ConsoleLogin")) {
+            was_role = false;
+            addUser(event);
+        }
+
+        String role;
+        if (event.getUserIdentity().getSessionContext() != null) {
+            role = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
+
+        }
+        else {
+            role = event.getUserIdentity().getPrincipalId();
+        }
+
+        if (was_role) {
+
+            final NameValuePanel resourcePanel;
+            
+            if (!eventsMap.containsKey(role)) {
+
+                resourcePanel = new NameValuePanel(role, server_icon, feature);
+                resourcePanel.addEvent(event);
+
+                eventsMap.put(role, resourcePanel);
+                this.add(resourcePanel); 
+
+            }
+            else {
+
+                resourcePanel = eventsMap.get(role);
+                resourcePanel.addEvent(event);
+            }
+        } 
+    }
+    
 }

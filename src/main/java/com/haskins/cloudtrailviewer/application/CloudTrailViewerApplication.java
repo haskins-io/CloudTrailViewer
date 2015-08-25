@@ -25,10 +25,10 @@ import com.haskins.cloudtrailviewer.core.EventLoader;
 import com.haskins.cloudtrailviewer.core.EventLoaderListener;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
 import com.haskins.cloudtrailviewer.feature.ErrorFeature;
+import com.haskins.cloudtrailviewer.feature.InvokersFeature;
 import com.haskins.cloudtrailviewer.feature.OverviewFeature;
 import com.haskins.cloudtrailviewer.feature.ResourceFeature;
 import com.haskins.cloudtrailviewer.feature.SecurityFeature;
-import com.haskins.cloudtrailviewer.feature.UserFeature;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
@@ -212,10 +212,10 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         featureMap.put(simpleTable.getName(), simpleTable);
         features.add((JPanel)simpleTable, simpleTable.getName());
         
-        UserFeature userOverview = new UserFeature(helpToolBar);
-        database.addListener(userOverview);
-        featureMap.put(userOverview.getName(), userOverview);
-        features.add((JPanel)userOverview, userOverview.getName());
+        InvokersFeature invokerOverview = new InvokersFeature(statusBar, helpToolBar);
+        database.addListener(invokerOverview);
+        featureMap.put(invokerOverview.getName(), invokerOverview);
+        features.add((JPanel)invokerOverview, invokerOverview.getName());
         
         ErrorFeature errorFeature = new ErrorFeature(statusBar, helpToolBar);
         database.addListener(errorFeature);
