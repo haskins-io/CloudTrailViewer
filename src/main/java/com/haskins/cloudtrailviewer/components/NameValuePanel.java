@@ -28,10 +28,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -44,13 +43,14 @@ public class NameValuePanel extends JPanel {
     
     private final List<Event> events = new ArrayList<>();
     
+    private JLabel iconPanel;
     private final JLabel nameLabel = new JLabel();
     private final JLabel totalLabel = new JLabel("0");
     
     private boolean sorted = false;
     private final Feature parent;
     
-    public NameValuePanel(String securityEvent, Feature f) {
+    public NameValuePanel(String securityEvent, Icon icon, Feature f) {
      
         this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
         this.setBackground(Color.white);
@@ -85,6 +85,11 @@ public class NameValuePanel extends JPanel {
         totalLabel.setHorizontalAlignment(SwingConstants.CENTER);
         
         this.setLayout(new BorderLayout());
+        
+        if (iconPanel != null) {
+            this.add(iconPanel, BorderLayout.WEST);
+        }
+        
         this.add(nameLabel, BorderLayout.CENTER);
         this.add(totalLabel, BorderLayout.EAST);   
     }
@@ -93,7 +98,6 @@ public class NameValuePanel extends JPanel {
                 
         events.add(event);
         totalLabel.setText(String.valueOf(events.size()));
-        
         this.revalidate();
     }
     

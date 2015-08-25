@@ -20,14 +20,12 @@ package com.haskins.cloudtrailviewer.components;
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
-import com.haskins.cloudtrailviewer.utils.GeneralUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.swing.JPanel;
 
 /**
@@ -36,9 +34,9 @@ import javax.swing.JPanel;
  */
 public class OverviewContainer extends JPanel {
 
-    private final Map<String, NameValuePanel> eventsMap = new HashMap<>();
+    protected final Map<String, NameValuePanel> eventsMap = new HashMap<>();
 
-    private final Feature feature;
+    protected final Feature feature;
 
     public OverviewContainer(Feature parent) {
 
@@ -67,7 +65,7 @@ public class OverviewContainer extends JPanel {
 
         if (!eventsMap.containsKey(eventName)) {
 
-            resourcePanel = new NameValuePanel(eventName, feature);
+            resourcePanel = new NameValuePanel(eventName, null, feature);
 
             eventsMap.put(eventName, resourcePanel);
             this.add(resourcePanel);
