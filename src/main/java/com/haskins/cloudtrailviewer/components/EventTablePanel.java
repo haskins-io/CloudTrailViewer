@@ -338,6 +338,4 @@ public class EventTablePanel extends JPanel implements ActionListener {
                 break;
         }
     }
-    
-   
 }

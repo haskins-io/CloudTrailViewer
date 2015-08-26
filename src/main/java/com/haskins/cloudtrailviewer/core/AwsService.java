@@ -50,7 +50,6 @@ public class AwsService {
     
     private AwsService() {
 
-        // load service names
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("service_apis/service_names.txt").getFile());
         
@@ -71,7 +70,13 @@ public class AwsService {
     }
 
     public String getFriendlyName(String name) {
-        return serviceEndpointsToNames.get(name);
+        
+        String friendlyName = serviceEndpointsToNames.get(name);
+        if (friendlyName == null) {
+            friendlyName = name;
+        }
+        
+        return friendlyName;
     }
 
     public List<String> getServices() {

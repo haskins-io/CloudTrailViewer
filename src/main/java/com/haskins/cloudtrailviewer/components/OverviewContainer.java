@@ -59,14 +59,14 @@ public class OverviewContainer extends JPanel {
         finishedLoading();
     }
 
-    public void addEvent(Event event, String property) {
+    public void addEvent(Event event, String eventField) {
           
         try {
-            String getProperty = "get" + property;
+            String getProperty = "get" + eventField;
             Method method = event.getClass().getMethod(getProperty);
-            Object result = method.invoke(event);
+            Object eventFieldValue = method.invoke(event);
 
-            String propertyValue = (String)result;
+            String propertyValue = (String)eventFieldValue;
 
             final NameValuePanel resourcePanel;
             if (!eventsMap.containsKey(propertyValue)) {
@@ -84,9 +84,8 @@ public class OverviewContainer extends JPanel {
             resourcePanel.addEvent(event); 
         }
         catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
-            //
+            // going to ignore this and not add the event
         }
-
     }
 
     public void finishedLoading() {

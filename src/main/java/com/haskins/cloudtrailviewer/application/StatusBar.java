@@ -116,7 +116,7 @@ public class StatusBar extends JPanel {
                     memory.setText(String.format("Memory : Used %sMb | Free %dMb | Max Available %dMb", used, free, max));
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
-                    
+                    /** Not bothered **/
                 }
             }
         }

@@ -16,7 +16,6 @@
  */
 package com.haskins.cloudtrailviewer.components.servicespanel;
 
-import com.haskins.cloudtrailviewer.core.AwsService;
 import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.utils.TableUtils;
 import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
@@ -71,17 +70,17 @@ public class ServiceOverviewContainer extends JPanel {
             
             this.removeAll();
             
-            Set keys = servicesMap.keySet();
+            Set<String> keys = servicesMap.keySet();
             List<String> sorted = GeneralUtils.asSortedList(keys);
             for (String service : sorted) {
                 ServicesOverviewPanel panel = servicesMap.get(service);
                 this.add(panel);
-            }            
+            }
+
         } else {
             servicePanel = servicesMap.get(serviceName);
         }
         
         servicePanel.addEvent(event);
     }
-   
 }
