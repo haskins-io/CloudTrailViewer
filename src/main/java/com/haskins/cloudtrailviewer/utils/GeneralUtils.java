@@ -122,8 +122,9 @@ public class GeneralUtils {
     
     public static void savePanelAsImage(Printable panel) {
         
-        fileChooser.setDialogTitle("Save Image");   
+        fileChooser.setDialogTitle("Save SideBar as Png");   
 
+        fileChooser.setSelectedFile(new File("CloudTrailViewer.png"));
         int userSelection = fileChooser.showSaveDialog(CloudTrailViewer.frame);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
@@ -141,8 +142,9 @@ public class GeneralUtils {
     
     public static void saveTableAsCsv(JTable table) {
         
-        fileChooser.setDialogTitle("Save Table");   
+        fileChooser.setDialogTitle("Export Table as CSV");   
 
+        fileChooser.setSelectedFile(new File("CloudTrailViewer.csv"));
         int userSelection = fileChooser.showSaveDialog(CloudTrailViewer.frame);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
