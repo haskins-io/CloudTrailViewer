@@ -23,10 +23,8 @@ import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.GridLayout;
 import java.util.List;
 import java.util.Map;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -46,7 +44,7 @@ public class InvokersContainer extends OverviewContainer {
         super(parent);
         
         this.setLayout(new GridLayout(1,2));
-        
+                
         usersPanel.setLayout(new BoxLayout(usersPanel, BoxLayout.Y_AXIS));        
         rolesPanel.setLayout(new BoxLayout(rolesPanel, BoxLayout.Y_AXIS));
         
@@ -72,9 +70,6 @@ public class InvokersContainer extends OverviewContainer {
     
     @Override
     public void finishedLoading() {
-
-        usersPanel.removeAll();
-        rolesPanel.removeAll();
         
         List<Map.Entry<String, NameValuePanel>> sortedPanels = entriesSortedByValues(eventsMap);
         for (Map.Entry<String, NameValuePanel> aPanel : sortedPanels) {
@@ -84,22 +79,15 @@ public class InvokersContainer extends OverviewContainer {
             
             Event event = panel.getSampleEvent();
             String type = event.getUserIdentity().getType();
+            
             if (type.equalsIgnoreCase("IAMUser")) {
-
                 usersPanel.add(panel); 
 
             } else if (type.equalsIgnoreCase("AssumedRole"))  {
-
                 rolesPanel.add(panel); 
             }
         }
-        
-        usersPanel.add(Box.createVerticalGlue()); 
-        usersPanel.add(new JLabel("Test"));
-        
-        rolesPanel.add(Box.createVerticalGlue()); 
-        rolesPanel.add(new JLabel());
-        
+                
         this.revalidate();
     }
     
@@ -118,7 +106,6 @@ public class InvokersContainer extends OverviewContainer {
             resourcePanel.addEvent(event);
             
             eventsMap.put(username, resourcePanel);
-            usersPanel.add(resourcePanel); 
         }
         else {
 
@@ -155,7 +142,6 @@ public class InvokersContainer extends OverviewContainer {
                 resourcePanel.addEvent(event);
 
                 eventsMap.put(role, resourcePanel);
-                rolesPanel.add(resourcePanel); 
 
             }
             else {

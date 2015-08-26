@@ -55,6 +55,8 @@ public class NameValuePanel extends JPanel {
         this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
         this.setBackground(Color.white);
         
+        this.setMaximumSize(new Dimension(1750,30));
+        
         this.nameLabel.setText(securityEvent);
         this.parent = f;
         
@@ -108,5 +110,11 @@ public class NameValuePanel extends JPanel {
     
     public Event getSampleEvent() {
         return events.get(0);
+    }
+    
+    public void changeWidth(int newWidth) {
+        this.setMaximumSize(new Dimension(newWidth,30));
+        this.setMinimumSize(new Dimension(newWidth,30));
+        this.setMaximumSize(new Dimension(newWidth,30));
     }
 }
