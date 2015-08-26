@@ -121,7 +121,6 @@ public class SideBarPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
         if (e.getActionCommand().equalsIgnoreCase("Print")) {
-            
             GeneralUtils.savePanelAsImage(currentSideBar);
             
         } else {

@@ -53,7 +53,7 @@ public class HelpToolBar extends JToolBar {
     
     /**
      * Sets the visible state of the Side Bar
-     * @param
+     * @param help
      */
     public void setHelp(Help help) {
         this.help = help;

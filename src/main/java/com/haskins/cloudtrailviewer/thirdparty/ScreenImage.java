@@ -44,7 +44,7 @@ import javax.swing.*;
  */
 public class ScreenImage {
 
-    private static List<String> types = Arrays.asList(ImageIO.getWriterFileSuffixes());
+    private final static List<String> types = Arrays.asList(ImageIO.getWriterFileSuffixes());
 
     /*
      *  Create a BufferedImage for Swing components.
@@ -191,5 +191,4 @@ public class ScreenImage {
             }
         }
     }
-
 }
