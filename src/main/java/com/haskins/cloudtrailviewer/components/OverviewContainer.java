@@ -109,22 +109,22 @@ public class OverviewContainer extends JPanel {
         List<Map.Entry<String, NameValuePanel>> sortedEntries = new ArrayList<>(map.entrySet());
 
         Collections.sort(sortedEntries,
-                new Comparator<Map.Entry<String, NameValuePanel>>() {
-                    @Override
-                    public int compare(Map.Entry<String, NameValuePanel> e1, Map.Entry<String, NameValuePanel> e2) {
-                        
-                        int comparisonResult = 0;
+            new Comparator<Map.Entry<String, NameValuePanel>>() {
+                @Override
+                public int compare(Map.Entry<String, NameValuePanel> e1, Map.Entry<String, NameValuePanel> e2) {
 
-                        if(e1.getValue().getEventCount() < e2.getValue().getEventCount()) {
-                            comparisonResult = 1;
+                    int comparisonResult = 0;
 
-                        } else if(e1.getValue().getEventCount() > e2.getValue().getEventCount()) {
-                            comparisonResult = -1;
-                        }
+                    if(e1.getValue().getEventCount() < e2.getValue().getEventCount()) {
+                        comparisonResult = 1;
 
-                        return comparisonResult;
+                    } else if(e1.getValue().getEventCount() > e2.getValue().getEventCount()) {
+                        comparisonResult = -1;
                     }
+
+                    return comparisonResult;
                 }
+            }
         );
 
         return sortedEntries;

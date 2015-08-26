@@ -105,4 +105,8 @@ public class NameValuePanel extends JPanel {
     public int getEventCount() {
         return events.size();
     }
+    
+    public Event getSampleEvent() {
+        return events.get(0);
+    }
 }
