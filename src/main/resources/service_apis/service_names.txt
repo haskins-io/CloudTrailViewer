@@ -1,0 +1,53 @@
+autoscaling : Auto Scaling
+cloudformation : AWS CloudFormation
+cloudfront : Amazon CloudFront
+cloudhsm : Amazon CloudHSM
+cloudsearch : Amazon CloudSearch
+cloudsearchdomain : Amazon CloudSearch Domain
+cloudtrail : AWS CloudTrail
+codecommit : AWS CodeCommit
+codedeploy : AWS CodeDeploy
+codepipeline : AWS CodePipeline
+cognito-identity : Amazon Cognito Identity
+cognito-sync : Amazon Cognito Sync
+config : AWS Config
+datapipeline : AWS Data Pipeline
+devicefarm : AWS Device Farm
+directconnect : AWS Direct Connect
+ds : AWS Directory Service
+dynamodb : Amazon DynamoDB
+ec2 : Amazon Elastic Compute Cloud
+ecs : Amazon EC2 Container Service
+elasticache : Amazon ElastiCache
+elasticbeanstalk : AWS Elastic Beanstalk
+elasticfilesystem : Amazon Elastic File System
+elasticloadbalancing : Elastic Load Balancing
+elasticmapreduce : Amazon Elastic MapReduce
+elastictranscoder : Amazon Elastic Transcoder
+email : Amazon Simple Email Service
+glacier : Amazon Glacier
+iam : AWS Identity and Access Management
+importexport : AWS Import/Export
+kinesis : Amazon Kinesis
+kms : AWS Key Management Service
+lambda : AWS Lambda
+logs : Amazon CloudWatch Logs
+machinelearning : Amazon Machine Learning
+mobileanalytics : Amazon Mobile Analytics
+monitoring : Amazon CloudWatch
+opsworks : AWS OpsWorks
+rds : Amazon Relational Database Service
+redshift : Amazon Redshift
+route53 : Amazon Route 53
+route53domains : Amazon Route 53 Domains
+s3 : Amazon Simple Storage Service
+sdb : Amazon SimpleDB
+sns : Amazon Simple Notification Service
+sqs : Amazon Simple Queue Service
+ssm : Amazon Simple Systems Management Service
+storagegateway : AWS Storage Gateway
+streams.dynamodb : Amazon DynamoDB Streams
+sts : AWS Security Token Service
+support : AWS Support
+swf : Amazon Simple Workflow Service
+workspaces : Amazon WorkSpaces

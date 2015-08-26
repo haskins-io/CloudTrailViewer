@@ -17,6 +17,7 @@
  */
 package com.haskins.cloudtrailviewer.table;
 
+import com.haskins.cloudtrailviewer.utils.TableUtils;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
 import com.haskins.cloudtrailviewer.core.resource.ResourceLookup;
 import com.haskins.cloudtrailviewer.model.event.Event;

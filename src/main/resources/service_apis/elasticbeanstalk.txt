@@ -13,9 +13,11 @@ DescribeApplicationVersions
 DescribeApplications
 DescribeConfigurationOptions
 DescribeConfigurationSettings
+DescribeEnvironmentHealth
 DescribeEnvironmentResources
 DescribeEnvironments
 DescribeEvents
+DescribeInstancesHealth
 ListAvailableSolutionStacks
 RebuildEnvironment
 RequestEnvironmentInfo

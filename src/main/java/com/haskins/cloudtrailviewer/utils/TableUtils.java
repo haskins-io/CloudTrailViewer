@@ -16,8 +16,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.table;
+package com.haskins.cloudtrailviewer.utils;
 
+import com.haskins.cloudtrailviewer.core.AwsService;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.text.SimpleDateFormat;
 
@@ -53,7 +54,16 @@ public class TableUtils {
             username = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
             
         } else if (event.getUserIdentity().getType().equalsIgnoreCase("Root")) {
-            username = event.getUserIdentity().getInvokedBy();
+            
+            if (event.getUserIdentity().getInvokedBy().contains(".amazonaws.com")) {
+                
+                String tmp = event.getUserIdentity().getInvokedBy();
+                tmp = tmp.replaceFirst(".amazonaws.com", "");
+                username = AwsService.getInstance().getFriendlyName(tmp);
+                
+            } else {
+                username = event.getUserIdentity().getInvokedBy();
+            }
             
         } else {
             username = "";
@@ -64,10 +74,13 @@ public class TableUtils {
     
     public static String getService(Event event) {
         
-        String source = event.getEventSource();
-        int periodPos = source.indexOf(".");
+        return getServiceFromEventSource(event.getEventSource());
+    }
+    
+    public static String getServiceFromEventSource(String eventSource) {
         
-        return source.substring(0,periodPos);
+        String tmp = eventSource.replaceFirst(".amazonaws.com", "");
+        return AwsService.getInstance().getFriendlyName(tmp); 
     }
     
     public static String getFormatedDateTime(long millis) {

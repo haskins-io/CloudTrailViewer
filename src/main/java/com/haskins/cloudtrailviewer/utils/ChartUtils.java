@@ -50,22 +50,26 @@ public class ChartUtils {
         return sortedEntries;
     }
     
-    public static List<Map.Entry<String,Integer>> getTopEvents(List<Event> events, int top, String chartFocus) {
+    public static List<Map.Entry<String,Integer>> getTopEvents(List<Event> events, int top, String eventField) {
         
         Map<String, Integer> eventsByOccurance = new HashMap<>();
         
         for (Event event : events) {
             
-            String property = getEventProperty(chartFocus, event);
+            String fieldValue = getEventProperty(eventField, event);
 
-            if (property != null) {
+            if (fieldValue != null) {
 
+                if (eventField.equalsIgnoreCase("EventSource")) {
+                    fieldValue = TableUtils.getServiceFromEventSource(fieldValue);
+                }
+                
                 int count = 1;
-                if (eventsByOccurance.containsKey(property)) {
-                    count = eventsByOccurance.get(property);
+                if (eventsByOccurance.containsKey(fieldValue)) {
+                    count = eventsByOccurance.get(fieldValue);
                     count++;
                 }
-                eventsByOccurance.put(property, count);
+                eventsByOccurance.put(fieldValue, count);
             }
         }
         
@@ -129,9 +133,7 @@ public class ChartUtils {
         try {
             String getProperty = "get" + camelCaseProperty;
             Method method = reflectionClass.getClass().getMethod(getProperty);
-            
             result = method.invoke(reflectionClass);
-            
         }
         catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             result = null;

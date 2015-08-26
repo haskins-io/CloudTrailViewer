@@ -34,7 +34,10 @@ public class AwsService {
 
     private static AwsService instance = null;
 
-    private final Map<String, List<String>> services = new HashMap<>();
+    private final Map<String, String> serviceNamesToEndpoints = new HashMap<>();
+    private final Map<String, String> serviceEndpointsToNames = new HashMap<>();
+    
+    private final Map<String, List<String>> serviceAPIs = new HashMap<>();
 
     public static AwsService getInstance() {
 
@@ -44,39 +47,37 @@ public class AwsService {
 
         return instance;
     }
+    
+    private AwsService() {
+
+        // load service names
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("service_apis/service_names.txt").getFile());
+        
+        try (Scanner scanner = new Scanner(file)) {
+
+            while (scanner.hasNextLine()) {
+                
+                String line = scanner.nextLine();
+                String[] parts = line.split(":");
+                
+                serviceNamesToEndpoints.put(parts[1].trim(), parts[0].trim());
+                serviceEndpointsToNames.put(parts[0].trim(), parts[1].trim());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public String getFriendlyName(String name) {
-        return null;
+        return serviceEndpointsToNames.get(name);
     }
 
     public List<String> getServices() {
-
-        Set keys = services.keySet();
         
-        List<String> list;
-        if (keys.isEmpty()) {
-
-            list = new ArrayList<>();
-            
-            ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File(classLoader.getResource("service_apis").getFile());
-            if (file.isDirectory()) {
-
-                File[] files = file.listFiles();
-                for (File theFile : files) {
-
-                    String filename = theFile.getName();
-                    int pos = filename.indexOf(".");
-
-                    String serviceName = filename.substring(0, pos);
-                    list.add(serviceName);
-                }
-            }
-            
-        } else {
-            list = new ArrayList(keys);
-        }
-        
+        Set keys = serviceNamesToEndpoints.keySet();
+        List<String> list = new ArrayList(keys);      
         Collections.sort(list);
 
         return list;
@@ -86,12 +87,14 @@ public class AwsService {
 
         List<String> apis;
 
-        if (services.containsKey(serviceName)) {
-            apis = services.get(serviceName);
+        String service = serviceNamesToEndpoints.get(serviceName);
+        
+        if (serviceAPIs.containsKey(service)) {
+            apis = serviceAPIs.get(service);
 
         } else {
 
-            String filename = "service_apis/" + serviceName + ".txt";
+            String filename = "service_apis/" + service + ".txt";
 
             ClassLoader classLoader = getClass().getClassLoader();
             File file = new File(classLoader.getResource(filename).getFile());
@@ -109,13 +112,9 @@ public class AwsService {
                 e.printStackTrace();
             }
             
-            services.put(serviceName, apis);
+            serviceAPIs.put(service, apis);
         }
 
         return apis;
-    }
-
-    private AwsService() {
-
     }
 }

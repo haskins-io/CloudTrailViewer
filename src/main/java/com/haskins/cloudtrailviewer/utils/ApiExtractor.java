@@ -41,10 +41,11 @@ public class ApiExtractor {
     
     public static void main(String[] args) {
         
-        String source = "/Users/mark/Temp/apis";
-        String destination = "/Users/mark/Projects/Java/jCloudTrailViewer/src/main/resources/service_apis/";
+        String source = "/Users/mark.haskins/Temp/apis";
+        String destination = "/Users/mark.haskins/Temp/output/";
         
-        Map<String, List<String>> services = new TreeMap<>();
+        Map<String, String> serviceNames = new TreeMap<>();
+        Map<String, List<String>> serviceAPIs = new TreeMap<>();
         
         ObjectMapper m = new ObjectMapper();
         
@@ -55,20 +56,24 @@ public class ApiExtractor {
             String filename = f.getName();
             
             if (filename.contains("min")) {
-                
-                int pos = filename.indexOf("-");
-                
-                String servicename = filename.substring(0,pos);
-                
-                List apis = services.get(servicename);
-                if (apis == null) {
-                    apis = new ArrayList();
-                    services.put(servicename, apis);
-                }
-                
+                                
                 try {
                     JsonNode rootNode = m.readTree(f.getAbsoluteFile());
                     JsonNode operationsNode = rootNode.get("operations");
+                    JsonNode metaData = rootNode.get("metadata");
+                    
+                    JsonNode endpointNode = metaData.get("endpointPrefix");
+                    String endpoint = endpointNode.asText();
+                    JsonNode serviceNameNode = metaData.get("serviceFullName");
+                    String serviceName = serviceNameNode.asText();
+                    
+                    serviceNames.put(endpoint, serviceName);
+                    
+                    List apis = serviceAPIs.get(endpoint);
+                    if (apis == null) {
+                        apis = new ArrayList();
+                        serviceAPIs.put(endpoint, apis);
+                    }
                     
                     Iterator<String> it = operationsNode.fieldNames();
                     while (it.hasNext()) {
@@ -86,7 +91,10 @@ public class ApiExtractor {
             }
         }
         
-        Set<String> keys = services.keySet();
+        /**
+         * Create Service API files
+         */
+        Set<String> keys = serviceAPIs.keySet();
         Iterator<String> it = keys.iterator();
         while(it.hasNext()) {
             
@@ -95,7 +103,7 @@ public class ApiExtractor {
             
             try (FileWriter fw = new FileWriter(path);) {
                 
-                List<String> apis = services.get(key);
+                List<String> apis = serviceAPIs.get(key);
                 for (String api : apis) {
                     fw.write(api + "\r\n");
                 }   
@@ -103,6 +111,26 @@ public class ApiExtractor {
                 ioe.printStackTrace();
             }
         }
+        
+        /**
+         * 
+         */
+        String path = destination + "service_names.txt";
+        try (FileWriter fw = new FileWriter(path);) {
+
+            Set<String> keys2 = serviceNames.keySet();
+            Iterator<String> it2 = keys2.iterator();
+            while(it2.hasNext()) {
+                
+                String endpoint = it2.next();
+                String friendly = serviceNames.get(endpoint);
+                fw.write(endpoint + " : " + friendly + "\r\n");
+            }
+  
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
+        
     }
     
 }
