@@ -48,6 +48,8 @@ public class EbResource implements Resource {
             resource = describeApplicationVersions(event);
         } else if (event.getEventName().equalsIgnoreCase("DescribeStackResources")) {
             resource = describeStackResources(event);
+        } else if (event.getEventName().equalsIgnoreCase("SwapEnvironmentCNAMEs")) {
+            resource = swapEnvironmentCnames(event);
         }
         
         return resource;
@@ -113,5 +115,21 @@ public class EbResource implements Resource {
         }
         
         return resource;
+    }
+    
+    private String swapEnvironmentCnames(Event event) {
+        
+        StringBuilder resource = new StringBuilder();
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("destinationEnvironmentName")) {
+            resource.append(requestParameters.get("destinationEnvironmentName")).append(",");
+        }
+        
+        if (requestParameters != null && requestParameters.containsKey("sourceEnvironmentName")) {
+            resource.append(requestParameters.get("sourceEnvironmentName"));
+        }
+        
+        return resource.toString();
     }
 }

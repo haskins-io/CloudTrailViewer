@@ -42,6 +42,10 @@ public class AsResource implements Resource {
             resource = resolveDescribeScalingActivities(event);
         } else if (event.getEventName().equalsIgnoreCase("DescribeAutoScalingGroups")) {
             resource = resolveDescribeAutoScalingGroups(event);
+        } else if (event.getEventName().equalsIgnoreCase("ResumeProcesses")) {
+            resource = resumeProcesses(event);
+        } else if (event.getEventName().equalsIgnoreCase("SuspendProcesses")) {
+            resource = suspendProcesses(event);
         }
         
         return resource;
@@ -70,6 +74,30 @@ public class AsResource implements Resource {
             for (String group : groups) {
                 resource.append(group).append(",");
             }
+        }
+        
+        return resource.toString();
+    }
+    
+    private String resumeProcesses(Event event) {
+        
+        StringBuilder resource = new StringBuilder();
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("autoScalingGroupName")) {
+            resource.append(requestParameters.get("autoScalingGroupName"));
+        }
+        
+        return resource.toString();
+    }
+    
+    private String suspendProcesses(Event event) {
+        
+        StringBuilder resource = new StringBuilder();
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("autoScalingGroupName")) {
+            resource.append(requestParameters.get("autoScalingGroupName"));
         }
         
         return resource.toString();

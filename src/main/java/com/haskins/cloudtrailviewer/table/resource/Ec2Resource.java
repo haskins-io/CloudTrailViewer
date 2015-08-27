@@ -43,9 +43,29 @@ public class Ec2Resource implements Resource {
             resource = describeTags(event);
         } else if (event.getEventName().equalsIgnoreCase("DescribeInstances")) {
             resource = describeInstances(event);
+        } else if (event.getEventName().equalsIgnoreCase("CreateTags")) {
+            resource = createTags(event);
+        } else if (event.getEventName().equalsIgnoreCase("RunInstances")) {
+            resource = runInstancees(event);
         }
         
         return resource;
+    }
+    
+    private String createTags(Event event) {
+        
+        StringBuilder resource = new StringBuilder();
+
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("resourcesSet")) {
+            
+            List<Map<String, String>> instances = (List<Map<String, String>>)requestParameters.get("resourcesSet");
+            for (Map<String, String> instance : instances) {
+                resource.append(instance.get("resourceId")).append(",");
+            }  
+        }
+        
+        return resource.toString();
     }
     
     private String describeTags(Event event) {
@@ -62,14 +82,26 @@ public class Ec2Resource implements Resource {
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
             
-            Map<String, List> items = (Map)requestParameters.get("instancesSet");
-            for (Map.Entry<String, List> entry : items.entrySet()) {
-                
-                List<Map> instances = entry.getValue();
-                for (Map instance : instances) {   
-                    resource.append(instance.get("instanceId")).append(",");
-                }
-            }
+            List<Map<String, String>> instances = (List<Map<String, String>>)requestParameters.get("instancesSet");
+            for (Map<String, String> instance : instances) {
+                resource.append(instance.get("instanceId")).append(",");
+            } 
+        }
+        
+        return resource.toString();
+    }
+    
+    private String runInstancees(Event event) {
+        
+        StringBuilder resource = new StringBuilder();
+
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
+            
+            List<Map<String, String>> instances = (List<Map<String, String>>)requestParameters.get("instancesSet");
+            for (Map<String, String> instance : instances) {
+                resource.append(instance.get("instanceId")).append(",");
+            } 
         }
         
         return resource.toString();

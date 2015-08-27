@@ -40,8 +40,12 @@ public class CfResource implements Resource {
         
         if (event.getEventName().equalsIgnoreCase("DescribeStacks")) {
             resource = describeStacks(event);
+        } else if (event.getEventName().equalsIgnoreCase("DescribeStackResource")) {
+            resource = describeStackResource(event);
         } else if (event.getEventName().equalsIgnoreCase("DescribeStackResources")) {
             resource = describeStackResources(event);
+        } else if (event.getEventName().equalsIgnoreCase("UpdateStack")) {
+            resource = updateStack(event);
         }
         
         return resource;
@@ -49,25 +53,33 @@ public class CfResource implements Resource {
     
     private String describeStacks(Event event) {
         
-        String resource = "";
+        return getStackName(event);
+    }
+    
+    private String describeStackResource(Event event) {
         
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("stackName")) {
-            resource = (String)requestParameters.get("stackName");
-        }
-        
-        return resource;
+        return getStackName(event);
     }
     
     private String describeStackResources(Event event) {
         
-        String resource = "";
+        return getStackName(event);
+    }
+    
+    private String updateStack(Event event) {
         
-        Map requestParameters = event.getRequestParameters();
+        return getStackName(event);
+    }
+    
+    private String getStackName(Event event) {
+        
+        String stackName = "";
+        
+        Map<String, String> requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("stackName")) {
-            resource = (String)requestParameters.get("stackName");
+            stackName = requestParameters.get("stackName");
         }
         
-        return resource;
+        return stackName;   
     }
 }

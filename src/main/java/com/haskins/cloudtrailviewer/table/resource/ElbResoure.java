@@ -20,6 +20,7 @@ package com.haskins.cloudtrailviewer.table.resource;
 
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,6 +43,8 @@ public class ElbResoure implements Resource {
             resource = describeInstanceHealth(event);
         } else if (event.getEventName().equalsIgnoreCase("DescribeLoadBalancers")) {
             resource = describeLoadBalancers(event);
+        } else if (event.getEventName().equalsIgnoreCase("RegisterInstancesWithLoadBalancer")) {
+            resource = registerInstancesWithLoadBalancer(event);
         }
         
         return resource;
@@ -69,5 +72,29 @@ public class ElbResoure implements Resource {
 //        }
         
         return resource;
+    }
+    
+    private String registerInstancesWithLoadBalancer(Event event) {
+        
+        StringBuilder resource = new StringBuilder();
+        Map requestParameters = event.getRequestParameters();
+        
+        // load Balancer name
+        if (requestParameters != null && requestParameters.containsKey("loadBalancerName")) {
+            resource.append(requestParameters.get("loadBalancerName"));
+        }
+        
+        // instances
+        if (requestParameters != null && requestParameters.containsKey("instances")) {
+            
+            resource.append(",");
+            
+            List<Map<String, String>> instances = (List<Map<String, String>>)requestParameters.get("instances");
+            for (Map<String, String> instance : instances) {
+                resource.append(instance.get("instanceId")).append(",");
+            }
+        }
+        
+        return resource.toString();
     }
 }
