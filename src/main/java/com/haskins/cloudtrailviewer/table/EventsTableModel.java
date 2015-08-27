@@ -31,7 +31,7 @@ public class EventsTableModel extends AbstractTableModel {
 
     public static final String[] COLUMN_NAMES = new String[]{
         "Date/Time",
-        "User Name",
+        "Invoked By",
         "Service",
         "Name",
         "Resource Type",

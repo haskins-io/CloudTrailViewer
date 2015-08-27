@@ -46,8 +46,13 @@ public class TableUtils {
             
             if (event.getUserIdentity().getSessionContext() != null) {
                 username = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
+                
             } else {
-                username = event.getUserIdentity().getPrincipalId();
+                
+                String arn = event.getUserIdentity().getArn();
+                int pos = arn.lastIndexOf("/");
+                
+                username = arn.substring(pos);
             }
                         
         } else if (event.getUserIdentity().getType().equalsIgnoreCase("FederatedUser")) {
