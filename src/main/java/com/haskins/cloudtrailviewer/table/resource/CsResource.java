@@ -16,18 +16,17 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.core.resource;
+package com.haskins.cloudtrailviewer.table.resource;
 
 
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.util.List;
 import java.util.Map;
 
 /**
  *
  * @author mark
  */
-public class Ec2Resource implements Resource {
+public class CsResource implements Resource {
 
     /**
      * Return the resource for the passed Event
@@ -39,39 +38,22 @@ public class Ec2Resource implements Resource {
         
         String resource = "";
         
-        if (event.getEventName().equalsIgnoreCase("DescribeTags")) {
-            resource = describeTags(event);
-        } else if (event.getEventName().equalsIgnoreCase("DescribeInstances")) {
-            resource = describeInstances(event);
+        if (event.getEventName().equalsIgnoreCase("DescribeIndexFields")) {
+            resource = describeIndexFields(event);
         }
         
         return resource;
     }
     
-    private String describeTags(Event event) {
+    private String describeIndexFields(Event event) {
         
         String resource = "";
         
-        return resource;
-    }
-    
-    private String describeInstances(Event event) {
-        
-        StringBuilder resource = new StringBuilder();
-
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
-            
-            Map<String, List> items = (Map)requestParameters.get("instancesSet");
-            for (Map.Entry<String, List> entry : items.entrySet()) {
-                
-                List<Map> instances = entry.getValue();
-                for (Map instance : instances) {   
-                    resource.append(instance.get("instanceId")).append(",");
-                }
-            }
+        if (requestParameters != null && requestParameters.containsKey("domainName")) {
+            resource = (String)requestParameters.get("domainName");
         }
         
-        return resource.toString();
+        return resource;
     }
 }

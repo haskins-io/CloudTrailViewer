@@ -14,45 +14,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.model.resourcemetadata;
+package com.haskins.cloudtrailviewer.sidebar.resourcemetadata;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.util.List;
 import java.util.Map;
 
 /**
  *
- * @author mark
+ * @author mark.haskins
  */
-public class RunInstanceMetaData implements ResourceMetaData {
+public class CreateCacheClusterMetaData implements ResourceMetaData {
     
-    private String imageId;
-    private String instanceType;
-    private String az;
+    private String engine;
+    private String cacheNodeType;
     
     private static final String[] MENU_ITEMS = new String[] {
-        "Ami Id", 
-        "Instance Type",
-        "Availability Zone"
+        "Engine", 
+        "Node Type"
     };
     
     @Override
     public void populate(Event event) {
         
         Map requestParams = event.getRequestParameters();
-        
-        Map instancesSet = (Map)requestParams.get("instancesSet");
-        List<Map> items = (List)instancesSet.get("items");
-        Map item = items.get(0);
-        imageId = (String)item.get("imageId");
-        
-        instanceType = (String)requestParams.get("instanceType");
-        az = (String)requestParams.get("availabilityZone");
+                
+        engine = (String)requestParams.get("engine");
+        cacheNodeType = (String)requestParams.get("cacheNodeType");
     }
     
     @Override
     public String[] getMenuItems() {
-        return RunInstanceMetaData.MENU_ITEMS;
+        return CreateCacheClusterMetaData.MENU_ITEMS;
     }
     
     @Override
@@ -60,14 +52,11 @@ public class RunInstanceMetaData implements ResourceMetaData {
         
         String value = "";
         
-        if (menuItem.equalsIgnoreCase("Ami Id")) {
-            value = this.imageId;
+        if (menuItem.equalsIgnoreCase("Engine")) {
+            value = this.engine;
             
-        } else if (menuItem.equalsIgnoreCase("Instance Type")) {
-            value = this.instanceType;
-            
-        } else if (menuItem.equalsIgnoreCase("Availability Zone")) {
-            value = this.az;
+        } else if (menuItem.equalsIgnoreCase("Node Type")) {
+            value = this.cacheNodeType;
         }
         
         return value;

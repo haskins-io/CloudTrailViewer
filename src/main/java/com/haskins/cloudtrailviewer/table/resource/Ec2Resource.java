@@ -16,17 +16,18 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.core.resource;
+package com.haskins.cloudtrailviewer.table.resource;
 
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.List;
 import java.util.Map;
 
 /**
  *
  * @author mark
  */
-public class ElbResoure implements Resource {
+public class Ec2Resource implements Resource {
 
     /**
      * Return the resource for the passed Event
@@ -38,36 +39,39 @@ public class ElbResoure implements Resource {
         
         String resource = "";
         
-        if (event.getEventName().equalsIgnoreCase("DescribeInstanceHealth")) {
-            resource = describeInstanceHealth(event);
-        } else if (event.getEventName().equalsIgnoreCase("DescribeLoadBalancers")) {
-            resource = describeLoadBalancers(event);
+        if (event.getEventName().equalsIgnoreCase("DescribeTags")) {
+            resource = describeTags(event);
+        } else if (event.getEventName().equalsIgnoreCase("DescribeInstances")) {
+            resource = describeInstances(event);
         }
         
         return resource;
     }
     
-    private String describeInstanceHealth(Event event) {
+    private String describeTags(Event event) {
         
         String resource = "";
         
+        return resource;
+    }
+    
+    private String describeInstances(Event event) {
+        
+        StringBuilder resource = new StringBuilder();
+
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("loadBalancerName")) {
-            resource = (String)requestParameters.get("loadBalancerName");
+        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
+            
+            Map<String, List> items = (Map)requestParameters.get("instancesSet");
+            for (Map.Entry<String, List> entry : items.entrySet()) {
+                
+                List<Map> instances = entry.getValue();
+                for (Map instance : instances) {   
+                    resource.append(instance.get("instanceId")).append(",");
+                }
+            }
         }
         
-        return resource;
-    }
-    
-    private String describeLoadBalancers(Event event) {
-        
-        String resource = "";
-        
-//        Map requestParameters = event.getRequestParameters();
-//        if (requestParameters != null && requestParameters.containsKey("applicationName")) {
-//            resource = (String)requestParameters.get("applicationName");
-//        }
-        
-        return resource;
+        return resource.toString();
     }
 }

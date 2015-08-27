@@ -16,17 +16,17 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.core.resource;
+package com.haskins.cloudtrailviewer.table.resource;
+
 
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.util.List;
 import java.util.Map;
 
 /**
  *
  * @author mark
  */
-public class AsResource implements Resource {
+public class CfResource implements Resource {
 
     /**
      * Return the resource for the passed Event
@@ -38,40 +38,36 @@ public class AsResource implements Resource {
         
         String resource = "";
         
-        if (event.getEventName().equalsIgnoreCase("DescribeScalingActivities")) {
-            resource = resolveDescribeScalingActivities(event);
-        } else if (event.getEventName().equalsIgnoreCase("DescribeAutoScalingGroups")) {
-            resource = resolveDescribeAutoScalingGroups(event);
+        if (event.getEventName().equalsIgnoreCase("DescribeStacks")) {
+            resource = describeStacks(event);
+        } else if (event.getEventName().equalsIgnoreCase("DescribeStackResources")) {
+            resource = describeStackResources(event);
         }
         
         return resource;
     }
     
-    private String resolveDescribeScalingActivities(Event event) {
+    private String describeStacks(Event event) {
         
         String resource = "";
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("autoScalingGroupName")) {
-            resource = (String)requestParameters.get("autoScalingGroupName");
+        if (requestParameters != null && requestParameters.containsKey("stackName")) {
+            resource = (String)requestParameters.get("stackName");
         }
         
         return resource;
     }
     
-    private String resolveDescribeAutoScalingGroups(Event event) {
+    private String describeStackResources(Event event) {
         
-        StringBuilder resource = new StringBuilder();
+        String resource = "";
         
         Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("autoScalingGroupNames")) {
-            
-            List<String> groups = (List)requestParameters.get("autoScalingGroupNames");
-            for (String group : groups) {
-                resource.append(group).append(",");
-            }
+        if (requestParameters != null && requestParameters.containsKey("stackName")) {
+            resource = (String)requestParameters.get("stackName");
         }
         
-        return resource.toString();
+        return resource;
     }
 }

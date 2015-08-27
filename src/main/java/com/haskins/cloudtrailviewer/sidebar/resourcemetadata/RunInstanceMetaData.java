@@ -14,41 +14,45 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package com.haskins.cloudtrailviewer.model.resourcemetadata;
+package com.haskins.cloudtrailviewer.sidebar.resourcemetadata;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.List;
 import java.util.Map;
 
 /**
  *
- * @author mark.haskins
+ * @author mark
  */
-public class CreateDbInstanceMetaData implements ResourceMetaData {
+public class RunInstanceMetaData implements ResourceMetaData {
     
-    private String dBInstanceClass;
-    private String engine;
-    private String allocatedStorage;
+    private String imageId;
+    private String instanceType;
+    private String az;
     
     private static final String[] MENU_ITEMS = new String[] {
-        "Instance Class", 
-        "Engine",
-        "Storage"
+        "Ami Id", 
+        "Instance Type",
+        "Availability Zone"
     };
     
     @Override
     public void populate(Event event) {
         
         Map requestParams = event.getRequestParameters();
-                
-        dBInstanceClass = (String)requestParams.get("dBInstanceClass");
-        engine = (String)requestParams.get("engine");
-        allocatedStorage = (String)requestParams.get("allocatedStorage");
+        
+        Map instancesSet = (Map)requestParams.get("instancesSet");
+        List<Map> items = (List)instancesSet.get("items");
+        Map item = items.get(0);
+        imageId = (String)item.get("imageId");
+        
+        instanceType = (String)requestParams.get("instanceType");
+        az = (String)requestParams.get("availabilityZone");
     }
     
     @Override
     public String[] getMenuItems() {
-        return CreateDbInstanceMetaData.MENU_ITEMS;
+        return RunInstanceMetaData.MENU_ITEMS;
     }
     
     @Override
@@ -56,14 +60,14 @@ public class CreateDbInstanceMetaData implements ResourceMetaData {
         
         String value = "";
         
-        if (menuItem.equalsIgnoreCase("Instance Class")) {
-            value = this.dBInstanceClass;
+        if (menuItem.equalsIgnoreCase("Ami Id")) {
+            value = this.imageId;
             
-        } else if (menuItem.equalsIgnoreCase("Engine")) {
-            value = this.engine;
+        } else if (menuItem.equalsIgnoreCase("Instance Type")) {
+            value = this.instanceType;
             
-        } else if (menuItem.equalsIgnoreCase("Storage")) {
-            value = this.allocatedStorage;
+        } else if (menuItem.equalsIgnoreCase("Availability Zone")) {
+            value = this.az;
         }
         
         return value;

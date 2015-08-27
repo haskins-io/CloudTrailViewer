@@ -16,17 +16,17 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.core.resource;
+package com.haskins.cloudtrailviewer.table.resource;
+
 
 import com.haskins.cloudtrailviewer.model.event.Event;
-
-
+import java.util.Map;
 
 /**
  *
  * @author mark
  */
-public class RdsResource implements Resource {
+public class ElbResoure implements Resource {
 
     /**
      * Return the resource for the passed Event
@@ -38,14 +38,28 @@ public class RdsResource implements Resource {
         
         String resource = "";
         
-        if (event.getEventName().equalsIgnoreCase("DescribeDBInstances")) {
-            resource = describeDBInstances(event);
+        if (event.getEventName().equalsIgnoreCase("DescribeInstanceHealth")) {
+            resource = describeInstanceHealth(event);
+        } else if (event.getEventName().equalsIgnoreCase("DescribeLoadBalancers")) {
+            resource = describeLoadBalancers(event);
         }
         
         return resource;
     }
     
-    private String describeDBInstances(Event event) {
+    private String describeInstanceHealth(Event event) {
+        
+        String resource = "";
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("loadBalancerName")) {
+            resource = (String)requestParameters.get("loadBalancerName");
+        }
+        
+        return resource;
+    }
+    
+    private String describeLoadBalancers(Event event) {
         
         String resource = "";
         

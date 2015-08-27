@@ -14,7 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.model.resourcemetadata;
+
+package com.haskins.cloudtrailviewer.sidebar.resourcemetadata;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.Map;
@@ -23,14 +24,16 @@ import java.util.Map;
  *
  * @author mark.haskins
  */
-public class CreateCacheClusterMetaData implements ResourceMetaData {
+public class CreateDbInstanceMetaData implements ResourceMetaData {
     
+    private String dBInstanceClass;
     private String engine;
-    private String cacheNodeType;
+    private String allocatedStorage;
     
     private static final String[] MENU_ITEMS = new String[] {
-        "Engine", 
-        "Node Type"
+        "Instance Class", 
+        "Engine",
+        "Storage"
     };
     
     @Override
@@ -38,13 +41,14 @@ public class CreateCacheClusterMetaData implements ResourceMetaData {
         
         Map requestParams = event.getRequestParameters();
                 
+        dBInstanceClass = (String)requestParams.get("dBInstanceClass");
         engine = (String)requestParams.get("engine");
-        cacheNodeType = (String)requestParams.get("cacheNodeType");
+        allocatedStorage = (String)requestParams.get("allocatedStorage");
     }
     
     @Override
     public String[] getMenuItems() {
-        return CreateCacheClusterMetaData.MENU_ITEMS;
+        return CreateDbInstanceMetaData.MENU_ITEMS;
     }
     
     @Override
@@ -52,11 +56,14 @@ public class CreateCacheClusterMetaData implements ResourceMetaData {
         
         String value = "";
         
-        if (menuItem.equalsIgnoreCase("Engine")) {
+        if (menuItem.equalsIgnoreCase("Instance Class")) {
+            value = this.dBInstanceClass;
+            
+        } else if (menuItem.equalsIgnoreCase("Engine")) {
             value = this.engine;
             
-        } else if (menuItem.equalsIgnoreCase("Node Type")) {
-            value = this.cacheNodeType;
+        } else if (menuItem.equalsIgnoreCase("Storage")) {
+            value = this.allocatedStorage;
         }
         
         return value;

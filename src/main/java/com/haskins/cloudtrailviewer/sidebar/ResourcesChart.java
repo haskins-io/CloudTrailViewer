@@ -19,7 +19,7 @@ package com.haskins.cloudtrailviewer.sidebar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.model.resourcemetadata.ResourceMetaData;
+import com.haskins.cloudtrailviewer.sidebar.resourcemetadata.ResourceMetaData;
 import static com.haskins.cloudtrailviewer.utils.ChartUtils.entriesSortedByValues;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
