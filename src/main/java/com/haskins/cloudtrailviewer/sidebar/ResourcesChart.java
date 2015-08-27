@@ -37,7 +37,7 @@ import javax.swing.JRadioButtonMenuItem;
  */
 public class ResourcesChart extends AbstractChart implements ActionListener {
 
-    private static final String PACKAGE = "com.haskins.cloudtrailviewer.model.resourcemetadata.";
+    private static final String PACKAGE = "com.haskins.cloudtrailviewer.sidebar.resourcemetadata.";
 
     private final Map<String, String> resourceTypes = new HashMap<>();
 
