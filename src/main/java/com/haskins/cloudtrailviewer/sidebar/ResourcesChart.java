@@ -20,6 +20,7 @@ import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.sidebar.resourcemetadata.ResourceMetaData;
+import com.haskins.cloudtrailviewer.utils.ChartUtils;
 import static com.haskins.cloudtrailviewer.utils.ChartUtils.entriesSortedByValues;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,6 +53,7 @@ public class ResourcesChart extends AbstractChart implements ActionListener {
         resourceTypes.put("RunInstances", "RunInstanceMetaData");
         resourceTypes.put("CreateDBInstance", "CreateDbInstanceMetaData");
         resourceTypes.put("CreateCacheCluster", "CreateCacheClusterMetaData");
+        resourceTypes.put("Default", "DefaultMetaData");
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -71,15 +73,7 @@ public class ResourcesChart extends AbstractChart implements ActionListener {
         String eventName = event.getEventName();
 
         if (!resourceTypes.containsKey(eventName)) {
-            
-            sourceMenu.removeAll();
-            chartCards.removeAll();
-            
-            for (int i = defaultTableModel.getRowCount() - 1; i >= 0; i--) {
-                defaultTableModel.removeRow(i);
-            }
-            
-            return;
+            eventName = "Default";
         }
 
         if (!eventName.equalsIgnoreCase(lastResouce)) {
@@ -172,7 +166,11 @@ public class ResourcesChart extends AbstractChart implements ActionListener {
             }
             
             List<Map.Entry<String,Integer>> sorted = entriesSortedByValues(metadataByOccurance);
-            updateChart(sorted);
+            
+            int top = getTopXValue();
+            List<Map.Entry<String,Integer>> topX = ChartUtils.getTopX(sorted, top);
+            
+            updateChart(topX);
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(ResourcesChart.class.getName()).log(Level.SEVERE, null, ex);

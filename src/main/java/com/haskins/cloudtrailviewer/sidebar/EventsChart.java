@@ -100,12 +100,8 @@ public class EventsChart extends AbstractChart implements ActionListener {
     public void update() {
 
         String source = customGroup.getSelection().getActionCommand();
-
-        String actionCommand = topGroup.getSelection().getActionCommand();
-        int periodPos = actionCommand.indexOf(".");
-        String topStr = actionCommand.substring(periodPos + 1);
-        int top = Integer.parseInt(topStr);
-
+        int top = getTopXValue();
+        
         List<Map.Entry<String, Integer>> chartEvents = ChartUtils.getTopEvents(eventDb.getEvents(), top, source);
         updateChart(chartEvents);
     }
@@ -125,7 +121,7 @@ public class EventsChart extends AbstractChart implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         update();
     }
-    
+        
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     ////////////////////////////////////////////////////////////////////////////

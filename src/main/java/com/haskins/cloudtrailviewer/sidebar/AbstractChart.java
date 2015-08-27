@@ -123,6 +123,15 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
     ////////////////////////////////////////////////////////////////////////////
     ///// protected methods
     //////////////////////////////////////////////////////////////////////////// 
+    protected int getTopXValue() {
+        
+        String actionCommand = topGroup.getSelection().getActionCommand();
+        int periodPos = actionCommand.indexOf(".");
+        String topStr = actionCommand.substring(periodPos + 1);
+        
+        return Integer.parseInt(topStr);
+    }
+    
     protected void updateChart(List<Map.Entry<String, Integer>> chartData) {
         
         chartCards.removeAll();

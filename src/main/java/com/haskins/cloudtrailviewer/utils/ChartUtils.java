@@ -83,7 +83,7 @@ public class ChartUtils {
         }
     }
     
-    private static List<Map.Entry<String,Integer>> getTopX(List<Map.Entry<String,Integer>> sorted, int top) {
+    public static List<Map.Entry<String,Integer>> getTopX(List<Map.Entry<String,Integer>> sorted, int top) {
         
        List<Map.Entry<String,Integer>> topEvents = new ArrayList<>();
         
