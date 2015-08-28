@@ -20,8 +20,6 @@ package com.haskins.cloudtrailviewer.table.resource;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 
-
-
 /**
  *
  * @author mark
@@ -31,29 +29,21 @@ public class RdsResource implements Resource {
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
-     * @return either the resource name or an empty string if the EventName is not handled.
+     * @param resources 
      */
     @Override
-    public String getResource(Event event) {
-        
-        String resource = "";
+    public void getResource(Event event, ResourceInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeDBInstances")) {
-            resource = describeDBInstances(event);
+            describeDBInstances(event, resources);
         }
-        
-        return resource;
     }
     
-    private String describeDBInstances(Event event) {
-        
-        String resource = "";
+    private void describeDBInstances(Event event, ResourceInfo resources) {
         
 //        Map requestParameters = event.getRequestParameters();
 //        if (requestParameters != null && requestParameters.containsKey("applicationName")) {
 //            resource = (String)requestParameters.get("applicationName");
 //        }
-        
-        return resource;
     }
 }

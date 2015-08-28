@@ -31,105 +31,71 @@ public class EbResource implements Resource {
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
-     * @return either the resource name or an empty string if the EventName is not handled.
+     * @param resources 
      */
     @Override
-    public String getResource(Event event) {
-        
-        String resource = "";
+    public void getResource(Event event, ResourceInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeEvents")) {
-            resource = describeEvents(event);
+            describeEvents(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("DescribeEnvironmentResources")) {
-            resource = describeEvironmentResources(event);
+            describeEvironmentResources(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("DescribeConfigurationSettings")) {
-            resource = describeConfigurationSettings(event);
+            describeConfigurationSettings(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("DescribeApplicationVersions")) {
-            resource = describeApplicationVersions(event);
-        } else if (event.getEventName().equalsIgnoreCase("DescribeStackResources")) {
-            resource = describeStackResources(event);
+            describeApplicationVersions(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("SwapEnvironmentCNAMEs")) {
-            resource = swapEnvironmentCnames(event);
+            swapEnvironmentCnames(event, resources);
         }
-        
-        return resource;
     }
     
-    private String describeEvents(Event event) {
-        
-        String resource = "";
+    private void describeEvents(Event event, ResourceInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("environmentId")) {
-            resource = (String)requestParameters.get("environmentId");
+            resources.addResource("Environment ID", (String)requestParameters.get("environmentId"));
         }
-        
-        return resource;
     }
     
-    private String describeEvironmentResources(Event event) {
-        
-        String resource = "";
+    private void describeEvironmentResources(Event event, ResourceInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("environmentId")) {
-            resource = (String)requestParameters.get("environmentId");
+            resources.addResource("Environment ID", (String)requestParameters.get("environmentId"));
         }
-        
-        return resource;
     }
     
-    private String describeConfigurationSettings(Event event) {
-        
-        StringBuilder resource = new StringBuilder();
+    private void describeConfigurationSettings(Event event, ResourceInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("environmentName")) {
-            resource.append((String)requestParameters.get("environmentName"));
-            resource.append(" : ");
-            resource.append((String)requestParameters.get("applicationName"));
+            
+            resources.addResource("Environment Name", (String)requestParameters.get("environmentName"));
+            resources.addResource("Application Name", (String)requestParameters.get("applicationName"));
         }
-        
-        return resource.toString();
     }
     
-    private String describeApplicationVersions(Event event) {
-        
-        String resource = "";
+    private void describeApplicationVersions(Event event, ResourceInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("applicationName")) {
-            resource = (String)requestParameters.get("applicationName");
+            resources.addResource("Application Name", (String)requestParameters.get("applicationName"));
         }
-        
-        return resource;
     }
     
-    private String describeStackResources(Event event) {
-        
-        String resource = "";
-        
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("stackName")) {
-            resource = (String)requestParameters.get("stackName");
-        }
-        
-        return resource;
-    }
-    
-    private String swapEnvironmentCnames(Event event) {
-        
-        StringBuilder resource = new StringBuilder();
+    private void swapEnvironmentCnames(Event event, ResourceInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("destinationEnvironmentName")) {
-            resource.append(requestParameters.get("destinationEnvironmentName")).append(",");
+            resources.addResource("Environment Name", (String)requestParameters.get("destinationEnvironmentName"));
         }
         
         if (requestParameters != null && requestParameters.containsKey("sourceEnvironmentName")) {
-            resource.append(requestParameters.get("sourceEnvironmentName"));
+            resources.addResource("Environment Name", (String)requestParameters.get("sourceEnvironmentName"));
         }
-        
-        return resource.toString();
     }
 }

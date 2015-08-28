@@ -18,8 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.table.resource;
 
-
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,78 +32,77 @@ public class Ec2Resource implements Resource {
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
-     * @return either the resource name or an empty string if the EventName is not handled.
+     * @param resources 
      */
     @Override
-    public String getResource(Event event) {
-        
-        String resource = "";
+    public void getResource(Event event, ResourceInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeTags")) {
-            resource = describeTags(event);
+            describeTags(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("DescribeInstances")) {
-            resource = describeInstances(event);
+            describeInstances(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("CreateTags")) {
-            resource = createTags(event);
+            createTags(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("RunInstances")) {
-            resource = runInstancees(event);
+            runInstancees(event, resources);
         }
-        
-        return resource;
     }
     
-    private String createTags(Event event) {
+    private void createTags(Event event, ResourceInfo resources) {
         
-        StringBuilder resource = new StringBuilder();
-
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("resourcesSet")) {
             
-            List<Map<String, String>> instances = (List<Map<String, String>>)requestParameters.get("resourcesSet");
-            for (Map<String, String> instance : instances) {
-                resource.append(instance.get("resourceId")).append(",");
+            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("resourcesSet");
+            if (resourceSet != null) {
+                List<Map> items = (List)resourceSet.get("items");
+                if (items != null) {
+                    for (Map instance : items) {
+                        resources.addResource("EC2 Instance", (String)instance.get("resourceId"));
+                    } 
+                }
+            }
+        }
+    }
+    
+    private void describeTags(Event event, ResourceInfo resources) {
+
+    }
+    
+    private void describeInstances(Event event, ResourceInfo resources) {
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
+            
+            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("instancesSet");
+            if (resourceSet != null) {
+                List<Map> items = (List)resourceSet.get("items");
+                if (items != null) {
+                    for (Map instance : items) {
+                        resources.addResource("EC2 Instance", (String)instance.get("resourceId"));
+                    } 
+                }
+            }
+        }
+    }
+    
+    private void runInstancees(Event event, ResourceInfo resources) {
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
+            
+            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("instancesSet");
+            if (resourceSet != null) {
+                List<Map> items = (List)resourceSet.get("items");
+                if (items != null) {
+//                    for (Map instance : items) {
+//                        resources.addResource("EC2 Instance", (String)instance.get("resourceId"));
+//                    } 
+                }
             }  
         }
-        
-        return resource.toString();
-    }
-    
-    private String describeTags(Event event) {
-        
-        String resource = "";
-        
-        return resource;
-    }
-    
-    private String describeInstances(Event event) {
-        
-        StringBuilder resource = new StringBuilder();
-
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
-            
-            List<Map<String, String>> instances = (List<Map<String, String>>)requestParameters.get("instancesSet");
-            for (Map<String, String> instance : instances) {
-                resource.append(instance.get("instanceId")).append(",");
-            } 
-        }
-        
-        return resource.toString();
-    }
-    
-    private String runInstancees(Event event) {
-        
-        StringBuilder resource = new StringBuilder();
-
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
-            
-            List<Map<String, String>> instances = (List<Map<String, String>>)requestParameters.get("instancesSet");
-            for (Map<String, String> instance : instances) {
-                resource.append(instance.get("instanceId")).append(",");
-            } 
-        }
-        
-        return resource.toString();
     }
 }

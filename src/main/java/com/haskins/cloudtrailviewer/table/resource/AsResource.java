@@ -31,75 +31,69 @@ public class AsResource implements Resource {
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
-     * @return either the resource name or an empty string if the EventName is not handled.
+     * @param resources 
      */
     @Override
-    public String getResource(Event event) {
-        
-        String resource = "";
+    public void getResource(Event event, ResourceInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeScalingActivities")) {
-            resource = resolveDescribeScalingActivities(event);
+            resolveDescribeScalingActivities(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("DescribeAutoScalingGroups")) {
-            resource = resolveDescribeAutoScalingGroups(event);
+            resolveDescribeAutoScalingGroups(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("ResumeProcesses")) {
-            resource = resumeProcesses(event);
+            resumeProcesses(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("SuspendProcesses")) {
-            resource = suspendProcesses(event);
+            suspendProcesses(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DeleteLaunchConfiguration")) {
+            deleteLaunchConfiguration(event, resources);
         }
-        
-        return resource;
     }
     
-    private String resolveDescribeScalingActivities(Event event) {
-        
-        String resource = "";
+    private void resolveDescribeScalingActivities(Event event, ResourceInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("autoScalingGroupName")) {
-            resource = (String)requestParameters.get("autoScalingGroupName");
+            resources.addResource("AS Group Name", (String)requestParameters.get("autoScalingGroupName"));
         }
-        
-        return resource;
     }
     
-    private String resolveDescribeAutoScalingGroups(Event event) {
-        
-        StringBuilder resource = new StringBuilder();
+    private void resolveDescribeAutoScalingGroups(Event event, ResourceInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("autoScalingGroupNames")) {
             
             List<String> groups = (List)requestParameters.get("autoScalingGroupNames");
             for (String group : groups) {
-                resource.append(group).append(",");
+                resources.addResource("AS Group Name", group);
             }
         }
-        
-        return resource.toString();
     }
     
-    private String resumeProcesses(Event event) {
-        
-        StringBuilder resource = new StringBuilder();
+    private void resumeProcesses(Event event, ResourceInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("autoScalingGroupName")) {
-            resource.append(requestParameters.get("autoScalingGroupName"));
+            resources.addResource("AS Group Name", (String)requestParameters.get("autoScalingGroupName"));
         }
-        
-        return resource.toString();
     }
     
-    private String suspendProcesses(Event event) {
-        
-        StringBuilder resource = new StringBuilder();
+    private void suspendProcesses(Event event, ResourceInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("autoScalingGroupName")) {
-            resource.append(requestParameters.get("autoScalingGroupName"));
+            resources.addResource("AS Group Name", (String)requestParameters.get("autoScalingGroupName"));
         }
+    }
+    
+    private void deleteLaunchConfiguration(Event event, ResourceInfo resources) {
         
-        return resource.toString();
+        Map<String, String> requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("launchConfigurationName")) {
+            resources.addResource("Launch Configuration Name", (String)requestParameters.get("launchConfigurationName"));
+        } 
     }
 }

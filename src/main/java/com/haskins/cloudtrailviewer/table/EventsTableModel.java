@@ -19,7 +19,6 @@ package com.haskins.cloudtrailviewer.table;
 
 import com.haskins.cloudtrailviewer.utils.TableUtils;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
-import com.haskins.cloudtrailviewer.table.resource.ResourceLookup;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import javax.swing.table.AbstractTableModel;
 
@@ -110,10 +109,10 @@ public class EventsTableModel extends AbstractTableModel {
                 value = event.getEventName();
                 break;
             case 4:
-                value = ResourceLookup.getResourceInfo(event).getTypes();
+                value = event.getResourceInfo().getResourceTypesAsString();
                 break;
             case 5:
-                value = ResourceLookup.getResourceInfo(event).getNames();
+                value = event.getResourceInfo().getResourceNamesAsString();
                 break;
             case 6:
                 value = event.getEventVersion();

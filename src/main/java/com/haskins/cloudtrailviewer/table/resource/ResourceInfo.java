@@ -19,71 +19,81 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.table.resource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
  * @author mark.haskins
  */
 public class ResourceInfo {
-    
-    private final List<String> types = new ArrayList<>();
-    private final List<String> names = new ArrayList<>();
-
-    /**
-     * @return the type
-     */
-    public String getTypes() {
-        return getResponse(types);
-    }
-
-    /**
-     * @param type the type to set
-     */
-    public void addType(String type) {
         
-        String theType = type;
+    private final Map<String, List<String>> resourceMap = new HashMap();
+
+    public void addResource(String type, String name) {
         
-        if (type.contains("Name")) {
-            theType = type.replace("Name", "");
-        } else if(type.contains("Names")) {
-            theType = type.replace("Names", "");
+        List<String> resources = resourceMap.get(type);
+        if (resources == null) {
+            
+            resources = new ArrayList();
+            resourceMap.put(type, resources);
         }
         
-        this.types.add(theType);
-    }
-
-    /**
-     * @return the name
-     */
-    public String getNames() {
-        
-        return getResponse(names);
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void addName(String name) {
-        this.names.add(name);
+        resources.add(name);
     }
     
-    private String getResponse(List<String> aList) {
+    public String getResourceTypesAsString() {
         
-        String resourceNames;
+        List<String> values = new ArrayList<>();
         
-        if (aList.size()>= 3) {
-            
-            String first = aList.get(0);
-            int rest = aList.size() - 1;
-            
-            resourceNames = first + " and " + rest + " others";
-            
-        } else {
-            resourceNames = aList.toString();
-            resourceNames = resourceNames.substring(1, resourceNames.length() -1);
+        Set<String> keys = resourceMap.keySet();
+        Iterator<String> it = keys.iterator();
+        while (it.hasNext()) {            
+            values.add(it.next());
         }
         
-        return resourceNames;
+        return createResponseString(values);
+    }
+    
+    public String getResourceNamesAsString() {
+        
+        List<String> values = new ArrayList<>();
+        
+        Set<String> keys = resourceMap.keySet();
+        Iterator<String> it = keys.iterator();
+        while (it.hasNext()) {            
+            
+            String key = it.next();
+            List<String> nameValues = resourceMap.get(key);
+            for (String value : nameValues) {
+                values.add(value);
+            }
+        }
+        
+        return createResponseString(values);
+    }
+    
+    private String createResponseString(List<String> values) {
+        
+        StringBuilder response = new StringBuilder();
+        
+        if (values.size() >= 1) {
+            response.append(values.get(0));
+        }
+        
+        if (values.size() >= 2) {
+            response.append(", ").append(values.get(1));
+        }
+        
+        if (values.size() > 2) {
+            
+            int remaining = values.size() - 2;
+            response.append(" and ").append(remaining).append(" more");
+        }
+                   
+        return response.toString();
     }
 }

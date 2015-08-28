@@ -21,6 +21,8 @@ package com.haskins.cloudtrailviewer.model.event;
 import com.haskins.cloudtrailviewer.model.event.deprecated.Resource;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.haskins.cloudtrailviewer.table.resource.ResourceInfo;
+import com.haskins.cloudtrailviewer.table.resource.ResourceLookup;
 import java.util.List;
 import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -82,6 +84,7 @@ public class Event {
     /** Internal Use **/
     private String rawJson;
     private long timestamp;
+    private ResourceInfo resourceInfo = null;
     
     public void setRawJSON(String json) {
         this.rawJson = json;
@@ -95,6 +98,16 @@ public class Event {
     }
     public long getTimestamp() {
         return this.timestamp;
+    }
+    
+    public ResourceInfo getResourceInfo() {
+        
+        if (resourceInfo == null) {
+            resourceInfo = new ResourceInfo();
+            ResourceLookup.getResourceInfo(this, resourceInfo);
+        }
+        
+        return resourceInfo;
     }
 
 

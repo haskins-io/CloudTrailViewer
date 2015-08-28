@@ -30,29 +30,21 @@ public class dbResource implements Resource {
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
-     * @return either the resource name or an empty string if the EventName is not handled.
+     * @param resources 
      */
     @Override
-    public String getResource(Event event) {
-        
-        String resource = "";
+    public void getResource(Event event, ResourceInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeTable")) {
-            resource = describeTable(event);
+            describeTable(event, resources);
         } 
-        
-        return resource;
     }
         
-    private String describeTable(Event event) {
-        
-        String tableName = "";
+    private void describeTable(Event event, ResourceInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("tableName")) {
-            tableName = (String)requestParameters.get("tableName");
-        }
-        
-        return tableName;   
+            resources.addResource("Table Name", (String)requestParameters.get("tableName"));
+        }  
     }
 }

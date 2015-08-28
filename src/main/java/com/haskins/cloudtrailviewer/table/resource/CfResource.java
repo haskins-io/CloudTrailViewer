@@ -31,55 +31,47 @@ public class CfResource implements Resource {
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
-     * @return either the resource name or an empty string if the EventName is not handled.
+     * @param resources 
      */
     @Override
-    public String getResource(Event event) {
-        
-        String resource = "";
-        
+    public void getResource(Event event, ResourceInfo resources) {
+                
         if (event.getEventName().equalsIgnoreCase("DescribeStacks")) {
-            resource = describeStacks(event);
+            describeStacks(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("DescribeStackResource")) {
-            resource = describeStackResource(event);
+            describeStackResource(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("DescribeStackResources")) {
-            resource = describeStackResources(event);
+            describeStackResources(event, resources);
+            
         } else if (event.getEventName().equalsIgnoreCase("UpdateStack")) {
-            resource = updateStack(event);
+            updateStack(event, resources);
+            
         }
-        
-        return resource;
     }
     
-    private String describeStacks(Event event) {
-        
-        return getStackName(event);
+    private void describeStacks(Event event, ResourceInfo resources) {
+        getStackName(event, resources);
     }
     
-    private String describeStackResource(Event event) {
-        
-        return getStackName(event);
+    private void describeStackResource(Event event, ResourceInfo resources) {
+        getStackName(event, resources);
     }
     
-    private String describeStackResources(Event event) {
-        
-        return getStackName(event);
+    private void describeStackResources(Event event, ResourceInfo resources) {
+        getStackName(event, resources);
     }
     
-    private String updateStack(Event event) {
-        
-        return getStackName(event);
+    private void updateStack(Event event, ResourceInfo resources) {
+        getStackName(event, resources);
     }
-    
-    private String getStackName(Event event) {
         
-        String stackName = "";
+    private void getStackName(Event event, ResourceInfo resources) {
         
         Map<String, String> requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("stackName")) {
-            stackName = requestParameters.get("stackName");
-        }
-        
-        return stackName;   
+            resources.addResource("Stack Name", (String)requestParameters.get("stackName"));
+        }  
     }
 }

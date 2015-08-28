@@ -31,29 +31,21 @@ public class CsResource implements Resource {
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
-     * @return either the resource name or an empty string if the EventName is not handled.
+     * @param resources 
      */
     @Override
-    public String getResource(Event event) {
-        
-        String resource = "";
-        
+    public void getResource(Event event, ResourceInfo resources) {
+                
         if (event.getEventName().equalsIgnoreCase("DescribeIndexFields")) {
-            resource = describeIndexFields(event);
+            describeIndexFields(event, resources);
         }
-        
-        return resource;
     }
     
-    private String describeIndexFields(Event event) {
-        
-        String resource = "";
+    private void describeIndexFields(Event event, ResourceInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("domainName")) {
-            resource = (String)requestParameters.get("domainName");
+            resources.addResource("Domain Name", (String)requestParameters.get("domainName"));
         }
-        
-        return resource;
     }
 }

@@ -18,12 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.table.resource;
 
-
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -31,45 +26,46 @@ import java.util.Set;
  */
 public class ResourceLookup {
     
+    private final static AsResource autoScaling = new AsResource();
+    private final static CfResource cloudFormation = new CfResource();
+    private final static CsResource cloudSearch = new CsResource();
+    private final static EbResource elasticBeanststalk = new EbResource();
+    private final static Ec2Resource cloudCompute = new Ec2Resource();
+    private final static ElbResoure loadBalancing = new ElbResoure();
+    private final static RdsResource relationalDb = new RdsResource();
+    private final static SnsResource notificationService = new SnsResource();
+    private final static dbResource dynamoDb = new dbResource();
     
-    public static ResourceInfo getResourceInfo(Event event) {
+    public static void getResourceInfo(Event event, ResourceInfo resources) {
         
-        ResourceInfo resourceInfo = new ResourceInfo();
+        String source = event.getEventSource();
         
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null) {
+        if (source.equalsIgnoreCase("autoscaling.amazonaws.com")) {
+            autoScaling.getResource(event, resources);
             
-            Set<String> keys = requestParameters.keySet();
-            Iterator<String> it = keys.iterator();
-            while(it.hasNext()) {
-                
-                String type = it.next();
-                Object resourcesObj = requestParameters.get(type);
-
-                if (resourcesObj instanceof List || resourcesObj instanceof String) {
-
-                    resourceInfo.addType(type);
-
-                    if (resourcesObj instanceof List) {
-
-                        List resources = (List)requestParameters.get(type);
-                        if (!resources.isEmpty() && resources.get(0) instanceof String) {
-                            
-                            List<String> stringResources = (List)requestParameters.get(type);
-                            for (String resource : stringResources) {
-                                resourceInfo.addName(resource);
-                            }
-                        }
-                        
-                    } else {
-
-                        String resource = (String)requestParameters.get(type);
-                        resourceInfo.addName(resource);
-                    }
-                } 
-            }
+        } else if (source.equalsIgnoreCase("cloudformation.amazonaws.com")) {
+            cloudFormation.getResource(event, resources);
+            
+        } else if (source.equalsIgnoreCase("cloudsearch.amazonaws.com")) {
+            cloudSearch.getResource(event, resources);
+            
+        } else if (source.equalsIgnoreCase("elasticbeanstalk.amazonaws.com")) {
+            elasticBeanststalk.getResource(event, resources);
+            
+        } else if (source.equalsIgnoreCase("ec2.amazonaws.com")) {
+            cloudCompute.getResource(event, resources);
+            
+        } else if (source.equalsIgnoreCase("elasticloadbalancing.amazonaws.com")) {
+            loadBalancing.getResource(event, resources);
+            
+        } else if (source.equalsIgnoreCase("rds.amazonaws.com")) {
+            relationalDb.getResource(event, resources);
+            
+        } else if (source.equalsIgnoreCase("sns.amazonaws.com")) {
+            notificationService.getResource(event, resources);
+            
+        } else if (source.equalsIgnoreCase("dynamodb.amazonaws.com")) {
+            dynamoDb.getResource(event, resources);
         }
-        
-        return resourceInfo;
     }
 }
