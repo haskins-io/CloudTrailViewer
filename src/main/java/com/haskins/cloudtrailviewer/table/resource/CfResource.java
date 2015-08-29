@@ -18,15 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.table.resource;
 
-
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.util.Map;
 
 /**
  *
  * @author mark
  */
-public class CfResource implements Resource {
+public class CfResource extends AbstractResource implements Resource {
 
     /**
      * Return the resource for the passed Event
@@ -34,44 +32,48 @@ public class CfResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, ResourceInfo resources) {
+    public void getResource(Event event, RequestInfo resources) {
                 
         if (event.getEventName().equalsIgnoreCase("DescribeStacks")) {
-            describeStacks(event, resources);
+            getStackName(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("DescribeStackResource")) {
-            describeStackResource(event, resources);
+            getStackName(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("DescribeStackResources")) {
-            describeStackResources(event, resources);
+            getStackName(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("UpdateStack")) {
-            updateStack(event, resources);
-            
+            getStackName(event, resources);
+
+        } else if (event.getEventName().equalsIgnoreCase("ListStackResources")) {
+            getStackName(event, resources);
+
+        } else if (event.getEventName().equalsIgnoreCase("GetTemplate")) {
+            getStackName(event, resources);
+
+        } else if (event.getEventName().equalsIgnoreCase("GetTemplate")) {
+            getStackName(event, resources);
+
+        } else if (event.getEventName().equalsIgnoreCase("GetStackPolicy")) {
+            getStackName(event, resources);
+
+        } else if (event.getEventName().equalsIgnoreCase("DescribeStackEvents")) {
+            getStackName(event, resources);
+
+        } else if (event.getEventName().equalsIgnoreCase("DeleteStack")) {
+            getStackName(event, resources);
+
+        } else if (event.getEventName().equalsIgnoreCase("CreateStack")) {
+            getStackName(event, resources);
+
+        } else if (event.getEventName().equalsIgnoreCase("CancelUpdateStack")) {
+            getStackName(event, resources);
+
         }
     }
     
-    private void describeStacks(Event event, ResourceInfo resources) {
-        getStackName(event, resources);
-    }
-    
-    private void describeStackResource(Event event, ResourceInfo resources) {
-        getStackName(event, resources);
-    }
-    
-    private void describeStackResources(Event event, ResourceInfo resources) {
-        getStackName(event, resources);
-    }
-    
-    private void updateStack(Event event, ResourceInfo resources) {
-        getStackName(event, resources);
-    }
-        
-    private void getStackName(Event event, ResourceInfo resources) {
-        
-        Map<String, String> requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("stackName")) {
-            resources.addResource("Stack Name", (String)requestParameters.get("stackName"));
-        }  
+    private void getStackName(Event event, RequestInfo resources) {
+        getTopLevelResource("Stack Name", "stackName", event, resources);
     }
 }

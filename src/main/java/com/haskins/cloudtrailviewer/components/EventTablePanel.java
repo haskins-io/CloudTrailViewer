@@ -191,8 +191,9 @@ public class EventTablePanel extends JPanel implements ActionListener {
                 }
             }
         });
-
+       
         table.getTableHeader().addMouseListener(new MouseAdapter() {
+            
             @Override
             public void mouseClicked(MouseEvent e) {
                 
@@ -201,7 +202,6 @@ public class EventTablePanel extends JPanel implements ActionListener {
                 }
             };
         });
-        table.setAutoCreateRowSorter(true);
         
         // hide specific columns to start with
         int numCols = tableModel.getColumnCount();
@@ -226,9 +226,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
         jsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, eventsScrollPane, sideBar);
         jsp.setDividerSize(0);
         jsp.setResizeWeight(1);
-        jsp.setDividerLocation(jsp.getSize().width
-            - jsp.getInsets().right
-            - jsp.getDividerSize());
+        jsp.setDividerLocation(jsp.getSize().width - jsp.getInsets().right - jsp.getDividerSize());
 
         filterTextField.addActionListener(new ActionListener() {
 

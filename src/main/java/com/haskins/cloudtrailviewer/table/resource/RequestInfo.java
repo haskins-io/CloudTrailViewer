@@ -29,9 +29,10 @@ import java.util.Set;
  *
  * @author mark.haskins
  */
-public class ResourceInfo {
+public class RequestInfo {
         
     private final Map<String, List<String>> resourceMap = new HashMap();
+    private final Map<String, List<String>> parameterMap = new HashMap();
 
     public void addResource(String type, String name) {
         

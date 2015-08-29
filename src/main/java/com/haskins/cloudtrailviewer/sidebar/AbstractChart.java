@@ -217,7 +217,7 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-
+                
                 if (e.getFirstIndex() >= 0) {
 
                     try {

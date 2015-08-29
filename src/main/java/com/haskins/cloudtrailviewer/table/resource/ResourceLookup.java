@@ -29,14 +29,20 @@ public class ResourceLookup {
     private final static AsResource autoScaling = new AsResource();
     private final static CfResource cloudFormation = new CfResource();
     private final static CsResource cloudSearch = new CsResource();
+    private final static DbResource dynamoDb = new DbResource();
     private final static EbResource elasticBeanststalk = new EbResource();
     private final static Ec2Resource cloudCompute = new Ec2Resource();
+    private final static EcResource elasticCache = new EcResource();
     private final static ElbResoure loadBalancing = new ElbResoure();
+    private final static IamResource iam = new IamResource();
+    private final static KinesisResource kinesis = new KinesisResource();
+    private final static KmsResource kms = new KmsResource();
     private final static RdsResource relationalDb = new RdsResource();
     private final static SnsResource notificationService = new SnsResource();
-    private final static dbResource dynamoDb = new dbResource();
+    private final static SqsResource simpleQueue = new SqsResource();
+    private final static SwfResource simpleWorkflow = new SwfResource();
     
-    public static void getResourceInfo(Event event, ResourceInfo resources) {
+    public static void getResourceInfo(Event event, RequestInfo resources) {
         
         String source = event.getEventSource();
         
@@ -66,6 +72,24 @@ public class ResourceLookup {
             
         } else if (source.equalsIgnoreCase("dynamodb.amazonaws.com")) {
             dynamoDb.getResource(event, resources);
+            
+        } else if (source.equalsIgnoreCase("iam.amazonaws.com")) {
+            iam.getResource(event, resources);
+            
+        }else if (source.equalsIgnoreCase("elasticache.amazonaws.com")) {
+            elasticCache.getResource(event, resources);
+            
+        } else if (source.equalsIgnoreCase("kinesis.amazonaws.com")) {
+            kinesis.getResource(event, resources);
+            
+        } else if (source.equalsIgnoreCase("kms.amazonaws.com")) {
+            kms.getResource(event, resources);
+            
+        } else if (source.equalsIgnoreCase("sqs.amazonaws.com")) {
+            simpleQueue.getResource(event, resources);
+            
+        } else if (source.equalsIgnoreCase("swf.amazonaws.com")) {
+            simpleWorkflow.getResource(event, resources);
         }
     }
 }

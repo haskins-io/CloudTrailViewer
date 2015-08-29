@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author mark
  */
-public class AsResource implements Resource {
+public class AsResource extends AbstractResource implements Resource {
 
     /**
      * Return the resource for the passed Event
@@ -34,7 +34,7 @@ public class AsResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, ResourceInfo resources) {
+    public void getResource(Event event, RequestInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeScalingActivities")) {
             resolveDescribeScalingActivities(event, resources);
@@ -50,18 +50,75 @@ public class AsResource implements Resource {
             
         } else if (event.getEventName().equalsIgnoreCase("DeleteLaunchConfiguration")) {
             deleteLaunchConfiguration(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("UpdateAutoScalingGroup")) {
+            updateAutoScalingGroup(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("TerminateInstanceInAutoScalingGroup")) {
+            terminateInstanceInAutoScalingGroup(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("SetDesiredCapacity")) {
+            setDesiredCapacity(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("PutScalingPolicy")) {
+            putScalingPolicy(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DescribeScheduledActions")) {
+            describeScheduledActions(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DeletePolicy")) {
+            deletePolicy(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DeleteAutoScalingGroup")) {
+            deleteAutoScalingGroup(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("CreateLaunchConfiguration")) {
+            createLaunchConfiguration(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("CreateAutoScalingGroup")) {
+            createAutoScalingGroup(event, resources);
+            
         }
     }
     
-    private void resolveDescribeScalingActivities(Event event, ResourceInfo resources) {
+    private void createAutoScalingGroup(Event event, RequestInfo resources) {
+        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+    }
+    
+    private void createLaunchConfiguration(Event event, RequestInfo resources) {
+        getTopLevelResource("Launch Configuration", "launchConfigurationName", event, resources);
+    }
+    
+    private void deleteAutoScalingGroup(Event event, RequestInfo resources) {
+        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+    }
         
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("autoScalingGroupName")) {
-            resources.addResource("AS Group Name", (String)requestParameters.get("autoScalingGroupName"));
-        }
+    private void deletePolicy(Event event, RequestInfo resources) {
+        getTopLevelResource("Policy", "policyName", event, resources);
     }
     
-    private void resolveDescribeAutoScalingGroups(Event event, ResourceInfo resources) {
+    private void describeScheduledActions(Event event, RequestInfo resources) {
+        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+    }
+    
+    private void putScalingPolicy(Event event, RequestInfo resources) {
+        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        getTopLevelResource("Policy", "policyName", event, resources);
+    }
+    
+    private void setDesiredCapacity(Event event, RequestInfo resources) {
+        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+    }
+    
+    private void terminateInstanceInAutoScalingGroup(Event event, RequestInfo resources) {
+        getTopLevelResource("EC2 Instance", "instanceId", event, resources);
+    }
+    
+    private void resolveDescribeScalingActivities(Event event, RequestInfo resources) {
+        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+    }
+    
+    private void resolveDescribeAutoScalingGroups(Event event, RequestInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("autoScalingGroupNames")) {
@@ -73,27 +130,19 @@ public class AsResource implements Resource {
         }
     }
     
-    private void resumeProcesses(Event event, ResourceInfo resources) {
-        
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("autoScalingGroupName")) {
-            resources.addResource("AS Group Name", (String)requestParameters.get("autoScalingGroupName"));
-        }
+    private void resumeProcesses(Event event, RequestInfo resources) {
+        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
     }
     
-    private void suspendProcesses(Event event, ResourceInfo resources) {
-        
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("autoScalingGroupName")) {
-            resources.addResource("AS Group Name", (String)requestParameters.get("autoScalingGroupName"));
-        }
+    private void suspendProcesses(Event event, RequestInfo resources) {
+        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
     }
     
-    private void deleteLaunchConfiguration(Event event, ResourceInfo resources) {
-        
-        Map<String, String> requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("launchConfigurationName")) {
-            resources.addResource("Launch Configuration Name", (String)requestParameters.get("launchConfigurationName"));
-        } 
+    private void deleteLaunchConfiguration(Event event, RequestInfo resources) {
+        getTopLevelResource("Launch Configuration", "launchConfigurationName", event, resources);
+    }
+    
+    private void updateAutoScalingGroup(Event event, RequestInfo resources) {
+        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
     }
 }

@@ -28,7 +28,7 @@ import java.util.Map;
  *
  * @author mark
  */
-public class ElbResoure implements Resource {
+public class ElbResoure extends AbstractResource implements Resource {
 
     /**
      * Return the resource for the passed Event
@@ -36,7 +36,7 @@ public class ElbResoure implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, ResourceInfo resources) {
+    public void getResource(Event event, RequestInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeInstanceHealth")) {
             describeInstanceHealth(event, resources);
@@ -55,14 +55,64 @@ public class ElbResoure implements Resource {
             
         } else if (event.getEventName().equalsIgnoreCase("ModifyLoadBalancerAttributes")) {
             modifyLoadBalancerAttributes(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("SetLoadBalancerPoliciesOfListener")) {
+            setPoliciesOfListener(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("RebuildEnvironment")) {
+            rebuildEnvironment(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DescribeLoadBalancerPolicies")) {
+            describeLoadBalancerProperties(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DescribeLoadBalancerAttributes")) {
+            describeLoadBalancerAttributes(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("CreateLoadBalancerPolicy")) {
+            createLBPolicy(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("CreateLoadBalancer")) {
+            createLoadBalancer(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("ConfigureHealthCheck")) {
+            configureHealthCheck(event, resources);
+            
         }
     }
     
-    private void describeInstanceHealth(Event event, ResourceInfo resources) {
-        populateLoadBalancerName(event, resources);
+    private void configureHealthCheck(Event event, RequestInfo resources) {
+        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
     }
     
-    private void describeLoadBalancers(Event event, ResourceInfo resources) {
+    private void createLoadBalancer(Event event, RequestInfo resources) {
+        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+    }
+    
+    private void createLBPolicy(Event event, RequestInfo resources) {
+        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+    }
+    
+    private void describeLoadBalancerAttributes(Event event, RequestInfo resources) {
+        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+    }
+    
+    private void describeLoadBalancerProperties(Event event, RequestInfo resources) {
+        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+    }
+    
+    private void rebuildEnvironment(Event event, RequestInfo resources) {
+        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+    }
+    
+    private void setPoliciesOfListener(Event event, RequestInfo resources) {
+        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+    }
+    
+    private void describeInstanceHealth(Event event, RequestInfo resources) {
+        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+    }
+    
+    private void describeLoadBalancers(Event event, RequestInfo resources) {
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("loadBalancerNames")) {
             
@@ -73,22 +123,20 @@ public class ElbResoure implements Resource {
         }
     }
     
-    private void deleteLoadBalancer(Event event, ResourceInfo resources) {
-        populateLoadBalancerName(event, resources);
+    private void deleteLoadBalancer(Event event, RequestInfo resources) {
+        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
     }
     
-    private void modifyLoadBalancerAttributes(Event event, ResourceInfo resources) {
-        populateLoadBalancerName(event, resources);
+    private void modifyLoadBalancerAttributes(Event event, RequestInfo resources) {
+        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
     }
         
-    private void de_registerInstancesWithLoadBalancer(Event event, ResourceInfo resources) {
+    private void de_registerInstancesWithLoadBalancer(Event event, RequestInfo resources) {
 
         Map requestParameters = event.getRequestParameters();
         
         // load Balancer name
-        if (requestParameters != null && requestParameters.containsKey("loadBalancerName")) {
-            resources.addResource("ELB Name", (String)requestParameters.get("loadBalancerName"));
-        }
+        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
         
         // instances
         if (requestParameters != null && requestParameters.containsKey("instances")) {
@@ -99,15 +147,6 @@ public class ElbResoure implements Resource {
                     resources.addResource("EC2 Instance", (String)instance.get("instanceId"));
                 } 
             }
-        }
-    }
-    
-    
-    private void populateLoadBalancerName(Event event, ResourceInfo resources) {
-        
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("loadBalancerName")) {
-            resources.addResource("ELB Name", (String)requestParameters.get("loadBalancerName"));
         }
     }
 }

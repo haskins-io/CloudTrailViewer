@@ -19,13 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.table.resource;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.util.Map;
 
 /**
  *
  * @author mark.haskins
  */
-public class dbResource implements Resource {
+public class DbResource extends AbstractResource implements Resource {
 
     /**
      * Return the resource for the passed Event
@@ -33,18 +32,35 @@ public class dbResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, ResourceInfo resources) {
+    public void getResource(Event event, RequestInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeTable")) {
             describeTable(event, resources);
-        } 
+            
+        } else if (event.getEventName().equalsIgnoreCase("UpdateTable")) {
+            updateTable(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DeleteTable")) {
+            deleteTable(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("CreateTable")) {
+            createTable(event, resources);
+        }
     }
         
-    private void describeTable(Event event, ResourceInfo resources) {
-        
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("tableName")) {
-            resources.addResource("Table Name", (String)requestParameters.get("tableName"));
-        }  
+    private void createTable(Event event, RequestInfo resources) {
+        getTopLevelResource("Table Name", "tableName", event, resources); 
+    } 
+    
+    private void deleteTable(Event event, RequestInfo resources) {
+        getTopLevelResource("Table Name", "tableName", event, resources); 
+    }    
+    
+    private void describeTable(Event event, RequestInfo resources) {
+        getTopLevelResource("Table Name", "tableName", event, resources); 
+    }
+    
+    private void updateTable(Event event, RequestInfo resources) {
+        getTopLevelResource("Table Name", "tableName", event, resources); 
     }
 }

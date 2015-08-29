@@ -32,5 +32,5 @@ public interface Resource {
      * @param event Event from which the resource is require
      * @param resources 
      */
-    public void getResource(Event event, ResourceInfo resources);
+    public void getResource(Event event, RequestInfo resources);
 }

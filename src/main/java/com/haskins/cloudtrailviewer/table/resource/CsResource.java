@@ -18,15 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.table.resource;
 
-
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.util.Map;
 
 /**
  *
  * @author mark
  */
-public class CsResource implements Resource {
+public class CsResource extends AbstractResource implements Resource {
 
     /**
      * Return the resource for the passed Event
@@ -34,18 +32,14 @@ public class CsResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, ResourceInfo resources) {
+    public void getResource(Event event, RequestInfo resources) {
                 
         if (event.getEventName().equalsIgnoreCase("DescribeIndexFields")) {
             describeIndexFields(event, resources);
         }
     }
     
-    private void describeIndexFields(Event event, ResourceInfo resources) {
-        
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("domainName")) {
-            resources.addResource("Domain Name", (String)requestParameters.get("domainName"));
-        }
+    private void describeIndexFields(Event event, RequestInfo resources) {
+        getTopLevelResource("Domain Name", "domainName", event, resources);
     }
 }

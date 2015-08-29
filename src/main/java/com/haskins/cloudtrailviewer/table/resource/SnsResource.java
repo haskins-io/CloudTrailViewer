@@ -24,7 +24,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  *
  * @author mark
  */
-public class SnsResource implements Resource {
+public class SnsResource extends AbstractResource implements Resource {
 
     /**
      * Return the resource for the passed Event
@@ -32,18 +32,79 @@ public class SnsResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, ResourceInfo resources) {
+    public void getResource(Event event, RequestInfo resources) {
         
-        if (event.getEventName().equalsIgnoreCase("ListTopics")) {
-            listTopics(event, resources);
+        if (event.getEventName().equalsIgnoreCase("Unsubscribe")) {
+            unsubscribe(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("Subscribe")) {
+            subscribe(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("SetTopicAttributes")) {
+            setTopicAttribute(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("SetSubscriptionAttributes")) {
+            setSubscriptionAttributes(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("ListSubscriptionsByTopic")) {
+            listSubscriptionsByTopic(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("GetTopicAttributes")) {
+            getTopicAttributes(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("GetSubscriptionAttributes")) {
+            getSubscriptionAttributes(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DeleteTopic")) {
+            deleteTopic(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DeleteEndpoint")) {
+            deleteTopic(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("CreateTopic")) {
+            createTopic(event, resources);
+            
         }
     }
     
-    private void listTopics(Event event, ResourceInfo resources) {
-                
-//        Map requestParameters = event.getRequestParameters();
-//        if (requestParameters != null && requestParameters.containsKey("applicationName")) {
-//            resource = (String)requestParameters.get("applicationName");
-//        }
+    private void createTopic(Event event, RequestInfo resources) {
+        getTopLevelResource("Topic", "name", event, resources);
     }
+
+    private void deleteEndpoint(Event event, RequestInfo resources) {
+        getTopLevelResource("Endpoint", "endpointArn", event, resources);
+    }
+    
+    private void deleteTopic(Event event, RequestInfo resources) {
+        getTopLevelResource("Topic", "topicArn", event, resources);
+    }
+    
+    private void getSubscriptionAttributes(Event event, RequestInfo resources) {
+        getTopLevelResource("Subscription", "subscriptionArn", event, resources);
+    }
+    
+    private void getTopicAttributes(Event event, RequestInfo resources) {
+        getTopLevelResource("Topic", "topicArn", event, resources);
+    }
+    
+    private void listSubscriptionsByTopic(Event event, RequestInfo resources) {
+        getTopLevelResource("Topic", "topicArn", event, resources);
+    }
+    
+    private void setSubscriptionAttributes(Event event, RequestInfo resources) {
+        getTopLevelResource("Subscription", "subscriptionArn", event, resources);
+    }
+    
+    private void setTopicAttribute(Event event, RequestInfo resources) {
+        getTopLevelResource("Topic", "topicArn", event, resources);
+    }
+    
+    private void subscribe(Event event, RequestInfo resources) {
+        getTopLevelResource("Topic", "topicArn", event, resources);
+    }
+    
+    private void unsubscribe(Event event, RequestInfo resources) {
+        getTopLevelResource("Subscription", "subscriptionArn", event, resources);
+    }
+    
 }

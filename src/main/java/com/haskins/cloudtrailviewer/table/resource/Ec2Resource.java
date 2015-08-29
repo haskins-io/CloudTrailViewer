@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @author mark
  */
-public class Ec2Resource implements Resource {
+public class Ec2Resource extends AbstractResource implements Resource {
 
     /**
      * Return the resource for the passed Event
@@ -35,7 +35,7 @@ public class Ec2Resource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, ResourceInfo resources) {
+    public void getResource(Event event, RequestInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeTags")) {
             describeTags(event, resources);
@@ -47,11 +47,113 @@ public class Ec2Resource implements Resource {
             createTags(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("RunInstances")) {
-            runInstancees(event, resources);
+            runInstances(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("TerminateInstances")) {
+            terminateInstances(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("StopInstances")) {
+            stopInstances(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("RevokeSecurityGroupIngress")) {
+            revokeSGIngress(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("RevokeSecurityGroupEgress")) {
+            revokeSGEgress(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("RebootInstances")) {
+            rebootInstances(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DetachVolume")) {
+            detachVolume(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DetachNetworkInterface")) {
+            detachNetworkInterface(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DescribeVolumeAttribute")) {
+            describeVolumeAttributes(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DescribeInstanceAttribute")) {
+            describeInstanceAttribute(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DeleteSecurityGroup")) {
+            deleteSecurityGroup(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DeleteNetworkInterface")) {
+            deleteNetworkInterface(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("CreateSecurityGroup")) {
+            createSecurityGroup(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("CreateKeyPair")) {
+            createKeyPair(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("AuthorizeSecurityGroupIngress")) {
+            authoriseSGIngress(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("AuthorizeSecurityGroupEgress")) {
+            authoriseSGEgress(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("AttachVolume")) {
+            attachVolume(event, resources);
+            
         }
     }
     
-    private void createTags(Event event, ResourceInfo resources) {
+    private void attachVolume(Event event, RequestInfo resources) {
+        getTopLevelResource("Volume Id", "volumeId", event, resources);
+    }
+    
+    private void authoriseSGEgress(Event event, RequestInfo resources) {
+        getTopLevelResource("SG Group", "groupId", event, resources);
+    }
+    
+    private void authoriseSGIngress(Event event, RequestInfo resources) {
+        getTopLevelResource("SG Group", "groupId", event, resources);
+    }
+    
+    private void createKeyPair(Event event, RequestInfo resources) {
+        getTopLevelResource("Key Name", "keyName", event, resources);
+    }
+    
+    private void createSecurityGroup(Event event, RequestInfo resources) {
+        getTopLevelResource("Group Name", "groupName", event, resources);
+        getTopLevelResource("Group Description", "groupDescription", event, resources);
+    }
+    
+    private void deleteNetworkInterface(Event event, RequestInfo resources) {
+        getTopLevelResource("Network Interface", "networkInterfaceId", event, resources);
+    }
+    
+    private void deleteSecurityGroup(Event event, RequestInfo resources) {
+        getTopLevelResource("SG Group", "groupId", event, resources);
+    }
+    
+    private void describeInstanceAttribute(Event event, RequestInfo resources) {
+        getTopLevelResource("Instance Id", "instanceId", event, resources);
+    }
+    
+    private void describeVolumeAttributes(Event event, RequestInfo resources) {
+        getTopLevelResource("Volume Id", "volumeId", event, resources);
+    }
+    
+    private void detachNetworkInterface(Event event, RequestInfo resources) {
+        getTopLevelResource("Network Interface", "attachmentId", event, resources);
+    }
+    
+    private void detachVolume(Event event, RequestInfo resources) {
+        getTopLevelResource("Volume Id", "volumeId", event, resources);
+    }
+    
+    private void revokeSGEgress(Event event, RequestInfo resources) {
+        getTopLevelResource("SG Group", "groupId", event, resources);
+    }
+    
+    private void revokeSGIngress(Event event, RequestInfo resources) {
+        getTopLevelResource("SG Group", "groupId", event, resources);
+    }
+    
+    private void createTags(Event event, RequestInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("resourcesSet")) {
@@ -68,11 +170,11 @@ public class Ec2Resource implements Resource {
         }
     }
     
-    private void describeTags(Event event, ResourceInfo resources) {
+    private void describeTags(Event event, RequestInfo resources) {
 
     }
     
-    private void describeInstances(Event event, ResourceInfo resources) {
+    private void describeInstances(Event event, RequestInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
@@ -82,14 +184,14 @@ public class Ec2Resource implements Resource {
                 List<Map> items = (List)resourceSet.get("items");
                 if (items != null) {
                     for (Map instance : items) {
-                        resources.addResource("EC2 Instance", (String)instance.get("resourceId"));
+                        resources.addResource("EC2 Instance", (String)instance.get("instanceId"));
                     } 
                 }
             }
         }
     }
     
-    private void runInstancees(Event event, ResourceInfo resources) {
+    private void runInstances(Event event, RequestInfo resources) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
@@ -103,6 +205,57 @@ public class Ec2Resource implements Resource {
 //                    } 
                 }
             }  
+        }
+    }
+    
+    private void terminateInstances(Event event, RequestInfo resources) {
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
+            
+            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("instancesSet");
+            if (resourceSet != null) {
+                List<Map> items = (List)resourceSet.get("items");
+                if (items != null) {
+                    for (Map instance : items) {
+                        resources.addResource("EC2 Instance", (String)instance.get("instanceId"));
+                    } 
+                }
+            }
+        }
+    }
+    
+    private void stopInstances(Event event, RequestInfo resources) {
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
+            
+            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("instancesSet");
+            if (resourceSet != null) {
+                List<Map> items = (List)resourceSet.get("items");
+                if (items != null) {
+                    for (Map instance : items) {
+                        resources.addResource("EC2 Instance", (String)instance.get("instanceId"));
+                    } 
+                }
+            }
+        }
+    }
+    
+    private void rebootInstances(Event event, RequestInfo resources) {
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
+            
+            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("instancesSet");
+            if (resourceSet != null) {
+                List<Map> items = (List)resourceSet.get("items");
+                if (items != null) {
+                    for (Map instance : items) {
+                        resources.addResource("EC2 Instance", (String)instance.get("instanceId"));
+                    } 
+                }
+            }
         }
     }
 }

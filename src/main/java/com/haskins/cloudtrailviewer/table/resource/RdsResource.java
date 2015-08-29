@@ -24,7 +24,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  *
  * @author mark
  */
-public class RdsResource implements Resource {
+public class RdsResource extends AbstractResource implements Resource {
 
     /**
      * Return the resource for the passed Event
@@ -32,18 +32,64 @@ public class RdsResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, ResourceInfo resources) {
+    public void getResource(Event event, RequestInfo resources) {
         
-        if (event.getEventName().equalsIgnoreCase("DescribeDBInstances")) {
-            describeDBInstances(event, resources);
+        if (event.getEventName().equalsIgnoreCase("RebootDBInstance")) {
+            rebootDbInstance(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("ModifyDBInstance")) {
+            modifyDbInstance(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("ListTagsForResource")) {
+            listTagsForResource(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DescribeOptionGroupOptions")) {
+            describeOptionGroupOptions(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DescribeDBParameters")) {
+            describeDBParameters(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("DeleteDBInstance")) {
+            deleteDbInstance(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("CreateDBParameterGroup")) {
+            createDBParameterGroup(event, resources);
+            
+        } else if (event.getEventName().equalsIgnoreCase("CreateDBInstance")) {
+            createDbInstance(event, resources);
+            
         }
     }
     
-    private void describeDBInstances(Event event, ResourceInfo resources) {
-        
-//        Map requestParameters = event.getRequestParameters();
-//        if (requestParameters != null && requestParameters.containsKey("applicationName")) {
-//            resource = (String)requestParameters.get("applicationName");
-//        }
+    private void createDbInstance (Event event, RequestInfo resources) {
+        getTopLevelResource("RDS Instance", "dBInstanceIdentifier", event, resources);
+    }
+    
+    private void createDBParameterGroup(Event event, RequestInfo resources) {
+        getTopLevelResource("Param Group", "dBParameterGroupName", event, resources);
+    }
+    
+    private void deleteDbInstance (Event event, RequestInfo resources) {
+        getTopLevelResource("RDS Instance", "dBInstanceIdentifier", event, resources);
+    }
+
+    private void describeDBParameters(Event event, RequestInfo resources) {
+        getTopLevelResource("Param Group", "dBParameterGroupName", event, resources);
+    }
+    
+    private void describeOptionGroupOptions (Event event, RequestInfo resources) {
+        getTopLevelResource("Engine", "engineName", event, resources);
+    }
+    
+    private void listTagsForResource (Event event, RequestInfo resources) {
+        getTopLevelResource("Resource", "resourceName", event, resources);
+    }
+    
+    private void modifyDbInstance (Event event, RequestInfo resources) {
+        getTopLevelResource("RDS Instance", "dBInstanceIdentifier", event, resources);
+    }
+    
+    private void rebootDbInstance (Event event, RequestInfo resources) {
+        getTopLevelResource("RDS Instance", "dBInstanceIdentifier", event, resources);
     }
 }
