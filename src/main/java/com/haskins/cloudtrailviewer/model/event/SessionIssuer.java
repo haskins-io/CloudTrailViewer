@@ -117,40 +117,39 @@ public class SessionIssuer {
     @JsonIgnore
     public DefaultMutableTreeNode getTree() {
         
-        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode("Session Issuer");
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Session Issuer");
         
-        String value = "Type : ";
         if (getType() != null) {
-            value = value + getType();
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Type");
+            node.add(new DefaultMutableTreeNode(getType()));
+            root.add(node);
         }
-        treeNode.add(new DefaultMutableTreeNode(value));
         
-        value = "Principal Id : ";
         if (getPrincipalId() != null) {
-            value = value + getPrincipalId();
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Principal Id");
+            node.add(new DefaultMutableTreeNode(getPrincipalId()));
+            root.add(node);
         }
-        treeNode.add(new DefaultMutableTreeNode(value));
         
-        value = "Arn : ";
         if (getArn() != null) {
-            value = value + getArn();
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Arn");
+            node.add(new DefaultMutableTreeNode(getArn()));
+            root.add(node);
         }
-        treeNode.add(new DefaultMutableTreeNode(value));
         
-        value = "Account Id : ";
         if (getAccountId() != null) {
-            value = value + getAccountId();
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Account Id");
+            node.add(new DefaultMutableTreeNode(getAccountId()));
+            root.add(node);
         }
-        treeNode.add(new DefaultMutableTreeNode(value));
-        
-        
-        value = "Username : ";
+
         if (getUserName() != null) {
-            value = value + getUserName();
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Username");
+            node.add(new DefaultMutableTreeNode(getUserName()));
+            root.add(node);
         }
-        treeNode.add(new DefaultMutableTreeNode(value));
         
-        return treeNode;
+        return root;
     }
     
     @Override

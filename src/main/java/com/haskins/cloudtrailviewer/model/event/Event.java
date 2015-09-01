@@ -23,8 +23,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.haskins.cloudtrailviewer.table.resource.RequestInfo;
 import com.haskins.cloudtrailviewer.table.resource.ResourceLookup;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class Event {
@@ -104,7 +106,10 @@ public class Event {
         
         if (resourceInfo == null) {
             resourceInfo = new RequestInfo();
-            ResourceLookup.getResourceInfo(this, resourceInfo);
+            if (requestParameters != null) {
+                ResourceLookup.getResourceInfo(this, resourceInfo);
+            }
+            
         }
         
         return resourceInfo;
@@ -342,45 +347,137 @@ public class Event {
         
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Event");
         
-        String value = "Event Version : ";
-        if (getEventVersion() != null) {
-            value = value + getEventVersion();
+        if (getEventName() != null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Name");
+            node.add(new DefaultMutableTreeNode(getEventName()));
+            root.add(node);
         }
-        root.add(new DefaultMutableTreeNode(value));
         
+        if (getEventVersion() != null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Version");
+            node.add(new DefaultMutableTreeNode(getEventVersion()));
+            root.add(node);
+        }
+
+        if (getEventTime() != null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Time");
+            node.add(new DefaultMutableTreeNode(getEventTime()));
+            root.add(node);
+        }
+        
+        if (getEventSource() != null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Source");
+            node.add(new DefaultMutableTreeNode(getEventSource()));
+            root.add(node);
+        }
+        
+        if (getRequestParameters() != null && resourceInfo != null && 
+                (!resourceInfo.getResourcesMap().isEmpty() || !resourceInfo.getParameterMap().isEmpty())) {
+            
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Request Parameters");
+            
+            Map<String, List<String>> resourceMap = resourceInfo.getResourcesMap();
+            Set<String> resourceKeys = resourceMap.keySet();
+            Iterator<String> it = resourceKeys.iterator();
+            while (it.hasNext()) {
+                
+                String resourceName = it.next();
+                List<String> resourceValues = resourceMap.get(resourceName);
+                if (resourceValues.size() > 0) {
+                    
+                    DefaultMutableTreeNode resouceNode = new DefaultMutableTreeNode(resourceName);
+                    for (String resource : resourceValues) {
+                        resouceNode.add(new DefaultMutableTreeNode(resource));
+                    }
+                
+                    node.add(resouceNode);
+                }
+            }
+            
+            Map<String, List<String>> parameterMap = resourceInfo.getParameterMap();
+            Set<String> parameterKeys = parameterMap.keySet();
+            Iterator<String> it2 = parameterKeys.iterator();
+            while (it2.hasNext()) {
+                
+                String parameterName = it2.next();
+                List<String> parametersValues = parameterMap.get(parameterName);
+                if (parametersValues.size() > 0) {
+                    
+                    DefaultMutableTreeNode parameterNode = new DefaultMutableTreeNode(parameterName);
+                    for (String parameter : parametersValues) {
+                        parameterNode.add(new DefaultMutableTreeNode(parameter));
+                    }
+                
+                    node.add(parameterNode);
+                }
+            }
+            
+            root.add(node);
+        }
+        
+        if (getSourceIPAddress() != null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Source IP Address");
+            node.add(new DefaultMutableTreeNode(getSourceIPAddress()));
+            root.add(node);
+        }
+
+        if (getAwsRegion() != null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("AWS Region");
+            node.add(new DefaultMutableTreeNode(getAwsRegion()));
+            root.add(node);
+        }
+        
+        if (getUserAgent()!= null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("User Agent");
+            node.add(new DefaultMutableTreeNode(getUserAgent()));
+            root.add(node);
+        }
+        
+        if (getErrorCode() != null && getErrorCode().trim().length() > 0) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Error Code");
+            node.add(new DefaultMutableTreeNode(getErrorCode()));
+            root.add(node);
+        }
+        
+        if (getErrorMessage()!= null && getErrorCode().trim().length() > 0) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Error Message");
+            node.add(new DefaultMutableTreeNode(getErrorMessage()));
+            root.add(node);
+        }
+        
+        if (getRequestId()!= null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Request Id");
+            node.add(new DefaultMutableTreeNode(getRequestId()));
+            root.add(node);
+        }
+        
+        if (getEventId()!= null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Event Id");
+            node.add(new DefaultMutableTreeNode(getEventId()));
+            root.add(node);
+        }
+        
+        if (getEventType()!= null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Event Type");
+            node.add(new DefaultMutableTreeNode(getEventType()));
+            root.add(node);
+        }
+        
+        if (getApiVersion()!= null && getErrorCode().trim().length() > 0) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Api Version");
+            node.add(new DefaultMutableTreeNode(getApiVersion()));
+            root.add(node);
+        }
+        
+        if (getRecipientAccountId()!= null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Recipient Account Id");
+            node.add(new DefaultMutableTreeNode(getRecipientAccountId()));
+            root.add(node);
+        }
+
         if (getUserIdentity() != null) {
             root.add(userIdentity.getTree());
         }
-        
-        value = "Event Time : ";
-        if (getEventTime() != null) {
-            value = value + getEventTime();
-        }
-        root.add(new DefaultMutableTreeNode(value));
-        
-        value = "Event Source : ";
-        if (getEventSource() != null) {
-            value = value + getEventSource();
-        }
-        root.add(new DefaultMutableTreeNode(value));
-        
-        value = "Event Name : ";
-        if (getEventName() != null) {
-            value = value + getEventName();
-        }
-        root.add(new DefaultMutableTreeNode(value));
-        
-        value = "AWS Region : ";
-        if (getAwsRegion() != null) {
-            value = value + getAwsRegion();
-        }
-        root.add(new DefaultMutableTreeNode(value));
-        
-        value = "Source Ip Address : ";
-        if (getSourceIPAddress() != null) {
-            value = value + getSourceIPAddress();
-        }
-        root.add(new DefaultMutableTreeNode(value));
         
         return root;
     }

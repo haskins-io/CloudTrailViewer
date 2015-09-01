@@ -182,49 +182,55 @@ public class UserIdentity {
     @JsonIgnore
     public DefaultMutableTreeNode getTree() {
         
-        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode("User Identity");
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("User Identity");
         
-        String value = "Type : ";
         if (getType() != null) {
-            value = value + getType();
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Type");
+            node.add(new DefaultMutableTreeNode(getType()));
+            root.add(node);
         }
-        treeNode.add(new DefaultMutableTreeNode(value));
         
-        value = "Principal Id : ";
         if (getPrincipalId() != null) {
-            value = value + getPrincipalId();
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Principal Id");
+            node.add(new DefaultMutableTreeNode(getPrincipalId()));
+            root.add(node);
         }
-        treeNode.add(new DefaultMutableTreeNode(value));
         
-        value = "Arn : ";
         if (getArn() != null) {
-            value = value + getArn();
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Arn");
+            node.add(new DefaultMutableTreeNode(getArn()));
+            root.add(node);
         }
-        treeNode.add(new DefaultMutableTreeNode(value));
         
-        value = "Account Id : ";
         if (getAccountId() != null) {
-            value = value + getAccountId();
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Account Id");
+            node.add(new DefaultMutableTreeNode(getAccountId()));
+            root.add(node);
         }
-        treeNode.add(new DefaultMutableTreeNode(value));
-        
-        value = "Username : ";
+                        
         if (getUserName() != null) {
-            value = value + getUserName();
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Username");
+            node.add(new DefaultMutableTreeNode(getUserName()));
+            root.add(node);
         }
-        treeNode.add(new DefaultMutableTreeNode(value));
         
-        value = "Invoked By : ";
         if (getInvokedBy() != null) {
-            value = value + getInvokedBy();
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Invoked By");
+            node.add(new DefaultMutableTreeNode(getInvokedBy()));
+            root.add(node);
         }
-        treeNode.add(new DefaultMutableTreeNode(value));
+        
+        if (getWebIdFederationData() != null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Web Id Federation Data");
+            node.add(new DefaultMutableTreeNode(getWebIdFederationData()));
+            root.add(node);
+        }
         
         if (getSessionContext() != null) {
-            treeNode.add(sessionContext.getTree());
+            root.add(sessionContext.getTree());
         }
         
-        return treeNode;
+        return root;
     }
     
     @Override
