@@ -122,14 +122,14 @@ public class EventTree extends JPanel implements SideBar {
                 String resourceName = nameNode.toString();
                 
                 AwsAccount account = null;
-                String query = "SELECT * FROM aws_credentials WHERE aws_acct = " + event.getRecipientAccountId();
+                String query = "SELECT * FROM aws_credentials WHERE aws_acct LIKE '" + event.getRecipientAccountId() + "'";
                 List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
                 for (ResultSetRow row : rows) {
 
                     account = new AwsAccount(
                             (Integer) row.get("id"),
                             (String) row.get("aws_name"),
-                            (String) row.get("aws_acct_num"),
+                            (String) row.get("aws_acct"),
                             (String) row.get("aws_bucket"),
                             (String) row.get("aws_key"),
                             (String) row.get("aws_secret"),
