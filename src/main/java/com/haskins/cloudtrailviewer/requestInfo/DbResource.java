@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.table.resource;
+package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.Map;
@@ -27,6 +27,8 @@ import java.util.Map;
  */
 public class DbResource extends AbstractRequest implements Request {
 
+    private static final String DYNAMODB_TABLE = "DynamoDb Table";
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -50,19 +52,19 @@ public class DbResource extends AbstractRequest implements Request {
     }
         
     private void createTable(Event event, RequestInfo resources) {
-        getTopLevelResource("Table Name", "tableName", event, resources); 
+        getTopLevelResource(DYNAMODB_TABLE, "tableName", event, resources); 
     } 
     
     private void deleteTable(Event event, RequestInfo resources) {
-        getTopLevelResource("Table Name", "tableName", event, resources); 
+        getTopLevelResource(DYNAMODB_TABLE, "tableName", event, resources); 
     }    
     
     private void describeTable(Event event, RequestInfo resources) {
-        getTopLevelResource("Table Name", "tableName", event, resources); 
+        getTopLevelResource(DYNAMODB_TABLE, "tableName", event, resources); 
     }
     
     private void updateTable(Event event, RequestInfo resources) {
-        getTopLevelResource("Table Name", "tableName", event, resources); 
+        getTopLevelResource(DYNAMODB_TABLE, "tableName", event, resources); 
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("provisionedThroughput")) {

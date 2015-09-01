@@ -30,8 +30,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -91,6 +89,7 @@ public class DbManager {
             Migrations.createVersion3(conn, currentVersion);
             Migrations.createVersion4(conn, currentVersion);
             Migrations.createVersion5(conn, currentVersion);
+            Migrations.createVersion6(conn, currentVersion);
         }
     }
 

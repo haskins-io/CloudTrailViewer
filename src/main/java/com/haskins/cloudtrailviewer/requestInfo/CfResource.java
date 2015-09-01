@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.table.resource;
+package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 
@@ -26,6 +26,8 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class CfResource extends AbstractRequest implements Request {
 
+    private static final String CLOUDFORMATION_STACK = "CloudFormation Stack";
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -74,6 +76,6 @@ public class CfResource extends AbstractRequest implements Request {
     }
     
     private void getStackName(Event event, RequestInfo resources) {
-        getTopLevelResource("Stack Name", "stackName", event, resources);
+        getTopLevelResource(CLOUDFORMATION_STACK, "stackName", event, resources);
     }
 }

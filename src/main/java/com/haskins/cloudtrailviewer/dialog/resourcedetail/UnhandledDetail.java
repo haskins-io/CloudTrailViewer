@@ -26,8 +26,8 @@ import javax.swing.JPanel;
 public class UnhandledDetail extends JPanel implements ResourceDetail {
 
     @Override
-    public boolean retrieveDetails(AwsAccount awsAccount, String resourceName) {
-        return true;
+    public String retrieveDetails(AwsAccount awsAccount, String resourceName) {
+        return null;
     }
     
     @Override

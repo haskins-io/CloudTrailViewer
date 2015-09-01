@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.table.resource;
+package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.LinkedHashMap;
@@ -29,6 +29,11 @@ import java.util.Map;
  */
 public class Ec2Resource extends AbstractRequest implements Request {
 
+    public static final String EC2_INSTANCE = "EC2 Instance";
+    
+    private static final String SECURITY_GROUP_NAME = "Security Group Name";
+    private static final String SECURITY_GROUP_ID = "Security Group ID";
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -103,17 +108,17 @@ public class Ec2Resource extends AbstractRequest implements Request {
     private void attachVolume(Event event, RequestInfo resources) {
         getTopLevelResource("Volume Id", "volumeId", event, resources);
         
-        getTopLevelParameter("EC2 Instance", "instanceId", event, resources);
+        getTopLevelParameter(EC2_INSTANCE, "instanceId", event, resources);
         getTopLevelParameter("Device", "device", event, resources);
         getTopLevelParameter("Delete on Terminate  ", "deleteOnTermination", event, resources);
     }
     
     private void authoriseSGEgress(Event event, RequestInfo resources) {
-        getTopLevelResource("SG Group", "groupId", event, resources);
+        getTopLevelResource(SECURITY_GROUP_ID, "groupId", event, resources);
     }
     
     private void authoriseSGIngress(Event event, RequestInfo resources) {
-        getTopLevelResource("SG Group", "groupId", event, resources);
+        getTopLevelResource(SECURITY_GROUP_ID, "groupId", event, resources);
     }
     
     private void createKeyPair(Event event, RequestInfo resources) {
@@ -121,7 +126,7 @@ public class Ec2Resource extends AbstractRequest implements Request {
     }
     
     private void createSecurityGroup(Event event, RequestInfo resources) {
-        getTopLevelResource("Group Name", "groupName", event, resources);
+        getTopLevelResource(SECURITY_GROUP_NAME, "groupName", event, resources);
         getTopLevelResource("Group Description", "groupDescription", event, resources);
     }
     
@@ -130,11 +135,11 @@ public class Ec2Resource extends AbstractRequest implements Request {
     }
     
     private void deleteSecurityGroup(Event event, RequestInfo resources) {
-        getTopLevelResource("SG Group", "groupId", event, resources);
+        getTopLevelResource(SECURITY_GROUP_ID, "groupId", event, resources);
     }
     
     private void describeInstanceAttribute(Event event, RequestInfo resources) {
-        getTopLevelResource("Instance Id", "instanceId", event, resources);
+        getTopLevelResource(EC2_INSTANCE, "instanceId", event, resources);
     }
     
     private void describeVolumeAttributes(Event event, RequestInfo resources) {
@@ -150,11 +155,11 @@ public class Ec2Resource extends AbstractRequest implements Request {
     }
     
     private void revokeSGEgress(Event event, RequestInfo resources) {
-        getTopLevelResource("SG Group", "groupId", event, resources);
+        getTopLevelResource(SECURITY_GROUP_ID, "groupId", event, resources);
     }
     
     private void revokeSGIngress(Event event, RequestInfo resources) {
-        getTopLevelResource("SG Group", "groupId", event, resources);
+        getTopLevelResource(SECURITY_GROUP_ID, "groupId", event, resources);
     }
     
     private void createTags(Event event, RequestInfo resources) {
@@ -167,7 +172,7 @@ public class Ec2Resource extends AbstractRequest implements Request {
                 List<Map> items = (List)resourceSet.get("items");
                 if (items != null) {
                     for (Map instance : items) {
-                        resources.addResource("EC2 Instance", (String)instance.get("resourceId"));
+                        resources.addResource(EC2_INSTANCE, (String)instance.get("resourceId"));
                     } 
                 }
             }
@@ -188,7 +193,7 @@ public class Ec2Resource extends AbstractRequest implements Request {
                 List<Map> items = (List)resourceSet.get("items");
                 if (items != null) {
                     for (Map instance : items) {
-                        resources.addResource("EC2 Instance", (String)instance.get("instanceId"));
+                        resources.addResource(EC2_INSTANCE, (String)instance.get("instanceId"));
                     } 
                 }
             }
@@ -225,7 +230,7 @@ public class Ec2Resource extends AbstractRequest implements Request {
                 List<Map> items = (List)resourceSet.get("items");
                 if (items != null) {
                     for (Map instance : items) {
-                        resources.addResource("EC2 Instance", (String)instance.get("instanceId"));
+                        resources.addResource(EC2_INSTANCE, (String)instance.get("instanceId"));
                     } 
                 }
             }
@@ -242,7 +247,7 @@ public class Ec2Resource extends AbstractRequest implements Request {
                 List<Map> items = (List)resourceSet.get("items");
                 if (items != null) {
                     for (Map instance : items) {
-                        resources.addResource("EC2 Instance", (String)instance.get("instanceId"));
+                        resources.addResource(EC2_INSTANCE, (String)instance.get("instanceId"));
                     } 
                 }
             }
@@ -259,7 +264,7 @@ public class Ec2Resource extends AbstractRequest implements Request {
                 List<Map> items = (List)resourceSet.get("items");
                 if (items != null) {
                     for (Map instance : items) {
-                        resources.addResource("EC2 Instance", (String)instance.get("instanceId"));
+                        resources.addResource(EC2_INSTANCE, (String)instance.get("instanceId"));
                     } 
                 }
             }

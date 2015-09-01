@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.table.resource;
+package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.List;
@@ -28,6 +28,9 @@ import java.util.Map;
  */
 public class AsResource extends AbstractRequest implements Request {
 
+    public static final String AUTO_SCALING_GROUP = "AutoScaling Group";
+    private static final String LAUNCH_CONFIGURATION = "Launch Configuration";
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -82,15 +85,15 @@ public class AsResource extends AbstractRequest implements Request {
     }
     
     private void createAutoScalingGroup(Event event, RequestInfo resources) {
-        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        getTopLevelResource(AUTO_SCALING_GROUP, "autoScalingGroupName", event, resources);
     }
     
     private void createLaunchConfiguration(Event event, RequestInfo resources) {
-        getTopLevelResource("Launch Configuration", "launchConfigurationName", event, resources);
+        getTopLevelResource(LAUNCH_CONFIGURATION, "launchConfigurationName", event, resources);
     }
     
     private void deleteAutoScalingGroup(Event event, RequestInfo resources) {
-        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        getTopLevelResource(AUTO_SCALING_GROUP, "autoScalingGroupName", event, resources);
     }
         
     private void deletePolicy(Event event, RequestInfo resources) {
@@ -98,27 +101,27 @@ public class AsResource extends AbstractRequest implements Request {
     }
     
     private void describeScheduledActions(Event event, RequestInfo resources) {
-        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        getTopLevelResource(AUTO_SCALING_GROUP, "autoScalingGroupName", event, resources);
     }
     
     private void putScalingPolicy(Event event, RequestInfo resources) {
-        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        getTopLevelResource(AUTO_SCALING_GROUP, "autoScalingGroupName", event, resources);
         getTopLevelResource("Policy", "policyName", event, resources);
     }
     
     private void setDesiredCapacity(Event event, RequestInfo resources) {
-        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        getTopLevelResource(AUTO_SCALING_GROUP, "autoScalingGroupName", event, resources);
         
         getTopLevelParameter("Desired Capacity", "desiredCapacity", event, resources);
         getTopLevelParameter("Honour Cooldown", "honorCooldown", event, resources);
     }
     
     private void terminateInstanceInAutoScalingGroup(Event event, RequestInfo resources) {
-        getTopLevelResource("EC2 Instance", "instanceId", event, resources);
+        getTopLevelResource(Ec2Resource.EC2_INSTANCE, "instanceId", event, resources);
     }
     
     private void resolveDescribeScalingActivities(Event event, RequestInfo resources) {
-        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        getTopLevelResource(AUTO_SCALING_GROUP, "autoScalingGroupName", event, resources);
     }
     
     private void resolveDescribeAutoScalingGroups(Event event, RequestInfo resources) {
@@ -128,27 +131,27 @@ public class AsResource extends AbstractRequest implements Request {
             
             List<String> groups = (List)requestParameters.get("autoScalingGroupNames");
             for (String group : groups) {
-                resources.addResource("AS Group", group);
+                resources.addResource(AUTO_SCALING_GROUP, group);
             }
         }
     }
     
     private void resumeProcesses(Event event, RequestInfo resources) {
-        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        getTopLevelResource(AUTO_SCALING_GROUP, "autoScalingGroupName", event, resources);
     }
     
     private void suspendProcesses(Event event, RequestInfo resources) {
-        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        getTopLevelResource(AUTO_SCALING_GROUP, "autoScalingGroupName", event, resources);
         
         getTopLevelParameter("Scaling Processes", "scalingProcesses", event, resources);
     }
     
     private void deleteLaunchConfiguration(Event event, RequestInfo resources) {
-        getTopLevelResource("Launch Configuration", "launchConfigurationName", event, resources);
+        getTopLevelResource(LAUNCH_CONFIGURATION, "launchConfigurationName", event, resources);
     }
     
     private void updateAutoScalingGroup(Event event, RequestInfo resources) {
-        getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        getTopLevelResource(AUTO_SCALING_GROUP, "autoScalingGroupName", event, resources);
         
         getTopLevelParameter("Min Size", "minSize", event, resources);
         getTopLevelParameter("Default Cool Down", "defaultCooldown", event, resources);

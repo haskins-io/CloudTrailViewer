@@ -44,9 +44,9 @@ public class EC2Detail extends JPanel implements ResourceDetail {
     protected final DefaultTableModel tagsTableModel = new DefaultTableModel();
     
     @Override
-    public boolean retrieveDetails(AwsAccount awsAccount, String resourceName) {
-        
-        boolean sucessfullyRetrievedData;
+    public String retrieveDetails(AwsAccount awsAccount, String resourceName) {
+       
+        String response = null;
         
         try {
             
@@ -63,13 +63,11 @@ public class EC2Detail extends JPanel implements ResourceDetail {
             DescribeInstancesResult result = ec2Client.describeInstances(request);
             buildUI(result); 
             
-            sucessfullyRetrievedData = true;
-            
         } catch (Exception e) {
-            sucessfullyRetrievedData = false;
+            response = e.getMessage();
         }
 
-        return sucessfullyRetrievedData;
+        return response;
     }
     
     @Override

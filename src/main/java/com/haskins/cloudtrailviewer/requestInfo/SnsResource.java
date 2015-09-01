@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.table.resource;
+package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 
@@ -26,6 +26,8 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class SnsResource extends AbstractRequest implements Request {
 
+    private static final String TOPIC = "Topic";
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -59,7 +61,7 @@ public class SnsResource extends AbstractRequest implements Request {
             deleteTopic(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("DeleteEndpoint")) {
-            deleteTopic(event, resources);
+            deleteEndpoint(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("CreateTopic")) {
             createTopic(event, resources);
@@ -68,7 +70,7 @@ public class SnsResource extends AbstractRequest implements Request {
     }
     
     private void createTopic(Event event, RequestInfo resources) {
-        getTopLevelResource("Topic", "name", event, resources);
+        getTopLevelResource(TOPIC, "name", event, resources);
     }
 
     private void deleteEndpoint(Event event, RequestInfo resources) {
@@ -76,7 +78,7 @@ public class SnsResource extends AbstractRequest implements Request {
     }
     
     private void deleteTopic(Event event, RequestInfo resources) {
-        getTopLevelResource("Topic", "topicArn", event, resources);
+        getTopLevelResource(TOPIC, "topicArn", event, resources);
     }
     
     private void getSubscriptionAttributes(Event event, RequestInfo resources) {
@@ -84,11 +86,11 @@ public class SnsResource extends AbstractRequest implements Request {
     }
     
     private void getTopicAttributes(Event event, RequestInfo resources) {
-        getTopLevelResource("Topic", "topicArn", event, resources);
+        getTopLevelResource(TOPIC, "topicArn", event, resources);
     }
     
     private void listSubscriptionsByTopic(Event event, RequestInfo resources) {
-        getTopLevelResource("Topic", "topicArn", event, resources);
+        getTopLevelResource(TOPIC, "topicArn", event, resources);
     }
     
     private void setSubscriptionAttributes(Event event, RequestInfo resources) {
@@ -99,14 +101,14 @@ public class SnsResource extends AbstractRequest implements Request {
     }
     
     private void setTopicAttributes(Event event, RequestInfo resources) {
-        getTopLevelResource("Topic", "topicArn", event, resources);
+        getTopLevelResource(TOPIC, "topicArn", event, resources);
         
         getTopLevelParameter("Attribute Name", "attributeName", event, resources);
         getTopLevelParameter("Attribute Value", "attributeValue", event, resources);
     }
     
     private void subscribe(Event event, RequestInfo resources) {
-        getTopLevelResource("Topic", "topicArn", event, resources);
+        getTopLevelResource(TOPIC, "topicArn", event, resources);
         
         getTopLevelParameter("Protocol", "protocol", event, resources);
         getTopLevelParameter("Endpoint", "endpoint", event, resources);

@@ -81,6 +81,8 @@ import javax.swing.plaf.LabelUI;
  */
 public class S3FileChooser extends JDialog implements ActionListener, NavigationListener {
 
+    private static boolean aws_exception = false;
+    
     private static final String MOVE_BACK = "..";
 
     private static S3FileChooser dialog;
@@ -117,7 +119,11 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
 
         Frame frame = JOptionPane.getFrameForComponent(parent);
         dialog = new S3FileChooser(frame);
-        dialog.setVisible(true);
+        
+        if (!aws_exception) {
+            dialog.setVisible(true);
+        }
+        
 
         return selectedKeys;
     }
@@ -203,7 +209,7 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
             AwsAccount account = new AwsAccount(
                     (Integer) row.get("id"),
                     name,
-                    (String) row.get("aws_acct_num"),
+                    (String) row.get("aws_acct"),
                     (String) row.get("aws_bucket"),
                     (String) row.get("aws_key"),
                     (String) row.get("aws_secret"),
@@ -435,9 +441,12 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
             this.revalidate();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(CloudTrailViewer.frame,
-                    e.getMessage(),
-                    "AWS Error",
-                    JOptionPane.ERROR_MESSAGE);
+                e.getMessage(),
+                "AWS Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+            
+            aws_exception = true;
         }
     }
 

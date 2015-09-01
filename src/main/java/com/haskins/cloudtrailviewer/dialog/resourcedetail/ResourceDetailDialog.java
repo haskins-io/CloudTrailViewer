@@ -16,7 +16,11 @@
  */
 package com.haskins.cloudtrailviewer.dialog.resourcedetail;
 
+import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
+import com.haskins.cloudtrailviewer.requestInfo.AsResource;
+import com.haskins.cloudtrailviewer.requestInfo.Ec2Resource;
+import com.haskins.cloudtrailviewer.requestInfo.ElbResoure;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -33,18 +37,23 @@ import javax.swing.JOptionPane;
  */
 public class ResourceDetailDialog extends JDialog {
     
+    private static boolean exceptionThrown = false;
+    
     private static ResourceDetailDialog dialog;
     
     public static List<String> handledResourceTypes = Arrays.asList(
-            "Elastic LoadBalancer",
-            "AutoScaling Group",
-            "EC2 Instance"
+            ElbResoure.ELB_NAME,
+            AsResource.AUTO_SCALING_GROUP,
+            Ec2Resource.EC2_INSTANCE
     );
     
     public static void showDialog(Component parent, String resourceType, String resourceName, AwsAccount awsAccount) {
         Frame frame = JOptionPane.getFrameForComponent(parent);
         dialog = new ResourceDetailDialog(frame, resourceType, resourceName, awsAccount);
-        dialog.setVisible(true);
+        
+        if(!exceptionThrown) {
+            dialog.setVisible(true);
+        }
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -59,17 +68,25 @@ public class ResourceDetailDialog extends JDialog {
         this.setPreferredSize(new Dimension(800,600));
         
         ResourceDetail detail;
-        if (resourceType.equalsIgnoreCase("EC2 Instance")) {
+        if (resourceType.equalsIgnoreCase(Ec2Resource.EC2_INSTANCE)) {
             detail = new EC2Detail();
         } else {
             detail = new UnhandledDetail();
         }
         
         Container contentPane = getContentPane();
-        if (detail.retrieveDetails(awsAccount, resourceName)) {
+        String response = detail.retrieveDetails(awsAccount, resourceName);
+        
+        if (response == null) {
             contentPane.add(detail.getPanel());
         } else {
-            contentPane.add(new DetailError(), BorderLayout.CENTER);
+                JOptionPane.showMessageDialog(CloudTrailViewer.frame,
+                response,
+                "AWS Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+                
+            exceptionThrown = true;
         }
         
         pack();

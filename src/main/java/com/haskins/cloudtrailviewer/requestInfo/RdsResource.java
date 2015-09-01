@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.table.resource;
+package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 
@@ -26,6 +26,8 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class RdsResource extends AbstractRequest implements Request {
 
+    private static final String RDS_INSTANCE = "RDS Instance";
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -62,7 +64,7 @@ public class RdsResource extends AbstractRequest implements Request {
     }
     
     private void createDbInstance (Event event, RequestInfo resources) {
-        getTopLevelResource("RDS Instance", "dBInstanceIdentifier", event, resources);
+        getTopLevelResource(RDS_INSTANCE, "dBInstanceIdentifier", event, resources);
     }
     
     private void createDBParameterGroup(Event event, RequestInfo resources) {
@@ -70,7 +72,7 @@ public class RdsResource extends AbstractRequest implements Request {
     }
     
     private void deleteDbInstance (Event event, RequestInfo resources) {
-        getTopLevelResource("RDS Instance", "dBInstanceIdentifier", event, resources);
+        getTopLevelResource(RDS_INSTANCE, "dBInstanceIdentifier", event, resources);
     }
 
     private void describeDBParameters(Event event, RequestInfo resources) {
@@ -86,10 +88,10 @@ public class RdsResource extends AbstractRequest implements Request {
     }
     
     private void modifyDbInstance (Event event, RequestInfo resources) {
-        getTopLevelResource("RDS Instance", "dBInstanceIdentifier", event, resources);
+        getTopLevelResource(RDS_INSTANCE, "dBInstanceIdentifier", event, resources);
     }
     
     private void rebootDbInstance (Event event, RequestInfo resources) {
-        getTopLevelResource("RDS Instance", "dBInstanceIdentifier", event, resources);
+        getTopLevelResource(RDS_INSTANCE, "dBInstanceIdentifier", event, resources);
     }
 }

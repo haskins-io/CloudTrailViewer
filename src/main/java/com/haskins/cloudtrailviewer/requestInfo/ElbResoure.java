@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.table.resource;
+package com.haskins.cloudtrailviewer.requestInfo;
 
 
 import com.haskins.cloudtrailviewer.model.event.Event;
@@ -30,6 +30,8 @@ import java.util.Map;
  */
 public class ElbResoure extends AbstractRequest implements Request {
 
+    public static final String ELB_NAME = "Elastic LoadBalancer";
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -81,38 +83,38 @@ public class ElbResoure extends AbstractRequest implements Request {
     }
     
     private void configureHealthCheck(Event event, RequestInfo resources) {
-        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+        getTopLevelResource(ELB_NAME, "loadBalancerName", event, resources); 
     }
     
     private void createLoadBalancer(Event event, RequestInfo resources) {
-        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+        getTopLevelResource(ELB_NAME, "loadBalancerName", event, resources); 
     }
     
     private void createLBPolicy(Event event, RequestInfo resources) {
-        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+        getTopLevelResource(ELB_NAME, "loadBalancerName", event, resources); 
     }
     
     private void describeLoadBalancerAttributes(Event event, RequestInfo resources) {
-        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+        getTopLevelResource(ELB_NAME, "loadBalancerName", event, resources); 
     }
     
     private void describeLoadBalancerProperties(Event event, RequestInfo resources) {
-        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+        getTopLevelResource(ELB_NAME, "loadBalancerName", event, resources); 
     }
     
     private void rebuildEnvironment(Event event, RequestInfo resources) {
-        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+        getTopLevelResource(ELB_NAME, "loadBalancerName", event, resources); 
     }
     
     private void setPoliciesOfListener(Event event, RequestInfo resources) {
-        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+        getTopLevelResource(ELB_NAME, "loadBalancerName", event, resources); 
         
         getTopLevelParameter("Policy", "policyNames", event, resources);
         getTopLevelParameter("ELB Port", "loadBalancerPort", event, resources);
     }
     
     private void describeInstanceHealth(Event event, RequestInfo resources) {
-        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+        getTopLevelResource(ELB_NAME, "loadBalancerName", event, resources); 
     }
     
     private void describeLoadBalancers(Event event, RequestInfo resources) {
@@ -121,17 +123,17 @@ public class ElbResoure extends AbstractRequest implements Request {
             
             List<String> elbNames = (List)requestParameters.get("loadBalancerNames");
             for (String name : elbNames) {
-                resources.addResource("ELB Name", name);
+                resources.addResource(ELB_NAME, name);
             } 
         }
     }
     
     private void deleteLoadBalancer(Event event, RequestInfo resources) {
-        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+        getTopLevelResource(ELB_NAME, "loadBalancerName", event, resources); 
     }
     
     private void modifyLoadBalancerAttributes(Event event, RequestInfo resources) {
-        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+        getTopLevelResource(ELB_NAME, "loadBalancerName", event, resources); 
     }
         
     private void de_registerInstancesWithLoadBalancer(Event event, RequestInfo resources) {
@@ -139,7 +141,7 @@ public class ElbResoure extends AbstractRequest implements Request {
         Map requestParameters = event.getRequestParameters();
         
         // load Balancer name
-        getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+        getTopLevelResource(ELB_NAME, "loadBalancerName", event, resources); 
         
         // instances
         if (requestParameters != null && requestParameters.containsKey("instances")) {
@@ -147,7 +149,7 @@ public class ElbResoure extends AbstractRequest implements Request {
             List<LinkedHashMap> instances = (List)requestParameters.get("instances");
             if (instances != null) {
                 for (Map instance : instances) {
-                    resources.addResource("EC2 Instance", (String)instance.get("instanceId"));
+                    resources.addResource(Ec2Resource.EC2_INSTANCE, (String)instance.get("instanceId"));
                 } 
             }
         }

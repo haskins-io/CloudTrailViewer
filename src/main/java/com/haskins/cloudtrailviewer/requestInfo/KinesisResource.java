@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.table.resource;
+package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 
@@ -22,8 +22,10 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  *
  * @author mark
  */
-public class SwfResource extends AbstractRequest implements Request {
+public class KinesisResource extends AbstractRequest implements Request {
 
+    private static final String STREAM = "Stream";
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -32,20 +34,27 @@ public class SwfResource extends AbstractRequest implements Request {
     @Override
     public void populateRequestInfo(Event event, RequestInfo resources) {
         
-        if (event.getEventName().equalsIgnoreCase("RegisterActivityType")) {
-            registerActivityType(event, resources);
+        if (event.getEventName().equalsIgnoreCase("DescribeStream")) {
+            describeStream(event, resources);
             
-        } else if (event.getEventName().equalsIgnoreCase("DeprecateDomain")) {
-            deprecateDomain(event, resources);
+        } else if (event.getEventName().equalsIgnoreCase("DeleteStream")) {
+            deleteStream(event, resources);
             
+        } else if (event.getEventName().equalsIgnoreCase("CreateStream")) {
+            createStream(event, resources);
         }
     }
     
-    private void deprecateDomain(Event event, RequestInfo resources) {
-        getTopLevelResource("Domain", "name", event, resources);
+    private void createStream(Event event, RequestInfo resources) {
+        getTopLevelResource(STREAM, "streamName", event, resources); 
     }
     
-    private void registerActivityType(Event event, RequestInfo resources) {
-        getTopLevelResource("Domain", "domain", event, resources);
+    private void deleteStream(Event event, RequestInfo resources) {
+        getTopLevelResource(STREAM, "streamName", event, resources); 
     }
+    
+    private void describeStream(Event event, RequestInfo resources) {
+        getTopLevelResource(STREAM, "streamName", event, resources); 
+    }
+    
 }

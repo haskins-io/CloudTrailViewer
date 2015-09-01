@@ -16,21 +16,32 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.table.resource;
+package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 
 /**
- * All Resource classes should implement this
- * 
+ *
  * @author mark
  */
-public interface Request {
+public class CsResource extends AbstractRequest implements Request {
+
+    private static final String CLOUDSEARCH_DOMAIN = "CloudSearch Domain";
     
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
-     * @param requestInfo 
+     * @param resources 
      */
-    public void populateRequestInfo(Event event, RequestInfo requestInfo);
+    @Override
+    public void populateRequestInfo(Event event, RequestInfo resources) {
+                
+        if (event.getEventName().equalsIgnoreCase("DescribeIndexFields")) {
+            describeIndexFields(event, resources);
+        }
+    }
+    
+    private void describeIndexFields(Event event, RequestInfo resources) {
+        getTopLevelResource(CLOUDSEARCH_DOMAIN, "domainName", event, resources);
+    }
 }

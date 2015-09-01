@@ -25,7 +25,7 @@ import javax.swing.JPanel;
  */
 public interface ResourceDetail {
  
-    public boolean retrieveDetails(AwsAccount awsAccount, String resourceName);
+    public String retrieveDetails(AwsAccount awsAccount, String resourceName);
     
     public JPanel getPanel();
 }

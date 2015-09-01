@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.table.resource;
+package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 
@@ -24,6 +24,9 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class SqsResource extends AbstractRequest implements Request {
 
+    private static final String QUEUE_NAME = "Queue Name";
+    private static final String QUEUE_URL = "Queue Url";
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -48,18 +51,18 @@ public class SqsResource extends AbstractRequest implements Request {
     }
     
     private void createQueue(Event event, RequestInfo resources) {
-        getTopLevelResource("Queue", "queueName", event, resources);
+        getTopLevelResource(QUEUE_NAME, "queueName", event, resources);
     }
     
     private void deleteQueue(Event event, RequestInfo resources) {
-        getTopLevelResource("Queue", "queueUrl", event, resources);
+        getTopLevelResource(QUEUE_URL, "queueUrl", event, resources);
     }
     
     private void purgeQueue(Event event, RequestInfo resources) {
-        getTopLevelResource("Queue", "queueUrl", event, resources);
+        getTopLevelResource(QUEUE_URL, "queueUrl", event, resources);
     }
     
     private void setQueueAttributes(Event event, RequestInfo resources) {
-        getTopLevelResource("Queue", "queueUrl", event, resources);
+        getTopLevelResource(QUEUE_URL, "queueUrl", event, resources);
     }
 }
