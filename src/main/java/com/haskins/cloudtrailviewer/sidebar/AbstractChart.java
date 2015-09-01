@@ -17,10 +17,8 @@
  */
 package com.haskins.cloudtrailviewer.sidebar;
 
-import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
-import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailDialog;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.ChartFactory;
 import java.awt.BorderLayout;
@@ -233,9 +231,9 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
                 
                 if (me.getClickCount() == 2) {
                     
-                    if (value.startsWith("i-")) {
-                        ResourceDetailDialog.showDialog(CloudTrailViewer.frame, "EC2 Instance", value, null);
-                    }
+//                    if (value.startsWith("i-")) {
+//                        ResourceDetailDialog.showDialog(CloudTrailViewer.frame, "EC2 Instance", value, null);
+//                    }
                     
                 } else if (me.getClickCount() == 1) {
                     
