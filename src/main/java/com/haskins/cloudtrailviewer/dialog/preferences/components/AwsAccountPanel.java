@@ -141,8 +141,8 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
                 
                 StringBuilder query = new StringBuilder();
                 query.append("INSERT INTO aws_credentials");
-                
                 query.append(" (aws_name, ");
+                
                 if (account.getAcctNumber() != null && account.getAcctNumber().length() > 0) {
                     query.append(" aws_acct, ");
                 }
@@ -156,7 +156,7 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
                 query.append("'").append(account.getName()).append("'").append(",");
                 
                 if (account.getAcctNumber() != null && account.getAcctNumber().length() > 0) {
-                    query.append(account.getAcctNumber()).append(",");
+                    query.append("'").append(account.getAcctNumber()).append("',");
                 }
                 
                 if (account.getBucket() != null && account.getBucket().length() > 0) {
@@ -202,7 +202,7 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
             account = new AwsAccount(
                 (Integer)row.get("id"),
                 (String)row.get("aws_name"), 
-                (String)row.get("aws_acct_num"),     
+                (String)row.get("aws_acct"),     
                 (String)row.get("aws_bucket"), 
                 (String)row.get("aws_key"), 
                 (String)row.get("aws_secret"), 
@@ -224,7 +224,7 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
                 }
                 
                 if (updatedAccount.getAcctNumber()!= null && updatedAccount.getAcctNumber().length() > 0) {
-                    updateQuery.append(" aws_acct_num = ").append(updatedAccount.getAcctNumber()).append(",");
+                    updateQuery.append(" aws_acct = '").append(updatedAccount.getAcctNumber()).append("',");
                 }
                 
                 updateQuery.append(" aws_key = '").append(updatedAccount.getKey()).append("',");
