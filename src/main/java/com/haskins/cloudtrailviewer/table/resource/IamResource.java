@@ -22,7 +22,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  *
  * @author mark
  */
-public class IamResource extends AbstractResource implements Resource {
+public class IamResource extends AbstractRequest implements Request {
 
     /**
      * Return the resource for the passed Event
@@ -30,7 +30,7 @@ public class IamResource extends AbstractResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, RequestInfo resources) {
+    public void populateRequestInfo(Event event, RequestInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("UploadServerCertificate")) {
             uploadServerCertificate(event, resources);
@@ -145,7 +145,7 @@ public class IamResource extends AbstractResource implements Resource {
     
     private void addUserToGroup(Event event, RequestInfo resources) {
         getTopLevelResource("Group", "groupName", event, resources); 
-        getTopLevelResource("User", "userName", event, resources); 
+        getTopLevelParameter("User", "userName", event, resources); 
     }
     
     private void assumeRole(Event event, RequestInfo resources) {
@@ -182,13 +182,13 @@ public class IamResource extends AbstractResource implements Resource {
     }
     
     private void deleteRolePolicy(Event event, RequestInfo resources) {
-        getTopLevelResource("Policy", "policyName", event, resources); 
+        getTopLevelParameter("Policy", "policyName", event, resources); 
         getTopLevelResource("Role", "roleName", event, resources); 
     }
     
     private void addRoleToInstanceProfile(Event event, RequestInfo resources) {
         getTopLevelResource("Instance Profile", "instanceProfileName", event, resources);
-        getTopLevelResource("Role", "roleName", event, resources);
+        getTopLevelParameter("Role", "roleName", event, resources);
     }
     
     private void getGroup(Event event, RequestInfo resources) {
@@ -196,7 +196,7 @@ public class IamResource extends AbstractResource implements Resource {
     }
     
     private void getGroupPolicy(Event event, RequestInfo resources) {
-        getTopLevelResource("Policy", "policyName", event, resources); 
+        getTopLevelParameter("Policy", "policyName", event, resources); 
         getTopLevelResource("Group", "groupName", event, resources); 
     }
     
@@ -209,7 +209,7 @@ public class IamResource extends AbstractResource implements Resource {
     }
     
     private void getRolePolicy(Event event, RequestInfo resources) {
-        getTopLevelResource("Policy", "policyName", event, resources); 
+        getTopLevelParameter("Policy", "policyName", event, resources); 
         getTopLevelResource("Role", "roleName", event, resources); 
     }
     
@@ -218,7 +218,7 @@ public class IamResource extends AbstractResource implements Resource {
     }
     
     private void getUserPolicy(Event event, RequestInfo resources) {
-        getTopLevelResource("Policy", "policyName", event, resources); 
+        getTopLevelParameter("Policy", "policyName", event, resources); 
         getTopLevelResource("User", "userName", event, resources); 
     }
     
@@ -264,26 +264,31 @@ public class IamResource extends AbstractResource implements Resource {
     
     private void putRolePolicy(Event event, RequestInfo resources) {
         getTopLevelResource("Role", "roleName", event, resources);
-        getTopLevelResource("Policy", "policyName", event, resources);
+        getTopLevelParameter("Policy", "policyName", event, resources);
     }
     
     private void putUserPolicy(Event event, RequestInfo resources) {
-        getTopLevelResource("Policy", "policyName", event, resources); 
+        getTopLevelParameter("Policy", "policyName", event, resources); 
         getTopLevelResource("User", "userName", event, resources); 
     }
     
     private void removeRoleFromInstaceProfile(Event event, RequestInfo resources) {
-        getTopLevelResource("Role", "roleName", event, resources); 
         getTopLevelResource("Instance Profile", "instanceProfileName", event, resources); 
+        
+        getTopLevelParameter("Role", "roleName", event, resources); 
     }
     
     private void removeUserFromGroup(Event event, RequestInfo resources) {
         getTopLevelResource("Group", "groupName", event, resources); 
-        getTopLevelResource("User", "userName", event, resources); 
+        
+        getTopLevelParameter("User", "userName", event, resources); 
     }
     
     private void uploadServerCertificate(Event event, RequestInfo resources) {
         getTopLevelResource("Certificate", "serverCertificateName", event, resources); 
+        
+        getTopLevelParameter("Certificate Body", "certificateBody", event, resources);
+        getTopLevelParameter("Certificate Chain", "certificateChain", event, resources);
     }
     
     private void updateServceCertificate(Event event, RequestInfo resources) {
@@ -293,9 +298,14 @@ public class IamResource extends AbstractResource implements Resource {
     
     private void updateAssumeRole(Event event, RequestInfo resources) {
         getTopLevelResource("Role", "roleName", event, resources); 
+        
+        getTopLevelParameter("Policy", "policyDocument", event, resources);
     }
     
     private void updateAccessKey(Event event, RequestInfo resources) {
         getTopLevelResource("User", "userName", event, resources); 
+        
+        getTopLevelParameter("Status", "status", event, resources);
+        getTopLevelParameter("Access Key", "accessKeyId", event, resources);
     }
 }

@@ -24,7 +24,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  *
  * @author mark
  */
-public class CsResource extends AbstractResource implements Resource {
+public class CsResource extends AbstractRequest implements Request {
 
     /**
      * Return the resource for the passed Event
@@ -32,7 +32,7 @@ public class CsResource extends AbstractResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, RequestInfo resources) {
+    public void populateRequestInfo(Event event, RequestInfo resources) {
                 
         if (event.getEventName().equalsIgnoreCase("DescribeIndexFields")) {
             describeIndexFields(event, resources);

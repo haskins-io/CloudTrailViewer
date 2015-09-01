@@ -25,22 +25,42 @@ import java.util.Map;
  *
  * @author mark
  */
-public abstract class AbstractResource {
+public abstract class AbstractRequest {
     
-    protected void getTopLevelResource(String resourceName, String paramName, Event event, RequestInfo resources) {
+    protected void getTopLevelResource(String resourceName, String paramName, Event event, RequestInfo requestInfo) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey(paramName)) {
             
             Object paramValue = requestParameters.get(paramName);
             if (paramValue instanceof String) {
-                resources.addResource(resourceName, (String)requestParameters.get(paramName));
+                requestInfo.addResource(resourceName, (String)requestParameters.get(paramName));
                 
             } else if (paramValue instanceof ArrayList) {
                 
                 List<String> values = (ArrayList)paramValue;
                 for (String value : values) {
-                    resources.addResource(resourceName, value);
+                    requestInfo.addResource(resourceName, value);
+                }
+                
+            }
+        }
+    }
+    
+    protected void getTopLevelParameter(String resourceName, String paramName, Event event, RequestInfo requestInfo) {
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey(paramName)) {
+            
+            Object paramValue = requestParameters.get(paramName);
+            if (paramValue instanceof String) {
+                requestInfo.addParameter(resourceName, (String)requestParameters.get(paramName));
+                
+            } else if (paramValue instanceof ArrayList) {
+                
+                List<String> values = (ArrayList)paramValue;
+                for (String value : values) {
+                    requestInfo.addParameter(resourceName, value);
                 }
                 
             }

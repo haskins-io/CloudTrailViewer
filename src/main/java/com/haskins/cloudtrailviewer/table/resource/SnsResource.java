@@ -24,7 +24,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  *
  * @author mark
  */
-public class SnsResource extends AbstractResource implements Resource {
+public class SnsResource extends AbstractRequest implements Request {
 
     /**
      * Return the resource for the passed Event
@@ -32,7 +32,7 @@ public class SnsResource extends AbstractResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, RequestInfo resources) {
+    public void populateRequestInfo(Event event, RequestInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("Unsubscribe")) {
             unsubscribe(event, resources);
@@ -41,7 +41,7 @@ public class SnsResource extends AbstractResource implements Resource {
             subscribe(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("SetTopicAttributes")) {
-            setTopicAttribute(event, resources);
+            setTopicAttributes(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("SetSubscriptionAttributes")) {
             setSubscriptionAttributes(event, resources);
@@ -93,14 +93,23 @@ public class SnsResource extends AbstractResource implements Resource {
     
     private void setSubscriptionAttributes(Event event, RequestInfo resources) {
         getTopLevelResource("Subscription", "subscriptionArn", event, resources);
+        
+        getTopLevelParameter("Attribute Name", "attributeName", event, resources);
+        getTopLevelParameter("Attribute Name", "attributeName", event, resources);
     }
     
-    private void setTopicAttribute(Event event, RequestInfo resources) {
+    private void setTopicAttributes(Event event, RequestInfo resources) {
         getTopLevelResource("Topic", "topicArn", event, resources);
+        
+        getTopLevelParameter("Attribute Name", "attributeName", event, resources);
+        getTopLevelParameter("Attribute Value", "attributeValue", event, resources);
     }
     
     private void subscribe(Event event, RequestInfo resources) {
         getTopLevelResource("Topic", "topicArn", event, resources);
+        
+        getTopLevelParameter("Protocol", "protocol", event, resources);
+        getTopLevelParameter("Endpoint", "endpoint", event, resources);
     }
     
     private void unsubscribe(Event event, RequestInfo resources) {

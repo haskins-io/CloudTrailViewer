@@ -19,12 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.table.resource;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Map;
 
 /**
  *
  * @author mark.haskins
  */
-public class DbResource extends AbstractResource implements Resource {
+public class DbResource extends AbstractRequest implements Request {
 
     /**
      * Return the resource for the passed Event
@@ -32,7 +33,7 @@ public class DbResource extends AbstractResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, RequestInfo resources) {
+    public void populateRequestInfo(Event event, RequestInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeTable")) {
             describeTable(event, resources);
@@ -62,5 +63,21 @@ public class DbResource extends AbstractResource implements Resource {
     
     private void updateTable(Event event, RequestInfo resources) {
         getTopLevelResource("Table Name", "tableName", event, resources); 
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null && requestParameters.containsKey("provisionedThroughput")) {
+            
+            Map throughput = (Map)requestParameters.get("provisionedThroughput");
+            if (throughput != null) {
+                
+                if (throughput.containsKey("writeCapacityUnits")) {
+                    resources.addParameter("Write Capacity", (String)throughput.get("writeCapacityUnits"));
+                }
+                
+                if (throughput.containsKey("readCapacityUnits")) {
+                    resources.addParameter("Read Capacity", (String)throughput.get("readCapacityUnits"));
+                }
+            }
+        }
     }
 }

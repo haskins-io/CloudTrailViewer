@@ -28,7 +28,7 @@ import java.util.Map;
  *
  * @author mark
  */
-public class ElbResoure extends AbstractResource implements Resource {
+public class ElbResoure extends AbstractRequest implements Request {
 
     /**
      * Return the resource for the passed Event
@@ -36,7 +36,7 @@ public class ElbResoure extends AbstractResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, RequestInfo resources) {
+    public void populateRequestInfo(Event event, RequestInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeInstanceHealth")) {
             describeInstanceHealth(event, resources);
@@ -106,6 +106,9 @@ public class ElbResoure extends AbstractResource implements Resource {
     
     private void setPoliciesOfListener(Event event, RequestInfo resources) {
         getTopLevelResource("ELB Name", "loadBalancerName", event, resources); 
+        
+        getTopLevelParameter("Policy", "policyNames", event, resources);
+        getTopLevelParameter("ELB Port", "loadBalancerPort", event, resources);
     }
     
     private void describeInstanceHealth(Event event, RequestInfo resources) {

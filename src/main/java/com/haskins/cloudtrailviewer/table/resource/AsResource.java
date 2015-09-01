@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author mark
  */
-public class AsResource extends AbstractResource implements Resource {
+public class AsResource extends AbstractRequest implements Request {
 
     /**
      * Return the resource for the passed Event
@@ -34,7 +34,7 @@ public class AsResource extends AbstractResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, RequestInfo resources) {
+    public void populateRequestInfo(Event event, RequestInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeScalingActivities")) {
             resolveDescribeScalingActivities(event, resources);
@@ -108,6 +108,9 @@ public class AsResource extends AbstractResource implements Resource {
     
     private void setDesiredCapacity(Event event, RequestInfo resources) {
         getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        
+        getTopLevelParameter("Desired Capacity", "desiredCapacity", event, resources);
+        getTopLevelParameter("Honour Cooldown", "honorCooldown", event, resources);
     }
     
     private void terminateInstanceInAutoScalingGroup(Event event, RequestInfo resources) {
@@ -125,7 +128,7 @@ public class AsResource extends AbstractResource implements Resource {
             
             List<String> groups = (List)requestParameters.get("autoScalingGroupNames");
             for (String group : groups) {
-                resources.addResource("AS Group Name", group);
+                resources.addResource("AS Group", group);
             }
         }
     }
@@ -136,6 +139,8 @@ public class AsResource extends AbstractResource implements Resource {
     
     private void suspendProcesses(Event event, RequestInfo resources) {
         getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        
+        getTopLevelParameter("Scaling Processes", "scalingProcesses", event, resources);
     }
     
     private void deleteLaunchConfiguration(Event event, RequestInfo resources) {
@@ -144,5 +149,12 @@ public class AsResource extends AbstractResource implements Resource {
     
     private void updateAutoScalingGroup(Event event, RequestInfo resources) {
         getTopLevelResource("AS Group", "autoScalingGroupName", event, resources);
+        
+        getTopLevelParameter("Min Size", "minSize", event, resources);
+        getTopLevelParameter("Default Cool Down", "defaultCooldown", event, resources);
+        getTopLevelParameter("VPC Zone", "vPCZoneIdentifier", event, resources);
+        getTopLevelParameter("Max Size", "maxSize", event, resources);
+        getTopLevelParameter("Availability Zones", "availabilityZones", event, resources);
+        getTopLevelParameter("Launch configuration", "launchConfigurationName", event, resources);
     }
 }

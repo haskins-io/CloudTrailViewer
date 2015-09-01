@@ -46,6 +46,18 @@ public class RequestInfo {
         resources.add(name);
     }
     
+    public void addParameter(String type, String name) {
+        
+        List<String> parameters = parameterMap.get(type);
+        if (parameters == null) {
+            
+            parameters = new ArrayList();
+            parameterMap.put(type, parameters);
+        }
+        
+        parameters.add(name);
+    }
+    
     public String getResourceTypesAsString() {
         
         List<String> values = new ArrayList<>();

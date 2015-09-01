@@ -24,7 +24,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  *
  * @author mark
  */
-public class EbResource extends AbstractResource implements Resource {
+public class EbResource extends AbstractRequest implements Request {
 
     /**
      * Return the resource for the passed Event
@@ -32,61 +32,61 @@ public class EbResource extends AbstractResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, RequestInfo resources) {
+    public void populateRequestInfo(Event event, RequestInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeEvents")) {
-            describeEvents(event, resources);
+            populateEnvironmentId(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("DescribeEnvironmentResources")) {
-            describeEvironmentResources(event, resources);
+            populateEnvironmentId(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("DescribeConfigurationSettings")) {
             describeConfigurationSettings(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("DescribeApplicationVersions")) {
-            describeApplicationVersions(event, resources);
+            populateApplicationName(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("SwapEnvironmentCNAMEs")) {
             swapEnvironmentCnames(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("ValidateConfigurationSettings")) {
-            validateConfigurationSettings(event, resources);
+            populateApplicationName(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("UpdateEnvironment")) {
-            updateEnvironment(event, resources);
+            populateEnvironmentName(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("TerminateEnvironment")) {
-            terminateEnvironment(event, resources);
+            populateEnvironmentId(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("RetrieveEnvironmentInfo")) {
-            retrieveEnvironmentInfo(event, resources);
+            populateEnvironmentId(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("RestartAppServer")) {
-            restartAppServer(event, resources);
+            populateEnvironmentId(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("RequestEnvironmentInfo")) {
-            requestEnvironmentInfo(event, resources);
+            populateEnvironmentId(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("DescribeConfigurationOptions")) {
-            describeConfigurationOptions(event, resources);
+            populateEnvironmentId(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("DeleteApplicationVersion")) {
             deleteApplicationVersion(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("DeleteApplication")) {
-            deleteApplication(event, resources);
+            populateApplicationName(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("CreateStorageLocation")) {
             createStorageLocation(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("CreateEnvironment")) {
-            createEnvironment(event, resources);
+            populateEnvironmentName(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("CreateApplicationVersion")) {
             createApplicationVersion(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("CreateApplication")) {
-            createApplication(event, resources);
+            populateApplicationName(event, resources);
             
         } else if (event.getEventName().equalsIgnoreCase("CheckDNSAvailability")) {
             checkDnsAvailable(event, resources);
@@ -95,6 +95,20 @@ public class EbResource extends AbstractResource implements Resource {
             describeEnvironments(event, resources);
             
         }
+    }
+    
+    private void populateApplicationName(Event event, RequestInfo resources) {
+        getTopLevelResource("Application Name", "applicationName", event, resources);
+        
+        getTopLevelParameter("Description", "description", event, resources);
+    }
+    
+    private void populateEnvironmentName(Event event, RequestInfo resources) {
+        getTopLevelResource("Environment Name", "environmentName", event, resources);
+    }
+    
+    private void populateEnvironmentId(Event event, RequestInfo resources) {
+        getTopLevelResource("Environment ID", "environmentId", event, resources);
     }
     
     private void describeEnvironments(Event event, RequestInfo resources) {
@@ -106,79 +120,27 @@ public class EbResource extends AbstractResource implements Resource {
         getTopLevelResource("cName", "cNAMEPrefix", event, resources);
     }
     
-    private void createApplication(Event event, RequestInfo resources) {
-        getTopLevelResource("Application Name", "applicationName", event, resources);
-    }
-    
     private void createApplicationVersion(Event event, RequestInfo resources) {
         getTopLevelResource("Application Name", "applicationName", event, resources);
         getTopLevelResource("Vesion Label", "versionLabel", event, resources);
     }
     
-    private void createEnvironment(Event event, RequestInfo resources) {
-        getTopLevelResource("Environment Name", "environmentName", event, resources);
-    }
-    
     private void createStorageLocation(Event event, RequestInfo resources) {
         getTopLevelResource("S3 Bucket", "s3Bucket", event, resources);
     }
-    
-    private void deleteApplication(Event event, RequestInfo resources) {
-        getTopLevelResource("Application Name", "applicationName", event, resources);
-    }
-    
+
     private void deleteApplicationVersion(Event event, RequestInfo resources) {
         getTopLevelResource("Application Name", "applicationName", event, resources);
         getTopLevelResource("Vesion Label", "versionLabel", event, resources);
     }
-    
-    private void describeConfigurationOptions(Event event, RequestInfo resources) {
-        getTopLevelResource("Environment ID", "environmentId", event, resources);
-    }
-    
-    private void requestEnvironmentInfo(Event event, RequestInfo resources) {
-        getTopLevelResource("Environment ID", "environmentId", event, resources);
-    }
-    
-    private void restartAppServer(Event event, RequestInfo resources) {
-        getTopLevelResource("Environment ID", "environmentId", event, resources);
-    }
-    
-    private void retrieveEnvironmentInfo(Event event, RequestInfo resources) {
-        getTopLevelResource("Environment ID", "environmentId", event, resources);
-    }
-    
-    private void terminateEnvironment(Event event, RequestInfo resources) {
-        getTopLevelResource("Environment ID", "environmentId", event, resources);
-    }
-    
-    private void describeEvents(Event event, RequestInfo resources) {
-        getTopLevelResource("Environment ID", "environmentId", event, resources);
-    }
-    
-    private void describeEvironmentResources(Event event, RequestInfo resources) {
-        getTopLevelResource("Environment ID", "environmentId", event, resources);
-    }
-    
+   
     private void describeConfigurationSettings(Event event, RequestInfo resources) {
         getTopLevelResource("Environment Name", "environmentName", event, resources);
         getTopLevelResource("Application Name", "applicationName", event, resources);
     }
     
-    private void describeApplicationVersions(Event event, RequestInfo resources) {
-        getTopLevelResource("Application Name", "applicationName", event, resources);
-    }
-    
     private void swapEnvironmentCnames(Event event, RequestInfo resources) {
         getTopLevelResource("Environment Name", "destinationEnvironmentName", event, resources);
-        getTopLevelResource("Environment Name", "sourceEnvironmentName", event, resources);
-    }
-    
-    private void validateConfigurationSettings(Event event, RequestInfo resources) {
-        getTopLevelResource("Application Name", "applicationName", event, resources);
-    }
-    
-    private void updateEnvironment(Event event, RequestInfo resources) {
         getTopLevelResource("Environment Name", "sourceEnvironmentName", event, resources);
     }
 }

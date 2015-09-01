@@ -25,12 +25,12 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  * 
  * @author mark
  */
-public interface Resource {
+public interface Request {
     
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
-     * @param resources 
+     * @param requestInfo 
      */
-    public void getResource(Event event, RequestInfo resources);
+    public void populateRequestInfo(Event event, RequestInfo requestInfo);
 }

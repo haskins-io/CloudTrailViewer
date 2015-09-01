@@ -46,50 +46,55 @@ public class ResourceLookup {
         
         String source = event.getEventSource();
         
-        if (source.equalsIgnoreCase("autoscaling.amazonaws.com")) {
-            autoScaling.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("cloudformation.amazonaws.com")) {
-            cloudFormation.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("cloudsearch.amazonaws.com")) {
-            cloudSearch.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("elasticbeanstalk.amazonaws.com")) {
-            elasticBeanststalk.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("ec2.amazonaws.com")) {
-            cloudCompute.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("elasticloadbalancing.amazonaws.com")) {
-            loadBalancing.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("rds.amazonaws.com")) {
-            relationalDb.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("sns.amazonaws.com")) {
-            notificationService.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("dynamodb.amazonaws.com")) {
-            dynamoDb.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("iam.amazonaws.com")) {
-            iam.getResource(event, resources);
-            
-        }else if (source.equalsIgnoreCase("elasticache.amazonaws.com")) {
-            elasticCache.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("kinesis.amazonaws.com")) {
-            kinesis.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("kms.amazonaws.com")) {
-            kms.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("sqs.amazonaws.com")) {
-            simpleQueue.getResource(event, resources);
-            
-        } else if (source.equalsIgnoreCase("swf.amazonaws.com")) {
-            simpleWorkflow.getResource(event, resources);
+        try {
+            if (source.equalsIgnoreCase("autoscaling.amazonaws.com")) {
+                autoScaling.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("cloudformation.amazonaws.com")) {
+                cloudFormation.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("cloudsearch.amazonaws.com")) {
+                cloudSearch.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("elasticbeanstalk.amazonaws.com")) {
+                elasticBeanststalk.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("ec2.amazonaws.com")) {
+                cloudCompute.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("elasticloadbalancing.amazonaws.com")) {
+                loadBalancing.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("rds.amazonaws.com")) {
+                relationalDb.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("sns.amazonaws.com")) {
+                notificationService.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("dynamodb.amazonaws.com")) {
+                dynamoDb.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("iam.amazonaws.com")) {
+                iam.populateRequestInfo(event, resources);
+
+            }else if (source.equalsIgnoreCase("elasticache.amazonaws.com")) {
+                elasticCache.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("kinesis.amazonaws.com")) {
+                kinesis.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("kms.amazonaws.com")) {
+                kms.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("sqs.amazonaws.com")) {
+                simpleQueue.populateRequestInfo(event, resources);
+
+            } else if (source.equalsIgnoreCase("swf.amazonaws.com")) {
+                simpleWorkflow.populateRequestInfo(event, resources);
+            }
+        } catch (Exception e) {
+            // need to create a custom exception for here
         }
+
     }
 }

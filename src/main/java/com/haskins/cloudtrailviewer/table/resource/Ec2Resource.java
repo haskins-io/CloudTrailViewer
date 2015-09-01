@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @author mark
  */
-public class Ec2Resource extends AbstractResource implements Resource {
+public class Ec2Resource extends AbstractRequest implements Request {
 
     /**
      * Return the resource for the passed Event
@@ -35,7 +35,7 @@ public class Ec2Resource extends AbstractResource implements Resource {
      * @param resources 
      */
     @Override
-    public void getResource(Event event, RequestInfo resources) {
+    public void populateRequestInfo(Event event, RequestInfo resources) {
         
         if (event.getEventName().equalsIgnoreCase("DescribeTags")) {
             describeTags(event, resources);
@@ -102,6 +102,10 @@ public class Ec2Resource extends AbstractResource implements Resource {
     
     private void attachVolume(Event event, RequestInfo resources) {
         getTopLevelResource("Volume Id", "volumeId", event, resources);
+        
+        getTopLevelParameter("EC2 Instance", "instanceId", event, resources);
+        getTopLevelParameter("Device", "device", event, resources);
+        getTopLevelParameter("Delete on Terminate  ", "deleteOnTermination", event, resources);
     }
     
     private void authoriseSGEgress(Event event, RequestInfo resources) {
@@ -206,6 +210,9 @@ public class Ec2Resource extends AbstractResource implements Resource {
                 }
             }  
         }
+        
+        getTopLevelParameter("EC2 Instance", "instanceType", event, resources);
+        getTopLevelParameter("Availability Zone", "availabilityZone", event, resources);
     }
     
     private void terminateInstances(Event event, RequestInfo resources) {
