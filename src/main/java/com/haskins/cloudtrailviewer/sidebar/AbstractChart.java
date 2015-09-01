@@ -17,16 +17,21 @@
  */
 package com.haskins.cloudtrailviewer.sidebar;
 
+import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailDialog;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.ChartFactory;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
@@ -38,8 +43,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -167,6 +170,12 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
                     }
                 }
 
+                if (key.contains(":i-")) {
+                    
+                    int posColon = key.indexOf(":");
+                    key = key.substring(posColon + 1);
+                }
+                
                 defaultTableModel.addRow(new Object[]{col, key, entry.getValue()});
             }
         }
@@ -213,23 +222,32 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
             }
         };
         
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
+        table.addMouseListener(new MouseAdapter() {
+            
             @Override
-            public void valueChanged(ListSelectionEvent e) {
+            public void mousePressed(MouseEvent me) {
                 
-                if (e.getFirstIndex() >= 0) {
-
-                    try {
-                        String value = (String) defaultTableModel.getValueAt(table.getSelectedRow(), 1);
+                JTable table =(JTable) me.getSource();
+                Point p = me.getPoint();
+                String value = (String) defaultTableModel.getValueAt(table.getSelectedRow(), 1);
+                
+                if (me.getClickCount() == 2) {
+                    
+                    if (value.startsWith("i-")) {
+                        ResourceDetailDialog.showDialog(CloudTrailViewer.frame, "EC2 Instance", value, null);
+                    }
+                    
+                } else if (me.getClickCount() == 1) {
+                    
+                    try {    
                         eventTablePanel.setFilterString(value); 
                     } catch (Exception ex) {
-                        
+
                     }
                 }
             }
         });
-
+        
         TableColumn column;
         for (int i = 0; i < 3; i++) {
             column = table.getColumnModel().getColumn(i);

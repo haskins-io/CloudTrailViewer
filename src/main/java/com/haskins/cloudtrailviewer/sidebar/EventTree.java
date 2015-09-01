@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.sidebar;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
-import com.haskins.cloudtrailviewer.dialog.ResourceDetailDialog;
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailDialog;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -115,7 +115,7 @@ public class EventTree extends JPanel implements SideBar {
             if (ResourceDetailDialog.handledResourceTypes.contains(resourceType)) {
                 TreeNode nameNode = (TreeNode)selPath.getPath()[numNodes-1];
                 String resourceName = nameNode.toString();;
-                ResourceDetailDialog.showDialog(CloudTrailViewer.frame, resourceType, resourceName);
+                ResourceDetailDialog.showDialog(CloudTrailViewer.frame, resourceType, resourceName, null);
             }
         }
     }
