@@ -55,21 +55,26 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
     private static AwsAccountDialog dialog;
     
     private final JTextField name = new JTextField();
+    private final JTextField accNum = new JTextField();
     private final JTextField bucket = new JTextField();
     private final JTextField key = new JTextField();
     private final JPasswordField secret = new JPasswordField();
     
+    private static AwsAccount updatingAccount = null;
     private static AwsAccount account = null;
     
     /**
      * Shows the Dialog
      * @param parent 
+     * @param accountToEdit
      * @return
      */
-    public static AwsAccount showDialog(Component parent) {
+    public static AwsAccount showDialog(Component parent, AwsAccount accountToEdit) {
+        
+        updatingAccount = accountToEdit;
         
         Frame frame = JOptionPane.getFrameForComponent(parent);
-        dialog = new AwsAccountDialog(frame);
+        dialog = new AwsAccountDialog(frame, accountToEdit);
         dialog.setVisible(true);
         
         return account;
@@ -82,20 +87,22 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
         if ("OK".equals(e.getActionCommand())) {
-            
-            // validate the inputted database
-//            
-//            if (!isBucketValid() || ! isKeyValid() || !isSecretValid()) {
-//                return;
-//            }
+                        
+            int id = 0;
+            String prefix = "";
+            if (updatingAccount != null) {
+                id = updatingAccount.getId();
+                prefix = updatingAccount.getPrefix();
+            }
             
             account = new AwsAccount(
-                    0,
+                    id,
                     name.getText(), 
+                    accNum.getText(),
                     bucket.getText(),
                     key.getText(),
                     String.valueOf(secret.getPassword()),
-                    ""
+                    prefix
             );
         }
         
@@ -105,12 +112,21 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
     ////////////////////////////////////////////////////////////////////////////
     // Private methods
     ///////////////////////////////////////////////////////////////////////////
-    private AwsAccountDialog(Frame frame) {
+    private AwsAccountDialog(Frame frame, AwsAccount account) {
 
         super(frame, "AWS Account", true);
         
         this.setResizable(false);
-                        
+        
+        if (account != null) {
+            
+            name.setText(account.getName()); 
+            accNum.setText(account.getAcctNumber());
+            bucket.setText(account.getBucket());
+            key.setText(account.getKey());
+            secret.setText(account.getSecret());
+        }
+        
         final JButton btnLoad = new JButton("OK");
         btnLoad.setActionCommand("OK");
         btnLoad.addActionListener(this);
@@ -134,11 +150,12 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
         accountPanel.setLayout(layout);
-        accountPanel.setMinimumSize(new Dimension(500,150));
-        accountPanel.setMaximumSize(new Dimension(500,150));
-        accountPanel.setPreferredSize(new Dimension(500,150));
+        accountPanel.setMinimumSize(new Dimension(500,175));
+        accountPanel.setMaximumSize(new Dimension(500,175));
+        accountPanel.setPreferredSize(new Dimension(500,175));
        
         JLabel lblName = new JLabel("Name");
+        JLabel lblAccNum = new JLabel("Account Number");
         JLabel lblBucket = new JLabel("Bucket Name");
         JLabel lblKey = new JLabel("IAM Key");
         JLabel lblSecret = new JLabel("IAM Secret");
@@ -147,6 +164,7 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         hGroup.addGroup(
             layout.createParallelGroup().
                 addComponent(lblName).
+                addComponent(lblAccNum).
                 addComponent(lblBucket).
                 addComponent(lblKey).
                 addComponent(lblSecret)
@@ -155,6 +173,7 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         hGroup.addGroup(
             layout.createParallelGroup().
                 addComponent(name).
+                addComponent(accNum).
                 addComponent(bucket).
                 addComponent(key).
                 addComponent(secret)
@@ -166,6 +185,11 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         vGroup.addGroup(
             layout.createParallelGroup(Alignment.BASELINE).
                 addComponent(lblName).addComponent(name)
+            );
+        
+        vGroup.addGroup(
+            layout.createParallelGroup(Alignment.BASELINE).
+                addComponent(lblAccNum).addComponent(accNum)
             );
         
         vGroup.addGroup(
@@ -192,7 +216,6 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         pack();
         setLocationRelativeTo(frame);  
     }
-    
     
     private boolean isBucketValid() {
         

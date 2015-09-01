@@ -45,6 +45,14 @@ public class RequestInfo {
         
         resources.add(name);
     }
+        
+    public Map<String, List<String>> getResourcesMap() {
+        return this.resourceMap;
+    }
+    
+    public Map<String, List<String>> getParameterMap() {
+        return this.parameterMap;
+    }
     
     public void addParameter(String type, String name) {
         

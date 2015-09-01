@@ -53,13 +53,21 @@ public class DefaultMetaData implements ResourceMetaData {
         
         eventSource = event.getEventSource();
         userAgent = event.getUserAgent();
-        userIdentityPrincipalId = event.getUserIdentity().getPrincipalId();
-        userIdentityArn = event.getUserIdentity().getArn();
-        userIdentityUsername = event.getUserIdentity().getUserName();
-        userIdentityInvokedBy = event.getUserIdentity().getInvokedBy();
-        sessionContextPrincipalId = event.getUserIdentity().getSessionContext().getSessionIssuer().getPrincipalId();
-        sessionContextArn = event.getUserIdentity().getSessionContext().getSessionIssuer().getArn();
-        sessionContextUsername = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
+        
+        if (event.getUserIdentity() != null) {
+            
+            userIdentityPrincipalId = event.getUserIdentity().getPrincipalId();
+            userIdentityArn = event.getUserIdentity().getArn();
+            userIdentityUsername = event.getUserIdentity().getUserName();
+            userIdentityInvokedBy = event.getUserIdentity().getInvokedBy();
+
+            if (event.getUserIdentity().getSessionContext() != null  && event.getUserIdentity().getSessionContext().getSessionIssuer() != null) {
+                
+                sessionContextPrincipalId = event.getUserIdentity().getSessionContext().getSessionIssuer().getPrincipalId();
+                sessionContextArn = event.getUserIdentity().getSessionContext().getSessionIssuer().getArn();
+                sessionContextUsername = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();   
+            }
+        }
     }
     
     @Override

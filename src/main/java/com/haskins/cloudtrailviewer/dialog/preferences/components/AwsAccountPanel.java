@@ -77,7 +77,14 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
 
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                selected = list.getSelectedIndex();
+                
+                if (mouseEvent.getClickCount() == 2) {
+                    String accountName = (String)list.getSelectedValue();
+                    updateAccount(accountName);
+                    
+                } else {
+                    selected = list.getSelectedIndex();
+                }
             }
         });
         
@@ -117,7 +124,8 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
         this.add(tablecrollPane, BorderLayout.CENTER); 
         this.add(buttonPane, BorderLayout.PAGE_END); 
     }
-        ////////////////////////////////////////////////////////////////////////////
+    
+    ////////////////////////////////////////////////////////////////////////////
     // ActionListener implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
@@ -128,14 +136,33 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
             String update = "UPDATE aws_credentials SET active = 0";
             DbManager.getInstance().doInsertUpdate(update);
             
-            AwsAccount account = AwsAccountDialog.showDialog(this);
+            AwsAccount account = AwsAccountDialog.showDialog(this, null);
             if (account != null) {
+                
                 StringBuilder query = new StringBuilder();
                 query.append("INSERT INTO aws_credentials");
-                query.append(" (aws_name, aws_bucket, aws_key, aws_secret, aws_prefix, active)");
+                
+                query.append(" (aws_name, ");
+                if (account.getAcctNumber() != null && account.getAcctNumber().length() > 0) {
+                    query.append(" aws_acct, ");
+                }
+                
+                if (account.getBucket() != null && account.getBucket().length() > 0) {
+                    query.append(" aws_bucket, ");
+                }
+                
+                query.append(" aws_key, aws_secret, aws_prefix, active)");
                 query.append(" VALUES (");
                 query.append("'").append(account.getName()).append("'").append(",");
-                query.append("'").append(account.getBucket()).append("'").append(",");
+                
+                if (account.getAcctNumber() != null && account.getAcctNumber().length() > 0) {
+                    query.append(account.getAcctNumber()).append(",");
+                }
+                
+                if (account.getBucket() != null && account.getBucket().length() > 0) {
+                    query.append("'").append(account.getBucket()).append("'").append(",");
+                }
+                
                 query.append("'").append(account.getKey()).append("'").append(",");
                 query.append("'").append(account.getSecret()).append("'").append(",");
                 query.append("''").append(",");
@@ -157,6 +184,55 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
                 
                 defaultListModel.remove(selected);
                 selected = -1;
+            }
+        }
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // private methods
+    ////////////////////////////////////////////////////////////////////////////
+    private void updateAccount(String accountName) {
+        
+        AwsAccount account = null;
+        
+        String query = "SELECT * FROM aws_credentials WHERE aws_name = '" + accountName + "'";
+        List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
+        for (ResultSetRow row : rows) {
+                        
+            account = new AwsAccount(
+                (Integer)row.get("id"),
+                (String)row.get("aws_name"), 
+                (String)row.get("aws_acct_num"),     
+                (String)row.get("aws_bucket"), 
+                (String)row.get("aws_key"), 
+                (String)row.get("aws_secret"), 
+                (String)row.get("aws_prefix")
+            );
+        }
+        
+        if (account != null) {
+            
+            AwsAccount updatedAccount = AwsAccountDialog.showDialog(this, account);
+            if (updatedAccount != null) {
+                
+                StringBuilder updateQuery = new StringBuilder();
+                updateQuery.append("UPDATE aws_credentials SET");
+                updateQuery.append(" aws_name = '").append(updatedAccount.getName()).append("',");
+                
+                if (updatedAccount.getBucket()!= null && updatedAccount.getBucket().length() > 0) {
+                    updateQuery.append(" aws_bucket = '").append(updatedAccount.getBucket()).append("',");
+                }
+                
+                if (updatedAccount.getAcctNumber()!= null && updatedAccount.getAcctNumber().length() > 0) {
+                    updateQuery.append(" aws_acct_num = ").append(updatedAccount.getAcctNumber()).append(",");
+                }
+                
+                updateQuery.append(" aws_key = '").append(updatedAccount.getKey()).append("',");
+                updateQuery.append(" aws_secret = '").append(updatedAccount.getSecret()).append("'");
+                
+                updateQuery.append(" WHERE id = ").append(updatedAccount.getId());
+                
+                DbManager.getInstance().doInsertUpdate(updateQuery.toString());
             }
         }
     }
