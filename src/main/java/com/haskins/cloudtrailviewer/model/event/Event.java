@@ -21,8 +21,8 @@ package com.haskins.cloudtrailviewer.model.event;
 import com.haskins.cloudtrailviewer.model.event.deprecated.Resource;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.haskins.cloudtrailviewer.table.resource.RequestInfo;
-import com.haskins.cloudtrailviewer.table.resource.ResourceLookup;
+import com.haskins.cloudtrailviewer.requestInfo.RequestInfo;
+import com.haskins.cloudtrailviewer.requestInfo.ResourceLookup;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -102,6 +102,7 @@ public class Event {
         return this.timestamp;
     }
     
+    @JsonIgnore
     public RequestInfo getResourceInfo() {
         
         if (resourceInfo == null) {
