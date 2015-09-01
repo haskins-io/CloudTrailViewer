@@ -236,14 +236,9 @@ public class Migrations {
         
             StringBuilder addAcctColumn = new StringBuilder();
             addAcctColumn.append("ALTER TABLE aws_credentials ");
-            addAcctColumn.append("ADD COLUMN aws_acct BIGINT NULL");
+            addAcctColumn.append("ADD COLUMN aws_acct VARCHAR(15)");
             DbManager.getInstance().doExecute(addAcctColumn.toString());
             
-            StringBuilder allowBucketNull = new StringBuilder();
-            allowBucketNull.append("ALTER TABLE aws_credentials ");
-            allowBucketNull.append("ALTER COLUMN aws_bucket NULL");
-            DbManager.getInstance().doExecute(allowBucketNull.toString());
-
             String insertQuery = "UPDATE db_properties SET db_version = 6 WHERE id = 1";
             DbManager.getInstance().doInsertUpdate(insertQuery);
             
