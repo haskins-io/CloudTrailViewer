@@ -234,10 +234,15 @@ public class Migrations {
         
         if (currentVersion.getDbVersion() < 6) {
         
-            StringBuilder createVersionTable = new StringBuilder();
-            createVersionTable.append("ALTER TABLE aws_credentials ");
-            createVersionTable.append("ADD COLUMN aws_acct BIGINT");
-            DbManager.getInstance().doExecute(createVersionTable.toString());
+            StringBuilder addAcctColumn = new StringBuilder();
+            addAcctColumn.append("ALTER TABLE aws_credentials ");
+            addAcctColumn.append("ADD COLUMN aws_acct BIGINT NULL");
+            DbManager.getInstance().doExecute(addAcctColumn.toString());
+            
+            StringBuilder allowBucketNull = new StringBuilder();
+            allowBucketNull.append("ALTER TABLE aws_credentials ");
+            allowBucketNull.append("ALTER COLUMN aws_bucket NULL");
+            DbManager.getInstance().doExecute(allowBucketNull.toString());
 
             String insertQuery = "UPDATE db_properties SET db_version = 6 WHERE id = 1";
             DbManager.getInstance().doInsertUpdate(insertQuery);
