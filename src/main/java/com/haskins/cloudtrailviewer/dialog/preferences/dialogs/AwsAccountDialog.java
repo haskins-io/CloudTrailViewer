@@ -55,6 +55,7 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
     private static AwsAccountDialog dialog;
     
     private final JTextField name = new JTextField();
+    private final JTextField accNum = new JTextField();
     private final JTextField bucket = new JTextField();
     private final JTextField key = new JTextField();
     private final JPasswordField secret = new JPasswordField();
@@ -92,6 +93,7 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
             account = new AwsAccount(
                     0,
                     name.getText(), 
+                    accNum.getText(),
                     bucket.getText(),
                     key.getText(),
                     String.valueOf(secret.getPassword()),
@@ -134,11 +136,12 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
         accountPanel.setLayout(layout);
-        accountPanel.setMinimumSize(new Dimension(500,150));
-        accountPanel.setMaximumSize(new Dimension(500,150));
-        accountPanel.setPreferredSize(new Dimension(500,150));
+        accountPanel.setMinimumSize(new Dimension(500,175));
+        accountPanel.setMaximumSize(new Dimension(500,175));
+        accountPanel.setPreferredSize(new Dimension(500,175));
        
         JLabel lblName = new JLabel("Name");
+        JLabel lblAccNum = new JLabel("Account Number");
         JLabel lblBucket = new JLabel("Bucket Name");
         JLabel lblKey = new JLabel("IAM Key");
         JLabel lblSecret = new JLabel("IAM Secret");
@@ -147,6 +150,7 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         hGroup.addGroup(
             layout.createParallelGroup().
                 addComponent(lblName).
+                addComponent(lblAccNum).
                 addComponent(lblBucket).
                 addComponent(lblKey).
                 addComponent(lblSecret)
@@ -155,6 +159,7 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         hGroup.addGroup(
             layout.createParallelGroup().
                 addComponent(name).
+                addComponent(accNum).
                 addComponent(bucket).
                 addComponent(key).
                 addComponent(secret)
@@ -166,6 +171,11 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         vGroup.addGroup(
             layout.createParallelGroup(Alignment.BASELINE).
                 addComponent(lblName).addComponent(name)
+            );
+        
+        vGroup.addGroup(
+            layout.createParallelGroup(Alignment.BASELINE).
+                addComponent(lblAccNum).addComponent(accNum)
             );
         
         vGroup.addGroup(
@@ -192,7 +202,6 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
         pack();
         setLocationRelativeTo(frame);  
     }
-    
     
     private boolean isBucketValid() {
         

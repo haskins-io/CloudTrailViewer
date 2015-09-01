@@ -201,6 +201,7 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
             AwsAccount account = new AwsAccount(
                 (Integer)row.get("id"),
                 name, 
+                (String)row.get("aws_acct_num"),     
                 (String)row.get("aws_bucket"), 
                 (String)row.get("aws_key"), 
                 (String)row.get("aws_secret"), 

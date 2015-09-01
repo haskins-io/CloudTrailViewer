@@ -132,9 +132,10 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
             if (account != null) {
                 StringBuilder query = new StringBuilder();
                 query.append("INSERT INTO aws_credentials");
-                query.append(" (aws_name, aws_bucket, aws_key, aws_secret, aws_prefix, active)");
+                query.append(" (aws_name, aws_acct aws_bucket, aws_key, aws_secret, aws_prefix, active)");
                 query.append(" VALUES (");
                 query.append("'").append(account.getName()).append("'").append(",");
+                query.append(account.getAcctNumber()).append(",");
                 query.append("'").append(account.getBucket()).append("'").append(",");
                 query.append("'").append(account.getKey()).append("'").append(",");
                 query.append("'").append(account.getSecret()).append("'").append(",");

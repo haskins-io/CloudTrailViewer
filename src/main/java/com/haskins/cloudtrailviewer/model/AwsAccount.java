@@ -24,15 +24,17 @@ public class AwsAccount {
     
     private final int id;
     private final String name;
+    private String acctNumber;
     private final String bucket;
     private final String key;
     private final String secret;
     private String prefix;
     
-    public AwsAccount(int id, String name, String bucket, String key, String secret, String prefix) {
+    public AwsAccount(int id, String name, String acctNum, String bucket, String key, String secret, String prefix) {
         
         this.id = id;
         this.name = name;
+        this.acctNumber = acctNum;
         this.bucket = bucket;
         this.key = key;
         this.secret = secret;
@@ -48,6 +50,20 @@ public class AwsAccount {
      */
     public String getName() {
         return name;
+    }
+    
+    /**
+     * @return the acctNumber
+     */
+    public String getAcctNumber() {
+        return acctNumber;
+    }
+
+    /**
+     * @param acctNumber the acctNumber to set
+     */
+    public void setAcctNumber(String acctNumber) {
+        this.acctNumber = acctNumber;
     }
 
     /**

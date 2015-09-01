@@ -227,7 +227,23 @@ public class Migrations {
             DbManager.getInstance().doInsertUpdate(insertQuery);
 
             currentVersion.setDbVersion(5);
-        }   
+        }        
+    }
+    
+    public static void createVersion6(Connection conn, CurrentDbVersion currentVersion) {
+        
+        if (currentVersion.getDbVersion() < 6) {
+        
+            StringBuilder createVersionTable = new StringBuilder();
+            createVersionTable.append("ALTER TABLE aws_credentials ");
+            createVersionTable.append("ADD COLUMN aws_acct BIGINT");
+            DbManager.getInstance().doExecute(createVersionTable.toString());
+
+            String insertQuery = "UPDATE db_properties SET db_version = 6 WHERE id = 1";
+            DbManager.getInstance().doInsertUpdate(insertQuery);
+            
+            currentVersion.setDbVersion(6);
+        }
     }
     
     ////////////////////////////////////////////////////////////////////////////
