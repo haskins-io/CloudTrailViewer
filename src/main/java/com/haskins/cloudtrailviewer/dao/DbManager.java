@@ -16,7 +16,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.haskins.cloudtrailviewer.core;
+package com.haskins.cloudtrailviewer.dao;
 
 import com.haskins.cloudtrailviewer.model.CurrentDbVersion;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;

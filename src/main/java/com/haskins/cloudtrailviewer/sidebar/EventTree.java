@@ -19,17 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.sidebar;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
-import com.haskins.cloudtrailviewer.core.DbManager;
+import com.haskins.cloudtrailviewer.dao.AccountDao;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailDialog;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -122,22 +120,7 @@ public class EventTree extends JPanel implements SideBar {
                 TreeNode nameNode = (TreeNode)selPath.getPath()[numNodes-1];
                 String resourceName = nameNode.toString();
                 
-                AwsAccount account = null;
-                String query = "SELECT * FROM aws_credentials WHERE aws_acct LIKE '" + event.getRecipientAccountId() + "'";
-                List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
-                for (ResultSetRow row : rows) {
-
-                    account = new AwsAccount(
-                            (Integer) row.get("id"),
-                            (String) row.get("aws_name"),
-                            (String) row.get("aws_acct"),
-                            (String) row.get("aws_bucket"),
-                            (String) row.get("aws_key"),
-                            (String) row.get("aws_secret"),
-                            (String) row.get("aws_prefix")
-                    );
-                }
-                
+                AwsAccount account = AccountDao.getAccountByAcctNum(event.getRecipientAccountId());
                 if (account != null) {
                     
                     ResourceDetailRequest request = new ResourceDetailRequest(account, event.getAwsRegion(), resourceType, resourceName);

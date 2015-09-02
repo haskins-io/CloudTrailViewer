@@ -16,7 +16,7 @@
  */
 package com.haskins.cloudtrailviewer.dialog.preferences;
 
-import com.haskins.cloudtrailviewer.core.DbManager;
+import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.dialog.preferences.dialogs.SecurityDialog;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;

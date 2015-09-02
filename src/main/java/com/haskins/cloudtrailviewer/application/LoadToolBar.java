@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
-import com.haskins.cloudtrailviewer.core.DbManager;
+import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.dialog.S3FileChooser;
 import com.haskins.cloudtrailviewer.dialog.SearchOptions;
 import com.haskins.cloudtrailviewer.model.filter.Filter;

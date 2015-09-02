@@ -16,8 +16,9 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.haskins.cloudtrailviewer.core;
+package com.haskins.cloudtrailviewer.dao;
 
+import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.model.CurrentDbVersion;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

@@ -17,9 +17,15 @@
  */
 package com.haskins.cloudtrailviewer.sidebar;
 
+import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
+import com.haskins.cloudtrailviewer.dao.AccountDao;
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailDialog;
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.utils.ChartFactory;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -231,9 +237,26 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
                 
                 if (me.getClickCount() == 2) {
                     
-//                    if (value.startsWith("i-")) {
-//                        ResourceDetailDialog.showDialog(CloudTrailViewer.frame, "EC2 Instance", value, null);
-//                    }
+                    if (value.startsWith("i-")) {
+                        
+                        Event event = null;
+                        AllFilter filter = new AllFilter();
+                        filter.setNeedle(value);
+                        for (Event searchEvent : eventDb.getEvents()) {
+                            
+                            if (filter.passesFilter(searchEvent))  {
+                                
+                                event = searchEvent;
+                                break;
+                            }
+                        }
+                        
+                        if (event != null) {
+                            AwsAccount account = AccountDao.getAccountByAcctNum(event.getRecipientAccountId());
+                            ResourceDetailRequest request = new ResourceDetailRequest(account, event.getAwsRegion(), "EC2 Instance", value);
+                            ResourceDetailDialog.showDialog(CloudTrailViewer.frame, request);
+                        }
+                    }
                     
                 } else if (me.getClickCount() == 1) {
                     

@@ -21,7 +21,7 @@ package com.haskins.cloudtrailviewer;
 import com.haskins.cloudtrailviewer.application.CloudTrailViewerApplication;
 import com.haskins.cloudtrailviewer.application.Menu;
 import com.haskins.cloudtrailviewer.core.AwsService;
-import com.haskins.cloudtrailviewer.core.DbManager;
+import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.core.PropertiesController;
 import javax.swing.JFrame;
 

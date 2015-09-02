@@ -25,7 +25,7 @@ import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
-import com.haskins.cloudtrailviewer.core.DbManager;
+import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.thirdparty.com.bric.plaf.BreadCrumbUI;
 import com.haskins.cloudtrailviewer.thirdparty.com.bric.swing.JBreadCrumb;
