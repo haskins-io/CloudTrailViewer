@@ -57,6 +57,7 @@ public class LoadToolBar extends JToolBar {
         
         this.application = application;
         fileChooser.setMultiSelectionEnabled(true);
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         
         buildToolBar();
     }
@@ -159,14 +160,22 @@ public class LoadToolBar extends JToolBar {
 
             File[] list;
 
-            if (fileChooser.getSelectedFiles().length != 0)  {
+            if (fileChooser.getSelectedFile() != null && fileChooser.getSelectedFile().isDirectory()) {
+                
+                File dir = fileChooser.getSelectedFile();
+                list = dir.listFiles();
+                
+            } else { 
+                
+                if (fileChooser.getSelectedFiles().length != 0)  {
 
                 list = fileChooser.getSelectedFiles();
 
-            } else {
+                } else {
 
-                list = new File[1];
-                list[0] = fileChooser.getSelectedFile();
+                    list = new File[1];
+                    list[0] = fileChooser.getSelectedFile();
+                }
             }
 
             if (list != null) {
