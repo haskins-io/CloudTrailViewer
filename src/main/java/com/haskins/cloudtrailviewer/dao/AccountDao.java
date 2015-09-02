@@ -20,6 +20,7 @@ package com.haskins.cloudtrailviewer.dao;
 
 import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,18 +32,72 @@ public class AccountDao {
     public static AwsAccount getAccountByAcctNum(String acctNum) {
         
         AwsAccount account = null;
+        
         String query = "SELECT * FROM aws_credentials WHERE aws_acct LIKE '" + acctNum + "'";
         List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
         if (rows.size() == 1) {
             
             ResultSetRow row = rows.get(0);
-            account = populateAccount(row);
+            account = getAccountFromResultSetRow(row);
         }
         
         return account;
     }
     
-    private static AwsAccount populateAccount(ResultSetRow row) {
+    public static AwsAccount getAccountByName(String name) {
+        
+        AwsAccount account = null;
+        
+        String query = "SELECT * FROM aws_credentials WHERE aws_name LIKE '" + name + "'";
+        List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
+        if (rows.size() == 1) {
+            
+            ResultSetRow row = rows.get(0);
+            account = getAccountFromResultSetRow(row);
+        }
+        
+        return account;
+    }
+    
+    public static void deleteAccountByName(String name) {
+        
+        String query = "SDELETE FROM aws_credentials WHERE aws_name = '" + name + "'";
+        DbManager.getInstance().doExecute(query); 
+    }
+    
+    public static List<AwsAccount> getAllAccountsWithBucket() {
+                
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM aws_credentials WHERE LENGTH(aws_bucket) > 1");
+        
+        return executeQuery(query.toString());
+    }
+    
+    public static List<AwsAccount> getAllAccounts(boolean onlyActive) {
+        
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM aws_credentials");
+        
+        if (onlyActive) {
+            query.append(" WHERE active = 1");
+        }
+        
+        return executeQuery(query.toString());
+    }
+    
+    private static List<AwsAccount> executeQuery(String query) {
+        
+        List<AwsAccount> accounts = new ArrayList<>();
+        
+        List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
+        for (ResultSetRow row : rows) {
+            accounts.add(getAccountFromResultSetRow(row));
+        }
+        
+        return accounts;
+    }
+    
+    private static AwsAccount getAccountFromResultSetRow(ResultSetRow row) {
         
         AwsAccount account = new AwsAccount(
                 (Integer) row.get("id"),

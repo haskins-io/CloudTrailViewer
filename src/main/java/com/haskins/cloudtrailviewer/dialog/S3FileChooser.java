@@ -25,6 +25,7 @@ import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
+import com.haskins.cloudtrailviewer.dao.AccountDao;
 import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.thirdparty.com.bric.plaf.BreadCrumbUI;
@@ -200,21 +201,10 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
 
     private static void getAccounts() {
 
-        String query = "SELECT * FROM aws_credentials WHERE LENGTH(aws_bucket) > 1";
-        List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
-        for (ResultSetRow row : rows) {
+        List<AwsAccount> accounts = AccountDao.getAllAccountsWithBucket();
+        for (AwsAccount account : accounts) {
 
-            String name = (String) row.get("aws_name");
-
-            AwsAccount account = new AwsAccount(
-                    (Integer) row.get("id"),
-                    name,
-                    (String) row.get("aws_acct"),
-                    (String) row.get("aws_bucket"),
-                    (String) row.get("aws_key"),
-                    (String) row.get("aws_secret"),
-                    (String) row.get("aws_prefix")
-            );
+            String name = account.getName();
 
             accountMap.put(name, account);
             accountList.addElement(name);

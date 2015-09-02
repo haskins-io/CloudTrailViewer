@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.core;
 
-import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -27,13 +26,14 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.haskins.cloudtrailviewer.dao.AccountDao;
+import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.model.event.Records;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
 import com.haskins.cloudtrailviewer.utils.EventUtils;
-import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -142,21 +142,20 @@ public class EventLoader {
 
                 int count = 0;
                 
-                String query = "SELECT * FROM aws_credentials WHERE active = 1";
-                List<ResultSetRow> results = DbManager.getInstance().executeCursorStatement(query);
-                if (results.size() != 1) {
+                List<AwsAccount> accounts = AccountDao.getAllAccounts(true);
+                if (accounts.isEmpty()) {
                     return null;
                 }
                 
-                ResultSetRow row = results.get(0);
+                AwsAccount account = accounts.get(0);
                 
-                String key = (String)row.get("aws_key");
-                String secret = (String)row.get("aws_secret");
+                String key = account.getKey();
+                String secret = account.getSecret();
                 
                 AWSCredentials credentials= new BasicAWSCredentials(key, secret);
 
                 AmazonS3 s3Client = new AmazonS3Client(credentials);
-                String bucketName = (String)row.get("aws_bucket");
+                String bucketName = account.getBucket();
                 
                 if (request.getFilter() == null) {
                     request.setFilter(new AllFilter());

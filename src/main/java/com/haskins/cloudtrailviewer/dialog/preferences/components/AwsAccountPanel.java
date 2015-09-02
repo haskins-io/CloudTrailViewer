@@ -18,10 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.dialog.preferences.components;
 
+import com.haskins.cloudtrailviewer.dao.AccountDao;
 import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.dialog.preferences.dialogs.AwsAccountDialog;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
-import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -59,13 +59,10 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
         
         buildUI();
         
-        String query = "SELECT aws_name FROM aws_credentials";
-        List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
-        for (ResultSetRow row : rows) {
-            
-            String aws_name = (String)row.get("aws_name");
-            
-            defaultListModel.addElement(aws_name);
+        List<AwsAccount> accounts = AccountDao.getAllAccounts(false);
+        for (AwsAccount account : accounts) {
+                        
+            defaultListModel.addElement(account.getName());
         }
     }
     
@@ -193,22 +190,7 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
     ////////////////////////////////////////////////////////////////////////////
     private void updateAccount(String accountName) {
         
-        AwsAccount account = null;
-        
-        String query = "SELECT * FROM aws_credentials WHERE aws_name = '" + accountName + "'";
-        List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
-        for (ResultSetRow row : rows) {
-                        
-            account = new AwsAccount(
-                (Integer)row.get("id"),
-                (String)row.get("aws_name"), 
-                (String)row.get("aws_acct"),     
-                (String)row.get("aws_bucket"), 
-                (String)row.get("aws_key"), 
-                (String)row.get("aws_secret"), 
-                (String)row.get("aws_prefix")
-            );
-        }
+        AwsAccount account = AccountDao.getAccountByName(accountName);
         
         if (account != null) {
             

@@ -19,11 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
-import com.haskins.cloudtrailviewer.dao.DbManager;
+import com.haskins.cloudtrailviewer.dao.AccountDao;
 import com.haskins.cloudtrailviewer.dialog.S3FileChooser;
 import com.haskins.cloudtrailviewer.dialog.SearchOptions;
+import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
-import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -186,10 +186,8 @@ public class LoadToolBar extends JToolBar {
     
     private void loadS3files(Filter filter) {
         
-        String query = "SELECT * FROM aws_credentials";
-        List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
-        
-        if (!rows.isEmpty()) {
+        List<AwsAccount> accounts = AccountDao.getAllAccounts(false);
+        if (!accounts.isEmpty()) {
 
             final List<String> files = S3FileChooser.showDialog(CloudTrailViewer.frame);
             if (!files.isEmpty()) {
