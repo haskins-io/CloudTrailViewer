@@ -58,9 +58,9 @@ public class CountPanel extends JPanel {
         this.setBackground(bgColour);
         
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(125,45));
-        this.setMaximumSize(new Dimension(125,45));
-        this.setPreferredSize(new Dimension(125,45));
+        this.setMinimumSize(new Dimension(125,65));
+        this.setMaximumSize(new Dimension(125,65));
+        this.setPreferredSize(new Dimension(125,65));
                 
         eventCount.setToolTipText("Total Events for the Service");
         eventCount.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

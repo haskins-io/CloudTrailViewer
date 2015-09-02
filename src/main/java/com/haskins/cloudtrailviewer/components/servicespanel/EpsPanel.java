@@ -59,9 +59,9 @@ public class EpsPanel extends JPanel {
         this.setBackground(bgColour);
         
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(125,45));
-        this.setMaximumSize(new Dimension(125,45));
-        this.setPreferredSize(new Dimension(125,45));
+        this.setMinimumSize(new Dimension(125,25));
+        this.setMaximumSize(new Dimension(125,25));
+        this.setPreferredSize(new Dimension(125,25));
                 
         secondLabel.setToolTipText("Peak Events per Second");
         secondLabel.setForeground(Color.white);

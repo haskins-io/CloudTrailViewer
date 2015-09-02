@@ -47,9 +47,9 @@ public class ServicesOverviewPanel extends JPanel {
     public ServicesOverviewPanel(String serviceName, Feature f) {
         
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(250,140));
-        this.setMaximumSize(new Dimension(250,140));
-        this.setPreferredSize(new Dimension(250,140));
+        this.setMinimumSize(new Dimension(250,130));
+        this.setMaximumSize(new Dimension(250,130));
+        this.setPreferredSize(new Dimension(250,130));
         this.setBackground(Color.white);
         this.setOpaque(true);
         
@@ -78,9 +78,9 @@ public class ServicesOverviewPanel extends JPanel {
         epsPanel.add(awsEpsPanel);
         epsPanel.add(iamEpsPanel);
         
-        JPanel statsContainer = new JPanel(new GridLayout(2,0));
-        statsContainer.add(countsPanel);
-        statsContainer.add(epsPanel);
+        JPanel statsContainer = new JPanel(new BorderLayout());
+        statsContainer.add(countsPanel, BorderLayout.CENTER);
+        statsContainer.add(epsPanel, BorderLayout.PAGE_END);
         
         JPanel totalPanel = new JPanel();
         totalPanel.add(new JLabel("Total : "));
