@@ -58,15 +58,16 @@ public class ServiceOverviewContainer extends JPanel {
     
     public void addEvent(Event event) {
         
+        String source = event.getEventSource();
         String serviceName = TableUtils.getService(event);
         
         final ServicesOverviewPanel servicePanel;
         
-        if (!servicesMap.containsKey(serviceName)) {
+        if (!servicesMap.containsKey(source)) {
                         
             servicePanel = new ServicesOverviewPanel(serviceName, feature);
             
-            servicesMap.put(serviceName, servicePanel);
+            servicesMap.put(source, servicePanel);
             
             this.removeAll();
             
@@ -78,7 +79,7 @@ public class ServiceOverviewContainer extends JPanel {
             }
 
         } else {
-            servicePanel = servicesMap.get(serviceName);
+            servicePanel = servicesMap.get(source);
         }
         
         servicePanel.addEvent(event);
