@@ -46,6 +46,9 @@ public class ResourceDetailDialog extends JDialog {
     );
     
     public static void showDialog(Component parent, ResourceDetailRequest detailRequest) {
+        
+        exceptionThrown = false;
+        
         Frame frame = JOptionPane.getFrameForComponent(parent);
         dialog = new ResourceDetailDialog(frame, detailRequest);
         
@@ -59,7 +62,7 @@ public class ResourceDetailDialog extends JDialog {
     ////////////////////////////////////////////////////////////////////////////
     private ResourceDetailDialog(Frame frame, ResourceDetailRequest detailRequest) {
      
-        super(frame, "Resource Details", true);
+        super(frame, "Resource Details - " + detailRequest.getResourceName(), true);
         
         this.setMinimumSize(new Dimension(800,600));
         this.setMaximumSize(new Dimension(800,600));
@@ -68,6 +71,10 @@ public class ResourceDetailDialog extends JDialog {
         ResourceDetail detail;
         if (detailRequest.getResourceType().equalsIgnoreCase(Ec2Resource.EC2_INSTANCE)) {
             detail = new EC2Detail();
+            
+        } else if  (detailRequest.getResourceType().equalsIgnoreCase(ElbResoure.ELB_NAME)) {
+            detail = new ElbDetail();
+            
         } else {
             detail = new UnhandledDetail();
         }

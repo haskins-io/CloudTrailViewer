@@ -16,6 +16,7 @@
  */
 package com.haskins.cloudtrailviewer.dialog.resourcedetail;
 
+import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Region;
@@ -31,6 +32,7 @@ import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -65,7 +67,7 @@ public class EC2Detail extends JPanel implements ResourceDetail {
             DescribeInstancesResult result = ec2Client.describeInstances(request);
             buildUI(result); 
             
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
         }
 
@@ -77,6 +79,9 @@ public class EC2Detail extends JPanel implements ResourceDetail {
         return this;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildUI(DescribeInstancesResult detail) {
        
         JTabbedPane tabs = new JTabbedPane();
@@ -88,10 +93,12 @@ public class EC2Detail extends JPanel implements ResourceDetail {
         tagsTableModel.addColumn("Value");
 
         final JTable primaryTable = new JTable(primaryTableModel);
-        tabs.add("Instance", primaryTable);
+        JScrollPane primaryScrollPane = new JScrollPane(primaryTable);
+        tabs.add("Instance", primaryScrollPane);
         
         final JTable tagsTable = new JTable(tagsTableModel);
-        tabs.add("Tags", tagsTable);
+        JScrollPane tagsScrollPane = new JScrollPane(tagsTable);
+        tabs.add("Tags", tagsScrollPane);
         
         this.setLayout(new BorderLayout());
         this.add(tabs, BorderLayout.CENTER);

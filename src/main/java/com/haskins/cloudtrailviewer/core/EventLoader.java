@@ -267,6 +267,7 @@ public class EventLoader {
 
                 if (filter.passesFilter(event)) {
                     
+                    event.getResourceInfo();
                     EventUtils.addTimestamp(event);
                     eventDb.addEvent(event);
                 }
