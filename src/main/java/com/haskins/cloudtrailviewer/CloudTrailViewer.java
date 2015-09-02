@@ -32,26 +32,34 @@ import javax.swing.JFrame;
  */
 public class CloudTrailViewer extends JFrame {
 
+    /** This is public as it is used to center dialogs using this as a reference */
     public static CloudTrailViewerApplication frame;
     
     private static void createAndShowGUI() {
                         
         Menu menu = new Menu();    
-        frame.setJMenuBar(menu);
         
+        frame.setJMenuBar(menu);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     } 
+    
     /**
      * Main Class used to run the application
      * @param args Array of arguments
      */
     public static void main(String[] args) {
 
+        // perform any DB updates
         DbManager.getInstance().sync();
+        
+        // load the properties file
         PropertiesController.getInstance();
+        
+        // load the services from the files
         AwsService.getInstance();
         
+        // create an instance of the main application frame
         frame = new CloudTrailViewerApplication();
         
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
