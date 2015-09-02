@@ -217,8 +217,8 @@ public class EventTablePanel extends JPanel implements ActionListener {
         JScrollPane eventsScrollPane = new JScrollPane(table);
         eventsScrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        sideBar.addSideBar(new EventJson());
         sideBar.addSideBar(new EventTree());
+        sideBar.addSideBar(new EventJson());
         addChart(chartType);
 
         sideBar.setVisible(false);
