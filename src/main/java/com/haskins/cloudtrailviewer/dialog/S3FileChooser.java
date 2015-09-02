@@ -219,6 +219,9 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
             accountMap.put(name, account);
             accountList.addElement(name);
             currentAccount = account;
+            
+            String setActive = "UPDATE aws_credentials SET active = 1 WHERE ID = " + currentAccount.getId();
+            DbManager.getInstance().doInsertUpdate(setActive);
         }
 
         prefix = currentAccount.getPrefix();
