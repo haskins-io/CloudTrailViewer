@@ -433,8 +433,12 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
             loadingLabel.setVisible(false);
             this.revalidate();
         } catch (Exception e) {
+            
+            String errorMessage = e.getMessage();
+            errorMessage = errorMessage.replaceAll("; ", ";\n");
+            
             JOptionPane.showMessageDialog(CloudTrailViewer.frame,
-                e.getMessage(),
+                errorMessage,
                 "AWS Error",
                 JOptionPane.ERROR_MESSAGE
             );

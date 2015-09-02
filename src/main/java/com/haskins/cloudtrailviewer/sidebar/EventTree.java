@@ -129,8 +129,8 @@ public class EventTree extends JPanel implements SideBar {
                 } else {
                     
                     JOptionPane.showMessageDialog(CloudTrailViewer.frame,
-                        "The account has not been defined in the AWS Account section of the properties. To get more information about this resource add the account information.",
-                        "Unknown AWS Account : " + event.getRecipientAccountId(),
+                        "The account has not been defined in the AWS Account section of the properties.\nTo get more information about this resource add the account information.",
+                        "Unknown AWS Account Number : " + event.getRecipientAccountId(),
                         JOptionPane.ERROR_MESSAGE);
                     }
             }

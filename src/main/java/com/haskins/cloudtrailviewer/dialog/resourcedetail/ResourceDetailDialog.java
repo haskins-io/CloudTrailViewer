@@ -85,6 +85,8 @@ public class ResourceDetailDialog extends JDialog {
         if (response == null) {
             contentPane.add(detail.getPanel());
         } else {
+                response = response.replaceAll("; ", "\n");
+            
                 JOptionPane.showMessageDialog(CloudTrailViewer.frame,
                 response,
                 "AWS Error",
