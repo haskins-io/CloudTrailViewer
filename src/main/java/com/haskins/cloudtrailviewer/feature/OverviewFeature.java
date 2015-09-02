@@ -107,7 +107,7 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
         }
         
         eventTable.clearEvents();
-        statusBar.setVisibleEvents(events.size());
+        statusBar.setEvents(events);
         eventTable.setEvents(events);
     }
 

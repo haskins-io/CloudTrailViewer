@@ -18,7 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.application;
 
+import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -31,10 +33,18 @@ import javax.swing.JPanel;
  */
 public class StatusBar extends JPanel {
     
+    private final JPanel messageLabel = new JPanel();
+    
+    private final JLabel from = new JLabel();
+    private final JLabel to = new JLabel();
+    
     private final JLabel visibleEvents = new JLabel();
     private final JLabel loadedEvents = new JLabel();
     private final JLabel statusMessage = new JLabel();
     private final static JLabel memory = new JLabel();
+    
+    private long earliestEvent = -1;
+    private long latestEvent = -1;
     
     /**
      * Default Constructor
@@ -53,6 +63,45 @@ public class StatusBar extends JPanel {
      */
     public void setStatusMessage(String message) {
         statusMessage.setText(message);
+        
+        if (message.length() == 0 ) {
+            messageLabel.setVisible(false);
+        } else {
+            messageLabel.setVisible(true);
+        }
+    }
+    
+    public void addEvent(Event event) {
+        
+        if (earliestEvent == -1 || event.getTimestamp() < earliestEvent ) {
+            earliestEvent = event.getTimestamp();
+            this.setFromDate(event.getEventTime());
+        }
+        
+        if (latestEvent == -1 || event.getTimestamp() > latestEvent ) {
+            latestEvent = event.getTimestamp();
+            this.setToDate(event.getEventTime());
+        }
+        
+    }
+    
+    public void setEvents(List<Event> events) {
+        
+        earliestEvent = -1;
+        latestEvent = -1;
+        
+        setVisibleEvents(events.size());
+        
+        for (Event event : events) {
+            addEvent(event);
+        }
+    }
+    
+    private void setFromDate(String from) {
+        this.from.setText(from);
+    }
+    private void setToDate(String to) {
+        this.to.setText(to);
     }
     
     /**
@@ -63,7 +112,7 @@ public class StatusBar extends JPanel {
         loadedEvents.setText("Events Loaded : " + eventCount);
     }
     
-    public void setVisibleEvents(int eventCount) {
+    private void setVisibleEvents(int eventCount) {
         visibleEvents.setText("Current Events : " + eventCount);
     }
     
@@ -72,10 +121,14 @@ public class StatusBar extends JPanel {
     ////////////////////////////////////////////////////////////////////////////
     private void buildStatusBar() {
         
+        JPanel timeCovered = new JPanel();
+        timeCovered.add(from);
+        timeCovered.add(new JLabel(" - "));
+        timeCovered.add(to);
+        
         JPanel visibleEventsLabel = new JPanel();
         visibleEventsLabel.add(visibleEvents);
         
-        JPanel messageLabel = new JPanel();
         messageLabel.add(statusMessage);
         
         JPanel loadedEventsLabel = new JPanel();
@@ -87,6 +140,7 @@ public class StatusBar extends JPanel {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
         
+        panel.add(timeCovered);
         panel.add(visibleEventsLabel);
         panel.add(messageLabel);
         panel.add(loadedEventsLabel);

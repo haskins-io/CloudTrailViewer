@@ -105,7 +105,7 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
             eventTable.setVisible(true);
         }
         
-        statusBar.setVisibleEvents(events.size());
+        statusBar.setEvents(events);
         eventTable.clearEvents();
         eventTable.setEvents(events);
     }

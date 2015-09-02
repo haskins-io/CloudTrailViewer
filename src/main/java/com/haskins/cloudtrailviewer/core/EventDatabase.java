@@ -33,7 +33,6 @@ import java.util.List;
 public class EventDatabase implements EventLoaderListener {
     
     private final List<EventDatabaseListener> listeners = new ArrayList<>();
-    
     private final List<Event> events = new ArrayList<>();
     
     private final StatusBar statusBar;
@@ -55,6 +54,8 @@ public class EventDatabase implements EventLoaderListener {
      * @param event object to be added
      */
     public void addEvent(Event event) {
+        
+        this.statusBar.addEvent(event);
         events.add(event);
                 
         if (this.statusBar != null) {

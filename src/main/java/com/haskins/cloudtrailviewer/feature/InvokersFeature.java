@@ -106,7 +106,7 @@ public class InvokersFeature extends JPanel implements Feature, EventDatabaseLis
             eventTable.setVisible(true);
         }
         
-        statusBar.setVisibleEvents(events.size());
+        statusBar.setEvents(events);
         eventTable.clearEvents();
         eventTable.setEvents(events);
     }
