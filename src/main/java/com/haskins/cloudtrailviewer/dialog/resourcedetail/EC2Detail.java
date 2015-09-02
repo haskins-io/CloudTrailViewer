@@ -18,6 +18,8 @@ package com.haskins.cloudtrailviewer.dialog.resourcedetail;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
@@ -25,7 +27,6 @@ import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.ec2.model.Reservation;
 import com.amazonaws.services.ec2.model.Tag;
-import com.haskins.cloudtrailviewer.model.AwsAccount;
 import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.List;
@@ -44,21 +45,22 @@ public class EC2Detail extends JPanel implements ResourceDetail {
     protected final DefaultTableModel tagsTableModel = new DefaultTableModel();
     
     @Override
-    public String retrieveDetails(AwsAccount awsAccount, String resourceName) {
+    public String retrieveDetails(ResourceDetailRequest detailRequest) {
        
         String response = null;
         
         try {
             
             AWSCredentials credentials= new BasicAWSCredentials(
-                awsAccount.getKey(),
-                awsAccount.getSecret()
+                detailRequest.getAccount().getKey(),
+                detailRequest.getAccount().getSecret()
             );
 
             AmazonEC2 ec2Client = new AmazonEC2Client(credentials);
+            ec2Client.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
 
             DescribeInstancesRequest request = new DescribeInstancesRequest();
-            request.setInstanceIds(Arrays.asList(resourceName));
+            request.setInstanceIds(Arrays.asList(detailRequest.getResourceName()));
 
             DescribeInstancesResult result = ec2Client.describeInstances(request);
             buildUI(result); 
@@ -76,17 +78,23 @@ public class EC2Detail extends JPanel implements ResourceDetail {
     }
 
     private void buildUI(DescribeInstancesResult detail) {
-        
-        this.setLayout(new BorderLayout());
        
         JTabbedPane tabs = new JTabbedPane();
-        this.add(tabs, BorderLayout.CENTER);
+               
+        primaryTableModel.addColumn("Property");
+        primaryTableModel.addColumn("Value");
         
+        tagsTableModel.addColumn("Key");
+        tagsTableModel.addColumn("Value");
+
         final JTable primaryTable = new JTable(primaryTableModel);
         tabs.add("Instance", primaryTable);
         
         final JTable tagsTable = new JTable(tagsTableModel);
         tabs.add("Tags", tagsTable);
+        
+        this.setLayout(new BorderLayout());
+        this.add(tabs, BorderLayout.CENTER);
         
         List<Reservation> reservations = detail.getReservations();
         if (!reservations.isEmpty()) {

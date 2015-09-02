@@ -16,7 +16,6 @@
  */
 package com.haskins.cloudtrailviewer.dialog.resourcedetail;
 
-import com.haskins.cloudtrailviewer.model.AwsAccount;
 import javax.swing.JPanel;
 
 /**
@@ -25,7 +24,7 @@ import javax.swing.JPanel;
  */
 public interface ResourceDetail {
  
-    public String retrieveDetails(AwsAccount awsAccount, String resourceName);
+    public String retrieveDetails(ResourceDetailRequest detailRequest);
     
     public JPanel getPanel();
 }

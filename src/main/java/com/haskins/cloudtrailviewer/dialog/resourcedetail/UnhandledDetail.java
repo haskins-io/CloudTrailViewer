@@ -16,7 +16,6 @@
  */
 package com.haskins.cloudtrailviewer.dialog.resourcedetail;
 
-import com.haskins.cloudtrailviewer.model.AwsAccount;
 import javax.swing.JPanel;
 
 /**
@@ -26,7 +25,7 @@ import javax.swing.JPanel;
 public class UnhandledDetail extends JPanel implements ResourceDetail {
 
     @Override
-    public String retrieveDetails(AwsAccount awsAccount, String resourceName) {
+    public String retrieveDetails(ResourceDetailRequest detailRequest) {
         return null;
     }
     

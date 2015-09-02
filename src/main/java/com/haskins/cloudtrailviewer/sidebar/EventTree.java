@@ -21,6 +21,7 @@ package com.haskins.cloudtrailviewer.sidebar;
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.core.DbManager;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailDialog;
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
@@ -138,7 +139,9 @@ public class EventTree extends JPanel implements SideBar {
                 }
                 
                 if (account != null) {
-                    ResourceDetailDialog.showDialog(CloudTrailViewer.frame, resourceType, resourceName, account);
+                    
+                    ResourceDetailRequest request = new ResourceDetailRequest(account, event.getAwsRegion(), resourceType, resourceName);
+                    ResourceDetailDialog.showDialog(CloudTrailViewer.frame, request);
                     
                 } else {
                     

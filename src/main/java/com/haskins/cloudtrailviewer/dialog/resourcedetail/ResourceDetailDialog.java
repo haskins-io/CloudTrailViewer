@@ -17,11 +17,9 @@
 package com.haskins.cloudtrailviewer.dialog.resourcedetail;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
-import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.requestInfo.AsResource;
 import com.haskins.cloudtrailviewer.requestInfo.Ec2Resource;
 import com.haskins.cloudtrailviewer.requestInfo.ElbResoure;
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -47,9 +45,9 @@ public class ResourceDetailDialog extends JDialog {
             Ec2Resource.EC2_INSTANCE
     );
     
-    public static void showDialog(Component parent, String resourceType, String resourceName, AwsAccount awsAccount) {
+    public static void showDialog(Component parent, ResourceDetailRequest detailRequest) {
         Frame frame = JOptionPane.getFrameForComponent(parent);
-        dialog = new ResourceDetailDialog(frame, resourceType, resourceName, awsAccount);
+        dialog = new ResourceDetailDialog(frame, detailRequest);
         
         if(!exceptionThrown) {
             dialog.setVisible(true);
@@ -59,7 +57,7 @@ public class ResourceDetailDialog extends JDialog {
     ////////////////////////////////////////////////////////////////////////////
     // Private methods
     ////////////////////////////////////////////////////////////////////////////
-    private ResourceDetailDialog(Frame frame, String resourceType, String resourceName, AwsAccount awsAccount) {
+    private ResourceDetailDialog(Frame frame, ResourceDetailRequest detailRequest) {
      
         super(frame, "Resource Details", true);
         
@@ -68,14 +66,14 @@ public class ResourceDetailDialog extends JDialog {
         this.setPreferredSize(new Dimension(800,600));
         
         ResourceDetail detail;
-        if (resourceType.equalsIgnoreCase(Ec2Resource.EC2_INSTANCE)) {
+        if (detailRequest.getResourceType().equalsIgnoreCase(Ec2Resource.EC2_INSTANCE)) {
             detail = new EC2Detail();
         } else {
             detail = new UnhandledDetail();
         }
         
         Container contentPane = getContentPane();
-        String response = detail.retrieveDetails(awsAccount, resourceName);
+        String response = detail.retrieveDetails(detailRequest);
         
         if (response == null) {
             contentPane.add(detail.getPanel());
