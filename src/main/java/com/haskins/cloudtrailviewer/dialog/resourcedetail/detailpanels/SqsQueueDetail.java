@@ -24,7 +24,6 @@ import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClient;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,8 +31,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SqsQueueDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
     public SqsQueueDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

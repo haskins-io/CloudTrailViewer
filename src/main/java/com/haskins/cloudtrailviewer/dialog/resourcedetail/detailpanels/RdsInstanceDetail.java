@@ -19,12 +19,12 @@ package com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.rds.AmazonRDS;
 import com.amazonaws.services.rds.AmazonRDSClient;
+import com.amazonaws.services.rds.model.DescribeDBInstancesRequest;
+import com.amazonaws.services.rds.model.DescribeDBInstancesResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,8 +32,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class RdsInstanceDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
     public RdsInstanceDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -48,7 +46,11 @@ public class RdsInstanceDetail extends AbstractDetail {
             AmazonRDS client = new AmazonRDSClient(credentials);
             client.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
             
-            buildUI(null); 
+            DescribeDBInstancesRequest request = new DescribeDBInstancesRequest();
+            request.setDBInstanceIdentifier(detailRequest.getResourceName());
+            
+            DescribeDBInstancesResult result = client.describeDBInstances(request);
+            buildUI(result); 
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
@@ -62,7 +64,7 @@ public class RdsInstanceDetail extends AbstractDetail {
         return this;
     }
     
-    private void buildUI(DescribeInstancesResult detail) {
+    private void buildUI(DescribeDBInstancesResult detail) {
         
     }
 }

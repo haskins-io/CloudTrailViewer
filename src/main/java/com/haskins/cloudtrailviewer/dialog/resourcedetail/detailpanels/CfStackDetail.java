@@ -21,19 +21,17 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cloudformation.AmazonCloudFormation;
 import com.amazonaws.services.cloudformation.AmazonCloudFormationClient;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
+import com.amazonaws.services.cloudformation.model.DescribeStacksRequest;
+import com.amazonaws.services.cloudformation.model.DescribeStacksResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author mark.haskins
  */
 public class CfStackDetail extends AbstractDetail {
-
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
+ 
     public CfStackDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -48,7 +46,11 @@ public class CfStackDetail extends AbstractDetail {
             AmazonCloudFormation client = new AmazonCloudFormationClient(credentials);
             client.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
             
-            buildUI(null); 
+            DescribeStacksRequest request = new DescribeStacksRequest();
+            request.setStackName(detailRequest.getResourceName());
+            
+            DescribeStacksResult result = client.describeStacks(request);
+            buildUI(result); 
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
@@ -62,7 +64,7 @@ public class CfStackDetail extends AbstractDetail {
         return this;
     }
     
-    private void buildUI(DescribeInstancesResult detail) {
+    private void buildUI(DescribeStacksResult detail) {
         
     }
     

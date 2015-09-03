@@ -21,10 +21,11 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.autoscaling.AmazonAutoScaling;
 import com.amazonaws.services.autoscaling.AmazonAutoScalingClient;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
+import com.amazonaws.services.autoscaling.model.DescribeAutoScalingGroupsRequest;
+import com.amazonaws.services.autoscaling.model.DescribeAutoScalingGroupsResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.util.Arrays;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,8 +33,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AsGroupDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
     public AsGroupDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -48,7 +47,11 @@ public class AsGroupDetail extends AbstractDetail {
             AmazonAutoScaling asClient = new AmazonAutoScalingClient(credentials);
             asClient.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
 
-            buildUI(null); 
+            DescribeAutoScalingGroupsRequest request = new DescribeAutoScalingGroupsRequest();
+            request.setAutoScalingGroupNames(Arrays.asList(detailRequest.getResourceName()));
+            
+            DescribeAutoScalingGroupsResult result = asClient.describeAutoScalingGroups(request);
+            buildUI(result); 
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
@@ -62,7 +65,7 @@ public class AsGroupDetail extends AbstractDetail {
         return this;
     }
     
-    private void buildUI(DescribeInstancesResult detail) {
+    private void buildUI(DescribeAutoScalingGroupsResult detail) {
         
     }
     

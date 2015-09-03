@@ -19,12 +19,12 @@ package com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.simpleworkflow.AmazonSimpleWorkflow;
 import com.amazonaws.services.simpleworkflow.AmazonSimpleWorkflowClient;
+import com.amazonaws.services.simpleworkflow.model.DescribeDomainRequest;
+import com.amazonaws.services.simpleworkflow.model.DomainDetail;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,8 +32,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SwfDomainDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
     public SwfDomainDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -48,7 +46,11 @@ public class SwfDomainDetail extends AbstractDetail {
             AmazonSimpleWorkflow client = new AmazonSimpleWorkflowClient(credentials);
             client.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
             
-            buildUI(null); 
+            DescribeDomainRequest request = new DescribeDomainRequest();
+            request.setName(detailRequest.getResourceName());
+            
+            DomainDetail result = client.describeDomain(request);
+            buildUI(result); 
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
@@ -62,7 +64,7 @@ public class SwfDomainDetail extends AbstractDetail {
         return this;
     }
     
-    private void buildUI(DescribeInstancesResult detail) {
+    private void buildUI(DomainDetail detail) {
         
     }
     

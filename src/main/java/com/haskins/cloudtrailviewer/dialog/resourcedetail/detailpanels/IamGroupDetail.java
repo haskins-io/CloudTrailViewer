@@ -17,12 +17,12 @@
 package com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels;
 
 import com.amazonaws.AmazonClientException;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement;
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagementClient;
+import com.amazonaws.services.identitymanagement.model.GetGroupRequest;
+import com.amazonaws.services.identitymanagement.model.GetGroupResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,8 +30,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class IamGroupDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
     public IamGroupDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -45,7 +43,11 @@ public class IamGroupDetail extends AbstractDetail {
 
             AmazonIdentityManagement client = new AmazonIdentityManagementClient(credentials);
             
-            buildUI(null); 
+            GetGroupRequest request = new GetGroupRequest();
+            request.setGroupName(detailRequest.getResourceName());
+            
+            GetGroupResult result = client.getGroup(request);
+            buildUI(result); 
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
@@ -59,7 +61,7 @@ public class IamGroupDetail extends AbstractDetail {
         return this;
     }
     
-    private void buildUI(DescribeInstancesResult detail) {
+    private void buildUI(GetGroupResult detail) {
         
     }
     

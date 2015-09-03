@@ -21,10 +21,10 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
+import com.amazonaws.services.dynamodbv2.model.DescribeTableRequest;
+import com.amazonaws.services.dynamodbv2.model.DescribeTableResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,8 +32,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DbTableDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
     public DbTableDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -48,7 +46,11 @@ public class DbTableDetail extends AbstractDetail {
             AmazonDynamoDB client = new AmazonDynamoDBClient(credentials);
             client.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
             
-            buildUI(null); 
+            DescribeTableRequest request = new DescribeTableRequest();
+            request.setTableName(detailRequest.getResourceName());
+            
+            DescribeTableResult result = client.describeTable(request);
+            buildUI(result); 
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
@@ -62,7 +64,7 @@ public class DbTableDetail extends AbstractDetail {
         return this;
     }
     
-    private void buildUI(DescribeInstancesResult detail) {
+    private void buildUI(DescribeTableResult detail) {
         
     }
 }

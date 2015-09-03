@@ -21,6 +21,9 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetail;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,6 +33,10 @@ public abstract class AbstractDetail extends JPanel implements ResourceDetail {
     
     protected final ResourceDetailRequest detailRequest;
     protected final AWSCredentials credentials;
+    
+    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
+    private final JTable primaryTable = new JTable(primaryTableModel);
+    protected JScrollPane primaryScrollPane = new JScrollPane(primaryTable);
     
     public AbstractDetail(ResourceDetailRequest detailRequest) {
         

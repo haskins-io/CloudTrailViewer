@@ -21,10 +21,11 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cloudsearchv2.AmazonCloudSearchClient;
 import com.amazonaws.services.cloudsearchv2.AmazonCloudSearch;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
+import com.amazonaws.services.cloudsearchv2.model.DescribeDomainsRequest;
+import com.amazonaws.services.cloudsearchv2.model.DescribeDomainsResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.util.Arrays;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,8 +33,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CsDomainDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
     public CsDomainDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -48,7 +47,11 @@ public class CsDomainDetail extends AbstractDetail {
             AmazonCloudSearch client = new AmazonCloudSearchClient(credentials);
             client.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
             
-            buildUI(null); 
+            DescribeDomainsRequest request = new DescribeDomainsRequest();
+            request.setDomainNames(Arrays.asList(detailRequest.getResourceName()));
+            
+            DescribeDomainsResult result = client.describeDomains(request);
+            buildUI(result); 
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
@@ -62,7 +65,7 @@ public class CsDomainDetail extends AbstractDetail {
         return this;
     }
     
-    private void buildUI(DescribeInstancesResult detail) {
+    private void buildUI(DescribeDomainsResult detail) {
         
     }
     

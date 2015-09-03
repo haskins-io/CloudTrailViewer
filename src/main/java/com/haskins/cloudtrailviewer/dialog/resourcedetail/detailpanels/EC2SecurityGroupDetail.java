@@ -21,10 +21,11 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.AmazonEC2Client;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
+import com.amazonaws.services.ec2.model.DescribeSecurityGroupsRequest;
+import com.amazonaws.services.ec2.model.DescribeSecurityGroupsResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.util.Arrays;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,8 +33,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class EC2SecurityGroupDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
     public EC2SecurityGroupDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -46,8 +45,12 @@ public class EC2SecurityGroupDetail extends AbstractDetail {
         try {
             AmazonEC2 ec2Client = new AmazonEC2Client(credentials);
             ec2Client.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
-
-            buildUI(null); 
+            
+            DescribeSecurityGroupsRequest request = new DescribeSecurityGroupsRequest();
+            request.setGroupIds(Arrays.asList(detailRequest.getResourceName()));
+            
+            DescribeSecurityGroupsResult result = ec2Client.describeSecurityGroups(request);
+            buildUI(result); 
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
@@ -61,7 +64,7 @@ public class EC2SecurityGroupDetail extends AbstractDetail {
         return this;
     }
     
-    private void buildUI(DescribeInstancesResult detail) {
+    private void buildUI(DescribeSecurityGroupsResult detail) {
         
     }
     

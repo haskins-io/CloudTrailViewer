@@ -43,7 +43,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ElbDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
     protected final DefaultTableModel listenersTableModel = new DefaultTableModel();
     protected final DefaultTableModel healthCheckTableModel = new DefaultTableModel();
     
@@ -98,8 +97,6 @@ public class ElbDetail extends AbstractDetail {
         
         JTabbedPane tabs = new JTabbedPane();
         
-        final JTable primaryTable = new JTable(primaryTableModel);
-        JScrollPane primaryScrollPane = new JScrollPane(primaryTable);
         tabs.add("Load Balancer", primaryScrollPane);
         
         final JTable healthCheckTable = new JTable(healthCheckTableModel);

@@ -17,12 +17,12 @@
 package com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels;
 
 import com.amazonaws.AmazonClientException;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement;
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagementClient;
+import com.amazonaws.services.identitymanagement.model.GetRoleRequest;
+import com.amazonaws.services.identitymanagement.model.GetRoleResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,8 +30,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class IamRoleDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
     public IamRoleDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -45,7 +43,11 @@ public class IamRoleDetail extends AbstractDetail {
 
             AmazonIdentityManagement client = new AmazonIdentityManagementClient(credentials);
             
-            buildUI(null); 
+            GetRoleRequest request = new GetRoleRequest();
+            request.setRoleName(detailRequest.getResourceName());
+            
+            GetRoleResult result = client.getRole(request);
+            buildUI(result); 
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
@@ -59,7 +61,7 @@ public class IamRoleDetail extends AbstractDetail {
         return this;
     }
     
-    private void buildUI(DescribeInstancesResult detail) {
+    private void buildUI(GetRoleResult detail) {
         
     }
     

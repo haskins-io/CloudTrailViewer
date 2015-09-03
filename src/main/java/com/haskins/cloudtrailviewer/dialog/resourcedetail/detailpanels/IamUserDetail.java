@@ -17,14 +17,12 @@
 package com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels;
 
 import com.amazonaws.AmazonClientException;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement;
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagementClient;
+import com.amazonaws.services.identitymanagement.model.GetUserRequest;
+import com.amazonaws.services.identitymanagement.model.GetUserResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,8 +30,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class IamUserDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
     public IamUserDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -47,7 +43,11 @@ public class IamUserDetail extends AbstractDetail {
 
             AmazonIdentityManagement client = new AmazonIdentityManagementClient(credentials);
             
-            buildUI(null); 
+            GetUserRequest request = new GetUserRequest();
+            request.setUserName(detailRequest.getResourceName());
+            
+            GetUserResult result = client.getUser(request);
+            buildUI(result); 
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
@@ -61,7 +61,7 @@ public class IamUserDetail extends AbstractDetail {
         return this;
     }
     
-    private void buildUI(DescribeInstancesResult detail) {
+    private void buildUI(GetUserResult detail) {
         
     }
     

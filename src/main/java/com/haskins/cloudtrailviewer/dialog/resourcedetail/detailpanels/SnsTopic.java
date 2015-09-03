@@ -19,12 +19,11 @@ package com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.AmazonSNSClient;
+import com.amazonaws.services.sns.model.ListTopicsResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,8 +31,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SnsTopic extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
     public SnsTopic(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -62,7 +59,7 @@ public class SnsTopic extends AbstractDetail {
         return this;
     }
     
-    private void buildUI(DescribeInstancesResult detail) {
+    private void buildUI(ListTopicsResult detail) {
         
     }
     

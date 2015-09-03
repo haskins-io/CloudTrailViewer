@@ -19,12 +19,12 @@ package com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.kinesis.AmazonKinesis;
 import com.amazonaws.services.kinesis.AmazonKinesisClient;
+import com.amazonaws.services.kinesis.model.DescribeStreamRequest;
+import com.amazonaws.services.kinesis.model.DescribeStreamResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,8 +32,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class KinesisStreamDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    
     public KinesisStreamDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -48,7 +46,11 @@ public class KinesisStreamDetail extends AbstractDetail {
             AmazonKinesis client = new AmazonKinesisClient(credentials);
             client.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
             
-            buildUI(null); 
+            DescribeStreamRequest request = new DescribeStreamRequest();
+            request.setStreamName(detailRequest.getResourceName());
+            
+            DescribeStreamResult result = client.describeStream(request);
+            buildUI(result); 
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
@@ -62,7 +64,7 @@ public class KinesisStreamDetail extends AbstractDetail {
         return this;
     }
     
-    private void buildUI(DescribeInstancesResult detail) {
+    private void buildUI(DescribeStreamResult detail) {
         
     }
     

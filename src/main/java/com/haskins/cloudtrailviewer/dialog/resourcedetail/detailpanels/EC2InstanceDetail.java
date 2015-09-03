@@ -41,7 +41,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class EC2InstanceDetail extends AbstractDetail {
 
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
     protected final DefaultTableModel tagsTableModel = new DefaultTableModel();
     
     public EC2InstanceDetail(ResourceDetailRequest detailRequest) {
@@ -84,8 +83,6 @@ public class EC2InstanceDetail extends AbstractDetail {
         tagsTableModel.addColumn("Key");
         tagsTableModel.addColumn("Value");
 
-        final JTable primaryTable = new JTable(primaryTableModel);
-        JScrollPane primaryScrollPane = new JScrollPane(primaryTable);
         tabs.add("Instance", primaryScrollPane);
         
         final JTable tagsTable = new JTable(tagsTableModel);
