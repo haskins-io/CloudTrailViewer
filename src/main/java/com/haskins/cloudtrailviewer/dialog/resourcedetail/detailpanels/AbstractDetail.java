@@ -14,24 +14,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.dialog.resourcedetail;
+package com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetail;
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
 
 /**
  *
  * @author mark.haskins
  */
-public class UnhandledDetail extends JPanel implements ResourceDetail {
-
-    @Override
-    public String retrieveDetails(ResourceDetailRequest detailRequest) {
-        return null;
+public abstract class AbstractDetail extends JPanel implements ResourceDetail {
+    
+    protected final ResourceDetailRequest detailRequest;
+    protected final AWSCredentials credentials;
+    
+    public AbstractDetail(ResourceDetailRequest detailRequest) {
+        
+        this.detailRequest = detailRequest;
+        
+        this. credentials= new BasicAWSCredentials(
+            detailRequest.getAccount().getKey(),
+            detailRequest.getAccount().getSecret()
+        );
     }
     
     @Override
     public JPanel getPanel() {
         return this;
     }
-    
 }

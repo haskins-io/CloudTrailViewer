@@ -24,9 +24,9 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class IamResource extends AbstractRequest implements Request {
 
-    private static final String IAM_USER = "IAM User";
-    private static final String IAM_GROUP = "IAM Group";
-    private static final String IAM_ROLE = "IAM Role";
+    public static final String IAM_USER = "IAM User";
+    public static final String IAM_GROUP = "IAM Group";
+    public static final String IAM_ROLE = "IAM Role";
     
     /**
      * Return the resource for the passed Event

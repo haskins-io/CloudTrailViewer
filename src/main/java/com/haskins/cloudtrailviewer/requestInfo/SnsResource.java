@@ -26,7 +26,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class SnsResource extends AbstractRequest implements Request {
 
-    private static final String TOPIC = "Topic";
+    public static final String TOPIC = "Topic";
     
     /**
      * Return the resource for the passed Event

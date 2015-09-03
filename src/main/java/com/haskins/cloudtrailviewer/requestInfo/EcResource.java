@@ -24,6 +24,8 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class EcResource extends AbstractRequest implements Request {
 
+    
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require

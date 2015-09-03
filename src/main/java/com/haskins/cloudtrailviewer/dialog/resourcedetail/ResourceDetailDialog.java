@@ -16,6 +16,9 @@
  */
 package com.haskins.cloudtrailviewer.dialog.resourcedetail;
 
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels.UnhandledDetail;
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels.EC2InstanceDetail;
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels.ElbDetail;
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.requestInfo.AsResource;
 import com.haskins.cloudtrailviewer.requestInfo.Ec2Resource;
@@ -70,13 +73,13 @@ public class ResourceDetailDialog extends JDialog {
         
         ResourceDetail detail;
         if (detailRequest.getResourceType().equalsIgnoreCase(Ec2Resource.EC2_INSTANCE)) {
-            detail = new EC2Detail();
+            detail = new EC2InstanceDetail(detailRequest);
             
         } else if  (detailRequest.getResourceType().equalsIgnoreCase(ElbResoure.ELB_NAME)) {
-            detail = new ElbDetail();
+            detail = new ElbDetail(detailRequest);
             
         } else {
-            detail = new UnhandledDetail();
+            detail = new UnhandledDetail(detailRequest);
         }
         
         Container contentPane = getContentPane();

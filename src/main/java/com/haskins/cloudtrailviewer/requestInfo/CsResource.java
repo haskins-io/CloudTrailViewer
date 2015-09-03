@@ -26,7 +26,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class CsResource extends AbstractRequest implements Request {
 
-    private static final String CLOUDSEARCH_DOMAIN = "CloudSearch Domain";
+    public static final String CLOUDSEARCH_DOMAIN = "CloudSearch Domain";
     
     /**
      * Return the resource for the passed Event

@@ -14,11 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.dialog.resourcedetail;
+package com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels;
 
 import com.amazonaws.AmazonClientException;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancingClient;
@@ -29,6 +27,7 @@ import com.amazonaws.services.elasticloadbalancing.model.Instance;
 import com.amazonaws.services.elasticloadbalancing.model.Listener;
 import com.amazonaws.services.elasticloadbalancing.model.ListenerDescription;
 import com.amazonaws.services.elasticloadbalancing.model.LoadBalancerDescription;
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.List;
@@ -42,11 +41,15 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author mark.haskins
  */
-public class ElbDetail extends JPanel implements ResourceDetail {
+public class ElbDetail extends AbstractDetail {
 
     protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
     protected final DefaultTableModel listenersTableModel = new DefaultTableModel();
     protected final DefaultTableModel healthCheckTableModel = new DefaultTableModel();
+    
+    public ElbDetail(ResourceDetailRequest detailRequest) {
+        super(detailRequest);
+    }
     
     @Override
     public String retrieveDetails(ResourceDetailRequest detailRequest) {
@@ -55,11 +58,6 @@ public class ElbDetail extends JPanel implements ResourceDetail {
         
         try {
             
-            AWSCredentials credentials= new BasicAWSCredentials(
-                detailRequest.getAccount().getKey(),
-                detailRequest.getAccount().getSecret()
-            );
-
             AmazonElasticLoadBalancingClient elbClient = new AmazonElasticLoadBalancingClient(credentials);
             elbClient.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
 

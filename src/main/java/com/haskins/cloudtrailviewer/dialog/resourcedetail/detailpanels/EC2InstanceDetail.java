@@ -14,11 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.dialog.resourcedetail;
+package com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels;
 
 import com.amazonaws.AmazonClientException;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.ec2.AmazonEC2;
@@ -28,10 +26,10 @@ import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.ec2.model.Reservation;
 import com.amazonaws.services.ec2.model.Tag;
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -41,10 +39,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author mark.haskins
  */
-public class EC2Detail extends JPanel implements ResourceDetail {
+public class EC2InstanceDetail extends AbstractDetail {
 
     protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
     protected final DefaultTableModel tagsTableModel = new DefaultTableModel();
+    
+    public EC2InstanceDetail(ResourceDetailRequest detailRequest) {
+        super(detailRequest);
+    }
     
     @Override
     public String retrieveDetails(ResourceDetailRequest detailRequest) {
@@ -53,11 +55,6 @@ public class EC2Detail extends JPanel implements ResourceDetail {
         
         try {
             
-            AWSCredentials credentials= new BasicAWSCredentials(
-                detailRequest.getAccount().getKey(),
-                detailRequest.getAccount().getSecret()
-            );
-
             AmazonEC2 ec2Client = new AmazonEC2Client(credentials);
             ec2Client.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
 
@@ -74,11 +71,6 @@ public class EC2Detail extends JPanel implements ResourceDetail {
         return response;
     }
     
-    @Override
-    public JPanel getPanel() {
-        return this;
-    }
-
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     ////////////////////////////////////////////////////////////////////////////

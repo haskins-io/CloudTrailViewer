@@ -26,7 +26,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class CfResource extends AbstractRequest implements Request {
 
-    private static final String CLOUDFORMATION_STACK = "CloudFormation Stack";
+    public static final String CLOUDFORMATION_STACK = "CloudFormation Stack";
     
     /**
      * Return the resource for the passed Event
