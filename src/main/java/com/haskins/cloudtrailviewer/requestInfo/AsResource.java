@@ -29,7 +29,7 @@ import java.util.Map;
 public class AsResource extends AbstractRequest implements Request {
 
     public static final String AUTO_SCALING_GROUP = "AutoScaling Group";
-    private static final String LAUNCH_CONFIGURATION = "Launch Configuration";
+    public static final String LAUNCH_CONFIGURATION = "Launch Configuration";
     
     /**
      * Return the resource for the passed Event

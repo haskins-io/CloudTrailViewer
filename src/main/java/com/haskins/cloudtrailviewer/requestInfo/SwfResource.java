@@ -24,7 +24,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class SwfResource extends AbstractRequest implements Request {
 
-    private static final String DOMAIN = "Domain";
+    public static final String DOMAIN = "Domain";
     
     /**
      * Return the resource for the passed Event

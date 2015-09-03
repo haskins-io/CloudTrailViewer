@@ -26,7 +26,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class RdsResource extends AbstractRequest implements Request {
 
-    private static final String RDS_INSTANCE = "RDS Instance";
+    public static final String RDS_INSTANCE = "RDS Instance";
     
     /**
      * Return the resource for the passed Event

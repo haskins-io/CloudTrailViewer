@@ -24,7 +24,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class KinesisResource extends AbstractRequest implements Request {
 
-    private static final String STREAM = "Stream";
+    public static final String STREAM = "Stream";
     
     /**
      * Return the resource for the passed Event

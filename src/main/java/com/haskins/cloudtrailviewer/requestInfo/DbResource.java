@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class DbResource extends AbstractRequest implements Request {
 
-    private static final String DYNAMODB_TABLE = "DynamoDb Table";
+    public static final String DYNAMODB_TABLE = "DynamoDb Table";
     
     /**
      * Return the resource for the passed Event

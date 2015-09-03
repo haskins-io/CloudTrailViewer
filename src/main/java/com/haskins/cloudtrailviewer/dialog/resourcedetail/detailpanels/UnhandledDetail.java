@@ -14,24 +14,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.haskins.cloudtrailviewer.dialog.resourcedetail;
+package com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels;
 
+import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
 
 /**
  *
  * @author mark.haskins
  */
-public class AsGroupDetail extends JPanel implements ResourceDetail {
+public class UnhandledDetail extends AbstractDetail {
 
+    public UnhandledDetail(ResourceDetailRequest detailRequest) {
+        super(detailRequest);
+    }
+    
     @Override
     public String retrieveDetails(ResourceDetailRequest detailRequest) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
-
+    
     @Override
     public JPanel getPanel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this;
     }
     
 }
