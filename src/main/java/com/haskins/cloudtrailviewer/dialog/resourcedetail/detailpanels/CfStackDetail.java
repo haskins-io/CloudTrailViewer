@@ -23,8 +23,18 @@ import com.amazonaws.services.cloudformation.AmazonCloudFormation;
 import com.amazonaws.services.cloudformation.AmazonCloudFormationClient;
 import com.amazonaws.services.cloudformation.model.DescribeStacksRequest;
 import com.amazonaws.services.cloudformation.model.DescribeStacksResult;
+import com.amazonaws.services.cloudformation.model.Output;
+import com.amazonaws.services.cloudformation.model.Parameter;
+import com.amazonaws.services.cloudformation.model.Stack;
+import com.amazonaws.services.cloudformation.model.Tag;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.awt.BorderLayout;
+import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,6 +42,9 @@ import javax.swing.JPanel;
  */
 public class CfStackDetail extends AbstractDetail {
  
+    protected final DefaultTableModel outputTableModel = new DefaultTableModel();
+    protected final DefaultTableModel parametersTableModel = new DefaultTableModel();
+    
     public CfStackDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -66,6 +79,68 @@ public class CfStackDetail extends AbstractDetail {
     
     private void buildUI(DescribeStacksResult detail) {
         
+        JTabbedPane tabs = new JTabbedPane();
+        tabs.add("Stack", primaryScrollPane);
+        
+        final JTable outputCheckTable = new JTable(outputTableModel);
+        JScrollPane healthCheckScrollPane = new JScrollPane(outputCheckTable);
+        tabs.add("Output", healthCheckScrollPane);
+        
+        final JTable paramsTable = new JTable(parametersTableModel);
+        JScrollPane listenersScrollPane = new JScrollPane(paramsTable);
+        tabs.add("Parameters", listenersScrollPane);
+        
+        this.setLayout(new BorderLayout());
+        this.add(tabs, BorderLayout.CENTER);
+        
+        if (!detail.getStacks().isEmpty()) {
+            
+            List<Stack> stacks = detail.getStacks();
+            Stack stack = stacks.get(0);
+            
+            if (stack.getCreationTime() != null) { primaryTableModel.addRow(new Object[]{"Created", getDateString(stack.getCreationTime())}); }
+            if (stack.getDescription() != null) { primaryTableModel.addRow(new Object[]{"Description", stack.getDescription()}); }
+            if (stack.getDisableRollback() != null) { primaryTableModel.addRow(new Object[]{"Disable Rollback", stack.getDisableRollback()}); }
+            if (stack.getLastUpdatedTime() != null) { primaryTableModel.addRow(new Object[]{"Last Updated", getDateString(stack.getLastUpdatedTime())}); }
+            if (stack.getNotificationARNs() != null) { primaryTableModel.addRow(new Object[]{"Notification Arns", stack.getNotificationARNs()}); }
+            if (stack.getStackId() != null) { primaryTableModel.addRow(new Object[]{"Stacks Id", stack.getStackId()}); }
+            if (stack.getStackName()!= null) { primaryTableModel.addRow(new Object[]{"Stacks Name", stack.getStackName()}); }
+            if (stack.getStackStatus()!= null) { primaryTableModel.addRow(new Object[]{"Stacks Status", stack.getStackStatus()}); }
+            if (stack.getStackStatusReason()!= null) { primaryTableModel.addRow(new Object[]{"Stacks Status Reason", stack.getStackStatusReason()}); }
+            if (stack.getTimeoutInMinutes()!= null) { primaryTableModel.addRow(new Object[]{"Timeout (minutes)", stack.getTimeoutInMinutes()}); }
+            
+            /**
+             * Tags
+             */
+            List<Tag> tags = stack.getTags();
+            for (Tag tag : tags) {
+                tagsTableModel.addRow(new Object[]{tag.getKey(), tag.getValue()});
+            }
+            
+            /**
+             * Output
+             */
+            outputTableModel.addColumn("Description");
+            outputTableModel.addColumn("Key");
+            outputTableModel.addColumn("Value");
+            
+            List<Output> outputs = stack.getOutputs();
+            for (Output output : outputs) {
+                tagsTableModel.addRow(new Object[]{output.getDescription(), output.getOutputKey(), output.getOutputValue()});
+            }
+            
+            /**
+             * Parameters
+             */
+            parametersTableModel.addColumn("Key");
+            parametersTableModel.addColumn("Value");
+            parametersTableModel.addColumn("User Previous Value");
+            
+            List<Parameter> parameters = stack.getParameters();
+            for (Parameter parameter : parameters) {
+                tagsTableModel.addRow(new Object[]{parameter.getParameterKey(), parameter.getParameterValue(), parameter.getUsePreviousValue()});
+            }
+        }
     }
     
 }

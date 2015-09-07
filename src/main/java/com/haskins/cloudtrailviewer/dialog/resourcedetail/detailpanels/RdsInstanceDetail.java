@@ -21,9 +21,11 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.rds.AmazonRDS;
 import com.amazonaws.services.rds.AmazonRDSClient;
+import com.amazonaws.services.rds.model.DBInstance;
 import com.amazonaws.services.rds.model.DescribeDBInstancesRequest;
 import com.amazonaws.services.rds.model.DescribeDBInstancesResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -65,6 +67,13 @@ public class RdsInstanceDetail extends AbstractDetail {
     }
     
     private void buildUI(DescribeDBInstancesResult detail) {
+        
+        if (!detail.getDBInstances().isEmpty()) {
+            
+            List<DBInstance> instances = detail.getDBInstances();
+            DBInstance instance = instances.get(0);
+            
+        }
         
     }
 }

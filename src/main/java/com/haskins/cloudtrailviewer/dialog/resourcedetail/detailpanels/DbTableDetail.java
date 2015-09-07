@@ -23,6 +23,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.DescribeTableRequest;
 import com.amazonaws.services.dynamodbv2.model.DescribeTableResult;
+import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
 
@@ -66,5 +67,18 @@ public class DbTableDetail extends AbstractDetail {
     
     private void buildUI(DescribeTableResult detail) {
         
+        if (detail.getTable() != null) {
+            
+            TableDescription table = detail.getTable();
+            
+            if (table.getCreationDateTime() != null) { primaryTableModel.addRow(new Object[]{"Created", getDateString(table.getCreationDateTime())}); }
+            if (table.getItemCount()!= null) { primaryTableModel.addRow(new Object[]{"Item Count", table.getItemCount()}); }
+            if (table.getLatestStreamArn()!= null) { primaryTableModel.addRow(new Object[]{"Latest Stream Arn", table.getLatestStreamArn()}); }
+            if (table.getLatestStreamLabel()!= null) { primaryTableModel.addRow(new Object[]{"Latest Stream Label", table.getLatestStreamLabel()}); }
+            if (table.getTableArn()!= null) { primaryTableModel.addRow(new Object[]{"Arn", table.getTableArn()}); }
+            if (table.getTableName()!= null) { primaryTableModel.addRow(new Object[]{"Name", table.getTableName()}); }
+            if (table.getTableSizeBytes()!= null) { primaryTableModel.addRow(new Object[]{"Size (bytes)", table.getTableSizeBytes()}); }
+            if (table.getTableStatus()!= null) { primaryTableModel.addRow(new Object[]{"Status", table.getTableStatus()}); }
+        }
     }
 }

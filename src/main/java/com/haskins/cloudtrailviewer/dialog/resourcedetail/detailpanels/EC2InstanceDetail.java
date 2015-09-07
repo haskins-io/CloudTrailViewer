@@ -30,18 +30,13 @@ import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author mark.haskins
  */
 public class EC2InstanceDetail extends AbstractDetail {
-
-    protected final DefaultTableModel tagsTableModel = new DefaultTableModel();
     
     public EC2InstanceDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
@@ -76,17 +71,7 @@ public class EC2InstanceDetail extends AbstractDetail {
     private void buildUI(DescribeInstancesResult detail) {
        
         JTabbedPane tabs = new JTabbedPane();
-               
-        primaryTableModel.addColumn("Property");
-        primaryTableModel.addColumn("Value");
-        
-        tagsTableModel.addColumn("Key");
-        tagsTableModel.addColumn("Value");
-
         tabs.add("Instance", primaryScrollPane);
-        
-        final JTable tagsTable = new JTable(tagsTableModel);
-        JScrollPane tagsScrollPane = new JScrollPane(tagsTable);
         tabs.add("Tags", tagsScrollPane);
         
         this.setLayout(new BorderLayout());

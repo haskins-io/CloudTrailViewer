@@ -83,18 +83,6 @@ public class ElbDetail extends AbstractDetail {
     ////////////////////////////////////////////////////////////////////////////
     private void buildUI(DescribeLoadBalancersResult detail) {
         
-        primaryTableModel.addColumn("Property");
-        primaryTableModel.addColumn("Value");
-        
-        listenersTableModel.addColumn("Instance Port");
-        listenersTableModel.addColumn("Instance Protocol");
-        listenersTableModel.addColumn("Load Balancer Port");
-        listenersTableModel.addColumn("Load Balancer Protocol");
-        listenersTableModel.addColumn("SSL Certificate Id");
-        
-        healthCheckTableModel.addColumn("Property");
-        healthCheckTableModel.addColumn("Value");
-        
         JTabbedPane tabs = new JTabbedPane();
         
         tabs.add("Load Balancer", primaryScrollPane);
@@ -169,7 +157,11 @@ public class ElbDetail extends AbstractDetail {
             
             /**
              * Health Check
-             */        
+             */     
+                    
+            healthCheckTableModel.addColumn("Property");
+            healthCheckTableModel.addColumn("Value");
+            
             HealthCheck healthCheck = elb.getHealthCheck();
             if (healthCheck.getHealthyThreshold()!= null) { healthCheckTableModel.addRow(new Object[]{"Threshold", healthCheck.getHealthyThreshold()}); }
             if (healthCheck.getInterval()!= null) { healthCheckTableModel.addRow(new Object[]{"Interval", healthCheck.getInterval()}); }
@@ -180,6 +172,14 @@ public class ElbDetail extends AbstractDetail {
             /**
              * Listeners
              */
+                
+            listenersTableModel.addColumn("Instance Port");
+            listenersTableModel.addColumn("Instance Protocol");
+            listenersTableModel.addColumn("Load Balancer Port");
+            listenersTableModel.addColumn("Load Balancer Protocol");
+            listenersTableModel.addColumn("SSL Certificate Id");
+
+            
             List<ListenerDescription> listenerDescriptions = elb.getListenerDescriptions();
             for (ListenerDescription description : listenerDescriptions) {
                 

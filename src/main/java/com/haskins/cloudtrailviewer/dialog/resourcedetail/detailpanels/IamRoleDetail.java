@@ -21,6 +21,7 @@ import com.amazonaws.services.identitymanagement.AmazonIdentityManagement;
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagementClient;
 import com.amazonaws.services.identitymanagement.model.GetRoleRequest;
 import com.amazonaws.services.identitymanagement.model.GetRoleResult;
+import com.amazonaws.services.identitymanagement.model.Role;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
 
@@ -62,6 +63,19 @@ public class IamRoleDetail extends AbstractDetail {
     }
     
     private void buildUI(GetRoleResult detail) {
+        
+        if (detail.getRole() != null) {
+            
+            Role role = detail.getRole();
+            
+            if (role.getCreateDate() != null) { primaryTableModel.addRow(new Object[]{"Created", getDateString(role.getCreateDate())}); }
+            if (role.getArn() != null) { primaryTableModel.addRow(new Object[]{"Arn", role.getArn()}); }
+            if (role.getAssumeRolePolicyDocument() != null) { primaryTableModel.addRow(new Object[]{"Assume Role Policy Document", role.getAssumeRolePolicyDocument()}); }
+            if (role.getPath()!= null) { primaryTableModel.addRow(new Object[]{"Path", role.getPath()}); }
+            if (role.getRoleId()!= null) { primaryTableModel.addRow(new Object[]{"Role Id", role.getRoleId()}); }
+            if (role.getRoleName()!= null) { primaryTableModel.addRow(new Object[]{"Role Name", role.getRoleName()}); }
+            
+        }
         
     }
     

@@ -23,8 +23,11 @@ import com.amazonaws.services.autoscaling.AmazonAutoScaling;
 import com.amazonaws.services.autoscaling.AmazonAutoScalingClient;
 import com.amazonaws.services.autoscaling.model.DescribeLaunchConfigurationsRequest;
 import com.amazonaws.services.autoscaling.model.DescribeLaunchConfigurationsResult;
+import com.amazonaws.services.autoscaling.model.LaunchConfiguration;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.awt.BorderLayout;
 import java.util.Arrays;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -66,6 +69,52 @@ public class AsLaunchDetail extends AbstractDetail {
     }
     
     private void buildUI(DescribeLaunchConfigurationsResult detail) {
+        
+        this.setLayout(new BorderLayout());
+        this.add(primaryScrollPane, BorderLayout.CENTER);
+        
+        if (!detail.getLaunchConfigurations().isEmpty()) {
+            
+            List<LaunchConfiguration> lcs = detail.getLaunchConfigurations();
+            LaunchConfiguration lc = lcs.get(0);
+            
+            if (lc.getAssociatePublicIpAddress() != null) { primaryTableModel.addRow(new Object[]{"Has EIP", lc.getAssociatePublicIpAddress()}); }
+            if (lc.getClassicLinkVPCId() != null) { primaryTableModel.addRow(new Object[]{"Classic Link VPC Id", lc.getClassicLinkVPCId()}); }
+            
+            if (!lc.getClassicLinkVPCSecurityGroups().isEmpty()) { 
+            
+                StringBuilder sgs = new StringBuilder();
+                for (String sg : lc.getClassicLinkVPCSecurityGroups()) {
+                    sgs.append(sg).append(", ");
+                }
+                
+                primaryTableModel.addRow(new Object[]{"Classic Link VPC Security Groups", sgs.toString()}); 
+            }
+            
+            if (lc.getCreatedTime()!= null) { primaryTableModel.addRow(new Object[]{"Created", getDateString(lc.getCreatedTime())}); }
+            if (lc.getEbsOptimized() != null) { primaryTableModel.addRow(new Object[]{"EBS Optimised", lc.getEbsOptimized()}); }
+            if (lc.getIamInstanceProfile() != null) { primaryTableModel.addRow(new Object[]{"Instance Profile", lc.getIamInstanceProfile()}); }
+            if (lc.getImageId() != null) { primaryTableModel.addRow(new Object[]{"Image Id", lc.getImageId()}); }
+            if (lc.getInstanceType() != null) { primaryTableModel.addRow(new Object[]{"Instance Type", lc.getInstanceType()}); }
+            if (lc.getKernelId() != null) { primaryTableModel.addRow(new Object[]{"Kernal Id", lc.getKernelId()}); }
+            if (lc.getKeyName() != null) { primaryTableModel.addRow(new Object[]{"Key Name", lc.getKeyName()}); }
+            if (lc.getLaunchConfigurationARN() != null) { primaryTableModel.addRow(new Object[]{"Launch Configuration Arn", lc.getLaunchConfigurationARN()}); }
+            if (lc.getLaunchConfigurationName() != null) { primaryTableModel.addRow(new Object[]{"Launch Configuration Name", lc.getLaunchConfigurationName()}); }
+            if (lc.getPlacementTenancy() != null) { primaryTableModel.addRow(new Object[]{"Placement Tenancy", lc.getPlacementTenancy()}); }
+            if (lc.getRamdiskId() != null) { primaryTableModel.addRow(new Object[]{"Ram Disk ID", lc.getRamdiskId()}); }
+            
+            if (!lc.getSecurityGroups().isEmpty()) { 
+            
+                StringBuilder sgs = new StringBuilder();
+                for (String sg : lc.getSecurityGroups()) {
+                    sgs.append(sg).append(", ");
+                }
+                
+                primaryTableModel.addRow(new Object[]{"Security Groups", sgs.toString()}); 
+            }
+            
+            if (lc.getSpotPrice() != null) { primaryTableModel.addRow(new Object[]{"Spot Price", lc.getSpotPrice()}); }
+        }
         
     }
 }

@@ -21,6 +21,7 @@ import com.amazonaws.services.identitymanagement.AmazonIdentityManagement;
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagementClient;
 import com.amazonaws.services.identitymanagement.model.GetUserRequest;
 import com.amazonaws.services.identitymanagement.model.GetUserResult;
+import com.amazonaws.services.identitymanagement.model.User;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
 
@@ -62,6 +63,19 @@ public class IamUserDetail extends AbstractDetail {
     }
     
     private void buildUI(GetUserResult detail) {
+        
+        if (detail.getUser() != null) {
+            
+            User user = detail.getUser();
+                
+            if (user.getCreateDate() != null) { primaryTableModel.addRow(new Object[]{"Created", getDateString(user.getCreateDate())}); }
+            if (user.getArn() != null) { primaryTableModel.addRow(new Object[]{"Arn", user.getArn()}); }
+            if (user.getPasswordLastUsed() != null) { primaryTableModel.addRow(new Object[]{"Password Last Used", user.getPasswordLastUsed()}); }
+            if (user.getPath()!= null) { primaryTableModel.addRow(new Object[]{"Path", user.getPath()}); }
+            if (user.getUserId()!= null) { primaryTableModel.addRow(new Object[]{"User Id", user.getUserId()}); }
+            if (user.getUserName()!= null) { primaryTableModel.addRow(new Object[]{"User Name", user.getUserName()}); }
+            
+        }
         
     }
     

@@ -23,6 +23,7 @@ import com.amazonaws.services.kinesis.AmazonKinesis;
 import com.amazonaws.services.kinesis.AmazonKinesisClient;
 import com.amazonaws.services.kinesis.model.DescribeStreamRequest;
 import com.amazonaws.services.kinesis.model.DescribeStreamResult;
+import com.amazonaws.services.kinesis.model.StreamDescription;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import javax.swing.JPanel;
 
@@ -65,6 +66,16 @@ public class KinesisStreamDetail extends AbstractDetail {
     }
     
     private void buildUI(DescribeStreamResult detail) {
+        
+        if (detail.getStreamDescription() != null) {
+            
+            StreamDescription stream = detail.getStreamDescription();
+            
+            if (stream.getHasMoreShards() != null) { primaryTableModel.addRow(new Object[]{"Has More Shards", stream.getHasMoreShards()}); }
+            if (stream.getStreamARN() != null) { primaryTableModel.addRow(new Object[]{"Stream Arn", stream.getStreamARN()}); }
+            if (stream.getStreamName() != null) { primaryTableModel.addRow(new Object[]{"Stream Name", stream.getStreamName()}); }
+            if (stream.getStreamStatus() != null) { primaryTableModel.addRow(new Object[]{"Stram Status", stream.getStreamStatus()}); }
+        }
         
     }
     

@@ -20,6 +20,8 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetail;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -31,12 +33,19 @@ import javax.swing.table.DefaultTableModel;
  */
 public abstract class AbstractDetail extends JPanel implements ResourceDetail {
     
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+    
     protected final ResourceDetailRequest detailRequest;
     protected final AWSCredentials credentials;
     
     protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
+    protected final DefaultTableModel tagsTableModel = new DefaultTableModel();
+    
     private final JTable primaryTable = new JTable(primaryTableModel);
     protected JScrollPane primaryScrollPane = new JScrollPane(primaryTable);
+    
+    private final JTable tagsTable = new JTable(tagsTableModel);
+    protected JScrollPane tagsScrollPane = new JScrollPane(tagsTable);
     
     public AbstractDetail(ResourceDetailRequest detailRequest) {
         
@@ -46,10 +55,20 @@ public abstract class AbstractDetail extends JPanel implements ResourceDetail {
             detailRequest.getAccount().getKey(),
             detailRequest.getAccount().getSecret()
         );
+        
+        primaryTableModel.addColumn("Property");
+        primaryTableModel.addColumn("Value");
+        
+        tagsTableModel.addColumn("Key");
+        tagsTableModel.addColumn("Value");
     }
     
     @Override
     public JPanel getPanel() {
         return this;
+    }
+    
+    protected String getDateString(Date date) {
+        return sdf.format(date.getTime());
     }
 }

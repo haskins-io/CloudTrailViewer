@@ -21,8 +21,15 @@ import com.amazonaws.services.identitymanagement.AmazonIdentityManagement;
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagementClient;
 import com.amazonaws.services.identitymanagement.model.GetGroupRequest;
 import com.amazonaws.services.identitymanagement.model.GetGroupResult;
+import com.amazonaws.services.identitymanagement.model.Group;
+import com.amazonaws.services.identitymanagement.model.User;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,6 +37,8 @@ import javax.swing.JPanel;
  */
 public class IamGroupDetail extends AbstractDetail {
 
+    protected final DefaultTableModel usersTableModel = new DefaultTableModel();
+    
     public IamGroupDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -63,6 +72,45 @@ public class IamGroupDetail extends AbstractDetail {
     
     private void buildUI(GetGroupResult detail) {
         
+        JTabbedPane tabs = new JTabbedPane();
+        tabs.add("Group", primaryScrollPane);
+        
+        final JTable usersTable = new JTable(usersTableModel);
+        JScrollPane usersScrollPane = new JScrollPane(usersTable);
+        tabs.add("Users", usersScrollPane);
+        
+        if (detail.getGroup() != null) {
+            
+            Group group = detail.getGroup();
+            
+            if (group.getCreateDate() != null) { primaryTableModel.addRow(new Object[]{"Created", getDateString(group.getCreateDate())}); }
+            if (group.getArn() != null) { primaryTableModel.addRow(new Object[]{"Arn", group.getArn()}); }
+            if (group.getGroupId() != null) { primaryTableModel.addRow(new Object[]{"Group ID", group.getGroupId()}); }
+            if (group.getGroupName()!= null) { primaryTableModel.addRow(new Object[]{"Group Name", group.getGroupName()}); }
+            if (group.getPath()!= null) { primaryTableModel.addRow(new Object[]{"Path", group.getPath()}); }
+            
+            /**
+             * Users
+             * 
+             */
+            usersTableModel.addColumn("Key");
+            usersTableModel.addColumn("Value");
+            usersTableModel.addColumn("User Previous Value");
+            
+            List<User> users = detail.getUsers();
+            if (!users.isEmpty()) {
+                for (User user : users) {
+                    
+                    if (user.getCreateDate() != null) { primaryTableModel.addRow(new Object[]{"Created", getDateString(user.getCreateDate())}); }
+                    if (user.getArn() != null) { primaryTableModel.addRow(new Object[]{"Arn", user.getArn()}); }
+                    if (user.getPasswordLastUsed() != null) { primaryTableModel.addRow(new Object[]{"Password Last Used", user.getPasswordLastUsed()}); }
+                    if (user.getPath()!= null) { primaryTableModel.addRow(new Object[]{"Path", user.getPath()}); }
+                    if (user.getUserId()!= null) { primaryTableModel.addRow(new Object[]{"User Id", user.getUserId()}); }
+                    if (user.getUserName()!= null) { primaryTableModel.addRow(new Object[]{"User Name", user.getUserName()}); }
+                    
+                }
+            }
+        }
     }
     
 }

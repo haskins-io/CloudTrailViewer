@@ -23,8 +23,10 @@ import com.amazonaws.services.cloudsearchv2.AmazonCloudSearchClient;
 import com.amazonaws.services.cloudsearchv2.AmazonCloudSearch;
 import com.amazonaws.services.cloudsearchv2.model.DescribeDomainsRequest;
 import com.amazonaws.services.cloudsearchv2.model.DescribeDomainsResult;
+import com.amazonaws.services.cloudsearchv2.model.DomainStatus;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.util.Arrays;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -66,6 +68,25 @@ public class CsDomainDetail extends AbstractDetail {
     }
     
     private void buildUI(DescribeDomainsResult detail) {
+        
+        if (!detail.getDomainStatusList().isEmpty()) {
+            
+            List<DomainStatus> domains = detail.getDomainStatusList();
+            DomainStatus domain = domains.get(0);
+            
+            if (domain.getARN() != null) { primaryTableModel.addRow(new Object[]{"Arn", domain.getARN()}); }
+            if (domain.getCreated() != null) { primaryTableModel.addRow(new Object[]{"Created", domain.getCreated()}); }
+            if (domain.getDeleted() != null) { primaryTableModel.addRow(new Object[]{"Deleted", domain.getDeleted()}); }
+            if (domain.getDocService() != null) { primaryTableModel.addRow(new Object[]{"Document Service", domain.getDocService().getEndpoint()}); }
+            if (domain.getDomainId() != null) { primaryTableModel.addRow(new Object[]{"Domain Id", domain.getDomainId()}); }
+            if (domain.getDomainName()!= null) { primaryTableModel.addRow(new Object[]{"Domain Name", domain.getDomainName()}); }
+            if (domain.getProcessing()!= null) { primaryTableModel.addRow(new Object[]{"Processing", domain.getProcessing()}); }
+            if (domain.getRequiresIndexDocuments()!= null) { primaryTableModel.addRow(new Object[]{"Requires Index Document", domain.getProcessing()}); }
+            if (domain.getSearchInstanceCount()!= null) { primaryTableModel.addRow(new Object[]{"Search Status Cound", domain.getSearchInstanceCount()}); }
+            if (domain.getSearchInstanceType()!= null) { primaryTableModel.addRow(new Object[]{"Search Instance Type", domain.getSearchInstanceType()}); }
+            if (domain.getSearchPartitionCount()!= null) { primaryTableModel.addRow(new Object[]{"Search Partition Count", domain.getSearchPartitionCount()}); }
+            if (domain.getSearchService()!= null) { primaryTableModel.addRow(new Object[]{"Search Service", domain.getSearchService().getEndpoint()}); }
+        }
         
     }
     
