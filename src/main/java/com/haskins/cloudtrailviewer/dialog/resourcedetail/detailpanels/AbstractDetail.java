@@ -20,6 +20,7 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetail;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.awt.BorderLayout;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JPanel;
@@ -48,6 +49,8 @@ public abstract class AbstractDetail extends JPanel implements ResourceDetail {
     protected JScrollPane tagsScrollPane = new JScrollPane(tagsTable);
     
     public AbstractDetail(ResourceDetailRequest detailRequest) {
+        
+        this.setLayout(new BorderLayout());
         
         this.detailRequest = detailRequest;
         

@@ -90,7 +90,6 @@ public class CfStackDetail extends AbstractDetail {
         JScrollPane listenersScrollPane = new JScrollPane(paramsTable);
         tabs.add("Parameters", listenersScrollPane);
         
-        this.setLayout(new BorderLayout());
         this.add(tabs, BorderLayout.CENTER);
         
         if (!detail.getStacks().isEmpty()) {

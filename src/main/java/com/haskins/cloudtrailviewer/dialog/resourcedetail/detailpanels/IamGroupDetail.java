@@ -24,6 +24,7 @@ import com.amazonaws.services.identitymanagement.model.GetGroupResult;
 import com.amazonaws.services.identitymanagement.model.Group;
 import com.amazonaws.services.identitymanagement.model.User;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.awt.BorderLayout;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -78,6 +79,8 @@ public class IamGroupDetail extends AbstractDetail {
         final JTable usersTable = new JTable(usersTableModel);
         JScrollPane usersScrollPane = new JScrollPane(usersTable);
         tabs.add("Users", usersScrollPane);
+        
+        this.add(tabs, BorderLayout.CENTER);
         
         if (detail.getGroup() != null) {
             

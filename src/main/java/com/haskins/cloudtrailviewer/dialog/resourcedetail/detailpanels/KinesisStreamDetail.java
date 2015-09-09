@@ -25,6 +25,7 @@ import com.amazonaws.services.kinesis.model.DescribeStreamRequest;
 import com.amazonaws.services.kinesis.model.DescribeStreamResult;
 import com.amazonaws.services.kinesis.model.StreamDescription;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
 /**
@@ -66,6 +67,8 @@ public class KinesisStreamDetail extends AbstractDetail {
     }
     
     private void buildUI(DescribeStreamResult detail) {
+        
+        this.add(primaryScrollPane, BorderLayout.CENTER);
         
         if (detail.getStreamDescription() != null) {
             

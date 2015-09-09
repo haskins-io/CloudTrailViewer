@@ -77,7 +77,6 @@ public class AsGroupDetail extends AbstractDetail {
         tabs.add("AS Group", primaryScrollPane);
         tabs.add("Tags", tagsScrollPane);
         
-        this.setLayout(new BorderLayout());
         this.add(tabs, BorderLayout.CENTER);
         
         List<AutoScalingGroup> groups = detail.getAutoScalingGroups();

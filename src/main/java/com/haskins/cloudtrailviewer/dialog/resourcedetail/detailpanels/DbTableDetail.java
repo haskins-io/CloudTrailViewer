@@ -25,6 +25,7 @@ import com.amazonaws.services.dynamodbv2.model.DescribeTableRequest;
 import com.amazonaws.services.dynamodbv2.model.DescribeTableResult;
 import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
 /**
@@ -66,6 +67,8 @@ public class DbTableDetail extends AbstractDetail {
     }
     
     private void buildUI(DescribeTableResult detail) {
+        
+        this.add(primaryScrollPane, BorderLayout.CENTER);
         
         if (detail.getTable() != null) {
             

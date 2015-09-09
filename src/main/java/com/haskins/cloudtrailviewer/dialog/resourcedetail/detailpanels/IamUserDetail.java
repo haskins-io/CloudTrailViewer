@@ -23,6 +23,7 @@ import com.amazonaws.services.identitymanagement.model.GetUserRequest;
 import com.amazonaws.services.identitymanagement.model.GetUserResult;
 import com.amazonaws.services.identitymanagement.model.User;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
 /**
@@ -63,6 +64,8 @@ public class IamUserDetail extends AbstractDetail {
     }
     
     private void buildUI(GetUserResult detail) {
+        
+        this.add(primaryScrollPane, BorderLayout.CENTER);
         
         if (detail.getUser() != null) {
             

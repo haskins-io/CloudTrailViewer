@@ -116,7 +116,8 @@ public class EventTree extends JPanel implements SideBar {
             TreeNode typeNode = (TreeNode)selPath.getPath()[numNodes-2];
             String resourceType = typeNode.toString();
             
-            if (ResourceDetailDialog.handledResourceTypes.contains(resourceType)) {
+            if (ResourceDetailDialog.handledResourceTypes().containsKey(resourceType)) {
+                
                 TreeNode nameNode = (TreeNode)selPath.getPath()[numNodes-1];
                 String resourceName = nameNode.toString();
                 

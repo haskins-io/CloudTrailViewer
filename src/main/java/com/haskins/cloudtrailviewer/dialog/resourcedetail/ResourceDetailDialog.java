@@ -16,19 +16,24 @@
  */
 package com.haskins.cloudtrailviewer.dialog.resourcedetail;
 
-import com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels.UnhandledDetail;
-import com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels.EC2InstanceDetail;
-import com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels.ElbDetail;
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.requestInfo.AsResource;
+import com.haskins.cloudtrailviewer.requestInfo.CfResource;
+import com.haskins.cloudtrailviewer.requestInfo.CsResource;
+import com.haskins.cloudtrailviewer.requestInfo.DbResource;
 import com.haskins.cloudtrailviewer.requestInfo.Ec2Resource;
 import com.haskins.cloudtrailviewer.requestInfo.ElbResoure;
+import com.haskins.cloudtrailviewer.requestInfo.IamResource;
+import com.haskins.cloudtrailviewer.requestInfo.KinesisResource;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -38,15 +43,30 @@ import javax.swing.JOptionPane;
  */
 public class ResourceDetailDialog extends JDialog {
     
+    private static final String PACKAGE = "com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels.";
+    
     private static boolean exceptionThrown = false;
     
     private static ResourceDetailDialog dialog;
     
-    public static List<String> handledResourceTypes = Arrays.asList(
-            ElbResoure.ELB_NAME,
-            AsResource.AUTO_SCALING_GROUP,
-            Ec2Resource.EC2_INSTANCE
-    );
+    public static Map<String, String> handledResourceTypes() {
+        
+        return Collections.unmodifiableMap(new HashMap<String, String>() {
+            {
+                put(AsResource.AUTO_SCALING_GROUP, "AsGroupDetail");
+                put(AsResource.LAUNCH_CONFIGURATION, "AsLaunchDetail");
+                put(CfResource.CLOUDFORMATION_STACK, "CfStackDetail");
+                put(CsResource.CLOUDSEARCH_DOMAIN, "CsDomainDetail");
+                put(DbResource.DYNAMODB_TABLE, "DbTableDetail");
+                put(Ec2Resource.EC2_INSTANCE, "EC2InstanceDetail");
+                put(ElbResoure.ELB_NAME, "ElbDetail");
+                put(IamResource.IAM_GROUP, "IamGroupDetail");
+                put(IamResource.IAM_ROLE, "IamRoleDetail");
+                put(IamResource.IAM_USER, "IamUserDetail");
+                put(KinesisResource.STREAM, "KinesisStreamDetail");
+            }
+        });
+    }
     
     public static void showDialog(Component parent, ResourceDetailRequest detailRequest) {
         
@@ -71,35 +91,36 @@ public class ResourceDetailDialog extends JDialog {
         this.setMaximumSize(new Dimension(800,600));
         this.setPreferredSize(new Dimension(800,600));
         
-        ResourceDetail detail;
-        if (detailRequest.getResourceType().equalsIgnoreCase(Ec2Resource.EC2_INSTANCE)) {
-            detail = new EC2InstanceDetail(detailRequest);
-            
-        } else if  (detailRequest.getResourceType().equalsIgnoreCase(ElbResoure.ELB_NAME)) {
-            detail = new ElbDetail(detailRequest);
-            
-        } else {
-            detail = new UnhandledDetail(detailRequest);
-        }
+        String fqcp = PACKAGE + handledResourceTypes().get(detailRequest.getResourceType());
         
-        Container contentPane = getContentPane();
-        String response = detail.retrieveDetails(detailRequest);
-        
-        if (response == null) {
-            contentPane.add(detail.getPanel());
-        } else {
-                response = response.replaceAll("; ", "\n");
+        try {
+            Class c = Class.forName(fqcp);
+            Constructor constructor = c.getConstructor(ResourceDetailRequest.class);
+            ResourceDetail detail = (ResourceDetail) constructor.newInstance(detailRequest);
             
-                JOptionPane.showMessageDialog(CloudTrailViewer.frame,
-                response,
-                "AWS Error",
-                JOptionPane.ERROR_MESSAGE
-            );
+            Container contentPane = getContentPane();
+            String response = detail.retrieveDetails(detailRequest);
+
+            if (response == null) {
+                contentPane.add(detail.getPanel());
                 
+            } else {
+                response = response.replaceAll("; ", "\n");
+
+                JOptionPane.showMessageDialog(CloudTrailViewer.frame,
+                    response,
+                    "AWS Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+
+                exceptionThrown = true;
+            }
+
+            pack();
+            setLocationRelativeTo(frame); 
+            
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             exceptionThrown = true;
         }
-        
-        pack();
-        setLocationRelativeTo(frame); 
     }
 }

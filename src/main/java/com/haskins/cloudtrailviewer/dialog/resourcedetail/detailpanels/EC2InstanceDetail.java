@@ -74,7 +74,6 @@ public class EC2InstanceDetail extends AbstractDetail {
         tabs.add("Instance", primaryScrollPane);
         tabs.add("Tags", tagsScrollPane);
         
-        this.setLayout(new BorderLayout());
         this.add(tabs, BorderLayout.CENTER);
         
         List<Reservation> reservations = detail.getReservations();

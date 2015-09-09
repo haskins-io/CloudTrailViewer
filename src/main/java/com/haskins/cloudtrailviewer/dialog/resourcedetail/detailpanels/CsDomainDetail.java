@@ -25,6 +25,7 @@ import com.amazonaws.services.cloudsearchv2.model.DescribeDomainsRequest;
 import com.amazonaws.services.cloudsearchv2.model.DescribeDomainsResult;
 import com.amazonaws.services.cloudsearchv2.model.DomainStatus;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JPanel;
@@ -68,6 +69,8 @@ public class CsDomainDetail extends AbstractDetail {
     }
     
     private void buildUI(DescribeDomainsResult detail) {
+        
+        this.add(primaryScrollPane, BorderLayout.CENTER);
         
         if (!detail.getDomainStatusList().isEmpty()) {
             

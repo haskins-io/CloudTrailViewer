@@ -70,7 +70,6 @@ public class AsLaunchDetail extends AbstractDetail {
     
     private void buildUI(DescribeLaunchConfigurationsResult detail) {
         
-        this.setLayout(new BorderLayout());
         this.add(primaryScrollPane, BorderLayout.CENTER);
         
         if (!detail.getLaunchConfigurations().isEmpty()) {

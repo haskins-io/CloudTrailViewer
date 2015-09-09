@@ -95,7 +95,6 @@ public class ElbDetail extends AbstractDetail {
         JScrollPane listenersScrollPane = new JScrollPane(listenersTable);
         tabs.add("Listeners", listenersScrollPane);
         
-        this.setLayout(new BorderLayout());
         this.add(tabs, BorderLayout.CENTER);
         
         List<LoadBalancerDescription> elbs = detail.getLoadBalancerDescriptions();

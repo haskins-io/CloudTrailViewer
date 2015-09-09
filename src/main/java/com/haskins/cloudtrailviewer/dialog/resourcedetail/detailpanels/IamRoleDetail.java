@@ -23,6 +23,7 @@ import com.amazonaws.services.identitymanagement.model.GetRoleRequest;
 import com.amazonaws.services.identitymanagement.model.GetRoleResult;
 import com.amazonaws.services.identitymanagement.model.Role;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
 /**
@@ -63,6 +64,8 @@ public class IamRoleDetail extends AbstractDetail {
     }
     
     private void buildUI(GetRoleResult detail) {
+        
+        this.add(primaryScrollPane, BorderLayout.CENTER);
         
         if (detail.getRole() != null) {
             
