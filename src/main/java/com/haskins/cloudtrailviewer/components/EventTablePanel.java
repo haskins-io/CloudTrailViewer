@@ -320,9 +320,12 @@ public class EventTablePanel extends JPanel implements ActionListener {
     
     private void showSideBar() {
         
-        sideBar.setVisible(true);
-        jsp.setDividerLocation(0.8);
-        jsp.setDividerSize(3); 
+        if (!sideBar.isVisible()) {
+            sideBar.setVisible(true);
+            jsp.setDividerLocation(0.8);
+            jsp.setDividerSize(3);   
+        }
+
     }
     
     private void addChart(int chartType) {
