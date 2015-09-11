@@ -16,14 +16,14 @@
  */
 package com.haskins.cloudtrailviewer.core;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -50,22 +50,22 @@ public class AwsService {
     
     private AwsService() {
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("service_apis/service_names.txt").getFile());
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        InputStreamReader io = new InputStreamReader(classLoader.getResourceAsStream("service_apis/service_names.txt"));
         
-        try (Scanner scanner = new Scanner(file)) {
-
-            while (scanner.hasNextLine()) {
+        try( BufferedReader br = new BufferedReader(io) ) {
+            
+            String line;
+            while ((line = br.readLine()) != null) {
                 
-                String line = scanner.nextLine();
                 String[] parts = line.split(":");
                 
                 serviceNamesToEndpoints.put(parts[1].trim(), parts[0].trim());
                 serviceEndpointsToNames.put(parts[0].trim(), parts[1].trim());
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            
+        } catch (IOException ioe) {
+            
         }
     }
 
@@ -89,7 +89,7 @@ public class AwsService {
     }
 
     public List<String> getApiCallsForService(String serviceName) {
-
+        
         List<String> apis;
 
         String service = serviceNamesToEndpoints.get(serviceName);
@@ -100,23 +100,24 @@ public class AwsService {
         } else {
 
             String filename = "service_apis/" + service + ".txt";
-
-            ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File(classLoader.getResource(filename).getFile());
+            
+            ClassLoader classLoader = this.getClass().getClassLoader();
+            InputStreamReader io = new InputStreamReader(classLoader.getResourceAsStream(filename));
 
             apis = new ArrayList<>();
             
-            try (Scanner scanner = new Scanner(file)) {
+            try( BufferedReader br = new BufferedReader(io) ) {
 
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
+                String line;
+                while ((line = br.readLine()) != null) {
+
                     apis.add(line);
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ioe) {
+
             }
-            
+                        
             serviceAPIs.put(service, apis);
         }
 
