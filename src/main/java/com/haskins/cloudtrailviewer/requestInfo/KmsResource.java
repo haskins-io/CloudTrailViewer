@@ -32,12 +32,8 @@ public class KmsResource extends AbstractRequest implements Request {
     @Override
     public void populateRequestInfo(Event event, RequestInfo resources) {
         
-        if (event.getEventName().equalsIgnoreCase("PutKeyPolicy")) {
-            putKeyPolicy(event, resources);
-        }
+        getTopLevelResource("Policy", "policyName", event, resources);
+        getTopLevelParameters(event, resources, "policyName");
     }
     
-    private void putKeyPolicy (Event event, RequestInfo resources) {
-        getTopLevelResource("Policy", "policyName", event, resources);
-    }
 }

@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,15 @@ public class Ec2Resource extends AbstractRequest implements Request {
     
     private static final String SECURITY_GROUP_NAME = "Security Group Name";
     private static final String SECURITY_GROUP_ID = "Security Group ID";
+    
+    public Ec2Resource() {
+        
+        this.resourceMap = Collections.unmodifiableMap(new HashMap<String, String>() {
+            {
+                put("instanceId", EC2_INSTANCE);
+            }
+        }); 
+    }
     
     /**
      * Return the resource for the passed Event
@@ -108,58 +119,80 @@ public class Ec2Resource extends AbstractRequest implements Request {
     private void attachVolume(Event event, RequestInfo resources) {
         getTopLevelResource("Volume Id", "volumeId", event, resources);
         
-        getTopLevelParameter(EC2_INSTANCE, "instanceId", event, resources);
-        getTopLevelParameter("Device", "device", event, resources);
-        getTopLevelParameter("Delete on Terminate  ", "deleteOnTermination", event, resources);
+        getTopLevelParameters(event, resources, "Volume Id");
     }
     
     private void authoriseSGEgress(Event event, RequestInfo resources) {
         getTopLevelResource(SECURITY_GROUP_ID, "groupId", event, resources);
+        
+        getTopLevelParameters(event, resources, "groupId");
     }
     
     private void authoriseSGIngress(Event event, RequestInfo resources) {
         getTopLevelResource(SECURITY_GROUP_ID, "groupId", event, resources);
+        
+        getTopLevelParameters(event, resources, "groupId");
     }
     
     private void createKeyPair(Event event, RequestInfo resources) {
         getTopLevelResource("Key Name", "keyName", event, resources);
+        
+        getTopLevelParameters(event, resources, "keyName");
     }
     
     private void createSecurityGroup(Event event, RequestInfo resources) {
         getTopLevelResource(SECURITY_GROUP_NAME, "groupName", event, resources);
         getTopLevelResource("Group Description", "groupDescription", event, resources);
+        
+        getTopLevelParameters(event, resources, "groupName", "groupDescription");
     }
     
     private void deleteNetworkInterface(Event event, RequestInfo resources) {
         getTopLevelResource("Network Interface", "networkInterfaceId", event, resources);
+        
+        getTopLevelParameters(event, resources, "networkInterfaceId");
     }
     
     private void deleteSecurityGroup(Event event, RequestInfo resources) {
         getTopLevelResource(SECURITY_GROUP_ID, "groupId", event, resources);
+        
+        getTopLevelParameters(event, resources, "groupId");
     }
     
     private void describeInstanceAttribute(Event event, RequestInfo resources) {
         getTopLevelResource(EC2_INSTANCE, "instanceId", event, resources);
+        
+        getTopLevelParameters(event, resources, "instanceId");
     }
     
     private void describeVolumeAttributes(Event event, RequestInfo resources) {
         getTopLevelResource("Volume Id", "volumeId", event, resources);
+        
+        getTopLevelParameters(event, resources, "volumeId");
     }
     
     private void detachNetworkInterface(Event event, RequestInfo resources) {
         getTopLevelResource("Network Interface", "attachmentId", event, resources);
+        
+        getTopLevelParameters(event, resources, "attachmentId");
     }
     
     private void detachVolume(Event event, RequestInfo resources) {
         getTopLevelResource("Volume Id", "volumeId", event, resources);
+        
+        getTopLevelParameters(event, resources, "volumeId");
     }
     
     private void revokeSGEgress(Event event, RequestInfo resources) {
         getTopLevelResource(SECURITY_GROUP_ID, "groupId", event, resources);
+        
+        getTopLevelParameters(event, resources, "groupId");
     }
     
     private void revokeSGIngress(Event event, RequestInfo resources) {
         getTopLevelResource(SECURITY_GROUP_ID, "groupId", event, resources);
+        
+        getTopLevelParameters(event, resources, "groupId");
     }
     
     private void createTags(Event event, RequestInfo resources) {
@@ -216,8 +249,10 @@ public class Ec2Resource extends AbstractRequest implements Request {
             }  
         }
         
-        getTopLevelParameter("EC2 Instance", "instanceType", event, resources);
-        getTopLevelParameter("Availability Zone", "availabilityZone", event, resources);
+        getTopLevelParameters(event, resources, "Volume Id");
+        
+//        getTopLevelParameter("EC2 Instance", "instanceType", event, resources);
+//        getTopLevelParameter("Availability Zone", "availabilityZone", event, resources);
     }
     
     private void terminateInstances(Event event, RequestInfo resources) {

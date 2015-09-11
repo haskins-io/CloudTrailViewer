@@ -19,7 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.util.Map;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -29,6 +30,15 @@ public class DbResource extends AbstractRequest implements Request {
 
     public static final String DYNAMODB_TABLE = "DynamoDb Table";
     
+    public DbResource() {
+        
+        this.resourceMap = Collections.unmodifiableMap(new HashMap<String, String>() {
+            {
+                put("tableName", DYNAMODB_TABLE);
+            }
+        }); 
+    }
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -37,49 +47,8 @@ public class DbResource extends AbstractRequest implements Request {
     @Override
     public void populateRequestInfo(Event event, RequestInfo resources) {
         
-        if (event.getEventName().equalsIgnoreCase("DescribeTable")) {
-            describeTable(event, resources);
-            
-        } else if (event.getEventName().equalsIgnoreCase("UpdateTable")) {
-            updateTable(event, resources);
-            
-        } else if (event.getEventName().equalsIgnoreCase("DeleteTable")) {
-            deleteTable(event, resources);
-            
-        } else if (event.getEventName().equalsIgnoreCase("CreateTable")) {
-            createTable(event, resources);
-        }
-    }
-        
-    private void createTable(Event event, RequestInfo resources) {
         getTopLevelResource(DYNAMODB_TABLE, "tableName", event, resources); 
-    } 
-    
-    private void deleteTable(Event event, RequestInfo resources) {
-        getTopLevelResource(DYNAMODB_TABLE, "tableName", event, resources); 
+        getTopLevelParameters(event, resources, "tableName");
+
     }    
-    
-    private void describeTable(Event event, RequestInfo resources) {
-        getTopLevelResource(DYNAMODB_TABLE, "tableName", event, resources); 
-    }
-    
-    private void updateTable(Event event, RequestInfo resources) {
-        getTopLevelResource(DYNAMODB_TABLE, "tableName", event, resources); 
-        
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("provisionedThroughput")) {
-            
-            Map throughput = (Map)requestParameters.get("provisionedThroughput");
-            if (throughput != null) {
-                
-                if (throughput.containsKey("writeCapacityUnits")) {
-                    resources.addParameter("Write Capacity", (String)throughput.get("writeCapacityUnits"));
-                }
-                
-                if (throughput.containsKey("readCapacityUnits")) {
-                    resources.addParameter("Read Capacity", (String)throughput.get("readCapacityUnits"));
-                }
-            }
-        }
-    }
 }

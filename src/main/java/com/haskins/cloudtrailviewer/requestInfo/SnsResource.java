@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -27,6 +29,15 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 public class SnsResource extends AbstractRequest implements Request {
 
     public static final String TOPIC = "Topic";
+    
+    public SnsResource() {
+        
+        this.resourceMap = Collections.unmodifiableMap(new HashMap<String, String>() {
+            {
+                put("name", TOPIC);
+            }
+        }); 
+    }
     
     /**
      * Return the resource for the passed Event
@@ -71,51 +82,59 @@ public class SnsResource extends AbstractRequest implements Request {
     
     private void createTopic(Event event, RequestInfo resources) {
         getTopLevelResource(TOPIC, "name", event, resources);
+        
+        getTopLevelParameters(event, resources, "name");
     }
 
     private void deleteEndpoint(Event event, RequestInfo resources) {
         getTopLevelResource("Endpoint", "endpointArn", event, resources);
+        
+        getTopLevelParameters(event, resources, "endpointArn");
     }
     
     private void deleteTopic(Event event, RequestInfo resources) {
         getTopLevelResource(TOPIC, "topicArn", event, resources);
+        
+        getTopLevelParameters(event, resources, "topicArn");
     }
     
     private void getSubscriptionAttributes(Event event, RequestInfo resources) {
         getTopLevelResource("Subscription", "subscriptionArn", event, resources);
+        
+        getTopLevelParameters(event, resources, "subscriptionArn");
     }
     
     private void getTopicAttributes(Event event, RequestInfo resources) {
         getTopLevelResource(TOPIC, "topicArn", event, resources);
+        
+        getTopLevelParameters(event, resources, "topicArn");
     }
     
     private void listSubscriptionsByTopic(Event event, RequestInfo resources) {
         getTopLevelResource(TOPIC, "topicArn", event, resources);
+        
+        getTopLevelParameters(event, resources, "topicArn");
     }
     
     private void setSubscriptionAttributes(Event event, RequestInfo resources) {
         getTopLevelResource("Subscription", "subscriptionArn", event, resources);
-        
-        getTopLevelParameter("Attribute Name", "attributeName", event, resources);
-        getTopLevelParameter("Attribute Name", "attributeName", event, resources);
+        getTopLevelParameters(event, resources, "subscriptionArn");
     }
     
     private void setTopicAttributes(Event event, RequestInfo resources) {
         getTopLevelResource(TOPIC, "topicArn", event, resources);
-        
-        getTopLevelParameter("Attribute Name", "attributeName", event, resources);
-        getTopLevelParameter("Attribute Value", "attributeValue", event, resources);
+        getTopLevelParameters(event, resources, "topicArn");
     }
     
     private void subscribe(Event event, RequestInfo resources) {
         getTopLevelResource(TOPIC, "topicArn", event, resources);
-        
-        getTopLevelParameter("Protocol", "protocol", event, resources);
-        getTopLevelParameter("Endpoint", "endpoint", event, resources);
+        getTopLevelParameters(event, resources, "topicArn");
     }
     
     private void unsubscribe(Event event, RequestInfo resources) {
         getTopLevelResource("Subscription", "subscriptionArn", event, resources);
+        
+        getTopLevelParameters(event, resources, "subscriptionArn");
     }
     
 }

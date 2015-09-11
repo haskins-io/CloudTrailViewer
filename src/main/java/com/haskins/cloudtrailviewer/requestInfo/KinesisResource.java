@@ -17,6 +17,8 @@
 package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -26,6 +28,15 @@ public class KinesisResource extends AbstractRequest implements Request {
 
     public static final String STREAM = "Stream";
     
+    public KinesisResource() {
+        
+        this.resourceMap = Collections.unmodifiableMap(new HashMap<String, String>() {
+            {
+                put("streamName", STREAM);
+            }
+        }); 
+    }
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -34,27 +45,7 @@ public class KinesisResource extends AbstractRequest implements Request {
     @Override
     public void populateRequestInfo(Event event, RequestInfo resources) {
         
-        if (event.getEventName().equalsIgnoreCase("DescribeStream")) {
-            describeStream(event, resources);
-            
-        } else if (event.getEventName().equalsIgnoreCase("DeleteStream")) {
-            deleteStream(event, resources);
-            
-        } else if (event.getEventName().equalsIgnoreCase("CreateStream")) {
-            createStream(event, resources);
-        }
-    }
-    
-    private void createStream(Event event, RequestInfo resources) {
         getTopLevelResource(STREAM, "streamName", event, resources); 
+        getTopLevelParameters(event, resources, "streamName");
     }
-    
-    private void deleteStream(Event event, RequestInfo resources) {
-        getTopLevelResource(STREAM, "streamName", event, resources); 
-    }
-    
-    private void describeStream(Event event, RequestInfo resources) {
-        getTopLevelResource(STREAM, "streamName", event, resources); 
-    }
-    
 }

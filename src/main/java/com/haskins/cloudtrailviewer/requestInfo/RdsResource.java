@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -27,6 +29,15 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 public class RdsResource extends AbstractRequest implements Request {
 
     public static final String RDS_INSTANCE = "RDS Instance";
+    
+    public RdsResource() {
+        
+        this.resourceMap = Collections.unmodifiableMap(new HashMap<String, String>() {
+            {
+                put("dBInstanceIdentifier", RDS_INSTANCE);
+            }
+        }); 
+    }
     
     /**
      * Return the resource for the passed Event
@@ -65,33 +76,49 @@ public class RdsResource extends AbstractRequest implements Request {
     
     private void createDbInstance (Event event, RequestInfo resources) {
         getTopLevelResource(RDS_INSTANCE, "dBInstanceIdentifier", event, resources);
+        
+        getTopLevelParameters(event, resources, "dBInstanceIdentifier");
     }
     
     private void createDBParameterGroup(Event event, RequestInfo resources) {
         getTopLevelResource("Param Group", "dBParameterGroupName", event, resources);
+        
+        getTopLevelParameters(event, resources, "dBParameterGroupName");
     }
     
     private void deleteDbInstance (Event event, RequestInfo resources) {
         getTopLevelResource(RDS_INSTANCE, "dBInstanceIdentifier", event, resources);
+        
+        getTopLevelParameters(event, resources, "dBInstanceIdentifier");
     }
 
     private void describeDBParameters(Event event, RequestInfo resources) {
         getTopLevelResource("Param Group", "dBParameterGroupName", event, resources);
+        
+        getTopLevelParameters(event, resources, "dBParameterGroupName");
     }
     
     private void describeOptionGroupOptions (Event event, RequestInfo resources) {
         getTopLevelResource("Engine", "engineName", event, resources);
+        
+        getTopLevelParameters(event, resources, "engineName");
     }
     
     private void listTagsForResource (Event event, RequestInfo resources) {
         getTopLevelResource("Resource", "resourceName", event, resources);
+        
+        getTopLevelParameters(event, resources, "resourceName");
     }
     
     private void modifyDbInstance (Event event, RequestInfo resources) {
         getTopLevelResource(RDS_INSTANCE, "dBInstanceIdentifier", event, resources);
+        
+        getTopLevelParameters(event, resources, "dBInstanceIdentifier");
     }
     
     private void rebootDbInstance (Event event, RequestInfo resources) {
         getTopLevelResource(RDS_INSTANCE, "dBInstanceIdentifier", event, resources);
+        
+        getTopLevelParameters(event, resources, "dBInstanceIdentifier");
     }
 }

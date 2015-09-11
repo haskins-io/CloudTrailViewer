@@ -24,8 +24,6 @@ import com.haskins.cloudtrailviewer.model.event.Event;
  */
 public class EcResource extends AbstractRequest implements Request {
 
-    
-    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -57,26 +55,38 @@ public class EcResource extends AbstractRequest implements Request {
            
     private void createCacheCluster(Event event, RequestInfo resources) {
         getTopLevelResource("Cache Cluster", "cacheClusterId", event, resources); 
+        
+        getTopLevelParameters(event, resources, "cacheClusterId");
     }
     
     private void createCacheParameterGroup(Event event, RequestInfo resources) {
         getTopLevelResource("Cache Parameter Group", "cacheParameterGroupName", event, resources); 
+        
+        getTopLevelParameters(event, resources, "cacheParameterGroupName");
     }
        
     private void deleteCluster(Event event, RequestInfo resources) {
         getTopLevelResource("Cache Cluster", "cacheClusterId", event, resources); 
+        
+        getTopLevelParameters(event, resources, "cacheClusterId");
     }
     
     private void deleteCacheParameters(Event event, RequestInfo resources) {
         getTopLevelResource("Cache Parameter Group", "cacheParameterGroupName", event, resources); 
+        
+        getTopLevelParameters(event, resources, "cacheParameterGroupName");
     }
     
     private void desribeCacheParameters(Event event, RequestInfo resources) {
         getTopLevelResource("Cache Parameter Group", "cacheParameterGroupName", event, resources); 
+        
+        getTopLevelParameters(event, resources, "cacheParameterGroupName");
     }
     
     private void describeReplicationGroups(Event event, RequestInfo resources) {
         getTopLevelResource("Replication Group", "replicationGroupId", event, resources); 
+        
+        getTopLevelParameters(event, resources, "replicationGroupId");
     }
     
 }

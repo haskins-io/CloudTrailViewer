@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -28,6 +30,15 @@ public class CfResource extends AbstractRequest implements Request {
 
     public static final String CLOUDFORMATION_STACK = "CloudFormation Stack";
     
+    public CfResource() {
+        
+        this.resourceMap = Collections.unmodifiableMap(new HashMap<String, String>() {
+            {
+                put("stackName", CLOUDFORMATION_STACK);
+            }
+        }); 
+    }
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -36,46 +47,7 @@ public class CfResource extends AbstractRequest implements Request {
     @Override
     public void populateRequestInfo(Event event, RequestInfo resources) {
                 
-        if (event.getEventName().equalsIgnoreCase("DescribeStacks")) {
-            getStackName(event, resources);
-            
-        } else if (event.getEventName().equalsIgnoreCase("DescribeStackResource")) {
-            getStackName(event, resources);
-            
-        } else if (event.getEventName().equalsIgnoreCase("DescribeStackResources")) {
-            getStackName(event, resources);
-            
-        } else if (event.getEventName().equalsIgnoreCase("UpdateStack")) {
-            getStackName(event, resources);
-
-        } else if (event.getEventName().equalsIgnoreCase("ListStackResources")) {
-            getStackName(event, resources);
-
-        } else if (event.getEventName().equalsIgnoreCase("GetTemplate")) {
-            getStackName(event, resources);
-
-        } else if (event.getEventName().equalsIgnoreCase("GetTemplate")) {
-            getStackName(event, resources);
-
-        } else if (event.getEventName().equalsIgnoreCase("GetStackPolicy")) {
-            getStackName(event, resources);
-
-        } else if (event.getEventName().equalsIgnoreCase("DescribeStackEvents")) {
-            getStackName(event, resources);
-
-        } else if (event.getEventName().equalsIgnoreCase("DeleteStack")) {
-            getStackName(event, resources);
-
-        } else if (event.getEventName().equalsIgnoreCase("CreateStack")) {
-            getStackName(event, resources);
-
-        } else if (event.getEventName().equalsIgnoreCase("CancelUpdateStack")) {
-            getStackName(event, resources);
-
-        }
-    }
-    
-    private void getStackName(Event event, RequestInfo resources) {
         getTopLevelResource(CLOUDFORMATION_STACK, "stackName", event, resources);
+        getTopLevelParameters(event, resources, "stackName");
     }
 }

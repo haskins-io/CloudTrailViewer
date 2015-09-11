@@ -41,6 +41,7 @@ public class ResourceLookup {
     private final static SnsResource notificationService = new SnsResource();
     private final static SqsResource simpleQueue = new SqsResource();
     private final static SwfResource simpleWorkflow = new SwfResource();
+    private final static SSSRequest s3 = new SSSRequest();
     
     public static void getResourceInfo(Event event, RequestInfo resources) {
         
@@ -91,7 +92,11 @@ public class ResourceLookup {
 
             } else if (source.equalsIgnoreCase("swf.amazonaws.com")) {
                 simpleWorkflow.populateRequestInfo(event, resources);
+                
+            } else if (source.equalsIgnoreCase("s3.amazonaws.com")) {
+                s3.populateRequestInfo(event, resources);
             }
+            
         } catch (Exception e) {
             // need to create a custom exception for here
         }

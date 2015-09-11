@@ -18,14 +18,20 @@ package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
  * @author mark
  */
 public abstract class AbstractRequest {
+            
+    protected Map<String, String> resourceMap;
     
     protected void getTopLevelResource(String resourceName, String paramName, Event event, RequestInfo requestInfo) {
         
@@ -33,37 +39,79 @@ public abstract class AbstractRequest {
         if (requestParameters != null && requestParameters.containsKey(paramName)) {
             
             Object paramValue = requestParameters.get(paramName);
-            if (paramValue instanceof String) {
-                requestInfo.addResource(resourceName, (String)requestParameters.get(paramName));
+            addValueToRequestInfo(requestInfo, resourceName, paramValue, true);
+        }
+    }
+    
+    protected void getTopLevelParameters(Event event, RequestInfo requestInfo, String... ignore) {
+        
+        List<String> ignoreList = Arrays.asList(ignore);
+        
+        Map requestParameters = event.getRequestParameters();
+        if (requestParameters != null) {
+            
+            Set<String> keys = requestParameters.keySet();
+            Iterator<String> it = keys.iterator();
+            while(it.hasNext()) {
                 
-            } else if (paramValue instanceof ArrayList) {
-                
-                List<String> values = (ArrayList)paramValue;
-                for (String value : values) {
-                    requestInfo.addResource(resourceName, value);
+                String paramName = it.next();
+                if (!ignoreList.contains(paramName)) {
+                    
+                    Object paramValue = requestParameters.get(paramName);
+                    addValueToRequestInfo(requestInfo, paramName, paramValue, false);
                 }
-                
             }
         }
     }
     
-    protected void getTopLevelParameter(String resourceName, String paramName, Event event, RequestInfo requestInfo) {
+    private void addValueToRequestInfo(RequestInfo requestInfo, String resourceName, Object paramValue, boolean resource) {
         
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey(paramName)) {
-            
-            Object paramValue = requestParameters.get(paramName);
+        if (resourceMap.containsKey(resourceName)) {
+            resourceName = resourceMap.get(resourceName);
+        }
+        
+        try {
             if (paramValue instanceof String) {
-                requestInfo.addParameter(resourceName, (String)requestParameters.get(paramName));
                 
-            } else if (paramValue instanceof ArrayList) {
-                
-                List<String> values = (ArrayList)paramValue;
-                for (String value : values) {
-                    requestInfo.addParameter(resourceName, value);
+                if (resource) {
+                    requestInfo.addResource(resourceName, (String)paramValue);
+                } else {
+                    requestInfo.addParameter(resourceName, (String)paramValue);
                 }
                 
+            } else if (paramValue instanceof Integer || paramValue instanceof Boolean) {
+                
+                if (resource) {
+                    requestInfo.addResource(resourceName, String.valueOf(paramValue));
+                } else {
+                    requestInfo.addParameter(resourceName, String.valueOf(paramValue));
+                }
+                
+            }  else if (paramValue instanceof ArrayList) {
+                
+                List<Object> values = (ArrayList)paramValue;
+                for (Object value : values) {
+                    
+                    addValueToRequestInfo(requestInfo, resourceName, value, resource);
+                }
+
+            } else if (paramValue instanceof LinkedHashMap) {
+                
+
+                Map values = (LinkedHashMap)paramValue;
+                Set<String> keys = values.keySet();
+                Iterator<String> it = keys.iterator();
+                while(it.hasNext()) {
+
+                    String key = it.next();
+                    Object value = values.get(key);
+                    addValueToRequestInfo(requestInfo, key, value, resource);
+                }
             }
         }
+        catch (Exception e) {
+            
+        }
+ 
     }
 }

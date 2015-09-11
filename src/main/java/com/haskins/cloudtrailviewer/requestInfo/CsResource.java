@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -28,6 +30,15 @@ public class CsResource extends AbstractRequest implements Request {
 
     public static final String CLOUDSEARCH_DOMAIN = "CloudSearch Domain";
     
+    public CsResource() {
+        
+        this.resourceMap = Collections.unmodifiableMap(new HashMap<String, String>() {
+            {
+                put("domainName", CLOUDSEARCH_DOMAIN);
+            }
+        }); 
+    }
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -36,12 +47,8 @@ public class CsResource extends AbstractRequest implements Request {
     @Override
     public void populateRequestInfo(Event event, RequestInfo resources) {
                 
-        if (event.getEventName().equalsIgnoreCase("DescribeIndexFields")) {
-            describeIndexFields(event, resources);
-        }
+        getTopLevelResource(CLOUDSEARCH_DOMAIN, "domainName", event, resources);
+        getTopLevelParameters(event, resources, "domainName");
     }
     
-    private void describeIndexFields(Event event, RequestInfo resources) {
-        getTopLevelResource(CLOUDSEARCH_DOMAIN, "domainName", event, resources);
-    }
 }

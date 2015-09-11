@@ -17,6 +17,8 @@
 package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -27,6 +29,16 @@ public class SqsResource extends AbstractRequest implements Request {
     private static final String QUEUE_NAME = "Queue Name";
     private static final String QUEUE_URL = "Queue Url";
     
+    public SqsResource() {
+        
+        this.resourceMap = Collections.unmodifiableMap(new HashMap<String, String>() {
+            {
+                put("queueName", QUEUE_NAME);
+                put("queueUrl", QUEUE_URL);
+            }
+        }); 
+    }
+    
     /**
      * Return the resource for the passed Event
      * @param event Event from which the resource is require
@@ -35,34 +47,12 @@ public class SqsResource extends AbstractRequest implements Request {
     @Override
     public void populateRequestInfo(Event event, RequestInfo resources) {
         
-        if (event.getEventName().equalsIgnoreCase("SetQueueAttributes")) {
-            setQueueAttributes(event, resources);
-            
-        } else if (event.getEventName().equalsIgnoreCase("PurgeQueue")) {
-            purgeQueue(event, resources);
-            
-        } else if (event.getEventName().equalsIgnoreCase("DeleteQueue")) {
-            deleteQueue(event, resources);
-            
-        } else if (event.getEventName().equalsIgnoreCase("CreateQueue")) {
-            deleteQueue(event, resources);
-            
+        if (event.getEventName().equalsIgnoreCase("CreateQueue")) {
+            getTopLevelResource(QUEUE_NAME, "queueName", event, resources);
+            getTopLevelParameters(event, resources, "queueName");
+        } else {
+            getTopLevelResource(QUEUE_URL, "queueUrl", event, resources);
+            getTopLevelParameters(event, resources, "queueUrl");
         }
-    }
-    
-    private void createQueue(Event event, RequestInfo resources) {
-        getTopLevelResource(QUEUE_NAME, "queueName", event, resources);
-    }
-    
-    private void deleteQueue(Event event, RequestInfo resources) {
-        getTopLevelResource(QUEUE_URL, "queueUrl", event, resources);
-    }
-    
-    private void purgeQueue(Event event, RequestInfo resources) {
-        getTopLevelResource(QUEUE_URL, "queueUrl", event, resources);
-    }
-    
-    private void setQueueAttributes(Event event, RequestInfo resources) {
-        getTopLevelResource(QUEUE_URL, "queueUrl", event, resources);
     }
 }

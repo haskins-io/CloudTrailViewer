@@ -17,6 +17,8 @@
 package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -25,6 +27,17 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 public class SwfResource extends AbstractRequest implements Request {
 
     public static final String DOMAIN = "Domain";
+    
+    
+    public SwfResource() {
+        
+        this.resourceMap = Collections.unmodifiableMap(new HashMap<String, String>() {
+            {
+                put("name", DOMAIN);
+                put("domain", DOMAIN);
+            }
+        }); 
+    }
     
     /**
      * Return the resource for the passed Event
@@ -45,9 +58,11 @@ public class SwfResource extends AbstractRequest implements Request {
     
     private void deprecateDomain(Event event, RequestInfo resources) {
         getTopLevelResource(DOMAIN, "name", event, resources);
+        getTopLevelParameters(event, resources, "name");
     }
     
     private void registerActivityType(Event event, RequestInfo resources) {
         getTopLevelResource(DOMAIN, "domain", event, resources);
+        getTopLevelParameters(event, resources, "domain");
     }
 }

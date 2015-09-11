@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -29,6 +31,17 @@ public class EbResource extends AbstractRequest implements Request {
     private static final String APPLICATION_NAME = "Application Name";
     private static final String ENVIRONMENT_NAME = "Environment Name";
     private static final String ENVIRONMENT_ID = "Environment ID";
+    
+    public EbResource() {
+        
+        this.resourceMap = Collections.unmodifiableMap(new HashMap<String, String>() {
+            {
+                put("applicationName", APPLICATION_NAME);
+                put("environmentName", ENVIRONMENT_NAME);
+                put("environmentId", ENVIRONMENT_ID);
+            }
+        }); 
+    }
     
     /**
      * Return the resource for the passed Event
@@ -104,20 +117,26 @@ public class EbResource extends AbstractRequest implements Request {
     private void populateApplicationName(Event event, RequestInfo resources) {
         getTopLevelResource(APPLICATION_NAME, "applicationName", event, resources);
         
-        getTopLevelParameter("Description", "description", event, resources);
+        getTopLevelParameters(event, resources, "applicationName");
     }
     
     private void populateEnvironmentName(Event event, RequestInfo resources) {
         getTopLevelResource(ENVIRONMENT_NAME, "environmentName", event, resources);
+        
+        getTopLevelParameters(event, resources, "environmentName");
     }
     
     private void populateEnvironmentId(Event event, RequestInfo resources) {
         getTopLevelResource(ENVIRONMENT_ID, "environmentId", event, resources);
+        
+        getTopLevelParameters(event, resources, "environmentId");
     }
     
     private void describeEnvironments(Event event, RequestInfo resources) {
         getTopLevelResource(ENVIRONMENT_NAME, "environmentNames", event, resources);
         getTopLevelResource(APPLICATION_NAME, "applicationName", event, resources);
+        
+        getTopLevelParameters(event, resources, "applicationName","environmentNames");
     }
     
     private void checkDnsAvailable(Event event, RequestInfo resources) {
@@ -126,7 +145,9 @@ public class EbResource extends AbstractRequest implements Request {
     
     private void createApplicationVersion(Event event, RequestInfo resources) {
         getTopLevelResource(APPLICATION_NAME, "applicationName", event, resources);
-        getTopLevelResource("Vesion Label", "versionLabel", event, resources);
+        getTopLevelResource("Version Label", "versionLabel", event, resources);
+        
+        getTopLevelParameters(event, resources, "applicationName","versionLabel");
     }
     
     private void createStorageLocation(Event event, RequestInfo resources) {
@@ -135,12 +156,16 @@ public class EbResource extends AbstractRequest implements Request {
 
     private void deleteApplicationVersion(Event event, RequestInfo resources) {
         getTopLevelResource(APPLICATION_NAME, "applicationName", event, resources);
-        getTopLevelResource("Vesion Label", "versionLabel", event, resources);
+        getTopLevelResource("Version Label", "versionLabel", event, resources);
+        
+        getTopLevelParameters(event, resources, "applicationName","versionLabel");
     }
    
     private void describeConfigurationSettings(Event event, RequestInfo resources) {
         getTopLevelResource(ENVIRONMENT_NAME, "environmentName", event, resources);
         getTopLevelResource(APPLICATION_NAME, "applicationName", event, resources);
+        
+        getTopLevelParameters(event, resources, "applicationName","environmentName");
     }
     
     private void swapEnvironmentCnames(Event event, RequestInfo resources) {
