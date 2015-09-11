@@ -81,7 +81,7 @@ public class CountPanel extends JPanel {
         Font labelFont = eventCount.getFont();
         eventCount.setForeground(Color.white);
         eventCount.setAlignmentX(CENTER_ALIGNMENT);
-        eventCount.setFont(new Font(labelFont.getName(), labelFont.getStyle(), 25));
+        eventCount.setFont(new Font(labelFont.getName(), labelFont.getStyle(), 20));
         
         JPanel countPanel = new JPanel();
         countPanel.setLayout(new BoxLayout(countPanel,BoxLayout.PAGE_AXIS));
@@ -117,7 +117,7 @@ public class CountPanel extends JPanel {
         
         Font labelFont = eventCount.getFont();
         if (eventCount.getText().length() >= 5) {
-            eventCount.setFont(new Font(labelFont.getName(), labelFont.getStyle(), 20));
+            eventCount.setFont(new Font(labelFont.getName(), labelFont.getStyle(), 18));
         }
         
         this.revalidate();
