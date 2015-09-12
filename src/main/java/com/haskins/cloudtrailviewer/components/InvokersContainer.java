@@ -84,7 +84,14 @@ public class InvokersContainer extends OverviewContainer {
                 usersPanel.add(panel); 
 
             } else if (type.equalsIgnoreCase("AssumedRole"))  {
-                rolesPanel.add(panel); 
+                
+                if (event.getEventName().equalsIgnoreCase("ConsoleLogin")) {
+                    usersPanel.add(panel); 
+                    
+                } else {
+                    rolesPanel.add(panel); 
+                }
+                
             }
         }
                 
