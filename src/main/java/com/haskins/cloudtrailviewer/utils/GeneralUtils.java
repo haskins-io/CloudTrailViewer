@@ -135,7 +135,7 @@ public class GeneralUtils {
             try {
                 ScreenImage.writeImage(bi, fileToSave.getAbsolutePath());
             } catch (IOException ex) {
-                ex.printStackTrace();
+                
             }
         }
     }
@@ -176,7 +176,7 @@ public class GeneralUtils {
                 }
 
             } catch (IOException ioe) {
-                ioe.printStackTrace();
+                
             }        
         }
     }

@@ -20,12 +20,9 @@ package com.haskins.cloudtrailviewer.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.haskins.cloudtrailviewer.core.EventLoader;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -62,7 +59,7 @@ public class EventUtils {
             event.setRawJSON(rawJson);
 
         } catch (IOException ex) {
-            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
+            
         } 
     } 
 }

@@ -86,7 +86,7 @@ public class ApiExtractor {
                     }
                 }
                 catch (IOException ex) {
-                    Logger.getLogger(ApiExtractor.class.getName()).log(Level.SEVERE, null, ex);
+                    
                 }
             }
         }
@@ -108,7 +108,7 @@ public class ApiExtractor {
                     fw.write(api + "\r\n");
                 }   
             } catch(IOException ioe) {
-                ioe.printStackTrace();
+                
             }
         }
         
@@ -128,7 +128,7 @@ public class ApiExtractor {
             }
   
         } catch(IOException ioe) {
-            ioe.printStackTrace();
+            
         }
         
     }

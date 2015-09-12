@@ -112,9 +112,9 @@ public class EventLoader {
                     try (InputStream stream = loadEventFromLocalFile(filename);) {
                         processStream(stream, request.getFilter());
                     } catch (IOException ioe) {
-                        ioe.printStackTrace();
+                        
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        
                     }
                 }
                 
@@ -176,9 +176,9 @@ public class EventLoader {
                         processStream(stream, request.getFilter());
 
                     } catch (IOException ioe) {
-                        ioe.printStackTrace();
+                        
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        
                     }
                 }
 
@@ -223,13 +223,13 @@ public class EventLoader {
             }
         }
         catch (ZipException | JsonParseException ex) {
-            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         catch (IOException ex) {
-            Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, ex);
+            
         }  
         
         return jsonString;
@@ -248,7 +248,7 @@ public class EventLoader {
                 json_string = null;
             }
             catch (IOException jpe) {
-                Logger.getLogger(EventLoader.class.getName()).log(Level.SEVERE, null, jpe);
+                
             }  
         }
 

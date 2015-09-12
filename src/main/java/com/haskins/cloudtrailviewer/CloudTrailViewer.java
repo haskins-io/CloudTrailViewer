@@ -31,7 +31,7 @@ import javax.swing.JFrame;
  * @author mark
  */
 public class CloudTrailViewer extends JFrame {
-
+    
     /** This is public as it is used to center dialogs using this as a reference */
     public static CloudTrailViewerApplication frame;
     

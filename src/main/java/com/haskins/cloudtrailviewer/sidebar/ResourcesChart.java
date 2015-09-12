@@ -134,7 +134,7 @@ public class ResourcesChart extends AbstractChart implements ActionListener {
             lastResouce = eventName;
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(ResourcesChart.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 
@@ -173,7 +173,7 @@ public class ResourcesChart extends AbstractChart implements ActionListener {
             updateChart(topX);
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(ResourcesChart.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 }

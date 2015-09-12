@@ -74,7 +74,7 @@ public class DbManager {
                 DriverManager.getConnection(url, properties);
             }
             catch (SQLException ex1) {
-                ex1.printStackTrace();
+                
             }
             
         } else {
@@ -124,7 +124,7 @@ public class DbManager {
 
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            
         }
 
         return rows;
@@ -152,7 +152,7 @@ public class DbManager {
 
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            
         }
 
         return retVal;
@@ -180,7 +180,7 @@ public class DbManager {
 
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            
         }
 
         return retVal;
@@ -201,7 +201,7 @@ public class DbManager {
             stmt.executeUpdate(query);
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            
         }
 
         return updated;
@@ -215,7 +215,7 @@ public class DbManager {
             stmt.execute(query);
         }
         catch (SQLException ex) {
-            ex.printStackTrace();
+            
         }
     }
 
@@ -227,7 +227,7 @@ public class DbManager {
             conn = DriverManager.getConnection(getDbUrl(), new Properties());
         }
         catch (SQLException ex) {
-            System.out.println("Can't create a connection to the database");
+            
         }
 
         return conn;

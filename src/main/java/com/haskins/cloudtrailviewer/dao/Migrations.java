@@ -267,7 +267,7 @@ public class Migrations {
             }
         }
         catch (SQLException ex) {
-            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
 
         return doesTableExist;

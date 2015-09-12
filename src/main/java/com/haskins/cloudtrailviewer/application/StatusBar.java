@@ -72,9 +72,7 @@ public class StatusBar extends JPanel {
     }
     
     public void addEvent(Event event) {
-        
-        
-        
+
         if (earliestEvent == -1 || event.getTimestamp() < earliestEvent ) {
             earliestEvent = event.getTimestamp();
             this.setFromDate(event.getEventTime());
