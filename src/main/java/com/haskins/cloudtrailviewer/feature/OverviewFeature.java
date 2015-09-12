@@ -110,6 +110,14 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
         statusBar.setEvents(events);
         eventTable.setEvents(events);
     }
+        
+    @Override
+    public void reset() {
+        
+        servicesContainer.reset();
+        servicesContainer.revalidate();
+        this.revalidate();
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
@@ -120,9 +128,7 @@ public class OverviewFeature extends JPanel implements Feature, EventDatabaseLis
     }
     
     @Override
-    public void finishedLoading() {
-        
-    }
+    public void finishedLoading() { }
     
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods

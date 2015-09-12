@@ -116,6 +116,14 @@ public class ResourceFeature extends JPanel implements Feature, EventDatabaseLis
         eventTable.clearEvents();
         eventTable.setEvents(events);
     }
+        
+    @Override
+    public void reset() {
+        
+        resourcesContainer.reset();
+        resourcesContainer.revalidate();
+        this.revalidate();
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation

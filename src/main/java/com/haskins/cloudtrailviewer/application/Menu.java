@@ -43,11 +43,15 @@ import org.simplericity.macify.eawt.DefaultApplication;
 public class Menu extends JMenuBar implements ApplicationListener {
 
     private final Application application;
+    private final CloudTrailViewerApplication ctApplication;
     
     /**
      * Default Constructor
+     * @param ctApp reference to main Application class
      */
-    public Menu() {
+    public Menu(CloudTrailViewerApplication ctApp) {
+        
+        ctApplication = ctApp;
         
         this.application = new DefaultApplication();
         application.addApplicationListener(this);
@@ -126,6 +130,20 @@ public class Menu extends JMenuBar implements ApplicationListener {
 
             this.add(menuFile);
         }
+        
+        JMenu eventsMenu = new JMenu("Events");
+        
+        JMenuItem clearEvents = new JMenuItem(new AbstractAction("Clear Events") {
+
+            @Override
+            public void actionPerformed(ActionEvent t) {
+                ctApplication.clearEvents();
+            }
+        });
+        
+        eventsMenu.add(clearEvents);
+        
+        this.add(eventsMenu);
     }
     
     private void showAboutDialog() {

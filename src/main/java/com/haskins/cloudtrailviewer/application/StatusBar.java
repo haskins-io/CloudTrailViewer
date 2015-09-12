@@ -73,6 +73,8 @@ public class StatusBar extends JPanel {
     
     public void addEvent(Event event) {
         
+        
+        
         if (earliestEvent == -1 || event.getTimestamp() < earliestEvent ) {
             earliestEvent = event.getTimestamp();
             this.setFromDate(event.getEventTime());
@@ -97,10 +99,25 @@ public class StatusBar extends JPanel {
         }
     }
     
+    public void eventsCleared() {
+        messageLabel.setVisible(false);
+        from.setVisible(false);
+        to.setVisible(false);
+        loadedEvents.setVisible(false);
+        visibleEvents.setVisible(false);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void setFromDate(String from) {
+        
+        this.from.setVisible(true);
         this.from.setText(from);
     }
     private void setToDate(String to) {
+        
+        this.to.setVisible(true);
         this.to.setText(to);
     }
     
@@ -109,16 +126,17 @@ public class StatusBar extends JPanel {
      * @param eventCount 
      */
     public void setLoadedEvents(int eventCount) {
+        
+        loadedEvents.setVisible(true);
         loadedEvents.setText("Events Loaded : " + eventCount);
     }
     
     private void setVisibleEvents(int eventCount) {
+        
+        visibleEvents.setVisible(true);
         visibleEvents.setText("Current Events : " + eventCount);
     }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    ////////////////////////////////////////////////////////////////////////////
+
     private void buildStatusBar() {
         
         JPanel timeCovered = new JPanel();

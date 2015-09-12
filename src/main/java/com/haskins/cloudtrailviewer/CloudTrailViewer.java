@@ -37,7 +37,7 @@ public class CloudTrailViewer extends JFrame {
     
     private static void createAndShowGUI() {
                         
-        Menu menu = new Menu();    
+        Menu menu = new Menu(frame);    
         
         frame.setJMenuBar(menu);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

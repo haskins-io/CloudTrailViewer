@@ -109,6 +109,14 @@ public class ErrorFeature extends JPanel implements Feature, EventDatabaseListen
         eventTable.clearEvents();
         eventTable.setEvents(events);
     }
+    
+    @Override
+    public void reset() {
+        
+        resourcesContainer.reset();
+        resourcesContainer.revalidate();
+        this.revalidate();
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation

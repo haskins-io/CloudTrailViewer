@@ -56,7 +56,8 @@ public class NoDataFeature extends JPanel implements Feature {
     public void showEventsAvailable() {
         label.setText(events);
     }
-        ////////////////////////////////////////////////////////////////////////////
+    
+    ////////////////////////////////////////////////////////////////////////////
     ///// Card implementation
     ////////////////////////////////////////////////////////////////////////////    
     @Override
@@ -94,6 +95,11 @@ public class NoDataFeature extends JPanel implements Feature {
     
     @Override
     public void showEventsTable(List<Event> events) {}
+        
+    @Override
+    public void reset() {
+        
+    }
     
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods

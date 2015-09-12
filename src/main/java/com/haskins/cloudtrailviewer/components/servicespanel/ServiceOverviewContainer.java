@@ -84,4 +84,12 @@ public class ServiceOverviewContainer extends JPanel {
         
         servicePanel.addEvent(event);
     }
+   
+    public void reset() {
+        
+        this.removeAll();
+        servicesMap.clear();
+        
+        this.revalidate();
+    }
 }

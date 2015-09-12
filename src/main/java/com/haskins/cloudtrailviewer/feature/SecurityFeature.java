@@ -117,6 +117,14 @@ public class SecurityFeature extends JPanel implements Feature, EventDatabaseLis
         statusBar.setEvents(events);
         eventTable.setEvents(events);
     }
+        
+    @Override
+    public void reset() {
+        
+        securityContainer.reset();
+        securityContainer.revalidate();
+        this.revalidate();
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation

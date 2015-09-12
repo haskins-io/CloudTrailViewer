@@ -147,6 +147,24 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
             f.will_appear();
         }
     }
+    
+    public void clearEvents() {
+        
+        database.clear();
+        statusBar.eventsCleared();
+        
+        for (Component component : features.getComponents()) {
+            Feature feature = (Feature)component;
+            feature.reset();
+        } 
+        
+        CardLayout cl = (CardLayout)(features.getLayout());
+        cl.show(features, NoDataFeature.NAME); 
+        Feature f = featureMap.get(NoDataFeature.NAME);
+        f.will_appear();
+        
+        this.revalidate();
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventLoaderListener implementation
@@ -203,7 +221,6 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         NoDataFeature noData = new NoDataFeature(helpToolBar);
         featureMap.put(noData.getName(), noData);
         features.add((JPanel)noData, noData.getName());
-        changeFeature(NoDataFeature.NAME, true);
         
         OverviewFeature serviceOverview = new OverviewFeature(statusBar, helpToolBar);
         database.addListener(serviceOverview);

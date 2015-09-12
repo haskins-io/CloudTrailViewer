@@ -98,6 +98,11 @@ public class SimpleTableFeature extends JPanel implements Feature {
     
     @Override
     public void showEventsTable(List<Event> events) {}
+        
+    @Override
+    public void reset() {
+        tablePanel.eventLoadingComplete();
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods

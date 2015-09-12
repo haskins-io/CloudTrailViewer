@@ -103,6 +103,14 @@ public class OverviewContainer extends JPanel {
         this.revalidate();
     }
 
+    public void reset() {
+        
+        this.removeAll();
+        eventsMap.clear();
+        this.revalidate();
+        
+    }
+    
     List<Map.Entry<String, NameValuePanel>> entriesSortedByValues(Map<String, NameValuePanel> map) {
 
         List<Map.Entry<String, NameValuePanel>> sortedEntries = new ArrayList<>(map.entrySet());

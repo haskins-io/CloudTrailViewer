@@ -98,6 +98,18 @@ public class InvokersContainer extends OverviewContainer {
         this.revalidate();
     }
     
+    @Override
+    public void reset() {
+        
+        this.removeAll();
+        eventsMap.clear();
+        
+        this.revalidate();
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    //////////////////////////////////////////////////////////////////////////// 
     private void addUser(Event event) {
         
         String username = event.getUserIdentity().getUserName();

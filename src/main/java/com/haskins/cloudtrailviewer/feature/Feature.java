@@ -33,7 +33,6 @@ public interface Feature {
      */
     public void eventLoadingComplete();
     
-    
     /**
      * Feature should return a boolean to indicate if it show appear on the 
      * Feature Toolbar
@@ -61,9 +60,28 @@ public interface Feature {
      */
     public String getTooltip();
     
+    /**
+     * informs the feature that it is about to be navigated away from so it can do
+     * any actions that free up memory
+     */
     public void will_hide();
     
+    /**
+     * informs the feature that it is about to be navigated too so it can do
+     * any actions that it needs to present it's data
+     */
     public void will_appear();
     
+    /**
+     * tells the feature to show it's EventTable populating it with the passed
+     * events
+     * @param events Events to populate table with 
+     */
     public void showEventsTable(List<Event> events);
+    
+    /**
+     * Informs feature to clear down it's display removing all components any
+     * locally stored events
+     */
+    public void reset();
 }
