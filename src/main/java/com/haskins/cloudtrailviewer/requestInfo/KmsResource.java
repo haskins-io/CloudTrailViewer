@@ -32,8 +32,8 @@ public class KmsResource extends AbstractRequest implements Request {
     @Override
     public void populateRequestInfo(Event event, RequestInfo resources) {
         
-        getTopLevelResource("Policy", "policyName", event, resources);
-        getTopLevelParameters(event, resources, "policyName");
+        getTopLevelResource("Key Id", "keyId", event, resources);
+        getTopLevelParameters(event, resources, "keyId");
     }
     
 }
