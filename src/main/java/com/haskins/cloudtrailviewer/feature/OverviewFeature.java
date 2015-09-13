@@ -34,7 +34,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 /**
- *
+ * Feature that shows loaded events broken down into AWS Services
+ * 
  * @author mark
  */
 public class OverviewFeature extends JPanel implements Feature, EventDatabaseListener {

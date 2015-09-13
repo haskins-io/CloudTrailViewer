@@ -23,7 +23,8 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
 /**
- *
+ * Table for displaying Events.
+ * 
  * @author mark.haskins
  */
 public class EventsTable extends JTable {

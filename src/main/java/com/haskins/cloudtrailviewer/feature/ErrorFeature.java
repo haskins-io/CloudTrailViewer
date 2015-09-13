@@ -34,7 +34,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 /**
- *
+ * Feature that displays API Errors as it's top level presentation
+ * 
  * @author mark.haskins
  */
 public class ErrorFeature extends JPanel implements Feature, EventDatabaseListener {

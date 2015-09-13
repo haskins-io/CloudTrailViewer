@@ -74,6 +74,9 @@ public class RdsResource extends AbstractRequest implements Request {
         }
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void createDbInstance (Event event, RequestInfo resources) {
         getTopLevelResource(RDS_INSTANCE, "dBInstanceIdentifier", event, resources);
         

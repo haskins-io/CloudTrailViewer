@@ -114,6 +114,9 @@ public class EbResource extends AbstractRequest implements Request {
         }
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void populateApplicationName(Event event, RequestInfo resources) {
         getTopLevelResource(APPLICATION_NAME, "applicationName", event, resources);
         

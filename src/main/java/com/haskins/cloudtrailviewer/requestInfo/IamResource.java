@@ -160,6 +160,9 @@ public class IamResource extends AbstractRequest implements Request {
         }
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void addUserToGroup(Event event, RequestInfo resources) {
         getTopLevelResource(IAM_GROUP, "groupName", event, resources); 
         getTopLevelParameters(event, resources, IAM_USER);

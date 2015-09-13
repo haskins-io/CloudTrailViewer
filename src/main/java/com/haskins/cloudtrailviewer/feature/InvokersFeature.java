@@ -34,7 +34,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 /**
- *
+ * Feature that shows API events broken down into Users and Roles
+ * 
  * @author mark.haskins
  */
 public class InvokersFeature extends JPanel implements Feature, EventDatabaseListener {

@@ -97,6 +97,9 @@ public class RequestInfo {
         return createResponseString(values);
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private String createResponseString(List<String> values) {
         
         StringBuilder response = new StringBuilder();

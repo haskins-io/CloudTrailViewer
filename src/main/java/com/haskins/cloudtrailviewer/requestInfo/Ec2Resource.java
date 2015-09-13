@@ -116,6 +116,9 @@ public class Ec2Resource extends AbstractRequest implements Request {
         }
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void attachVolume(Event event, RequestInfo resources) {
         getTopLevelResource("Volume Id", "volumeId", event, resources);
         

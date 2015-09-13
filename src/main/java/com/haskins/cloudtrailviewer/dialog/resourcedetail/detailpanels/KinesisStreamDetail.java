@@ -66,6 +66,9 @@ public class KinesisStreamDetail extends AbstractDetail {
         return this;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildUI(DescribeStreamResult detail) {
         
         this.add(primaryScrollPane, BorderLayout.CENTER);

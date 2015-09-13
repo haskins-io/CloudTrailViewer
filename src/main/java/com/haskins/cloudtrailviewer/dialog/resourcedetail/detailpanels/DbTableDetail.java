@@ -66,6 +66,9 @@ public class DbTableDetail extends AbstractDetail {
         return this;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildUI(DescribeTableResult detail) {
         
         this.add(primaryScrollPane, BorderLayout.CENTER);

@@ -24,7 +24,16 @@ import javax.swing.JPanel;
  */
 public interface ResourceDetail {
  
+    /**
+     * Calls the relevant AWS SDK to get the required details for the resource.
+     * @param detailRequest
+     * @return 
+     */
     public String retrieveDetails(ResourceDetailRequest detailRequest);
     
+    /**
+     * Returns the detail panel
+     * @return 
+     */
     public JPanel getPanel();
 }

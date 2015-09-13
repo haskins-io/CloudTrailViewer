@@ -21,7 +21,8 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.Map;
 
 /**
- *
+ * Class that provides a unique Chart menu for the CreateDbInstance event
+ * 
  * @author mark.haskins
  */
 public class CreateDbInstanceMetaData implements ResourceMetaData {

@@ -77,6 +77,9 @@ public class CfStackDetail extends AbstractDetail {
         return this;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildUI(DescribeStacksResult detail) {
         
         JTabbedPane tabs = new JTabbedPane();

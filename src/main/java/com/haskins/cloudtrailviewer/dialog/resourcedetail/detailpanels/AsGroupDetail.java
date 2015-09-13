@@ -71,6 +71,9 @@ public class AsGroupDetail extends AbstractDetail {
         return this;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildUI(DescribeAutoScalingGroupsResult detail) {
         
         JTabbedPane tabs = new JTabbedPane();

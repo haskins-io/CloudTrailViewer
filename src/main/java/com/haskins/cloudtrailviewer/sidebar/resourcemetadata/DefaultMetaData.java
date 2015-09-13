@@ -35,7 +35,6 @@ public class DefaultMetaData implements ResourceMetaData {
     private String sessionContextArn;
     private String sessionContextUsername;
     
-    
     private static final String[] MENU_ITEMS = new String[] {
         "Event Source", 
         "User Agent",

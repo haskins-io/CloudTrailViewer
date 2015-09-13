@@ -68,6 +68,9 @@ public class CsDomainDetail extends AbstractDetail {
         return this;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildUI(DescribeDomainsResult detail) {
         
         this.add(primaryScrollPane, BorderLayout.CENTER);

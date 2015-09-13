@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 
 /**
  * Feature that provides a "No Events Loaded" panel
+ * 
  * @author mark
  */
 public class NoDataFeature extends JPanel implements Feature {

@@ -71,6 +71,9 @@ public class IamGroupDetail extends AbstractDetail {
         return this;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildUI(GetGroupResult detail) {
         
         JTabbedPane tabs = new JTabbedPane();

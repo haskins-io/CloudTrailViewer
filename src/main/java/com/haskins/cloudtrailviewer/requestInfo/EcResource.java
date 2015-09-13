@@ -52,7 +52,10 @@ public class EcResource extends AbstractRequest implements Request {
             
         }
     }
-           
+      
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void createCacheCluster(Event event, RequestInfo resources) {
         getTopLevelResource("Cache Cluster", "cacheClusterId", event, resources); 
         

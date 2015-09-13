@@ -29,11 +29,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * Utility class for processing events into a format that can be used to create
+ * a chart
  * @author mark
  */
 public class ChartUtils {
     
+    /**
+     * 
+     * @param <K>
+     * @param <V>
+     * @param map Map of Events to sort
+     * @return 
+     */
     public static <K,V extends Comparable<? super V>>  List<Map.Entry<K, V>> entriesSortedByValues(Map<K,V> map) {
 
         List<Map.Entry<K,V>> sortedEntries = new ArrayList<>(map.entrySet());
@@ -50,6 +58,13 @@ public class ChartUtils {
         return sortedEntries;
     }
     
+    /**
+     * Returns the Top X Events sorted by value
+     * @param events Events to process
+     * @param top The Top value required
+     * @param eventField The field to process against e.g. EventName
+     * @return a Map keys by EventField that has the count of events that match
+     */
     public static List<Map.Entry<String,Integer>> getTopEvents(List<Event> events, int top, String eventField) {
         
         Map<String, Integer> eventsByOccurance = new HashMap<>();
@@ -99,6 +114,9 @@ public class ChartUtils {
         return topEvents;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private static String getEventProperty(String property, Object event) {
         
         String requiredValue;

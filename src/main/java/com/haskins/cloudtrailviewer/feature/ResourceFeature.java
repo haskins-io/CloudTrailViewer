@@ -37,7 +37,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 /**
- *
+ * Feature that shows API events to do with Creating or deletion of resources
+ * 
  * @author mark.haskins
  */
 public class ResourceFeature extends JPanel implements Feature, EventDatabaseListener {

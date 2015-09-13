@@ -22,17 +22,44 @@ import com.haskins.cloudtrailviewer.core.Printable;
 import com.haskins.cloudtrailviewer.model.event.Event;
 
 /**
- *
+ * Interface that all Sidebar classes should implement
+ * 
  * @author mark
  */
 public interface SideBar extends Printable {
     
+    /**
+     * show be called when all events have been loaded.
+     */
     public void eventLoadingComplete();
     
+    /**
+     * Should the chart show on the toolbar
+     * @return 
+     */
     public boolean showOnToolBar();
+    
+    /**
+     * The name of the Sidebar
+     * @return 
+     */
     public String getName();
+    
+    /**
+     * The icon associated with the sidebar
+     * @return 
+     */
     public String getIcon();
+    
+    /**
+     * The tooltip for the sidebar
+     * @return 
+     */
     public String getTooltip();  
     
+    /**
+     * sets the current event.
+     * @param event 
+     */
     public void setCurrentEvent(Event event);
 }

@@ -36,7 +36,8 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
 /**
- *
+ * Dialog that shows any help page associated with a Feature
+ * 
  * @author mark
  */
 public class HelpDialog extends JDialog implements ActionListener {

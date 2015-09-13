@@ -63,6 +63,9 @@ public class IamUserDetail extends AbstractDetail {
         return this;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildUI(GetUserResult detail) {
         
         this.add(primaryScrollPane, BorderLayout.CENTER);

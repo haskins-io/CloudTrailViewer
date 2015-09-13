@@ -66,6 +66,39 @@ public class AwsAliasPanel extends JPanel implements ActionListener {
         }
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    // ActionListener implementation
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        if (e.getActionCommand().equalsIgnoreCase("New")) {
+            
+            AwsAlias alias = AwsAliasDialog.showDialog(this);
+            if (alias != null) {
+                StringBuilder query = new StringBuilder();
+                query.append("INSERT INTO aws_alias");
+                query.append(" (aws_account, aws_alias)");
+                query.append(" VALUES");
+                query.append(" ('").append(alias.getAccountNumber()).append("', '").append(alias.getAccountAlias()).append("')");
+                
+                DbManager.getInstance().doInsertUpdate(query.toString());
+                
+                defaultTableModel.addRow(new Object[] { alias.getAccountNumber(), alias.getAccountAlias() });
+            }
+            
+        } else {
+            
+            int selected = table.getSelectedRow();
+            if (selected != -1) {
+                defaultTableModel.removeRow(selected);
+            }
+        }
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildUI() {
         
         this.setLayout(new BorderLayout());
@@ -112,34 +145,5 @@ public class AwsAliasPanel extends JPanel implements ActionListener {
         this.add(titlePanel, BorderLayout.PAGE_START); 
         this.add(tablecrollPane, BorderLayout.CENTER); 
         this.add(buttonPane, BorderLayout.PAGE_END); 
-    }
-        ////////////////////////////////////////////////////////////////////////////
-    // ActionListener implementation
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        
-        if (e.getActionCommand().equalsIgnoreCase("New")) {
-            
-            AwsAlias alias = AwsAliasDialog.showDialog(this);
-            if (alias != null) {
-                StringBuilder query = new StringBuilder();
-                query.append("INSERT INTO aws_alias");
-                query.append(" (aws_account, aws_alias)");
-                query.append(" VALUES");
-                query.append(" ('").append(alias.getAccountNumber()).append("', '").append(alias.getAccountAlias()).append("')");
-                
-                DbManager.getInstance().doInsertUpdate(query.toString());
-                
-                defaultTableModel.addRow(new Object[] { alias.getAccountNumber(), alias.getAccountAlias() });
-            }
-            
-        } else {
-            
-            int selected = table.getSelectedRow();
-            if (selected != -1) {
-                defaultTableModel.removeRow(selected);
-            }
-        }
     }
 }

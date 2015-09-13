@@ -23,7 +23,8 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 import java.text.SimpleDateFormat;
 
 /**
- *
+ * Table Utility Methods
+ * 
  * @author mark
  */
 public class TableUtils {
@@ -77,6 +78,13 @@ public class TableUtils {
         return username;
     }
     
+    /**
+     * Returns the name of the AWS service reference in the Event. This returns
+     * a friendly name e.g. AWS AutoScaling and not autoscaling.amazonaws.com
+     * 
+     * @param event
+     * @return 
+     */
     public static String getService(Event event) {
         
         return getServiceFromEventSource(event.getEventSource());

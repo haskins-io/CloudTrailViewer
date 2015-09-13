@@ -80,6 +80,9 @@ public class SnsResource extends AbstractRequest implements Request {
         }
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void createTopic(Event event, RequestInfo resources) {
         getTopLevelResource(TOPIC, "name", event, resources);
         

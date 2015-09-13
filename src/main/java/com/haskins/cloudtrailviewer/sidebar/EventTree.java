@@ -38,7 +38,11 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 /**
- *
+ * Tree representation of the Event.
+ * 
+ * Double clicking on some leaves with attempt to display a dialog showing details
+ * of the selected resource.
+ * 
  * @author mark
  */
 public class EventTree extends JPanel implements SideBar {
@@ -109,6 +113,9 @@ public class EventTree extends JPanel implements SideBar {
         tree.setModel(model);
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void handleDoubleClick(TreePath selPath) {
         
         if (selPath.getPathCount() >= 3) {

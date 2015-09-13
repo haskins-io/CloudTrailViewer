@@ -33,6 +33,13 @@ public abstract class AbstractRequest {
             
     protected Map<String, String> resourceMap;
     
+    /**
+     * Adds the Resource value (if found) to the RequestInfo with the given name
+     * @param resourceName Name to find to store value as e.g AutoScaling Group
+     * @param paramName Name to parameter find e.g. autoScalingGroupName
+     * @param event Event to process
+     * @param requestInfo RequestInfo to update
+     */
     protected void getTopLevelResource(String resourceName, String paramName, Event event, RequestInfo requestInfo) {
         
         Map requestParameters = event.getRequestParameters();
@@ -43,6 +50,12 @@ public abstract class AbstractRequest {
         }
     }
     
+    /**
+     * Adds the Parameter value (if found) to the RequestInfo with the given name
+     * @param event Event to process
+     * @param requestInfo RequestInfo to update
+     * @param ignore parameter names that should be ignored
+     */
     protected void getTopLevelParameters(Event event, RequestInfo requestInfo, String... ignore) {
         
         List<String> ignoreList = Arrays.asList(ignore);
@@ -64,6 +77,9 @@ public abstract class AbstractRequest {
         }
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void addValueToRequestInfo(RequestInfo requestInfo, String resourceName, Object paramValue, boolean resource) {
         
         if (resourceMap.containsKey(resourceName)) {

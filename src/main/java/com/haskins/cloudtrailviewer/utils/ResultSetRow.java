@@ -19,23 +19,27 @@ package com.haskins.cloudtrailviewer.utils;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Class that models a Row in the a database
+ * @author mark
+ */
 public class ResultSetRow extends LinkedHashMap
 {
 
+    /**
+     * Default constructor
+     */
     public ResultSetRow() {
         super();
     }
-
 
     public ResultSetRow(int initialCapacity) {
         super(initialCapacity);
     }
 
-
     public ResultSetRow(int initialCapacity, float loadFactor) {
         super(initialCapacity, loadFactor);
     }
-
 
     public ResultSetRow(Map m) {
         super(m);

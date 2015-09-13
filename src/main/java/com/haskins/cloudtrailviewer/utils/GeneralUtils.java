@@ -40,7 +40,8 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 /**
- *
+ * General Utility methods
+ * 
  * @author mark
  */
 public class GeneralUtils {
@@ -53,6 +54,9 @@ public class GeneralUtils {
         return list;
     }
 
+    /**
+     * Defines OS enums
+     */
     public enum OS {
         WINDOWS, UNIX, POSIX_UNIX, MAC, OTHER
     }
@@ -106,10 +110,18 @@ public class GeneralUtils {
         }
     }
 
+    /**
+     * Returns the OS
+     * @return 
+     */
     public static OS getOs() {
         return os;
     }
 
+    /**
+     * Returns TRUE or FALSE depending of the OS is Mac.
+     * @return 
+     */
     public static boolean isMac() {
         boolean isMac = false;
 
@@ -120,6 +132,10 @@ public class GeneralUtils {
         return isMac;
     }
     
+    /**
+     * Saves the passed Prinable as a Png file.
+     * @param panel 
+     */
     public static void savePanelAsImage(Printable panel) {
         
         fileChooser.setDialogTitle("Save SideBar as Png");   
@@ -140,6 +156,11 @@ public class GeneralUtils {
         }
     }
     
+    /**
+     * Exports the data in the passed table as a CSV file. This will take into
+     * consideration what Columns are visible and only saves those.
+     * @param table 
+     */
     public static void saveTableAsCsv(JTable table) {
         
         fileChooser.setDialogTitle("Export Table as CSV");   
@@ -181,6 +202,11 @@ public class GeneralUtils {
         }
     }
     
+    /**
+     * Orders the model using the passed comparator.
+     * @param model
+     * @param comparator 
+     */
     public static void orderListByComparator(DefaultListModel model, Comparator comparator) {
         
         List<NameValueModel> list = Collections.list(model.elements());

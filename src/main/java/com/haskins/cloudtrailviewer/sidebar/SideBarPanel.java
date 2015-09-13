@@ -36,7 +36,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
- *
+ * Container class that all sidebar elements are added to.
+ * 
  * @author mark
  */
 public class SideBarPanel extends JPanel implements ActionListener {

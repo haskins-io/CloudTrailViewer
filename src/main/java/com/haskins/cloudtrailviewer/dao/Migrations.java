@@ -18,14 +18,11 @@
 
 package com.haskins.cloudtrailviewer.dao;
 
-import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.model.CurrentDbVersion;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -33,7 +30,7 @@ import java.util.logging.Logger;
  */
 public class Migrations {
 
-    public static void createVersion1(Connection conn, CurrentDbVersion currentVersion) {
+    final static void createVersion1(Connection conn, CurrentDbVersion currentVersion) {
 
         if (currentVersion.getDbVersion() < 1) {
 
@@ -87,7 +84,7 @@ public class Migrations {
         }
     }
     
-    public static void createVersion2(Connection conn, CurrentDbVersion currentVersion) {
+    final static void createVersion2(Connection conn, CurrentDbVersion currentVersion) {
         
         if (currentVersion.getDbVersion() < 2) {
         
@@ -113,7 +110,7 @@ public class Migrations {
         }
     }
     
-    public static void createVersion3(Connection conn, CurrentDbVersion currentVersion) {
+    final static void createVersion3(Connection conn, CurrentDbVersion currentVersion) {
         
         if (currentVersion.getDbVersion() < 3) {
         
@@ -129,7 +126,7 @@ public class Migrations {
         }
     }
     
-    public static void createVersion4(Connection conn, CurrentDbVersion currentVersion) {
+    final static void createVersion4(Connection conn, CurrentDbVersion currentVersion) {
         
         if (currentVersion.getDbVersion() < 4) {
         
@@ -154,7 +151,7 @@ public class Migrations {
         }
     }
     
-    public static void createVersion5(Connection conn, CurrentDbVersion currentVersion) {
+    final static void createVersion5(Connection conn, CurrentDbVersion currentVersion) {
         
         if (currentVersion.getDbVersion() < 5) {
         
@@ -231,7 +228,7 @@ public class Migrations {
         }        
     }
     
-    public static void createVersion6(Connection conn, CurrentDbVersion currentVersion) {
+    final static void createVersion6(Connection conn, CurrentDbVersion currentVersion) {
         
         if (currentVersion.getDbVersion() < 6) {
         
@@ -248,7 +245,7 @@ public class Migrations {
     }
     
     ////////////////////////////////////////////////////////////////////////////
-    ///// Utility methods
+    ///// private methods
     ////////////////////////////////////////////////////////////////////////////
     private static boolean doesTableExists(Connection conn, String tablename) {
 

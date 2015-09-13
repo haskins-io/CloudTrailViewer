@@ -56,7 +56,8 @@ import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.plot.PlotOrientation;
 
 /**
- *
+ * Abstract class that provides common functionality for the Sidebar chart
+ *  
  * @author mark.haskins
  */
 public abstract class AbstractChart extends JPanel implements SideBar, ActionListener {
@@ -130,6 +131,10 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
     ////////////////////////////////////////////////////////////////////////////
     ///// protected methods
     //////////////////////////////////////////////////////////////////////////// 
+    /**
+     * Returns the value currently selectd in the Top menu
+     * @return 
+     */
     protected int getTopXValue() {
         
         String actionCommand = topGroup.getSelection().getActionCommand();
@@ -139,6 +144,11 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
         return Integer.parseInt(topStr);
     }
     
+    /**
+     * updates the chart, changing the menus if needed and updating the contents
+     * of the Key table.
+     * @param chartData 
+     */
     protected void updateChart(List<Map.Entry<String, Integer>> chartData) {
         
         chartCards.removeAll();

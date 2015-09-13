@@ -56,6 +56,9 @@ public class SwfResource extends AbstractRequest implements Request {
         }
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void deprecateDomain(Event event, RequestInfo resources) {
         getTopLevelResource(DOMAIN, "name", event, resources);
         getTopLevelParameters(event, resources, "name");

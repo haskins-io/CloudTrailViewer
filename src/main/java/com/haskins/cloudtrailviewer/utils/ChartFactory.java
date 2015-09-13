@@ -34,11 +34,21 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.ui.HorizontalAlignment;
 
 /**
- *
+ * Utility class for creating a jFreeChart.
+ * 
  * @author mark
  */
 public class ChartFactory {
     
+    /**
+     * Using the passed values creates the appropriate chart
+     * @param type Type of chart to create e.g. Pie
+     * @param events Events to populate chart width
+     * @param width preferred width of chart
+     * @param height preferred height of chart
+     * @param orientation orientation of bar, only used with Bar charts
+     * @return 
+     */
     public static ChartPanel createChart(String type, List<Entry<String,Integer>> events, int width, int height, PlotOrientation orientation) {
         
         if (type.contains("Pie")) {
@@ -48,6 +58,9 @@ public class ChartFactory {
         } 
     }
     
+    ///////////////////////////////////////////////////////////////////////////
+    // private methods
+    ///////////////////////////////////////////////////////////////////////////
     private static ChartPanel createPieChart(String type, List<Entry<String,Integer>> events, int width, int height) {
 
         DefaultPieDataset dataset = new DefaultPieDataset();

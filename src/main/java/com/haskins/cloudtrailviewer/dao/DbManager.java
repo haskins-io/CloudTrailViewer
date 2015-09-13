@@ -207,6 +207,10 @@ public class DbManager {
         return updated;
     }
 
+    /**
+     * performs an Execute command
+     * @param query  SQL statement to run
+     */
     public void doExecute(String query) {
 
         Connection conn = getDbConnection();
@@ -219,6 +223,10 @@ public class DbManager {
         }
     }
 
+    /**
+     * get a valid DB Connection
+     * @return 
+     */
     public Connection getDbConnection() {
 
         Connection conn = null;
@@ -233,6 +241,10 @@ public class DbManager {
         return conn;
     }
 
+    /**
+     * Returns the URL of that database
+     * @return 
+     */
     public String getDbUrl() {
 
         String userHomeDir = System.getProperty("user.home", ".");
@@ -245,6 +257,10 @@ public class DbManager {
         return url.toString();
     }
 
+    /**
+     * Returns the current version of the database
+     * @return version number of database
+     */
     public int getCurrentDbVersion() {
 
         int currentVersion = 0;

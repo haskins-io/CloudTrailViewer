@@ -27,13 +27,12 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
 /**
- *
+ * Chart that display custom information for specific API calls.
+ * 
  * @author mark
  */
 public class ResourcesChart extends AbstractChart implements ActionListener {

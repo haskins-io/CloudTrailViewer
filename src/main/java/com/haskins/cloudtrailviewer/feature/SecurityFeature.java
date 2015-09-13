@@ -37,7 +37,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 /**
- *
+ * Feature that shows Events that might be considered to be security risks
+ * 
  * @author mark.haskins
  */
 public class SecurityFeature extends JPanel implements Feature, EventDatabaseListener {

@@ -71,6 +71,11 @@ public abstract class AbstractDetail extends JPanel implements ResourceDetail {
         return this;
     }
     
+    /**
+     * returns a string representation of the date passed.
+     * @param date
+     * @return 
+     */
     protected String getDateString(Date date) {
         return sdf.format(date.getTime());
     }

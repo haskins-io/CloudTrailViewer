@@ -50,6 +50,11 @@ public class AccountDao {
         return account;
     }
     
+    /**
+     * Returns an AwsAccount object for the given account name
+     * @param name
+     * @return Will return NULL if not found.
+     */
     public static AwsAccount getAccountByName(String name) {
         
         AwsAccount account = null;
@@ -65,12 +70,20 @@ public class AccountDao {
         return account;
     }
     
+    /**
+     * Delete the account with the name
+     * @param name name of account to delete
+     */
     public static void deleteAccountByName(String name) {
         
         String query = "SDELETE FROM aws_credentials WHERE aws_name = '" + name + "'";
         DbManager.getInstance().doExecute(query); 
     }
     
+    /**
+     * returns all Account that have a bucket associated with them
+     * @return 
+     */
     public static List<AwsAccount> getAllAccountsWithBucket() {
                 
         StringBuilder query = new StringBuilder();
@@ -79,6 +92,11 @@ public class AccountDao {
         return executeQuery(query.toString());
     }
     
+    /**
+     * returns all accounts if they are active.
+     * @param onlyActive
+     * @return 
+     */
     public static List<AwsAccount> getAllAccounts(boolean onlyActive) {
         
         StringBuilder query = new StringBuilder();
@@ -91,6 +109,9 @@ public class AccountDao {
         return executeQuery(query.toString());
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private static List<AwsAccount> executeQuery(String query) {
         
         List<AwsAccount> accounts = new ArrayList<>();

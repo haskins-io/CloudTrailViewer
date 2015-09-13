@@ -25,7 +25,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 /**
- *
+ * Collection of Event related utility methods
+ * 
  * @author mark
  */
 public class EventUtils {
@@ -34,10 +35,20 @@ public class EventUtils {
     
     private static final ObjectMapper mapper = new ObjectMapper();
         
+    /**
+     * Takes EventTime value from Event, converts it to a long and adds it back
+     * onto the event
+     * @param event Event to be proceessed
+     */
     public static void addTimestamp(Event event) {
         event.setTimestamp(getTimestamp(event.getEventTime()));
     }
     
+    /**
+     * Converts passed String dateTime to long
+     * @param dateString
+     * @return 
+     */
     public static long getTimestamp(String dateString) {
         
         long millis = 0;
@@ -49,6 +60,11 @@ public class EventUtils {
         return millis;
     }
     
+    /**
+     * Takes the passed Events and converts it to a JSON document and adds it to
+     * the passed Event.
+     * @param event 
+     */
     public static void addRawJson(Event event) {
         
         String rawJson;

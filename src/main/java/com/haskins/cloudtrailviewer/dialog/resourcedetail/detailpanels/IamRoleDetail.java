@@ -63,6 +63,9 @@ public class IamRoleDetail extends AbstractDetail {
         return this;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildUI(GetRoleResult detail) {
         
         this.add(primaryScrollPane, BorderLayout.CENTER);

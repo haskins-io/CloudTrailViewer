@@ -22,7 +22,9 @@ import com.haskins.cloudtrailviewer.model.NameValueModel;
 import java.util.Comparator;
 
 /**
- *
+ * Comparator used to compare two NameValueModels to order by Count in descending
+ * order
+ * 
  * @author mark.haskins
  */
 public class CountComparator implements Comparator {

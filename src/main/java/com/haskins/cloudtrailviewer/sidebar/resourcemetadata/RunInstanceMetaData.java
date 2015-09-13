@@ -21,8 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
- * @author mark
+ * Class that provides a unique Chart menu for the RunInstance event
+ * 
+ * @author mark.haskins
  */
 public class RunInstanceMetaData implements ResourceMetaData {
     

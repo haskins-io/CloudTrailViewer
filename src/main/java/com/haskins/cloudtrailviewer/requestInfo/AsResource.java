@@ -96,6 +96,9 @@ public class AsResource extends AbstractRequest implements Request {
         }
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void getAutoScalingGroupDetails(Event event, RequestInfo resources) {
         getTopLevelResource(AUTO_SCALING_GROUP, "autoScalingGroupName", event, resources);
         getTopLevelParameters(event, resources, "autoScalingGroupName");

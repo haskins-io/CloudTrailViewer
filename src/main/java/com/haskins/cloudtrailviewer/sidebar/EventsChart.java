@@ -30,6 +30,8 @@ import javax.swing.JRadioButtonMenuItem;
 
 /**
  *
+ * Default sidebar chart.
+ * 
  * @author mark.haskins
  */
 public class EventsChart extends AbstractChart implements ActionListener {

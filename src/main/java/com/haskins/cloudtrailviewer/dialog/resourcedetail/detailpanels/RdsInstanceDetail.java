@@ -66,6 +66,9 @@ public class RdsInstanceDetail extends AbstractDetail {
         return this;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildUI(DescribeDBInstancesResult detail) {
         
         if (!detail.getDBInstances().isEmpty()) {

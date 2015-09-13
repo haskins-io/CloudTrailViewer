@@ -28,7 +28,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
- *
+ * Panel that shows the original JSON string for a Event as taken from the log file.
+ * 
  * @author mark
  */
 public class EventJson extends JPanel implements SideBar {

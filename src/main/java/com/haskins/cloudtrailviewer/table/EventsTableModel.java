@@ -23,7 +23,8 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 import javax.swing.table.AbstractTableModel;
 
 /**
- *
+ * Model for holding Events.
+ * 
  * @author mark.haskins
  */
 public class EventsTableModel extends AbstractTableModel {

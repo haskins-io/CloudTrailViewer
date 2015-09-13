@@ -68,6 +68,9 @@ public class AsLaunchDetail extends AbstractDetail {
         return this;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void buildUI(DescribeLaunchConfigurationsResult detail) {
         
         this.add(primaryScrollPane, BorderLayout.CENTER);

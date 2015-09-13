@@ -66,62 +66,6 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
         }
     }
     
-    private void buildUI() {
-        
-        this.setLayout(new BorderLayout());
-                
-        list.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
-                
-                if (mouseEvent.getClickCount() == 2) {
-                    String accountName = (String)list.getSelectedValue();
-                    updateAccount(accountName);
-                    
-                } else {
-                    selected = list.getSelectedIndex();
-                }
-            }
-        });
-        
-        JScrollPane tablecrollPane = new JScrollPane(list);
-        tablecrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        
-        final JButton btnNew = new JButton();
-        ToolBarUtils.addImageToButton(btnNew, "Add.png", "Add", "Add Alias");
-        btnNew.setActionCommand("New");
-        btnNew.addActionListener(this);
-        
-        final JButton btnDelete = new JButton();
-        ToolBarUtils.addImageToButton(btnDelete, "Minus.png", "Remove", "Remove Alias");
-        btnDelete.setActionCommand("Delete");
-        btnDelete.addActionListener(this);
-        
-        JPanel buttonPane = new JPanel();
-        buttonPane.setBackground(Color.white);
-        buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
-        buttonPane.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY));
-        
-        Border border = buttonPane.getBorder();
-        Border margin = BorderFactory.createEmptyBorder(2, 2, 2, 2);
-        buttonPane.setBorder(new CompoundBorder(border, margin));
-        
-        buttonPane.add(btnNew);
-        buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
-        buttonPane.add(btnDelete);
-        
-        JLabel title = new JLabel("AWS Accounts");
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        JPanel titlePanel = new JPanel(new BorderLayout());
-        titlePanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
-        titlePanel.add(title, BorderLayout.CENTER);
-
-        this.add(titlePanel, BorderLayout.PAGE_START);
-        this.add(tablecrollPane, BorderLayout.CENTER); 
-        this.add(buttonPane, BorderLayout.PAGE_END); 
-    }
-    
     ////////////////////////////////////////////////////////////////////////////
     // ActionListener implementation
     ////////////////////////////////////////////////////////////////////////////
@@ -188,6 +132,63 @@ public class AwsAccountPanel extends JPanel implements ActionListener {
     ////////////////////////////////////////////////////////////////////////////
     // private methods
     ////////////////////////////////////////////////////////////////////////////
+    private void buildUI() {
+        
+        this.setLayout(new BorderLayout());
+                
+        list.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                
+                if (mouseEvent.getClickCount() == 2) {
+                    String accountName = (String)list.getSelectedValue();
+                    updateAccount(accountName);
+                    
+                } else {
+                    selected = list.getSelectedIndex();
+                }
+            }
+        });
+        
+        JScrollPane tablecrollPane = new JScrollPane(list);
+        tablecrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        
+        final JButton btnNew = new JButton();
+        ToolBarUtils.addImageToButton(btnNew, "Add.png", "Add", "Add Alias");
+        btnNew.setActionCommand("New");
+        btnNew.addActionListener(this);
+        
+        final JButton btnDelete = new JButton();
+        ToolBarUtils.addImageToButton(btnDelete, "Minus.png", "Remove", "Remove Alias");
+        btnDelete.setActionCommand("Delete");
+        btnDelete.addActionListener(this);
+        
+        JPanel buttonPane = new JPanel();
+        buttonPane.setBackground(Color.white);
+        buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
+        buttonPane.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY));
+        
+        Border border = buttonPane.getBorder();
+        Border margin = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+        buttonPane.setBorder(new CompoundBorder(border, margin));
+        
+        buttonPane.add(btnNew);
+        buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPane.add(btnDelete);
+        
+        JLabel title = new JLabel("AWS Accounts");
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
+        titlePanel.add(title, BorderLayout.CENTER);
+
+        this.add(titlePanel, BorderLayout.PAGE_START);
+        this.add(tablecrollPane, BorderLayout.CENTER); 
+        this.add(buttonPane, BorderLayout.PAGE_END); 
+    }
+    
+    
     private void updateAccount(String accountName) {
         
         AwsAccount account = AccountDao.getAccountByName(accountName);
