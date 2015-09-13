@@ -71,7 +71,11 @@ public class StatusBar extends JPanel {
         }
     }
     
-    public void addEvent(Event event) {
+    /**
+     * When called will calculate the earliest and latest Event timestamp.
+     * @param event 
+     */
+    public void newEvent(Event event) {
 
         if (earliestEvent == -1 || event.getTimestamp() < earliestEvent ) {
             earliestEvent = event.getTimestamp();
@@ -85,6 +89,10 @@ public class StatusBar extends JPanel {
         
     }
     
+    /**
+     * When called will calculate the earliest and latest Event timestamp.
+     * @param events 
+     */
     public void setEvents(List<Event> events) {
         
         earliestEvent = -1;
@@ -93,10 +101,14 @@ public class StatusBar extends JPanel {
         setVisibleEvents(events.size());
         
         for (Event event : events) {
-            addEvent(event);
+            newEvent(event);
         }
     }
     
+    /**
+     * resets all the labels, and hides those that should not be visible when no
+     * events are loaded.
+     */
     public void eventsCleared() {
         messageLabel.setVisible(false);
         from.setVisible(false);

@@ -122,7 +122,6 @@ public class FilteredEventDatabase extends EventDatabase implements FilterListen
 
             Event event = super.getEventByIndex(i);
             addInternal(event);
-//            fireUpdate(event);
         }
     }
     

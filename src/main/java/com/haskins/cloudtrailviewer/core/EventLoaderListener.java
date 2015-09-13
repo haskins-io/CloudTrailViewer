@@ -35,7 +35,7 @@ public interface EventLoaderListener {
     public void processingFile(int fileCount, int total);
     
     /**
-     * Fired when EventLoaded has finished processsing all the files
+     * Fired when EventLoaded has finished processing all the files
      */
     public void finishedLoading();
 }

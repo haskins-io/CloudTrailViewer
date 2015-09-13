@@ -55,6 +55,10 @@ public class InvokersContainer extends OverviewContainer {
         server_icon = ToolBarUtils.getIcon("Server-32.png");
     }
     
+    /**
+     * Adds an events to the container.
+     * @param event 
+     */
     public void addEvent(Event event) {
 
         String type = event.getUserIdentity().getType();

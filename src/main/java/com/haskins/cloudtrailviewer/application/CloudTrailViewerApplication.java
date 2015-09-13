@@ -127,7 +127,8 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
             eventLoader.loadEventsFromS3(loadRequest);
         }
     }
-        /**
+    
+    /**
      * Changes the feature that is visible.
      * @param name The name of the Feature to show.
      * @param loading 
@@ -148,6 +149,10 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         }
     }
     
+    /**
+     * When called clears the database of all events and then informs all features
+     * to reset themselves.
+     */
     public void clearEvents() {
         
         database.clear();

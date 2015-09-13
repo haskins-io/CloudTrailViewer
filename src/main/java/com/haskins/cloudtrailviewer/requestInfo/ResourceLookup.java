@@ -19,87 +19,53 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.requestInfo;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author mark
  */
 public class ResourceLookup {
-    
-    private final static AsResource autoScaling = new AsResource();
-    private final static CfResource cloudFormation = new CfResource();
-    private final static CsResource cloudSearch = new CsResource();
-    private final static DbResource dynamoDb = new DbResource();
-    private final static EbResource elasticBeanststalk = new EbResource();
-    private final static Ec2Resource cloudCompute = new Ec2Resource();
-    private final static EcResource elasticCache = new EcResource();
-    private final static ElbResoure loadBalancing = new ElbResoure();
-    private final static IamResource iam = new IamResource();
-    private final static KinesisResource kinesis = new KinesisResource();
-    private final static KmsResource kms = new KmsResource();
-    private final static RdsResource relationalDb = new RdsResource();
-    private final static SnsResource notificationService = new SnsResource();
-    private final static SqsResource simpleQueue = new SqsResource();
-    private final static SwfResource simpleWorkflow = new SwfResource();
-    private final static SSSRequest s3 = new SSSRequest();
+        
+    private static Map<String, Request> getServices() {
+        
+        return Collections.unmodifiableMap(new HashMap<String, Request>() {
+            {
+                put("autoscaling.amazonaws.com", new AsResource());
+                put("cloudformation.amazonaws.com", new CfResource());
+                put("cloudsearch.amazonaws.com", new CsResource());
+                put("dynamodb.amazonaws.com", new DbResource());
+                put("elasticbeanstalk.amazonaws.com", new EbResource());
+                put("ec2.amazonaws.com", new Ec2Resource());
+                put("elasticache.amazonaws.com", new EcResource());
+                put("elasticloadbalancing.amazonaws.com", new ElbResoure());
+                put("iam.amazonaws.com", new IamResource());
+                put("kinesis.amazonaws.com", new KinesisResource());
+                put("kms.amazonaws.com", new KmsResource());
+                put("rds.amazonaws.com", new RdsResource());
+                put("sns.amazonaws.com", new SnsResource());
+                put("sqs.amazonaws.com", new SqsResource());
+                put("swf.amazonaws.com", new SwfResource());
+                put("s3.amazonaws.com", new SSSRequest());
+            }
+        });
+    }
     
     public static void getResourceInfo(Event event, RequestInfo resources) {
         
         String source = event.getEventSource();
         
-        try {
-            if (source.equalsIgnoreCase("autoscaling.amazonaws.com")) {
-                autoScaling.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("cloudformation.amazonaws.com")) {
-                cloudFormation.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("cloudsearch.amazonaws.com")) {
-                cloudSearch.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("elasticbeanstalk.amazonaws.com")) {
-                elasticBeanststalk.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("ec2.amazonaws.com")) {
-                cloudCompute.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("elasticloadbalancing.amazonaws.com")) {
-                loadBalancing.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("rds.amazonaws.com")) {
-                relationalDb.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("sns.amazonaws.com")) {
-                notificationService.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("dynamodb.amazonaws.com")) {
-                dynamoDb.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("iam.amazonaws.com")) {
-                iam.populateRequestInfo(event, resources);
-
-            }else if (source.equalsIgnoreCase("elasticache.amazonaws.com")) {
-                elasticCache.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("kinesis.amazonaws.com")) {
-                kinesis.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("kms.amazonaws.com")) {
-                kms.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("sqs.amazonaws.com")) {
-                simpleQueue.populateRequestInfo(event, resources);
-
-            } else if (source.equalsIgnoreCase("swf.amazonaws.com")) {
-                simpleWorkflow.populateRequestInfo(event, resources);
-                
-            } else if (source.equalsIgnoreCase("s3.amazonaws.com")) {
-                s3.populateRequestInfo(event, resources);
-            }
+        if (getServices().containsKey(source)) {
             
-        } catch (Exception e) {
-            // need to create a custom exception for here
-        }
+            try {
+                Request r = getServices().get(source);
+                r.populateRequestInfo(event, resources);
+            } catch (Exception e) {
+                
+            }
 
+        }
     }
 }

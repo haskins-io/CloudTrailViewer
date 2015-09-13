@@ -47,6 +47,10 @@ public class OverviewContainer extends JPanel {
         this.setLayout(new WrapLayout());
     }
 
+    /**
+     * Adds a collection of events to the panel
+     * @param events 
+     */
     public void setEvents(List<Event> events) {
 
         eventsMap.clear();
@@ -59,6 +63,11 @@ public class OverviewContainer extends JPanel {
         finishedLoading();
     }
 
+    /**
+     * Adds a single event to the panel
+     * @param event
+     * @param eventField 
+     */
     public void addEvent(Event event, String eventField) {
           
         try {
@@ -88,6 +97,9 @@ public class OverviewContainer extends JPanel {
         }
     }
 
+    /**
+     * when called displays the events.
+     */
     public void finishedLoading() {
 
         this.removeAll();
@@ -103,6 +115,9 @@ public class OverviewContainer extends JPanel {
         this.revalidate();
     }
 
+    /**
+     * Resets the panel, removing all data
+     */
     public void reset() {
         
         this.removeAll();

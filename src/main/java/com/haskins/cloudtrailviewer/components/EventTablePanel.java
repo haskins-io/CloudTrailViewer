@@ -152,13 +152,17 @@ public class EventTablePanel extends JPanel implements ActionListener {
     }
 
     /**
-     * 
+     * When called will trigger a building of the UI
      */
     public void eventLoadingComplete() {
         sideBar.eventLoadingComplete();
         tableModel.reloadTableModel();
     }
     
+    /**
+     * Sets the needle that should be used to filter the contents of the table.
+     * @param needle 
+     */
     public void setFilterString(String needle) {
         filterTextField.setText(needle);
         filterUpdate();

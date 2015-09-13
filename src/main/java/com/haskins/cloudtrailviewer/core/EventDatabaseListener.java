@@ -33,5 +33,8 @@ public interface EventDatabaseListener {
      */
     public void eventAdded(Event event);
     
+    /**
+     * fired when all events have been loaded into the database
+     */
     public void finishedLoading();
 }

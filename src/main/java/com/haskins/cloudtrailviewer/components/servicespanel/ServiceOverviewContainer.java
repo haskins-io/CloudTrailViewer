@@ -28,7 +28,8 @@ import java.util.Set;
 import javax.swing.JPanel;
 
 /**
- *
+ * Container that will hold Overview panels are they are discovered.
+ * 
  * @author mark
  */
 public class ServiceOverviewContainer extends JPanel {
@@ -44,6 +45,10 @@ public class ServiceOverviewContainer extends JPanel {
         this.setLayout(new WrapLayout());
     }
     
+    /**
+     * Clears any current events and loads the container with the passed events.
+     * @param events 
+     */
     public void setEvents(List<Event> events) {
         
         servicesMap.clear();
@@ -56,6 +61,11 @@ public class ServiceOverviewContainer extends JPanel {
         this.revalidate();
     }
     
+    /**
+     * Adds the Events and updates the appropriate Service Panel. If no matching
+     * service panels exists one will be created.
+     * @param event 
+     */
     public void addEvent(Event event) {
         
         String source = event.getEventSource();
@@ -85,6 +95,10 @@ public class ServiceOverviewContainer extends JPanel {
         servicePanel.addEvent(event);
     }
    
+    /**
+     * Called when events are cleared from the database. Removes all panels from
+     * the container and Events from local collection.
+     */
     public void reset() {
         
         this.removeAll();

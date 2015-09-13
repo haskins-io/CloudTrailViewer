@@ -36,7 +36,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
- *
+ * Panel that shows a name and a count.
+ * 
  * @author mark.haskins
  */
 public class NameValuePanel extends JPanel {
@@ -50,14 +51,21 @@ public class NameValuePanel extends JPanel {
     private boolean sorted = false;
     private final Feature parent;
     
-    public NameValuePanel(String securityEvent, Icon icon, Feature f) {
+    /**
+     * Default constructor
+     * @param event Event name to be shown
+     * @param icon Optional. If passed the icon will be shown on the left side of
+     * the panel
+     * @param f Reference to feature that should be called when panel is clicked.
+     */
+    public NameValuePanel(String event, Icon icon, Feature f) {
      
         this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
         this.setBackground(Color.white);
         
         this.setMaximumSize(new Dimension(1750,30));
         
-        this.nameLabel.setText(securityEvent);
+        this.nameLabel.setText(event);
         this.parent = f;
         
         nameLabel.addMouseListener(new MouseAdapter() {
@@ -97,6 +105,10 @@ public class NameValuePanel extends JPanel {
         this.add(totalLabel, BorderLayout.EAST);   
     }
     
+    /**
+     * Adds an event to the panel.
+     * @param event 
+     */
     public void addEvent(Event event) {
                 
         events.add(event);
@@ -104,14 +116,26 @@ public class NameValuePanel extends JPanel {
         this.revalidate();
     }
     
+    /**
+     * Returns the number of events associated with the panel.
+     * @return 
+     */
     public int getEventCount() {
         return events.size();
     }
     
+    /**
+     * returns a single Event associated with the Panel
+     * @return 
+     */
     public Event getSampleEvent() {
         return events.get(0);
     }
     
+    /**
+     * Resizes the Panel with a new width.
+     * @param newWidth 
+     */
     public void changeWidth(int newWidth) {
         this.setMaximumSize(new Dimension(newWidth,30));
         this.setMinimumSize(new Dimension(newWidth,30));

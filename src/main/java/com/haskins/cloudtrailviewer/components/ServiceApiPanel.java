@@ -47,10 +47,18 @@ public class ServiceApiPanel extends JPanel {
         buildUI();
     }
     
+    /**
+     * Returns the name of the selected service.
+     * @return 
+     */
     public String getService() {
         return (String)servicesCombo.getSelectedItem();
     }
     
+    /**
+     * Returns the name of the selected API.
+     * @return 
+     */
     public String getApi() {
         return (String)apisCombo.getSelectedItem();
     }

@@ -51,6 +51,12 @@ public class CountPanel extends JPanel {
     
     private boolean sorted = false;
         
+    /**
+     * Default Constructor
+     * @param name Name to be show on the panel
+     * @param bgColour Colour for the background of the panel
+     * @param f Reference to feature that show be informed when clicked.
+     */
     public CountPanel(String name, Color bgColour, Feature f) {
         
         this.feature = f;
@@ -110,6 +116,10 @@ public class CountPanel extends JPanel {
         this.setOpaque(true);
     }
     
+    /**
+     * Added a new event to the count.
+     * @param event 
+     */
     public void newEvent(Event event) {
         
         this.events.add(event);

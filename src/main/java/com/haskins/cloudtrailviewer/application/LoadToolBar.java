@@ -39,7 +39,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 /**
- * Provides the Load / Scan Event Tool Bar
+ * Provides the Load / Scan Event Toolbar
  * 
  * @author mark
  */

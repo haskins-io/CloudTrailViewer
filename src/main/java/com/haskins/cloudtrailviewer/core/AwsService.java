@@ -27,7 +27,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- *
+ * Singleton class that provides access to AWS Service names and AWS Service APIs
+ * 
  * @author mark.haskins
  */
 public class AwsService {
@@ -39,6 +40,10 @@ public class AwsService {
     
     private final Map<String, List<String>> serviceAPIs = new HashMap<>();
 
+    /**
+     * Returns an instance of the class
+     * @return 
+     */
     public static AwsService getInstance() {
 
         if (instance == null) {
@@ -69,6 +74,12 @@ public class AwsService {
         }
     }
 
+    /**
+     * Returns the friendly name of a service for example autoscaling.amazonaws.com
+     * would return AutoScaling
+     * @param name service name
+     * @return 
+     */
     public String getFriendlyName(String name) {
         
         String friendlyName = serviceEndpointsToNames.get(name);
@@ -79,6 +90,10 @@ public class AwsService {
         return friendlyName;
     }
 
+    /**
+     * Returns the names of all available AWS Services
+     * @return 
+     */
     public List<String> getServices() {
         
         Set keys = serviceNamesToEndpoints.keySet();
@@ -88,6 +103,11 @@ public class AwsService {
         return list;
     }
 
+    /**
+     * Returns all Service API calls available for the given service name
+     * @param serviceName name of service
+     * @return 
+     */
     public List<String> getApiCallsForService(String serviceName) {
         
         List<String> apis;

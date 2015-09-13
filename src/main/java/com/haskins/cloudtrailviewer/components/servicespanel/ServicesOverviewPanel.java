@@ -91,6 +91,10 @@ public class ServicesOverviewPanel extends JPanel {
         this.add(totalPanel, BorderLayout.PAGE_END);
     }
 
+    /**
+     * Adds Events to Panel.
+     * @param event 
+     */
     public void addEvent(Event event) {
                 
         if (event.getUserIdentity().getType().equalsIgnoreCase("Root")) {

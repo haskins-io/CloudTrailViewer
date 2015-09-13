@@ -85,6 +85,11 @@ public class EpsPanel extends JPanel {
         this.setOpaque(true);
     }
     
+    /**
+     * When called will adjust the Peak events per Second/Minute/Hour based on the
+     * timestamp of the passed Event.
+     * @param event 
+     */
     public void newEvent(Event event) {
         
         try {

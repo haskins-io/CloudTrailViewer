@@ -24,11 +24,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Class that acts as a DAO for the Credentails table
+ * 
  * @author mark.haskins
  */
 public class AccountDao {
     
+    /**
+     * Returns an AwsAccount object for the given account number
+     * @param acctNum
+     * @return Will return NULL if not found.
+     */
     public static AwsAccount getAccountByAcctNum(String acctNum) {
         
         AwsAccount account = null;
