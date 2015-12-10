@@ -23,8 +23,7 @@ import java.util.Map;
  * Class that models a Row in the a database
  * @author mark
  */
-public class ResultSetRow extends LinkedHashMap
-{
+public class ResultSetRow extends LinkedHashMap {
 
     /**
      * Default constructor

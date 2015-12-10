@@ -33,7 +33,6 @@ public class ToolBarUtils {
     public static void addImageToButton(JButton theButton, String image, String text, String tooltip) {
             
         theButton.setIcon(ToolBarUtils.getIcon(image));
- 
         theButton.setBorder(null);
         theButton.setBorderPainted(false);
         theButton.setMargin(new Insets(0,0,0,0));

@@ -29,24 +29,24 @@ import java.util.Comparator;
  */
 public class CountComparator implements Comparator {
 
-        @Override
-        public int compare(Object o1, Object o2) {
+    @Override
+    public int compare(Object o1, Object o2) {
 
-            int comparisonResult = 0;
+        int comparisonResult = 0;
 
-            NameValueModel event1 = (NameValueModel)o1;
-            NameValueModel event2 = (NameValueModel)o2;
+        NameValueModel event1 = (NameValueModel)o1;
+        NameValueModel event2 = (NameValueModel)o2;
 
-            if(event1.getNumberOfEvents() < event2.getNumberOfEvents())
-            {
-                comparisonResult = 1;
-            }
-            else if(event1.getNumberOfEvents() > event2.getNumberOfEvents())
-            {
-                comparisonResult = -1;
-            }
-
-            return comparisonResult;
+        if(event1.getNumberOfEvents() < event2.getNumberOfEvents())
+        {
+            comparisonResult = 1;
         }
+        else if(event1.getNumberOfEvents() > event2.getNumberOfEvents())
+        {
+            comparisonResult = -1;
+        }
+
+        return comparisonResult;
+    }
     
 }
