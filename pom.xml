@@ -24,31 +24,48 @@
     </organization>
     
     <dependencies>
+        <!-- JSON Handling -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.6.0</version>
         </dependency>
+        
+        <!-- AWS Java SDK -->
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk</artifactId>
             <version>1.10.14</version>
         </dependency>
+        
+        <!-- Charting Library -->
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>1.0.19</version>
         </dependency>
+        
+        <!-- database library-->
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>10.11.1.1</version>
         </dependency>
+        
+        <!-- Used to make the application handle like a native mac app -->
         <dependency>
             <groupId>org.simplericity.macify</groupId>
             <artifactId>macify</artifactId>
             <version>1.6</version>
         </dependency>
+        
+        <!-- Used for GeoIp lookups -->
+        <dependency>
+            <groupId>com.maxmind.geoip2</groupId>
+            <artifactId>geoip2</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        
     </dependencies>
     
     <build>
