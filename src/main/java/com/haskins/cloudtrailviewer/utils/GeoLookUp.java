@@ -6,6 +6,7 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Country;
+import com.maxmind.geoip2.record.Location;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -15,8 +16,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * https://developers.google.com/maps/documentation/javascript/heatmaplayer
- * 
  * @author mark.haskins
  */
 public class GeoLookUp {
@@ -53,7 +52,7 @@ public class GeoLookUp {
         return instance;
     }
     
-    public void getCountry(Event event) {
+    public void populateGeoData(Event event) {
                 
         if (reader != null && isIp(event.getSourceIPAddress())) {
             
@@ -65,11 +64,11 @@ public class GeoLookUp {
                 
                 Country co = response.getCountry();
                 City ci = response.getCity();
-                
-                String country = co.getName();
-                String city = ci.getName();
-                
-                System.out.println(country + " : " + city);
+                Location location = response.getLocation();
+
+                event.setCountry(co.getName());
+                event.setCity(ci.getName());
+                event.setLatLng(location.getLatitude() + "," + location.getLongitude());
                 
             } catch (IOException | GeoIp2Exception ex) {
                 Logger.getLogger(GeoLookUp.class.getName()).log(Level.SEVERE, null, ex);

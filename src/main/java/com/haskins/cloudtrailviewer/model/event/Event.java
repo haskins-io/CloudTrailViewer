@@ -88,6 +88,31 @@ public class Event {
     private long timestamp;
     private RequestInfo resourceInfo = null;
     
+    private String country = null;
+    private String city = null;
+    private String latLng = null;
+    
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    public String getCountry() {
+        return this.country;
+    }
+    
+    public void setCity(String city) {
+        this.city = city;
+    }
+    public String getCity() {
+        return this.city;
+    }
+    
+    public void setLatLng(String LatLong) {
+        this.latLng = LatLong;
+    }
+    public String getLatLng() {
+        return this.latLng;
+    }
+    
     public void setRawJSON(String json) {
         this.rawJson = json;
     }
@@ -115,7 +140,6 @@ public class Event {
         
         return resourceInfo;
     }
-
 
     /**
      * @return the eventVersion
@@ -479,6 +503,25 @@ public class Event {
         if (getUserIdentity() != null) {
             root.add(userIdentity.getTree());
         }
+        
+        if (getCountry() != null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Country");
+            node.add(new DefaultMutableTreeNode(getCountry()));
+            root.add(node);
+        }
+        
+        if (getCity() != null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("City");
+            node.add(new DefaultMutableTreeNode(getCity()));
+            root.add(node);
+        }
+        
+        if (getLatLng()!= null) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Long/Lat");
+            node.add(new DefaultMutableTreeNode(getLatLng()));
+            root.add(node);
+        }
+        
         
         return root;
     }
