@@ -1,6 +1,9 @@
 # CloudTrail Viewer
 CloudTrail Viewer is a Java Desktop Application for reading and analysing AWS CloudTrail Event logs.
 
+## Notes
+The MaxMind Geo data file can get corrupted when packaged in jar
+
 ## Running the application
 You can run the application in one of two ways:
 
