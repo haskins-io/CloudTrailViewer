@@ -35,7 +35,9 @@ public class GeoLookUp {
             
             reader = new DatabaseReader.Builder(database).build();
         } catch (IOException ex) {
-            Logger.getLogger(GeoLookUp.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Exception opening GeoFile");
+        } catch (Exception ex) {
+            System.out.println("Exception opening GeoFile");
         }
     }
     
