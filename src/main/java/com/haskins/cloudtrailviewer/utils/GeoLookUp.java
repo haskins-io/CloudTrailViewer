@@ -33,7 +33,6 @@ public class GeoLookUp {
             ClassLoader classLoader = GeoLookUp.class.getClassLoader();
             File database = new File(classLoader.getResource(GEO_FILE).getFile());
             reader = new DatabaseReader.Builder(database).build();
-            System.out.println("Loaded GeoIp Database");
         } catch (IOException ex) {
             System.out.println("Failed to load GeoIp Database");
         } catch (Exception ex) {
