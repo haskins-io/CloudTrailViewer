@@ -7,6 +7,7 @@ import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.Location;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.logging.Level;
@@ -30,9 +31,9 @@ public class GeoLookUp {
         
         try {
             ClassLoader classLoader = GeoLookUp.class.getClassLoader();
-//            File database = new File(classLoader.getResource(GEO_FILE).getFile());
-            
-            reader = new DatabaseReader.Builder(classLoader.getResourceAsStream(GEO_FILE)).build();
+            File database = new File(classLoader.getResource(GEO_FILE).getFile());
+            reader = new DatabaseReader.Builder(database).build();
+            System.out.println("Loaded GeoIp Database");
         } catch (IOException ex) {
             System.out.println("Failed to load GeoIp Database");
         } catch (Exception ex) {
