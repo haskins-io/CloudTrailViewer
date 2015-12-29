@@ -132,6 +132,9 @@ The Resources Features shows events that related to resources being created or d
 
 You can modified what the application considers to be a Resource Event using the Preferences Dialog.
 
+### GeoData
+The GeoData Feature shows the locations (City) that the loaded Events has been actioned in. This only works with Events that have a valid IP as a SourceIpAddress. 
+
 ## Application Preferences
 The Preferences dialog allows you to customise the application in some basic ways.
 
