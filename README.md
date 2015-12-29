@@ -2,7 +2,7 @@
 CloudTrail Viewer is a Java Desktop Application for reading and analysing AWS CloudTrail Event logs.
 
 ## New Feature
-Want to know where the API calls are being made from? CloudTail Viewer now resolves the SourceIpAddress address to a location.
+Want to know where the API calls are being made from? CloudTrail Viewer now resolves the SourceIpAddress address to a location.
 
 Using the new GeoData Feature you can see the top Cities that are making API calls and if you want more fine grain information, you can open a browser showing the API calls by Lat/Long.
 
