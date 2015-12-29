@@ -10,6 +10,8 @@ import com.maxmind.geoip2.record.Location;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -26,6 +28,8 @@ public class GeoLookUp {
     private static GeoLookUp instance = null;
     
     private DatabaseReader reader = null;
+    
+    private Map<String, Integer> latlngs = new HashMap<>();
         
     private GeoLookUp() {
         
@@ -71,12 +75,20 @@ public class GeoLookUp {
                 
                 String latLng = location.getLatitude() + "," + location.getLongitude();
                 
+                if (!latlngs.containsKey(latLng)) {
+                    latlngs.put(latLng, 1);
+                }
+                
                 event.setLatLng(latLng);
                 
             } catch (IOException | GeoIp2Exception ex) {
                 Logger.getLogger(GeoLookUp.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    public Map<String, Integer> getCoords() {
+        return latlngs;
     }
     
     private boolean isIp(String eventSource) {
