@@ -43,7 +43,7 @@ public class PropertiesController {
         try (InputStream input = cl.getResourceAsStream(PROP_FILE);) {
             
             if(input==null){
-                    System.out.println("Sorry, unable to find " + PROP_FILE);
+                System.out.println("Sorry, unable to find " + PROP_FILE);
                 return;
             }
 
@@ -75,6 +75,5 @@ public class PropertiesController {
     public String getProperty(String key) {
         
         return prop.getProperty(key);
-        
     }
 }
