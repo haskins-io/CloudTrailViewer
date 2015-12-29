@@ -174,7 +174,7 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
 
     private void showHeatMap() {
 
-        Map<String, Integer> coords = GeoIpUtils.getInstance().getCoords();
+        Map<String, String> coords = GeoIpUtils.getInstance().getCoords();
 
         String center = "";
 
@@ -184,7 +184,9 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
         while (i.hasNext()) {
 
             String coord = i.next();
-            output.append("[' ',").append(coord).append("],");
+            String city = coords.get(coord);
+            
+            output.append("['").append(city).append("',").append(coord).append("],");
 
             center = coord;
         }
@@ -196,14 +198,11 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
         html = html.replaceAll("COORDS", coordString);
         html = html.replaceAll("CENTER", center);
 
-        String userHomeDir = System.getProperty("user.home", ".");
-        String systemDir = userHomeDir + "/.cloudtrailviewer/geoData.html";
-        
-        writeGeoDataHtml(systemDir, html);
+        writeGeoDataHtml(html);
 
         Desktop d = Desktop.getDesktop();
         try {
-            d.browse(new URI("file://" + systemDir));
+            d.browse(new URI("file://" + getFileName()));
         } catch (URISyntaxException | IOException ex) {
             Logger.getLogger(GeoDataFeature.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -232,19 +231,25 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
         return result.toString();
     }
 
-    private void writeGeoDataHtml(String filePath, String htmtContent) {
+    private void writeGeoDataHtml(String htmtContent) {
         
         try {
-            File f = new File(filePath);
+            File f = new File(getFileName());
             f.delete();
         } catch (Exception e) {
             
         }
 
-        try (BufferedWriter out = new BufferedWriter(new FileWriter(filePath));) {
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(getFileName()));) {
             out.write(htmtContent);
             out.close();
         } catch (IOException e) {
         }
+    }
+    
+    private String getFileName() {
+        
+        String userHomeDir = System.getProperty("user.home", ".");
+        return userHomeDir + "/.cloudtrailviewer/geoData.html";
     }
 }

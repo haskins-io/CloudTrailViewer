@@ -29,7 +29,7 @@ public class GeoIpUtils {
     
     private DatabaseReader reader = null;
     
-    private Map<String, Integer> latlngs = new HashMap<>();
+    private Map<String, String> latlngs = new HashMap<>();
         
     private GeoIpUtils() {
         
@@ -68,15 +68,21 @@ public class GeoIpUtils {
                 
                 Country co = response.getCountry();
                 City ci = response.getCity();
+                
                 Location location = response.getLocation();
 
                 event.setCountry(co.getName());
-                event.setCity(ci.getName());
+                
+                String city = ci.getName();
+                if (city == null) {
+                    city = ipAddress.getHostAddress();
+                }
+                event.setCity(city);
                 
                 String latLng = location.getLatitude() + "," + location.getLongitude();
                 
                 if (!latlngs.containsKey(latLng)) {
-                    latlngs.put(latLng, 1);
+                    latlngs.put(latLng, city);
                 }
                 
                 event.setLatLng(latLng);
@@ -87,7 +93,7 @@ public class GeoIpUtils {
         }
     }
     
-    public Map<String, Integer> getCoords() {
+    public Map<String, String> getCoords() {
         return latlngs;
     }
     
