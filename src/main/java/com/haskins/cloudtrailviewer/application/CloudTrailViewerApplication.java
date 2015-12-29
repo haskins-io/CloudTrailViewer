@@ -25,6 +25,7 @@ import com.haskins.cloudtrailviewer.core.EventLoader;
 import com.haskins.cloudtrailviewer.core.EventLoaderListener;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
 import com.haskins.cloudtrailviewer.feature.ErrorFeature;
+import com.haskins.cloudtrailviewer.feature.GeoDataFeature;
 import com.haskins.cloudtrailviewer.feature.InvokersFeature;
 import com.haskins.cloudtrailviewer.feature.OverviewFeature;
 import com.haskins.cloudtrailviewer.feature.ResourceFeature;
@@ -255,6 +256,11 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         database.addListener(resourceFeature);
         featureMap.put(resourceFeature.getName(), resourceFeature);
         features.add((JPanel)resourceFeature, resourceFeature.getName());
+        
+        GeoDataFeature geoDataFeature = new GeoDataFeature(statusBar, helpToolBar);
+        database.addListener(geoDataFeature);
+        featureMap.put(geoDataFeature.getName(), geoDataFeature);
+        features.add((JPanel)geoDataFeature, geoDataFeature.getName());
                
         Set<String> keys = featureMap.keySet();
         Iterator<String> it = keys.iterator();
@@ -266,6 +272,5 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
                 featureToolBar.addFeature(feature);
             }
         }
-        
     }
 }

@@ -58,7 +58,6 @@ public class GeoLookUp {
         if (reader != null && isIp(event.getSourceIPAddress())) {
             
             try {
-                
                 InetAddress ipAddress = InetAddress.getByName(event.getSourceIPAddress());
                 
                 CityResponse response = reader.city(ipAddress);
@@ -69,7 +68,10 @@ public class GeoLookUp {
 
                 event.setCountry(co.getName());
                 event.setCity(ci.getName());
-                event.setLatLng(location.getLatitude() + "," + location.getLongitude());
+                
+                String latLng = location.getLatitude() + "," + location.getLongitude();
+                
+                event.setLatLng(latLng);
                 
             } catch (IOException | GeoIp2Exception ex) {
                 Logger.getLogger(GeoLookUp.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,48 +83,5 @@ public class GeoLookUp {
         
         Matcher m = p.matcher(eventSource);
         return m.find();
-        
     }
-    
-//    public static void main(String[] args) {
-//        
-//        try {
-//            ClassLoader classLoader = GeoTest.class.getClassLoader();
-//            File database = new File(classLoader.getResource("GeoLite2-City.mmdb").getFile());
-//            
-//            // This creates the DatabaseReader object, which should be reused across
-//            // lookups.
-//            DatabaseReader reader = new DatabaseReader.Builder(database).build();
-//            
-//            InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
-//            
-//            // Replace "city" with the appropriate method for your database, e.g.,
-//            // "country".
-//            CityResponse response = reader.city(ipAddress);
-//            
-//            Country country = response.getCountry();
-//            System.out.println(country.getIsoCode());            // 'US'
-//            System.out.println(country.getName());               // 'United States'
-//            System.out.println(country.getNames().get("zh-CN")); // '美国'
-//            
-//            Subdivision subdivision = response.getMostSpecificSubdivision();
-//            System.out.println(subdivision.getName());    // 'Minnesota'
-//            System.out.println(subdivision.getIsoCode()); // 'MN'
-//            
-//            City city = response.getCity();
-//            System.out.println(city.getName()); // 'Minneapolis'
-//            
-//            Postal postal = response.getPostal();
-//            System.out.println(postal.getCode()); // '55455'
-//            
-//            Location location = response.getLocation();
-//            System.out.println(location.getLatitude());  // 44.9733
-//            System.out.println(location.getLongitude()); // -93.2323
-//            
-//        } catch (IOException ex) {
-//            Logger.getLogger(GeoTest.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (GeoIp2Exception ex) {
-//            Logger.getLogger(GeoTest.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
 }
