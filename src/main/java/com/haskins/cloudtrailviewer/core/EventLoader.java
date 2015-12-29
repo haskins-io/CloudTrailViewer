@@ -34,7 +34,7 @@ import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
 import com.haskins.cloudtrailviewer.utils.EventUtils;
-import com.haskins.cloudtrailviewer.utils.GeoLookUp;
+import com.haskins.cloudtrailviewer.utils.GeoIpUtils;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -263,7 +263,7 @@ public class EventLoader {
             List<Event> events = records.getLogEvents();
             for (Event event : events) {
 
-                GeoLookUp.getInstance().populateGeoData(event);
+                GeoIpUtils.getInstance().populateGeoData(event);
                 
                 if (filter.passesFilter(event)) {
                     

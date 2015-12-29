@@ -20,21 +20,21 @@ import java.util.regex.Pattern;
 /**
  * @author mark.haskins
  */
-public class GeoLookUp {
+public class GeoIpUtils {
     
     private static final String GEO_FILE = "GeoLite2-City.mmdb";
     private static final Pattern p = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
     
-    private static GeoLookUp instance = null;
+    private static GeoIpUtils instance = null;
     
     private DatabaseReader reader = null;
     
     private Map<String, Integer> latlngs = new HashMap<>();
         
-    private GeoLookUp() {
+    private GeoIpUtils() {
         
         try {
-            ClassLoader classLoader = GeoLookUp.class.getClassLoader();
+            ClassLoader classLoader = GeoIpUtils.class.getClassLoader();
             File database = new File(classLoader.getResource(GEO_FILE).getFile());
             reader = new DatabaseReader.Builder(database).build();
         } catch (IOException ex) {
@@ -48,10 +48,10 @@ public class GeoLookUp {
      * Returns an instance of the class
      * @return 
      */
-    public static GeoLookUp getInstance() {
+    public static GeoIpUtils getInstance() {
 
         if (instance == null) {
-            instance = new GeoLookUp();  
+            instance = new GeoIpUtils();  
         }
 
         return instance;
@@ -82,7 +82,7 @@ public class GeoLookUp {
                 event.setLatLng(latLng);
                 
             } catch (IOException | GeoIp2Exception ex) {
-                Logger.getLogger(GeoLookUp.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GeoIpUtils.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
