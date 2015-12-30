@@ -1,24 +1,30 @@
-<!DOCTYPE html><html><head><title>CloudTrail Viewer : Event locations</title><meta charset="utf-8" />
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"/></head>
-<body>
-    <div id="map" style="width: 1280px; height: 1024px"></div>
-    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CloudTrail Viewer : Event locations</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"/>
+    </head>
+    <body>
+        <div id="map" style="width: 100%; height: 800px"></div>
+        <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
 
-    <script>
-	var planes = [ COORDS ];
+        <script>
+            var planes = [COORDS];
 
-        var map = L.map('map').setView([CENTER], 6);
-        mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-        
-        L.tileLayer(
-            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-            { attribution: '&copy; ' + mapLink + ' Contributors', maxZoom: 18}
-        ).addTo(map);
+            var map = L.map('map').setView([CENTER], 3);
+            mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 
-        for (var i = 0; i < planes.length; i++) {
-            marker = new L.marker([planes[i][1],planes[i][2]])
-                .bindPopup(planes[i][0])
-                .addTo(map);
-        }   
-    </script>
-</body></html>
+            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; ' + mapLink + ' Contributors', 
+                maxZoom: 18
+            }).addTo(map);
+
+            for (var i = 0; i < planes.length; i++) {
+                marker = new L.marker([planes[i][1], planes[i][2]])
+                    .bindPopup(planes[i][0])
+                    .addTo(map);
+            }
+        </script>
+    </body>
+</html>
