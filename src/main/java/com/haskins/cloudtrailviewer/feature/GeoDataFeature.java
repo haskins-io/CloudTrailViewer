@@ -1,3 +1,21 @@
+/*    
+CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
+files.
+
+Copyright (C) 2015  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.haskins.cloudtrailviewer.feature;
 
 import com.haskins.cloudtrailviewer.application.HelpToolBar;
@@ -151,11 +169,6 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
     //////////////////////////////////////////////////////////////////////////// 
     private void buildUI() {
 
-        JToolBar mapToolBar = new JToolBar();
-        mapToolBar.setLayout(new BorderLayout());
-        mapToolBar.setBackground(Color.WHITE);
-        mapToolBar.setFloatable(false);
-        
         JButton browser = new JButton();
         browser.addActionListener(new ActionListener() {
 
@@ -166,6 +179,10 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
         });
         ToolBarUtils.addImageToButton(browser, "Map-48.png", "", "Open Map");
 
+        JToolBar mapToolBar = new JToolBar();
+        mapToolBar.setLayout(new BorderLayout());
+        mapToolBar.setBackground(Color.WHITE);
+        mapToolBar.setFloatable(false);
         mapToolBar.add(browser, BorderLayout.EAST);
         
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -202,18 +219,19 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
             String coord = i.next();
             String city = coords.get(coord);
             
-            output.append("['").append(city).append("',").append(coord).append("],");
+            output.append("['").append(city).append("',").append(coord).append("]");
 
             if (city.equalsIgnoreCase(centerPoint)) {
                 center = coord;
             }
+            
+            if (i.hasNext()) {
+                output.append(",");
+            }
         }
 
-        String coordString = output.toString();
-        coordString = coordString.substring(0, coordString.length() - 1);
-
         String html = getHTML();
-        html = html.replaceAll("COORDS", coordString);
+        html = html.replaceAll("COORDS", output.toString());
         html = html.replaceAll("CENTER", center);
 
         writeGeoDataHtml(html);
