@@ -33,6 +33,7 @@ import com.haskins.cloudtrailviewer.feature.SecurityFeature;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
+import com.haskins.cloudtrailviewer.utils.GeoIpUtils;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -156,6 +157,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
      */
     public void clearEvents() {
         
+        GeoIpUtils.getInstance().clear();
         database.clear();
         statusBar.eventsCleared();
         

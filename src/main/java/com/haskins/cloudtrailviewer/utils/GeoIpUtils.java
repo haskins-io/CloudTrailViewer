@@ -97,6 +97,10 @@ public class GeoIpUtils {
         return latlngs;
     }
     
+    public void clear() {
+        latlngs.clear();
+    }
+    
     private boolean isIp(String eventSource) {
         
         Matcher m = p.matcher(eventSource);
