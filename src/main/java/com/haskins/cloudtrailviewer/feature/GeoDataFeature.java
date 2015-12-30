@@ -8,6 +8,7 @@ import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.GeoIpUtils;
+import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -142,9 +143,7 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
     //////////////////////////////////////////////////////////////////////////// 
     private void buildUI() {
 
-        JPanel topPanel = new JPanel(new BorderLayout());
-
-        JButton browser = new JButton("Browser");
+        JButton browser = new JButton();
         browser.addActionListener(new ActionListener() {
 
             @Override
@@ -152,17 +151,24 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
                 showHeatMap();
             }
         });
+        ToolBarUtils.addImageToButton(browser, "Map-48.png", "", "Open Map");
 
-        topPanel.add(browser, BorderLayout.PAGE_START);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.white);
+        buttonPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+        buttonPanel.add(browser);
+        
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(buttonPanel, BorderLayout.PAGE_START);
 
         geoIpContainer.setBackground(Color.white);
         JScrollPane sPane = new JScrollPane(geoIpContainer);
         sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        topPanel.add(sPane, BorderLayout.CENTER);
+        mainPanel.add(sPane, BorderLayout.CENTER);
 
         eventTable.setVisible(false);
 
-        jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, topPanel, eventTable);
+        jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, mainPanel, eventTable);
         jsp.setDividerSize(0);
         jsp.setResizeWeight(1);
         jsp.setDividerLocation(jsp.getSize().height - jsp.getInsets().bottom - jsp.getDividerSize());
