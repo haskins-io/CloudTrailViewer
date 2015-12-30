@@ -108,12 +108,15 @@ public class NameValuePanel extends JPanel {
     /**
      * Adds an event to the panel.
      * @param event 
+     * @return total number of events
      */
-    public void addEvent(Event event) {
+    public int addEvent(Event event) {
                 
         events.add(event);
         totalLabel.setText(String.valueOf(events.size()));
         this.revalidate();
+        
+        return events.size();
     }
     
     /**

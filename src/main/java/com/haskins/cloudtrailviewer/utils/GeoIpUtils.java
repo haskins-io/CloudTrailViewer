@@ -70,22 +70,19 @@ public class GeoIpUtils {
                 City ci = response.getCity();
                 
                 Location location = response.getLocation();
+                String latLng = location.getLatitude() + "," + location.getLongitude();
 
                 event.setCountry(co.getName());
-                
                 String city = ci.getName();
                 if (city == null) {
                     city = ipAddress.getHostAddress();
                 }
                 event.setCity(city);
-                
-                String latLng = location.getLatitude() + "," + location.getLongitude();
+                event.setLatLng(latLng);
                 
                 if (!latlngs.containsKey(latLng)) {
                     latlngs.put(latLng, city);
                 }
-                
-                event.setLatLng(latLng);
                 
             } catch (IOException | GeoIp2Exception ex) {
                 Logger.getLogger(GeoIpUtils.class.getName()).log(Level.SEVERE, null, ex);

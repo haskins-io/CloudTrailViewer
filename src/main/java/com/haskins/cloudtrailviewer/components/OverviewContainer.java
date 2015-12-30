@@ -67,10 +67,14 @@ public class OverviewContainer extends JPanel {
      * Adds a single event to the panel
      * @param event
      * @param eventField 
+     * @return total events
      */
-    public void addEvent(Event event, String eventField) {
+    public int addEvent(Event event, String eventField) {
           
+        int totalEvents = -1;
+        
         try {
+            
             String getProperty = "get" + eventField;
             Method method = event.getClass().getMethod(getProperty);
             Object eventFieldValue = method.invoke(event);
@@ -90,11 +94,13 @@ public class OverviewContainer extends JPanel {
                 resourcePanel = eventsMap.get(propertyValue);
             }
 
-            resourcePanel.addEvent(event); 
+            totalEvents = resourcePanel.addEvent(event); 
         }
         catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
             // going to ignore this and not add the event
         }
+        
+        return totalEvents;
     }
 
     /**

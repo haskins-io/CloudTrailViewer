@@ -50,6 +50,9 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
 
     private final StatusBar statusBar;
     private final HelpToolBar helpBar;
+    
+    private int highestCount = 0;
+    private String centerPoint = "";
 
     public GeoDataFeature(StatusBar sb, HelpToolBar helpBar) {
 
@@ -129,7 +132,11 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
 
         String cityName = event.getCity();
         if (cityName != null && cityName.trim().length() > 0) {
-            geoIpContainer.addEvent(event, "City");
+            int totalEvents = geoIpContainer.addEvent(event, "City");
+            
+            if (totalEvents > highestCount) {
+                centerPoint = cityName;
+            }
         }
     }
 
@@ -194,7 +201,9 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
             
             output.append("['").append(city).append("',").append(coord).append("],");
 
-            center = coord;
+            if (city.equalsIgnoreCase(centerPoint)) {
+                center = coord;
+            }
         }
 
         String coordString = output.toString();
