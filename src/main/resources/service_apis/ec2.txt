@@ -1,5 +1,6 @@
 AcceptVpcPeeringConnection
 AllocateAddress
+AllocateHosts
 AssignPrivateIpAddresses
 AssociateAddress
 AssociateDhcpOptions
@@ -29,6 +30,7 @@ CreateImage
 CreateInstanceExportTask
 CreateInternetGateway
 CreateKeyPair
+CreateNatGateway
 CreateNetworkAcl
 CreateNetworkAclEntry
 CreateNetworkInterface
@@ -53,6 +55,7 @@ DeleteDhcpOptions
 DeleteFlowLogs
 DeleteInternetGateway
 DeleteKeyPair
+DeleteNatGateway
 DeleteNetworkAcl
 DeleteNetworkAclEntry
 DeleteNetworkInterface
@@ -82,6 +85,8 @@ DescribeCustomerGateways
 DescribeDhcpOptions
 DescribeExportTasks
 DescribeFlowLogs
+DescribeHosts
+DescribeIdFormat
 DescribeImageAttribute
 DescribeImages
 DescribeImportImageTasks
@@ -92,6 +97,7 @@ DescribeInstances
 DescribeInternetGateways
 DescribeKeyPairs
 DescribeMovingAddresses
+DescribeNatGateways
 DescribeNetworkAcls
 DescribeNetworkInterfaceAttribute
 DescribeNetworkInterfaces
@@ -144,11 +150,15 @@ ImportInstance
 ImportKeyPair
 ImportSnapshot
 ImportVolume
+ModifyHosts
+ModifyIdFormat
 ModifyImageAttribute
 ModifyInstanceAttribute
+ModifyInstancePlacement
 ModifyNetworkInterfaceAttribute
 ModifyReservedInstances
 ModifySnapshotAttribute
+ModifySpotFleetRequest
 ModifySubnetAttribute
 ModifyVolumeAttribute
 ModifyVpcAttribute
@@ -160,6 +170,7 @@ RebootInstances
 RegisterImage
 RejectVpcPeeringConnection
 ReleaseAddress
+ReleaseHosts
 ReplaceNetworkAclAssociation
 ReplaceNetworkAclEntry
 ReplaceRoute

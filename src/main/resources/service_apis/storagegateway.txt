@@ -1,5 +1,6 @@
 ActivateGateway
 AddCache
+AddTagsToResource
 AddUploadBuffer
 AddWorkingStorage
 CancelArchival
@@ -33,9 +34,11 @@ DescribeWorkingStorage
 DisableGateway
 ListGateways
 ListLocalDisks
+ListTagsForResource
 ListVolumeInitiators
 ListVolumeRecoveryPoints
 ListVolumes
+RemoveTagsFromResource
 ResetCache
 RetrieveTapeArchive
 RetrieveTapeRecoveryPoint

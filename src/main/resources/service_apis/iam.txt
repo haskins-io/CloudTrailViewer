@@ -46,6 +46,8 @@ GetAccessKeyLastUsed
 GetAccountAuthorizationDetails
 GetAccountPasswordPolicy
 GetAccountSummary
+GetContextKeysForCustomPolicy
+GetContextKeysForPrincipalPolicy
 GetCredentialReport
 GetGroup
 GetGroupPolicy
@@ -93,6 +95,8 @@ RemoveRoleFromInstanceProfile
 RemoveUserFromGroup
 ResyncMFADevice
 SetDefaultPolicyVersion
+SimulateCustomPolicy
+SimulatePrincipalPolicy
 UpdateAccessKey
 UpdateAccountPasswordPolicy
 UpdateAssumeRolePolicy

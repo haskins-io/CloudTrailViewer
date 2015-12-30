@@ -43,6 +43,7 @@ RecordLifecycleActionHeartbeat
 ResumeProcesses
 SetDesiredCapacity
 SetInstanceHealth
+SetInstanceProtection
 SuspendProcesses
 TerminateInstanceInAutoScalingGroup
 UpdateAutoScalingGroup

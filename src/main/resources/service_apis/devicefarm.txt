@@ -1,6 +1,10 @@
 CreateDevicePool
 CreateProject
 CreateUpload
+DeleteDevicePool
+DeleteProject
+DeleteRun
+DeleteUpload
 GetAccountSettings
 GetDevice
 GetDevicePool
@@ -23,3 +27,5 @@ ListTests
 ListUniqueProblems
 ListUploads
 ScheduleRun
+UpdateDevicePool
+UpdateProject

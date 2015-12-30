@@ -15,6 +15,7 @@ DeleteObjects
 GetBucketAcl
 GetBucketCors
 GetBucketLifecycle
+GetBucketLifecycleConfiguration
 GetBucketLocation
 GetBucketLogging
 GetBucketNotification
@@ -38,6 +39,7 @@ ListParts
 PutBucketAcl
 PutBucketCors
 PutBucketLifecycle
+PutBucketLifecycleConfiguration
 PutBucketLogging
 PutBucketNotification
 PutBucketNotificationConfiguration

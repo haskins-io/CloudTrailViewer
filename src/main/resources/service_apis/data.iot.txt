@@ -1,0 +1,4 @@
+DeleteThingShadow
+GetThingShadow
+Publish
+UpdateThingShadow

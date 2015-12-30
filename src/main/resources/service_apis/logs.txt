@@ -1,3 +1,5 @@
+CancelExportTask
+CreateExportTask
 CreateLogGroup
 CreateLogStream
 DeleteDestination
@@ -7,6 +9,7 @@ DeleteMetricFilter
 DeleteRetentionPolicy
 DeleteSubscriptionFilter
 DescribeDestinations
+DescribeExportTasks
 DescribeLogGroups
 DescribeLogStreams
 DescribeMetricFilters

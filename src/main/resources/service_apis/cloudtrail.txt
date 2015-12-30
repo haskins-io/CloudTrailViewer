@@ -1,8 +1,12 @@
+AddTags
 CreateTrail
 DeleteTrail
 DescribeTrails
 GetTrailStatus
+ListPublicKeys
+ListTags
 LookupEvents
+RemoveTags
 StartLogging
 StopLogging
 UpdateTrail

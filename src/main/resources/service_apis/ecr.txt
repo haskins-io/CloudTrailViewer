@@ -1,0 +1,16 @@
+BatchCheckLayerAvailability
+BatchDeleteImage
+BatchGetImage
+CompleteLayerUpload
+CreateRepository
+DeleteRepository
+DeleteRepositoryPolicy
+DescribeRepositories
+GetAuthorizationToken
+GetDownloadUrlForLayer
+GetRepositoryPolicy
+InitiateLayerUpload
+ListImages
+PutImage
+SetRepositoryPolicy
+UploadLayerPart

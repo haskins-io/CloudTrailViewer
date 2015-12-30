@@ -1,6 +1,7 @@
 CancelUpdateStack
 CreateStack
 DeleteStack
+DescribeAccountLimits
 DescribeStackEvents
 DescribeStackResource
 DescribeStackResources

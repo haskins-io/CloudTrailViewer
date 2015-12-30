@@ -1,0 +1,7 @@
+CreateDeliveryStream
+DeleteDeliveryStream
+DescribeDeliveryStream
+ListDeliveryStreams
+PutRecord
+PutRecordBatch
+UpdateDestination

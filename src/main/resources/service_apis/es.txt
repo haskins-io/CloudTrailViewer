@@ -1,0 +1,10 @@
+AddTags
+CreateElasticsearchDomain
+DeleteElasticsearchDomain
+DescribeElasticsearchDomain
+DescribeElasticsearchDomainConfig
+DescribeElasticsearchDomains
+ListDomainNames
+ListTags
+RemoveTags
+UpdateElasticsearchDomainConfig

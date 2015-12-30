@@ -1,9 +1,11 @@
 AddTagsToStream
 CreateStream
+DecreaseStreamRetentionPeriod
 DeleteStream
 DescribeStream
 GetRecords
 GetShardIterator
+IncreaseStreamRetentionPeriod
 ListStreams
 ListTagsForStream
 MergeShards

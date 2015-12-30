@@ -2,11 +2,15 @@ ConnectDirectory
 CreateAlias
 CreateComputer
 CreateDirectory
+CreateMicrosoftAD
 CreateSnapshot
+CreateTrust
 DeleteDirectory
 DeleteSnapshot
+DeleteTrust
 DescribeDirectories
 DescribeSnapshots
+DescribeTrusts
 DisableRadius
 DisableSso
 EnableRadius
@@ -15,3 +19,4 @@ GetDirectoryLimits
 GetSnapshotLimits
 RestoreFromSnapshot
 UpdateRadius
+VerifyTrust

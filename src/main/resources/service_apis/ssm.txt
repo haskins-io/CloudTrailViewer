@@ -1,3 +1,4 @@
+CancelCommand
 CreateAssociation
 CreateAssociationBatch
 CreateDocument
@@ -5,7 +6,11 @@ DeleteAssociation
 DeleteDocument
 DescribeAssociation
 DescribeDocument
+DescribeInstanceInformation
 GetDocument
 ListAssociations
+ListCommandInvocations
+ListCommands
 ListDocuments
+SendCommand
 UpdateAssociationStatus

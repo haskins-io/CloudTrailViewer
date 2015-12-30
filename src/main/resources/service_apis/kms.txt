@@ -1,3 +1,4 @@
+CancelKeyDeletion
 CreateAlias
 CreateGrant
 CreateKey
@@ -18,9 +19,11 @@ ListAliases
 ListGrants
 ListKeyPolicies
 ListKeys
+ListRetirableGrants
 PutKeyPolicy
 ReEncrypt
 RetireGrant
 RevokeGrant
+ScheduleKeyDeletion
 UpdateAlias
 UpdateKeyDescription

@@ -1,5 +1,6 @@
 AbortEnvironmentUpdate
 CheckDNSAvailability
+ComposeEnvironments
 CreateApplication
 CreateApplicationVersion
 CreateConfigurationTemplate

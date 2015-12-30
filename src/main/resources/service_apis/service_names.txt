@@ -1,3 +1,4 @@
+apigateway : Amazon API Gateway
 autoscaling : Auto Scaling
 cloudformation : AWS CloudFormation
 cloudfront : Amazon CloudFront
@@ -11,12 +12,14 @@ codepipeline : AWS CodePipeline
 cognito-identity : Amazon Cognito Identity
 cognito-sync : Amazon Cognito Sync
 config : AWS Config
+data.iot : AWS IoT Data Plane
 datapipeline : AWS Data Pipeline
 devicefarm : AWS Device Farm
 directconnect : AWS Direct Connect
 ds : AWS Directory Service
 dynamodb : Amazon DynamoDB
 ec2 : Amazon Elastic Compute Cloud
+ecr : Amazon EC2 Container Registry
 ecs : Amazon EC2 Container Service
 elasticache : Amazon ElastiCache
 elasticbeanstalk : AWS Elastic Beanstalk
@@ -25,14 +28,19 @@ elasticloadbalancing : Elastic Load Balancing
 elasticmapreduce : Amazon Elastic MapReduce
 elastictranscoder : Amazon Elastic Transcoder
 email : Amazon Simple Email Service
+es : Amazon Elasticsearch Service
+firehose : 0
 glacier : Amazon Glacier
 iam : AWS Identity and Access Management
 importexport : AWS Import/Export
+inspector : Amazon Inspector
+iot : AWS IoT
 kinesis : Amazon Kinesis
 kms : AWS Key Management Service
 lambda : AWS Lambda
 logs : Amazon CloudWatch Logs
 machinelearning : Amazon Machine Learning
+marketplacecommerceanalytics : AWS Marketplace Commerce Analytics
 mobileanalytics : Amazon Mobile Analytics
 monitoring : Amazon CloudWatch
 opsworks : AWS OpsWorks
@@ -50,4 +58,5 @@ streams.dynamodb : Amazon DynamoDB Streams
 sts : AWS Security Token Service
 support : AWS Support
 swf : Amazon Simple Workflow Service
+waf : AWS WAF
 workspaces : Amazon WorkSpaces
