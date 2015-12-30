@@ -32,6 +32,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JToolBar;
 
 /**
  *
@@ -150,6 +151,11 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
     //////////////////////////////////////////////////////////////////////////// 
     private void buildUI() {
 
+        JToolBar mapToolBar = new JToolBar();
+        mapToolBar.setLayout(new BorderLayout());
+        mapToolBar.setBackground(Color.WHITE);
+        mapToolBar.setFloatable(false);
+        
         JButton browser = new JButton();
         browser.addActionListener(new ActionListener() {
 
@@ -160,13 +166,10 @@ public class GeoDataFeature extends JPanel implements Feature, EventDatabaseList
         });
         ToolBarUtils.addImageToButton(browser, "Map-48.png", "", "Open Map");
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(Color.white);
-        buttonPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
-        buttonPanel.add(browser);
+        mapToolBar.add(browser, BorderLayout.EAST);
         
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.add(buttonPanel, BorderLayout.PAGE_START);
+        mainPanel.add(mapToolBar, BorderLayout.PAGE_START);
 
         geoIpContainer.setBackground(Color.white);
         JScrollPane sPane = new JScrollPane(geoIpContainer);
