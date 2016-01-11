@@ -22,7 +22,6 @@ import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.components.OverviewContainer;
-import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.GeoIpUtils;
@@ -56,7 +55,7 @@ import javax.swing.JToolBar;
  *
  * @author mark.haskins
  */
-public class GeoDataFeature extends JPanel implements Feature, EventDatabaseListener {
+public class GeoDataFeature extends JPanel implements Feature {
 
     public static final String NAME = "GeoData Feature";
 

@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.feature;
 
+import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import java.util.List;
  * 
  * @author mark
  */
-public interface Feature {
+public interface Feature extends EventDatabaseListener {
     
     /**
      * Called when all events have loaded

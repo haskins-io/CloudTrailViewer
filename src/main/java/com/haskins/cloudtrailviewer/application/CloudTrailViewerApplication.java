@@ -27,6 +27,7 @@ import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
 import com.haskins.cloudtrailviewer.feature.ErrorFeature;
 import com.haskins.cloudtrailviewer.feature.GeoDataFeature;
 import com.haskins.cloudtrailviewer.feature.InvokersFeature;
+import com.haskins.cloudtrailviewer.feature.MetricsFeature;
 import com.haskins.cloudtrailviewer.feature.OverviewFeature;
 import com.haskins.cloudtrailviewer.feature.ResourceFeature;
 import com.haskins.cloudtrailviewer.feature.SecurityFeature;
@@ -227,42 +228,31 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     private void defineFeatures() {
 
         NoDataFeature noData = new NoDataFeature(helpToolBar);
-        featureMap.put(noData.getName(), noData);
-        features.add((JPanel)noData, noData.getName());
+        addFeature(noData);
         
         OverviewFeature serviceOverview = new OverviewFeature(statusBar, helpToolBar);
-        database.addListener(serviceOverview);
-        featureMap.put(serviceOverview.getName(), serviceOverview);
-        features.add((JPanel)serviceOverview, serviceOverview.getName());
+        addFeature(serviceOverview);
         
         SimpleTableFeature simpleTable = new SimpleTableFeature(database, helpToolBar);
-        featureMap.put(simpleTable.getName(), simpleTable);
-        features.add((JPanel)simpleTable, simpleTable.getName());
+        addFeature(simpleTable);
         
         InvokersFeature invokerOverview = new InvokersFeature(statusBar, helpToolBar);
-        database.addListener(invokerOverview);
-        featureMap.put(invokerOverview.getName(), invokerOverview);
-        features.add((JPanel)invokerOverview, invokerOverview.getName());
+        addFeature(invokerOverview);
         
         ErrorFeature errorFeature = new ErrorFeature(statusBar, helpToolBar);
-        database.addListener(errorFeature);
-        featureMap.put(errorFeature.getName(), errorFeature);
-        features.add((JPanel)errorFeature, errorFeature.getName());
+        addFeature(errorFeature);
         
         SecurityFeature securityFeature = new SecurityFeature(statusBar, helpToolBar);
-        database.addListener(securityFeature);
-        featureMap.put(securityFeature.getName(), securityFeature);
-        features.add((JPanel)securityFeature, securityFeature.getName());
+        addFeature(securityFeature);
         
         ResourceFeature resourceFeature = new ResourceFeature(statusBar, helpToolBar);
-        database.addListener(resourceFeature);
-        featureMap.put(resourceFeature.getName(), resourceFeature);
-        features.add((JPanel)resourceFeature, resourceFeature.getName());
+        addFeature(resourceFeature);
         
         GeoDataFeature geoDataFeature = new GeoDataFeature(statusBar, helpToolBar);
-        database.addListener(geoDataFeature);
-        featureMap.put(geoDataFeature.getName(), geoDataFeature);
-        features.add((JPanel)geoDataFeature, geoDataFeature.getName());
+        addFeature(geoDataFeature);
+        
+        MetricsFeature metricsFeature = new MetricsFeature(statusBar, helpToolBar);
+        addFeature(metricsFeature);
                
         Set<String> keys = featureMap.keySet();
         Iterator<String> it = keys.iterator();
@@ -274,5 +264,11 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
                 featureToolBar.addFeature(feature);
             }
         }
+    }
+    
+    private void addFeature(Feature newFeature) {
+        database.addListener(newFeature);
+        featureMap.put(newFeature.getName(), newFeature);
+        features.add((JPanel)newFeature, newFeature.getName()); 
     }
 }

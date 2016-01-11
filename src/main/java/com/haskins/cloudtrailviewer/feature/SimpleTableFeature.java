@@ -103,6 +103,15 @@ public class SimpleTableFeature extends JPanel implements Feature {
     public void reset() {
         tablePanel.eventLoadingComplete();
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///// EventDatabaseListener implementation
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void eventAdded(Event event) { }
+
+    @Override
+    public void finishedLoading() { }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods

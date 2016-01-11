@@ -22,7 +22,6 @@ import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.components.OverviewContainer;
-import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
 import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
@@ -38,7 +37,7 @@ import javax.swing.JSplitPane;
  * 
  * @author mark.haskins
  */
-public class ErrorFeature extends JPanel implements Feature, EventDatabaseListener {
+public class ErrorFeature extends JPanel implements Feature {
         
     public static final String NAME = "Error Feature";
     private final Help help = new Help("Error Feature", "error");
