@@ -59,7 +59,7 @@ public class GeoDataFeature extends JPanel implements Feature {
 
     public static final String NAME = "GeoData Feature";
 
-    private final Help help = new Help("GeoData Feature", "geoData");
+    private final Help help = new Help("GeoData Feature", "geodata");
 
     private final OverviewContainer geoIpContainer;
     private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_EVENT);
@@ -154,6 +154,7 @@ public class GeoDataFeature extends JPanel implements Feature {
             
             if (totalEvents > highestCount) {
                 centerPoint = cityName;
+                highestCount = totalEvents;
             }
         }
     }
