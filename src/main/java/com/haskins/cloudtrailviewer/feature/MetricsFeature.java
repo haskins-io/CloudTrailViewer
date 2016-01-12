@@ -22,9 +22,13 @@ import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
 import com.haskins.cloudtrailviewer.utils.TableUtils;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -38,12 +42,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -59,23 +66,19 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
 
     private final Help help = new Help("Metrics Feature", "metrics");
     
-    private final StatusBar statusBar;
     private final HelpToolBar helpBar;
     
     private final JToolBar toolbar = new JToolBar();
     private final JPanel chartCards = new JPanel(new CardLayout());
     
     private final Map<String, List<Event>> serviceSorted = new HashMap<>();
-    
     private final Map<String, XYDataset> timeservicePerService = new HashMap<>();
     
     private final SimpleDateFormat less_seconds = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
     
-
     public MetricsFeature(StatusBar sb, HelpToolBar helpBar) {
 
         this.helpBar = helpBar;
-        this.statusBar = sb;
         
         buildUI();
     }
@@ -118,14 +121,10 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
     }
 
     @Override
-    public void showEventsTable(List<Event> events) {
-
-    }
+    public void showEventsTable(List<Event> events) {}
 
     @Override
-    public void reset() {
-
-    }
+    public void reset() {}
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
@@ -136,17 +135,16 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
         List<Event> allEvents = serviceSorted.get("ALL");
         if (allEvents == null) {
             allEvents = new ArrayList<>();
-
             addButton("ALL");
         }
         allEvents.add(event);
         serviceSorted.put("ALL", allEvents);
         
-        List<Event> events = serviceSorted.get(event.getEventSource());
+        
         String serviceName = TableUtils.getService(event);
+        List<Event> events = serviceSorted.get(serviceName);
         if (events == null) {
             events = new ArrayList<>();
-            
             addButton(serviceName);
         }
         events.add(event);
@@ -155,7 +153,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
 
     @Override
     public void finishedLoading() {
-       
+      
         showChart("ALL");
     }
     
@@ -172,6 +170,11 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
     //////////////////////////////////////////////////////////////////////////// 
     private void buildUI() {
         
+        toolbar.setLayout(new WrapLayout(FlowLayout.CENTER, 1, 1));
+        toolbar.setFloatable(false);
+        toolbar.setBackground(Color.white);
+        toolbar.setBorder(BorderFactory.createMatteBorder(1,0,1,0, Color.black));
+        
         this.setLayout(new BorderLayout());
         this.add(toolbar, BorderLayout.PAGE_START);
         this.add(chartCards, BorderLayout.CENTER);
@@ -181,17 +184,28 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
         
         chartCards.removeAll();
         
-        // get chart data
         XYDataset chartData = timeservicePerService.get(service);
         if (chartData == null) {
             chartData = generateTimeSeriesData(service);
             timeservicePerService.put(service, chartData);
         }
         
-        // create chart
-        JFreeChart chart = ChartFactory.createTimeSeriesChart("", "Minutes", "Value", chartData, false, false, false);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart(service, "Range", "Count", chartData, false, true, false);
+        
+        XYPlot plot = (XYPlot) chart.getPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+        plot.setOutlineVisible(false);
+        
+        TextTitle t = chart.getTitle();
+        t.setFont(new Font("Arial", Font.BOLD, 14));
+        
         ChartPanel chartPanel = new ChartPanel( chart );
+        chartPanel.setMinimumDrawWidth(0);
+        chartPanel.setMaximumDrawWidth(Integer.MAX_VALUE);
+        chartPanel.setMinimumDrawHeight(0);
+        chartPanel.setMaximumDrawHeight(Integer.MAX_VALUE);
         chartPanel.setMouseZoomable( true , false );    
+        
         chartCards.add(chartPanel, "");
         chartCards.revalidate();
     }
@@ -216,7 +230,6 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
             }
         }
         
-        // do we need to sort the events before we add them to the series chart?
         TimeSeries series = new TimeSeries(service); 
         
         Set<Long> keys = tickCount.keySet();
@@ -240,5 +253,4 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
         
         toolbar.add(btn);
     }
-    
 }
