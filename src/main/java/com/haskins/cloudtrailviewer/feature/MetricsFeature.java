@@ -68,10 +68,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
 
     public static final String NAME = "Metrics Feature";
 
-    /**
-     * The Constant COUNT.
-     */
-    static final int COUNT = 200;
+    private int numTicks = 30;
 
     /**
      * The Constant WINDOW.
@@ -185,6 +182,8 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void actionPerformed(ActionEvent e) {
+        
+        this.slider.setValue(0);
         showChart(e.getActionCommand());
     }
 
@@ -192,9 +191,17 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
     ///// ChangeListener implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void stateChanged(ChangeEvent e) {
+    public void stateChanged(ChangeEvent ce) {
+        
         int value = this.slider.getValue();
-        this.currentDataset.setFirstItemIndex(value);
+        
+        try {
+            this.currentDataset.setFirstItemIndex(value);
+        } catch (Exception e) {
+            
+            this.slider.setValue(0);
+            this.currentDataset.setFirstItemIndex(0);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -208,7 +215,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
         toolbar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.black));
 
         JPanel sliderPanel = new JPanel(new BorderLayout());
-        this.slider = new JSlider(0, COUNT - WINDOW - 1, 0);
+        this.slider = new JSlider(0, numTicks - WINDOW - 1, 0);
         slider.setPaintLabels(true);
         slider.setPaintTicks(true);
         slider.setMajorTickSpacing(WINDOW);
@@ -274,6 +281,8 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
             }
         }
 
+        numTicks = tickCount.size();
+        
         TimeSeries series = new TimeSeries(service);
 
         Set<Long> keys = tickCount.keySet();
