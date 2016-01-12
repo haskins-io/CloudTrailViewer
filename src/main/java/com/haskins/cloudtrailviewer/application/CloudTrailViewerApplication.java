@@ -235,7 +235,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         addFeature(new SecurityFeature(statusBar, helpToolBar));
         addFeature(new ResourceFeature(statusBar, helpToolBar));
         addFeature(new GeoDataFeature(statusBar, helpToolBar));
-        addFeature(new MetricsFeature(statusBar, helpToolBar));
+//        addFeature(new MetricsFeature(statusBar, helpToolBar));
                
         Set<String> keys = featureMap.keySet();
         Iterator<String> it = keys.iterator();
