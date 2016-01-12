@@ -84,7 +84,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         
         featureToolBar = new FeatureToolBar(this);
                 
-        defineFeatures();
+        addFeatures();
         buildUI();
     }
     
@@ -225,34 +225,17 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         this.add(statusBar, BorderLayout.PAGE_END);
     }
     
-    private void defineFeatures() {
+    private void addFeatures() {
 
-        NoDataFeature noData = new NoDataFeature(helpToolBar);
-        addFeature(noData);
-        
-        OverviewFeature serviceOverview = new OverviewFeature(statusBar, helpToolBar);
-        addFeature(serviceOverview);
-        
-        SimpleTableFeature simpleTable = new SimpleTableFeature(database, helpToolBar);
-        addFeature(simpleTable);
-        
-        InvokersFeature invokerOverview = new InvokersFeature(statusBar, helpToolBar);
-        addFeature(invokerOverview);
-        
-        ErrorFeature errorFeature = new ErrorFeature(statusBar, helpToolBar);
-        addFeature(errorFeature);
-        
-        SecurityFeature securityFeature = new SecurityFeature(statusBar, helpToolBar);
-        addFeature(securityFeature);
-        
-        ResourceFeature resourceFeature = new ResourceFeature(statusBar, helpToolBar);
-        addFeature(resourceFeature);
-        
-        GeoDataFeature geoDataFeature = new GeoDataFeature(statusBar, helpToolBar);
-        addFeature(geoDataFeature);
-        
-        MetricsFeature metricsFeature = new MetricsFeature(statusBar, helpToolBar);
-        addFeature(metricsFeature);
+        addFeature(new NoDataFeature(helpToolBar));
+        addFeature(new OverviewFeature(statusBar, helpToolBar));
+        addFeature(new SimpleTableFeature(database, helpToolBar));
+        addFeature(new InvokersFeature(statusBar, helpToolBar));
+        addFeature(new ErrorFeature(statusBar, helpToolBar));
+        addFeature(new SecurityFeature(statusBar, helpToolBar));
+        addFeature(new ResourceFeature(statusBar, helpToolBar));
+        addFeature(new GeoDataFeature(statusBar, helpToolBar));
+        addFeature(new MetricsFeature(statusBar, helpToolBar));
                
         Set<String> keys = featureMap.keySet();
         Iterator<String> it = keys.iterator();
@@ -267,6 +250,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     }
     
     private void addFeature(Feature newFeature) {
+        
         database.addListener(newFeature);
         featureMap.put(newFeature.getName(), newFeature);
         features.add((JPanel)newFeature, newFeature.getName()); 
