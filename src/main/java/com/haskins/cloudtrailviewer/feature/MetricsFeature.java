@@ -21,7 +21,6 @@ import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.thirdparty.SlidingXYDataset;
 import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
 import com.haskins.cloudtrailviewer.utils.TableUtils;
 import java.awt.BorderLayout;
@@ -45,15 +44,14 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.JToolBar;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYAreaRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
@@ -64,21 +62,9 @@ import org.jfree.data.xy.XYDataset;
  *
  * @author mark.haskins
  */
-public class MetricsFeature extends JPanel implements Feature, ActionListener, ChangeListener {
+public class MetricsFeature extends JPanel implements Feature, ActionListener {
 
     public static final String NAME = "Metrics Feature";
-
-    private int numTicks = 30;
-
-    /**
-     * The Constant WINDOW.
-     */
-    public static final int WINDOW = 25;
-
-    /**
-     * The Constant FIRST.
-     */
-    public static final int FIRST = 0;
 
     private final Help help = new Help("Metrics Feature", "metrics");
 
@@ -86,12 +72,9 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
 
     private final JToolBar toolbar = new JToolBar();
     private final JPanel chartCards = new JPanel(new CardLayout());
-    private JSlider slider;
 
     private final Map<String, List<Event>> serviceSorted = new HashMap<>();
     private final Map<String, XYDataset> timeservicePerService = new HashMap<>();
-
-    private SlidingXYDataset currentDataset = null;
     
     private final SimpleDateFormat less_seconds = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
@@ -106,8 +89,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
     ///// Feature implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void eventLoadingComplete() {
-    }
+    public void eventLoadingComplete() { }
 
     @Override
     public boolean showOnToolBar() {
@@ -140,12 +122,10 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
     }
 
     @Override
-    public void showEventsTable(List<Event> events) {
-    }
+    public void showEventsTable(List<Event> events) { }
 
     @Override
-    public void reset() {
-    }
+    public void reset() { }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
@@ -173,7 +153,6 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
 
     @Override
     public void finishedLoading() {
-
         showChart("ALL");
     }
 
@@ -182,26 +161,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-        this.slider.setValue(0);
         showChart(e.getActionCommand());
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-    ///// ChangeListener implementation
-    ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void stateChanged(ChangeEvent ce) {
-        
-        int value = this.slider.getValue();
-        
-        try {
-            this.currentDataset.setFirstItemIndex(value);
-        } catch (Exception e) {
-            
-            this.slider.setValue(0);
-            this.currentDataset.setFirstItemIndex(0);
-        }
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -214,18 +174,9 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
         toolbar.setBackground(Color.white);
         toolbar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.black));
 
-        JPanel sliderPanel = new JPanel(new BorderLayout());
-        this.slider = new JSlider(0, numTicks - WINDOW - 1, 0);
-        slider.setPaintLabels(true);
-        slider.setPaintTicks(true);
-        slider.setMajorTickSpacing(WINDOW);
-        this.slider.addChangeListener(this);
-        sliderPanel.add(this.slider);
-
         this.setLayout(new BorderLayout());
         this.add(toolbar, BorderLayout.PAGE_START);
         this.add(chartCards, BorderLayout.CENTER);
-        this.add(sliderPanel, BorderLayout.PAGE_END);
     }
 
     private void showChart(String service) {
@@ -240,13 +191,25 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
 
         JFreeChart chart = ChartFactory.createTimeSeriesChart(service, "Range", "Count", chartData, false, true, false);
 
-        XYPlot plot = chart.getXYPlot();
+        // draw outter line
+        XYLineAndShapeRenderer lineAndShapeRenderer = new XYLineAndShapeRenderer();
+        lineAndShapeRenderer.setPaint(new Color(64,168,228,100));
+        lineAndShapeRenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+        
+        // draw filled area
+        XYAreaRenderer renderer = new XYAreaRenderer();
+        renderer.setPaint(new Color(64,168,228,50));
+        
+        XYPlot plot = (XYPlot) chart.getXYPlot();
         plot.setBackgroundPaint(Color.WHITE);
         plot.setOutlineVisible(false);
-
-        DateAxis xaxis = (DateAxis) plot.getDomainAxis();
-        xaxis.setAutoRange(true);
-
+        
+        plot.setDataset(0, generateTimeSeriesData(service));
+        plot.setDataset(1, generateTimeSeriesData(service));
+        
+        plot.setRenderer(0, lineAndShapeRenderer);
+        plot.setRenderer(1, renderer); 
+            
         TextTitle t = chart.getTitle();
         t.setFont(new Font("Arial", Font.BOLD, 14));
 
@@ -280,8 +243,6 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
                 Logger.getLogger(MetricsFeature.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-        numTicks = tickCount.size();
         
         TimeSeries series = new TimeSeries(service);
 
@@ -298,10 +259,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
         TimeSeriesCollection tsc = new TimeSeriesCollection();
         tsc.addSeries(series);
 
-        SlidingXYDataset sxtdata = new SlidingXYDataset(tsc, FIRST, WINDOW);
-        currentDataset = sxtdata;
-
-        return sxtdata;
+        return tsc;
     }
 
     private void addButton(String service) {
