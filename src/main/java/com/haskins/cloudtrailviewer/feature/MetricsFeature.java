@@ -48,14 +48,20 @@ import javax.swing.JToolBar;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.event.PlotChangeEvent;
+import org.jfree.chart.event.PlotChangeListener;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYAreaRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.data.Range;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.time.TimeSeriesDataItem;
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -75,7 +81,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
 
     private final Map<String, List<Event>> serviceSorted = new HashMap<>();
     private final Map<String, XYDataset> timeservicePerService = new HashMap<>();
-    
+
     private final SimpleDateFormat less_seconds = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
     public MetricsFeature(StatusBar sb, HelpToolBar helpBar) {
@@ -89,7 +95,8 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
     ///// Feature implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
-    public void eventLoadingComplete() { }
+    public void eventLoadingComplete() {
+    }
 
     @Override
     public boolean showOnToolBar() {
@@ -122,10 +129,12 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
     }
 
     @Override
-    public void showEventsTable(List<Event> events) { }
+    public void showEventsTable(List<Event> events) {
+    }
 
     @Override
-    public void reset() { }
+    public void reset() {
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
@@ -183,34 +192,36 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
 
         chartCards.removeAll();
 
-        XYDataset chartData = timeservicePerService.get(service);
-        if (chartData == null) {
-            chartData = generateTimeSeriesData(service);
-            timeservicePerService.put(service, chartData);
-        }
+//        XYDataset chartData = timeservicePerService.get(service);
+//        if (chartData == null) {
+//            chartData = generateTimeSeriesData(service);
+//            timeservicePerService.put(service, chartData);
+//        }
+        final TimeSeriesCollection chartData = generateTimeSeriesData(service);
 
-        JFreeChart chart = ChartFactory.createTimeSeriesChart(service, "Range", "Count", chartData, false, true, false);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart(service, "Time", "Count", chartData, false, true, false);
 
         // draw outter line
         XYLineAndShapeRenderer lineAndShapeRenderer = new XYLineAndShapeRenderer();
-        lineAndShapeRenderer.setPaint(new Color(64,168,228,100));
+        lineAndShapeRenderer.setPaint(new Color(64, 168, 228, 100));
         lineAndShapeRenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
-        
+
         // draw filled area
         XYAreaRenderer renderer = new XYAreaRenderer();
-        renderer.setPaint(new Color(64,168,228,50));
-        
-        XYPlot plot = (XYPlot) chart.getXYPlot();
+        renderer.setPaint(new Color(64, 168, 228, 50));
+
+        final XYPlot plot = (XYPlot) chart.getXYPlot();
         plot.setBackgroundPaint(Color.WHITE);
         plot.setOutlineVisible(false);
-        
-        plot.setDataset(0, generateTimeSeriesData(service));
-        plot.setDataset(1, generateTimeSeriesData(service));
-        
+
+        plot.setDataset(0, chartData);
+        plot.setDataset(1, chartData);
+
         plot.setRenderer(0, lineAndShapeRenderer);
-        plot.setRenderer(1, renderer); 
-            
+        plot.setRenderer(1, renderer);
+
         TextTitle t = chart.getTitle();
+
         t.setFont(new Font("Arial", Font.BOLD, 14));
 
         ChartPanel chartPanel = new ChartPanel(chart);
@@ -219,12 +230,14 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
         chartPanel.setMinimumDrawHeight(0);
         chartPanel.setMaximumDrawHeight(Integer.MAX_VALUE);
         chartPanel.setMouseZoomable(true, false);
+        chartPanel.setDomainZoomable(true);
+        chartPanel.setRangeZoomable(false);
 
-        chartCards.add(chartPanel, "");
+        chartCards.add(chartPanel,"");
         chartCards.revalidate();
     }
 
-    private XYDataset generateTimeSeriesData(String service) {
+    private TimeSeriesCollection generateTimeSeriesData(String service) {
 
         List<Event> events = serviceSorted.get(service);
 
@@ -239,11 +252,13 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener {
                 }
                 count++;
                 tickCount.put(minute, count);
+
             } catch (ParseException ex) {
-                Logger.getLogger(MetricsFeature.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MetricsFeature.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         TimeSeries series = new TimeSeries(service);
 
         Set<Long> keys = tickCount.keySet();
