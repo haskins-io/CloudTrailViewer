@@ -127,7 +127,7 @@ public class LoadToolBar extends JToolBar {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
 
-                loadS3files(null);
+                loadS3files(null, false);
             }
         }); 
         
@@ -145,7 +145,7 @@ public class LoadToolBar extends JToolBar {
 
                 if (SearchOptions.showDialog(CloudTrailViewer.frame) == SearchOptions.SCAN_OK && SearchOptions.getSearchFilter() != null) {
                     
-                    loadS3files(SearchOptions.getSearchFilter());
+                    loadS3files(SearchOptions.getSearchFilter(), true);
                 }
             }
         }); 
@@ -184,12 +184,12 @@ public class LoadToolBar extends JToolBar {
         }
     }
     
-    private void loadS3files(Filter filter) {
+    private void loadS3files(Filter filter, boolean is_scan) {
         
         List<AwsAccount> accounts = AccountDao.getAllAccounts(false);
         if (!accounts.isEmpty()) {
 
-            final List<String> files = S3FileChooser.showDialog(CloudTrailViewer.frame);
+            final List<String> files = S3FileChooser.showDialog(CloudTrailViewer.frame, is_scan);
             if (!files.isEmpty()) {
                 application.newS3Files(files, filter);
             }

@@ -83,20 +83,21 @@ import javax.swing.plaf.LabelUI;
 public class S3FileChooser extends JDialog implements ActionListener, NavigationListener {
 
     private static boolean aws_exception = false;
-    
+    private static boolean scanning = false;
+
     private static final String MOVE_BACK = "..";
 
     private static S3FileChooser dialog;
-    private static final List<String> selectedKeys = new ArrayList<>();
+    private static final List<String> SELECTED_KEYS = new ArrayList<>();
 
     private final DefaultListModel<S3ListModel> s3ListModel = new DefaultListModel();
     private final JList s3List;
 
-    private static final DefaultComboBoxModel accountList = new DefaultComboBoxModel();
-    private static final Map<String, AwsAccount> accountMap = new HashMap<>();
+    private static final DefaultComboBoxModel ACCOUNT_LIST = new DefaultComboBoxModel();
+    private static final Map<String, AwsAccount> ACCOUNT_MAP = new HashMap<>();
     private static AwsAccount currentAccount = null;
 
-    private static final Map<String, String> aliasMap = new HashMap<>();
+    private static final Map<String, String> ALIAS_MAP = new HashMap<>();
     private static String prefix = "";
 
     private JBreadCrumb<String> locationCrumb = new JBreadCrumb<>();
@@ -107,26 +108,31 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
      * Shows the Dialog.
      *
      * @param parent The Frame to which the dialog will be associated
+     * @param performing_scan Is the dialog being shown as part of Scanning
+     * operation
      * @return a List of String that are S3 bucket keys.
      */
-    public static List<String> showDialog(Component parent) {
+    public static List<String> showDialog(Component parent, boolean performing_scan) {
 
-        accountList.removeAllElements();
-        accountMap.clear();
-        selectedKeys.clear();
+        if (performing_scan) {
+            scanning = performing_scan;
+        }
+
+        ACCOUNT_LIST.removeAllElements();
+        ACCOUNT_MAP.clear();
+        SELECTED_KEYS.clear();
 
         getAliases();
         getAccounts();
 
         Frame frame = JOptionPane.getFrameForComponent(parent);
         dialog = new S3FileChooser(frame);
-        
+
         if (!aws_exception) {
             dialog.setVisible(true);
         }
-        
 
-        return selectedKeys;
+        return SELECTED_KEYS;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -164,11 +170,8 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
             for (String element : path_elements) {
 
                 if (!element.equalsIgnoreCase(selected)) {
-
                     path.append(element).append("/");
-
                 } else {
-
                     path.append(element).append("/");
                     break;
                 }
@@ -186,7 +189,7 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
     ////////////////////////////////////////////////////////////////////////////
     private static void getAliases() {
 
-        aliasMap.clear();
+        ALIAS_MAP.clear();
 
         String query = "SELECT aws_account, aws_alias FROM aws_alias";
         List<ResultSetRow> rows = DbManager.getInstance().executeCursorStatement(query);
@@ -195,7 +198,7 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
             String aws_acct = (String) row.get("aws_account");
             String aws_alias = (String) row.get("aws_alias");
 
-            aliasMap.put(aws_acct, aws_alias);
+            ALIAS_MAP.put(aws_acct, aws_alias);
         }
     }
 
@@ -206,10 +209,10 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
 
             String name = account.getName();
 
-            accountMap.put(name, account);
-            accountList.addElement(name);
+            ACCOUNT_MAP.put(name, account);
+            ACCOUNT_LIST.addElement(name);
             currentAccount = account;
-            
+
             String setActive = "UPDATE aws_credentials SET active = 1 WHERE ID = " + currentAccount.getId();
             DbManager.getInstance().doInsertUpdate(setActive);
         }
@@ -244,9 +247,10 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
 
                     String selected = ((S3ListModel) s3List.getSelectedValue()).getPath();
 
-                    if (selected.contains("/")) {
+                    if (!scanning && selected.contains("/")) {
                         btnLoad.setEnabled(false);
-                    } else {
+                    } 
+                    else {
                         btnLoad.setEnabled(true);
                     }
                 }
@@ -378,22 +382,8 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
 
         this.s3ListModel.clear();
 
-        String bucketName = currentAccount.getBucket();
-
-        ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
-        listObjectsRequest.setBucketName(bucketName);
-        listObjectsRequest.setPrefix(prefix);
-        listObjectsRequest.setDelimiter("/");
-
-        AWSCredentials credentials = new BasicAWSCredentials(
-                currentAccount.getKey(),
-                currentAccount.getSecret()
-        );
-
-        AmazonS3 s3Client = new AmazonS3Client(credentials);
-
         try {
-            ObjectListing objectListing = s3Client.listObjects(listObjectsRequest);
+            ObjectListing objectListing = s3ListObjects(prefix, "/");
 
             // Add .. if not at root
             if (prefix.trim().length() != 0) {
@@ -411,8 +401,8 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
 
                 String alias = dir;
                 if (isAccountNumber(strippeDir)) {
-                    if (aliasMap.containsKey(strippeDir)) {
-                        alias = aliasMap.get(strippeDir);
+                    if (ALIAS_MAP.containsKey(strippeDir)) {
+                        alias = ALIAS_MAP.get(strippeDir);
                     }
                 }
 
@@ -421,29 +411,50 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
             }
 
             // these are files
-            List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
-            for (final S3ObjectSummary objectSummary : objectSummaries) {
-
-                String file = stripPrefix(objectSummary.getKey());
-
-                S3ListModel model = new S3ListModel(file, file, S3ListModel.FILE_DOC);
-                this.s3ListModel.addElement(model);
-            }
+            addFileKeys(objectListing);
 
             loadingLabel.setVisible(false);
             this.revalidate();
+
         } catch (Exception e) {
-            
+
             String errorMessage = e.getMessage();
             errorMessage = errorMessage.replaceAll("; ", ";\n");
-            
+
             JOptionPane.showMessageDialog(CloudTrailViewer.frame,
-                errorMessage,
-                "AWS Error",
-                JOptionPane.ERROR_MESSAGE
+                    errorMessage,
+                    "AWS Error",
+                    JOptionPane.ERROR_MESSAGE
             );
-            
+
             aws_exception = true;
+        }
+    }
+
+    private ObjectListing s3ListObjects(String pathPrefix, String delimiter) {
+
+        ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
+        listObjectsRequest.setBucketName(currentAccount.getBucket());
+        listObjectsRequest.setPrefix(pathPrefix);
+        
+        if (delimiter != null) {
+            listObjectsRequest.setDelimiter(delimiter);
+        }
+        
+        AmazonS3 s3Client = getS3Client();
+
+        return s3Client.listObjects(listObjectsRequest);
+    }
+    
+    private void addFileKeys(ObjectListing objectListing) {
+        
+        List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
+        for (final S3ObjectSummary objectSummary : objectSummaries) {
+
+            String file = stripPrefix(objectSummary.getKey());
+
+            S3ListModel model = new S3ListModel(file, file, S3ListModel.FILE_DOC);
+            this.s3ListModel.addElement(model);
         }
     }
 
@@ -467,9 +478,44 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
 
     private void addSelectedKeys() {
 
-        List<S3ListModel> selectedItems = s3List.getSelectedValuesList();
-        for (S3ListModel key : selectedItems) {
-            selectedKeys.add(S3FileChooser.prefix + key.getPath());
+        String selected = S3FileChooser.prefix + ((S3ListModel) s3List.getSelectedValue()).getPath();
+        
+        // if the dialog is being used as part of a scan operation and a folder
+        // is selected then we need to discover the files in the folder and
+        // add them
+        if (scanning && selected.endsWith("/")) {
+            addFolderFiles(selected);
+            
+        } else {
+            
+            List<S3ListModel> selectedItems = s3List.getSelectedValuesList();
+            for (S3ListModel key : selectedItems) {
+                SELECTED_KEYS.add(S3FileChooser.prefix + key.getPath());
+            }  
+        }
+    }
+    
+    private void addFolderFiles(String path) {
+        
+        AmazonS3 s3Client = getS3Client();
+        
+        ObjectListing current = s3Client.listObjects(currentAccount.getBucket(), path);
+        List<S3ObjectSummary> objectSummaries = current.getObjectSummaries();
+
+        for (final S3ObjectSummary objectSummary : objectSummaries) {
+            String file = objectSummary.getKey();
+            SELECTED_KEYS.add(file);
+        }
+        
+        while (current.isTruncated()) {
+            
+            current = s3Client.listNextBatchOfObjects(current);
+            objectSummaries = current.getObjectSummaries();
+            
+            for (final S3ObjectSummary objectSummary : objectSummaries) {
+                String file = objectSummary.getKey();
+                SELECTED_KEYS.add(file);
+            }   
         }
     }
 
@@ -478,7 +524,7 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
         JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
 
-        JComboBox accountCombo = new JComboBox(accountList);
+        JComboBox accountCombo = new JComboBox(ACCOUNT_LIST);
         accountCombo.addActionListener(new ActionListener() {
 
             @Override
@@ -487,7 +533,7 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
                 String newSelection = (String) cb.getSelectedItem();
 
                 if (newSelection != null) {
-                    currentAccount = accountMap.get(newSelection);
+                    currentAccount = ACCOUNT_MAP.get(newSelection);
                     String update = "UPDATE aws_credentials SET active = 0";
                     DbManager.getInstance().doInsertUpdate(update);
 
@@ -585,6 +631,16 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
         locationCrumb.setPreferredSize(d);
 
         locationCrumb.addNavigationListener(this);
+    }
+    
+    private AmazonS3 getS3Client() {
+        
+        AWSCredentials credentials = new BasicAWSCredentials(
+            currentAccount.getKey(),
+            currentAccount.getSecret()
+        );
+
+        return new AmazonS3Client(credentials);
     }
 
     ////////////////////////////////////////////////////////////////////////////
