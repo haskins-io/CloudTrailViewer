@@ -23,6 +23,7 @@ import com.haskins.cloudtrailviewer.dao.AccountDao;
 import com.haskins.cloudtrailviewer.dialog.S3FileChooser;
 import com.haskins.cloudtrailviewer.dialog.SearchOptions;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
+import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
@@ -153,7 +154,7 @@ public class LoadToolBar extends JToolBar {
         buttonsPanel.add(btnDownload);
     }
     
-    private void loadLocalFiles(Filter filter) {
+    private void loadLocalFiles(CompositeFilter filter) {
         
         int status = fileChooser.showOpenDialog(CloudTrailViewer.frame);
         if (status == JFileChooser.APPROVE_OPTION) {
@@ -184,7 +185,7 @@ public class LoadToolBar extends JToolBar {
         }
     }
     
-    private void loadS3files(Filter filter, boolean is_scan) {
+    private void loadS3files(CompositeFilter filter, boolean is_scan) {
         
         List<AwsAccount> accounts = AccountDao.getAllAccounts(false);
         if (!accounts.isEmpty()) {

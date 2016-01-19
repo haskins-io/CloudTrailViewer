@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.dialog;
 
 import com.haskins.cloudtrailviewer.components.SearchPanel;
-import com.haskins.cloudtrailviewer.model.filter.Filter;
+import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -45,7 +45,7 @@ public class SearchOptions extends JDialog implements ActionListener {
     public static final int SCAN_OK = 1; 
     
     private static SearchOptions dialog;
-    private static final SearchPanel searchPanel = new SearchPanel();
+    private static final SearchPanel SEARCH_PANEL = new SearchPanel();
     
     private static int CLOSE_STATE = SCAN_CANCELLED;
     
@@ -62,8 +62,8 @@ public class SearchOptions extends JDialog implements ActionListener {
      * Returns the current filter
      * @return 
      */
-    public static Filter getSearchFilter() {
-        return searchPanel.getFilter();
+    public static CompositeFilter getSearchFilter() {
+        return SEARCH_PANEL.getFilter();
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -109,7 +109,7 @@ public class SearchOptions extends JDialog implements ActionListener {
         buttonPane.add(btnLoad);
         
         Container contentPane = getContentPane();
-        contentPane.add(searchPanel, BorderLayout.CENTER);
+        contentPane.add(SEARCH_PANEL, BorderLayout.CENTER);
         contentPane.add(buttonPane, BorderLayout.PAGE_END);
         
         pack();

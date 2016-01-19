@@ -32,6 +32,7 @@ import com.haskins.cloudtrailviewer.feature.OverviewFeature;
 import com.haskins.cloudtrailviewer.feature.ResourceFeature;
 import com.haskins.cloudtrailviewer.feature.SecurityFeature;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
+import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
 import com.haskins.cloudtrailviewer.utils.GeoIpUtils;
@@ -95,7 +96,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
      * @param filter An object to filter only specific events. Pass NULL in if no
      * filtering is required.
      */
-    public void loadLocalFiles(File[] files, Filter filter) {
+    public void loadLocalFiles(File[] files, CompositeFilter filter) {
         
         if (files != null && files.length > 0) {
             
@@ -120,7 +121,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
      * @param filter An object to filter only specific events. Pass NULL in if no
      * filtering is required.
      */
-    public void newS3Files(List<String> files, Filter filter) {
+    public void newS3Files(List<String> files, CompositeFilter filter) {
     
         if (files != null && files.size() > 0) {
             

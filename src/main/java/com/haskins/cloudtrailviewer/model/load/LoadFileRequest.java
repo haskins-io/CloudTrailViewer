@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.model.load;
 
-import com.haskins.cloudtrailviewer.model.filter.Filter;
+import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
 import java.util.List;
 
 /**
@@ -28,9 +28,9 @@ import java.util.List;
 public class LoadFileRequest {
     
     private final List<String> filenames;
-    private Filter filter;
+    private CompositeFilter filter;
     
-    public LoadFileRequest(List<String> files, Filter filter) {
+    public LoadFileRequest(List<String> files, CompositeFilter filter) {
         this.filenames = files;
         this.filter = filter;
     }
@@ -39,10 +39,10 @@ public class LoadFileRequest {
         return this.filenames;
     }
     
-    public void setFilter(Filter filter) {
+    public void setFilter(CompositeFilter filter) {
         this.filter = filter;
     }
-    public Filter getFilter() {
+    public CompositeFilter getFilter() {
         return this.filter;
     }
 }

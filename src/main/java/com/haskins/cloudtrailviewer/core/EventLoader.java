@@ -31,7 +31,7 @@ import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.model.event.Records;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
-import com.haskins.cloudtrailviewer.model.filter.Filter;
+import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
 import com.haskins.cloudtrailviewer.utils.EventUtils;
 import com.haskins.cloudtrailviewer.utils.GeoIpUtils;
@@ -92,7 +92,10 @@ public class EventLoader {
             public Void doInBackground() {
 
                 if (request.getFilter() == null) {
-                    request.setFilter(new AllFilter());
+                    
+                    CompositeFilter filters = new CompositeFilter();
+                    filters.addFilter(new AllFilter());
+                    request.setFilter(filters);
                 }
                 
                 int count = 0;
@@ -157,7 +160,9 @@ public class EventLoader {
                 String bucketName = account.getBucket();
                 
                 if (request.getFilter() == null) {
-                    request.setFilter(new AllFilter());
+                    CompositeFilter filters = new CompositeFilter();
+                    filters.addFilter(new AllFilter());
+                    request.setFilter(filters);
                 }
                 
                 List<String> filenames = request.getFilenames();
@@ -254,7 +259,7 @@ public class EventLoader {
         return records;
     }
     
-    private void processStream(InputStream stream, Filter filter) {
+    private void processStream(InputStream stream, CompositeFilter filter) {
         
         Records records = createRecords(uncompress(stream));
             
@@ -265,7 +270,7 @@ public class EventLoader {
 
                 GeoIpUtils.getInstance().populateGeoData(event);
                 
-                if (filter.passesFilter(event)) {
+                if (filter.passes(event)) {
                     
                     event.getResourceInfo();
                     EventUtils.addTimestamp(event);

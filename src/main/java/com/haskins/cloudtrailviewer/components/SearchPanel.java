@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.components;
 
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
+import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -62,16 +63,19 @@ public class SearchPanel extends JPanel {
      * Returns the filter to be used as part of the search
      * @return 
      */
-    public Filter getFilter() {
+    public CompositeFilter getFilter() {
         
-        Filter f = null;
-        
+        CompositeFilter filters = new CompositeFilter();
+                
         if (searchField.getText().trim().length() > 0) {
-            f = (Filter)this.searchOptions.getSelectedItem();
+            Filter f = (Filter)this.searchOptions.getSelectedItem();
             f.setNeedle(searchField.getText());
+            
+            filters.addFilter(f);
         }
        
-        return f;
+        
+        return filters;
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -85,12 +89,10 @@ public class SearchPanel extends JPanel {
         components.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         components.setLayout(new BoxLayout(components, BoxLayout.LINE_AXIS));
         
-        // dropdown
         searchOptions.addItem(new AllFilter());
         
         components.add(searchOptions);
         
-        // search field
         searchField.addActionListener(new ActionListener() {
 
             @Override
