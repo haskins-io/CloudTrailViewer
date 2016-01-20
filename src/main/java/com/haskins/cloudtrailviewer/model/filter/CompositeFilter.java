@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ * Class that can hold one or more filters and can run a AND test across all contained
+ * filters to see if the passed Event matches.
  * 
  * @author markhaskins
  */

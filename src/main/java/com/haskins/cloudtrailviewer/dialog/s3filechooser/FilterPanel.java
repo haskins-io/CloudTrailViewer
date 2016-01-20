@@ -1,4 +1,4 @@
-/*    
+/*  
 CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
 files.
 
@@ -21,6 +21,7 @@ package com.haskins.cloudtrailviewer.dialog.s3filechooser;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
@@ -28,13 +29,17 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
 
 /**
  *
  * @author mark.haskins
  */
 public class FilterPanel extends JPanel implements ActionListener {
+    
+    private static final String ACTION_ADD = "ActionAdd";
     
     private static final DefaultComboBoxModel FILTER_LIST = new DefaultComboBoxModel();
     
@@ -63,6 +68,10 @@ public class FilterPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
         String actionCommand = e.getActionCommand();
+        
+        if (actionCommand.equalsIgnoreCase(ACTION_ADD)) {
+            // 
+        }
     }
  
     ////////////////////////////////////////////////////////////////////////////
@@ -79,8 +88,7 @@ public class FilterPanel extends JPanel implements ActionListener {
     private void addAvailableFilters() {
      
         FILTER_LIST.addElement(new FilterWrapper("All Filter", AllFilter.class));
-        
-        // will needs a custom render to show name of filter in the Combo
+
     }
     
     private void buildFiterChoicePanel() {
@@ -88,10 +96,10 @@ public class FilterPanel extends JPanel implements ActionListener {
         JPanel panel = new JPanel(new BorderLayout());
         
         JComboBox filterCombo = new JComboBox(FILTER_LIST);
-        // need action on change
+        filterCombo.setRenderer(new FilterComboBoxRenderer());
         
         JButton addButton = new JButton("Add");
-        addButton.setActionCommand("Add Filter");
+        addButton.setActionCommand(ACTION_ADD);
         addButton.addActionListener(this);
         
         panel.add(new JLabel("Filter"), BorderLayout.WEST);
@@ -135,5 +143,18 @@ class FilterWrapper {
     
     public Class getClassType() {
         return this.classType;
+    }
+}
+
+class FilterComboBoxRenderer extends JLabel implements ListCellRenderer {
+
+    @Override
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        
+        FilterWrapper wrapper = (FilterWrapper)value;
+        
+        setText(wrapper.getFilterName());
+        
+        return this;
     }
 }
