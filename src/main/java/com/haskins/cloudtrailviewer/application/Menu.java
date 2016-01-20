@@ -159,8 +159,7 @@ public class Menu extends JMenuBar implements ApplicationListener {
         });
 
         menuTest.add(dialogTest);
-        this.add(menuTest);
-        
+//        this.add(menuTest);
     }
     
     private void showAboutDialog() {
