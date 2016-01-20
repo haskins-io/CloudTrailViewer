@@ -2,7 +2,7 @@
 CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
 files.
 
-Copyright (C) 2015  Mark P. Haskins
+Copyright (C) 2016  Mark P. Haskins
 
 This program is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software Foundation,
@@ -16,21 +16,30 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.haskins.cloudtrailviewer.model.filter;
+package com.haskins.cloudtrailviewer.dialog.s3filechooser;
 
-import com.haskins.cloudtrailviewer.model.event.Event;
-import javax.swing.JPanel;
+import javax.swing.JDialog;
 
 /**
- *
- * @author mark
+ *  Enchanced version of the S3FileChooser dialog that provides Filtering options.
+ * 
+ * @author mark.haskins
  */
-public interface Filter {
+public class EnhancedS3FileChooser extends JDialog {
     
-    public JPanel getFilterPanel();
+    private boolean openedForScanning = false;
     
-    public boolean passesFilter(Event event);
+    public EnhancedS3FileChooser(boolean scanning) {
+        
+        if (scanning) {
+            openedForScanning = true;
+        }
+        
+        buildUI();
+    }
     
-    public void setNeedle(String needle);
-    public void addListener(FilterListener l);
+    private void buildUI() {
+        
+    }
+    
 }

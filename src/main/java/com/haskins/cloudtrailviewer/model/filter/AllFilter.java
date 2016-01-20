@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.model.filter;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import javax.swing.JPanel;
 
 /**
  *
@@ -49,6 +50,11 @@ public class AllFilter extends AbstractFilter implements Filter {
         }
         
         return passesFilter;
+    }
+    
+    @Override
+    public JPanel getFilterPanel() {
+        return null;
     }
         
     ///////////////////////////////////////////////////////////////////////////
