@@ -23,6 +23,7 @@ import com.haskins.cloudtrailviewer.dao.AccountDao;
 import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -157,6 +158,20 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
         setLayout(new BorderLayout());
         
         JComboBox accountCombo = new JComboBox(ACCOUNT_LIST);
+        accountCombo.setMinimumSize(new Dimension(200,30));
+        accountCombo.setPreferredSize(new Dimension(200,30));
+        accountCombo.setMaximumSize(new Dimension(200,30));
+        
+        
+        JPanel accountPanel = new JPanel();
+        accountPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 10));
+        accountPanel.setLayout(new BoxLayout(accountPanel, BoxLayout.X_AXIS));
+        
+        accountPanel.add(Box.createHorizontalGlue());
+        accountPanel.add(new JLabel("Account "));
+        accountPanel.add(accountCombo);
+        accountPanel.add(Box.createHorizontalGlue());
+        
         
         FilterPanel filterPanel = new FilterPanel();
         filterPanel.setPreferredSize(new Dimension(400,400));
@@ -174,6 +189,8 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
             mainArea.add(fileList);
         }
         
+        mainArea.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.lightGray));
+        
         btnLoad.setActionCommand(ACTION_LOAD);
         btnLoad.addActionListener(this);
         btnLoad.setEnabled(false);
@@ -185,7 +202,7 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
         
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         buttonPanel.add(new JLabel(""));
         buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(btnCancel);
@@ -194,7 +211,7 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
         
         //Put everything together, using the content pane's BorderLayout.
         Container contentPane = getContentPane();
-        contentPane.add(accountCombo, BorderLayout.PAGE_START);
+        contentPane.add(accountPanel, BorderLayout.PAGE_START);
         contentPane.add(mainArea, BorderLayout.CENTER);
         contentPane.add(buttonPanel, BorderLayout.PAGE_END);
 
