@@ -74,9 +74,12 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
     
     private boolean scanning = false;
         
-    public S3FileList(boolean is_scan, AwsAccount awsAccount) {
+    public S3FileList(int mode, AwsAccount awsAccount) {
         
-        scanning = is_scan;
+        if (mode == EnhancedS3FileChooser.MODE_SCAN) {
+            scanning = true;
+        }
+        
         currentAccount = awsAccount;
         
         s3ListModel.clear();
@@ -113,15 +116,21 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
             for (S3FileListListener l : listeners) {
                 l.exceptionCaught(e);
             }
-            
-            initOK = false;
         }
         
         return initOK;
     }
     
+    public void dialogClosing() {
+        addSelectedKeys();
+    }
+        
     public List<String> getSelectedFiles() {
         return selected_keys;
+    }
+    
+    public String getPrefix() {
+        return this.prefix;
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -298,7 +307,6 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
             this.s3ListModel.addElement(model);
         }
 
-        // these are files
         addFileKeys(objectListing);
 
         this.revalidate();
@@ -306,20 +314,23 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
     
     private void addSelectedKeys() {
 
-        String selected = prefix + ((S3ListModel) s3List.getSelectedValue()).getPath();
-        
-        // if the dialog is being used as part of a scan operation and a folder
-        // is selected then we need to discover the files in the folder and
-        // add them
-        if (scanning && selected.endsWith("/")) {
-            addFolderFiles(selected);
+        if (s3List.getSelectedValue() != null) {
             
-        } else {
-            
-            List<S3ListModel> selectedItems = s3List.getSelectedValuesList();
-            for (S3ListModel key : selectedItems) {
-                selected_keys.add(prefix + key.getPath());
-            }  
+            String selected = prefix + ((S3ListModel) s3List.getSelectedValue()).getPath();
+
+            // if the dialog is being used as part of a scan operation and a folder
+            // is selected then we need to discover the files in the folder and
+            // add them
+            if (scanning && selected.endsWith("/")) {
+                addFolderFiles(selected);
+
+            } else {
+
+                List<S3ListModel> selectedItems = s3List.getSelectedValuesList();
+                for (S3ListModel key : selectedItems) {
+                    selected_keys.add(prefix + key.getPath());
+                }  
+            }
         }
     }
     

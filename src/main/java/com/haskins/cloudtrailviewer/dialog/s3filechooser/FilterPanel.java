@@ -20,10 +20,15 @@ package com.haskins.cloudtrailviewer.dialog.s3filechooser;
 
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
+import com.haskins.cloudtrailviewer.model.filter.Filter;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -41,8 +46,9 @@ public class FilterPanel extends JPanel implements ActionListener {
     
     private static final String ACTION_ADD = "ActionAdd";
     
-    private static final DefaultComboBoxModel FILTER_LIST = new DefaultComboBoxModel();
-    
+    private final DefaultComboBoxModel filter_list = new DefaultComboBoxModel();
+    private final JComboBox filterCombo = new JComboBox(filter_list);
+
     private final CompositeFilter filters = new CompositeFilter();
     
     private final JPanel activeFilterPanel = new JPanel();
@@ -70,8 +76,9 @@ public class FilterPanel extends JPanel implements ActionListener {
         String actionCommand = e.getActionCommand();
         
         if (actionCommand.equalsIgnoreCase(ACTION_ADD)) {
-            // 
-        }
+            addFilter();
+            
+        } 
     }
  
     ////////////////////////////////////////////////////////////////////////////
@@ -87,15 +94,13 @@ public class FilterPanel extends JPanel implements ActionListener {
     
     private void addAvailableFilters() {
      
-        FILTER_LIST.addElement(new FilterWrapper("All Filter", AllFilter.class));
-
+        filter_list.addElement(new FilterWrapper("All Filter", AllFilter.class));
     }
     
     private void buildFiterChoicePanel() {
     
         JPanel panel = new JPanel(new BorderLayout());
         
-        JComboBox filterCombo = new JComboBox(FILTER_LIST);
         filterCombo.setRenderer(new FilterComboBoxRenderer());
         
         JButton addButton = new JButton("Add");
@@ -111,9 +116,12 @@ public class FilterPanel extends JPanel implements ActionListener {
     
     private void builtActiveFilterContainer() {
         
-        activeFilterPanel.setLayout(new BoxLayout(activeFilterPanel, BoxLayout.PAGE_AXIS));
+        activeFilterPanel.setLayout(new BoxLayout(activeFilterPanel, BoxLayout.Y_AXIS));
         
-        this.add(activeFilterPanel, BorderLayout.CENTER);
+        JPanel filtersPanel = new JPanel(new FlowLayout());
+        filtersPanel.add(activeFilterPanel);
+        
+        this.add(filtersPanel, BorderLayout.CENTER);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -121,9 +129,44 @@ public class FilterPanel extends JPanel implements ActionListener {
     ////////////////////////////////////////////////////////////////////////////
     private void addFilter() {
         
-        // get selected item in combo and do something
-    }
+        try {
+            
+            FilterWrapper wrapper = (FilterWrapper)filterCombo.getSelectedItem();
+            Class filterClass = wrapper.getClassType();
+            
+            final Filter filter = (Filter)filterClass.newInstance();
+            
+            filters.addFilter(filter);
+            
+            final JPanel filterPanel = new JPanel(new BorderLayout());
+            
+            JPanel panel = filter.getFilterPanel();
+            panel.setMinimumSize(new Dimension(400,30));
+            panel.setPreferredSize(new Dimension(400,30));
+            panel.setMaximumSize(new Dimension(400,30));
+            filterPanel.add(panel, BorderLayout.CENTER);
+            
+            JButton removeFilter = new JButton("Remove");
+            removeFilter.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    
+                    filters.removeFilter(filter);
+                    
+                    activeFilterPanel.remove(filterPanel);
+                    activeFilterPanel.revalidate();
+                }
+            });
+            
+            filterPanel.add(removeFilter, BorderLayout.LINE_END);
 
+            activeFilterPanel.add(filterPanel);
+            activeFilterPanel.revalidate();
+            
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(FilterPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
 
 class FilterWrapper {

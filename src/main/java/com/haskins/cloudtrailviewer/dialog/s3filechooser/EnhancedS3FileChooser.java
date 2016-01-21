@@ -51,13 +51,20 @@ import javax.swing.JPanel;
  */
 public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3FileListListener {
     
+    public static final int MODE_OPEN = 0;
+    public static final int MODE_SCAN = 1;
+    
+    private static final String ACTION_LOAD = "ActionALoad";
+    
     private static final DefaultComboBoxModel ACCOUNT_LIST = new DefaultComboBoxModel();
     private static final Map<String, AwsAccount> ACCOUNT_MAP = new HashMap<>();
     private static AwsAccount currentAccount = null;
     
-    private static boolean openedForScanning = false;
+    private static int current_mode = 0;
     
     private static EnhancedS3FileChooser dialog;
+    
+    private final JButton btnLoad = new JButton("Load");
     
     private static S3FileList fileList;
     
@@ -65,19 +72,17 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
      * Shows the Dialog.
      *
      * @param parent The Frame to which the dialog will be associated
-     * @param performing_scan Is the dialog being shown as part of Scanning
-     * operation
+     * @param mode Mode dialog should operate
+     * 
      * @return a List of String that are S3 bucket keys.
      */
-    public static List<String> showDialog(Component parent, boolean performing_scan) {
+    public static List<String> showDialog(Component parent, int mode) {
 
-        if (performing_scan) {
-            openedForScanning = true;
-        }
+        current_mode = mode;
         
         getAccounts();
         
-        fileList = new S3FileList(openedForScanning, currentAccount);
+        fileList = new S3FileList(current_mode, currentAccount);
                 
         Frame frame = JOptionPane.getFrameForComponent(parent);
         dialog = new EnhancedS3FileChooser(frame);
@@ -94,8 +99,19 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void actionPerformed(ActionEvent e) {
+                
+        if (e.getActionCommand().equalsIgnoreCase(ACTION_LOAD)) {
+            
+            StringBuilder query = new StringBuilder();
+            query.append("UPDATE aws_credentials SET aws_prefix =");
+            query.append(" '").append(fileList.getPrefix()).append("'");
+            query.append(" WHERE id = ").append(currentAccount.getId());
+            DbManager.getInstance().doInsertUpdate(query.toString());
+
+        }
         
-        String actionCommand = e.getActionCommand();
+        fileList.dialogClosing();
+        dialog.setVisible(false);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -104,12 +120,17 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
     @Override
     public void listItemSelected(boolean isValid) {
         
-        
+        // requires an addition check : If in scan mode is a filter set
+        if (isValid) {
+            btnLoad.setEnabled(true);
+        } else {
+            btnLoad.setEnabled(false);
+        }
     }
 
     @Override
     public void selectionComplete() {
-        
+        dialog.setVisible(false);
     }
 
     @Override
@@ -142,13 +163,21 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
                 
         fileList.registerListener(this);
         
-        JPanel mainArea = new JPanel(new GridLayout(1,2));
-        mainArea.add(filterPanel);
-        mainArea.add(fileList);
+        JPanel mainArea;
+        if (current_mode == EnhancedS3FileChooser.MODE_SCAN) {
+            mainArea = new JPanel(new GridLayout(1,2));
+            mainArea.add(filterPanel);
+            mainArea.add(fileList);
+            
+        } else {
+            mainArea = new JPanel(new BorderLayout());
+            mainArea.add(fileList);
+        }
         
-        JButton btnLoad = new JButton("Load");
-        btnLoad.setActionCommand("Load");
+        btnLoad.setActionCommand(ACTION_LOAD);
         btnLoad.addActionListener(this);
+        btnLoad.setEnabled(false);
+        
         getRootPane().setDefaultButton(btnLoad);
 
         JButton btnCancel = new JButton("Cancel");
