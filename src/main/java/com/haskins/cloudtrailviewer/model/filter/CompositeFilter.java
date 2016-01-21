@@ -36,6 +36,24 @@ public class CompositeFilter {
         filters.add(f);
     }
     
+    public void removeFilter(Filter f) {
+        filters.remove(f);
+    }
+    
+    public boolean allFiltersConfigured() {
+        
+        boolean allFiltersConfigured = true;
+        
+        for (Filter filter : filters) {
+            
+            if (filter.getNeedle() == null && filter.getNeedle().length() == 0) {
+                allFiltersConfigured = false;
+            }
+        }
+        
+        return allFiltersConfigured;
+    }
+    
     public boolean passes(Event event) {
         
         boolean passed = true;
