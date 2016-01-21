@@ -18,12 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.model.event;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class Records {
     
-    @JsonProperty("Records")
     private List<Event> logEvents;
 
     /**

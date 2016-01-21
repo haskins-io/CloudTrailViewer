@@ -18,25 +18,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.model.event;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  *
  * @author mark.haskins
  */
 public class AdditionalEventData {
 
-    @JsonProperty("SamlProviderArn")
     private String SamlProviderArn;
-    
-    @JsonProperty("MobileVersion")
     private String MobileVersion;
-        
-    @JsonProperty("LoginTo")
     private String LoginTo;
-            
-    @JsonProperty("MFAUsed")
     private String MFAUsed;
+    private String VpcEndpointId;
+    private String RedirectTo;
+    private String SwitchTo;
 
     /**
      * @return the SamlProviderArn
@@ -93,4 +87,46 @@ public class AdditionalEventData {
     public void setMFAUsed(String MFAUsed) {
         this.MFAUsed = MFAUsed;
     }
+
+    /**
+     * @return the vpcEndpointId
+     */
+    public String getVpcEndpointId() {
+        return VpcEndpointId;
+    }
+
+    /**
+     * @param vpcEndpointId the vpcEndpointId to set
+     */
+    public void setVpcEndpointId(String vpcEndpointId) {
+        this.VpcEndpointId = vpcEndpointId;
+    }
+
+    /**
+     * @return the RedirectTo
+     */
+    public String getRedirectTo() {
+        return RedirectTo;
+    }
+
+    /**
+     * @param RedirectTo the RedirectTo to set
+     */
+    public void setRedirectTo(String RedirectTo) {
+        this.RedirectTo = RedirectTo;
+    }
+
+    /**
+     * @return the SwitchTo
+     */
+    public String getSwitchTo() {
+        return SwitchTo;
+    }
+
+    /**
+     * @param SwitchTo the SwitchTo to set
+     */
+    public void setSwitchTo(String SwitchTo) {
+        this.SwitchTo = SwitchTo;
+    } 
 }

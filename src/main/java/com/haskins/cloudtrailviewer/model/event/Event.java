@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.model.event;
 
 import com.haskins.cloudtrailviewer.model.event.deprecated.Resource;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.haskins.cloudtrailviewer.requestInfo.RequestInfo;
 import com.haskins.cloudtrailviewer.requestInfo.ResourceLookup;
 import java.util.Iterator;
@@ -31,55 +29,22 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 public class Event {
     
-    @JsonProperty("eventTime")
     private String eventTime = "";
-    
-    @JsonProperty("eventVersion")
     private String eventVersion = "";
-    
-    @JsonProperty("userIdentity")
     private UserIdentity userIdentity;
-    
-    @JsonProperty("eventName")
     private String eventName = "";
-    
-    @JsonProperty("awsRegion")
     private String awsRegion = "";
-    
-    @JsonProperty("sourceIPAddress")
     private String sourceIPAddress = "";
-    
-    @JsonProperty("userAgent")
     private String userAgent = "";
-    
-    @JsonProperty("eventSource")
     private String eventSource = "";
-    
-    @JsonProperty("errorCode")
     private String errorCode = "";
-    
-    @JsonProperty("errorMessage")
     private String errorMessage = "";
-
-    @JsonProperty("requestParameters")
     private Map requestParameters;
-    
-    @JsonProperty("responseElements")
     private Map responseElements;
-    
-    @JsonProperty("requestID")
     private String requestId = "";
-    
-    @JsonProperty("eventID")
     private String eventId = "";
-    
-    @JsonProperty("eventType")
     private String eventType = "";
-    
-    @JsonProperty("apiVersion")
     private String apiVersion = "";
-    
-    @JsonProperty("recipientAccountId")
     private String recipientAccountId = "";
         
 
@@ -127,7 +92,6 @@ public class Event {
         return this.timestamp;
     }
     
-    @JsonIgnore
     public RequestInfo getResourceInfo() {
         
         if (resourceInfo == null) {
@@ -367,7 +331,6 @@ public class Event {
         this.apiVersion = apiVersion;
     }
     
-    @JsonIgnore
     public DefaultMutableTreeNode populateTree() {
         
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Event");
@@ -549,6 +512,7 @@ public class Event {
         if (getResources() != null) { modelData.append(getResources().toString()).append(", "); }
         if (getEventType() != null) { modelData.append(getEventType()).append(", "); }
         if (getRecipientAccountId() != null) { modelData.append(getRecipientAccountId()).append(", "); }
+        if (getAdditionalEventData() != null) { modelData.append(getAdditionalEventData().toString()).append(", "); }
         
         return modelData.toString();
     }
@@ -557,20 +521,15 @@ public class Event {
     ////////////////////////////////////////////////////////////////////////////
     ///// Deprected Event parameters
     ////////////////////////////////////////////////////////////////////////////
-    @JsonProperty("additionalEventData")
-    private AdditionalEventData additionalEventData;
-    
-    @JsonProperty("readOnly")
+    private Map additionalEventData;
     private String readOnly = "";  
-       
-    @JsonProperty("resources")
     private List<Resource> resources; 
     
-    public AdditionalEventData getAdditionalEventData() {
+    public Map getAdditionalEventData() {
         return additionalEventData;
     }
 
-    public void setAdditionalEventData(AdditionalEventData additionalEventData) {
+    public void setAdditionalEventData(Map additionalEventData) {
         this.additionalEventData = additionalEventData;
     }
     

@@ -18,38 +18,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.model.event;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 
 public class UserIdentity {
     
-    @JsonProperty("type")
     private String type;
-    
-    @JsonProperty("principalId")
     private String principalId;
-    
-    @JsonProperty("arn")
     private String arn;
-    
-    @JsonProperty("accountId")
     private String accountId;
-    
-    @JsonProperty("accessKeyId")
     private String accessKeyId;
-    
-    @JsonProperty("userName")
     private String userName;
-    
-    @JsonProperty("sessionContext")
     private SessionContext sessionContext;
-    
-    @JsonProperty("invokedBy")
     private String invokedBy;
-    
-    @JsonProperty("webIdFederationData")
     private String webIdFederationData;
     
 
@@ -179,7 +160,6 @@ public class UserIdentity {
         this.webIdFederationData = webIdFederationData;
     }
     
-    @JsonIgnore
     public DefaultMutableTreeNode getTree() {
         
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("User Identity");

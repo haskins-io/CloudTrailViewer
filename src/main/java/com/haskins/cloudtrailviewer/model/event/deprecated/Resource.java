@@ -19,18 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.model.event.deprecated;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * 
  * @author mark.haskins
  */
 public class Resource {
     
-    @JsonProperty("ARN")
     private String ARN = "";
-    
-    @JsonProperty("accountId")
     private String accountId = "";
 
     /**
