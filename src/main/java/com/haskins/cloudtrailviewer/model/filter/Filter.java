@@ -32,5 +32,7 @@ public interface Filter {
     public boolean passesFilter(Event event);
     
     public void setNeedle(String needle);
+    public String getNeedle();
+    
     public void addListener(FilterListener l);
 }
