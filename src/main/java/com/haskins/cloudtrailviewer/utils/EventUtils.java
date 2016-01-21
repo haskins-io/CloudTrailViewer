@@ -18,10 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 /**
@@ -32,9 +31,7 @@ import java.text.SimpleDateFormat;
 public class EventUtils {
     
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-    
-    private static final ObjectMapper mapper = new ObjectMapper();
-        
+            
     /**
      * Takes EventTime value from Event, converts it to a long and adds it back
      * onto the event
@@ -67,15 +64,7 @@ public class EventUtils {
      */
     public static void addRawJson(Event event) {
         
-        String rawJson;
-        try {
-            
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            rawJson = mapper.writeValueAsString(event);
-            event.setRawJSON(rawJson);
-
-        } catch (IOException ex) {
-            
-        } 
+        Gson g = new GsonBuilder().setPrettyPrinting().create();
+        event.setRawJSON(g.toJson(event));
     } 
 }
