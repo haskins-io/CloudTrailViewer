@@ -257,26 +257,7 @@ public class EventLoader {
         
         return json;
     }
-    
-//    private Records createRecords(String json_string) {
-//        
-//        Records records = null;
-//        ObjectMapper mapper = new ObjectMapper();
-//        
-//        if (json_string.length() > 2) {
-//            
-//            try {
-//                records = mapper.readValue(json_string, Records.class);
-//                mapper = null;
-//                json_string = null;
-//            } 
-//            catch (JsonParseException | JsonMappingException e) { /** File will be ignored */ }
-//            catch (IOException jpe) { /** File will be ignored */ }  
-//        }
-//
-//        return records;
-//    }
-    
+        
     private List<Event> createEvents(String json_string) {
         
         Gson g = new Gson();
@@ -300,25 +281,18 @@ public class EventLoader {
     }
     
     private void processStream(InputStream stream, CompositeFilter filter) {
-        
-//        Records records = createRecords(uncompress(stream));
-//            
-//        if (records != null) {
-            
-//            List<Event> events = records.getLogEvents();
 
-            List<Event> events = createEvents(uncompress(stream));
-            for (Event event : events) {
+        List<Event> events = createEvents(uncompress(stream));
+        for (Event event : events) {
 
-                GeoIpUtils.getInstance().populateGeoData(event);
-                
-                if (filter.passes(event)) {
-                    
-                    event.getResourceInfo();
-                    EventUtils.addTimestamp(event);
-                    eventDb.addEvent(event);
-                }
+            GeoIpUtils.getInstance().populateGeoData(event);
+
+            if (filter.passes(event)) {
+
+                event.getResourceInfo();
+                EventUtils.addTimestamp(event);
+                eventDb.addEvent(event);
             }
-//        }
+        }
     }
 }
