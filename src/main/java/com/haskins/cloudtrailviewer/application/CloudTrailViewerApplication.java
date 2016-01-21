@@ -104,7 +104,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
             
             List<String> filePaths = new ArrayList<>();
             for (File file : files) {
-                if (file.isFile() && file.getName().endsWith(".gz")) {
+                if (file.isFile()) {
                     filePaths.add(file.getAbsolutePath());
                 }
             }
