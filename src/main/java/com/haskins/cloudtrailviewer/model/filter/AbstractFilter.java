@@ -41,6 +41,11 @@ public abstract class AbstractFilter implements Filter {
     }
     
     @Override
+    public String getNeedle() {
+        return this .needle;
+    }
+    
+    @Override
     public void addListener(FilterListener l) {
         listeners.add(l);
     }
