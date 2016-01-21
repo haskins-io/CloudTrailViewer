@@ -20,6 +20,7 @@ package com.haskins.cloudtrailviewer.dialog.s3filechooser;
 
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
+import com.haskins.cloudtrailviewer.model.filter.DateFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -29,6 +30,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -95,11 +97,13 @@ public class FilterPanel extends JPanel implements ActionListener {
     private void addAvailableFilters() {
      
         filter_list.addElement(new FilterWrapper("All Filter", AllFilter.class));
+        filter_list.addElement(new FilterWrapper("Date Filter", DateFilter.class));
     }
     
     private void buildFiterChoicePanel() {
     
         JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         
         filterCombo.setRenderer(new FilterComboBoxRenderer());
         
@@ -141,9 +145,9 @@ public class FilterPanel extends JPanel implements ActionListener {
             final JPanel filterPanel = new JPanel(new BorderLayout());
             
             JPanel panel = filter.getFilterPanel();
-            panel.setMinimumSize(new Dimension(400,30));
-            panel.setPreferredSize(new Dimension(400,30));
-            panel.setMaximumSize(new Dimension(400,30));
+            panel.setMinimumSize(new Dimension(375,30));
+            panel.setPreferredSize(new Dimension(375,30));
+            panel.setMaximumSize(new Dimension(375,30));
             filterPanel.add(panel, BorderLayout.CENTER);
             
             JButton removeFilter = new JButton("Remove");

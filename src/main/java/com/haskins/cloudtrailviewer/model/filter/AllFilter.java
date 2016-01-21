@@ -32,9 +32,6 @@ import javax.swing.JTextField;
  */
 public class AllFilter extends AbstractFilter implements Filter {
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Filter overrides
-    ///////////////////////////////////////////////////////////////////////////
     @Override
     public boolean passesFilter(Event event) {
         
@@ -60,7 +57,7 @@ public class AllFilter extends AbstractFilter implements Filter {
     public JPanel getFilterPanel() {
         
         JPanel ui = new JPanel(new BorderLayout());
-        ui.add(new JLabel("Needle"), BorderLayout.LINE_START);
+        ui.add(new JLabel("Find "), BorderLayout.LINE_START);
         
         final JTextField textField = new JTextField();
         textField.addKeyListener(new KeyListener(){
