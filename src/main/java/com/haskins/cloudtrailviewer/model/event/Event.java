@@ -41,8 +41,8 @@ public class Event {
     private String errorMessage = "";
     private Map requestParameters;
     private Map responseElements;
-    private String requestId = "";
-    private String eventId = "";
+    private String requestID = "";
+    private String eventID = "";
     private String eventType = "";
     private String apiVersion = "";
     private String recipientAccountId = "";
@@ -249,28 +249,28 @@ public class Event {
      * @return the requestId
      */
     public String getRequestId() {
-        return requestId;
+        return requestID;
     }
 
     /**
      * @param requestId the requestId to set
      */
     public void setRequestId(String requestId) {
-        this.requestId = requestId;
+        this.requestID = requestId;
     }
 
     /**
      * @return the eventId
      */
     public String getEventId() {
-        return eventId;
+        return eventID;
     }
 
     /**
      * @param eventId the eventId to set
      */
     public void setEventId(String eventId) {
-        this.eventId = eventId;
+        this.eventID = eventId;
     }
 
     /**
