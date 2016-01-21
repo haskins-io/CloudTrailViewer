@@ -24,12 +24,13 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.haskins.cloudtrailviewer.dao.AccountDao;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import com.haskins.cloudtrailviewer.model.event.Records;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
@@ -44,6 +45,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
@@ -113,11 +115,9 @@ public class EventLoader {
                     
                     try (InputStream stream = loadEventFromLocalFile(filename);) {
                         processStream(stream, request.getFilter());
-                    } catch (IOException ioe) {
-                        
-                    } catch (Exception e) {
-                        
                     }
+                    catch (IOException ioe) { /** File will be ignored */ }
+                    catch (Exception e) { /** File will be ignored */ }
                 }
                 
                 for (EventLoaderListener l : listeners) {
@@ -179,11 +179,9 @@ public class EventLoader {
                     try (InputStream stream = loadEventFromS3(s3Client, bucketName, filename);) {
                         processStream(stream, request.getFilter());
 
-                    } catch (IOException ioe) {
-                        
-                    } catch (Exception e) {
-                        
-                    }
+                    } 
+                    catch (IOException ioe) { /** File will be ignored */ } 
+                    catch (Exception e) { /** File will be ignored */ }
                 }
 
                 for (EventLoaderListener l : listeners) {
@@ -226,46 +224,90 @@ public class EventLoader {
                 }
             }
         }
-        catch (ZipException | JsonParseException ex) {
-            
+        catch (ZipException ex) {
+            jsonString = loadUncompressedFile(stream);
         }
-        catch (UnsupportedEncodingException ex) {
-            
-        }
-        catch (IOException ex) {
-            
-        }  
+        catch (UnsupportedEncodingException ex) { /** Nothing to be done ignore the file */ }
+        catch (IOException ex) { /** Nothing to be done ignore the file */  }  
         
         return jsonString;
     }
         
-    private Records createRecords(String json_string) {
-        
-        Records records = null;
-        ObjectMapper mapper = new ObjectMapper();
-        
-        if (json_string != null) {
-            
-            try {
-                records = mapper.readValue(json_string, Records.class);
-                mapper = null;
-                json_string = null;
-            }
-            catch (IOException jpe) {
+    private String loadUncompressedFile(InputStream stream) {
                 
-            }  
-        }
+        String json = "";
+        
+        try {
+            try (BufferedReader bf = new BufferedReader(new InputStreamReader(stream, "UTF-8"));) {
 
-        return records;
+                String line;
+                while ((line = bf.readLine()) != null) {
+                    json += line;
+                }
+            }
+        } 
+        catch (UnsupportedEncodingException ex) { /** File will be ignored */ }
+        catch (IOException ex) { /** File will be ignored */ } 
+        
+        // check if the first character is a { otherwise add one
+        String firstChar = json.substring(0,1);
+        if (!firstChar.equalsIgnoreCase("{")) {
+            json = "{ " + json;
+        }
+        
+        return json;
+    }
+    
+//    private Records createRecords(String json_string) {
+//        
+//        Records records = null;
+//        ObjectMapper mapper = new ObjectMapper();
+//        
+//        if (json_string.length() > 2) {
+//            
+//            try {
+//                records = mapper.readValue(json_string, Records.class);
+//                mapper = null;
+//                json_string = null;
+//            } 
+//            catch (JsonParseException | JsonMappingException e) { /** File will be ignored */ }
+//            catch (IOException jpe) { /** File will be ignored */ }  
+//        }
+//
+//        return records;
+//    }
+    
+    private List<Event> createEvents(String json_string) {
+        
+        Gson g = new Gson();
+        
+        List<Event> events = new ArrayList<>();
+        
+        JsonObject jsonObject = new JsonParser().parse(json_string).getAsJsonObject();
+        JsonArray records = (JsonArray)jsonObject.get("Records");
+        
+        Iterator i = records.iterator();
+        while(i.hasNext()) {
+            
+            try{
+                JsonObject obj = (JsonObject)i.next();
+                Event e = g.fromJson(obj, Event.class);
+                events.add(e);
+            } catch (Exception e) { /** Event will be ignored */ }
+        }
+        
+        return events;
     }
     
     private void processStream(InputStream stream, CompositeFilter filter) {
         
-        Records records = createRecords(uncompress(stream));
+//        Records records = createRecords(uncompress(stream));
+//            
+//        if (records != null) {
             
-        if (records != null) {
-            
-            List<Event> events = records.getLogEvents();
+//            List<Event> events = records.getLogEvents();
+
+            List<Event> events = createEvents(uncompress(stream));
             for (Event event : events) {
 
                 GeoIpUtils.getInstance().populateGeoData(event);
@@ -277,6 +319,6 @@ public class EventLoader {
                     eventDb.addEvent(event);
                 }
             }
-        }
+//        }
     }
 }
