@@ -37,6 +37,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Provides the Load / Scan Event Toolbar
@@ -56,8 +57,10 @@ public class LoadToolBar extends JToolBar {
     public LoadToolBar(CloudTrailViewerApplication application) {
         
         this.application = application;
+        
         fileChooser.setMultiSelectionEnabled(true);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Log files", "gz", "json"));
         
         buildToolBar();
     }
