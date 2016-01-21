@@ -154,7 +154,10 @@ public class Menu extends JMenuBar implements ApplicationListener {
 
             @Override
             public void actionPerformed(ActionEvent t) {
-                final List<String> files = EnhancedS3FileChooser.showDialog(CloudTrailViewer.frame, true);
+                final List<String> files = EnhancedS3FileChooser.showDialog(CloudTrailViewer.frame, EnhancedS3FileChooser.MODE_SCAN);
+                for (String file : files) {
+                    System.out.println(file);
+                }
             }
         });
 
