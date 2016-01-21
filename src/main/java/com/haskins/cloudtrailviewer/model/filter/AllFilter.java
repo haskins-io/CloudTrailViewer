@@ -19,7 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.model.filter;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -27,7 +32,6 @@ import javax.swing.JPanel;
  */
 public class AllFilter extends AbstractFilter implements Filter {
 
-    
     ///////////////////////////////////////////////////////////////////////////
     // Filter overrides
     ///////////////////////////////////////////////////////////////////////////
@@ -54,7 +58,29 @@ public class AllFilter extends AbstractFilter implements Filter {
     
     @Override
     public JPanel getFilterPanel() {
-        return null;
+        
+        JPanel ui = new JPanel(new BorderLayout());
+        ui.add(new JLabel("Needle"), BorderLayout.LINE_START);
+        
+        final JTextField textField = new JTextField();
+        textField.addKeyListener(new KeyListener(){
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                needle = textField.getText();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) { }
+
+            @Override
+            public void keyReleased(KeyEvent e) { }
+            
+        });
+        
+        ui.add(textField, BorderLayout.CENTER);
+        
+        return ui;
     }
         
     ///////////////////////////////////////////////////////////////////////////
