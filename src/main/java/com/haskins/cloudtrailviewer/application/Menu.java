@@ -22,10 +22,8 @@ import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.core.PropertiesController;
 import com.haskins.cloudtrailviewer.dialog.preferences.PreferencesDialog;
-import com.haskins.cloudtrailviewer.dialog.s3filechooser.EnhancedS3FileChooser;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.event.ActionEvent;
-import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -146,23 +144,6 @@ public class Menu extends JMenuBar implements ApplicationListener {
         eventsMenu.add(clearEvents);
         
         this.add(eventsMenu);
-        
-        /** Test Code **/
-        JMenu menuTest = new JMenu("Test");
-
-        JMenuItem dialogTest = new JMenuItem(new AbstractAction("S3 Dialog") {
-
-            @Override
-            public void actionPerformed(ActionEvent t) {
-                final List<String> files = EnhancedS3FileChooser.showDialog(CloudTrailViewer.frame, EnhancedS3FileChooser.MODE_SCAN);
-                for (String file : files) {
-                    System.out.println(file);
-                }
-            }
-        });
-
-        menuTest.add(dialogTest);
-//        this.add(menuTest);
     }
     
     private void showAboutDialog() {
