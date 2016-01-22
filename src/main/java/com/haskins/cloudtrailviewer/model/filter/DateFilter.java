@@ -32,6 +32,7 @@ import javax.swing.event.ChangeListener;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -39,6 +40,9 @@ import org.jdatepicker.impl.UtilDateModel;
  */
 public class DateFilter extends AbstractFilter implements Filter {
 
+    public static final String DATE_PATTERN = "dd-MM-yyyy";
+    public static final SimpleDateFormat DATE_FORMATER = new SimpleDateFormat(DATE_PATTERN);
+        
     private static final String DIRECTION_FROM = "From";
     private static final String DAIRECTION_TO = "To";
     
@@ -46,8 +50,13 @@ public class DateFilter extends AbstractFilter implements Filter {
     
     private boolean fromDate = true;
     
+    private DateTime selectedDateTime;
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Filter overrides
+    ///////////////////////////////////////////////////////////////////////////
     @Override
-    public JPanel getFilterPanel() {
+    public JPanel getFilterPanel(String name) {
         
         final JComboBox direction = new JComboBox(DIRECTIONS);
         direction.addActionListener(new ActionListener(){
@@ -56,14 +65,12 @@ public class DateFilter extends AbstractFilter implements Filter {
             public void actionPerformed(ActionEvent e) {
         
                 String option = (String)direction.getSelectedItem();
-                
                 if (option.equalsIgnoreCase(DIRECTION_FROM)) {
                     fromDate = true;
                 } else {
                     fromDate = false;
                 }
             }
-        
         });
 
         UtilDateModel model = new UtilDateModel();  
@@ -76,18 +83,23 @@ public class DateFilter extends AbstractFilter implements Filter {
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
         
-        datePicker.getModel().setSelected(true);
         datePicker.getModel().addChangeListener(new ChangeListener() {
             
             @Override
             public void stateChanged(ChangeEvent e) {
                 UtilDateModel selectedDate = (UtilDateModel)e.getSource();
+                selectedDateTime = new DateTime(selectedDate.getValue());
             }
         });
+        datePicker.getModel().setSelected(true);
         
         JPanel ui = new JPanel(new BorderLayout());
         ui.add(direction, BorderLayout.LINE_START);
         ui.add(datePicker, BorderLayout.CENTER);
+        
+        ui.setMinimumSize(defaultSize);
+        ui.setPreferredSize(defaultSize);
+        ui.setMaximumSize(defaultSize);
         
         return ui;
     }
@@ -95,29 +107,50 @@ public class DateFilter extends AbstractFilter implements Filter {
     @Override
     public boolean passesFilter(Event event) {
         
-        boolean passes = false;
+        boolean passes;
         
         if (fromDate) {
-            passes = inFuture(event);
+            passes = afterFromDate(event);
         } else {
-            passes = inPast(event);
+            passes = beforeToDate(event);
         }
         
-        return false;
+        return passes;
     }
     
-    private boolean inFuture(Event event) {
+    @Override
+    public boolean isNeedleSet() {
+        
+        boolean needleSet = false;
+        
+        if (selectedDateTime != null) {
+            needleSet = true;
+        }
+        
+        return needleSet;
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // private methods
+    ///////////////////////////////////////////////////////////////////////////
+    private boolean afterFromDate(Event event) {
         
         boolean inFuture = false;
         
+        if (selectedDateTime.isBefore(event.getTimestamp())) {
+            inFuture = true;
+        }
         
         return inFuture;
     }
     
-    private boolean inPast(Event event) {
+    private boolean beforeToDate(Event event) {
         
         boolean inPast = false;
         
+        if (selectedDateTime.isAfter(event.getTimestamp())) {
+            inPast = true;
+        }
         
         return inPast; 
     }
@@ -125,22 +158,20 @@ public class DateFilter extends AbstractFilter implements Filter {
 
 class DateLabelFormatter extends AbstractFormatter {
 
-    private static final String DATE_PATTERN = "yyyy-MM-dd";
-    private static final SimpleDateFormat DATE_FORMATER = new SimpleDateFormat(DATE_PATTERN);
-
     @Override
     public Object stringToValue(String text) throws ParseException {
-        return DATE_FORMATER.parseObject(text);
+        
+        return DateFilter.DATE_FORMATER.parseObject(text);
     }
 
     @Override
     public String valueToString(Object value) throws ParseException {
+        
         if (value != null) {
             Calendar cal = (Calendar) value;
-            return DATE_FORMATER.format(cal.getTime());
+            return DateFilter.DATE_FORMATER.format(cal.getTime());
         }
 
         return "";
     }
-
 }
