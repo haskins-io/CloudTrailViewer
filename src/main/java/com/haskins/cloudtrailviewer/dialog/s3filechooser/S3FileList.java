@@ -80,7 +80,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
             scanning = true;
         }
         
-        currentAccount = awsAccount;
+        setAccount(awsAccount);
         
         s3ListModel.clear();
         s3List = new JList(s3ListModel);
@@ -95,7 +95,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
     ////////////////////////////////////////////////////////////////////////////
     // public methods
     ////////////////////////////////////////////////////////////////////////////
-    public void setAccount(AwsAccount newAccount) {
+    public final void setAccount(AwsAccount newAccount) {
         this.currentAccount = newAccount;
         this.prefix = newAccount.getPrefix();
     }
@@ -214,7 +214,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
         listScroller.setAlignmentX(LEFT_ALIGNMENT);
 
         JPanel listPane = new JPanel(new BorderLayout());
-        listPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        listPane.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 5));
         listPane.add(listScroller, BorderLayout.CENTER);
         listPane.add(navigationPanel, BorderLayout.PAGE_END);        
         
