@@ -21,6 +21,8 @@ package com.haskins.cloudtrailviewer.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 
 /**
@@ -30,7 +32,9 @@ import java.text.SimpleDateFormat;
  */
 public class EventUtils {
     
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
             
     /**
      * Takes EventTime value from Event, converts it to a long and adds it back
@@ -51,7 +55,7 @@ public class EventUtils {
         long millis = 0;
         
         try {
-            millis = sdf.parse(dateString).getTime();
+            millis = SDF.parse(dateString).getTime();
         } catch (Exception ex) { } 
         
         return millis;
@@ -63,8 +67,49 @@ public class EventUtils {
      * @param event 
      */
     public static void addRawJson(Event event) {
-        
-        Gson g = new GsonBuilder().setPrettyPrinting().create();
-        event.setRawJSON(g.toJson(event));
+        event.setRawJSON(GSON.toJson(event));
     } 
+    
+    public static String getEventProperty(String property, Object event) {
+        
+        String requiredValue;
+        
+        if (property.contains(".")) {
+            
+            int pos = property.indexOf(".");
+            String field = property.substring(0, pos);
+             
+            Object subClass = callMethod(field, event);
+            if (subClass != null) {
+                property = property.substring(pos + 1);
+                return getEventProperty(property, subClass); 
+            } else {
+                return null;
+            }
+            
+        } else {
+            
+            requiredValue = (String) callMethod(property, event);
+        }
+       
+        return requiredValue; 
+    }
+    
+    private static Object callMethod(String property, Object reflectionClass) {
+        
+        Object result;
+        
+        String camelCaseProperty = property.substring(0, 1).toUpperCase() + property.substring(1);
+        
+        try {
+            String getProperty = "get" + camelCaseProperty;
+            Method method = reflectionClass.getClass().getMethod(getProperty);
+            result = method.invoke(reflectionClass);
+        }
+        catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            result = null;
+        }
+        
+        return result;
+    }
 }

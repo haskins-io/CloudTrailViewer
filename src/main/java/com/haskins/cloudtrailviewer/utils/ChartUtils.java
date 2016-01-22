@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.utils;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -71,7 +69,7 @@ public class ChartUtils {
         
         for (Event event : events) {
             
-            String fieldValue = getEventProperty(eventField, event);
+            String fieldValue = EventUtils.getEventProperty(eventField, event);
 
             if (fieldValue != null) {
 
@@ -112,51 +110,5 @@ public class ChartUtils {
         }
         
         return topEvents;
-    }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    ////////////////////////////////////////////////////////////////////////////
-    private static String getEventProperty(String property, Object event) {
-        
-        String requiredValue;
-        
-        if (property.contains(".")) {
-            
-            int pos = property.indexOf(".");
-            String field = property.substring(0, pos);
-             
-            Object subClass = callMethod(field, event);
-            if (subClass != null) {
-                property = property.substring(pos + 1);
-                return getEventProperty(property, subClass); 
-            } else {
-                return null;
-            }
-            
-        } else {
-            
-            requiredValue = (String) callMethod(property, event);
-        }
-       
-        return requiredValue; 
-    }
-    
-    private static Object callMethod(String property, Object reflectionClass) {
-        
-        Object result;
-        
-        String camelCaseProperty = property.substring(0, 1).toUpperCase() + property.substring(1);
-        
-        try {
-            String getProperty = "get" + camelCaseProperty;
-            Method method = reflectionClass.getClass().getMethod(getProperty);
-            result = method.invoke(reflectionClass);
-        }
-        catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            result = null;
-        }
-        
-        return result;
     }
 }
