@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.haskins.cloudtrailviewer.model.filter;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
@@ -28,10 +29,15 @@ import java.util.List;
  */
 public class CompositeFilter {
     
+    public static final int BITWISE_AND = 0;
+    public static final int BITWISE_OR = 1;
+    
+    public static final String[] BITWISE_OPERATORS = { "AND", "OR" };
+    
+    private int mode = BITWISE_AND;
+    
     private final List<Filter> filters = new ArrayList<>();
-    
-    private boolean andFilters = true;
-    
+        
     public void addFilter(Filter f) {
         filters.add(f);
     }
@@ -40,17 +46,35 @@ public class CompositeFilter {
         filters.remove(f);
     }
     
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
+    
+    public int getMode() {
+        return this.mode;
+    }
+    
+    public String getModeString() {
+        return BITWISE_OPERATORS[mode];
+    }
+    
     public boolean allFiltersConfigured() {
         
         boolean allFiltersConfigured = true;
         
-        for (Filter filter : filters) {
+        if (!filters.isEmpty()) {
             
-            if (filter.getNeedle() == null && filter.getNeedle().length() == 0) {
-                allFiltersConfigured = false;
+            for (Filter filter : filters) {
+
+                if (!filter.isNeedleSet()) {
+                    allFiltersConfigured = false;
+                }
             }
+            
+        } else {
+           allFiltersConfigured = false; 
         }
-        
+
         return allFiltersConfigured;
     }
     
@@ -60,11 +84,18 @@ public class CompositeFilter {
         
         for (Filter filter : filters) {
             
-            if (andFilters) {
+            if (mode == BITWISE_AND) {
                 passed &= filter.passesFilter(event);
+            } else {
+                passed = false;
+                passed |= filter.passesFilter(event);
             }
         }
         
         return passed;
+    }
+    
+    public int size() {
+        return filters.size();
     }
 }
