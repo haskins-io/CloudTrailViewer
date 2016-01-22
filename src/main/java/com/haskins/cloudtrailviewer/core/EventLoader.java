@@ -287,10 +287,10 @@ public class EventLoader {
 
             GeoIpUtils.getInstance().populateGeoData(event);
 
+            EventUtils.addTimestamp(event);
             if (filter.passes(event)) {
 
                 event.getResourceInfo();
-                EventUtils.addTimestamp(event);
                 eventDb.addEvent(event);
             }
         }
