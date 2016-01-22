@@ -22,6 +22,8 @@ import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.dao.AccountDao;
 import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
+import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
+import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -68,6 +70,7 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
     private final JButton btnLoad = new JButton("Load");
     
     private static S3FileList fileList;
+    private static final FilteringPanel FILTER_PANEL = new FilteringPanel();
     
     /**
      * Shows the Dialog.
@@ -77,7 +80,7 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
      * 
      * @return a List of String that are S3 bucket keys.
      */
-    public static List<String> showDialog(Component parent, int mode) {
+    public static LoadFileRequest showDialog(Component parent, int mode) {
 
         current_mode = mode;
         
@@ -88,11 +91,11 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
         Frame frame = JOptionPane.getFrameForComponent(parent);
         dialog = new EnhancedS3FileChooser(frame);
         
-        //if (fileList.init())  {
+        if (fileList.init())  {
             dialog.setVisible(true);
-        //}
-        
-        return fileList.getSelectedFiles();
+        }
+                
+        return new LoadFileRequest(fileList.getSelectedFiles(), FILTER_PANEL.getFilters());
     }
         
     ////////////////////////////////////////////////////////////////////////////
@@ -108,7 +111,6 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
             query.append(" '").append(fileList.getPrefix()).append("'");
             query.append(" WHERE id = ").append(currentAccount.getId());
             DbManager.getInstance().doInsertUpdate(query.toString());
-
         }
         
         fileList.dialogClosing();
@@ -121,8 +123,14 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
     @Override
     public void listItemSelected(boolean isValid) {
         
-        // requires an addition check : If in scan mode is a filter set
-        if (isValid) {
+        boolean filtersSet = true;
+        
+        if (current_mode == EnhancedS3FileChooser.MODE_SCAN) {    
+            CompositeFilter filters = FILTER_PANEL.getFilters();
+            filtersSet = filters.allFiltersConfigured();
+        }
+        
+        if (isValid && filtersSet) {
             btnLoad.setEnabled(true);
         } else {
             btnLoad.setEnabled(false);
@@ -147,7 +155,6 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
         );
     }
     
-    
     ////////////////////////////////////////////////////////////////////////////
     // private methods
     ////////////////////////////////////////////////////////////////////////////
@@ -155,16 +162,15 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
         
         super(frame, "S3 File Browser", true);
         
-        setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout());
         
         JComboBox accountCombo = new JComboBox(ACCOUNT_LIST);
         accountCombo.setMinimumSize(new Dimension(200,30));
         accountCombo.setPreferredSize(new Dimension(200,30));
         accountCombo.setMaximumSize(new Dimension(200,30));
         
-        
         JPanel accountPanel = new JPanel();
-        accountPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 10));
+        accountPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
         accountPanel.setLayout(new BoxLayout(accountPanel, BoxLayout.X_AXIS));
         
         accountPanel.add(Box.createHorizontalGlue());
@@ -172,21 +178,19 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
         accountPanel.add(accountCombo);
         accountPanel.add(Box.createHorizontalGlue());
         
-        
-        FilterPanel filterPanel = new FilterPanel();
-        filterPanel.setPreferredSize(new Dimension(400,400));
+        FILTER_PANEL.setPreferredSize(new Dimension(400,400));
                 
         fileList.registerListener(this);
         
         JPanel mainArea;
         if (current_mode == EnhancedS3FileChooser.MODE_SCAN) {
             mainArea = new JPanel(new GridLayout(1,2));
-            mainArea.add(filterPanel);
+            mainArea.add(FILTER_PANEL);
             mainArea.add(fileList);
             
         } else {
             mainArea = new JPanel(new BorderLayout());
-            mainArea.add(fileList);
+            mainArea.add(fileList, BorderLayout.CENTER);
         }
         
         mainArea.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.lightGray));
@@ -215,6 +219,8 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
         contentPane.add(mainArea, BorderLayout.CENTER);
         contentPane.add(buttonPanel, BorderLayout.PAGE_END);
 
+        this.setResizable(false);
+        
         //Initialize values.
         pack();
         setLocationRelativeTo(frame);
@@ -235,5 +241,4 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
             DbManager.getInstance().doInsertUpdate(setActive);
         }
     }
-
 }

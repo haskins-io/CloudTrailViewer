@@ -119,6 +119,7 @@ public class EventTree extends JPanel implements SideBar {
     private void handleDoubleClick(TreePath selPath) {
         
         if (selPath.getPathCount() >= 3) {
+            
             int numNodes = selPath.getPathCount();
             TreeNode typeNode = (TreeNode)selPath.getPath()[numNodes-2];
             String resourceType = typeNode.toString();
@@ -140,7 +141,7 @@ public class EventTree extends JPanel implements SideBar {
                         "The account has not been defined in the AWS Account section of the properties.\nTo get more information about this resource add the account information.",
                         "Unknown AWS Account Number : " + event.getRecipientAccountId(),
                         JOptionPane.ERROR_MESSAGE);
-                    }
+                }
             }
         }
     }

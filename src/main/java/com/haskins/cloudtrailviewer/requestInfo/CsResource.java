@@ -49,6 +49,5 @@ public class CsResource extends AbstractRequest implements Request {
                 
         getTopLevelResource(CLOUDSEARCH_DOMAIN, "domainName", event, resources);
         getTopLevelParameters(event, resources, "domainName");
-    }
-    
+    }   
 }
