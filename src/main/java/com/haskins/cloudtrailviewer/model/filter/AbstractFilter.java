@@ -28,12 +28,17 @@ import java.util.List;
  */
 public abstract class AbstractFilter implements Filter {
     
-    protected Dimension defaultSize = new Dimension(345,30);
+    /** constant that defines the default dimension to be used by children */
+    protected final static Dimension DEFAULT_SIZE = new Dimension(345,30);
     
     private final List<FilterListener> listeners = new ArrayList<>();
     
-    protected String needle;
+    /** String to hold the value that should be used for filtering */
+    protected String needle = "";
     
+    ////////////////////////////////////////////////////////////////////////////
+    // Filter implementation
+    ////////////////////////////////////////////////////////////////////////////
     @Override
     public void setNeedle(String needle) {
         this.needle = needle;

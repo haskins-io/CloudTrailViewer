@@ -38,6 +38,8 @@ import javax.swing.JTextField;
  * @author mark
  */
 public class SearchPanel extends JPanel {
+
+    private static final long serialVersionUID = -1107795006666536735L;
     
     private final JComboBox searchOptions = new JComboBox();
     private final JTextField searchField = new JTextField();

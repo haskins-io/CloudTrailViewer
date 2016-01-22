@@ -20,6 +20,7 @@ package com.haskins.cloudtrailviewer.table;
 import com.haskins.cloudtrailviewer.utils.TableUtils;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Arrays;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -29,7 +30,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class EventsTableModel extends AbstractTableModel {
 
-    public static final String[] COLUMN_NAMES = new String[]{
+    private static final String[] COLUMN_NAMES = new String[]{
         "Date/Time",
         "Invoked By",
         "Service",
@@ -48,6 +49,7 @@ public class EventsTableModel extends AbstractTableModel {
         "Event Type",
         "API Version"
     };
+    private static final long serialVersionUID = -6727441546095054243L;
 
     private final EventDatabase eventsDb;
 
@@ -61,6 +63,10 @@ public class EventsTableModel extends AbstractTableModel {
 
     public Event getEventAt(int i) {
         return eventsDb.getEventByIndex(i);
+    }
+    
+    public static String[] getColumnNames() {
+        return Arrays.copyOf(COLUMN_NAMES, COLUMN_NAMES.length);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -93,7 +99,7 @@ public class EventsTableModel extends AbstractTableModel {
 
         Event event = getEventAt(rowIndex);
 
-        Object value = null;
+        Object value;
 
         switch (columnIndex) {
 
@@ -148,6 +154,8 @@ public class EventsTableModel extends AbstractTableModel {
             case 16:
                 value = event.getApiVersion();
                 break;
+            default:
+                value = "Unknown";
         }
 
         return value;

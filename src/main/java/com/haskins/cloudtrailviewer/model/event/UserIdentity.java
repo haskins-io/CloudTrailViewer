@@ -207,7 +207,7 @@ public class UserIdentity {
         }
         
         if (getSessionContext() != null) {
-            root.add(sessionContext.getTree());
+            root.add(getSessionContext().getTree());
         }
         
         return root;

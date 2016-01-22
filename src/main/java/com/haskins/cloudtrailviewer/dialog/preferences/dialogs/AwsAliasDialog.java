@@ -43,6 +43,7 @@ import javax.swing.JTextField;
 public class AwsAliasDialog extends JDialog implements ActionListener {
     
     private static AwsAliasDialog dialog;
+    private static final long serialVersionUID = 7401945055664690976L;
     
     private final JTextField accountNumber = new JTextField();
     private final JTextField accountAlias = new JTextField();

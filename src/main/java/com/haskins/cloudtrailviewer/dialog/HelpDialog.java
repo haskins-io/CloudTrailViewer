@@ -43,6 +43,7 @@ import javax.swing.text.html.StyleSheet;
 public class HelpDialog extends JDialog implements ActionListener {
 
     private static HelpDialog dialog;
+    private static final long serialVersionUID = -1161803908200818777L;
     
     private final JEditorPane helpPane = new JEditorPane();
     private final HTMLEditorKit kit = new HTMLEditorKit();

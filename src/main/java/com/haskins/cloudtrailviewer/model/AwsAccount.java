@@ -16,11 +16,15 @@
  */
 package com.haskins.cloudtrailviewer.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author mark.haskins
  */
-public class AwsAccount {
+public class AwsAccount implements Serializable {
+
+    private static final long serialVersionUID = 1298354923304275550L;
     
     private final int id;
     private final String name;

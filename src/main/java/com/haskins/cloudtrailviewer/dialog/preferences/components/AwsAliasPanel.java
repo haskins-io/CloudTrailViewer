@@ -48,6 +48,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AwsAliasPanel extends JPanel implements ActionListener {
 
+    private static final long serialVersionUID = 6849846133604390997L;
+
     private final DefaultTableModel defaultTableModel = new DefaultTableModel();  
     private final JTable table = new JTable(defaultTableModel);
         

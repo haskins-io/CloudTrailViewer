@@ -33,6 +33,8 @@ import javax.swing.JPanel;
  * @author mark
  */
 public class ServiceOverviewContainer extends JPanel {
+
+    private static final long serialVersionUID = -7604555547759281086L;
     
     private final Map<String, ServicesOverviewPanel> servicesMap = new HashMap<>();
     

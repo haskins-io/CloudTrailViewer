@@ -31,7 +31,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -63,6 +62,7 @@ import org.jfree.chart.plot.PlotOrientation;
 public abstract class AbstractChart extends JPanel implements SideBar, ActionListener {
 
     public static final String NAME = "Chart";
+    private static final long serialVersionUID = 7624167880255656811L;
 
     protected final JMenuBar menu = new JMenuBar();
 
@@ -138,7 +138,7 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
     protected int getTopXValue() {
         
         String actionCommand = topGroup.getSelection().getActionCommand();
-        int periodPos = actionCommand.indexOf(".");
+        int periodPos = actionCommand.indexOf('.');
         String topStr = actionCommand.substring(periodPos + 1);
         
         return Integer.parseInt(topStr);
@@ -186,7 +186,7 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
 
                 if (key.contains(":i-")) {
                     
-                    int posColon = key.indexOf(":");
+                    int posColon = key.indexOf(':');
                     key = key.substring(posColon + 1);
                 }
                 
@@ -242,7 +242,7 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
             public void mousePressed(MouseEvent me) {
                 
                 JTable table =(JTable) me.getSource();
-                Point p = me.getPoint();
+//                Point p = me.getPoint();
                 String value = (String) defaultTableModel.getValueAt(table.getSelectedRow(), 1);
                 
                 if (me.getClickCount() == 2) {
@@ -393,7 +393,7 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
     ////////////////////////////////////////////////////////////////////////////
     ///// Custom TableCellRenderer
     //////////////////////////////////////////////////////////////////////////// 
-    class LegendColourRenderer extends JLabel implements TableCellRenderer {
+    private static class LegendColourRenderer extends JLabel implements TableCellRenderer {
 
         public LegendColourRenderer() {
             setOpaque(true);

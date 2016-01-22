@@ -37,6 +37,8 @@ import javax.swing.JTabbedPane;
  * @author mark.haskins
  */
 public class EC2InstanceDetail extends AbstractDetail {
+
+    private static final long serialVersionUID = 8109771800393230032L;
     
     public EC2InstanceDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);

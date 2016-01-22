@@ -41,9 +41,7 @@ import java.util.regex.Pattern;
 public class GeoIpUtils {
     
     private static final String GEO_FILE = "GeoLite2-City.mmdb";
-    private static final Pattern p = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
-    
-    private static GeoIpUtils instance = null;
+    private static final Pattern REGEX_PATTERN = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
     
     private DatabaseReader reader = null;
     
@@ -61,18 +59,13 @@ public class GeoIpUtils {
             System.out.println("Failed to load GeoIp Database");
         }
     }
-    
+
     /**
      * Returns an instance of the class
      * @return 
      */
     public static GeoIpUtils getInstance() {
-
-        if (instance == null) {
-            instance = new GeoIpUtils();  
-        }
-
-        return instance;
+        return GeoIpUtilsHolder.INSTANCE;
     }
     
     public void populateGeoData(Event event) {
@@ -118,7 +111,11 @@ public class GeoIpUtils {
     
     private boolean isIp(String eventSource) {
         
-        Matcher m = p.matcher(eventSource);
+        Matcher m = REGEX_PATTERN.matcher(eventSource);
         return m.find();
+    }
+    
+    private static class GeoIpUtilsHolder {
+        public static final GeoIpUtils INSTANCE = new GeoIpUtils();
     }
 }

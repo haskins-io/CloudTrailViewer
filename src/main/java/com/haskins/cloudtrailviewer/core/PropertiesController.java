@@ -32,8 +32,6 @@ import java.util.Properties;
 public class PropertiesController {
             
     private static final String PROP_FILE = "cloudtrailviewer.properties";
-    
-    private static PropertiesController instance = null;
         
     private Properties prop = new Properties();
         
@@ -59,12 +57,7 @@ public class PropertiesController {
      * @return 
      */
     public static PropertiesController getInstance() {
-
-        if (instance == null) {
-            instance = new PropertiesController();  
-        }
-
-        return instance;
+        return PropertiesControllerHolder.INSTANCE;
     }
         
     /**
@@ -75,5 +68,9 @@ public class PropertiesController {
     public String getProperty(String key) {
         
         return prop.getProperty(key);
+    }
+    
+    private static class PropertiesControllerHolder {
+        public static final PropertiesController INSTANCE = new PropertiesController();
     }
 }

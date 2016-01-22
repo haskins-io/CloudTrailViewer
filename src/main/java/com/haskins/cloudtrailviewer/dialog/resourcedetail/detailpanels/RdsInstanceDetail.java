@@ -34,6 +34,8 @@ import javax.swing.JPanel;
  */
 public class RdsInstanceDetail extends AbstractDetail {
 
+    private static final long serialVersionUID = 7198083071987548396L;
+
     public RdsInstanceDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

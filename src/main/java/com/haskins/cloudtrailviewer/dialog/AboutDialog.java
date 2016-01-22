@@ -33,6 +33,7 @@ import javax.swing.JPanel;
 public class AboutDialog extends JPanel implements ActionListener {
 
     private static AboutDialog dialog;
+    private static final long serialVersionUID = 9031297644817362512L;
     
     /**
      * Shows the Dialog

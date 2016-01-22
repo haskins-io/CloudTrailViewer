@@ -25,6 +25,8 @@ import java.util.Map;
  */
 public class ResultSetRow extends LinkedHashMap {
 
+    private static final long serialVersionUID = 5573616437008138154L;
+
     /**
      * Default constructor
      */

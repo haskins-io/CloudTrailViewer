@@ -48,6 +48,7 @@ public class ResourceDetailDialog extends JDialog {
     private static boolean exceptionThrown = false;
     
     private static ResourceDetailDialog dialog;
+    private static final long serialVersionUID = 5453485769149911186L;
     
     public static Map<String, String> handledResourceTypes() {
         

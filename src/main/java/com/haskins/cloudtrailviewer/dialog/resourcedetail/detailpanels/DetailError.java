@@ -24,4 +24,6 @@ import javax.swing.JPanel;
  */
 public class DetailError extends JPanel {
     
+    private static final long serialVersionUID = 2697066994877967728L;
+    
 }

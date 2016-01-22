@@ -32,6 +32,8 @@ import javax.swing.JPanel;
  * @author mark.haskins
  */
 public class InvokersContainer extends OverviewContainer {
+
+    private static final long serialVersionUID = -8153765138734665655L;
     
     private final Icon user_icon;
     private final Icon server_icon;

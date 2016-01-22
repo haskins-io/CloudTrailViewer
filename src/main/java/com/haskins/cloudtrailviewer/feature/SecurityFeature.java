@@ -43,6 +43,7 @@ import javax.swing.JSplitPane;
 public class SecurityFeature extends JPanel implements Feature {
     
     public static final String NAME = "Security Feature";
+    private static final long serialVersionUID = -8036727410192669423L;
     
     private final Help help = new Help("Security Feature", "security");
     

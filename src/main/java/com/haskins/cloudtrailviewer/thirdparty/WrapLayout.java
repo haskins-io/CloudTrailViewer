@@ -12,10 +12,13 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 /**
- *
+ * This class has been modified slightly from the original.
+ * 
  * @modifier mark.haskins
  */
 public class WrapLayout extends FlowLayout {
+
+    private static final long serialVersionUID = 2225474931786018005L;
 
     /**
      * Constructs a new <code>WrapLayout</code> with a left alignment and a
@@ -95,14 +98,13 @@ public class WrapLayout extends FlowLayout {
             //  When the container width = 0, the preferred width of the container
             //  has not yet been calculated so lets ask for the maximum.
 
-            int targetWidth = target.getSize().width;
             Container container = target;
 
             while (container.getSize().width == 0 && container.getParent() != null) {
                 container = container.getParent();
             }
 
-            targetWidth = container.getSize().width;
+            int targetWidth = container.getSize().width;
 
             if (targetWidth == 0) {
                 targetWidth = Integer.MAX_VALUE;

@@ -48,6 +48,7 @@ public class SearchOptions extends JDialog implements ActionListener {
     private static final SearchPanel SEARCH_PANEL = new SearchPanel();
     
     private static int CLOSE_STATE = SCAN_CANCELLED;
+    private static final long serialVersionUID = -5876108271935851182L;
     
     public static int showDialog(Component parent) {
         

@@ -38,10 +38,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -74,6 +72,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
     public static final String NAME = "Metrics Feature";
     
     private static final Map<String, List<Event>> SERVICE_SORTED = new HashMap<>();
+    private static final long serialVersionUID = -3462820837131838769L;
     private final Map<Second, List<Event>> secondEvents = new HashMap<>();
 
     private final Help help = new Help("Metrics Feature", "metrics");
@@ -331,19 +330,14 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
         }
 
         TimeSeries series = new TimeSeries(service);
-
-        Set<Long> keys = tickEvents.keySet();
-        Iterator<Long> it = keys.iterator();
-        while (it.hasNext()) {
-            Long second = it.next();
-            List<Event> events = tickEvents.get(second);
-
-            Second secondPeriod = new Second(new Date(second));
-            secondEvents.put(secondPeriod, events);
+        
+        for (Map.Entry<Long, List<Event>> entry : tickEvents.entrySet()) {
             
-            series.add(secondPeriod, events.size());
+            Second secondPeriod = new Second(new Date(entry.getKey()));
+            secondEvents.put(secondPeriod, entry.getValue());
+            series.add(secondPeriod, entry.getValue().size());
         }
-
+        
         TimeSeriesCollection tsc = new TimeSeriesCollection();
         tsc.addSeries(series);
 

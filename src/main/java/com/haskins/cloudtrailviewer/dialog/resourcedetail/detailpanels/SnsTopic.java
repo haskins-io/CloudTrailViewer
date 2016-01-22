@@ -31,6 +31,8 @@ import javax.swing.JPanel;
  */
 public class SnsTopic extends AbstractDetail {
 
+    private static final long serialVersionUID = 8679419941233173704L;
+
     public SnsTopic(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

@@ -31,7 +31,7 @@ import javax.swing.JTextField;
  *
  * @author mark.haskins
  */
-public class EventFieldFilter extends AbstractFilter implements Filter {
+public class EventFieldFilter extends AbstractFilter {
 
     private String fieldName;
     
@@ -63,9 +63,9 @@ public class EventFieldFilter extends AbstractFilter implements Filter {
         
         ui.add(textField, BorderLayout.CENTER);
         
-        ui.setMinimumSize(defaultSize);
-        ui.setPreferredSize(defaultSize);
-        ui.setMaximumSize(defaultSize);
+        ui.setMinimumSize(DEFAULT_SIZE);
+        ui.setPreferredSize(DEFAULT_SIZE);
+        ui.setMaximumSize(DEFAULT_SIZE);
         
         return ui;
     }

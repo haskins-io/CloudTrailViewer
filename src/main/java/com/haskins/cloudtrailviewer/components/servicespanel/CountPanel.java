@@ -42,6 +42,8 @@ import javax.swing.JPanel;
  * @author mark
  */
 public class CountPanel extends JPanel {
+
+    private static final long serialVersionUID = 274246648587524251L;
     
     private final List<Event> events = new ArrayList<>();
     
@@ -59,14 +61,16 @@ public class CountPanel extends JPanel {
      */
     public CountPanel(String name, Color bgColour, Feature f) {
         
+        super(new BorderLayout());
+        
         this.feature = f;
         
         this.setBackground(bgColour);
         
-        this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(125,65));
         this.setMaximumSize(new Dimension(125,65));
         this.setPreferredSize(new Dimension(125,65));
+        this.setOpaque(true);
                 
         eventCount.setToolTipText("Total Events for the Service");
         eventCount.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -113,7 +117,7 @@ public class CountPanel extends JPanel {
         
         this.add(titlePanel, BorderLayout.PAGE_START);
         
-        this.setOpaque(true);
+        
     }
     
     /**

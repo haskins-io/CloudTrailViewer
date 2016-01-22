@@ -43,6 +43,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ElbDetail extends AbstractDetail {
 
+    private static final long serialVersionUID = -6218840614863807084L;
+
     protected final DefaultTableModel listenersTableModel = new DefaultTableModel();
     protected final DefaultTableModel healthCheckTableModel = new DefaultTableModel();
     

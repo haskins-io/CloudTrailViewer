@@ -36,6 +36,8 @@ import javax.swing.JPanel;
  */
 public class CsDomainDetail extends AbstractDetail {
 
+    private static final long serialVersionUID = -80373300673797040L;
+
     public CsDomainDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

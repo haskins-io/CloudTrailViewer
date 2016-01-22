@@ -17,6 +17,7 @@
 package com.haskins.cloudtrailviewer.sidebar.resourcemetadata;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +54,7 @@ public class RunInstanceMetaData implements ResourceMetaData {
     
     @Override
     public String[] getMenuItems() {
-        return RunInstanceMetaData.MENU_ITEMS;
+        return Arrays.copyOf(MENU_ITEMS, MENU_ITEMS.length);
     }
     
     @Override

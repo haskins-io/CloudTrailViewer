@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat;
  */
 public class TableUtils {
     
-    private static final SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+    private static final SimpleDateFormat SIMPLE_DATE_FORMATTER = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         
     /**
      * Returns the username for the event.
@@ -51,7 +51,7 @@ public class TableUtils {
             } else {
                 
                 String arn = event.getUserIdentity().getArn();
-                int pos = arn.lastIndexOf("/");
+                int pos = arn.lastIndexOf('/');
                 
                 username = arn.substring(pos);
             }
@@ -97,6 +97,6 @@ public class TableUtils {
     }
     
     public static String getFormatedDateTime(long millis) {
-        return sdf2.format(millis);
+        return SIMPLE_DATE_FORMATTER.format(millis);
     }
 }

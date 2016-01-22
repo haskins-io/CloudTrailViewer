@@ -55,6 +55,7 @@ public class FilteringPanel extends JPanel implements ActionListener {
     
     private static final String ACTION_MODE_AND = "ActionModeAnd";
     private static final String ACTION_MODE_OR = "ActionModeOr";
+    private static final long serialVersionUID = -3267460281771883973L;
     
     private final DefaultComboBoxModel filter_list = new DefaultComboBoxModel();
     private final JComboBox filterCombo = new JComboBox(filter_list);
@@ -64,6 +65,9 @@ public class FilteringPanel extends JPanel implements ActionListener {
     private LinkedList<FilterPanel> panelsList = new LinkedList<>();
     private final JPanel activeFilterPanel = new JPanel();
     
+    /**
+     * Default constructor
+     */
     public FilteringPanel() {
         
         addAvailableFilters();
@@ -74,10 +78,19 @@ public class FilteringPanel extends JPanel implements ActionListener {
     ////////////////////////////////////////////////////////////////////////////
     // Public methods
     ////////////////////////////////////////////////////////////////////////////
+    /**
+     * Returns all the filters
+     * @return 
+     */
     public CompositeFilter getFilters() {
         return filters;
     }
     
+    /**
+     * Removes the passed filter panel
+     * 
+     * @param filterToRemove 
+     */
     public void removeFilter(FilterPanel filterToRemove) {
 
         filters.removeFilter(filterToRemove.getFilter());
@@ -261,7 +274,7 @@ public class FilteringPanel extends JPanel implements ActionListener {
         
         filters.setMode(mode);
         for (FilterPanel panel : panelsList) {
-            panel.setMode(CompositeFilter.BITWISE_OPERATORS[mode]);
+            panel.setMode(filters.getOperators()[mode]);
         }
     }
 }

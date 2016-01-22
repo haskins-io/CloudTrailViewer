@@ -34,6 +34,8 @@ import javax.swing.JToolBar;
  * @author mark
  */
 public class FeatureToolBar extends JToolBar implements ActionListener {
+
+    private static final long serialVersionUID = 3551717031217911244L;
         
     private final JPanel buttonsPanel = new JPanel();
     
@@ -48,6 +50,23 @@ public class FeatureToolBar extends JToolBar implements ActionListener {
         this.application = application;
         
         buildToolBar();
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///// public methods
+    ////////////////////////////////////////////////////////////////////////////
+    /**
+     * Adds a feature to the tool bar
+     * @param feature Feature to add
+     */
+    public void addFeature(Feature feature) {
+        
+        JButton btn = new JButton();
+        btn.setActionCommand(feature.getName());
+        btn.addActionListener(this);
+        
+        ToolBarUtils.addImageToButton(btn, feature.getIcon(), feature.getName(), feature.getTooltip());
+        buttonsPanel.add(btn);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -71,14 +90,5 @@ public class FeatureToolBar extends JToolBar implements ActionListener {
                 
         this.add(buttonsPanel, BorderLayout.CENTER);
     }
-    
-    public void addFeature(Feature feature) {
-        
-        JButton btn = new JButton();
-        btn.setActionCommand(feature.getName());
-        btn.addActionListener(this);
-        
-        ToolBarUtils.addImageToButton(btn, feature.getIcon(), feature.getName(), feature.getTooltip());
-        buttonsPanel.add(btn);
-    }
+
 }

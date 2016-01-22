@@ -34,7 +34,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public abstract class AbstractDetail extends JPanel implements ResourceDetail {
     
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+    private final SimpleDateFormat SIMPLE_DATE_FORMATTER = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+    private static final long serialVersionUID = -7936100241490334631L;
     
     protected final ResourceDetailRequest detailRequest;
     protected final AWSCredentials credentials;
@@ -77,6 +78,6 @@ public abstract class AbstractDetail extends JPanel implements ResourceDetail {
      * @return 
      */
     protected String getDateString(Date date) {
-        return sdf.format(date.getTime());
+        return SIMPLE_DATE_FORMATTER.format(date.getTime());
     }
 }

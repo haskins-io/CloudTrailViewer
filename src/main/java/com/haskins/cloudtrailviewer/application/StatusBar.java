@@ -14,13 +14,15 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+ */
 package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -28,83 +30,89 @@ import javax.swing.JPanel;
 
 /**
  * Class that provides the Status Bar component
- * 
+ *
  * @author mark
  */
 public class StatusBar extends JPanel {
-    
+
+    private static final long serialVersionUID = 3812674421318175487L;
+
     private final JPanel messageLabel = new JPanel();
-    
+
     private final JLabel from = new JLabel();
     private final JLabel to = new JLabel();
-    
+
     private final JLabel visibleEvents = new JLabel();
     private final JLabel loadedEvents = new JLabel();
     private final JLabel statusMessage = new JLabel();
-    private final static JLabel memory = new JLabel();
     
+    private final MemoryCheck memoryCheck;
+    private final static JLabel MEMORY = new JLabel();
+
     private long earliestEvent = -1;
     private long latestEvent = -1;
-    
+
     /**
      * Default Constructor
      */
     public StatusBar() {
+
+        memoryCheck = new MemoryCheck();
         
         buildStatusBar();
         
-        Thread t = new Thread(new MemoryCheck());
-        t.start();
     }
-    
+
     /**
-     * Sets a message in the center section of the  bar
+     * Sets a message in the center section of the bar
+     *
      * @param message message to display
      */
     public void setStatusMessage(String message) {
         statusMessage.setText(message);
-        
-        if (message.length() == 0 ) {
+
+        if (message.length() == 0) {
             messageLabel.setVisible(false);
         } else {
             messageLabel.setVisible(true);
         }
     }
-    
+
     /**
      * When called will calculate the earliest and latest Event timestamp.
-     * @param event 
+     *
+     * @param event
      */
     public void newEvent(Event event) {
 
-        if (earliestEvent == -1 || event.getTimestamp() < earliestEvent ) {
+        if (earliestEvent == -1 || event.getTimestamp() < earliestEvent) {
             earliestEvent = event.getTimestamp();
             this.setFromDate(event.getEventTime());
         }
-        
-        if (latestEvent == -1 || event.getTimestamp() > latestEvent ) {
+
+        if (latestEvent == -1 || event.getTimestamp() > latestEvent) {
             latestEvent = event.getTimestamp();
             this.setToDate(event.getEventTime());
         }
-        
     }
-    
+
     /**
      * When called will calculate the earliest and latest Event timestamp.
-     * @param events 
+     *
+     * @param events
      */
     public void setEvents(List<Event> events) {
-        
+
         earliestEvent = -1;
         latestEvent = -1;
-        
+
         setVisibleEvents(events.size());
-        
+
         for (Event event : events) {
             newEvent(event);
         }
     }
-    
+
     /**
      * resets all the labels, and hides those that should not be visible when no
      * events are loaded.
@@ -116,91 +124,99 @@ public class StatusBar extends JPanel {
         loadedEvents.setVisible(false);
         visibleEvents.setVisible(false);
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     ////////////////////////////////////////////////////////////////////////////
     private void setFromDate(String from) {
-        
+
         this.from.setVisible(true);
         this.from.setText(from);
     }
+
     private void setToDate(String to) {
-        
+
         this.to.setVisible(true);
         this.to.setText(to);
     }
-    
+
     /**
      * Indicates the number of Loaded events in the right section of the bar
-     * @param eventCount 
+     *
+     * @param eventCount
      */
     public void setLoadedEvents(int eventCount) {
-        
+
         loadedEvents.setVisible(true);
         loadedEvents.setText("Events Loaded : " + eventCount);
     }
-    
+
     private void setVisibleEvents(int eventCount) {
-        
+
         visibleEvents.setVisible(true);
         visibleEvents.setText("Current Events : " + eventCount);
     }
 
     private void buildStatusBar() {
-        
+
         JPanel timeCovered = new JPanel();
         timeCovered.add(from);
         timeCovered.add(new JLabel(" - "));
         timeCovered.add(to);
-        
+
         JPanel visibleEventsLabel = new JPanel();
         visibleEventsLabel.add(visibleEvents);
-        
+
         messageLabel.add(statusMessage);
-        
+
         JPanel loadedEventsLabel = new JPanel();
         loadedEventsLabel.add(loadedEvents);
-        
+
         JPanel memoryLabel = new JPanel();
-        memoryLabel.add(memory);
-        
+        memoryLabel.add(MEMORY);
+
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-        
+
         panel.add(timeCovered);
         panel.add(visibleEventsLabel);
         panel.add(messageLabel);
         panel.add(loadedEventsLabel);
         panel.add(Box.createHorizontalGlue());
         panel.add(memoryLabel);
-        
+
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);
         this.setVisible(true);
     }
-    
-    private static class MemoryCheck implements Runnable {
+
+    private static class MemoryCheck {
+
+        private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
         private final Runtime runtime = Runtime.getRuntime();
+
+        public MemoryCheck() {
+            checkMemory();
+        }
         
-        @Override
-        public void run() {
-            
-            while (true) {
-                
-                try {
+        private void checkMemory() {
+
+            final Runnable memoryChecker = new Runnable() {
+
+                @Override
+                public void run() {
+
                     long total = runtime.totalMemory() / 1024 / 1024;
                     long free = runtime.freeMemory() / 1024 / 1024;
                     long max = runtime.maxMemory() / 1024 / 1024;
                     long used = total - free;
 
-                    memory.setText(String.format("Memory : Used %sMb | Free %dMb | Max Available %dMb", used, free, max));
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    /** Not bothered **/
-                }
-            }
+                    MEMORY.setText(String.format("Memory : Used %sMb | Free %dMb | Max Available %dMb", used, free, max));
+                };
+            };
+                
+            scheduler.scheduleAtFixedRate(memoryChecker, 1, 5, SECONDS);
         }
     }
 }

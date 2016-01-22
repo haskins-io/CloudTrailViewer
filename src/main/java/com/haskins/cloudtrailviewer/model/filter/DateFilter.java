@@ -17,6 +17,7 @@
 package com.haskins.cloudtrailviewer.model.filter;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import static com.haskins.cloudtrailviewer.model.filter.DateFilter.DATE_PATTERN;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,10 +39,10 @@ import org.joda.time.DateTime;
  *
  * @author markhaskins
  */
-public class DateFilter extends AbstractFilter implements Filter {
+public class DateFilter extends AbstractFilter {
 
     public static final String DATE_PATTERN = "dd-MM-yyyy";
-    public static final SimpleDateFormat DATE_FORMATER = new SimpleDateFormat(DATE_PATTERN);
+    public final SimpleDateFormat DATE_FORMATER = new SimpleDateFormat(DATE_PATTERN);
         
     private static final String DIRECTION_FROM = "From";
     private static final String DAIRECTION_TO = "To";
@@ -97,9 +98,9 @@ public class DateFilter extends AbstractFilter implements Filter {
         ui.add(direction, BorderLayout.LINE_START);
         ui.add(datePicker, BorderLayout.CENTER);
         
-        ui.setMinimumSize(defaultSize);
-        ui.setPreferredSize(defaultSize);
-        ui.setMaximumSize(defaultSize);
+        ui.setMinimumSize(DEFAULT_SIZE);
+        ui.setPreferredSize(DEFAULT_SIZE);
+        ui.setMaximumSize(DEFAULT_SIZE);
         
         return ui;
     }
@@ -158,10 +159,14 @@ public class DateFilter extends AbstractFilter implements Filter {
 
 class DateLabelFormatter extends AbstractFormatter {
 
+    public final SimpleDateFormat DATE_FORMATER = new SimpleDateFormat(DATE_PATTERN);
+    
+    private static final long serialVersionUID = -4783324316698726452L;
+
     @Override
     public Object stringToValue(String text) throws ParseException {
         
-        return DateFilter.DATE_FORMATER.parseObject(text);
+        return DATE_FORMATER.parseObject(text);
     }
 
     @Override
@@ -169,7 +174,7 @@ class DateLabelFormatter extends AbstractFormatter {
         
         if (value != null) {
             Calendar cal = (Calendar) value;
-            return DateFilter.DATE_FORMATER.format(cal.getTime());
+            return DATE_FORMATER.format(cal.getTime());
         }
 
         return "";

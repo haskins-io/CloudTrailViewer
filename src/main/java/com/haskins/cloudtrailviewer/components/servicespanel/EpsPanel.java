@@ -37,6 +37,8 @@ import javax.swing.JPanel;
  * @author mark.haskins
  */
 public class EpsPanel extends JPanel {
+
+    private static final long serialVersionUID = -756065840178911148L;
         
     private final SimpleDateFormat event_datetime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     private final SimpleDateFormat less_seconds = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");

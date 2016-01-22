@@ -58,6 +58,8 @@ import javax.swing.JPanel;
  * @author mark
  */
 public class CloudTrailViewerApplication extends JFrame implements EventLoaderListener {
+
+    private static final long serialVersionUID = -596259130540845420L;
         
     private final FilteredEventDatabase database ;
     private final EventLoader eventLoader;
@@ -66,7 +68,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     private final Map<String,Feature> featureMap = new LinkedHashMap<>();
     
     private final StatusBar statusBar = new StatusBar();
-    private final HelpToolBar helpToolBar = new HelpToolBar();;
+    private final HelpToolBar helpToolBar = new HelpToolBar();
     private final FeatureToolBar featureToolBar;
     
     private final Filter filter = new AllFilter();
@@ -77,7 +79,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     public CloudTrailViewerApplication() {
         
         super("CloudTrail Viewer");
-                
+        
         database = new FilteredEventDatabase(filter, statusBar);
         
         eventLoader = new EventLoader(database);

@@ -39,6 +39,8 @@ import javax.swing.JToolBar;
  * @author mark
  */
 public class HelpToolBar extends JToolBar {
+
+    private static final long serialVersionUID = -8986077381847943290L;
     
     private Help help = null;
     private final JButton btnHelp = new JButton();

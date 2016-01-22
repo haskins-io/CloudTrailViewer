@@ -59,12 +59,16 @@ public class SessionContext {
         this.sessionIssuer = sessionIssuer;
     }
     
+    /**
+     * Returns a tree object for the values of the class
+     * @return 
+     */
     public DefaultMutableTreeNode getTree() {
         
         DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode("Session Context");
         
         if (getSessionIssuer() != null) {
-            treeNode.add(sessionIssuer.getTree());
+            treeNode.add(getSessionIssuer().getTree());
         }
         
         return treeNode;

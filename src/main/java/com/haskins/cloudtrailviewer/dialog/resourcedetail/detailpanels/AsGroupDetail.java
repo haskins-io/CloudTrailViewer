@@ -39,6 +39,8 @@ import javax.swing.JTabbedPane;
  */
 public class AsGroupDetail extends AbstractDetail {
 
+    private static final long serialVersionUID = 6897969969327438406L;
+
     public AsGroupDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

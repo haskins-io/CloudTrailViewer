@@ -56,6 +56,7 @@ import javax.swing.UIManager;
 public class S3FileList extends JPanel implements MouseListener, NavigationListener {
     
     private static final String MOVE_BACK = "..";
+    private static final long serialVersionUID = 4250579966344934358L;
     
     private final List<String> selected_keys = new ArrayList<>();
     
@@ -74,6 +75,11 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
     
     private boolean scanning = false;
         
+    /**
+     * Default Constuctor
+     * @param mode Mode class should work in
+     * @param awsAccount Initial AWS Account to use
+     */
     public S3FileList(int mode, AwsAccount awsAccount) {
         
         if (mode == EnhancedS3FileChooser.MODE_SCAN) {
@@ -95,15 +101,27 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
     ////////////////////////////////////////////////////////////////////////////
     // public methods
     ////////////////////////////////////////////////////////////////////////////
+    /**
+     * Sets the AWS Account that the class will use to read files from
+     * @param newAccount new Account
+     */
     public final void setAccount(AwsAccount newAccount) {
         this.currentAccount = newAccount;
         this.prefix = newAccount.getPrefix();
     }
         
+    /**
+     * Adds a listener to the class
+     * @param l class to register
+     */
     public void registerListener(S3FileListListener l) {
         listeners.add(l);
     }
     
+    /**
+     * Initialises the Class, and attempts to load the first batch of files from S3
+     * @return Return True if sucessful otherwise false
+     */
     public boolean init() {
         
         boolean initOK = false;
@@ -121,14 +139,25 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
         return initOK;
     }
     
+    /**
+     * Should be called when the dialog is about to close.
+     */
     public void dialogClosing() {
         addSelectedKeys();
     }
         
+    /**
+     * Returns the Files that are currently selected in the List
+     * @return Collection of filenames as strings
+     */
     public List<String> getSelectedFiles() {
         return selected_keys;
     }
     
+    /**
+     * returns the current S3 Prefix
+     * @return 
+     */
     public String getPrefix() {
         return this.prefix;
     }
@@ -234,12 +263,12 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
 
         if (selected.equalsIgnoreCase(MOVE_BACK)) {
 
-            int lastSlash = prefix.lastIndexOf("/");
+            int lastSlash = prefix.lastIndexOf('/');
             String tmpPrefix = prefix.substring(0, lastSlash);
 
             if (tmpPrefix.contains("/")) {
 
-                lastSlash = tmpPrefix.lastIndexOf("/") + 1;
+                lastSlash = tmpPrefix.lastIndexOf('/') + 1;
                 prefix = tmpPrefix.substring(0, lastSlash);
 
             } else {
@@ -250,12 +279,12 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
 
         } else {
 
-            int firstSlash = selected.indexOf("/");
+            int firstSlash = selected.indexOf('/');
             if (firstSlash == 0) {
                 selected = selected.substring(1, selected.length());
             }
 
-            int lastSlash = selected.lastIndexOf("/") + 1;
+            int lastSlash = selected.lastIndexOf('/') + 1;
             if (lastSlash == selected.length()) {
 
                 prefix = prefix + selected;
@@ -293,7 +322,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
         for (String directory : directories) {
 
             String dir = stripPrefix(directory);
-            int lastSlash = dir.lastIndexOf("/");
+            int lastSlash = dir.lastIndexOf('/');
             String strippeDir = dir.substring(0, lastSlash);
 
             String alias = dir;
@@ -358,7 +387,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
             int prefixLength = prefix.length() - 1;
             stripped = key.substring(prefixLength, key.length());
 
-            int firstSlash = stripped.indexOf("/");
+            int firstSlash = stripped.indexOf('/');
             if (firstSlash == 0) {
                 stripped = stripped.substring(1, stripped.length());
             }

@@ -23,7 +23,6 @@ import com.haskins.cloudtrailviewer.sidebar.resourcemetadata.ResourceMetaData;
 import com.haskins.cloudtrailviewer.utils.ChartUtils;
 import static com.haskins.cloudtrailviewer.utils.ChartUtils.entriesSortedByValues;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,9 +34,10 @@ import javax.swing.JRadioButtonMenuItem;
  * 
  * @author mark
  */
-public class ResourcesChart extends AbstractChart implements ActionListener {
+public class ResourcesChart extends AbstractChart {
 
     private static final String PACKAGE = "com.haskins.cloudtrailviewer.sidebar.resourcemetadata.";
+    private static final long serialVersionUID = -8842082114125098174L;
 
     private final Map<String, String> resourceTypes = new HashMap<>();
 

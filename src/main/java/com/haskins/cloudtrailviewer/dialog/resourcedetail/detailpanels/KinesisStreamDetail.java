@@ -34,6 +34,8 @@ import javax.swing.JPanel;
  */
 public class KinesisStreamDetail extends AbstractDetail {
 
+    private static final long serialVersionUID = -3914862385729636742L;
+
     public KinesisStreamDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

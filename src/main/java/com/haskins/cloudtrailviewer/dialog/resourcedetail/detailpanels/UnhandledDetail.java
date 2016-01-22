@@ -25,6 +25,8 @@ import javax.swing.JPanel;
  */
 public class UnhandledDetail extends AbstractDetail {
 
+    private static final long serialVersionUID = 6573371644112827100L;
+
     public UnhandledDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

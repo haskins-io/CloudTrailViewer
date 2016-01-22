@@ -33,8 +33,6 @@ import java.util.Set;
  */
 public class AwsService {
 
-    private static AwsService instance = null;
-
     private final Map<String, String> serviceNamesToEndpoints = new HashMap<>();
     private final Map<String, String> serviceEndpointsToNames = new HashMap<>();
     
@@ -45,12 +43,7 @@ public class AwsService {
      * @return 
      */
     public static AwsService getInstance() {
-
-        if (instance == null) {
-            instance = new AwsService();
-        }
-
-        return instance;
+        return AwsServiceHolder.INSTANCE;
     }
     
     private AwsService() {
@@ -142,5 +135,9 @@ public class AwsService {
         }
 
         return apis;
+    }
+    
+    private static class AwsServiceHolder {
+        public static final AwsService INSTANCE = new AwsService();
     }
 }

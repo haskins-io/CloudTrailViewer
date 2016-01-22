@@ -28,6 +28,8 @@ import javax.swing.JPanel;
  * @author mark.haskins
  */
 public class AwsPanel extends JPanel implements Preferences {
+
+    private static final long serialVersionUID = -6906510795644630452L;
     
     private final AwsAccountPanel accounts = new AwsAccountPanel();
     private final AwsAliasPanel aliases = new AwsAliasPanel();

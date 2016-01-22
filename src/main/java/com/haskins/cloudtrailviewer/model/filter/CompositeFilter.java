@@ -19,6 +19,7 @@ package com.haskins.cloudtrailviewer.model.filter;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,12 +33,19 @@ public class CompositeFilter {
     public static final int BITWISE_AND = 0;
     public static final int BITWISE_OR = 1;
     
-    public static final String[] BITWISE_OPERATORS = { "AND", "OR" };
+    private static final String[] BITWISE_OPERATORS = { "AND", "OR" };
     
     private int mode = BITWISE_AND;
     
     private final List<Filter> filters = new ArrayList<>();
         
+    ////////////////////////////////////////////////////////////////////////////
+    ///// public methods
+    //////////////////////////////////////////////////////////////////////////// 
+    public String[] getOperators() {
+        return Arrays.copyOf(BITWISE_OPERATORS, BITWISE_OPERATORS.length);
+    }
+    
     public void addFilter(Filter f) {
         filters.add(f);
     }

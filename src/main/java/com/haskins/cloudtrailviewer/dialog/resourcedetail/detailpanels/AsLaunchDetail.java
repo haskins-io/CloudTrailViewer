@@ -36,6 +36,8 @@ import javax.swing.JPanel;
  */
 public class AsLaunchDetail extends AbstractDetail {
 
+    private static final long serialVersionUID = 7001746468279604701L;
+
     public AsLaunchDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

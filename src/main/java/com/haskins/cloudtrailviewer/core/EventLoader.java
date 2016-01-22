@@ -59,7 +59,7 @@ import javax.swing.SwingWorker;
  */
 public class EventLoader {
 
-    private final int BUFFER_SIZE = 32;
+    private final static int BUFFER_SIZE = 32;
     
     private final FilteredEventDatabase eventDb;
     
@@ -212,7 +212,7 @@ public class EventLoader {
     
     private String uncompress(InputStream stream) {
         
-        String jsonString = "";
+        StringBuilder json = new StringBuilder();
         
         try (GZIPInputStream gzis = new GZIPInputStream(stream, BUFFER_SIZE)) {
             
@@ -220,29 +220,30 @@ public class EventLoader {
                 
                 String line;
                 while ((line = bf.readLine()) != null) {
-                    jsonString += line;
+                    json.append(line);
                 }
             }
         }
         catch (ZipException ex) {
-            jsonString = loadUncompressedFile(stream);
+            json.append(loadUncompressedFile(stream));
         }
         catch (UnsupportedEncodingException ex) { /** Nothing to be done ignore the file */ }
         catch (IOException ex) { /** Nothing to be done ignore the file */  }  
         
-        return jsonString;
+        return json.toString();
     }
         
     private String loadUncompressedFile(InputStream stream) {
                 
-        String json = "";
+        StringBuilder json = new StringBuilder();
         
         try {
+            
             try (BufferedReader bf = new BufferedReader(new InputStreamReader(stream, "UTF-8"));) {
 
                 String line;
                 while ((line = bf.readLine()) != null) {
-                    json += line;
+                    json.append(line);
                 }
             }
         } 
@@ -252,10 +253,10 @@ public class EventLoader {
         // check if the first character is a { otherwise add one
         String firstChar = json.substring(0,1);
         if (!firstChar.equalsIgnoreCase("{")) {
-            json = "{ " + json;
+            json.insert(0, "{ ");
         }
         
-        return json;
+        return json.toString();
     }
         
     private List<Event> createEvents(String json_string) {

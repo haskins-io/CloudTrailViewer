@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.utils;
 
 import com.haskins.cloudtrailviewer.model.NameValueModel;
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
@@ -27,7 +28,9 @@ import java.util.Comparator;
  * 
  * @author mark.haskins
  */
-public class CountComparator implements Comparator {
+public class CountComparator implements Comparator, Serializable {
+
+    private static final long serialVersionUID = -327254245212933972L;
 
     @Override
     public int compare(Object o1, Object o2) {

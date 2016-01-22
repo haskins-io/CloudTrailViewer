@@ -33,6 +33,8 @@ import javax.swing.JPanel;
  */
 public class EC2SecurityGroupDetail extends AbstractDetail {
 
+    private static final long serialVersionUID = -8752062912424549864L;
+
     public EC2SecurityGroupDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

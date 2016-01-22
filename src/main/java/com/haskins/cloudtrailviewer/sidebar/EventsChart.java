@@ -21,7 +21,6 @@ import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
 import com.haskins.cloudtrailviewer.utils.ChartUtils;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 import javax.swing.ButtonGroup;
@@ -34,8 +33,15 @@ import javax.swing.JRadioButtonMenuItem;
  * 
  * @author mark.haskins
  */
-public class EventsChart extends AbstractChart implements ActionListener {
+public class EventsChart extends AbstractChart {
 
+    private static final long serialVersionUID = -360564220708090168L;
+
+    /**
+     * Default constructor
+     * @param eventDatabase Event Database
+     * @param eventTable Event Table
+     */
     public EventsChart(EventDatabase eventDatabase, EventTablePanel eventTable) {
 
         super(eventDatabase, eventTable);

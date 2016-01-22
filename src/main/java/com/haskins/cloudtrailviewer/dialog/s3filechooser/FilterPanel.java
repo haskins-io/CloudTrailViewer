@@ -30,6 +30,8 @@ import javax.swing.JPanel;
  * @author mark.haskins
  */
 public class FilterPanel extends JPanel implements ActionListener {
+
+    private static final long serialVersionUID = -1600052521405754276L;
     
     private final ModePanel modePanel;
     private final FilteringPanel parent;

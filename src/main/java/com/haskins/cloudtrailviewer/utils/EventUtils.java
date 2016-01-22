@@ -76,7 +76,7 @@ public class EventUtils {
         
         if (property.contains(".")) {
             
-            int pos = property.indexOf(".");
+            int pos = property.indexOf('.');
             String field = property.substring(0, pos);
              
             Object subClass = callMethod(field, event);

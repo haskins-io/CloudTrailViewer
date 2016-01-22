@@ -22,6 +22,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -30,7 +31,9 @@ import javax.swing.JTextField;
  *
  * @author mark
  */
-public class AllFilter extends AbstractFilter implements Filter {
+public class AllFilter extends AbstractFilter implements Serializable {
+
+    private static final long serialVersionUID = -2890390951885621912L;
 
     ///////////////////////////////////////////////////////////////////////////
     // Filter overrides
@@ -80,9 +83,9 @@ public class AllFilter extends AbstractFilter implements Filter {
         
         ui.add(textField, BorderLayout.CENTER);
         
-        ui.setMinimumSize(defaultSize);
-        ui.setPreferredSize(defaultSize);
-        ui.setMaximumSize(defaultSize);
+        ui.setMinimumSize(DEFAULT_SIZE);
+        ui.setPreferredSize(DEFAULT_SIZE);
+        ui.setMaximumSize(DEFAULT_SIZE);
         
         return ui;
     }

@@ -37,11 +37,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -58,6 +56,7 @@ import javax.swing.JToolBar;
 public class GeoDataFeature extends JPanel implements Feature {
 
     public static final String NAME = "GeoData Feature";
+    private static final long serialVersionUID = 2337766480593653058L;
 
     private final Help help = new Help("GeoData Feature", "geodata");
 
@@ -212,24 +211,18 @@ public class GeoDataFeature extends JPanel implements Feature {
         String center = "";
 
         StringBuilder output = new StringBuilder();
-        Set<String> s = coords.keySet();
-        Iterator<String> i = s.iterator();
-        while (i.hasNext()) {
-
-            String coord = i.next();
-            String city = coords.get(coord);
+        
+        for (Map.Entry<String, String> entry : coords.entrySet()) {
             
-            output.append("['").append(city).append("',").append(coord).append("]");
+            output.append("['").append(entry.getValue()).append("',").append(entry.getKey()).append("]");
 
-            if (city.equalsIgnoreCase(centerPoint)) {
-                center = coord;
+            if (entry.getValue().equalsIgnoreCase(centerPoint)) {
+                center = entry.getKey();
             }
             
-            if (i.hasNext()) {
-                output.append(",");
-            }
+            output.append(",");
         }
-
+        
         String html = getHTML();
         html = html.replaceAll("COORDS", output.toString());
         html = html.replaceAll("CENTER", center);
@@ -260,9 +253,7 @@ public class GeoDataFeature extends JPanel implements Feature {
 
             scanner.close();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) {}
 
         return result.toString();
     }

@@ -41,6 +41,8 @@ import javax.swing.JPanel;
  * @author mark
  */
 public class SideBarPanel extends JPanel implements ActionListener {
+
+    private static final long serialVersionUID = -2552182986937725926L;
             
     private final JPanel sideBars = new JPanel(new CardLayout());
     private final Map<String, SideBar> sideBarMap = new HashMap<>();

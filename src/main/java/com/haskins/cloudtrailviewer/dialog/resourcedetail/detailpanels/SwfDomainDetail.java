@@ -32,6 +32,8 @@ import javax.swing.JPanel;
  */
 public class SwfDomainDetail extends AbstractDetail {
 
+    private static final long serialVersionUID = -7879721877676919400L;
+
     public SwfDomainDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

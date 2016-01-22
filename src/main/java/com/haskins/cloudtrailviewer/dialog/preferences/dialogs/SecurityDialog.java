@@ -40,6 +40,7 @@ import javax.swing.JPanel;
 public class SecurityDialog extends JDialog implements ActionListener {
     
     private static SecurityDialog dialog;
+    private static final long serialVersionUID = -7512275475148979297L;
     
     private final ServiceApiPanel servicePanel = new ServiceApiPanel();
     

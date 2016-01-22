@@ -238,21 +238,21 @@ public class Ec2Resource extends AbstractRequest implements Request {
     
     private void runInstances(Event event, RequestInfo resources) {
         
-        Map requestParameters = event.getRequestParameters();
-        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
-            
-            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("instancesSet");
-            if (resourceSet != null) {
-                List<Map> items = (List)resourceSet.get("items");
-                if (items != null) {
+//        Map requestParameters = event.getRequestParameters();
+//        if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
+//            
+//            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("instancesSet");
+//            if (resourceSet != null) {
+//                List<Map> items = (List)resourceSet.get("items");
+//                if (items != null) {
 //                    for (Map instance : items) {
 //                        resources.addResource("EC2 Instance", (String)instance.get("resourceId"));
 //                    } 
-                }
-            }  
-        }
-        
-        getTopLevelParameters(event, resources, "Volume Id");
+//                }
+//            }  
+//        }
+//        
+//        getTopLevelParameters(event, resources, "Volume Id");
         
 //        getTopLevelParameter("EC2 Instance", "instanceType", event, resources);
 //        getTopLevelParameter("Availability Zone", "availabilityZone", event, resources);

@@ -21,10 +21,8 @@ package com.haskins.cloudtrailviewer.model.event;
 import com.haskins.cloudtrailviewer.model.event.deprecated.Resource;
 import com.haskins.cloudtrailviewer.requestInfo.RequestInfo;
 import com.haskins.cloudtrailviewer.requestInfo.ResourceLookup;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class Event {
@@ -365,16 +363,12 @@ public class Event {
             DefaultMutableTreeNode node = new DefaultMutableTreeNode("Request Parameters");
             
             Map<String, List<String>> resourceMap = resourceInfo.getResourcesMap();
-            Set<String> resourceKeys = resourceMap.keySet();
-            Iterator<String> it = resourceKeys.iterator();
-            while (it.hasNext()) {
+            for (Map.Entry<String, List<String>> entry : resourceMap.entrySet()) {
                 
-                String resourceName = it.next();
-                List<String> resourceValues = resourceMap.get(resourceName);
-                if (resourceValues.size() > 0) {
+                if (entry.getValue().size() > 0) {
                     
-                    DefaultMutableTreeNode resouceNode = new DefaultMutableTreeNode(resourceName);
-                    for (String resource : resourceValues) {
+                    DefaultMutableTreeNode resouceNode = new DefaultMutableTreeNode(entry.getKey());
+                    for (String resource : entry.getValue()) {
                         resouceNode.add(new DefaultMutableTreeNode(resource));
                     }
                 
@@ -383,16 +377,12 @@ public class Event {
             }
             
             Map<String, List<String>> parameterMap = resourceInfo.getParameterMap();
-            Set<String> parameterKeys = parameterMap.keySet();
-            Iterator<String> it2 = parameterKeys.iterator();
-            while (it2.hasNext()) {
+            for (Map.Entry<String, List<String>> entry : parameterMap.entrySet()) {
                 
-                String parameterName = it2.next();
-                List<String> parametersValues = parameterMap.get(parameterName);
-                if (parametersValues.size() > 0) {
+                if (entry.getValue().size() > 0) {
                     
-                    DefaultMutableTreeNode parameterNode = new DefaultMutableTreeNode(parameterName);
-                    for (String parameter : parametersValues) {
+                    DefaultMutableTreeNode parameterNode = new DefaultMutableTreeNode(entry.getKey());
+                    for (String parameter : entry.getValue()) {
                         parameterNode.add(new DefaultMutableTreeNode(parameter));
                     }
                 

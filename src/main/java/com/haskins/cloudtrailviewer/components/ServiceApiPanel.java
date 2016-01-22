@@ -31,17 +31,18 @@ import javax.swing.JPanel;
  */
 public class ServiceApiPanel extends JPanel {
     
-    private static final DefaultComboBoxModel servicesModel = new DefaultComboBoxModel();
-    private static final DefaultComboBoxModel apisModel = new DefaultComboBoxModel();
+    private static final DefaultComboBoxModel MODEL_SERVICES = new DefaultComboBoxModel();
+    private static final DefaultComboBoxModel MODEL_APIS = new DefaultComboBoxModel();
+    private static final long serialVersionUID = 6392140943533697206L;
     
     private JComboBox servicesCombo = null;
-    private final JComboBox apisCombo = new JComboBox(apisModel);
+    private final JComboBox apisCombo = new JComboBox(MODEL_APIS);
     
     public ServiceApiPanel() {
         
         List<String> services = AwsService.getInstance().getServices();
         for (String service : services) {
-            servicesModel.addElement(service);
+            MODEL_SERVICES.addElement(service);
         }
         
         buildUI();
@@ -68,7 +69,7 @@ public class ServiceApiPanel extends JPanel {
     ////////////////////////////////////////////////////////////////////////////
     private void buildUI() {
         
-        servicesCombo = new JComboBox(servicesModel);
+        servicesCombo = new JComboBox(MODEL_SERVICES);
         servicesCombo.addActionListener(new ActionListener() {
 
             @Override
@@ -76,10 +77,10 @@ public class ServiceApiPanel extends JPanel {
                 JComboBox cb = (JComboBox)e.getSource();
                 String service = (String)cb.getSelectedItem();
                 
-                apisModel.removeAllElements();
+                MODEL_APIS.removeAllElements();
                 List<String> apis = AwsService.getInstance().getApiCallsForService(service);
                 for (String api : apis) {
-                   apisModel.addElement(api);
+                   MODEL_APIS.addElement(api);
                 }
             }
         });

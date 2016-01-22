@@ -19,13 +19,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.utils;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
  *
  * @author mark
  */
-public class TimeStampComparator implements Comparator {
+public class TimeStampComparator implements Comparator, Serializable {
+
+    private static final long serialVersionUID = -9085143387329583256L;
 
     @Override
     public int compare(Object o1, Object o2) {

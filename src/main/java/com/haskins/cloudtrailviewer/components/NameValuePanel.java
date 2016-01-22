@@ -41,6 +41,8 @@ import javax.swing.SwingConstants;
  * @author mark.haskins
  */
 public class NameValuePanel extends JPanel {
+
+    private static final long serialVersionUID = 829334953720731893L;
     
     private final List<Event> events = new ArrayList<>();
     

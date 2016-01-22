@@ -35,6 +35,8 @@ import javax.swing.JPanel;
  * @author mark
  */
 public class ServicesOverviewPanel extends JPanel {
+
+    private static final long serialVersionUID = -2461359163355407044L;
     
     private final CountPanel awsCountPanel;
     private final CountPanel iamCountPanel;
@@ -44,6 +46,11 @@ public class ServicesOverviewPanel extends JPanel {
     
     private final JLabel totalLabel = new JLabel("0");
     
+    /**
+     * Default Constructor.
+     * @param serviceName Name of the service that panel will be showing
+     * @param f The feature that panel will be showing
+     */
     public ServicesOverviewPanel(String serviceName, Feature f) {
         
         this.setLayout(new BorderLayout());
@@ -65,7 +72,8 @@ public class ServicesOverviewPanel extends JPanel {
         labelPanel.add(Box.createHorizontalGlue());
         labelPanel.setOpaque(false);
         
-        awsCountPanel = new CountPanel("AWS", new Color(51, 102, 153), f);        
+        awsCountPanel = new CountPanel("AWS", new Color(51, 102, 153), f);
+        
         iamCountPanel = new CountPanel("IAM", new Color(102, 153, 153), f);
       
         JPanel countsPanel = new JPanel(new GridLayout(1,2));

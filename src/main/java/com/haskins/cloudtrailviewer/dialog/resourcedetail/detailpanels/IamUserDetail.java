@@ -32,6 +32,8 @@ import javax.swing.JPanel;
  */
 public class IamUserDetail extends AbstractDetail {
 
+    private static final long serialVersionUID = 1510425799781716098L;
+
     public IamUserDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

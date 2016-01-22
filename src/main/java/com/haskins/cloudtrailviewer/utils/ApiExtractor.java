@@ -92,24 +92,20 @@ public class ApiExtractor {
         /**
          * Create Service API files
          */
-        Set<String> keys = serviceAPIs.keySet();
-        Iterator<String> it = keys.iterator();
-        while(it.hasNext()) {
+        for (Map.Entry<String, List<String>> entry : serviceAPIs.entrySet()) {
             
-            String key = it.next();
-            String path = destination + key + ".txt";
+            String path = destination + entry.getKey() + ".txt";
             
             try (FileWriter fw = new FileWriter(path);) {
                 
-                List<String> apis = serviceAPIs.get(key);
-                for (String api : apis) {
+                for (String api : entry.getValue()) {
                     fw.write(api + "\r\n");
                 }   
             } catch(IOException ioe) {
                 
             }
         }
-        
+                
         /**
          * 
          */

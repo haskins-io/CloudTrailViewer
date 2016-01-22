@@ -58,9 +58,7 @@ public class EventDatabase implements EventLoaderListener {
         this.statusBar.newEvent(event);
         events.add(event);
                 
-        if (this.statusBar != null) {
-            this.statusBar.setLoadedEvents(this.events.size());
-        }
+        this.statusBar.setLoadedEvents(this.events.size());
          
         fireUpdate(event);
     }

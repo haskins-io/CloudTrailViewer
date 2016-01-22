@@ -40,6 +40,7 @@ import javax.swing.JSplitPane;
 public class InvokersFeature extends JPanel implements Feature {
     
     public static final String NAME = "Invoker Feature";
+    private static final long serialVersionUID = 6059342047082169382L;
     
     private final Help help = new Help("Invoker Feature", "user");
         

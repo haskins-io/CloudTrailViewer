@@ -40,6 +40,7 @@ import javax.swing.JSplitPane;
 public class OverviewFeature extends JPanel implements Feature {
     
     public static final String NAME = "Overview Feature";
+    private static final long serialVersionUID = -2287861024079990428L;
     
     private final Help help = new Help("Overview", "overview");
     

@@ -50,6 +50,8 @@ import javax.swing.border.CompoundBorder;
  */
 public class AwsAccountPanel extends JPanel implements ActionListener {
 
+    private static final long serialVersionUID = 4781314156926737563L;
+
     private final DefaultListModel defaultListModel = new DefaultListModel();  
     private final JList list = new JList(defaultListModel);
     

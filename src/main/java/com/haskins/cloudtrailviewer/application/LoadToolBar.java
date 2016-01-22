@@ -46,6 +46,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class LoadToolBar extends JToolBar {
 
+    private static final long serialVersionUID = -6865662163634950921L;
+
     private final JFileChooser fileChooser = new JFileChooser();
     
     private final CloudTrailViewerApplication application;
@@ -111,7 +113,7 @@ public class LoadToolBar extends JToolBar {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 
-                if (SearchOptions.showDialog(CloudTrailViewer.frame) == SearchOptions.SCAN_OK && SearchOptions.getSearchFilter() != null) {
+                if (SearchOptions.showDialog(CloudTrailViewer.frame) == SearchOptions.SCAN_OK) {
                     
                     loadLocalFiles(SearchOptions.getSearchFilter());
                 }

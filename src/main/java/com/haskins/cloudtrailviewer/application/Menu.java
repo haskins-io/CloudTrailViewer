@@ -42,6 +42,8 @@ import org.simplericity.macify.eawt.DefaultApplication;
  */
 public class Menu extends JMenuBar implements ApplicationListener {
 
+    private static final long serialVersionUID = 2369853363516619174L;
+
     private final Application application;
     private final CloudTrailViewerApplication ctApplication;
     

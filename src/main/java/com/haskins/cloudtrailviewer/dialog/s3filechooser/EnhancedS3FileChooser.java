@@ -66,6 +66,7 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
     private static int current_mode = 0;
     
     private static EnhancedS3FileChooser dialog;
+    private static final long serialVersionUID = 9025715244586817120L;
     
     private final JButton btnLoad = new JButton("Load");
     

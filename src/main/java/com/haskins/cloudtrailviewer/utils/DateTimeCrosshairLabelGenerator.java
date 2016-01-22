@@ -28,6 +28,8 @@ import org.jfree.chart.plot.Crosshair;
  */
 public class DateTimeCrosshairLabelGenerator implements CrosshairLabelGenerator, Serializable {
 
+    private static final long serialVersionUID = 1845163455780633764L;
+
     /** The label format string. */
     private String labelTemplate;
 

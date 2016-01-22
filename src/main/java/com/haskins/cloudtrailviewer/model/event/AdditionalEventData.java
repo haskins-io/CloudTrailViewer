@@ -24,109 +24,109 @@ package com.haskins.cloudtrailviewer.model.event;
  */
 public class AdditionalEventData {
 
-    private String SamlProviderArn;
-    private String MobileVersion;
-    private String LoginTo;
-    private String MFAUsed;
-    private String VpcEndpointId;
-    private String RedirectTo;
-    private String SwitchTo;
+    private String samlProviderArn;
+    private String mobileVersion;
+    private String loginTo;
+    private String mFAUsed;
+    private String vpcEndpointId;
+    private String redirectTo;
+    private String switchTo;
 
     /**
      * @return the SamlProviderArn
      */
     public String getSamlProviderArn() {
-        return SamlProviderArn;
+        return samlProviderArn;
     }
 
     /**
      * @param SamlProviderArn the SamlProviderArn to set
      */
     public void setSamlProviderArn(String SamlProviderArn) {
-        this.SamlProviderArn = SamlProviderArn;
+        this.samlProviderArn = SamlProviderArn;
     }
 
     /**
      * @return the MobileVersion
      */
     public String getMobileVersion() {
-        return MobileVersion;
+        return mobileVersion;
     }
 
     /**
      * @param MobileVersion the MobileVersion to set
      */
     public void setMobileVersion(String MobileVersion) {
-        this.MobileVersion = MobileVersion;
+        this.mobileVersion = MobileVersion;
     }
 
     /**
      * @return the LoginTo
      */
     public String getLoginTo() {
-        return LoginTo;
+        return loginTo;
     }
 
     /**
      * @param LoginTo the LoginTo to set
      */
     public void setLoginTo(String LoginTo) {
-        this.LoginTo = LoginTo;
+        this.loginTo = LoginTo;
     }
 
     /**
      * @return the MFAUsed
      */
     public String getMFAUsed() {
-        return MFAUsed;
+        return mFAUsed;
     }
 
     /**
      * @param MFAUsed the MFAUsed to set
      */
     public void setMFAUsed(String MFAUsed) {
-        this.MFAUsed = MFAUsed;
+        this.mFAUsed = MFAUsed;
     }
 
     /**
      * @return the vpcEndpointId
      */
     public String getVpcEndpointId() {
-        return VpcEndpointId;
+        return vpcEndpointId;
     }
 
     /**
      * @param vpcEndpointId the vpcEndpointId to set
      */
     public void setVpcEndpointId(String vpcEndpointId) {
-        this.VpcEndpointId = vpcEndpointId;
+        this.vpcEndpointId = vpcEndpointId;
     }
 
     /**
      * @return the RedirectTo
      */
     public String getRedirectTo() {
-        return RedirectTo;
+        return redirectTo;
     }
 
     /**
      * @param RedirectTo the RedirectTo to set
      */
     public void setRedirectTo(String RedirectTo) {
-        this.RedirectTo = RedirectTo;
+        this.redirectTo = RedirectTo;
     }
 
     /**
      * @return the SwitchTo
      */
     public String getSwitchTo() {
-        return SwitchTo;
+        return switchTo;
     }
 
     /**
      * @param SwitchTo the SwitchTo to set
      */
     public void setSwitchTo(String SwitchTo) {
-        this.SwitchTo = SwitchTo;
+        this.switchTo = SwitchTo;
     } 
 }

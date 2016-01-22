@@ -34,18 +34,19 @@ import javax.swing.JPanel;
 public class NoDataFeature extends JPanel implements Feature {
         
     public static final String NAME = "No Data";
+    private static final long serialVersionUID = -2472899470035275634L;
     
     private final Help help = new Help("CloudTrail Viewer", "default");
     
-    private static final String noEvents = "No Events Loaded.";
-    private static final String events = "";
+    private static final String NO_EVENTS = "No Events Loaded.";
     
-    private final JLabel label = new JLabel(noEvents);
+    private final JLabel label = new JLabel(NO_EVENTS);
     
     private final HelpToolBar helpBar;
     
     /**
      * Default Constructor
+     * @param helpBar
      */
     public NoDataFeature(HelpToolBar helpBar) {
         
@@ -55,7 +56,7 @@ public class NoDataFeature extends JPanel implements Feature {
     }
     
     public void showEventsAvailable() {
-        label.setText(events);
+        label.setText("");
     }
     
     ////////////////////////////////////////////////////////////////////////////

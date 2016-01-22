@@ -27,10 +27,15 @@ import java.util.Set;
 
 /**
  *
+ * Abstract class that all Resources should implement
+ * 
  * @author mark
  */
 public abstract class AbstractRequest {
             
+    /**
+     * Map for holding resource information
+     */
     protected Map<String, String> resourceMap;
     
     /**
@@ -112,8 +117,7 @@ public abstract class AbstractRequest {
                 }
 
             } else if (paramValue instanceof LinkedHashMap) {
-                
-
+               
                 Map values = (LinkedHashMap)paramValue;
                 Set<String> keys = values.keySet();
                 Iterator<String> it = keys.iterator();

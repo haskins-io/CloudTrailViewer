@@ -48,6 +48,12 @@ public class GeneralUtils {
 
     private static JFileChooser fileChooser = new JFileChooser();
     
+    /**
+     * Sorts the collection using the default sorting algorithm.
+     * @param <T>
+     * @param c
+     * @return 
+     */
     public static <T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c) {
         List<T> list = new ArrayList<>(c);
         java.util.Collections.sort(list);

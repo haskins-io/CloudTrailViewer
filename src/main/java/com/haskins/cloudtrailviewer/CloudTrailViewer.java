@@ -34,6 +34,7 @@ public class CloudTrailViewer extends JFrame {
     
     /** This is public as it is used to center dialogs using this as a reference */
     public static CloudTrailViewerApplication frame;
+    private static final long serialVersionUID = -4264776980925338831L;
     
     private static void createAndShowGUI() {
                         

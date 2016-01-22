@@ -35,6 +35,7 @@ import javax.swing.JTextArea;
 public class EventJson extends JPanel implements SideBar {
     
     public static final String NAME = "EventJson";
+    private static final long serialVersionUID = -5743712055643542889L;
     
     private final JTextArea rawEvent = new JTextArea();
     

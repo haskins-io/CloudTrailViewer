@@ -28,6 +28,8 @@ import javax.swing.table.TableColumn;
  * @author mark.haskins
  */
 public class EventsTable extends JTable {
+
+    private static final long serialVersionUID = 4718371754857352324L;
        
     /**
      * Default Constructor.

@@ -60,6 +60,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
     
     public static final int CHART_EVENT = 1;
     public static final int CHART_RESOURCE = 2;
+    private static final long serialVersionUID = -893004160468475618L;
     
     private final FilteredEventDatabase eventDb;
     private final EventsTableModel tableModel;
@@ -294,8 +295,8 @@ public class EventTablePanel extends JPanel implements ActionListener {
     
     private void createPopupMenu() {
         
-        for (int i=0; i < EventsTableModel.COLUMN_NAMES.length; i++) {
-            addMenuItem(EventsTableModel.COLUMN_NAMES[i], i, true);
+        for (int i=0; i < EventsTableModel.getColumnNames().length; i++) {
+            addMenuItem(EventsTableModel.getColumnNames()[i], i, true);
         }
     }
 

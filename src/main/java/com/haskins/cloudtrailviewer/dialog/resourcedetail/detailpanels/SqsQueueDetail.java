@@ -31,6 +31,8 @@ import javax.swing.JPanel;
  */
 public class SqsQueueDetail extends AbstractDetail {
 
+    private static final long serialVersionUID = -5840755750243156682L;
+
     public SqsQueueDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

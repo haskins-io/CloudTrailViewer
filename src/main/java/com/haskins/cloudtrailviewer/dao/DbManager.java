@@ -37,8 +37,6 @@ import java.util.Properties;
  */
 public class DbManager {
 
-    private static DbManager instance = null;
-
     private DbManager() { }
 
     /**
@@ -46,12 +44,7 @@ public class DbManager {
      * @return 
      */
     public static DbManager getInstance() {
-
-        if (instance == null) {
-            instance = new DbManager();
-        }
-
-        return instance;
+        return DbManagerHolder.INSTANCE;
     }
 
     /**
@@ -273,5 +266,9 @@ public class DbManager {
         }
 
         return currentVersion;
+    }
+    
+    private static class DbManagerHolder {
+        public static final DbManager INSTANCE = new DbManager();
     }
 }

@@ -36,6 +36,8 @@ import javax.swing.JPanel;
  */
 public class OverviewContainer extends JPanel {
 
+    private static final long serialVersionUID = 5978572053226212058L;
+
     protected final Map<String, NameValuePanel> eventsMap = new HashMap<>();
 
     protected final Feature feature;

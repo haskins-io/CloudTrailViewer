@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 public class SimpleTableFeature extends JPanel implements Feature {
     
     public static final String NAME = "Table Feature";
+    private static final long serialVersionUID = 4853302009071194565L;
     
     private final Help help = new Help("Table Feature", "table");
         

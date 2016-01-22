@@ -38,6 +38,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class IamGroupDetail extends AbstractDetail {
 
+    private static final long serialVersionUID = 2177710650024418654L;
+
     protected final DefaultTableModel usersTableModel = new DefaultTableModel();
     
     public IamGroupDetail(ResourceDetailRequest detailRequest) {

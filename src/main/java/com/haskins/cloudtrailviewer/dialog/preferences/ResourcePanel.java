@@ -47,6 +47,8 @@ import javax.swing.border.CompoundBorder;
  */
 public class ResourcePanel extends JPanel implements Preferences, ActionListener {
 
+    private static final long serialVersionUID = 7636219388578641606L;
+
     private final DefaultListModel defaultListModel = new DefaultListModel();  
     private final JList list = new JList(defaultListModel);
     

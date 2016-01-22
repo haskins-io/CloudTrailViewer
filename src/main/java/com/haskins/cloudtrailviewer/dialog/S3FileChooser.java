@@ -89,6 +89,7 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
 
     private static S3FileChooser dialog;
     private static final List<String> SELECTED_KEYS = new ArrayList<>();
+    private static final long serialVersionUID = -9060472312721911189L;
 
     private final DefaultListModel<S3ListModel> s3ListModel = new DefaultListModel();
     private final JList s3List;
@@ -338,12 +339,12 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
         if (selected.equalsIgnoreCase(MOVE_BACK)) {
 
             // update prefix and reload
-            int lastSlash = prefix.lastIndexOf("/");
+            int lastSlash = prefix.lastIndexOf('/');
             String tmpPrefix = prefix.substring(0, lastSlash);
 
             if (tmpPrefix.contains("/")) {
 
-                lastSlash = tmpPrefix.lastIndexOf("/") + 1;
+                lastSlash = tmpPrefix.lastIndexOf('/') + 1;
                 prefix = tmpPrefix.substring(0, lastSlash);
 
             } else {
@@ -354,12 +355,12 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
 
         } else {
 
-            int firstSlash = selected.indexOf("/");
+            int firstSlash = selected.indexOf('/');
             if (firstSlash == 0) {
                 selected = selected.substring(1, selected.length());
             }
 
-            int lastSlash = selected.lastIndexOf("/") + 1;
+            int lastSlash = selected.lastIndexOf('/') + 1;
             if (lastSlash == selected.length()) {
 
                 prefix = prefix + selected;
@@ -396,7 +397,7 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
             for (String directory : directories) {
 
                 String dir = stripPrefix(directory);
-                int lastSlash = dir.lastIndexOf("/");
+                int lastSlash = dir.lastIndexOf('/');
                 String strippeDir = dir.substring(0, lastSlash);
 
                 String alias = dir;
@@ -467,7 +468,7 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
             int prefixLength = S3FileChooser.prefix.length() - 1;
             stripped = key.substring(prefixLength, key.length());
 
-            int firstSlash = stripped.indexOf("/");
+            int firstSlash = stripped.indexOf('/');
             if (firstSlash == 0) {
                 stripped = stripped.substring(1, stripped.length());
             }
@@ -646,7 +647,7 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
     ////////////////////////////////////////////////////////////////////////////
     // Model class
     ////////////////////////////////////////////////////////////////////////////
-    class S3ListModel {
+    private static class S3ListModel {
 
         public static final int FILE_BACK = 0;
         public static final int FILE_DIR = 1;
@@ -656,7 +657,7 @@ public class S3FileChooser extends JDialog implements ActionListener, Navigation
         private final String alias;
         private final int fileType;
 
-        S3ListModel(String path, String alias, int fileType) {
+        public S3ListModel(String path, String alias, int fileType) {
             this.path = path;
             this.alias = alias;
             this.fileType = fileType;

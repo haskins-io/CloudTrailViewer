@@ -163,7 +163,7 @@ public class ScreenImage {
             return;
         }
 
-        int offset = fileName.lastIndexOf(".");
+        int offset = fileName.lastIndexOf('.');
 
         if (offset == -1) {
             String message = "file suffix was not specified";

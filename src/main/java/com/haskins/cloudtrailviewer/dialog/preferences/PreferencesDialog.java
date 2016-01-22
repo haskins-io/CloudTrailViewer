@@ -39,6 +39,7 @@ import javax.swing.JTabbedPane;
 public class PreferencesDialog extends JDialog implements ActionListener {
 
     private static PreferencesDialog dialog;
+    private static final long serialVersionUID = 4307269898547650497L;
     
     private final JTabbedPane tPane = new JTabbedPane();
     

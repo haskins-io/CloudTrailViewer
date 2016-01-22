@@ -43,6 +43,8 @@ import javax.swing.plaf.LabelUI;
  * @author markhaskins
  */
 public class S3FileListNavigationPanel extends JPanel {
+
+    private static final long serialVersionUID = -7245639134496141173L;
     
     private final JBreadCrumb<String> locationCrumb = new JBreadCrumb<>();
         
