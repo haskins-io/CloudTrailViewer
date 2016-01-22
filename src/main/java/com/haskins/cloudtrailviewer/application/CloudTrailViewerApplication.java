@@ -117,18 +117,14 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     /**
      * Loads files from the an AWS S3 Bucket.
      * 
-     * @param files A List of S3 Bucket Keys as a String
-     * @param filter An object to filter only specific events. Pass NULL in if no
-     * filtering is required.
+     * @param request request containing filters and keys
      */
-    public void newS3Files(List<String> files, CompositeFilter filter) {
+    public void newS3Files(LoadFileRequest request) {
     
-        if (files != null && files.size() > 0) {
+        if (!request.getFilenames().isEmpty()) {
             
             changeFeature(OverviewFeature.NAME, true);
-            
-            LoadFileRequest loadRequest = new LoadFileRequest(files, filter);
-            eventLoader.loadEventsFromS3(loadRequest);
+            eventLoader.loadEventsFromS3(request);
         }
     }
     
