@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.model.filter;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,8 @@ import java.util.List;
  * @author mark
  */
 public abstract class AbstractFilter implements Filter {
+    
+    protected Dimension defaultSize = new Dimension(345,30);
     
     private final List<FilterListener> listeners = new ArrayList<>();
     
