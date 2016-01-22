@@ -20,8 +20,8 @@ package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.CloudTrailViewer;
 import com.haskins.cloudtrailviewer.dao.AccountDao;
-import com.haskins.cloudtrailviewer.dialog.S3FileChooser;
 import com.haskins.cloudtrailviewer.dialog.SearchOptions;
+import com.haskins.cloudtrailviewer.dialog.s3filechooser.EnhancedS3FileChooser;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
@@ -129,8 +129,7 @@ public class LoadToolBar extends JToolBar {
 
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-
-                loadS3files(null, false);
+                loadS3files(false);
             }
         }); 
         
@@ -145,11 +144,7 @@ public class LoadToolBar extends JToolBar {
 
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-
-                if (SearchOptions.showDialog(CloudTrailViewer.frame) == SearchOptions.SCAN_OK && SearchOptions.getSearchFilter() != null) {
-                    
-                    loadS3files(SearchOptions.getSearchFilter(), true);
-                }
+                loadS3files(true);
             }
         }); 
         
@@ -187,16 +182,18 @@ public class LoadToolBar extends JToolBar {
         }
     }
     
-    private void loadS3files(CompositeFilter filter, boolean is_scan) {
+    private void loadS3files(boolean is_scan) {
         
         List<AwsAccount> accounts = AccountDao.getAllAccounts(false);
         if (!accounts.isEmpty()) {
 
-            final List<String> files = S3FileChooser.showDialog(CloudTrailViewer.frame, is_scan);
-            if (!files.isEmpty()) {
-                application.newS3Files(files, filter);
+            int mode = EnhancedS3FileChooser.MODE_OPEN;
+            if (is_scan) {
+                mode = EnhancedS3FileChooser.MODE_SCAN;
             }
-            
+
+            application.newS3Files(EnhancedS3FileChooser.showDialog(CloudTrailViewer.frame, mode));
+
         } else {
             JOptionPane.showMessageDialog(
                 CloudTrailViewer.frame, 
