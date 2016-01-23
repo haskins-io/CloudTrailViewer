@@ -27,6 +27,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
@@ -41,7 +43,9 @@ import javax.swing.text.html.StyleSheet;
  * @author mark
  */
 public class HelpDialog extends JDialog implements ActionListener {
-
+    
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static HelpDialog dialog;
     private static final long serialVersionUID = -1161803908200818777L;
     
@@ -100,7 +104,7 @@ public class HelpDialog extends JDialog implements ActionListener {
             helpPane.setPage(url);
             
         } catch (IOException ioe) {
-            
+            LOGGER.log(Level.WARNING, "Problem loading help file " + helpFile, ioe);
         }
         
         Container contentPane = getContentPane();

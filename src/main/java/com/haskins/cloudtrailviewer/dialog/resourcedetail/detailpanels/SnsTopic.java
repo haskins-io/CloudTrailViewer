@@ -23,6 +23,8 @@ import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.ListTopicsResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -31,6 +33,8 @@ import javax.swing.JPanel;
  */
 public class SnsTopic extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final long serialVersionUID = 8679419941233173704L;
 
     public SnsTopic(ResourceDetailRequest detailRequest) {
@@ -51,6 +55,7 @@ public class SnsTopic extends AbstractDetail {
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
+            LOGGER.log(Level.WARNING, "Problem retrieving SNS details from AWS", e);
         }
 
         return response;

@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -54,6 +56,8 @@ import javax.swing.UIManager;
  * @author mark.haskins
  */
 public class S3FileList extends JPanel implements MouseListener, NavigationListener {
+    
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     
     private static final String MOVE_BACK = "..";
     private static final long serialVersionUID = 4250579966344934358L;
@@ -442,6 +446,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
                 Long.parseLong(accountnumber);
                 isAccountNumber = true;
             } catch (Exception e) {
+                LOGGER.log(Level.WARNING, "Failed to check of [" + accountnumber + "] is a number", e);
             }
         }
 

@@ -23,17 +23,23 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.model.filter.FilterListener;
 import com.haskins.cloudtrailviewer.utils.TimeStampComparator;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A database that provides a Filtered view on the master EventDatabase.
  * 
  * @author mark
  */
-public class FilteredEventDatabase extends EventDatabase implements FilterListener {
+public class FilteredEventDatabase extends EventDatabase implements FilterListener, Serializable {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    private static final long serialVersionUID = -3055761117922206280L;
+    
     private final List<Event> filteredEvents = new ArrayList<>();
     
     private final Filter filter;
@@ -71,7 +77,7 @@ public class FilteredEventDatabase extends EventDatabase implements FilterListen
             event = filteredEvents.get(index);
         }
         catch(ArrayIndexOutOfBoundsException e) {
-            
+            LOGGER.log(Level.WARNING, "Unable to find Event at position " + index, e);
         }
         
         return event;

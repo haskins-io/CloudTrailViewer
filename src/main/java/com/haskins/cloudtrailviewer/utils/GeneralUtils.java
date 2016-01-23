@@ -32,6 +32,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -45,6 +47,8 @@ import javax.swing.table.TableModel;
  * @author mark
  */
 public class GeneralUtils {
+    
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
 
     private static JFileChooser fileChooser = new JFileChooser();
     
@@ -157,7 +161,7 @@ public class GeneralUtils {
             try {
                 ScreenImage.writeImage(bi, fileToSave.getAbsolutePath());
             } catch (IOException ex) {
-                
+                LOGGER.log(Level.WARNING, "Failed to convert Panel to Image", ex);
             }
         }
     }
@@ -203,7 +207,7 @@ public class GeneralUtils {
                 }
 
             } catch (IOException ioe) {
-                
+                LOGGER.log(Level.WARNING, "Failed saving Table to CSV", ioe);
             }        
         }
     }

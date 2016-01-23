@@ -34,6 +34,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -42,6 +44,8 @@ import javax.swing.JOptionPane;
  * @author mark.haskins
  */
 public class ResourceDetailDialog extends JDialog {
+    
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     
     private static final String PACKAGE = "com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels.";
     
@@ -121,6 +125,7 @@ public class ResourceDetailDialog extends JDialog {
             setLocationRelativeTo(frame); 
             
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            LOGGER.log(Level.WARNING, "Exception showing Dialog", ex);
             exceptionThrown = true;
         }
     }

@@ -41,12 +41,15 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
 import javax.swing.SwingWorker;
@@ -57,9 +60,12 @@ import javax.swing.SwingWorker;
  * 
  * @author mark
  */
-public class EventLoader {
+public class EventLoader implements Serializable {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private final static int BUFFER_SIZE = 32;
+    private static final long serialVersionUID = -6006847187319711509L;
     
     private final FilteredEventDatabase eventDb;
     
@@ -116,8 +122,12 @@ public class EventLoader {
                     try (InputStream stream = loadEventFromLocalFile(filename);) {
                         processStream(stream, request.getFilter());
                     }
-                    catch (IOException ioe) { /** File will be ignored */ }
-                    catch (Exception e) { /** File will be ignored */ }
+                    catch (IOException ioe) { 
+                        LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
+                    }
+                    catch (Exception e) { 
+                        LOGGER.log(Level.WARNING, "Failed to load file : " + filename, e);
+                    }
                 }
                 
                 for (EventLoaderListener l : listeners) {
@@ -180,8 +190,12 @@ public class EventLoader {
                         processStream(stream, request.getFilter());
 
                     } 
-                    catch (IOException ioe) { /** File will be ignored */ } 
-                    catch (Exception e) { /** File will be ignored */ }
+                    catch (IOException ioe) {
+                        LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
+                    } 
+                    catch (Exception e) {
+                        LOGGER.log(Level.WARNING, "Failed to load file : " + filename, e);
+                    }
                 }
 
                 for (EventLoaderListener l : listeners) {
@@ -227,8 +241,12 @@ public class EventLoader {
         catch (ZipException ex) {
             json.append(loadUncompressedFile(stream));
         }
-        catch (UnsupportedEncodingException ex) { /** Nothing to be done ignore the file */ }
-        catch (IOException ex) { /** Nothing to be done ignore the file */  }  
+        catch (UnsupportedEncodingException ex) { 
+            LOGGER.log(Level.WARNING, "File encoding not recognised : ", ex);
+        }
+        catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "Problem uncompressing file data : ", ex);
+        }  
         
         return json.toString();
     }
@@ -247,8 +265,12 @@ public class EventLoader {
                 }
             }
         } 
-        catch (UnsupportedEncodingException ex) { /** File will be ignored */ }
-        catch (IOException ex) { /** File will be ignored */ } 
+        catch (UnsupportedEncodingException ex) {
+            LOGGER.log(Level.WARNING, "File encoding not supported : ", ex);
+        }
+        catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "Problem reading file data : ", ex);
+        } 
         
         // check if the first character is a { otherwise add one
         String firstChar = json.substring(0,1);
@@ -275,7 +297,9 @@ public class EventLoader {
                 JsonObject obj = (JsonObject)i.next();
                 Event e = g.fromJson(obj, Event.class);
                 events.add(e);
-            } catch (Exception e) { /** Event will be ignored */ }
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, "Create Event from JSON : ", e);
+            }
         }
         
         return events;

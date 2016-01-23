@@ -27,6 +27,7 @@ import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.utils.ChartFactory;
+import com.haskins.cloudtrailviewer.utils.ChartUtils;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -37,6 +38,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
@@ -61,6 +64,10 @@ import org.jfree.chart.plot.PlotOrientation;
  */
 public abstract class AbstractChart extends JPanel implements SideBar, ActionListener {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
+    protected final ChartUtils chartUtils = new ChartUtils();
+    
     public static final String NAME = "Chart";
     private static final long serialVersionUID = 7624167880255656811L;
 
@@ -273,7 +280,7 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
                     try {    
                         eventTablePanel.setFilterString(value); 
                     } catch (Exception ex) {
-
+                        LOGGER.log(Level.WARNING, "Problem responding to mouse event on chart table", ex);
                     }
                 }
             }

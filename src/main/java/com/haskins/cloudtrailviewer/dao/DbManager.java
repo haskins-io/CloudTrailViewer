@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -37,6 +39,8 @@ import java.util.Properties;
  */
 public class DbManager {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private DbManager() { }
 
     /**
@@ -67,7 +71,7 @@ public class DbManager {
                 DriverManager.getConnection(url, properties);
             }
             catch (SQLException ex1) {
-                
+                LOGGER.log(Level.WARNING, "Unable to get connection to database", ex1);
             }
             
         } else {
@@ -117,7 +121,7 @@ public class DbManager {
 
         }
         catch (SQLException e) {
-            
+            LOGGER.log(Level.WARNING, "Couldn't excute statement", e);
         }
 
         return rows;
@@ -145,7 +149,7 @@ public class DbManager {
 
         }
         catch (SQLException e) {
-            
+            LOGGER.log(Level.WARNING, "Couldn't excute statement", e);
         }
 
         return retVal;
@@ -173,7 +177,7 @@ public class DbManager {
 
         }
         catch (SQLException e) {
-            
+            LOGGER.log(Level.WARNING, "Couldn't excute statement", e);
         }
 
         return retVal;
@@ -194,7 +198,7 @@ public class DbManager {
             stmt.executeUpdate(query);
         }
         catch (SQLException e) {
-            
+            LOGGER.log(Level.WARNING, "Couldn't excute statement", e);
         }
 
         return updated;
@@ -211,8 +215,8 @@ public class DbManager {
         try (Statement stmt = conn.createStatement();) {
             stmt.execute(query);
         }
-        catch (SQLException ex) {
-            
+        catch (SQLException e) {
+            LOGGER.log(Level.WARNING, "Couldn't excute statement", e);
         }
     }
 
@@ -227,8 +231,8 @@ public class DbManager {
         try {
             conn = DriverManager.getConnection(getDbUrl(), new Properties());
         }
-        catch (SQLException ex) {
-            
+        catch (SQLException e) {
+            LOGGER.log(Level.WARNING, "Couldn't excute statement", e);
         }
 
         return conn;

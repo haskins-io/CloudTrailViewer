@@ -33,6 +33,8 @@ import java.util.Map;
  */
 public class ChartUtils {
     
+    private final TableUtils tableUtils = new TableUtils();
+    
     /**
      * 
      * @param <K>
@@ -63,7 +65,7 @@ public class ChartUtils {
      * @param eventField The field to process against e.g. EventName
      * @return a Map keys by EventField that has the count of events that match
      */
-    public static List<Map.Entry<String,Integer>> getTopEvents(List<Event> events, int top, String eventField) {
+    public List<Map.Entry<String,Integer>> getTopEvents(List<Event> events, int top, String eventField) {
         
         Map<String, Integer> eventsByOccurance = new HashMap<>();
         
@@ -74,7 +76,7 @@ public class ChartUtils {
             if (fieldValue != null) {
 
                 if (eventField.equalsIgnoreCase("EventSource")) {
-                    fieldValue = TableUtils.getServiceFromEventSource(fieldValue);
+                    fieldValue = tableUtils.getServiceFromEventSource(fieldValue);
                 }
                 
                 int count = 1;
@@ -96,7 +98,7 @@ public class ChartUtils {
         }
     }
     
-    public static List<Map.Entry<String,Integer>> getTopX(List<Map.Entry<String,Integer>> sorted, int top) {
+    public List<Map.Entry<String,Integer>> getTopX(List<Map.Entry<String,Integer>> sorted, int top) {
         
        List<Map.Entry<String,Integer>> topEvents = new ArrayList<>();
         

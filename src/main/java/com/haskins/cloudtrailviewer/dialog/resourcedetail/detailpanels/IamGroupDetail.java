@@ -26,6 +26,8 @@ import com.amazonaws.services.identitymanagement.model.User;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -38,6 +40,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class IamGroupDetail extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final long serialVersionUID = 2177710650024418654L;
 
     protected final DefaultTableModel usersTableModel = new DefaultTableModel();
@@ -63,6 +67,7 @@ public class IamGroupDetail extends AbstractDetail {
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
+            LOGGER.log(Level.WARNING, "Problem retrieving IAM Group details from AWS", e);
         }
 
         return response;

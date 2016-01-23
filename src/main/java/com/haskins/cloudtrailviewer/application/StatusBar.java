@@ -19,6 +19,7 @@ package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
+import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -190,7 +191,9 @@ public class StatusBar extends JPanel {
         this.setVisible(true);
     }
 
-    private static class MemoryCheck {
+    private static class MemoryCheck implements Serializable {
+
+        private static final long serialVersionUID = 4016944833521287316L;
 
         private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 

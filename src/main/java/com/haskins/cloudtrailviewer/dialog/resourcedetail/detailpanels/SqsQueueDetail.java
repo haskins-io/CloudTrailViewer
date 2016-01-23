@@ -23,6 +23,8 @@ import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClient;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -31,6 +33,8 @@ import javax.swing.JPanel;
  */
 public class SqsQueueDetail extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final long serialVersionUID = -5840755750243156682L;
 
     public SqsQueueDetail(ResourceDetailRequest detailRequest) {
@@ -51,6 +55,7 @@ public class SqsQueueDetail extends AbstractDetail {
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
+            LOGGER.log(Level.WARNING, "Problem retrieving SQS details from AWS", e);
         }
 
         return response;

@@ -28,6 +28,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -39,8 +41,9 @@ public class OverviewContainer extends JPanel {
     private static final long serialVersionUID = 5978572053226212058L;
 
     protected final Map<String, NameValuePanel> eventsMap = new HashMap<>();
-
     protected final Feature feature;
+    
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");  
 
     public OverviewContainer(Feature parent) {
 
@@ -99,7 +102,7 @@ public class OverviewContainer extends JPanel {
             totalEvents = resourcePanel.addEvent(event); 
         }
         catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
-            // going to ignore this and not add the event
+            LOGGER.log(Level.WARNING, "Failed to add event", ex);
         }
         
         return totalEvents;

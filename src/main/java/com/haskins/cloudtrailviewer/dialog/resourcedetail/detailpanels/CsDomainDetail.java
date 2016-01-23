@@ -28,6 +28,8 @@ import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -36,6 +38,8 @@ import javax.swing.JPanel;
  */
 public class CsDomainDetail extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final long serialVersionUID = -80373300673797040L;
 
     public CsDomainDetail(ResourceDetailRequest detailRequest) {
@@ -60,6 +64,7 @@ public class CsDomainDetail extends AbstractDetail {
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
+            LOGGER.log(Level.WARNING, "Problem retrieving CloudSearch details from AWS", e);
         }
 
         return response;

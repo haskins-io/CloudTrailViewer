@@ -23,7 +23,9 @@ import com.google.gson.GsonBuilder;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Collection of Event related utility methods
@@ -31,8 +33,10 @@ import java.text.SimpleDateFormat;
  * @author mark
  */
 public class EventUtils {
+       
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private final static DateFormatter DATE_FORMATTER = new DateFormatter();
     
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
             
@@ -55,8 +59,10 @@ public class EventUtils {
         long millis = 0;
         
         try {
-            millis = SDF.parse(dateString).getTime();
-        } catch (Exception ex) { } 
+            millis = DATE_FORMATTER.convertStringToLong(dateString);
+        } catch (ParseException ex) {
+            LOGGER.log(Level.WARNING, "Problem convering String Date to long", ex);
+        } 
         
         return millis;
     }
@@ -108,6 +114,7 @@ public class EventUtils {
         }
         catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             result = null;
+            LOGGER.log(Level.WARNING, "Problem using reflect to get property from object", ex);
         }
         
         return result;

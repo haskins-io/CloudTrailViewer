@@ -40,6 +40,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -69,6 +71,8 @@ import org.jfree.ui.RectangleEdge;
  */
 public class MetricsFeature extends JPanel implements Feature, ActionListener, ChartMouseListener {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     public static final String NAME = "Metrics Feature";
     
     private static final Map<String, List<Event>> SERVICE_SORTED = new HashMap<>();
@@ -81,6 +85,8 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
 
     private final JToolBar toolbar = new JToolBar();
     private final JPanel chartCards = new JPanel(new CardLayout());
+    
+    private final TableUtils tableUtils = new TableUtils();
     
     private JSplitPane jsp;
     
@@ -156,7 +162,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
         allEvents.add(event);
         SERVICE_SORTED.put("ALL", allEvents);
 
-        String serviceName = TableUtils.getService(event);
+        String serviceName = tableUtils.getService(event);
         List<Event> events = SERVICE_SORTED.get(serviceName);
         if (events == null) {
             events = new ArrayList<>();
@@ -203,7 +209,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
             eventTable.setEvents(secondEvents.get(second));
             
         } catch (Exception e) {
-
+            LOGGER.log(Level.WARNING, "Problem responding to Chart click event", e);
         }
     }
 

@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.components.servicespanel;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import com.haskins.cloudtrailviewer.utils.DateFormatter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import static java.awt.Component.CENTER_ALIGNMENT;
@@ -28,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -38,9 +41,12 @@ import javax.swing.JPanel;
  */
 public class EpsPanel extends JPanel {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
+    private final static DateFormatter DATE_FORMATTER = new DateFormatter();
+    
     private static final long serialVersionUID = -756065840178911148L;
         
-    private final SimpleDateFormat event_datetime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     private final SimpleDateFormat less_seconds = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
     private final SimpleDateFormat less_minutes = new SimpleDateFormat("yyyy-MM-dd'T'HH");
     
@@ -98,7 +104,7 @@ public class EpsPanel extends JPanel {
         
             boolean revalidate = false;
 
-            Date d = event_datetime.parse(event.getEventTime());
+            Date d = DATE_FORMATTER.convertStringToDate(event.getEventTime());
 
             // Events per Second
             long time = event.getTimestamp();
@@ -157,7 +163,7 @@ public class EpsPanel extends JPanel {
             }
         
         } catch (ParseException ex) {
-            // do something
+            LOGGER.log(Level.WARNING, "Failed to add event", ex);
         }
     }
 }

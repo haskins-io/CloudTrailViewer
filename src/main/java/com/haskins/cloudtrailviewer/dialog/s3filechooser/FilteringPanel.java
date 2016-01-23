@@ -51,6 +51,8 @@ import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
  */
 public class FilteringPanel extends JPanel implements ActionListener {
     
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final String ACTION_ADD = "ActionAdd";
     
     private static final String ACTION_MODE_AND = "ActionModeAnd";
@@ -264,7 +266,7 @@ public class FilteringPanel extends JPanel implements ActionListener {
             }
          
         } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(FilteringPanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.WARNING, "Failed to load filter", ex);
         }
 
         return filter;

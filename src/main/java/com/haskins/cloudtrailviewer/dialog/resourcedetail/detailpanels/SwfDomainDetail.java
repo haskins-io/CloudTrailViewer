@@ -24,6 +24,8 @@ import com.amazonaws.services.simpleworkflow.AmazonSimpleWorkflowClient;
 import com.amazonaws.services.simpleworkflow.model.DescribeDomainRequest;
 import com.amazonaws.services.simpleworkflow.model.DomainDetail;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -32,6 +34,8 @@ import javax.swing.JPanel;
  */
 public class SwfDomainDetail extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final long serialVersionUID = -7879721877676919400L;
 
     public SwfDomainDetail(ResourceDetailRequest detailRequest) {
@@ -56,6 +60,7 @@ public class SwfDomainDetail extends AbstractDetail {
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
+            LOGGER.log(Level.WARNING, "Problem retrieving SWF details from AWS", e);
         }
 
         return response;

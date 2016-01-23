@@ -22,6 +22,8 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,6 +31,8 @@ import java.util.Map;
  */
 public class ResourceLookup {
         
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static Map<String, Request> getServices() {
         
         return Collections.unmodifiableMap(new HashMap<String, Request>() {
@@ -63,7 +67,7 @@ public class ResourceLookup {
                 Request r = getServices().get(source);
                 r.populateRequestInfo(event, resources);
             } catch (Exception e) {
-                
+                LOGGER.log(Level.WARNING, "Problem loading resource information", e);
             }
 
         }

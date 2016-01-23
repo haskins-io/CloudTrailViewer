@@ -25,6 +25,8 @@ import com.amazonaws.services.ec2.model.DescribeSecurityGroupsRequest;
 import com.amazonaws.services.ec2.model.DescribeSecurityGroupsResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -33,6 +35,8 @@ import javax.swing.JPanel;
  */
 public class EC2SecurityGroupDetail extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final long serialVersionUID = -8752062912424549864L;
 
     public EC2SecurityGroupDetail(ResourceDetailRequest detailRequest) {
@@ -56,6 +60,7 @@ public class EC2SecurityGroupDetail extends AbstractDetail {
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
+            LOGGER.log(Level.WARNING, "Problem retrieving EC2 Securuty Group details from AWS", e);
         }
 
         return response;

@@ -21,6 +21,8 @@ package com.haskins.cloudtrailviewer.core;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class that stores and retrieves properties from OS provided Preferences implementation.
@@ -31,6 +33,8 @@ import java.util.Properties;
  */
 public class PropertiesController {
             
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final String PROP_FILE = "cloudtrailviewer.properties";
         
     private Properties prop = new Properties();
@@ -48,7 +52,7 @@ public class PropertiesController {
             prop.load(input);
             
         } catch (IOException ioe) {
-            
+            LOGGER.log(Level.WARNING, "Unable to load Properties from file", ioe);
         }
     }
     

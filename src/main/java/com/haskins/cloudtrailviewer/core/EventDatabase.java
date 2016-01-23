@@ -21,6 +21,7 @@ package com.haskins.cloudtrailviewer.core;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.TimeStampComparator;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +31,9 @@ import java.util.List;
  * 
  * @author mark
  */
-public class EventDatabase implements EventLoaderListener {
+public class EventDatabase implements EventLoaderListener, Serializable {
+
+    private static final long serialVersionUID = -2949117210713986470L;
     
     private final List<EventDatabaseListener> listeners = new ArrayList<>();
     private final List<Event> events = new ArrayList<>();

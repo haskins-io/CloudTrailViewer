@@ -24,6 +24,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,6 +35,8 @@ import java.util.Set;
  */
 public abstract class AbstractRequest {
             
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     /**
      * Map for holding resource information
      */
@@ -67,7 +71,7 @@ public abstract class AbstractRequest {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null) {
-            
+                        
             Set<String> keys = requestParameters.keySet();
             Iterator<String> it = keys.iterator();
             while(it.hasNext()) {
@@ -130,7 +134,7 @@ public abstract class AbstractRequest {
             }
         }
         catch (Exception e) {
-            
+            LOGGER.log(Level.WARNING, "Problem handling Request Map", e);
         }
  
     }

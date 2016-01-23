@@ -40,6 +40,8 @@ import java.util.regex.Pattern;
  */
 public class GeoIpUtils {
     
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final String GEO_FILE = "GeoLite2-City.mmdb";
     private static final Pattern REGEX_PATTERN = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
     
@@ -54,9 +56,9 @@ public class GeoIpUtils {
             File database = new File(classLoader.getResource(GEO_FILE).getFile());
             reader = new DatabaseReader.Builder(database).build();
         } catch (IOException ex) {
-            System.out.println("Failed to load GeoIp Database");
+            LOGGER.log(Level.WARNING, "Failed to load GeoIp Database", ex);
         } catch (Exception ex) {
-            System.out.println("Failed to load GeoIp Database");
+            LOGGER.log(Level.WARNING, "Failed to load GeoIp Database", ex);
         }
     }
 
@@ -96,7 +98,7 @@ public class GeoIpUtils {
                 }
                 
             } catch (IOException | GeoIp2Exception ex) {
-                Logger.getLogger(GeoIpUtils.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.WARNING, "Failed to convert SourceIpAddress to Geo data", ex);
             }
         }
     }

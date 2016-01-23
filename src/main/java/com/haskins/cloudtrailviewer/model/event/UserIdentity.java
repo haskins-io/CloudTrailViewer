@@ -18,10 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.model.event;
 
+import java.io.Serializable;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 
-public class UserIdentity {
+public class UserIdentity implements Serializable {
+
+    private static final long serialVersionUID = -4325205520029296556L;
     
     private String type;
     private String principalId;

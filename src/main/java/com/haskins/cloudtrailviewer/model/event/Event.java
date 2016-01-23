@@ -21,11 +21,14 @@ package com.haskins.cloudtrailviewer.model.event;
 import com.haskins.cloudtrailviewer.model.event.deprecated.Resource;
 import com.haskins.cloudtrailviewer.requestInfo.RequestInfo;
 import com.haskins.cloudtrailviewer.requestInfo.ResourceLookup;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-public class Event {
+public class Event implements Serializable {
+
+    private static final long serialVersionUID = 7492738943200865856L;
     
     private String eventTime = "";
     private String eventVersion = "";

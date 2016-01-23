@@ -23,6 +23,8 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,6 +32,8 @@ import java.sql.SQLException;
  */
 public class Migrations {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     final static void createVersion1(Connection conn, CurrentDbVersion currentVersion) {
 
         if (currentVersion.getDbVersion() < 1) {
@@ -264,7 +268,7 @@ public class Migrations {
             }
         }
         catch (SQLException ex) {
-            
+            LOGGER.log(Level.WARNING, "Problem checking if table [" + tablename + "] exists", ex);
         }
 
         return doesTableExist;

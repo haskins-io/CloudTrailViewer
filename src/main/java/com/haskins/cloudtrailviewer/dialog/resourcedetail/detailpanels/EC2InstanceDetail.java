@@ -30,6 +30,8 @@ import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTabbedPane;
 
 /**
@@ -38,6 +40,8 @@ import javax.swing.JTabbedPane;
  */
 public class EC2InstanceDetail extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final long serialVersionUID = 8109771800393230032L;
     
     public EC2InstanceDetail(ResourceDetailRequest detailRequest) {
@@ -62,6 +66,7 @@ public class EC2InstanceDetail extends AbstractDetail {
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
+            LOGGER.log(Level.WARNING, "Problem retrieving EC2 details from AWS", e);
         }
 
         return response;

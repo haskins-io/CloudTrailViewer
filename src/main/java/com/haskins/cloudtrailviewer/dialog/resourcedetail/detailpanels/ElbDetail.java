@@ -31,6 +31,8 @@ import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -43,6 +45,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ElbDetail extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final long serialVersionUID = -6218840614863807084L;
 
     protected final DefaultTableModel listenersTableModel = new DefaultTableModel();
@@ -70,6 +74,7 @@ public class ElbDetail extends AbstractDetail {
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
+            LOGGER.log(Level.WARNING, "Problem retrieving ELB details from AWS", e);
         }
 
         return response;

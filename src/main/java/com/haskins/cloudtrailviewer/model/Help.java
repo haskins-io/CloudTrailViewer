@@ -16,11 +16,15 @@
  */
 package com.haskins.cloudtrailviewer.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author mark
  */
-public class Help {
+public class Help implements Serializable {
+
+    private static final long serialVersionUID = -2257108935128162644L;
     
     private final String helpTitle;
     private final String helpFilename;

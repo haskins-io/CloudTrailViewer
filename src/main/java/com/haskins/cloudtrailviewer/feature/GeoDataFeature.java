@@ -55,6 +55,8 @@ import javax.swing.JToolBar;
  */
 public class GeoDataFeature extends JPanel implements Feature {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     public static final String NAME = "GeoData Feature";
     private static final long serialVersionUID = 2337766480593653058L;
 
@@ -233,7 +235,7 @@ public class GeoDataFeature extends JPanel implements Feature {
         try {
             d.browse(new URI("file://" + getFileName()));
         } catch (URISyntaxException | IOException ex) {
-            Logger.getLogger(GeoDataFeature.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.WARNING, "Failed to load Geo HTML file in browser", ex);
         }
     }
 
@@ -253,7 +255,9 @@ public class GeoDataFeature extends JPanel implements Feature {
 
             scanner.close();
 
-        } catch (IOException e) {}
+        } catch (IOException e) {
+            LOGGER.log(Level.WARNING, "Failed to load Geo HTML file", e);
+        }
 
         return result.toString();
     }
@@ -264,13 +268,14 @@ public class GeoDataFeature extends JPanel implements Feature {
             File f = new File(getFileName());
             f.delete();
         } catch (Exception e) {
-            
+            LOGGER.log(Level.WARNING, "Failed to delete existing Geo HTML file", e);
         }
 
         try (BufferedWriter out = new BufferedWriter(new FileWriter(getFileName()));) {
             out.write(htmtContent);
             out.close();
         } catch (IOException e) {
+            LOGGER.log(Level.WARNING, "Failed to load Geo HTML file", e);
         }
     }
     

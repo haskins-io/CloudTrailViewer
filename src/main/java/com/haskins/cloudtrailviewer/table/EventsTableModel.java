@@ -30,6 +30,8 @@ import javax.swing.table.AbstractTableModel;
  */
 public class EventsTableModel extends AbstractTableModel {
 
+    private final TableUtils tableUtils = new TableUtils();
+    
     private static final String[] COLUMN_NAMES = new String[]{
         "Date/Time",
         "Invoked By",
@@ -104,13 +106,13 @@ public class EventsTableModel extends AbstractTableModel {
         switch (columnIndex) {
 
             case 0:
-                value = TableUtils.getFormatedDateTime(event.getTimestamp());
+                value = tableUtils.getFormatedDateTime(event.getTimestamp());
                 break;
             case 1:
-                value = TableUtils.getInvokedBy(event);
+                value = tableUtils.getInvokedBy(event);
                 break;
             case 2:
-                value = TableUtils.getService(event);
+                value = tableUtils.getService(event);
                 break;
             case 3:
                 value = event.getEventName();

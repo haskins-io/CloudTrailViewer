@@ -24,6 +24,8 @@ import com.amazonaws.services.identitymanagement.model.GetUserResult;
 import com.amazonaws.services.identitymanagement.model.User;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -32,6 +34,8 @@ import javax.swing.JPanel;
  */
 public class IamUserDetail extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final long serialVersionUID = 1510425799781716098L;
 
     public IamUserDetail(ResourceDetailRequest detailRequest) {
@@ -55,6 +59,7 @@ public class IamUserDetail extends AbstractDetail {
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
+            LOGGER.log(Level.WARNING, "Problem retrieving IAM User details from AWS", e);
         }
 
         return response;

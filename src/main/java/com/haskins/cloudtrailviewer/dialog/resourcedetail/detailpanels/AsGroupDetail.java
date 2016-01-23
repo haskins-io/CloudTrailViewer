@@ -30,6 +30,8 @@ import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -39,6 +41,8 @@ import javax.swing.JTabbedPane;
  */
 public class AsGroupDetail extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final long serialVersionUID = 6897969969327438406L;
 
     public AsGroupDetail(ResourceDetailRequest detailRequest) {
@@ -62,6 +66,7 @@ public class AsGroupDetail extends AbstractDetail {
             buildUI(result); 
             
         } catch (IllegalArgumentException | AmazonClientException e) {
+            LOGGER.log(Level.WARNING, "Problem retrieving AS detail from AWS", e);
             response = e.getMessage();
         }
 

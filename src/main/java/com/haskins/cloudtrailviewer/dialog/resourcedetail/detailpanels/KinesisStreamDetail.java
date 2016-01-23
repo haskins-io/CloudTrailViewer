@@ -26,6 +26,8 @@ import com.amazonaws.services.kinesis.model.DescribeStreamResult;
 import com.amazonaws.services.kinesis.model.StreamDescription;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -34,6 +36,8 @@ import javax.swing.JPanel;
  */
 public class KinesisStreamDetail extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final long serialVersionUID = -3914862385729636742L;
 
     public KinesisStreamDetail(ResourceDetailRequest detailRequest) {
@@ -58,6 +62,7 @@ public class KinesisStreamDetail extends AbstractDetail {
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
+            LOGGER.log(Level.WARNING, "Problem retrieving Kinesis details from AWS", e);
         }
 
         return response;

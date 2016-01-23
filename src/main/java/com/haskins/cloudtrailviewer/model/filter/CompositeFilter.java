@@ -18,6 +18,7 @@
 package com.haskins.cloudtrailviewer.model.filter;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,12 +29,13 @@ import java.util.List;
  * 
  * @author markhaskins
  */
-public class CompositeFilter {
+public class CompositeFilter implements Serializable {
     
     public static final int BITWISE_AND = 0;
     public static final int BITWISE_OR = 1;
     
     private static final String[] BITWISE_OPERATORS = { "AND", "OR" };
+    private static final long serialVersionUID = 2156770386890860914L;
     
     private int mode = BITWISE_AND;
     

@@ -24,6 +24,8 @@ import com.amazonaws.services.identitymanagement.model.GetRoleResult;
 import com.amazonaws.services.identitymanagement.model.Role;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -32,6 +34,8 @@ import javax.swing.JPanel;
  */
 public class IamRoleDetail extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final long serialVersionUID = 4523406339689209595L;
 
     public IamRoleDetail(ResourceDetailRequest detailRequest) {
@@ -55,6 +59,7 @@ public class IamRoleDetail extends AbstractDetail {
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
+            LOGGER.log(Level.WARNING, "Problem retrieving IAM Role details from AWS", e);
         }
 
         return response;

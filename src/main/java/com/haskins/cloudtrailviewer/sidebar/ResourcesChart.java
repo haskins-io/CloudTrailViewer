@@ -20,12 +20,13 @@ import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.sidebar.resourcemetadata.ResourceMetaData;
-import com.haskins.cloudtrailviewer.utils.ChartUtils;
 import static com.haskins.cloudtrailviewer.utils.ChartUtils.entriesSortedByValues;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
@@ -36,6 +37,8 @@ import javax.swing.JRadioButtonMenuItem;
  */
 public class ResourcesChart extends AbstractChart {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private static final String PACKAGE = "com.haskins.cloudtrailviewer.sidebar.resourcemetadata.";
     private static final long serialVersionUID = -8842082114125098174L;
 
@@ -133,7 +136,7 @@ public class ResourcesChart extends AbstractChart {
             lastResouce = eventName;
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            
+            LOGGER.log(Level.WARNING, "Problem updating Chart menu", ex);
         }
     }
 
@@ -167,12 +170,12 @@ public class ResourcesChart extends AbstractChart {
             List<Map.Entry<String,Integer>> sorted = entriesSortedByValues(metadataByOccurance);
             
             int top = getTopXValue();
-            List<Map.Entry<String,Integer>> topX = ChartUtils.getTopX(sorted, top);
+            List<Map.Entry<String,Integer>> topX = chartUtils.getTopX(sorted, top);
             
             updateChart(topX);
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            
+            LOGGER.log(Level.WARNING, "Problem updating chart", ex);
         }
     }
 }

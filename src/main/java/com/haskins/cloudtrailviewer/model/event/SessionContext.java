@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.model.event;
 
+import java.io.Serializable;
 import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -26,7 +27,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
  *
  * @author mark.haskins
  */
-public class SessionContext {
+public class SessionContext implements Serializable {
+
+    private static final long serialVersionUID = 6808999959667280297L;
 
     private Map attributes;
     private SessionIssuer sessionIssuer;

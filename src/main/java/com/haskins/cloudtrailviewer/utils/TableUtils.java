@@ -20,6 +20,7 @@ package com.haskins.cloudtrailviewer.utils;
 
 import com.haskins.cloudtrailviewer.core.AwsService;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
 /**
@@ -27,16 +28,18 @@ import java.text.SimpleDateFormat;
  * 
  * @author mark
  */
-public class TableUtils {
+public class TableUtils implements Serializable {
+
+    private static final long serialVersionUID = 6462957031303627906L;
     
-    private static final SimpleDateFormat SIMPLE_DATE_FORMATTER = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+    private final SimpleDateFormat SIMPLE_DATE_FORMATTER = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         
     /**
      * Returns the username for the event.
      * @param event Event to check
      * @return
      */
-    public static String getInvokedBy(Event event) {
+    public String getInvokedBy(Event event) {
         
         String username;
         
@@ -85,18 +88,18 @@ public class TableUtils {
      * @param event
      * @return 
      */
-    public static String getService(Event event) {
+    public String getService(Event event) {
         
         return getServiceFromEventSource(event.getEventSource());
     }
     
-    public static String getServiceFromEventSource(String eventSource) {
+    public String getServiceFromEventSource(String eventSource) {
         
         String tmp = eventSource.replaceFirst(".amazonaws.com", "");
         return AwsService.getInstance().getFriendlyName(tmp); 
     }
     
-    public static String getFormatedDateTime(long millis) {
+    public String getFormatedDateTime(long millis) {
         return SIMPLE_DATE_FORMATTER.format(millis);
     }
 }

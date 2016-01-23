@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Singleton class that provides access to AWS Service names and AWS Service APIs
@@ -33,6 +35,8 @@ import java.util.Set;
  */
 public class AwsService {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
     private final Map<String, String> serviceNamesToEndpoints = new HashMap<>();
     private final Map<String, String> serviceEndpointsToNames = new HashMap<>();
     
@@ -63,7 +67,7 @@ public class AwsService {
             }
             
         } catch (IOException ioe) {
-            
+            LOGGER.log(Level.WARNING, "Unable to load service APIs", ioe);
         }
     }
 
@@ -128,7 +132,7 @@ public class AwsService {
                 }
 
             } catch (IOException ioe) {
-
+                LOGGER.log(Level.WARNING, "Unable to load Service APIs", ioe);
             }
                         
             serviceAPIs.put(service, apis);

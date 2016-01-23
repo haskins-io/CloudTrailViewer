@@ -19,7 +19,6 @@ package com.haskins.cloudtrailviewer.sidebar;
 
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.EventDatabase;
-import com.haskins.cloudtrailviewer.utils.ChartUtils;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Map;
@@ -110,7 +109,7 @@ public class EventsChart extends AbstractChart {
         String source = customGroup.getSelection().getActionCommand();
         int top = getTopXValue();
         
-        List<Map.Entry<String, Integer>> chartEvents = ChartUtils.getTopEvents(eventDb.getEvents(), top, source);
+        List<Map.Entry<String, Integer>> chartEvents = chartUtils.getTopEvents(eventDb.getEvents(), top, source);
         updateChart(chartEvents);
     }
     

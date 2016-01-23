@@ -26,6 +26,8 @@ import com.amazonaws.services.dynamodbv2.model.DescribeTableResult;
 import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -34,6 +36,10 @@ import javax.swing.JPanel;
  */
 public class DbTableDetail extends AbstractDetail {
 
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    
+    private static final long serialVersionUID = 6199277908000843310L;
+    
     public DbTableDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
@@ -56,6 +62,7 @@ public class DbTableDetail extends AbstractDetail {
             
         } catch (IllegalArgumentException | AmazonClientException e) {
             response = e.getMessage();
+            LOGGER.log(Level.WARNING, "Problem retrieving DynamoDb details from AWS", e);
         }
 
         return response;

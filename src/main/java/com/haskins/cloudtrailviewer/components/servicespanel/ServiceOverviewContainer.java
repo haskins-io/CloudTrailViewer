@@ -36,8 +36,9 @@ public class ServiceOverviewContainer extends JPanel {
 
     private static final long serialVersionUID = -7604555547759281086L;
     
-    private final Map<String, ServicesOverviewPanel> servicesMap = new HashMap<>();
+    private final TableUtils tableUtils = new TableUtils();
     
+    private final Map<String, ServicesOverviewPanel> servicesMap = new HashMap<>();
     private final Feature feature;
     
     public ServiceOverviewContainer(Feature parent) {
@@ -71,7 +72,7 @@ public class ServiceOverviewContainer extends JPanel {
     public void addEvent(Event event) {
         
         String source = event.getEventSource();
-        String serviceName = TableUtils.getService(event);
+        String serviceName = tableUtils.getService(event);
         
         final ServicesOverviewPanel servicePanel;
         

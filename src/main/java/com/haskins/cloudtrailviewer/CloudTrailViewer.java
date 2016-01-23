@@ -23,6 +23,13 @@ import com.haskins.cloudtrailviewer.application.Menu;
 import com.haskins.cloudtrailviewer.core.AwsService;
 import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.core.PropertiesController;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import javax.swing.JFrame;
 
 /**
@@ -51,6 +58,27 @@ public class CloudTrailViewer extends JFrame {
      */
     public static void main(String[] args) {
 
+        String userHomeDir = System.getProperty("user.home", ".");
+        String systemDir = userHomeDir + "/.cloudtrailviewer/output.log";
+        
+        Logger logger = Logger.getLogger("CloudTrail");  
+        FileHandler fh;  
+
+        try {   
+            fh = new FileHandler(systemDir);  
+            
+            logger.addHandler(fh);
+            logger.setUseParentHandlers(false);
+            
+            SimpleFormatter formatter = new SimpleFormatter();  
+            fh.setFormatter(formatter);  
+            
+            Date now = new Date();
+            logger.log(Level.INFO, "CloudTrail launched at : {0}", now.toString());
+        } catch (SecurityException | IOException e) {  
+            e.printStackTrace();  
+        }
+        
         // perform any DB updates
         DbManager.getInstance().sync();
         
