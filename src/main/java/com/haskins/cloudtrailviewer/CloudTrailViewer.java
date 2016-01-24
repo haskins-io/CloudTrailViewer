@@ -23,7 +23,6 @@ import com.haskins.cloudtrailviewer.application.Menu;
 import com.haskins.cloudtrailviewer.core.AwsService;
 import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.core.PropertiesController;
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.logging.FileHandler;
