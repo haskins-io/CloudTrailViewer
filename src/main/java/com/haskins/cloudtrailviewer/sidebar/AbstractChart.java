@@ -228,6 +228,8 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
 
         final LegendColourRenderer cellRenderer = new LegendColourRenderer();
         final JTable table = new JTable(defaultTableModel) {
+            
+            private static final long serialVersionUID = -6272711583089149891L;
 
             @Override
             public TableCellRenderer getCellRenderer(int row, int column) {
@@ -401,6 +403,8 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
     ///// Custom TableCellRenderer
     //////////////////////////////////////////////////////////////////////////// 
     private static class LegendColourRenderer extends JLabel implements TableCellRenderer {
+
+        private static final long serialVersionUID = -6449877241312552646L;
 
         public LegendColourRenderer() {
             setOpaque(true);

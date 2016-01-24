@@ -41,6 +41,10 @@ public class InvokersContainer extends OverviewContainer {
     private final JPanel usersPanel = new JPanel();
     private final JPanel rolesPanel = new JPanel();
     
+    /**
+     * Default Constructor.
+     * @param parent Parent class
+     */
     public InvokersContainer(Feature parent) {
         
         super(parent);

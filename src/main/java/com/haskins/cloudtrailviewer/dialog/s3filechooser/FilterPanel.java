@@ -21,6 +21,7 @@ import com.haskins.cloudtrailviewer.model.filter.Filter;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -78,11 +79,15 @@ public class FilterPanel extends JPanel implements ActionListener {
 
 class ModePanel extends JPanel {
 
+    private static final long serialVersionUID = -647686474244916429L;
+
     JLabel modeLabel = new JLabel();
     
     public ModePanel(String mode) {
         
         setMode(mode);
+        
+        modeLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
         this.add(modeLabel);
     }
     

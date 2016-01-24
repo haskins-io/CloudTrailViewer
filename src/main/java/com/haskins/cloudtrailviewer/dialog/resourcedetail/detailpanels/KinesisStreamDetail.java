@@ -40,6 +40,10 @@ public class KinesisStreamDetail extends AbstractDetail {
     
     private static final long serialVersionUID = -3914862385729636742L;
 
+    /**
+     * Default Constructor
+     * @param detailRequest 
+     */
     public KinesisStreamDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }

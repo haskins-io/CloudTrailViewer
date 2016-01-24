@@ -27,6 +27,11 @@ public class EventDetail {
     private String label = "";
     private String detail = "";
     
+    /**
+     * Default constructor.
+     * @param label
+     * @param detail 
+     */
     public EventDetail(String label, String detail) {
      
         this.label = label;

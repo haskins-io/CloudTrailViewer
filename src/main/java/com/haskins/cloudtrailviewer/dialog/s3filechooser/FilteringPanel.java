@@ -242,8 +242,7 @@ public class FilteringPanel extends JPanel implements ActionListener {
                 isFirst = false;
             }
 
-            FilterPanel filterPanel = 
-                    new FilterPanel(wrapper.getFilterName(), filter, isFirst, this, filters.getModeString());
+            FilterPanel filterPanel = new FilterPanel(wrapper.getFilterName(), filter, isFirst, this, filters.getModeString());
             
             panelsList.add(filterPanel);
             filters.addFilter(filter);
@@ -312,6 +311,8 @@ class FilterWrapper {
 }
 
 class FilterComboBoxRenderer extends JLabel implements ListCellRenderer {
+
+    private static final long serialVersionUID = -7866998345539685789L;
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {

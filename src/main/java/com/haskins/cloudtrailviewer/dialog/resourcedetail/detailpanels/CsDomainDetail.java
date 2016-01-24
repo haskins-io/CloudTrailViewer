@@ -42,6 +42,10 @@ public class CsDomainDetail extends AbstractDetail {
     
     private static final long serialVersionUID = -80373300673797040L;
 
+    /**
+     * Default Constructor
+     * @param detailRequest 
+     */
     public CsDomainDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);
     }
