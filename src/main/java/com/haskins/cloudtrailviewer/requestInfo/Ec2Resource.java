@@ -18,10 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.requestInfo;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.haskins.cloudtrailviewer.model.event.Event;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -203,7 +204,7 @@ public class Ec2Resource extends AbstractRequest implements Request {
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("resourcesSet")) {
             
-            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("resourcesSet");
+            Map<String, ArrayList> resourceSet = (LinkedTreeMap)requestParameters.get("resourcesSet");
             if (resourceSet != null) {
                 List<Map> items = (List)resourceSet.get("items");
                 if (items != null) {
@@ -224,7 +225,7 @@ public class Ec2Resource extends AbstractRequest implements Request {
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
             
-            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("instancesSet");
+            Map<String, ArrayList> resourceSet = (LinkedTreeMap)requestParameters.get("instancesSet");
             if (resourceSet != null) {
                 List<Map> items = (List)resourceSet.get("items");
                 if (items != null) {
@@ -263,7 +264,7 @@ public class Ec2Resource extends AbstractRequest implements Request {
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
             
-            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("instancesSet");
+            Map<String, ArrayList> resourceSet = (LinkedTreeMap)requestParameters.get("instancesSet");
             if (resourceSet != null) {
                 List<Map> items = (List)resourceSet.get("items");
                 if (items != null) {
@@ -280,7 +281,7 @@ public class Ec2Resource extends AbstractRequest implements Request {
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
             
-            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("instancesSet");
+            Map<String, ArrayList> resourceSet = (LinkedTreeMap)requestParameters.get("instancesSet");
             if (resourceSet != null) {
                 List<Map> items = (List)resourceSet.get("items");
                 if (items != null) {
@@ -297,7 +298,7 @@ public class Ec2Resource extends AbstractRequest implements Request {
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey("instancesSet")) {
             
-            Map<String, LinkedHashMap> resourceSet = (LinkedHashMap)requestParameters.get("instancesSet");
+            Map<String, ArrayList>resourceSet = (LinkedTreeMap)requestParameters.get("instancesSet");
             if (resourceSet != null) {
                 List<Map> items = (List)resourceSet.get("items");
                 if (items != null) {
