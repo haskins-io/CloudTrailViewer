@@ -35,6 +35,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * Panel that show the number of Events that have been received.
@@ -49,7 +50,7 @@ public class CountPanel extends JPanel {
     
     private final Feature feature;
     
-    private final JLabel eventCount = new JLabel(String.valueOf(0));
+    private final JLabel eventCount = new JLabel(String.valueOf(0), SwingConstants.CENTER);
     
     private boolean sorted = false;
         
@@ -90,8 +91,11 @@ public class CountPanel extends JPanel {
         
         Font labelFont = eventCount.getFont();
         eventCount.setForeground(Color.white);
-        eventCount.setAlignmentX(CENTER_ALIGNMENT);
-        eventCount.setFont(new Font(labelFont.getName(), labelFont.getStyle(), 16));
+        eventCount.setFont(new Font(labelFont.getName(), labelFont.getStyle(), 20));
+        
+        eventCount.setMinimumSize(new Dimension(115,45));
+        eventCount.setMaximumSize(new Dimension(115,45));
+        eventCount.setPreferredSize(new Dimension(115,45));
         
         JPanel countPanel = new JPanel();
         countPanel.setLayout(new BoxLayout(countPanel,BoxLayout.PAGE_AXIS));
@@ -116,8 +120,6 @@ public class CountPanel extends JPanel {
         titlePanel.setOpaque(false);
         
         this.add(titlePanel, BorderLayout.PAGE_START);
-        
-        
     }
     
     /**
@@ -131,7 +133,7 @@ public class CountPanel extends JPanel {
         
         Font labelFont = eventCount.getFont();
         if (eventCount.getText().length() >= 5) {
-            eventCount.setFont(new Font(labelFont.getName(), labelFont.getStyle(), 14));
+            eventCount.setFont(new Font(labelFont.getName(), labelFont.getStyle(), 18));
         }
         
         this.revalidate();
