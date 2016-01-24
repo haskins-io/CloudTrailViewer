@@ -266,7 +266,9 @@ public class GeoDataFeature extends JPanel implements Feature {
         
         try {
             File f = new File(getFileName());
-            f.delete();
+            if (!f.delete()) {
+                LOGGER.log(Level.WARNING, "Failed to delete existing Geo HTML file");
+            }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Failed to delete existing Geo HTML file", e);
         }
@@ -275,7 +277,7 @@ public class GeoDataFeature extends JPanel implements Feature {
             out.write(htmtContent);
             out.close();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, "Failed to load Geo HTML file", e);
+            LOGGER.log(Level.WARNING, "Failed to create new Geo HTML file", e);
         }
     }
     
