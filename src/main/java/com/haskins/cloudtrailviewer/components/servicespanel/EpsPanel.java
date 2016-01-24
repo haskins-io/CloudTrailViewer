@@ -24,6 +24,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,6 +34,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * Panel that shows the Peak number of Event Per Second for a Service
@@ -58,9 +60,9 @@ public class EpsPanel extends JPanel {
     private int peakMinute = 0;
     private int peakHour = 0;
     
-    private final JLabel secondLabel = new JLabel(String.valueOf(peakSecond));
-    private final JLabel minuteLabel = new JLabel(String.valueOf(peakMinute));
-    private final JLabel hourLabel = new JLabel(String.valueOf(peakHour));
+    private final JLabel secondLabel = new JLabel(String.valueOf(peakSecond), SwingConstants.CENTER);
+    private final JLabel minuteLabel = new JLabel(String.valueOf(peakMinute), SwingConstants.CENTER);
+    private final JLabel hourLabel = new JLabel(String.valueOf(peakHour), SwingConstants.CENTER);
     
     public EpsPanel(Color bgColour) {
         
@@ -83,7 +85,7 @@ public class EpsPanel extends JPanel {
         hourLabel.setForeground(Color.white);
         hourLabel.setAlignmentX(CENTER_ALIGNMENT);
         
-        JPanel countPanel = new JPanel();
+        JPanel countPanel = new JPanel(new GridLayout(1,3));
         countPanel.add(secondLabel);
         countPanel.add(minuteLabel);
         countPanel.add(hourLabel);
