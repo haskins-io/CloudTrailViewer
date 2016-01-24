@@ -74,11 +74,12 @@ public class GeneralUtils {
     private static OS os = OS.OTHER;
 
     static {
+        
         try {
 
             String osName = System.getProperty("os.name");
             if (osName == null) {
-                throw new IOException("os.name not found");
+                throw new Exception("os.name not found");
             }
 
             osName = osName.toLowerCase(Locale.ENGLISH);
