@@ -29,6 +29,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -44,7 +45,7 @@ public class ServicesOverviewPanel extends JPanel {
     private final EpsPanel awsEpsPanel;
     private final EpsPanel iamEpsPanel;
     
-    private final JLabel totalLabel = new JLabel("0");
+    private final JLabel totalLabel = new JLabel("0", SwingConstants.CENTER);
     
     /**
      * Default Constructor.
@@ -62,7 +63,7 @@ public class ServicesOverviewPanel extends JPanel {
         
         this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
         
-        JLabel title = new JLabel(serviceName);
+        JLabel title = new JLabel(serviceName, SwingConstants.CENTER);
         title.setAlignmentX(CENTER_ALIGNMENT);
         
         JPanel labelPanel = new JPanel();
@@ -90,8 +91,8 @@ public class ServicesOverviewPanel extends JPanel {
         statsContainer.add(countsPanel, BorderLayout.CENTER);
         statsContainer.add(epsPanel, BorderLayout.PAGE_END);
         
-        JPanel totalPanel = new JPanel();
-        totalPanel.add(new JLabel("Total : "));
+        JPanel totalPanel = new JPanel(new GridLayout(1,2));
+        totalPanel.add(new JLabel("Total : ", SwingConstants.CENTER));
         totalPanel.add(totalLabel);
         
         this.add(labelPanel, BorderLayout.PAGE_START);
