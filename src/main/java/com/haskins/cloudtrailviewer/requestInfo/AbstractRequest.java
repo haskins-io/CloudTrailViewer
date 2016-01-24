@@ -69,18 +69,13 @@ public abstract class AbstractRequest {
         
         List<String> ignoreList = Arrays.asList(ignore);
         
-        Map requestParameters = event.getRequestParameters();
+        Map<String, ?> requestParameters = event.getRequestParameters();
         if (requestParameters != null) {
                         
-            Set<String> keys = requestParameters.keySet();
-            Iterator<String> it = keys.iterator();
-            while(it.hasNext()) {
-                
-                String paramName = it.next();
-                if (!ignoreList.contains(paramName)) {
-                    
-                    Object paramValue = requestParameters.get(paramName);
-                    addValueToRequestInfo(requestInfo, paramName, paramValue, false);
+            for (Map.Entry<String, ?> entry : requestParameters.entrySet()) {
+            
+                if (!ignoreList.contains(entry.getKey())) {
+                    addValueToRequestInfo(requestInfo, entry.getKey(), entry.getValue(), false);
                 }
             }
         }
@@ -122,14 +117,10 @@ public abstract class AbstractRequest {
 
             } else if (paramValue instanceof LinkedHashMap) {
 
-                Map values = (LinkedHashMap)paramValue;
-                Set<String> keys = values.keySet();
-                Iterator<String> it = keys.iterator();
-                while(it.hasNext()) {
-
-                    String key = it.next();
-                    Object value = values.get(key);
-                    addValueToRequestInfo(requestInfo, key, value, resource);
+                Map<String, ?> values = (LinkedHashMap)paramValue;
+                
+                for (Map.Entry<String, ?> entry : values.entrySet()) {
+                    addValueToRequestInfo(requestInfo, entry.getKey(), entry.getValue(), resource);
                 }
             }
         }
