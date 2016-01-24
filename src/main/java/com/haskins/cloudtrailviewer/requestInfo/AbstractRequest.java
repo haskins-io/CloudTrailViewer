@@ -91,37 +91,37 @@ public abstract class AbstractRequest {
     ////////////////////////////////////////////////////////////////////////////
     private void addValueToRequestInfo(RequestInfo requestInfo, String resourceName, Object paramValue, boolean resource) {
         
-        if (resourceMap.containsKey(resourceName)) {
+        if (resourceMap != null && resourceMap.containsKey(resourceName)) {
             resourceName = resourceMap.get(resourceName);
         }
         
         try {
             if (paramValue instanceof String) {
-                
+
                 if (resource) {
                     requestInfo.addResource(resourceName, (String)paramValue);
                 } else {
                     requestInfo.addParameter(resourceName, (String)paramValue);
                 }
-                
+
             } else if (paramValue instanceof Integer || paramValue instanceof Boolean) {
-                
+
                 if (resource) {
                     requestInfo.addResource(resourceName, String.valueOf(paramValue));
                 } else {
                     requestInfo.addParameter(resourceName, String.valueOf(paramValue));
                 }
-                
+
             }  else if (paramValue instanceof ArrayList) {
-                
+
                 List<Object> values = (ArrayList)paramValue;
                 for (Object value : values) {
-                    
+
                     addValueToRequestInfo(requestInfo, resourceName, value, resource);
                 }
 
             } else if (paramValue instanceof LinkedHashMap) {
-               
+
                 Map values = (LinkedHashMap)paramValue;
                 Set<String> keys = values.keySet();
                 Iterator<String> it = keys.iterator();
@@ -136,6 +136,5 @@ public abstract class AbstractRequest {
         catch (Exception e) {
             LOGGER.log(Level.WARNING, "Problem handling Request Map", e);
         }
- 
     }
 }
