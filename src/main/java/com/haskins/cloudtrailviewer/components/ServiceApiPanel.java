@@ -31,6 +31,11 @@ import javax.swing.JPanel;
  */
 public class ServiceApiPanel extends JPanel {
     
+    public static final int ORIENTATION_HORIZONTAL = 0;
+    public static final int ORIENTATION_VERTICAL = 1;
+    
+    private int orientation;
+    
     private static final DefaultComboBoxModel MODEL_SERVICES = new DefaultComboBoxModel();
     private static final DefaultComboBoxModel MODEL_APIS = new DefaultComboBoxModel();
     private static final long serialVersionUID = 6392140943533697206L;
@@ -38,7 +43,15 @@ public class ServiceApiPanel extends JPanel {
     private JComboBox servicesCombo = null;
     private final JComboBox apisCombo = new JComboBox(MODEL_APIS);
     
+    private ServiceApiPanelListener listener;
+    
     public ServiceApiPanel() {
+        this(ORIENTATION_VERTICAL);
+    }
+    
+    public ServiceApiPanel(int orientation) {
+        
+        this.orientation= orientation;
         
         List<String> services = AwsService.getInstance().getServices();
         for (String service : services) {
@@ -64,6 +77,10 @@ public class ServiceApiPanel extends JPanel {
         return (String)apisCombo.getSelectedItem();
     }
     
+    public void addListener(ServiceApiPanelListener l) {
+        this.listener = l;
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
     // Private methods
     ////////////////////////////////////////////////////////////////////////////
@@ -85,7 +102,25 @@ public class ServiceApiPanel extends JPanel {
             }
         });
         
-        this.setLayout(new GridLayout(2,1));
+        apisCombo.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox cb = (JComboBox)e.getSource();
+                String api = (String)cb.getSelectedItem();
+                
+                if (listener != null) {
+                    listener.apiSelected(api);
+                }
+            }
+        });
+        
+        if (orientation == ORIENTATION_VERTICAL) {
+            this.setLayout(new GridLayout(2,1));
+        } else {
+            this.setLayout(new GridLayout(1,2));
+        }
+
         this.add(servicesCombo);
         this.add(apisCombo);
     }
