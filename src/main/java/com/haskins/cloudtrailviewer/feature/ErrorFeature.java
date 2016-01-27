@@ -116,6 +116,10 @@ public class ErrorFeature extends JPanel implements Feature {
         
         resourcesContainer.reset();
         resourcesContainer.revalidate();
+        
+        eventTable.clearEvents();
+        eventTable.setVisible(false);
+        
         this.revalidate();
     }
 

@@ -107,6 +107,9 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
                 
         if (e.getActionCommand().equalsIgnoreCase(ACTION_LOAD)) {
             
+            btnLoad.setEnabled(false);
+            btnLoad.setText("Loading");
+            
             StringBuilder query = new StringBuilder();
             query.append("UPDATE aws_credentials SET aws_prefix =");
             query.append(" '").append(fileList.getPrefix()).append("'");

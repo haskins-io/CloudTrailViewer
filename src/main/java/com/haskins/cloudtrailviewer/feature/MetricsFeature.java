@@ -146,6 +146,10 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
 
     @Override
     public void reset() {
+        
+        eventTable.clearEvents();
+        eventTable.setVisible(false);
+        
     }
 
     ////////////////////////////////////////////////////////////////////////////

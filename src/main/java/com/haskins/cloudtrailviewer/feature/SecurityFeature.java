@@ -124,6 +124,10 @@ public class SecurityFeature extends JPanel implements Feature {
         
         securityContainer.reset();
         securityContainer.revalidate();
+        
+        eventTable.clearEvents();
+        eventTable.setVisible(false);
+        
         this.revalidate();
     }
 

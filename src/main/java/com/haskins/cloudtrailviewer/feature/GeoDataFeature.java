@@ -140,6 +140,10 @@ public class GeoDataFeature extends JPanel implements Feature {
 
         geoIpContainer.reset();
         geoIpContainer.revalidate();
+        
+        eventTable.clearEvents();
+        eventTable.setVisible(false);
+        
         this.revalidate();
     }
 

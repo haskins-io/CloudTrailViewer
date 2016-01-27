@@ -117,6 +117,10 @@ public class OverviewFeature extends JPanel implements Feature {
         
         servicesContainer.reset();
         servicesContainer.revalidate();
+        
+        eventTable.clearEvents();
+        eventTable.setVisible(false);
+        
         this.revalidate();
     }
 
