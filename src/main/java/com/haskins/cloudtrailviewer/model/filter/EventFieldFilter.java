@@ -18,11 +18,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.model.filter;
 
+import com.haskins.cloudtrailviewer.components.ServiceApiPanel;
+import com.haskins.cloudtrailviewer.components.ServiceApiPanelListener;
+import com.haskins.cloudtrailviewer.components.ServicePanel;
+import com.haskins.cloudtrailviewer.components.ServicePanelListener;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.EventUtils;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -35,6 +40,8 @@ public class EventFieldFilter extends AbstractFilter {
 
     private String fieldName;
     
+    JLabel filterName = new JLabel();
+    
     public void setOption(String fieldName) {
         this.fieldName = fieldName;
     }
@@ -43,25 +50,13 @@ public class EventFieldFilter extends AbstractFilter {
     public JPanel getFilterPanel(String name) {
         
         JPanel ui = new JPanel(new BorderLayout());
-        ui.add(new JLabel(name + " "), BorderLayout.LINE_START);
         
-        final JTextField textField = new JTextField();
-        textField.addKeyListener(new KeyListener(){
-            
-            @Override
-            public void keyTyped(KeyEvent e) {
-                needle = textField.getText();
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) { }
-
-            @Override
-            public void keyReleased(KeyEvent e) { }
-            
-        });
+        filterName.setText(name + " ");
+        filterName.setVisible(true);
         
-        ui.add(textField, BorderLayout.CENTER);
+        ui.add(filterName, BorderLayout.LINE_START);
+        
+        addInputPanel(ui);
         
         ui.setMinimumSize(DEFAULT_SIZE);
         ui.setPreferredSize(DEFAULT_SIZE);
@@ -94,5 +89,54 @@ public class EventFieldFilter extends AbstractFilter {
         }
         
         return needleSet;
+    }
+    
+    private void addInputPanel(JPanel ui) {
+        
+        final JComponent component;
+        
+        switch (this.fieldName) {
+            case "eventSource":
+                component = new ServicePanel();
+                ((ServicePanel)component).addListener( new ServicePanelListener() {
+                    @Override
+                    public void serviceChanged(String newService) {
+                        needle = newService;
+                    }
+                });
+                break;
+                
+            case "eventName":
+                component = new ServiceApiPanel(ServiceApiPanel.ORIENTATION_HORIZONTAL);
+                ((ServiceApiPanel)component).addListener( new ServiceApiPanelListener() {
+                    @Override
+                    public void apiSelected(String api) {
+                        needle = api;
+                    }
+                });
+                
+                filterName.setVisible(false);
+                break;
+                
+            default:
+
+               component = new JTextField();
+               component.addKeyListener(new KeyListener(){
+
+                   @Override
+                   public void keyTyped(KeyEvent e) {
+                       needle = ((JTextField)component).getText();
+                   }
+
+                   @Override
+                   public void keyPressed(KeyEvent e) { }
+
+                   @Override
+                   public void keyReleased(KeyEvent e) { }
+
+               });
+        }
+        
+        ui.add(component, BorderLayout.CENTER);
     }
 }
