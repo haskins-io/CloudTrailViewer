@@ -86,6 +86,16 @@ public class AwsService {
         
         return friendlyName;
     }
+    
+    public String getEndpointFromFriendlyName(String friendlyName) {
+        
+        String endpoint = serviceNamesToEndpoints.get(friendlyName);
+        if (endpoint == null) {
+            endpoint = friendlyName;
+        }
+        
+        return endpoint;
+    }
 
     /**
      * Returns the names of all available AWS Services
