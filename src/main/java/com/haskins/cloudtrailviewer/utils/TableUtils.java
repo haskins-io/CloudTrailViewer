@@ -37,7 +37,7 @@ public class TableUtils implements Serializable {
     /**
      * Returns the username for the event.
      * @param event Event to check
-     * @return
+     * @return returns a String containing the entity that invoked the API call
      */
     public String getInvokedBy(Event event) {
         
@@ -50,24 +50,13 @@ public class TableUtils implements Serializable {
 
             } else if (event.getUserIdentity().getType().equalsIgnoreCase("AssumedRole")) {
 
-                if (event.getEventSource().contains(".amazonaws.com") && !event.getEventSource().equalsIgnoreCase("signin.amazonaws.com")) {
+                String arn = event.getUserIdentity().getArn();
+                int pos = arn.lastIndexOf(':');
 
-                    try {
-                        username = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
-                    } catch (Exception e) {
-                        username = event.getUserIdentity().getArn();
-                    }
+                String part = arn.substring(pos);
+                pos = part.indexOf('/');
 
-                } else {
-
-                    String arn = event.getUserIdentity().getArn();
-                    int pos = arn.lastIndexOf(':');
-
-                    String part = arn.substring(pos);
-                    pos = part.indexOf('/');
-
-                    username = part.substring(pos + 1);
-                }
+                username = part.substring(pos + 1);
 
             } else if (event.getUserIdentity().getType().equalsIgnoreCase("FederatedUser")) {
 
@@ -109,8 +98,8 @@ public class TableUtils implements Serializable {
      * Returns the name of the AWS service reference in the Event. This returns
      * a friendly name e.g. AWS AutoScaling and not autoscaling.amazonaws.com
      * 
-     * @param event
-     * @return 
+     * @param event Object from which the service name is required
+     * @return return name of service
      */
     public String getService(Event event) {
         
