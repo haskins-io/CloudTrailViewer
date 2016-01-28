@@ -48,6 +48,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -119,7 +120,7 @@ public class EventLoader implements Serializable {
                         l.processingFile(count, total);
                     }
                     
-                    try (InputStream stream = loadEventFromLocalFile(filename);) {
+                    try (InputStream stream = loadEventFromLocalFile(filename)) {
                         processStream(stream, request.getFilter());
                     }
                     catch (IOException ioe) { 
@@ -135,7 +136,7 @@ public class EventLoader implements Serializable {
                 }
                 
                 return null;
-            };
+            }
         };
 
        worker.execute();
@@ -186,7 +187,7 @@ public class EventLoader implements Serializable {
                         l.processingFile(count, total);
                     }
                     
-                    try (InputStream stream = loadEventFromS3(s3Client, bucketName, filename);) {
+                    try (InputStream stream = loadEventFromS3(s3Client, bucketName, filename)) {
                         processStream(stream, request.getFilter());
 
                     } 
@@ -203,7 +204,7 @@ public class EventLoader implements Serializable {
                 }
                 
                 return null;
-            };
+            }
         };
 
         worker.execute();
@@ -230,7 +231,7 @@ public class EventLoader implements Serializable {
         
         try (GZIPInputStream gzis = new GZIPInputStream(stream, BUFFER_SIZE)) {
             
-            try (BufferedReader bf = new BufferedReader(new InputStreamReader(gzis, "UTF-8"));) {
+            try (BufferedReader bf = new BufferedReader(new InputStreamReader(gzis, "UTF-8"))) {
                 
                 String line;
                 while ((line = bf.readLine()) != null) {
@@ -254,28 +255,19 @@ public class EventLoader implements Serializable {
     private String loadUncompressedFile(InputStream stream) {
                 
         StringBuilder json = new StringBuilder();
-        
-        try {
-            
-            try (BufferedReader bf = new BufferedReader(new InputStreamReader(stream, "UTF-8"));) {
 
-                String line;
-                while ((line = bf.readLine()) != null) {
-                    json.append(line);
-                }
-            }
-        } 
-        catch (UnsupportedEncodingException ex) {
-            LOGGER.log(Level.WARNING, "File encoding not supported : ", ex);
+        Scanner scanner = new Scanner(stream, "UTF-8");
+        while (scanner.hasNext()) {
+            String line = scanner.next();
+            json.append(line.replaceAll("(\\r|\\n|\\t)", ""));
         }
-        catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "Problem reading file data : ", ex);
-        } 
-        
+
         // check if the first character is a { otherwise add one
-        String firstChar = json.substring(0,1);
-        if (!firstChar.equalsIgnoreCase("{")) {
+        String firstChars = json.substring(0,2);
+        if (firstChars.equalsIgnoreCase("Re")) {
             json.insert(0, "{\"");
+        } else if (firstChars.equalsIgnoreCase("\"R")) {
+            json.insert(0, "{");
         }
         
         return json.toString();
@@ -289,12 +281,11 @@ public class EventLoader implements Serializable {
         
         JsonObject jsonObject = new JsonParser().parse(json_string).getAsJsonObject();
         JsonArray records = (JsonArray)jsonObject.get("Records");
-        
-        Iterator i = records.iterator();
-        while(i.hasNext()) {
-            
-            try{
-                JsonObject obj = (JsonObject)i.next();
+
+        for (Object record : records) {
+
+            try {
+                JsonObject obj = (JsonObject) record;
                 Event e = g.fromJson(obj, Event.class);
                 events.add(e);
             } catch (Exception e) {
