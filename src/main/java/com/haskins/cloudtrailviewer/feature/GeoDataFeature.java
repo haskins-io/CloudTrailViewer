@@ -31,12 +31,10 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -247,21 +245,35 @@ public class GeoDataFeature extends JPanel implements Feature {
 
         StringBuilder result = new StringBuilder();
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("GeoIp.html").getFile());
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        InputStreamReader io = new InputStreamReader(classLoader.getResourceAsStream("geodata/GeoIp.html"));
 
-        try (Scanner scanner = new Scanner(file)) {
 
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
+        try( BufferedReader br = new BufferedReader(io) ) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
                 result.append(line).append("\n");
             }
 
-            scanner.close();
-
-        } catch (IOException e) {
-            LOGGER.log(Level.WARNING, "Failed to load Geo HTML file", e);
+        } catch (IOException ioe) {
+            LOGGER.log(Level.WARNING, "Unable to load service APIs", ioe);
         }
+
+//            File file = new File(url.getFile());
+//
+//            try (Scanner scanner = new Scanner(file)) {
+//
+//                while (scanner.hasNextLine()) {
+//                    String line = scanner.nextLine();
+//                    result.append(line).append("\n");
+//                }
+//
+//                scanner.close();
+//
+//            } catch (IOException e) {
+//                LOGGER.log(Level.WARNING, "Failed to load Geo HTML file", e);
+
 
         return result.toString();
     }

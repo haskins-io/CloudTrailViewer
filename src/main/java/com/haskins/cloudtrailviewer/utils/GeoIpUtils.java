@@ -27,6 +27,7 @@ import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.Location;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class GeoIpUtils {
     
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     
-    private static final String GEO_FILE = "GeoLite2-City.mmdb";
+    private static final String GEO_FILE = "geodata/GeoLite2-City.mmdb";
     private static final Pattern REGEX_PATTERN = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
     
     private DatabaseReader reader = null;
@@ -52,9 +53,11 @@ public class GeoIpUtils {
     private GeoIpUtils() {
         
         try {
-            ClassLoader classLoader = GeoIpUtils.class.getClassLoader();
-            File database = new File(classLoader.getResource(GEO_FILE).getFile());
-            reader = new DatabaseReader.Builder(database).build();
+            ClassLoader classLoader = this.getClass().getClassLoader();
+//            File database = new File(classLoader.getResource(GEO_FILE).getFile());
+//            InputStreamReader io = new InputStreamReader(classLoader.getResourceAsStream(GEO_FILE));
+
+            reader = new DatabaseReader.Builder(classLoader.getResourceAsStream(GEO_FILE)).build();
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "Failed to load GeoIp Database", ex);
         } catch (Exception ex) {
