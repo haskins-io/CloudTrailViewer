@@ -43,41 +43,65 @@ public class TableUtils implements Serializable {
         
         String username;
         
-        if (event.getUserIdentity().getType().equalsIgnoreCase("IAMUser")) {
-            username = event.getUserIdentity().getUserName();
-            
-        } else if (event.getUserIdentity().getType().equalsIgnoreCase("AssumedRole")) {
-            
-            if (event.getUserIdentity().getSessionContext() != null) {
-                username = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
-                
+        try {
+            if (event.getUserIdentity().getType().equalsIgnoreCase("IAMUser")) {
+
+                username = event.getUserIdentity().getUserName();
+
+            } else if (event.getUserIdentity().getType().equalsIgnoreCase("AssumedRole")) {
+
+                if (event.getEventSource().contains(".amazonaws.com") && !event.getEventSource().equalsIgnoreCase("signin.amazonaws.com")) {
+
+                    try {
+                        username = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
+                    } catch (Exception e) {
+                        username = event.getUserIdentity().getArn();
+                    }
+
+                } else {
+
+                    String arn = event.getUserIdentity().getArn();
+                    int pos = arn.lastIndexOf(':');
+
+                    String part = arn.substring(pos);
+                    pos = part.indexOf('/');
+
+                    username = part.substring(pos + 1);
+                }
+
+            } else if (event.getUserIdentity().getType().equalsIgnoreCase("FederatedUser")) {
+
+                if (event.getUserIdentity().getSessionContext().getSessionIssuer().getType().equalsIgnoreCase("IAMUser")) {
+                    username = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
+                } else {
+                    username = event.getUserIdentity().getArn();
+                }
+
+            } else if (event.getUserIdentity().getType().equalsIgnoreCase("Root")) {
+
+                if (event.getUserIdentity().getInvokedBy() != null) {
+
+                    if (event.getUserIdentity().getInvokedBy().contains(".amazonaws.com")) {
+
+                        String tmp = event.getUserIdentity().getInvokedBy();
+                        tmp = tmp.replaceFirst(".amazonaws.com", "");
+                        username = AwsService.getInstance().getFriendlyName(tmp);
+
+                    } else {
+                        username = event.getUserIdentity().getInvokedBy();
+                    }
+                } else {
+
+                    username = event.getUserIdentity().getArn();
+                }
+
             } else {
-                
-                String arn = event.getUserIdentity().getArn();
-                int pos = arn.lastIndexOf('/');
-                
-                username = arn.substring(pos);
+                username = event.getUserIdentity().getArn();
             }
-                        
-        } else if (event.getUserIdentity().getType().equalsIgnoreCase("FederatedUser")) {
-            username = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();
-            
-        } else if (event.getUserIdentity().getType().equalsIgnoreCase("Root")) {
-            
-            if (event.getUserIdentity().getInvokedBy().contains(".amazonaws.com")) {
-                
-                String tmp = event.getUserIdentity().getInvokedBy();
-                tmp = tmp.replaceFirst(".amazonaws.com", "");
-                username = AwsService.getInstance().getFriendlyName(tmp);
-                
-            } else {
-                username = event.getUserIdentity().getInvokedBy();
-            }
-            
-        } else {
-            username = "";
+        } catch (Exception e) {
+            username = event.getUserIdentity().getArn();
         }
-        
+
         return username;
     }
     
