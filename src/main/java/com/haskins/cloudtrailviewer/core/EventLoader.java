@@ -275,7 +275,7 @@ public class EventLoader implements Serializable {
         // check if the first character is a { otherwise add one
         String firstChar = json.substring(0,1);
         if (!firstChar.equalsIgnoreCase("{")) {
-            json.insert(0, "{ ");
+            json.insert(0, "{\"");
         }
         
         return json.toString();
