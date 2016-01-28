@@ -71,9 +71,8 @@ public class RequestInfo {
         List<String> values = new ArrayList<>();
         
         Set<String> keys = resourceMap.keySet();
-        Iterator<String> it = keys.iterator();
-        while (it.hasNext()) {            
-            values.add(it.next());
+        for (String key : keys) {
+            values.add(key);
         }
         
         return createResponseString(values);
@@ -84,10 +83,8 @@ public class RequestInfo {
         List<String> values = new ArrayList<>();
         
         Set<String> keys = resourceMap.keySet();
-        Iterator<String> it = keys.iterator();
-        while (it.hasNext()) {            
-            
-            String key = it.next();
+        for (String key : keys) {
+
             List<String> nameValues = resourceMap.get(key);
             for (String value : nameValues) {
                 values.add(value);

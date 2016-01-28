@@ -36,24 +36,18 @@ import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
 import com.haskins.cloudtrailviewer.utils.EventUtils;
 import com.haskins.cloudtrailviewer.utils.GeoIpUtils;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
+
+import javax.swing.*;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
-import javax.swing.SwingWorker;
 
 
 /**
@@ -91,7 +85,7 @@ public class EventLoader implements Serializable {
     
     /**
      * Loads Events fro the local file system
-     * @param request 
+     * @param request object containing Request information
      */
     public void loadEventsFromLocalFiles(final LoadFileRequest request) {
 
@@ -144,7 +138,7 @@ public class EventLoader implements Serializable {
     
     /**
      * Loads events from S3
-     * @param request 
+     * @param request Object containing request information
      */
     public void loadEventsFromS3(final LoadFileRequest request) {
 

@@ -102,7 +102,7 @@ public class FilteringPanel extends JPanel implements ActionListener {
         
         panelsList.remove(filterToRemove);
         if (!panelsList.isEmpty()) {
-            ((FilterPanel)panelsList.getFirst()).hideAndPanel();
+            panelsList.getFirst().hideAndPanel();
         }
     }
     

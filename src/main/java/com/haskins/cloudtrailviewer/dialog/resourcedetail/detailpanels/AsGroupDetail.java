@@ -29,6 +29,7 @@ import com.amazonaws.services.autoscaling.model.TagDescription;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,7 +61,7 @@ public class AsGroupDetail extends AbstractDetail {
             asClient.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
 
             DescribeAutoScalingGroupsRequest request = new DescribeAutoScalingGroupsRequest();
-            request.setAutoScalingGroupNames(Arrays.asList(detailRequest.getResourceName()));
+            request.setAutoScalingGroupNames(Collections.singletonList(detailRequest.getResourceName()));
             
             DescribeAutoScalingGroupsResult result = asClient.describeAutoScalingGroups(request);
             buildUI(result); 

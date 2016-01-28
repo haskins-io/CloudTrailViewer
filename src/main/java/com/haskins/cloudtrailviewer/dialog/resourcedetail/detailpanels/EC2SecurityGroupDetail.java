@@ -25,6 +25,7 @@ import com.amazonaws.services.ec2.model.DescribeSecurityGroupsRequest;
 import com.amazonaws.services.ec2.model.DescribeSecurityGroupsResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -53,7 +54,7 @@ public class EC2SecurityGroupDetail extends AbstractDetail {
             ec2Client.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
             
             DescribeSecurityGroupsRequest request = new DescribeSecurityGroupsRequest();
-            request.setGroupIds(Arrays.asList(detailRequest.getResourceName()));
+            request.setGroupIds(Collections.singletonList(detailRequest.getResourceName()));
             
             DescribeSecurityGroupsResult result = ec2Client.describeSecurityGroups(request);
             buildUI(result); 

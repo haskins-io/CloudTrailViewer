@@ -85,11 +85,8 @@ public class AccountDao {
      * @return 
      */
     public static List<AwsAccount> getAllAccountsWithBucket() {
-                
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT * FROM aws_credentials WHERE LENGTH(aws_bucket) > 1");
-        
-        return executeQuery(query.toString());
+
+        return executeQuery("SELECT * FROM aws_credentials WHERE LENGTH(aws_bucket) > 1");
     }
     
     /**
@@ -125,8 +122,8 @@ public class AccountDao {
     }
     
     private static AwsAccount getAccountFromResultSetRow(ResultSetRow row) {
-        
-        AwsAccount account = new AwsAccount(
+
+        return new AwsAccount(
                 (Integer) row.get("id"),
                 (String) row.get("aws_name"),
                 (String) row.get("aws_acct"),
@@ -135,8 +132,6 @@ public class AccountDao {
                 (String) row.get("aws_secret"),
                 (String) row.get("aws_prefix")
         );
-        
-        return account;
     }
     
 }

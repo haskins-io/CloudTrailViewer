@@ -184,7 +184,7 @@ public class GeneralUtils {
             TableModel model = table.getModel();
             XTableColumnModel columnModel = (XTableColumnModel)table.getColumnModel();
                     
-            try (FileWriter csvFile = new FileWriter(fileChooser.getSelectedFile());) {
+            try (FileWriter csvFile = new FileWriter(fileChooser.getSelectedFile())) {
 
                 for(int i = 0; i < model.getColumnCount(); i++){
                     

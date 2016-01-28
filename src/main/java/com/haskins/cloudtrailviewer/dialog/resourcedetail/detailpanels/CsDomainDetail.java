@@ -27,6 +27,7 @@ import com.amazonaws.services.cloudsearchv2.model.DomainStatus;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,7 +62,7 @@ public class CsDomainDetail extends AbstractDetail {
             client.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
             
             DescribeDomainsRequest request = new DescribeDomainsRequest();
-            request.setDomainNames(Arrays.asList(detailRequest.getResourceName()));
+            request.setDomainNames(Collections.singletonList(detailRequest.getResourceName()));
             
             DescribeDomainsResult result = client.describeDomains(request);
             buildUI(result); 

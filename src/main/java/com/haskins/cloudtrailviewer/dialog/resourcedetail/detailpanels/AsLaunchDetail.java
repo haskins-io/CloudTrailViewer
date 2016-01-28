@@ -27,6 +27,7 @@ import com.amazonaws.services.autoscaling.model.LaunchConfiguration;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -53,7 +54,7 @@ public class AsLaunchDetail extends AbstractDetail {
             asClient.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
             
             DescribeLaunchConfigurationsRequest request = new DescribeLaunchConfigurationsRequest();
-            request.setLaunchConfigurationNames(Arrays.asList(detailRequest.getResourceName()));
+            request.setLaunchConfigurationNames(Collections.singletonList(detailRequest.getResourceName()));
             
             DescribeLaunchConfigurationsResult result = asClient.describeLaunchConfigurations(request);
             buildUI(result); 

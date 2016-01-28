@@ -42,7 +42,7 @@ public class PropertiesController {
     private PropertiesController() {
         
         ClassLoader cl = PropertiesController.class.getClassLoader();
-        try (InputStream input = cl.getResourceAsStream(PROP_FILE);) {
+        try (InputStream input = cl.getResourceAsStream(PROP_FILE)) {
             
             if(input==null){
                 System.out.println("Sorry, unable to find " + PROP_FILE);

@@ -216,7 +216,7 @@ public class StatusBar extends JPanel {
                     long used = total - free;
 
                     MEMORY.setText(String.format("Memory : Used %sMb | Free %dMb | Max Available %dMb", used, free, max));
-                };
+                }
             };
                 
             scheduler.scheduleAtFixedRate(memoryChecker, 1, 5, SECONDS);

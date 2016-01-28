@@ -96,7 +96,7 @@ public class ApiExtractor {
             
             String path = destination + entry.getKey() + ".txt";
             
-            try (FileWriter fw = new FileWriter(path);) {
+            try (FileWriter fw = new FileWriter(path)) {
                 
                 for (String api : entry.getValue()) {
                     fw.write(api + "\r\n");
@@ -110,13 +110,11 @@ public class ApiExtractor {
          * 
          */
         String path = destination + "service_names.txt";
-        try (FileWriter fw = new FileWriter(path);) {
+        try (FileWriter fw = new FileWriter(path)) {
 
             Set<String> keys2 = serviceNames.keySet();
-            Iterator<String> it2 = keys2.iterator();
-            while(it2.hasNext()) {
-                
-                String endpoint = it2.next();
+            for (String endpoint : keys2) {
+
                 String friendly = serviceNames.get(endpoint);
                 fw.write(endpoint + " : " + friendly + "\r\n");
             }

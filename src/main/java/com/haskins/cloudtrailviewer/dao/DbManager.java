@@ -105,7 +105,7 @@ public class DbManager {
         Connection conn = getDbConnection();
 
         try (Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);) {
+            ResultSet rs = stmt.executeQuery(query)) {
 
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();
@@ -141,7 +141,7 @@ public class DbManager {
         Connection conn = getDbConnection();
 
         try (Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);) {
+            ResultSet rs = stmt.executeQuery(query)) {
 
             if (rs.next()) {
                 retVal = rs.getInt(columnName);
@@ -169,7 +169,7 @@ public class DbManager {
         Connection conn = getDbConnection();
 
         try (Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);) {
+            ResultSet rs = stmt.executeQuery(query)) {
 
             if (rs.next()) {
                 retVal = rs.getString(columnName);
@@ -194,7 +194,7 @@ public class DbManager {
 
         Connection conn = getDbConnection();
 
-        try (Statement stmt = conn.createStatement();) {
+        try (Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(query);
         }
         catch (SQLException e) {
@@ -212,7 +212,7 @@ public class DbManager {
 
         Connection conn = getDbConnection();
 
-        try (Statement stmt = conn.createStatement();) {
+        try (Statement stmt = conn.createStatement()) {
             stmt.execute(query);
         }
         catch (SQLException e) {

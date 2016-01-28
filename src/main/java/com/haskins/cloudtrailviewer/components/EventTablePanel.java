@@ -205,7 +205,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
                 if (e.getButton() == MouseEvent.BUTTON3) {
                     columnPopupMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
-            };
+            }
         });
         
         // hide specific columns to start with

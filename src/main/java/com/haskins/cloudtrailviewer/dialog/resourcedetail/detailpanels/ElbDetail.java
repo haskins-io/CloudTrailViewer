@@ -30,6 +30,7 @@ import com.amazonaws.services.elasticloadbalancing.model.LoadBalancerDescription
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,7 +68,7 @@ public class ElbDetail extends AbstractDetail {
             elbClient.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
 
             DescribeLoadBalancersRequest request = new DescribeLoadBalancersRequest();
-            request.setLoadBalancerNames(Arrays.asList(detailRequest.getResourceName()));
+            request.setLoadBalancerNames(Collections.singletonList(detailRequest.getResourceName()));
 
             DescribeLoadBalancersResult result = elbClient.describeLoadBalancers(request);
             buildUI(result); 

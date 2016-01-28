@@ -89,10 +89,8 @@ public class DateTimeCrosshairLabelGenerator implements CrosshairLabelGenerator,
     @Override
     public String generateLabel(Crosshair crosshair) {
         
-        Object[] v = new Object[] {this.dateFormat.format(
-                crosshair.getValue())};
-        String result = MessageFormat.format(this.labelTemplate, v);
-        return result;
+        Object[] v = new Object[] {this.dateFormat.format(crosshair.getValue())};
+        return MessageFormat.format(this.labelTemplate, v);
     }
     
 }

@@ -29,6 +29,7 @@ import com.amazonaws.services.ec2.model.Tag;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,7 +60,7 @@ public class EC2InstanceDetail extends AbstractDetail {
             ec2Client.setRegion(Region.getRegion(Regions.fromName(detailRequest.getRegion())));
 
             DescribeInstancesRequest request = new DescribeInstancesRequest();
-            request.setInstanceIds(Arrays.asList(detailRequest.getResourceName()));
+            request.setInstanceIds(Collections.singletonList(detailRequest.getResourceName()));
 
             DescribeInstancesResult result = ec2Client.describeInstances(request);
             buildUI(result); 

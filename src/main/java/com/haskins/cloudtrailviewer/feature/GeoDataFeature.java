@@ -277,7 +277,7 @@ public class GeoDataFeature extends JPanel implements Feature {
             LOGGER.log(Level.WARNING, "Failed to delete existing Geo HTML file", e);
         }
 
-        try (BufferedWriter out = new BufferedWriter(new FileWriter(getFileName()));) {
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(getFileName()))) {
             out.write(htmtContent);
             out.close();
         } catch (IOException e) {
