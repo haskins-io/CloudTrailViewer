@@ -120,6 +120,9 @@ public class PreferencesDialog extends JDialog implements ActionListener {
         ResourcePanel resources = new ResourcePanel();
         tPane.add("Resources", resources);
         
+        IgnorePanel ignores = new IgnorePanel();
+        tPane.add("Scan Ignores", ignores);
+        
         Container contentPane = getContentPane();
         contentPane.add(tPane, BorderLayout.CENTER);
     }
