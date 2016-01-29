@@ -25,9 +25,8 @@ import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.Location;
-import java.io.File;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,12 +53,7 @@ public class GeoIpUtils {
         
         try {
             ClassLoader classLoader = this.getClass().getClassLoader();
-//            File database = new File(classLoader.getResource(GEO_FILE).getFile());
-//            InputStreamReader io = new InputStreamReader(classLoader.getResourceAsStream(GEO_FILE));
-
             reader = new DatabaseReader.Builder(classLoader.getResourceAsStream(GEO_FILE)).build();
-        } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "Failed to load GeoIp Database", ex);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Failed to load GeoIp Database", ex);
         }
@@ -67,7 +61,7 @@ public class GeoIpUtils {
 
     /**
      * Returns an instance of the class
-     * @return 
+     * @return Returns an Instance of the Singleton
      */
     public static GeoIpUtils getInstance() {
         return GeoIpUtilsHolder.INSTANCE;

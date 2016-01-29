@@ -26,26 +26,18 @@ import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.GeoIpUtils;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Desktop;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JToolBar;
 
 /**
  *
@@ -259,21 +251,6 @@ public class GeoDataFeature extends JPanel implements Feature {
         } catch (IOException ioe) {
             LOGGER.log(Level.WARNING, "Unable to load service APIs", ioe);
         }
-
-//            File file = new File(url.getFile());
-//
-//            try (Scanner scanner = new Scanner(file)) {
-//
-//                while (scanner.hasNextLine()) {
-//                    String line = scanner.nextLine();
-//                    result.append(line).append("\n");
-//                }
-//
-//                scanner.close();
-//
-//            } catch (IOException e) {
-//                LOGGER.log(Level.WARNING, "Failed to load Geo HTML file", e);
-
 
         return result.toString();
     }
