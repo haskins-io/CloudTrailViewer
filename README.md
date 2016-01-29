@@ -2,9 +2,10 @@
 CloudTrail Viewer is a Java Desktop Application for reading and analysing AWS CloudTrail Event logs.
 
 ## New Feature
-Want to know where the API calls are being made from? CloudTrail Viewer now resolves the SourceIpAddress address to a location.
+Displaying of API Metrics.
 
-Using the new GeoData Feature you can see the top Cities that are making API calls and if you want more fine grain information, you can open a browser showing the API calls by Lat/Long.
+You can see see (and drill down by time) the frequency of the API calls for the loaded event. You can either see all the events or filter by AWS service.
+
 
 ## Running the application
 You can run the application in one of two ways:
@@ -81,7 +82,7 @@ In order to be able to load the files from S3 you will need a IAM User that has 
 ### Scanning
 As mentioned above loading a large amount of complete files can cause memory issues, an alternative method of loading files is by using the Scan buttons, these can be identified as these have a magnifying glass on the icon.
 
-When using the scan functionality you are first prompted for a value and only Events that contain that value will be loaded. This allows you to scan 100s of files quickly and in a more memory efficient manner.
+You use the panel of the left side of the S3 File Chooser dialog to define the filters to be applied when the Events are being loaded, only Events that match the filter will be loaded. This allows you to scan 100s of files quickly and in a more memory efficient manner.
 
 ## Working with loaded files
 ### Table View
