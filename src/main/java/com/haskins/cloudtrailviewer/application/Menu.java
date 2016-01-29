@@ -155,8 +155,9 @@ public class Menu extends JMenuBar implements ApplicationListener {
         
         StringBuilder message = new StringBuilder();
         message.append("CloudTrailViewr\n");
+        message.append("Release : ");
         message.append(app_version);
-        message.append(" [").append(db_version).append("]");
+        message.append(" [DB v").append(db_version).append("]");
         
         JOptionPane.showMessageDialog(
             CloudTrailViewer.frame, 
