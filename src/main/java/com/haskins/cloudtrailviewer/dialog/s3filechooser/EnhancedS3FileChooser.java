@@ -107,6 +107,19 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
                 
         if (e.getActionCommand().equalsIgnoreCase(ACTION_LOAD)) {
             
+            CompositeFilter filters = FILTER_PANEL.getFilters();
+            if (current_mode == EnhancedS3FileChooser.MODE_SCAN && !filters.allFiltersConfigured()) {    
+                
+                JOptionPane.showMessageDialog(CloudTrailViewer.frame,
+                    "One or More filters are not configured correctly",
+                    "Filter Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                
+                btnLoad.setEnabled(false);
+                return;
+            }
+        
             btnLoad.setEnabled(false);
             btnLoad.setText("Loading");
             
