@@ -23,6 +23,7 @@ import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
 import com.haskins.cloudtrailviewer.model.filter.DateFilter;
 import com.haskins.cloudtrailviewer.model.filter.EventFieldFilter;
 import com.haskins.cloudtrailviewer.model.filter.Filter;
+import com.haskins.cloudtrailviewer.model.filter.IgnoreFilter;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -66,6 +67,8 @@ public class FilteringPanel extends JPanel implements ActionListener {
     
     private LinkedList<FilterPanel> panelsList = new LinkedList<>();
     private final JPanel activeFilterPanel = new JPanel();
+    
+    private JButton addButton = new JButton("Add");
     
     /**
      * Default constructor
@@ -138,8 +141,13 @@ public class FilteringPanel extends JPanel implements ActionListener {
     
     private void addAvailableFilters() {
      
+        filter_list.addElement(new FilterWrapper("Select a Filter", null));
+        
         filter_list.addElement(new FilterWrapper("Text Filter", AllFilter.class));
         filter_list.addElement(new FilterWrapper("Date Filter", DateFilter.class));
+        filter_list.addElement(new FilterWrapper("Ignore Filter", IgnoreFilter.class));
+        
+        filter_list.addElement(new FilterWrapper("----------------------------", null));
         
         // event
         filter_list.addElement(new FilterWrapper("Event Name", EventFieldFilter.class, "eventName"));
@@ -176,8 +184,20 @@ public class FilteringPanel extends JPanel implements ActionListener {
         
         filterCombo.setRenderer(new FilterComboBoxRenderer());
         filterCombo.setMaximumRowCount(10);
+        filterCombo.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FilterWrapper wrapper = (FilterWrapper)filterCombo.getSelectedItem();
+                
+                if (wrapper.getClassType() == null) {
+                    addButton.setEnabled(false);
+                } else {
+                    addButton.setEnabled(true);
+                }
+            }
+        });
         
-        JButton addButton = new JButton("Add");
+        addButton.setEnabled(false);
         addButton.setActionCommand(ACTION_ADD);
         addButton.addActionListener(this);
         
@@ -259,11 +279,14 @@ public class FilteringPanel extends JPanel implements ActionListener {
         try {
             Class filterClass = wrapper.getClassType();
 
-            filter = (Filter)filterClass.newInstance();
-            if (filter instanceof EventFieldFilter) {
-                ((EventFieldFilter)filter).setOption(wrapper.getOption());
+            if (filterClass != null) {
+            
+                filter = (Filter)filterClass.newInstance();
+                if (filter instanceof EventFieldFilter) {
+                    ((EventFieldFilter)filter).setOption(wrapper.getOption());
+                }
             }
-         
+
         } catch (InstantiationException | IllegalAccessException ex) {
             LOGGER.log(Level.WARNING, "Failed to load filter", ex);
         }
