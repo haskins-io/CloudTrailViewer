@@ -87,6 +87,7 @@ public class DbManager {
             Migrations.createVersion4(conn, currentVersion);
             Migrations.createVersion5(conn, currentVersion);
             Migrations.createVersion6(conn, currentVersion);
+            Migrations.createVersion7(conn, currentVersion);
         }
     }
 
