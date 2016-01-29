@@ -1,0 +1,12 @@
+DeleteRule
+DescribeRule
+DisableRule
+EnableRule
+ListRuleNamesByTarget
+ListRules
+ListTargetsByRule
+PutEvents
+PutRule
+PutTargets
+RemoveTargets
+TestEventPattern

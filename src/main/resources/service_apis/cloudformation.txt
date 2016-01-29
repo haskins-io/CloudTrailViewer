@@ -1,4 +1,5 @@
 CancelUpdateStack
+ContinueUpdateRollback
 CreateStack
 DeleteStack
 DescribeAccountLimits

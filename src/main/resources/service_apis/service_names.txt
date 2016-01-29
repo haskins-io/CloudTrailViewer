@@ -1,3 +1,4 @@
+acm : AWS Certificate Manager
 apigateway : Amazon API Gateway
 autoscaling : Auto Scaling
 cloudformation : AWS CloudFormation
@@ -29,6 +30,7 @@ elasticmapreduce : Amazon Elastic MapReduce
 elastictranscoder : Amazon Elastic Transcoder
 email : Amazon Simple Email Service
 es : Amazon Elasticsearch Service
+events : Amazon CloudWatch Events
 firehose : 0
 glacier : Amazon Glacier
 iam : AWS Identity and Access Management

@@ -18,6 +18,8 @@ DescribeEndpoint
 DescribeThing
 DetachPrincipalPolicy
 DetachThingPrincipal
+DisableTopicRule
+EnableTopicRule
 GetLoggingOptions
 GetPolicy
 GetPolicyVersion

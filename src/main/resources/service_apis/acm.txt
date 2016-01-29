@@ -1,0 +1,6 @@
+DeleteCertificate
+DescribeCertificate
+GetCertificate
+ListCertificates
+RequestCertificate
+ResendValidationEmail

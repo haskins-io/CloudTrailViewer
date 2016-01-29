@@ -109,6 +109,8 @@ DescribeReservedInstancesListings
 DescribeReservedInstancesModifications
 DescribeReservedInstancesOfferings
 DescribeRouteTables
+DescribeScheduledInstanceAvailability
+DescribeScheduledInstances
 DescribeSecurityGroups
 DescribeSnapshotAttribute
 DescribeSnapshots
@@ -125,6 +127,7 @@ DescribeVolumeStatus
 DescribeVolumes
 DescribeVpcAttribute
 DescribeVpcClassicLink
+DescribeVpcClassicLinkDnsSupport
 DescribeVpcEndpointServices
 DescribeVpcEndpoints
 DescribeVpcPeeringConnections
@@ -138,11 +141,13 @@ DetachVolume
 DetachVpnGateway
 DisableVgwRoutePropagation
 DisableVpcClassicLink
+DisableVpcClassicLinkDnsSupport
 DisassociateAddress
 DisassociateRouteTable
 EnableVgwRoutePropagation
 EnableVolumeIO
 EnableVpcClassicLink
+EnableVpcClassicLinkDnsSupport
 GetConsoleOutput
 GetPasswordData
 ImportImage
@@ -166,6 +171,7 @@ ModifyVpcEndpoint
 MonitorInstances
 MoveAddressToVpc
 PurchaseReservedInstancesOffering
+PurchaseScheduledInstances
 RebootInstances
 RegisterImage
 RejectVpcPeeringConnection
@@ -186,6 +192,7 @@ RestoreAddressToClassic
 RevokeSecurityGroupEgress
 RevokeSecurityGroupIngress
 RunInstances
+RunScheduledInstances
 StartInstances
 StopInstances
 TerminateInstances
