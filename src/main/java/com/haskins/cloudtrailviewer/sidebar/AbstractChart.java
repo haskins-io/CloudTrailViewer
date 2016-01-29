@@ -251,7 +251,6 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
             public void mousePressed(MouseEvent me) {
                 
                 JTable table =(JTable) me.getSource();
-//                Point p = me.getPoint();
                 String value = (String) defaultTableModel.getValueAt(table.getSelectedRow(), 1);
                 
                 if (me.getClickCount() == 2) {
