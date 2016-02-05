@@ -77,7 +77,7 @@ public class PreferencesDialog extends JDialog implements ActionListener {
     ////////////////////////////////////////////////////////////////////////////
     public PreferencesDialog(Frame frame) {
         
-        super(frame, "AWS Account", true);
+        super(frame, "Preferences", true);
         
         this.setLayout(new BorderLayout());
         this.setResizable(true);

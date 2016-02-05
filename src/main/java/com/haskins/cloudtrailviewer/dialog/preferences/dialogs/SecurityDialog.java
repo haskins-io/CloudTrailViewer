@@ -78,7 +78,7 @@ public class SecurityDialog extends JDialog implements ActionListener {
     ///////////////////////////////////////////////////////////////////////////
     private SecurityDialog(Frame frame) {
 
-        super(frame, "API Security", true);
+        super(frame, "AWS Services", true);
         
         this.setResizable(false);
                         
