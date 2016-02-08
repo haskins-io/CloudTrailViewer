@@ -167,7 +167,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
     public void setFilterString(String needle) {
         filterTextField.setText(needle);
         filterUpdate();
-        tableModel.reloadTableModel();
+//        tableModel.reloadTableModel();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -291,6 +291,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
 
         String text = filterTextField.getText();
         this.eventDb.getFilter().setNeedle(text);
+        tableModel.reloadTableModel();
     }
     
     private void createPopupMenu() {
