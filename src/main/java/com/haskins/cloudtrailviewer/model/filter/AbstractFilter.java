@@ -50,7 +50,7 @@ public abstract class AbstractFilter implements Filter {
     
     @Override
     public String getNeedle() {
-        return this .needle;
+        return this.needle;
     }
     
     @Override
