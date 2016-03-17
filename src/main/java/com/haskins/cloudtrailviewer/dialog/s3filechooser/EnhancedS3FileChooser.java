@@ -72,6 +72,8 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
     
     private static S3FileList fileList;
     private static final FilteringPanel FILTER_PANEL = new FilteringPanel();
+
+    private static boolean loadClicked = false;
     
     /**
      * Shows the Dialog.
@@ -95,8 +97,12 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
         if (fileList.init())  {
             dialog.setVisible(true);
         }
-                
-        return new LoadFileRequest(fileList.getSelectedFiles(), FILTER_PANEL.getFilters());
+
+        if (loadClicked) {
+            return new LoadFileRequest(fileList.getSelectedFiles(), FILTER_PANEL.getFilters());
+        } else {
+            return null;
+        }
     }
         
     ////////////////////////////////////////////////////////////////////////////
@@ -115,11 +121,14 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
                     "Filter Error",
                     JOptionPane.ERROR_MESSAGE
                 );
-                
+
+
                 btnLoad.setEnabled(false);
                 return;
             }
-        
+
+            loadClicked = true;
+
             btnLoad.setEnabled(false);
             btnLoad.setText("Loading");
             

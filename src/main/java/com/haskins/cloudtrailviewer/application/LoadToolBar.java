@@ -24,6 +24,7 @@ import com.haskins.cloudtrailviewer.dialog.SearchOptions;
 import com.haskins.cloudtrailviewer.dialog.s3filechooser.EnhancedS3FileChooser;
 import com.haskins.cloudtrailviewer.model.AwsAccount;
 import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
+import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -194,7 +195,10 @@ public class LoadToolBar extends JToolBar {
                 mode = EnhancedS3FileChooser.MODE_SCAN;
             }
 
-            application.newS3Files(EnhancedS3FileChooser.showDialog(CloudTrailViewer.frame, mode));
+            LoadFileRequest request = EnhancedS3FileChooser.showDialog(CloudTrailViewer.frame, mode);
+            if (request != null) {
+                application.newS3Files(request);
+            }
 
         } else {
             JOptionPane.showMessageDialog(
