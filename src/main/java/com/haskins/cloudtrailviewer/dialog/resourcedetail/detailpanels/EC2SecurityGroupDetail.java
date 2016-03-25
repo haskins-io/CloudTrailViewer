@@ -24,7 +24,7 @@ import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.model.DescribeSecurityGroupsRequest;
 import com.amazonaws.services.ec2.model.DescribeSecurityGroupsResult;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
-import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;

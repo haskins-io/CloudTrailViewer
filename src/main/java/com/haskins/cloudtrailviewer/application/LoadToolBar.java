@@ -45,7 +45,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * 
  * @author mark
  */
-public class LoadToolBar extends JToolBar {
+class LoadToolBar extends JToolBar {
 
     private static final long serialVersionUID = -6865662163634950921L;
 
@@ -57,7 +57,7 @@ public class LoadToolBar extends JToolBar {
      * Default Constructor
      * @param application reference to the application.
      */
-    public LoadToolBar(CloudTrailViewerApplication application) {
+    LoadToolBar(CloudTrailViewerApplication application) {
         
         this.application = application;
         

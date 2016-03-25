@@ -43,16 +43,16 @@ public class SearchPanel extends JPanel {
     
     private final JComboBox searchOptions = new JComboBox();
     private final JTextField searchField = new JTextField();
-        
+
     private final List<SearchPanelListener> listeners = new ArrayList<>();
-    
+
     /**
      * Default Constructor
      */
     public SearchPanel() {
         buildUI();
     }
-    
+
     /**
      * adds a listener to the component
      * @param l reference to a listener
@@ -60,10 +60,10 @@ public class SearchPanel extends JPanel {
     public void addListener(SearchPanelListener l) {
         listeners.add(l);
     }
-    
+
     /**
      * Returns the filter to be used as part of the search
-     * @return 
+     * @return CompositeFilter object containing current selected filters
      */
     public CompositeFilter getFilter() {
         

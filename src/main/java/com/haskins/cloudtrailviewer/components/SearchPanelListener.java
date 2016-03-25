@@ -23,10 +23,10 @@ package com.haskins.cloudtrailviewer.components;
  * 
  * @author mark
  */
-public interface SearchPanelListener {
+interface SearchPanelListener {
     
     /**
      * triggered when Enter is press
      */
-    public void enterPressed();
+    void enterPressed();
 }

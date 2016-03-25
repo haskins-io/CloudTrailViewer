@@ -166,7 +166,6 @@ public class Menu extends JMenuBar implements ApplicationListener {
             JOptionPane.INFORMATION_MESSAGE,
             ToolBarUtils.getIcon("logo_50x50.png")
         );
-        
     }
     
     private void handleCloseApplication() {

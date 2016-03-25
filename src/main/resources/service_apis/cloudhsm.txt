@@ -1,3 +1,4 @@
+AddTagsToResource
 CreateHapg
 CreateHsm
 CreateLunaClient
@@ -12,6 +13,8 @@ ListAvailableZones
 ListHapgs
 ListHsms
 ListLunaClients
+ListTagsForResource
 ModifyHapg
 ModifyHsm
 ModifyLunaClient
+RemoveTagsFromResource

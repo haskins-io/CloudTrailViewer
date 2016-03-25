@@ -29,7 +29,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 /**
  * Launcher class for the application.
@@ -47,7 +47,7 @@ public class CloudTrailViewer extends JFrame {
         Menu menu = new Menu(frame);    
         
         frame.setJMenuBar(menu);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     } 
     

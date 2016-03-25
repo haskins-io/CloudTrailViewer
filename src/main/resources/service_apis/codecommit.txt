@@ -3,9 +3,13 @@ CreateBranch
 CreateRepository
 DeleteRepository
 GetBranch
+GetCommit
 GetRepository
+GetRepositoryTriggers
 ListBranches
 ListRepositories
+PutRepositoryTriggers
+TestRepositoryTriggers
 UpdateDefaultBranch
 UpdateRepositoryDescription
 UpdateRepositoryName

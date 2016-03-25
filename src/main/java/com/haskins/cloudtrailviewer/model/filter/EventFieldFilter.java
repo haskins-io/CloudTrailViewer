@@ -40,7 +40,7 @@ public class EventFieldFilter extends AbstractFilter {
 
     private String fieldName;
     
-    JLabel filterName = new JLabel();
+    private final JLabel filterName = new JLabel();
     
     public void setOption(String fieldName) {
         this.fieldName = fieldName;
@@ -70,12 +70,15 @@ public class EventFieldFilter extends AbstractFilter {
         
         boolean passesFilter = false;
         
-        String fieldValue = EventUtils.getEventProperty(fieldName, event).toLowerCase();
-        String lowerFilter = this.needle.toLowerCase();
-        if (fieldValue.contains(lowerFilter)) {
-            passesFilter = true;
+        String fieldValue = EventUtils.getEventProperty(fieldName, event);
+        if (fieldValue != null) {
+            fieldValue = fieldValue.toLowerCase();
+            String lowerFilter = this.needle.toLowerCase();
+            if (fieldValue.contains(lowerFilter)) {
+                passesFilter = true;
+            }
         }
-                
+
         return passesFilter;
     }
 

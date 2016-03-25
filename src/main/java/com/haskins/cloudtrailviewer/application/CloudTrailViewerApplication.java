@@ -33,7 +33,6 @@ import com.haskins.cloudtrailviewer.feature.ResourceFeature;
 import com.haskins.cloudtrailviewer.feature.SecurityFeature;
 import com.haskins.cloudtrailviewer.model.filter.AllFilter;
 import com.haskins.cloudtrailviewer.model.filter.CompositeFilter;
-import com.haskins.cloudtrailviewer.model.filter.Filter;
 import com.haskins.cloudtrailviewer.model.load.LoadFileRequest;
 import com.haskins.cloudtrailviewer.utils.GeoIpUtils;
 import java.awt.BorderLayout;
@@ -69,9 +68,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     private final StatusBar statusBar = new StatusBar();
     private final HelpToolBar helpToolBar = new HelpToolBar();
     private final FeatureToolBar featureToolBar;
-    
-    private final Filter filter = new AllFilter();
-    
+
     /**
      * Default Constructor
      */
@@ -79,7 +76,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
         
         super("CloudTrail Viewer");
         
-        database = new FilteredEventDatabase(filter, statusBar);
+        database = new FilteredEventDatabase(new AllFilter(), statusBar);
         
         eventLoader = new EventLoader(database);
         eventLoader.addEventLoaderListener(this);
@@ -97,7 +94,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
      * @param filter An object to filter only specific events. Pass NULL in if no
      * filtering is required.
      */
-    public void loadLocalFiles(File[] files, CompositeFilter filter) {
+    void loadLocalFiles(File[] files, CompositeFilter filter) {
         
         if (files != null && files.length > 0) {
             
@@ -120,7 +117,7 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
      * 
      * @param request request containing filters and keys
      */
-    public void newS3Files(LoadFileRequest request) {
+     void newS3Files(LoadFileRequest request) {
     
         if (!request.getFilenames().isEmpty()) {
             
@@ -132,9 +129,9 @@ public class CloudTrailViewerApplication extends JFrame implements EventLoaderLi
     /**
      * Changes the feature that is visible.
      * @param name The name of the Feature to show.
-     * @param loading 
+     * @param loading boolean to indicate if EventLoader is loading events
      */
-    public void changeFeature(String name, boolean loading) {
+     void changeFeature(String name, boolean loading) {
             
         if (database.size() > 0 || loading) {
         

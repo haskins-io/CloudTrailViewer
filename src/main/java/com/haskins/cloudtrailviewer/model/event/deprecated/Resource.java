@@ -31,7 +31,7 @@ public class Resource {
     /**
      * @return the ARN
      */
-    public String getARN() {
+    private String getARN() {
         return ARN;
     }
 
@@ -45,7 +45,7 @@ public class Resource {
     /**
      * @return the accountId
      */
-    public String getAccountId() {
+    private String getAccountId() {
         return accountId;
     }
 

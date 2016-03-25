@@ -47,7 +47,7 @@ public class GeoIpUtils {
     
     private DatabaseReader reader = null;
     
-    private Map<String, String> latlngs = new HashMap<>();
+    private final Map<String, String> latlngs = new HashMap<>();
         
     private GeoIpUtils() {
         
@@ -115,6 +115,6 @@ public class GeoIpUtils {
     }
     
     private static class GeoIpUtilsHolder {
-        public static final GeoIpUtils INSTANCE = new GeoIpUtils();
+        static final GeoIpUtils INSTANCE = new GeoIpUtils();
     }
 }

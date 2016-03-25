@@ -11,5 +11,5 @@ package com.haskins.cloudtrailviewer.components;
  */
 public interface ServicePanelListener {
     
-    public void serviceChanged(String newService);
+    void serviceChanged(String newService);
 }

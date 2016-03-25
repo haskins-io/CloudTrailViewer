@@ -8,7 +8,9 @@ CreateTrust
 DeleteDirectory
 DeleteSnapshot
 DeleteTrust
+DeregisterEventTopic
 DescribeDirectories
+DescribeEventTopics
 DescribeSnapshots
 DescribeTrusts
 DisableRadius
@@ -17,6 +19,7 @@ EnableRadius
 EnableSso
 GetDirectoryLimits
 GetSnapshotLimits
+RegisterEventTopic
 RestoreFromSnapshot
 UpdateRadius
 VerifyTrust

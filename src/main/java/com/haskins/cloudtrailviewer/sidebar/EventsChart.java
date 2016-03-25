@@ -104,7 +104,7 @@ public class EventsChart extends AbstractChart {
     }
 
     @Override
-    public void update() {
+    protected void update() {
 
         String source = customGroup.getSelection().getActionCommand();
         int top = getTopXValue();

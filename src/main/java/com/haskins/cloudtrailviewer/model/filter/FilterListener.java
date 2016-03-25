@@ -24,6 +24,6 @@ package com.haskins.cloudtrailviewer.model.filter;
  */
 public interface FilterListener {
     
-    public void onFilterChanged();
+    void onFilterChanged();
     
 }

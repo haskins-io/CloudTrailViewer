@@ -46,8 +46,7 @@ public class StatusBar extends JPanel {
     private final JLabel visibleEvents = new JLabel();
     private final JLabel loadedEvents = new JLabel();
     private final JLabel statusMessage = new JLabel();
-    
-    private final MemoryCheck memoryCheck;
+
     private final static JLabel MEMORY = new JLabel();
 
     private long earliestEvent = -1;
@@ -58,7 +57,7 @@ public class StatusBar extends JPanel {
      */
     public StatusBar() {
 
-        memoryCheck = new MemoryCheck();
+        new MemoryCheck();
         
         buildStatusBar();
         
@@ -69,7 +68,7 @@ public class StatusBar extends JPanel {
      *
      * @param message message to display
      */
-    public void setStatusMessage(String message) {
+    void setStatusMessage(String message) {
         statusMessage.setText(message);
 
         if (message.length() == 0) {
@@ -82,7 +81,7 @@ public class StatusBar extends JPanel {
     /**
      * When called will calculate the earliest and latest Event timestamp.
      *
-     * @param event
+     * @param event Event to date timestamp from
      */
     public void newEvent(Event event) {
 
@@ -100,7 +99,7 @@ public class StatusBar extends JPanel {
     /**
      * When called will calculate the earliest and latest Event timestamp.
      *
-     * @param events
+     * @param events Collection of Events
      */
     public void setEvents(List<Event> events) {
 
@@ -118,7 +117,7 @@ public class StatusBar extends JPanel {
      * resets all the labels, and hides those that should not be visible when no
      * events are loaded.
      */
-    public void eventsCleared() {
+    void eventsCleared() {
         messageLabel.setVisible(false);
         from.setVisible(false);
         to.setVisible(false);
@@ -144,7 +143,7 @@ public class StatusBar extends JPanel {
     /**
      * Indicates the number of Loaded events in the right section of the bar
      *
-     * @param eventCount
+     * @param eventCount int value to show as number of Loaded Events
      */
     public void setLoadedEvents(int eventCount) {
 
@@ -199,7 +198,7 @@ public class StatusBar extends JPanel {
 
         private final Runtime runtime = Runtime.getRuntime();
 
-        public MemoryCheck() {
+        MemoryCheck() {
             checkMemory();
         }
         

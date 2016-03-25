@@ -22,7 +22,7 @@ package com.haskins.cloudtrailviewer.model.event;
  *
  * @author mark.haskins
  */
-public class AdditionalEventData {
+class AdditionalEventData {
 
     private String samlProviderArn;
     private String mobileVersion;

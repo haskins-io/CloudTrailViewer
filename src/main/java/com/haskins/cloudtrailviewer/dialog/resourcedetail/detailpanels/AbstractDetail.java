@@ -37,19 +37,19 @@ public abstract class AbstractDetail extends JPanel implements ResourceDetail {
     private final SimpleDateFormat SIMPLE_DATE_FORMATTER = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
     private static final long serialVersionUID = -7936100241490334631L;
     
-    protected final ResourceDetailRequest detailRequest;
-    protected final AWSCredentials credentials;
+    private final ResourceDetailRequest detailRequest;
+    final AWSCredentials credentials;
     
-    protected final DefaultTableModel primaryTableModel = new DefaultTableModel();
-    protected final DefaultTableModel tagsTableModel = new DefaultTableModel();
+    final DefaultTableModel primaryTableModel = new DefaultTableModel();
+    final DefaultTableModel tagsTableModel = new DefaultTableModel();
     
     private final JTable primaryTable = new JTable(primaryTableModel);
-    protected JScrollPane primaryScrollPane = new JScrollPane(primaryTable);
+    final JScrollPane primaryScrollPane = new JScrollPane(primaryTable);
     
     private final JTable tagsTable = new JTable(tagsTableModel);
-    protected JScrollPane tagsScrollPane = new JScrollPane(tagsTable);
+    final JScrollPane tagsScrollPane = new JScrollPane(tagsTable);
     
-    public AbstractDetail(ResourceDetailRequest detailRequest) {
+    AbstractDetail(ResourceDetailRequest detailRequest) {
         
         this.setLayout(new BorderLayout());
         
@@ -77,7 +77,7 @@ public abstract class AbstractDetail extends JPanel implements ResourceDetail {
      * @param date
      * @return 
      */
-    protected String getDateString(Date date) {
+    String getDateString(Date date) {
         return SIMPLE_DATE_FORMATTER.format(date.getTime());
     }
 }

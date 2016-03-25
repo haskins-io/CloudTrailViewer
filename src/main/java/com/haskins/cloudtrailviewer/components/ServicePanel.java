@@ -32,10 +32,8 @@ import javax.swing.JPanel;
  */
 public class ServicePanel extends JPanel {
     
-    private static final DefaultComboBoxModel MODEL_SERVICES = new DefaultComboBoxModel();
-    
-    private JComboBox servicesCombo = null;
-    
+    private static final DefaultComboBoxModel<String> MODEL_SERVICES = new DefaultComboBoxModel<>();
+
     private ServicePanelListener listener;
         
     public ServicePanel() {
@@ -46,8 +44,8 @@ public class ServicePanel extends JPanel {
         for (String service : services) {
             MODEL_SERVICES.addElement(service);
         }
-        
-        servicesCombo = new JComboBox(MODEL_SERVICES);
+
+        JComboBox servicesCombo = new JComboBox(MODEL_SERVICES);
         servicesCombo.addActionListener(new ActionListener() {
 
             @Override

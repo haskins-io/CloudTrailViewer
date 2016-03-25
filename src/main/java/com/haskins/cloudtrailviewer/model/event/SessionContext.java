@@ -37,7 +37,7 @@ public class SessionContext implements Serializable {
     /**
      * @return the attributes
      */
-    public Map getAttributes() {
+    private Map getAttributes() {
         return attributes;
     }
 

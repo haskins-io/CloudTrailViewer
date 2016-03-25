@@ -19,11 +19,9 @@ package com.haskins.cloudtrailviewer.requestInfo;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,14 +31,14 @@ import java.util.logging.Logger;
  * 
  * @author mark
  */
-public abstract class AbstractRequest {
+abstract class AbstractRequest {
             
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     
     /**
      * Map for holding resource information
      */
-    protected Map<String, String> resourceMap;
+    Map<String, String> resourceMap;
     
     /**
      * Adds the Resource value (if found) to the RequestInfo with the given name
@@ -49,7 +47,7 @@ public abstract class AbstractRequest {
      * @param event Event to process
      * @param requestInfo RequestInfo to update
      */
-    protected void getTopLevelResource(String resourceName, String paramName, Event event, RequestInfo requestInfo) {
+    void getTopLevelResource(String resourceName, String paramName, Event event, RequestInfo requestInfo) {
         
         Map requestParameters = event.getRequestParameters();
         if (requestParameters != null && requestParameters.containsKey(paramName)) {
@@ -65,7 +63,7 @@ public abstract class AbstractRequest {
      * @param requestInfo RequestInfo to update
      * @param ignore parameter names that should be ignored
      */
-    protected void getTopLevelParameters(Event event, RequestInfo requestInfo, String... ignore) {
+    void getTopLevelParameters(Event event, RequestInfo requestInfo, String... ignore) {
         
         List<String> ignoreList = Arrays.asList(ignore);
         

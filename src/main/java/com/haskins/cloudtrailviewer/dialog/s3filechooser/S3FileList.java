@@ -55,7 +55,7 @@ import javax.swing.UIManager;
  *
  * @author mark.haskins
  */
-public class S3FileList extends JPanel implements MouseListener, NavigationListener {
+class S3FileList extends JPanel implements MouseListener, NavigationListener {
     
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     
@@ -84,7 +84,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
      * @param mode Mode class should work in
      * @param awsAccount Initial AWS Account to use
      */
-    public S3FileList(int mode, AwsAccount awsAccount) {
+    S3FileList(int mode, AwsAccount awsAccount) {
         
         if (mode == EnhancedS3FileChooser.MODE_SCAN) {
             scanning = true;
@@ -109,7 +109,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
      * Sets the AWS Account that the class will use to read files from
      * @param newAccount new Account
      */
-    public final void setAccount(AwsAccount newAccount) {
+    private void setAccount(AwsAccount newAccount) {
         this.currentAccount = newAccount;
         this.prefix = newAccount.getPrefix();
     }
@@ -118,7 +118,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
      * Adds a listener to the class
      * @param l class to register
      */
-    public void registerListener(S3FileListListener l) {
+    void registerListener(S3FileListListener l) {
         listeners.add(l);
     }
     
@@ -126,7 +126,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
      * Initialises the Class, and attempts to load the first batch of files from S3
      * @return Return True if sucessful otherwise false
      */
-    public boolean init() {
+    boolean init() {
         
         boolean initOK = false;
         
@@ -146,7 +146,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
     /**
      * Should be called when the dialog is about to close.
      */
-    public void dialogClosing() {
+    void dialogClosing() {
         addSelectedKeys();
     }
         
@@ -154,7 +154,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
      * Returns the Files that are currently selected in the List
      * @return Collection of filenames as strings
      */
-    public List<String> getSelectedFiles() {
+    List<String> getSelectedFiles() {
         return selected_keys;
     }
     
@@ -162,7 +162,7 @@ public class S3FileList extends JPanel implements MouseListener, NavigationListe
      * returns the current S3 Prefix
      * @return 
      */
-    public String getPrefix() {
+    String getPrefix() {
         return this.prefix;
     }
     

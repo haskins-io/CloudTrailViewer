@@ -75,7 +75,7 @@ public class PreferencesDialog extends JDialog implements ActionListener {
     ////////////////////////////////////////////////////////////////////////////
     // private methods
     ////////////////////////////////////////////////////////////////////////////
-    public PreferencesDialog(Frame frame) {
+    private PreferencesDialog(Frame frame) {
         
         super(frame, "Preferences", true);
         

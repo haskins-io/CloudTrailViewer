@@ -40,7 +40,7 @@ public class EventDatabase implements EventLoaderListener, Serializable {
     
     private final StatusBar statusBar;
     
-    public EventDatabase(StatusBar sbar) {
+    EventDatabase(StatusBar sbar) {
         this.statusBar = sbar;
     }
         
@@ -56,7 +56,7 @@ public class EventDatabase implements EventLoaderListener, Serializable {
      * Adds a new Event to the database
      * @param event object to be added
      */
-    public void addEvent(Event event) {
+    void addEvent(Event event) {
         
         this.statusBar.newEvent(event);
         events.add(event);
@@ -68,9 +68,9 @@ public class EventDatabase implements EventLoaderListener, Serializable {
     
     /**
      * Adds all the Events to the database
-     * @param events 
+     * @param events Collection of Event objects
      */
-    public void addEvents(List<Event> events) {
+    void addEvents(List<Event> events) {
         this.events.addAll(events);
     }
      
@@ -94,7 +94,7 @@ public class EventDatabase implements EventLoaderListener, Serializable {
     /**
      * Clears all the events in the database.
      */
-    public void clear() {
+    void clear() {
         events.clear();
     }
     
@@ -123,9 +123,9 @@ public class EventDatabase implements EventLoaderListener, Serializable {
     
     /**
      * 
-     * @param event 
+     * @param event Event object
      */
-    protected void fireUpdate(Event event) {
+    private void fireUpdate(Event event) {
         
         for (EventDatabaseListener l : listeners) {
             l.eventAdded(event);

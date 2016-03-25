@@ -29,7 +29,6 @@ import com.amazonaws.services.elasticloadbalancing.model.ListenerDescription;
 import com.amazonaws.services.elasticloadbalancing.model.LoadBalancerDescription;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -50,8 +49,8 @@ public class ElbDetail extends AbstractDetail {
     
     private static final long serialVersionUID = -6218840614863807084L;
 
-    protected final DefaultTableModel listenersTableModel = new DefaultTableModel();
-    protected final DefaultTableModel healthCheckTableModel = new DefaultTableModel();
+    private final DefaultTableModel listenersTableModel = new DefaultTableModel();
+    private final DefaultTableModel healthCheckTableModel = new DefaultTableModel();
     
     public ElbDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);

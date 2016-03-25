@@ -32,12 +32,12 @@ import javax.swing.JPanel;
 public class ServiceApiPanel extends JPanel {
     
     public static final int ORIENTATION_HORIZONTAL = 0;
-    public static final int ORIENTATION_VERTICAL = 1;
+    private static final int ORIENTATION_VERTICAL = 1;
     
-    private int orientation;
+    private final int orientation;
     
-    private static final DefaultComboBoxModel MODEL_SERVICES = new DefaultComboBoxModel();
-    private static final DefaultComboBoxModel MODEL_APIS = new DefaultComboBoxModel();
+    private static final DefaultComboBoxModel<String> MODEL_SERVICES = new DefaultComboBoxModel<>();
+    private static final DefaultComboBoxModel<String> MODEL_APIS = new DefaultComboBoxModel<>();
     private static final long serialVersionUID = 6392140943533697206L;
     
     private JComboBox servicesCombo = null;

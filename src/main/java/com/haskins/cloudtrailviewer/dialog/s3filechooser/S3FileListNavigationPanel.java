@@ -42,13 +42,13 @@ import javax.swing.plaf.LabelUI;
  *
  * @author markhaskins
  */
-public class S3FileListNavigationPanel extends JPanel {
+class S3FileListNavigationPanel extends JPanel {
 
     private static final long serialVersionUID = -7245639134496141173L;
     
     private final JBreadCrumb<String> locationCrumb = new JBreadCrumb<>();
         
-    public S3FileListNavigationPanel(NavigationListener l) {
+    S3FileListNavigationPanel(NavigationListener l) {
         
         this.setLayout(new BorderLayout());
         
@@ -59,12 +59,12 @@ public class S3FileListNavigationPanel extends JPanel {
     ////////////////////////////////////////////////////////////////////////////
     // public methods
     ////////////////////////////////////////////////////////////////////////////
-    public void setBreadCrumb(String[] path) {
+    void setBreadCrumb(String[] path) {
         
         locationCrumb.setPath(path);
     }
     
-    public String[] getBreadCrumbPath() {
+    String[] getBreadCrumbPath() {
         return locationCrumb.getPath();
     }
     
@@ -79,8 +79,6 @@ public class S3FileListNavigationPanel extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-//                prefix = "";
-//                reloadContents();
             }
         });
 
@@ -91,9 +89,9 @@ public class S3FileListNavigationPanel extends JPanel {
 
         Icon lankySeparator = new Icon() {
 
-            int separatorWidth = 5;
-            int leftPadding = 3;
-            int rightPadding = 5;
+            final int separatorWidth = 5;
+            final int leftPadding = 3;
+            final int rightPadding = 5;
 
             @Override
             public void paintIcon(Component c, Graphics g, int x, int y) {

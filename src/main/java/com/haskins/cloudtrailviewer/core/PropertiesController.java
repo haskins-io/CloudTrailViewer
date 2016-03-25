@@ -37,7 +37,7 @@ public class PropertiesController {
     
     private static final String PROP_FILE = "cloudtrailviewer.properties";
         
-    private Properties prop = new Properties();
+    private final Properties prop = new Properties();
         
     private PropertiesController() {
         
@@ -75,6 +75,6 @@ public class PropertiesController {
     }
     
     private static class PropertiesControllerHolder {
-        public static final PropertiesController INSTANCE = new PropertiesController();
+        static final PropertiesController INSTANCE = new PropertiesController();
     }
 }

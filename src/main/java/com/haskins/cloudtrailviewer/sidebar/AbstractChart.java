@@ -66,33 +66,33 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
 
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     
-    protected final ChartUtils chartUtils = new ChartUtils();
+    final ChartUtils chartUtils = new ChartUtils();
     
-    public static final String NAME = "Chart";
+    private static final String NAME = "Chart";
     private static final long serialVersionUID = 7624167880255656811L;
 
-    protected final JMenuBar menu = new JMenuBar();
+    final JMenuBar menu = new JMenuBar();
 
-    protected final ButtonGroup customGroup = new ButtonGroup();
-    protected final ButtonGroup topGroup = new ButtonGroup();
-    protected final ButtonGroup styleGroup = new ButtonGroup();
-    protected final ButtonGroup orientationGroup = new ButtonGroup();
+    final ButtonGroup customGroup = new ButtonGroup();
+    private final ButtonGroup topGroup = new ButtonGroup();
+    private final ButtonGroup styleGroup = new ButtonGroup();
+    private final ButtonGroup orientationGroup = new ButtonGroup();
 
-    protected final JPanel chartCards = new JPanel(new CardLayout());
+    private final JPanel chartCards = new JPanel(new CardLayout());
 
-    protected final EventTablePanel eventTablePanel;
+    private final EventTablePanel eventTablePanel;
 
-    protected final DefaultTableModel defaultTableModel = new DefaultTableModel();
+    private final DefaultTableModel defaultTableModel = new DefaultTableModel();
     
-    protected final EventDatabase eventDb;
+    final EventDatabase eventDb;
 
     ////////////////////////////////////////////////////////////////////////////
     ///// Abstract method declarations
     ////////////////////////////////////////////////////////////////////////////
-    public abstract void update();
-    public abstract void addCustomMenu();
+    protected abstract void update();
+    protected abstract void addCustomMenu();
     
-    public AbstractChart(EventDatabase eventDatabase, EventTablePanel eventTable) {
+    AbstractChart(EventDatabase eventDatabase, EventTablePanel eventTable) {
 
         eventDb = eventDatabase;
         eventTablePanel = eventTable;
@@ -142,7 +142,7 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
      * Returns the value currently selectd in the Top menu
      * @return 
      */
-    protected int getTopXValue() {
+    int getTopXValue() {
         
         String actionCommand = topGroup.getSelection().getActionCommand();
         int periodPos = actionCommand.indexOf('.');
@@ -156,7 +156,7 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
      * of the Key table.
      * @param chartData 
      */
-    protected void updateChart(List<Map.Entry<String, Integer>> chartData) {
+    void updateChart(List<Map.Entry<String, Integer>> chartData) {
         
         chartCards.removeAll();
         
@@ -405,7 +405,7 @@ public abstract class AbstractChart extends JPanel implements SideBar, ActionLis
 
         private static final long serialVersionUID = -6449877241312552646L;
 
-        public LegendColourRenderer() {
+        LegendColourRenderer() {
             setOpaque(true);
         }
 

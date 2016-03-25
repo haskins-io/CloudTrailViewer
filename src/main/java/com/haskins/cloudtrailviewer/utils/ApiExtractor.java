@@ -35,7 +35,7 @@ import java.util.TreeMap;
  * 
  * @author mark
  */
-public class ApiExtractor {
+class ApiExtractor {
     
     public static void main(String[] args) {
         

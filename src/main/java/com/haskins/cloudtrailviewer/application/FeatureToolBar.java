@@ -33,7 +33,7 @@ import javax.swing.JToolBar;
  * 
  * @author mark
  */
-public class FeatureToolBar extends JToolBar implements ActionListener {
+class FeatureToolBar extends JToolBar implements ActionListener {
 
     private static final long serialVersionUID = 3551717031217911244L;
         
@@ -45,7 +45,7 @@ public class FeatureToolBar extends JToolBar implements ActionListener {
      * Default Constructor
      * @param application reference to the application
      */
-    public FeatureToolBar(CloudTrailViewerApplication application) {
+    FeatureToolBar(CloudTrailViewerApplication application) {
                 
         this.application = application;
         
@@ -59,7 +59,7 @@ public class FeatureToolBar extends JToolBar implements ActionListener {
      * Adds a feature to the tool bar
      * @param feature Feature to add
      */
-    public void addFeature(Feature feature) {
+    void addFeature(Feature feature) {
         
         JButton btn = new JButton();
         btn.setActionCommand(feature.getName());

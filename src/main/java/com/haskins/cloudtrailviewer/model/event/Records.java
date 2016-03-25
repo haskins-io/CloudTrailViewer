@@ -20,7 +20,7 @@ package com.haskins.cloudtrailviewer.model.event;
 
 import java.util.List;
 
-public class Records {
+class Records {
     
     private List<Event> logEvents;
 

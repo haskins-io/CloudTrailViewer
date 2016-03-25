@@ -20,11 +20,11 @@ package com.haskins.cloudtrailviewer.dialog.s3filechooser;
  *
  * @author markhaskins
  */
-public class S3ListModel  {
+class S3ListModel  {
 
-    public static final int FILE_BACK = 0;
-    public static final int FILE_DIR = 1;
-    public static final int FILE_DOC = 2;
+    static final int FILE_BACK = 0;
+    static final int FILE_DIR = 1;
+    static final int FILE_DOC = 2;
 
     private final String path;
     private final String alias;
@@ -36,15 +36,15 @@ public class S3ListModel  {
         this.fileType = fileType;
     }
 
-    public String getPath() {
+    String getPath() {
         return this.path;
     }
 
-    public String getAlias() {
+    String getAlias() {
         return this.alias;
     }
 
-    public int getFileType() {
+    int getFileType() {
         return this.fileType;
     }
 }

@@ -28,7 +28,7 @@ import java.util.HashMap;
  */
 public class SnsResource extends AbstractRequest implements Request {
 
-    public static final String TOPIC = "Topic";
+    private static final String TOPIC = "Topic";
     
     public SnsResource() {
         

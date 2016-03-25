@@ -97,12 +97,12 @@ public class HelpDialog extends JDialog implements ActionListener {
         try  {
             URL url = cl.getResource(helpFile);
             
-            if(url==null){
+            if(url == null){
                 System.out.println("Sorry, unable to find " + helpFile);
+            } else {
+                helpPane.setPage(url);
             }
-            
-            helpPane.setPage(url);
-            
+
         } catch (IOException ioe) {
             LOGGER.log(Level.WARNING, "Problem loading help file " + helpFile, ioe);
         }

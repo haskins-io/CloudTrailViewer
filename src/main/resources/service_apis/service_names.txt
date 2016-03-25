@@ -17,6 +17,7 @@ data.iot : AWS IoT Data Plane
 datapipeline : AWS Data Pipeline
 devicefarm : AWS Device Farm
 directconnect : AWS Direct Connect
+dms : AWS Database Migration Service
 ds : AWS Directory Service
 dynamodb : Amazon DynamoDB
 ec2 : Amazon Elastic Compute Cloud
@@ -31,7 +32,8 @@ elastictranscoder : Amazon Elastic Transcoder
 email : Amazon Simple Email Service
 es : Amazon Elasticsearch Service
 events : Amazon CloudWatch Events
-firehose : 0
+firehose : Kinesis Firehose
+gamelift : Amazon GameLift
 glacier : Amazon Glacier
 iam : AWS Identity and Access Management
 importexport : AWS Import/Export
@@ -43,6 +45,7 @@ lambda : AWS Lambda
 logs : Amazon CloudWatch Logs
 machinelearning : Amazon Machine Learning
 marketplacecommerceanalytics : AWS Marketplace Commerce Analytics
+metering.marketplace : AWSMarketplace Metering
 mobileanalytics : Amazon Mobile Analytics
 monitoring : Amazon CloudWatch
 opsworks : AWS OpsWorks

@@ -10,6 +10,7 @@ GetDevice
 GetDevicePool
 GetDevicePoolCompatibility
 GetJob
+GetOfferingStatus
 GetProject
 GetRun
 GetSuite
@@ -19,6 +20,8 @@ ListArtifacts
 ListDevicePools
 ListDevices
 ListJobs
+ListOfferingTransactions
+ListOfferings
 ListProjects
 ListRuns
 ListSamples
@@ -26,6 +29,9 @@ ListSuites
 ListTests
 ListUniqueProblems
 ListUploads
+PurchaseOffering
+RenewOffering
 ScheduleRun
+StopRun
 UpdateDevicePool
 UpdateProject

@@ -26,15 +26,15 @@ import java.util.List;
  *
  * @author mark
  */
-public abstract class AbstractFilter implements Filter {
+abstract class AbstractFilter implements Filter {
     
     /** constant that defines the default dimension to be used by children */
-    protected final static Dimension DEFAULT_SIZE = new Dimension(345,30);
+    final static Dimension DEFAULT_SIZE = new Dimension(345,30);
     
     private final List<FilterListener> listeners = new ArrayList<>();
     
     /** String to hold the value that should be used for filtering */
-    protected String needle = "";
+    String needle = "";
     
     ////////////////////////////////////////////////////////////////////////////
     // Filter implementation

@@ -65,7 +65,7 @@ public class ResourcesChart extends AbstractChart {
     public void addCustomMenu() { }
 
     @Override
-    public void update() {
+    protected void update() {
 
         if (eventDb.size() == 0) {
             return;

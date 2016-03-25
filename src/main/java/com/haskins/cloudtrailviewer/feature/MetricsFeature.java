@@ -73,7 +73,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
 
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     
-    public static final String NAME = "Metrics Feature";
+    private static final String NAME = "Metrics Feature";
     
     private static final Map<String, List<Event>> SERVICE_SORTED = new HashMap<>();
     private static final long serialVersionUID = -3462820837131838769L;
@@ -91,7 +91,6 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
     private JSplitPane jsp;
     
     private ChartPanel chartPanel;
-    private CrosshairOverlay crosshairOverlay;
     private Crosshair xCrosshair;
     
     private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_EVENT);
@@ -277,7 +276,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
 
         
         // configure Plot
-        final XYPlot plot = (XYPlot) chart.getXYPlot();
+        final XYPlot plot = chart.getXYPlot();
         plot.setBackgroundPaint(Color.WHITE);
         plot.setOutlineVisible(false);
 
@@ -299,8 +298,8 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
         xCrosshair = new Crosshair(Double.NaN, Color.GRAY, new BasicStroke(0f));
         xCrosshair.setLabelVisible(true);
         xCrosshair.setLabelGenerator(new DateTimeCrosshairLabelGenerator());
-        
-        crosshairOverlay = new CrosshairOverlay();
+
+        CrosshairOverlay crosshairOverlay = new CrosshairOverlay();
         crosshairOverlay.addDomainCrosshair(xCrosshair);
         
         

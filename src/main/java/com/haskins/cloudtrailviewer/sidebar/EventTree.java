@@ -47,7 +47,7 @@ import javax.swing.tree.TreePath;
  */
 public class EventTree extends JPanel implements SideBar {
 
-    public static final String NAME = "EventTree";
+    private static final String NAME = "EventTree";
     private static final long serialVersionUID = 7185264470078007960L;
     
     private Event event;

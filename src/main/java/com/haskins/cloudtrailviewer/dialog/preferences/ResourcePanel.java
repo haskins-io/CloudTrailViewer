@@ -45,7 +45,7 @@ import javax.swing.border.CompoundBorder;
  *
  * @author mark
  */
-public class ResourcePanel extends JPanel implements Preferences, ActionListener {
+class ResourcePanel extends JPanel implements Preferences, ActionListener {
 
     private static final long serialVersionUID = 7636219388578641606L;
 
@@ -54,7 +54,7 @@ public class ResourcePanel extends JPanel implements Preferences, ActionListener
     
     private int selected = -1;
     
-    public ResourcePanel() {
+    ResourcePanel() {
         
         buildUI();
         

@@ -81,7 +81,7 @@ public class SessionIssuer implements Serializable {
     /**
      * @return the accountId
      */
-    public String getAccountId() {
+    private String getAccountId() {
         return accountId;
     }
 

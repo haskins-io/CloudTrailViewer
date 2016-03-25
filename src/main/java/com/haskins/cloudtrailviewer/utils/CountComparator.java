@@ -28,7 +28,7 @@ import java.util.Comparator;
  * 
  * @author mark.haskins
  */
-public class CountComparator implements Comparator, Serializable {
+class CountComparator implements Comparator, Serializable {
 
     private static final long serialVersionUID = -327254245212933972L;
 

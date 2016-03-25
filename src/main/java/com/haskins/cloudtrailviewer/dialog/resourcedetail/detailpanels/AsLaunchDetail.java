@@ -26,7 +26,6 @@ import com.amazonaws.services.autoscaling.model.DescribeLaunchConfigurationsResu
 import com.amazonaws.services.autoscaling.model.LaunchConfiguration;
 import com.haskins.cloudtrailviewer.dialog.resourcedetail.ResourceDetailRequest;
 import java.awt.BorderLayout;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.JPanel;

@@ -1,5 +1,8 @@
 AddTagsToOnPremisesInstances
+BatchGetApplicationRevisions
 BatchGetApplications
+BatchGetDeploymentGroups
+BatchGetDeploymentInstances
 BatchGetDeployments
 BatchGetOnPremisesInstances
 CreateApplication

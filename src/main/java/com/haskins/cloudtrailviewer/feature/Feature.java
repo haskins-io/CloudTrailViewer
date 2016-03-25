@@ -32,57 +32,57 @@ public interface Feature extends EventDatabaseListener {
     /**
      * Called when all events have loaded
      */
-    public void eventLoadingComplete();
+    void eventLoadingComplete();
     
     /**
      * Feature should return a boolean to indicate if it show appear on the 
      * Feature Toolbar
      * @return 
      */
-    public boolean showOnToolBar();
+    boolean showOnToolBar();
     
     /**
      * Feature should return a it's unique name
      * @return 
      */
-    public String getName();
+    String getName();
     
     /**
      * Feature should return the name of the icon to be used on the Feature 
      * Toolbar
      * @return 
      */
-    public String getIcon();
+    String getIcon();
     
     /**
      * Feature should return the tooltip to be shown when it's icon is hovered 
      * over on the Feature toolbar
      * @return 
      */
-    public String getTooltip();
+    String getTooltip();
     
     /**
      * informs the feature that it is about to be navigated away from so it can do
      * any actions that free up memory
      */
-    public void will_hide();
+    void will_hide();
     
     /**
      * informs the feature that it is about to be navigated too so it can do
      * any actions that it needs to present it's data
      */
-    public void will_appear();
+    void will_appear();
     
     /**
      * tells the feature to show it's EventTable populating it with the passed
      * events
      * @param events Events to populate table with 
      */
-    public void showEventsTable(List<Event> events);
+    void showEventsTable(List<Event> events);
     
     /**
      * Informs feature to clear down it's display removing all components any
      * locally stored events
      */
-    public void reset();
+    void reset();
 }

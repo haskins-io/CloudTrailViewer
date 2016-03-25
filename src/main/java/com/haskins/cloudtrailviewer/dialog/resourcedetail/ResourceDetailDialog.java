@@ -50,8 +50,7 @@ public class ResourceDetailDialog extends JDialog {
     private static final String PACKAGE = "com.haskins.cloudtrailviewer.dialog.resourcedetail.detailpanels.";
     
     private static boolean exceptionThrown = false;
-    
-    private static ResourceDetailDialog dialog;
+
     private static final long serialVersionUID = 5453485769149911186L;
     
     public static Map<String, String> handledResourceTypes() {
@@ -78,7 +77,7 @@ public class ResourceDetailDialog extends JDialog {
         exceptionThrown = false;
         
         Frame frame = JOptionPane.getFrameForComponent(parent);
-        dialog = new ResourceDetailDialog(frame, detailRequest);
+        ResourceDetailDialog dialog = new ResourceDetailDialog(frame, detailRequest);
         
         if(!exceptionThrown) {
             dialog.setVisible(true);

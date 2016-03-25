@@ -42,7 +42,7 @@ import javax.swing.JSplitPane;
  */
 public class ResourceFeature extends JPanel implements Feature {
     
-    public static final String NAME = "Resources Feature";
+    private static final String NAME = "Resources Feature";
     private static final long serialVersionUID = 4393936519169431431L;
     
     private final Help help = new Help("Resource Feature", "resources");

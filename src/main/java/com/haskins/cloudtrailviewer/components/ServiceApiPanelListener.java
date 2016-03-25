@@ -22,5 +22,5 @@ package com.haskins.cloudtrailviewer.components;
  */
 public interface ServiceApiPanelListener {
         
-    public void apiSelected(String api);
+    void apiSelected(String api);
 }

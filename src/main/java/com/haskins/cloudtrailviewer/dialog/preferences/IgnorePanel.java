@@ -46,7 +46,7 @@ import javax.swing.border.CompoundBorder;
  *
  * @author mark.haskins
  */
-public class IgnorePanel extends JPanel implements Preferences, ActionListener {
+class IgnorePanel extends JPanel implements Preferences, ActionListener {
 
     private static final long serialVersionUID = -1386527362607745317L;
 
@@ -55,7 +55,7 @@ public class IgnorePanel extends JPanel implements Preferences, ActionListener {
     
     private int selected = -1;
     
-    public IgnorePanel() {
+    IgnorePanel() {
         
         buildUI();
         

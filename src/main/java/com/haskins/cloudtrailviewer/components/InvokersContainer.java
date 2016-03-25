@@ -63,7 +63,7 @@ public class InvokersContainer extends OverviewContainer {
     
     /**
      * Adds an events to the container.
-     * @param event 
+     * @param event Event to add to container
      */
     public void addEvent(Event event) {
 
@@ -127,20 +127,7 @@ public class InvokersContainer extends OverviewContainer {
             username = event.getUserIdentity().getPrincipalId();
         }
 
-        final NameValuePanel resourcePanel;
-        
-        if (!eventsMap.containsKey(username)) {
-
-            resourcePanel = new NameValuePanel(username, user_icon, feature);
-            resourcePanel.addEvent(event);
-            
-            eventsMap.put(username, resourcePanel);
-        }
-        else {
-
-            resourcePanel = eventsMap.get(username);
-            resourcePanel.addEvent(event);
-        }
+        addEventToPanel(event, username, user_icon);
     }
     
     private void addRole(Event event) {
@@ -162,22 +149,26 @@ public class InvokersContainer extends OverviewContainer {
         }
 
         if (was_role) {
-
-            final NameValuePanel resourcePanel;
-            
-            if (!eventsMap.containsKey(role)) {
-
-                resourcePanel = new NameValuePanel(role, server_icon, feature);
-                resourcePanel.addEvent(event);
-
-                eventsMap.put(role, resourcePanel);
-
-            }
-            else {
-
-                resourcePanel = eventsMap.get(role);
-                resourcePanel.addEvent(event);
-            }
+            addEventToPanel(event, role, server_icon);
         } 
+    }
+
+    private void addEventToPanel(Event event, String invokerType, Icon invokerIcon) {
+
+        final NameValuePanel resourcePanel;
+
+        if (!eventsMap.containsKey(invokerType)) {
+
+            resourcePanel = new NameValuePanel(invokerType, invokerIcon, feature);
+            resourcePanel.addEvent(event);
+
+            eventsMap.put(invokerType, resourcePanel);
+
+        }
+        else {
+
+            resourcePanel = eventsMap.get(invokerType);
+            resourcePanel.addEvent(event);
+        }
     }
 }

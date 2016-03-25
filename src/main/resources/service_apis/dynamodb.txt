@@ -11,3 +11,4 @@ Query
 Scan
 UpdateItem
 UpdateTable
+DescribeLimits

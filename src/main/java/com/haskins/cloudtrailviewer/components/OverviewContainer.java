@@ -40,8 +40,8 @@ public class OverviewContainer extends JPanel {
 
     private static final long serialVersionUID = 5978572053226212058L;
 
-    protected final Map<String, NameValuePanel> eventsMap = new HashMap<>();
-    protected final Feature feature;
+    final Map<String, NameValuePanel> eventsMap = new HashMap<>();
+    final Feature feature;
     
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");  
 
@@ -54,7 +54,7 @@ public class OverviewContainer extends JPanel {
 
     /**
      * Adds a collection of events to the panel
-     * @param events 
+     * @param events Collection of Events to add to panel
      */
     public void setEvents(List<Event> events) {
 
@@ -70,8 +70,8 @@ public class OverviewContainer extends JPanel {
 
     /**
      * Adds a single event to the panel
-     * @param event
-     * @param eventField 
+     * @param event Event to add to panel
+     * @param eventField Event file name e.g EventName
      * @return total events
      */
     public int addEvent(Event event, String eventField) {

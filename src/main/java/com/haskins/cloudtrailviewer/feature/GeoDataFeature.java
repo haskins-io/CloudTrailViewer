@@ -47,7 +47,7 @@ public class GeoDataFeature extends JPanel implements Feature {
 
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     
-    public static final String NAME = "GeoData Feature";
+    private static final String NAME = "GeoData Feature";
     private static final long serialVersionUID = 2337766480593653058L;
 
     private final Help help = new Help("GeoData Feature", "geodata");

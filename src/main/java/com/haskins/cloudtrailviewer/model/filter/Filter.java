@@ -27,13 +27,13 @@ import javax.swing.JPanel;
  */
 public interface Filter {
     
-    public JPanel getFilterPanel(String filterName);
+    JPanel getFilterPanel(String filterName);
     
-    public boolean passesFilter(Event event);
+    boolean passesFilter(Event event);
     
-    public void setNeedle(String needle);
-    public String getNeedle();
-    public boolean isNeedleSet();
+    void setNeedle(String needle);
+    String getNeedle();
+    boolean isNeedleSet();
     
-    public void addListener(FilterListener l);
+    void addListener(FilterListener l);
 }

@@ -50,7 +50,7 @@ public class GeneralUtils {
     
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
 
-    private static JFileChooser fileChooser = new JFileChooser();
+    private static final JFileChooser fileChooser = new JFileChooser();
     
     /**
      * Sorts the collection using the default sorting algorithm.
@@ -67,7 +67,7 @@ public class GeneralUtils {
     /**
      * Defines OS enums
      */
-    public enum OS {
+    private enum OS {
         WINDOWS, UNIX, POSIX_UNIX, MAC, OTHER
     }
 
@@ -125,7 +125,7 @@ public class GeneralUtils {
      * Returns the OS
      * @return 
      */
-    public static OS getOs() {
+    private static OS getOs() {
         return os;
     }
 

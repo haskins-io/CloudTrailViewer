@@ -28,7 +28,7 @@ import java.util.HashMap;
  */
 public class RdsResource extends AbstractRequest implements Request {
 
-    public static final String RDS_INSTANCE = "RDS Instance";
+    private static final String RDS_INSTANCE = "RDS Instance";
     
     public RdsResource() {
         

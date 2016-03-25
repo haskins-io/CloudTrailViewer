@@ -50,7 +50,7 @@ import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
  *
  * @author mark.haskins
  */
-public class FilteringPanel extends JPanel implements ActionListener {
+class FilteringPanel extends JPanel implements ActionListener {
     
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     
@@ -60,20 +60,20 @@ public class FilteringPanel extends JPanel implements ActionListener {
     private static final String ACTION_MODE_OR = "ActionModeOr";
     private static final long serialVersionUID = -3267460281771883973L;
     
-    private final DefaultComboBoxModel filter_list = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel<FilterWrapper> filter_list = new DefaultComboBoxModel<>();
     private final JComboBox filterCombo = new JComboBox(filter_list);
 
     private final CompositeFilter filters = new CompositeFilter();
     
-    private LinkedList<FilterPanel> panelsList = new LinkedList<>();
+    private final LinkedList<FilterPanel> panelsList = new LinkedList<>();
     private final JPanel activeFilterPanel = new JPanel();
     
-    private JButton addButton = new JButton("Add");
+    private final JButton addButton = new JButton("Add");
     
     /**
      * Default constructor
      */
-    public FilteringPanel() {
+    FilteringPanel() {
         
         addAvailableFilters();
         
@@ -87,7 +87,7 @@ public class FilteringPanel extends JPanel implements ActionListener {
      * Returns all the filters
      * @return 
      */
-    public CompositeFilter getFilters() {
+    CompositeFilter getFilters() {
         return filters;
     }
     
@@ -96,7 +96,7 @@ public class FilteringPanel extends JPanel implements ActionListener {
      * 
      * @param filterToRemove 
      */
-    public void removeFilter(FilterPanel filterToRemove) {
+    void removeFilter(FilterPanel filterToRemove) {
 
         filters.removeFilter(filterToRemove.getFilter());
 
@@ -309,22 +309,22 @@ class FilterWrapper {
     private final Class classType;
     private final String optionalField;
     
-    public FilterWrapper(String name, Class classname) {
+    FilterWrapper(String name, Class classname) {
         this(name, classname, null);
     }
     
-    public FilterWrapper(String name, Class classname, String option) {
+    FilterWrapper(String name, Class classname, String option) {
         
         this.filterName = name;
         this.classType = classname;
         this.optionalField = option;
     }
 
-    public String getFilterName() {
+    String getFilterName() {
         return this.filterName;
     }
     
-    public Class getClassType() {
+    Class getClassType() {
         return this.classType;
     }
     

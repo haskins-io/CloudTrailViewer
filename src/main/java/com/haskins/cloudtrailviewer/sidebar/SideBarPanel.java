@@ -71,7 +71,7 @@ public class SideBarPanel extends JPanel implements ActionListener {
         }        
     }    
     
-    public void showSideBar(String name) {
+    private void showSideBar(String name) {
         
         currentSideBar = sideBarMap.get(name);
         

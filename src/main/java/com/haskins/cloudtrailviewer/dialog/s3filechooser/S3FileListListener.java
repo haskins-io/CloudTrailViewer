@@ -20,24 +20,24 @@ package com.haskins.cloudtrailviewer.dialog.s3filechooser;
  *
  * @author markhaskins
  */
-public interface S3FileListListener {
+interface S3FileListListener {
     
     /**
      * Fired when a selection is made
      * 
      * @param isValid 
      */
-    public void listItemSelected(boolean isValid);
+    void listItemSelected(boolean isValid);
     
     /**
      * Fired when files / folder has been selected and the dialog can be closed.
      */
-    public void selectionComplete();
+    void selectionComplete();
     
     /**
      * Fired when an exception is caught
      * 
      * @param e 
      */
-    public void exceptionCaught(Exception e);
+    void exceptionCaught(Exception e);
 }

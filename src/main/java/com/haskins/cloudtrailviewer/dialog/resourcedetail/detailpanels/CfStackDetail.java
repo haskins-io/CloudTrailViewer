@@ -48,8 +48,8 @@ public class CfStackDetail extends AbstractDetail {
     
     private static final long serialVersionUID = -2152867004948703721L;
  
-    protected final DefaultTableModel outputTableModel = new DefaultTableModel();
-    protected final DefaultTableModel parametersTableModel = new DefaultTableModel();
+    private final DefaultTableModel outputTableModel = new DefaultTableModel();
+    private final DefaultTableModel parametersTableModel = new DefaultTableModel();
     
     public CfStackDetail(ResourceDetailRequest detailRequest) {
         super(detailRequest);

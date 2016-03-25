@@ -30,7 +30,7 @@ import javax.swing.JPanel;
  *
  * @author mark.haskins
  */
-public class FilterPanel extends JPanel implements ActionListener {
+class FilterPanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = -1600052521405754276L;
     
@@ -38,7 +38,7 @@ public class FilterPanel extends JPanel implements ActionListener {
     private final FilteringPanel parent;
     private final Filter filter;
     
-    public FilterPanel(String filterName, Filter filter, boolean isFirst, FilteringPanel filteringPanel, String mode) {
+    FilterPanel(String filterName, Filter filter, boolean isFirst, FilteringPanel filteringPanel, String mode) {
         
         super(new BorderLayout());
         
@@ -59,11 +59,11 @@ public class FilterPanel extends JPanel implements ActionListener {
         add(removeFilter, BorderLayout.LINE_END); 
     }
     
-    public void hideAndPanel() {
+    void hideAndPanel() {
         modePanel.setVisible(false);
     }
     
-    public void setMode(String mode) {
+    void setMode(String mode) {
         modePanel.setMode(mode);
     }
     
@@ -81,9 +81,9 @@ class ModePanel extends JPanel {
 
     private static final long serialVersionUID = -647686474244916429L;
 
-    JLabel modeLabel = new JLabel();
+    private final JLabel modeLabel = new JLabel();
     
-    public ModePanel(String mode) {
+    ModePanel(String mode) {
         
         setMode(mode);
         
@@ -91,7 +91,7 @@ class ModePanel extends JPanel {
         this.add(modeLabel);
     }
     
-    public final void setMode(String mode) {
+    final void setMode(String mode) {
         modeLabel.setText("-- " + mode + " --");
     }
 }

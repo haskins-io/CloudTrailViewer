@@ -29,11 +29,11 @@ public interface ResourceDetail {
      * @param detailRequest
      * @return 
      */
-    public String retrieveDetails(ResourceDetailRequest detailRequest);
+    String retrieveDetails(ResourceDetailRequest detailRequest);
     
     /**
      * Returns the detail panel
      * @return 
      */
-    public JPanel getPanel();
+    JPanel getPanel();
 }

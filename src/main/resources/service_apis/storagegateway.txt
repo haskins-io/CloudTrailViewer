@@ -9,6 +9,7 @@ CreateCachediSCSIVolume
 CreateSnapshot
 CreateSnapshotFromVolumeRecoveryPoint
 CreateStorediSCSIVolume
+CreateTapeWithBarcode
 CreateTapes
 DeleteBandwidthRateLimit
 DeleteChapCredentials

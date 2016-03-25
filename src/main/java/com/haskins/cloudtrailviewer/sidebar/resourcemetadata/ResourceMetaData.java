@@ -28,18 +28,18 @@ public interface ResourceMetaData {
      * Populate the MetaData from the given Event
      * @param event 
      */
-    public void populate(Event event);
+    void populate(Event event);
     
     /**
      * returns menu items
      * @return 
      */
-    public String[] getMenuItems();
+    String[] getMenuItems();
     
     /**
      * returns value for menu item
      * @param menuItem
      * @return 
      */
-    public String getValueForMenuItem(String menuItem);
+    String getValueForMenuItem(String menuItem);
 }

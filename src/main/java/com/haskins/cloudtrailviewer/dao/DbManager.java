@@ -135,7 +135,7 @@ public class DbManager {
      * @return The result of the query or -1 if no result was found or there was
      * a problem.
      */
-    public int executeIntStatement(String query, String columnName) {
+    private int executeIntStatement(String query, String columnName) {
 
         int retVal = -1;
 
@@ -225,7 +225,7 @@ public class DbManager {
      * get a valid DB Connection
      * @return 
      */
-    public Connection getDbConnection() {
+    private Connection getDbConnection() {
 
         Connection conn = null;
 
@@ -243,7 +243,7 @@ public class DbManager {
      * Returns the URL of that database
      * @return 
      */
-    public String getDbUrl() {
+    private String getDbUrl() {
 
         String userHomeDir = System.getProperty("user.home", ".");
         String systemDir = userHomeDir + "/.cloudtrailviewer/prefs.db";
@@ -274,6 +274,6 @@ public class DbManager {
     }
     
     private static class DbManagerHolder {
-        public static final DbManager INSTANCE = new DbManager();
+        static final DbManager INSTANCE = new DbManager();
     }
 }

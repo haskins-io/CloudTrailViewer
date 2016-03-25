@@ -76,7 +76,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
 
     /**
      * This Constructor creates it's own EventsDatabase.
-     * @param chartType
+     * @param chartType unique id of chart type
      */
     public EventTablePanel(int chartType) {
         this(new FilteredEventDatabase(new AllFilter(), null), chartType);
@@ -86,7 +86,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
      * This Constructor tables an existing EventsDatabase
      *
      * @param eventsDatabase reference to an Event Database
-     * @param chartType
+     * @param chartType unique id of chart type
      */
     public EventTablePanel(FilteredEventDatabase eventsDatabase, int chartType) {
 
@@ -144,7 +144,7 @@ public class EventTablePanel extends JPanel implements ActionListener {
     /**
      * Sets the Events that the table will display. Calling this will reload the
      * table model and display the events in the table.
-     * @param events 
+     * @param events Collection of events to add to table
      */
     public void setEvents(List<Event> events) {
         eventDb.addEvents(events);
@@ -162,12 +162,11 @@ public class EventTablePanel extends JPanel implements ActionListener {
     
     /**
      * Sets the needle that should be used to filter the contents of the table.
-     * @param needle 
+     * @param needle String to be used for filtering
      */
     public void setFilterString(String needle) {
         filterTextField.setText(needle);
         filterUpdate();
-//        tableModel.reloadTableModel();
     }
 
     ////////////////////////////////////////////////////////////////////////////

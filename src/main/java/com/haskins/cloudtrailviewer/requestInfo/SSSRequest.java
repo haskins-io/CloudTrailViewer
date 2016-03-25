@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class SSSRequest extends AbstractRequest implements Request {
 
-    public static final String S3_BUCKET = "Bucket name";
+    private static final String S3_BUCKET = "Bucket name";
     
     public SSSRequest() {
         

@@ -29,12 +29,12 @@ public interface EventDatabaseListener {
     
     /**
      * fired when a new Event is added to the database
-     * @param event 
+     * @param event
      */
-    public void eventAdded(Event event);
+    void eventAdded(Event event);
     
     /**
      * fired when all events have been loaded into the database
      */
-    public void finishedLoading();
+    void finishedLoading();
 }

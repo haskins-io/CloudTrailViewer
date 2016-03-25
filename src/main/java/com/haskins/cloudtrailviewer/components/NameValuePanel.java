@@ -40,14 +40,12 @@ import javax.swing.SwingConstants;
  * 
  * @author mark.haskins
  */
-public class NameValuePanel extends JPanel {
+class NameValuePanel extends JPanel {
 
     private static final long serialVersionUID = 829334953720731893L;
     
     private final List<Event> events = new ArrayList<>();
-    
-    private final JLabel iconPanel = new JLabel();
-    private final JLabel nameLabel = new JLabel();
+
     private final JLabel totalLabel = new JLabel("0");
     
     private boolean sorted = false;
@@ -60,14 +58,14 @@ public class NameValuePanel extends JPanel {
      * the panel
      * @param f Reference to feature that should be called when panel is clicked.
      */
-    public NameValuePanel(String event, Icon icon, Feature f) {
+    NameValuePanel(String event, Icon icon, Feature f) {
      
         this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
         this.setBackground(Color.white);
         
         this.setMaximumSize(new Dimension(1750,30));
-        
-        this.nameLabel.setText(event);
+
+        JLabel nameLabel = new JLabel(event);
         this.parent = f;
         
         nameLabel.addMouseListener(new MouseAdapter() {
@@ -99,6 +97,7 @@ public class NameValuePanel extends JPanel {
         this.setLayout(new BorderLayout());
         
         if (icon != null) {
+            JLabel iconPanel = new JLabel();
             iconPanel.setIcon(icon);
             this.add(iconPanel, BorderLayout.WEST);
         }
@@ -109,7 +108,7 @@ public class NameValuePanel extends JPanel {
     
     /**
      * Adds an event to the panel.
-     * @param event 
+     * @param event Event to add to panel
      * @return total number of events
      */
     public int addEvent(Event event) {
@@ -123,27 +122,17 @@ public class NameValuePanel extends JPanel {
     
     /**
      * Returns the number of events associated with the panel.
-     * @return 
+     * @return int value
      */
-    public int getEventCount() {
+    int getEventCount() {
         return events.size();
     }
     
     /**
      * returns a single Event associated with the Panel
-     * @return 
+     * @return Event object
      */
-    public Event getSampleEvent() {
+    Event getSampleEvent() {
         return events.get(0);
-    }
-    
-    /**
-     * Resizes the Panel with a new width.
-     * @param newWidth 
-     */
-    public void changeWidth(int newWidth) {
-        this.setMaximumSize(new Dimension(newWidth,30));
-        this.setMinimumSize(new Dimension(newWidth,30));
-        this.setMaximumSize(new Dimension(newWidth,30));
     }
 }

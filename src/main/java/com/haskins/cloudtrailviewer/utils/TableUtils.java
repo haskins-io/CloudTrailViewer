@@ -106,7 +106,7 @@ public class TableUtils implements Serializable {
         return getServiceFromEventSource(event.getEventSource());
     }
     
-    public String getServiceFromEventSource(String eventSource) {
+    String getServiceFromEventSource(String eventSource) {
         
         String tmp = eventSource.replaceFirst(".amazonaws.com", "");
         return AwsService.getInstance().getFriendlyName(tmp); 

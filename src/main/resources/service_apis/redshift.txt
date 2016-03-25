@@ -40,6 +40,7 @@ DescribeReservedNodeOfferings
 DescribeReservedNodes
 DescribeResize
 DescribeSnapshotCopyGrants
+DescribeTableRestoreStatus
 DescribeTags
 DisableLogging
 DisableSnapshotCopy
@@ -54,6 +55,7 @@ PurchaseReservedNodeOffering
 RebootCluster
 ResetClusterParameterGroup
 RestoreFromClusterSnapshot
+RestoreTableFromClusterSnapshot
 RevokeClusterSecurityGroupIngress
 RevokeSnapshotAccess
 RotateEncryptionKey

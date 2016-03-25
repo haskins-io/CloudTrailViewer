@@ -39,7 +39,7 @@ import javax.swing.JSplitPane;
  */
 public class ErrorFeature extends JPanel implements Feature {
         
-    public static final String NAME = "Error Feature";
+    private static final String NAME = "Error Feature";
     private static final long serialVersionUID = -9102410065515704792L;
     private final Help help = new Help("Error Feature", "error");
     

@@ -47,7 +47,7 @@ import javax.swing.border.CompoundBorder;
  *
  * @author mark.haskins
  */
-public class SecurityPanel extends JPanel implements Preferences, ActionListener {
+class SecurityPanel extends JPanel implements Preferences, ActionListener {
 
     private static final long serialVersionUID = -1386527362607745317L;
 
@@ -56,7 +56,7 @@ public class SecurityPanel extends JPanel implements Preferences, ActionListener
     
     private int selected = -1;
     
-    public SecurityPanel() {
+    SecurityPanel() {
         
         buildUI();
         

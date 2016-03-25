@@ -54,7 +54,7 @@ public class EventUtils {
      * @param dateString
      * @return 
      */
-    public static long getTimestamp(String dateString) {
+    private static long getTimestamp(String dateString) {
         
         long millis = 0;
         

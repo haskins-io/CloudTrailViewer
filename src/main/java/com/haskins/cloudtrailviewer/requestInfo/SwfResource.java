@@ -26,7 +26,7 @@ import java.util.HashMap;
  */
 public class SwfResource extends AbstractRequest implements Request {
 
-    public static final String DOMAIN = "Domain";
+    private static final String DOMAIN = "Domain";
     
     
     public SwfResource() {

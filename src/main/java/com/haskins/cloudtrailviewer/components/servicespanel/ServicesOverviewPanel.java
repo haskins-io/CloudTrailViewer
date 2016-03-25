@@ -35,7 +35,7 @@ import javax.swing.SwingConstants;
  *
  * @author mark
  */
-public class ServicesOverviewPanel extends JPanel {
+class ServicesOverviewPanel extends JPanel {
 
     private static final long serialVersionUID = -2461359163355407044L;
     
@@ -52,7 +52,7 @@ public class ServicesOverviewPanel extends JPanel {
      * @param serviceName Name of the service that panel will be showing
      * @param f The feature that panel will be showing
      */
-    public ServicesOverviewPanel(String serviceName, Feature f) {
+    ServicesOverviewPanel(String serviceName, Feature f) {
         
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(250,130));
@@ -102,7 +102,7 @@ public class ServicesOverviewPanel extends JPanel {
 
     /**
      * Adds Events to Panel.
-     * @param event 
+     * @param event event to added to Panel
      */
     public void addEvent(Event event) {
                 

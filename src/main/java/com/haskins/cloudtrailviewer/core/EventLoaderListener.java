@@ -32,10 +32,10 @@ public interface EventLoaderListener {
      * @param fileCount 
      * @param total
      */
-    public void processingFile(int fileCount, int total);
+    void processingFile(int fileCount, int total);
     
     /**
      * Fired when EventLoaded has finished processing all the files
      */
-    public void finishedLoading();
+    void finishedLoading();
 }

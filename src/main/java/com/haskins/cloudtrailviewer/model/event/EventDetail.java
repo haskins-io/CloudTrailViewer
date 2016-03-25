@@ -22,7 +22,7 @@ package com.haskins.cloudtrailviewer.model.event;
  *
  * @author mark
  */
-public class EventDetail {
+class EventDetail {
     
     private String label = "";
     private String detail = "";

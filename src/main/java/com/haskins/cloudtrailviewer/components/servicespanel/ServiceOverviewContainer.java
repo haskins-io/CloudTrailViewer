@@ -50,7 +50,7 @@ public class ServiceOverviewContainer extends JPanel {
     
     /**
      * Clears any current events and loads the container with the passed events.
-     * @param events 
+     * @param events Collection of events to add to container
      */
     public void setEvents(List<Event> events) {
         
@@ -67,7 +67,7 @@ public class ServiceOverviewContainer extends JPanel {
     /**
      * Adds the Events and updates the appropriate Service Panel. If no matching
      * service panels exists one will be created.
-     * @param event 
+     * @param event Event to add to container
      */
     public void addEvent(Event event) {
         

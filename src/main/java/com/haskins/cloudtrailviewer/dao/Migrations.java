@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  *
  * @author mark.haskins
  */
-public class Migrations {
+class Migrations {
 
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     

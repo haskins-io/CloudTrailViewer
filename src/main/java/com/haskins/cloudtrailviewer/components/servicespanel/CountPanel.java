@@ -42,7 +42,7 @@ import javax.swing.SwingConstants;
  * 
  * @author mark
  */
-public class CountPanel extends JPanel {
+class CountPanel extends JPanel {
 
     private static final long serialVersionUID = 274246648587524251L;
     
@@ -60,7 +60,7 @@ public class CountPanel extends JPanel {
      * @param bgColour Colour for the background of the panel
      * @param f Reference to feature that show be informed when clicked.
      */
-    public CountPanel(String name, Color bgColour, Feature f) {
+    CountPanel(String name, Color bgColour, Feature f) {
         
         super(new BorderLayout());
         
@@ -124,9 +124,9 @@ public class CountPanel extends JPanel {
     
     /**
      * Added a new event to the count.
-     * @param event 
+     * @param event Event to add to panel
      */
-    public void newEvent(Event event) {
+    void newEvent(Event event) {
         
         this.events.add(event);
         eventCount.setText(String.valueOf(this.events.size()));

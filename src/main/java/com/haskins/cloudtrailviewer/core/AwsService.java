@@ -75,7 +75,7 @@ public class AwsService {
      * Returns the friendly name of a service for example autoscaling.amazonaws.com
      * would return AutoScaling
      * @param name service name
-     * @return 
+     * @return String value of Friendly name
      */
     public String getFriendlyName(String name) {
         
@@ -99,7 +99,7 @@ public class AwsService {
 
     /**
      * Returns the names of all available AWS Services
-     * @return 
+     * @return Collection of AWS Services
      */
     public List<String> getServices() {
         
@@ -113,7 +113,7 @@ public class AwsService {
     /**
      * Returns all Service API calls available for the given service name
      * @param serviceName name of service
-     * @return 
+     * @return Collection of APIs
      */
     public List<String> getApiCallsForService(String serviceName) {
         
@@ -152,6 +152,6 @@ public class AwsService {
     }
     
     private static class AwsServiceHolder {
-        public static final AwsService INSTANCE = new AwsService();
+        static final AwsService INSTANCE = new AwsService();
     }
 }

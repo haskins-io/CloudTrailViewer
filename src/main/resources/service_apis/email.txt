@@ -12,6 +12,7 @@ DescribeActiveReceiptRuleSet
 DescribeReceiptRule
 DescribeReceiptRuleSet
 GetIdentityDkimAttributes
+GetIdentityMailFromDomainAttributes
 GetIdentityNotificationAttributes
 GetIdentityPolicies
 GetIdentityVerificationAttributes
@@ -30,6 +31,7 @@ SendRawEmail
 SetActiveReceiptRuleSet
 SetIdentityDkimEnabled
 SetIdentityFeedbackForwardingEnabled
+SetIdentityMailFromDomain
 SetIdentityNotificationTopic
 SetReceiptRulePosition
 UpdateReceiptRule

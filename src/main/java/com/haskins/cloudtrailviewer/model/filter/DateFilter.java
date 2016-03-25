@@ -41,7 +41,7 @@ import org.joda.time.DateTime;
  */
 public class DateFilter extends AbstractFilter {
 
-    public static final String DATE_PATTERN = "dd-MM-yyyy";
+    static final String DATE_PATTERN = "dd-MM-yyyy";
     public final SimpleDateFormat DATE_FORMATER = new SimpleDateFormat(DATE_PATTERN);
         
     private static final String DIRECTION_FROM = "From";
@@ -66,11 +66,7 @@ public class DateFilter extends AbstractFilter {
             public void actionPerformed(ActionEvent e) {
         
                 String option = (String)direction.getSelectedItem();
-                if (option.equalsIgnoreCase(DIRECTION_FROM)) {
-                    fromDate = true;
-                } else {
-                    fromDate = false;
-                }
+                fromDate = option.equalsIgnoreCase(DIRECTION_FROM);
             }
         });
 
@@ -159,7 +155,7 @@ public class DateFilter extends AbstractFilter {
 
 class DateLabelFormatter extends AbstractFormatter {
 
-    public final SimpleDateFormat DATE_FORMATER = new SimpleDateFormat(DATE_PATTERN);
+    private final SimpleDateFormat DATE_FORMATER = new SimpleDateFormat(DATE_PATTERN);
     
     private static final long serialVersionUID = -4783324316698726452L;
 

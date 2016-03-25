@@ -22,7 +22,6 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.DateFormatter;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.text.ParseException;
@@ -41,7 +40,7 @@ import javax.swing.SwingConstants;
  * 
  * @author mark.haskins
  */
-public class EpsPanel extends JPanel {
+class EpsPanel extends JPanel {
 
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     
@@ -64,7 +63,7 @@ public class EpsPanel extends JPanel {
     private final JLabel minuteLabel = new JLabel(String.valueOf(peakMinute), SwingConstants.CENTER);
     private final JLabel hourLabel = new JLabel(String.valueOf(peakHour), SwingConstants.CENTER);
     
-    public EpsPanel(Color bgColour) {
+    EpsPanel(Color bgColour) {
         
         this.setBackground(bgColour);
         
@@ -98,9 +97,9 @@ public class EpsPanel extends JPanel {
     /**
      * When called will adjust the Peak events per Second/Minute/Hour based on the
      * timestamp of the passed Event.
-     * @param event 
+     * @param event Event to include in Peak events per second calculations
      */
-    public void newEvent(Event event) {
+    void newEvent(Event event) {
         
         try {
         

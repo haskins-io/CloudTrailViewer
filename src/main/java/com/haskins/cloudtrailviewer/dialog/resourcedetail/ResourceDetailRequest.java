@@ -56,7 +56,7 @@ public class ResourceDetailRequest {
     /**
      * @return the resourceType
      */
-    public String getResourceType() {
+    String getResourceType() {
         return resourceType;
     }
 

@@ -1,4 +1,5 @@
 CreateApiKey
+CreateAuthorizer
 CreateBasePathMapping
 CreateDeployment
 CreateDomainName
@@ -7,6 +8,7 @@ CreateResource
 CreateRestApi
 CreateStage
 DeleteApiKey
+DeleteAuthorizer
 DeleteBasePathMapping
 DeleteClientCertificate
 DeleteDeployment
@@ -19,11 +21,14 @@ DeleteModel
 DeleteResource
 DeleteRestApi
 DeleteStage
+FlushStageAuthorizersCache
 FlushStageCache
 GenerateClientCertificate
 GetAccount
 GetApiKey
 GetApiKeys
+GetAuthorizer
+GetAuthorizers
 GetBasePathMapping
 GetBasePathMappings
 GetClientCertificate
@@ -32,6 +37,7 @@ GetDeployment
 GetDeployments
 GetDomainName
 GetDomainNames
+GetExport
 GetIntegration
 GetIntegrationResponse
 GetMethod
@@ -50,9 +56,11 @@ PutIntegration
 PutIntegrationResponse
 PutMethod
 PutMethodResponse
+TestInvokeAuthorizer
 TestInvokeMethod
 UpdateAccount
 UpdateApiKey
+UpdateAuthorizer
 UpdateBasePathMapping
 UpdateClientCertificate
 UpdateDeployment

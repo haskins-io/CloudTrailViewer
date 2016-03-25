@@ -40,7 +40,7 @@ public class Event implements Serializable {
     private String eventSource = "";
     private String errorCode = "";
     private String errorMessage = "";
-    private Map requestParameters;
+    private Map<String, ?> requestParameters;
     private Map responseElements;
     private String requestID = "";
     private String eventID = "";
@@ -61,7 +61,7 @@ public class Event implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
-    public String getCountry() {
+    private String getCountry() {
         return this.country;
     }
     
@@ -75,7 +75,7 @@ public class Event implements Serializable {
     public void setLatLng(String LatLong) {
         this.latLng = LatLong;
     }
-    public String getLatLng() {
+    private String getLatLng() {
         return this.latLng;
     }
     
@@ -221,21 +221,21 @@ public class Event implements Serializable {
     /**
      * @return the requestParameters
      */
-    public Map getRequestParameters() {
+    public Map<String, ?> getRequestParameters() {
         return requestParameters;
     }
 
     /**
      * @param requestParameters the requestParameters to set
      */
-    public void setRequestParameters(Map requestParameters) {
+    public void setRequestParameters(Map<String, ?> requestParameters) {
         this.requestParameters = requestParameters;
     }
 
     /**
      * @return the responseElements
      */
-    public Map getResponseElements() {
+    private Map getResponseElements() {
         return responseElements;
     }
 
@@ -516,17 +516,17 @@ public class Event implements Serializable {
     ////////////////////////////////////////////////////////////////////////////
     private Map additionalEventData;
     private String readOnly = "";  
-    private List<Resource> resources; 
-    
-    public Map getAdditionalEventData() {
+    private List<Resource> resources;
+
+    private Map getAdditionalEventData() {
         return additionalEventData;
     }
 
     public void setAdditionalEventData(Map additionalEventData) {
         this.additionalEventData = additionalEventData;
     }
-    
-    public String getReadOnly() {
+
+    private String getReadOnly() {
         return readOnly;
     }
 
@@ -534,7 +534,7 @@ public class Event implements Serializable {
         this.readOnly = readOnly;
     }
     
-    public List getResources() {
+    private List getResources() {
         return resources;
     }
 

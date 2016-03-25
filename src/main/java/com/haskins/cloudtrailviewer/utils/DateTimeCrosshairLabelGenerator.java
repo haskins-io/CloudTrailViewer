@@ -52,8 +52,8 @@ public class DateTimeCrosshairLabelGenerator implements CrosshairLabelGenerator,
      * @param dateFormat  the date formatter (<code>null</code> not
      *     permitted).
      */
-    public DateTimeCrosshairLabelGenerator(String labelTemplate,
-            DateFormat dateFormat) {
+    private DateTimeCrosshairLabelGenerator(String labelTemplate,
+                                            DateFormat dateFormat) {
         super();
         if (labelTemplate == null) {
             throw new IllegalArgumentException(
