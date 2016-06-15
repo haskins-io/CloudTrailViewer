@@ -155,16 +155,20 @@ public class ResourcesChart extends AbstractChart {
 
                 ResourceMetaData md = (ResourceMetaData) c.newInstance();
                 md.populate(event);
-                
-                String meta = md.getValueForMenuItem(source);
-                
+
                 int count = 0;
-                if (metadataByOccurance.containsKey(meta)) {
-                    count = metadataByOccurance.get(meta);
+                List<String> values = md.getValuesForMenuItem(source);
+                if (values != null) {
+                    for (String value : values) {
+
+                        if (metadataByOccurance.containsKey(value)) {
+                            count = metadataByOccurance.get(value);
+                        }
+
+                        count++;
+                        metadataByOccurance.put(value, count);
+                    }
                 }
-                
-                count++;
-                metadataByOccurance.put(meta, count);
             }
             
             List<Map.Entry<String,Integer>> sorted = entriesSortedByValues(metadataByOccurance);

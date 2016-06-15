@@ -18,6 +18,8 @@ package com.haskins.cloudtrailviewer.sidebar.resourcemetadata;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
 
+import java.util.List;
+
 /**
  *
  * @author mark
@@ -37,9 +39,9 @@ public interface ResourceMetaData {
     String[] getMenuItems();
     
     /**
-     * returns value for menu item
+     * returns values for menu item
      * @param menuItem
      * @return 
      */
-    String getValueForMenuItem(String menuItem);
+    List<String> getValuesForMenuItem(String menuItem);
 }

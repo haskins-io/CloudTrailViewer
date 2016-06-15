@@ -18,7 +18,10 @@
 package com.haskins.cloudtrailviewer.sidebar.resourcemetadata;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -26,15 +29,15 @@ import java.util.Arrays;
  */
 public class DefaultMetaData implements ResourceMetaData {
     
-    private String eventSource;
-    private String userAgent;
-    private String userIdentityPrincipalId;
-    private String userIdentityArn;
-    private String userIdentityUsername;
-    private String userIdentityInvokedBy;
-    private String sessionContextPrincipalId;
-    private String sessionContextArn;
-    private String sessionContextUsername;
+    private List<String> eventSource = new ArrayList<String>();
+    private List<String> userAgent = new ArrayList<String>();
+    private List<String> userIdentityPrincipalId = new ArrayList<String>();
+    private List<String> userIdentityArn = new ArrayList<String>();
+    private List<String> userIdentityUsername = new ArrayList<String>();
+    private List<String> userIdentityInvokedBy = new ArrayList<String>();
+    private List<String> sessionContextPrincipalId = new ArrayList<String>();
+    private List<String> sessionContextArn = new ArrayList<String>();
+    private List<String> sessionContextUsername = new ArrayList<String>();
     
     private static final String[] MENU_ITEMS = new String[] {
         "Event Source", 
@@ -51,21 +54,21 @@ public class DefaultMetaData implements ResourceMetaData {
     @Override
     public void populate(Event event) {
         
-        eventSource = event.getEventSource();
-        userAgent = event.getUserAgent();
+        eventSource.add(event.getEventSource());
+        userAgent.add(event.getUserAgent());
         
         if (event.getUserIdentity() != null) {
             
-            userIdentityPrincipalId = event.getUserIdentity().getPrincipalId();
-            userIdentityArn = event.getUserIdentity().getArn();
-            userIdentityUsername = event.getUserIdentity().getUserName();
-            userIdentityInvokedBy = event.getUserIdentity().getInvokedBy();
+            userIdentityPrincipalId.add(event.getUserIdentity().getPrincipalId());
+            userIdentityArn.add(event.getUserIdentity().getArn());
+            userIdentityUsername.add(event.getUserIdentity().getUserName());
+            userIdentityInvokedBy.add(event.getUserIdentity().getInvokedBy());
 
             if (event.getUserIdentity().getSessionContext() != null  && event.getUserIdentity().getSessionContext().getSessionIssuer() != null) {
                 
-                sessionContextPrincipalId = event.getUserIdentity().getSessionContext().getSessionIssuer().getPrincipalId();
-                sessionContextArn = event.getUserIdentity().getSessionContext().getSessionIssuer().getArn();
-                sessionContextUsername = event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName();   
+                sessionContextPrincipalId.add(event.getUserIdentity().getSessionContext().getSessionIssuer().getPrincipalId());
+                sessionContextArn.add(event.getUserIdentity().getSessionContext().getSessionIssuer().getArn());
+                sessionContextUsername.add(event.getUserIdentity().getSessionContext().getSessionIssuer().getUserName());
             }
         }
     }
@@ -76,9 +79,9 @@ public class DefaultMetaData implements ResourceMetaData {
     }
     
     @Override
-    public String getValueForMenuItem(String menuItem) {
-        
-        String value = "";
+    public List<String> getValuesForMenuItem(String menuItem) {
+
+        List<String> value = new ArrayList<String>();
         
         if (menuItem.equalsIgnoreCase("Event Source")) {
             value = this.eventSource;

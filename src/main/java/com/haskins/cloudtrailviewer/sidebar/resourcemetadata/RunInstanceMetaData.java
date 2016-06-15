@@ -17,6 +17,8 @@
 package com.haskins.cloudtrailviewer.sidebar.resourcemetadata;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +30,9 @@ import java.util.Map;
  */
 public class RunInstanceMetaData implements ResourceMetaData {
     
-    private String imageId;
-    private String instanceType;
-    private String az;
+    private List<String> imageId = new ArrayList<String>();
+    private List<String> instanceType = new ArrayList<String>();
+    private List<String> az = new ArrayList<String>();
     
     private static final String[] MENU_ITEMS = new String[] {
         "Ami Id", 
@@ -40,16 +42,24 @@ public class RunInstanceMetaData implements ResourceMetaData {
     
     @Override
     public void populate(Event event) {
-        
-        Map requestParams = event.getRequestParameters();
-        
-        Map instancesSet = (Map)requestParams.get("instancesSet");
-        List<Map> items = (List)instancesSet.get("items");
-        Map item = items.get(0);
-        imageId = (String)item.get("imageId");
-        
-        instanceType = (String)requestParams.get("instanceType");
-        az = (String)requestParams.get("availabilityZone");
+
+        Map responseParams = event.getResponseElements();
+
+        if (responseParams != null && responseParams.containsKey("instancesSet")) {
+
+            Map instancesSet = (Map)responseParams.get("instancesSet");
+            List<Map> items = (List)instancesSet.get("items");
+
+            for (Map item : items) {
+
+                imageId.add((String)item.get("imageId"));
+                instanceType.add((String)item.get("instanceType"));
+
+                Map placement = (Map)item.get("placement");
+                az.add((String)placement.get("availabilityZone"));
+            }
+        }
+
     }
     
     @Override
@@ -58,20 +68,20 @@ public class RunInstanceMetaData implements ResourceMetaData {
     }
     
     @Override
-    public String getValueForMenuItem(String menuItem) {
-        
-        String value = "";
-        
+    public List<String> getValuesForMenuItem(String menuItem) {
+
+        List<String> values = new ArrayList<String>();
+
         if (menuItem.equalsIgnoreCase("Ami Id")) {
-            value = this.imageId;
+            values = this.imageId;
             
         } else if (menuItem.equalsIgnoreCase("Instance Type")) {
-            value = this.instanceType;
+            values= this.instanceType;
             
         } else if (menuItem.equalsIgnoreCase("Availability Zone")) {
-            value = this.az;
+            values = this.az;
         }
-        
-        return value;
+
+        return values;
     }
 }

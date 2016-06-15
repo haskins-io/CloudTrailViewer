@@ -18,7 +18,10 @@
 package com.haskins.cloudtrailviewer.sidebar.resourcemetadata;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,9 +31,9 @@ import java.util.Map;
  */
 public class CreateDbInstanceMetaData implements ResourceMetaData {
     
-    private String dBInstanceClass;
-    private String engine;
-    private String allocatedStorage;
+    private List<String> dBInstanceClass = new ArrayList<String>();
+    private List<String> engine = new ArrayList<String>();
+    private List<String> allocatedStorage = new ArrayList<String>();
     
     private static final String[] MENU_ITEMS = new String[] {
         "Instance Class", 
@@ -43,9 +46,9 @@ public class CreateDbInstanceMetaData implements ResourceMetaData {
         
         Map requestParams = event.getRequestParameters();
                 
-        dBInstanceClass = (String)requestParams.get("dBInstanceClass");
-        engine = (String)requestParams.get("engine");
-        allocatedStorage = (String)requestParams.get("allocatedStorage");
+        dBInstanceClass.add((String)requestParams.get("dBInstanceClass"));
+        engine.add((String)requestParams.get("engine"));
+        allocatedStorage.add((String)requestParams.get("allocatedStorage"));
     }
     
     @Override
@@ -54,9 +57,9 @@ public class CreateDbInstanceMetaData implements ResourceMetaData {
     }
     
     @Override
-    public String getValueForMenuItem(String menuItem) {
-        
-        String value = "";
+    public List<String> getValuesForMenuItem(String menuItem) {
+
+        List<String> value = new ArrayList<String>();
         
         if (menuItem.equalsIgnoreCase("Instance Class")) {
             value = this.dBInstanceClass;

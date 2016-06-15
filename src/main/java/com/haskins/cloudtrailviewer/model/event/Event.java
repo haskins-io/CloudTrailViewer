@@ -235,7 +235,7 @@ public class Event implements Serializable {
     /**
      * @return the responseElements
      */
-    private Map getResponseElements() {
+    public Map getResponseElements() {
         return responseElements;
     }
 

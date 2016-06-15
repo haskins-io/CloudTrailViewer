@@ -17,7 +17,10 @@
 package com.haskins.cloudtrailviewer.sidebar.resourcemetadata;
 
 import com.haskins.cloudtrailviewer.model.event.Event;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,8 +30,8 @@ import java.util.Map;
  */
 public class CreateCacheClusterMetaData implements ResourceMetaData {
     
-    private String engine;
-    private String cacheNodeType;
+    private List<String> engine = new ArrayList<String>();
+    private List<String> cacheNodeType = new ArrayList<String>();
     
     private static final String[] MENU_ITEMS = new String[] {
         "Engine", 
@@ -40,8 +43,8 @@ public class CreateCacheClusterMetaData implements ResourceMetaData {
         
         Map requestParams = event.getRequestParameters();
                 
-        engine = (String)requestParams.get("engine");
-        cacheNodeType = (String)requestParams.get("cacheNodeType");
+        engine.add((String)requestParams.get("engine"));
+        cacheNodeType.add((String)requestParams.get("cacheNodeType"));
     }
     
     @Override
@@ -50,9 +53,9 @@ public class CreateCacheClusterMetaData implements ResourceMetaData {
     }
     
     @Override
-    public String getValueForMenuItem(String menuItem) {
-        
-        String value = "";
+    public List<String> getValuesForMenuItem(String menuItem) {
+
+        List<String> value = new ArrayList<String>();
         
         if (menuItem.equalsIgnoreCase("Engine")) {
             value = this.engine;
