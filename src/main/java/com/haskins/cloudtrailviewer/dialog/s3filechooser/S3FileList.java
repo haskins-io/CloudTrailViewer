@@ -223,7 +223,8 @@ class S3FileList extends JPanel implements MouseListener, NavigationListener {
                 }
             }
 
-            updateAccountPrefix(path.toString());
+            prefix = path.toString();
+            updateAccountPrefix(prefix);
             reloadContents();
         }
 

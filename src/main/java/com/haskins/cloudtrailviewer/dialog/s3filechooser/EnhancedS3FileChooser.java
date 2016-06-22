@@ -98,6 +98,12 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
             dialog.setVisible(true);
         }
 
+        StringBuilder query = new StringBuilder();
+        query.append("UPDATE aws_credentials SET aws_prefix =");
+        query.append(" '").append(fileList.getPrefix()).append("'");
+        query.append(" WHERE id = ").append(currentAccount.getId());
+        DbManager.getInstance().doInsertUpdate(query.toString());
+
         if (loadClicked) {
             return new LoadFileRequest(fileList.getSelectedFiles(), FILTER_PANEL.getFilters());
         } else {
@@ -130,12 +136,6 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
 
             btnLoad.setEnabled(false);
             btnLoad.setText("Loading");
-            
-            StringBuilder query = new StringBuilder();
-            query.append("UPDATE aws_credentials SET aws_prefix =");
-            query.append(" '").append(fileList.getPrefix()).append("'");
-            query.append(" WHERE id = ").append(currentAccount.getId());
-            DbManager.getInstance().doInsertUpdate(query.toString());
         }
         
         fileList.dialogClosing();
