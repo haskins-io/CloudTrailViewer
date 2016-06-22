@@ -52,10 +52,12 @@ GetRestApis
 GetSdk
 GetStage
 GetStages
+ImportRestApi
 PutIntegration
 PutIntegrationResponse
 PutMethod
 PutMethodResponse
+PutRestApi
 TestInvokeAuthorizer
 TestInvokeMethod
 UpdateAccount

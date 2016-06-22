@@ -3,6 +3,8 @@ CreateStream
 DecreaseStreamRetentionPeriod
 DeleteStream
 DescribeStream
+DisableEnhancedMonitoring
+EnableEnhancedMonitoring
 GetRecords
 GetShardIterator
 IncreaseStreamRetentionPeriod

@@ -111,6 +111,7 @@ DescribeReservedInstancesOfferings
 DescribeRouteTables
 DescribeScheduledInstanceAvailability
 DescribeScheduledInstances
+DescribeSecurityGroupReferences
 DescribeSecurityGroups
 DescribeSnapshotAttribute
 DescribeSnapshots
@@ -120,6 +121,7 @@ DescribeSpotFleetRequestHistory
 DescribeSpotFleetRequests
 DescribeSpotInstanceRequests
 DescribeSpotPriceHistory
+DescribeStaleSecurityGroups
 DescribeSubnets
 DescribeTags
 DescribeVolumeAttribute
@@ -149,6 +151,7 @@ EnableVolumeIO
 EnableVpcClassicLink
 EnableVpcClassicLinkDnsSupport
 GetConsoleOutput
+GetConsoleScreenshot
 GetPasswordData
 ImportImage
 ImportInstance
@@ -168,6 +171,7 @@ ModifySubnetAttribute
 ModifyVolumeAttribute
 ModifyVpcAttribute
 ModifyVpcEndpoint
+ModifyVpcPeeringConnectionOptions
 MonitorInstances
 MoveAddressToVpc
 PurchaseReservedInstancesOffering

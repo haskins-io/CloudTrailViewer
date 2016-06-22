@@ -47,6 +47,7 @@ DisableSnapshotCopy
 EnableLogging
 EnableSnapshotCopy
 ModifyCluster
+ModifyClusterIamRoles
 ModifyClusterParameterGroup
 ModifyClusterSubnetGroup
 ModifyEventSubscription

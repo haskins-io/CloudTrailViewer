@@ -1,4 +1,7 @@
+CreateTags
 CreateWorkspaces
+DeleteTags
+DescribeTags
 DescribeWorkspaceBundles
 DescribeWorkspaceDirectories
 DescribeWorkspaces

@@ -25,6 +25,7 @@ DescribeReplicationGroups
 DescribeReservedCacheNodes
 DescribeReservedCacheNodesOfferings
 DescribeSnapshots
+ListAllowedNodeTypeModifications
 ListTagsForResource
 ModifyCacheCluster
 ModifyCacheParameterGroup

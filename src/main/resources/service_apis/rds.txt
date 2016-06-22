@@ -64,6 +64,7 @@ DescribeAccountAttributes
 DescribeCertificates
 DescribeDBClusterParameterGroups
 DescribeDBClusterParameters
+DescribeDBClusterSnapshotAttributes
 DescribeDBClusterSnapshots
 DescribeDBClusters
 DescribeDBSnapshotAttributes
@@ -72,7 +73,9 @@ DescribePendingMaintenanceActions
 FailoverDBCluster
 ModifyDBCluster
 ModifyDBClusterParameterGroup
+ModifyDBClusterSnapshotAttribute
 ModifyDBSnapshotAttribute
+PromoteReadReplicaDBCluster
 ResetDBClusterParameterGroup
 RestoreDBClusterFromSnapshot
 RestoreDBClusterToPointInTime

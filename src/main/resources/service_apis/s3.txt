@@ -12,6 +12,7 @@ DeleteBucketTagging
 DeleteBucketWebsite
 DeleteObject
 DeleteObjects
+GetBucketAccelerateConfiguration
 GetBucketAcl
 GetBucketCors
 GetBucketLifecycle
@@ -35,7 +36,9 @@ ListBuckets
 ListMultipartUploads
 ListObjectVersions
 ListObjects
+ListObjectsV2
 ListParts
+PutBucketAccelerateConfiguration
 PutBucketAcl
 PutBucketCors
 PutBucketLifecycle

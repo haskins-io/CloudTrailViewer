@@ -19,5 +19,6 @@ PutJobFailureResult
 PutJobSuccessResult
 PutThirdPartyJobFailureResult
 PutThirdPartyJobSuccessResult
+RetryStageExecution
 StartPipelineExecution
 UpdatePipeline

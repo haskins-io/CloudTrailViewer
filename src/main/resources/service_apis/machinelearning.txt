@@ -1,3 +1,4 @@
+AddTags
 CreateBatchPrediction
 CreateDataSourceFromRDS
 CreateDataSourceFromRedshift
@@ -10,10 +11,12 @@ DeleteDataSource
 DeleteEvaluation
 DeleteMLModel
 DeleteRealtimeEndpoint
+DeleteTags
 DescribeBatchPredictions
 DescribeDataSources
 DescribeEvaluations
 DescribeMLModels
+DescribeTags
 GetBatchPrediction
 GetDataSource
 GetEvaluation

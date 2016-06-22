@@ -4,12 +4,14 @@ DisableDomainAutoRenew
 DisableDomainTransferLock
 EnableDomainAutoRenew
 EnableDomainTransferLock
+GetContactReachabilityStatus
 GetDomainDetail
 GetOperationDetail
 ListDomains
 ListOperations
 ListTagsForDomain
 RegisterDomain
+ResendContactReachabilityEmail
 RetrieveDomainAuthCode
 TransferDomain
 UpdateDomainContact

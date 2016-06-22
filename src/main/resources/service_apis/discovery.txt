@@ -1,0 +1,10 @@
+CreateTags
+DeleteTags
+DescribeAgents
+DescribeConfigurations
+DescribeExportConfigurations
+DescribeTags
+ExportConfigurations
+ListConfigurations
+StartDataCollectionByAgentIds
+StopDataCollectionByAgentIds

@@ -36,6 +36,7 @@ DisableGateway
 ListGateways
 ListLocalDisks
 ListTagsForResource
+ListTapes
 ListVolumeInitiators
 ListVolumeRecoveryPoints
 ListVolumes
@@ -43,6 +44,7 @@ RemoveTagsFromResource
 ResetCache
 RetrieveTapeArchive
 RetrieveTapeRecoveryPoint
+SetLocalConsolePassword
 ShutdownGateway
 StartGateway
 UpdateBandwidthRateLimit

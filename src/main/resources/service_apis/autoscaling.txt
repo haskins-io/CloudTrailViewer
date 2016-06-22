@@ -1,3 +1,10 @@
+DeleteScalingPolicy
+DeregisterScalableTarget
+DescribeScalableTargets
+DescribeScalingActivities
+DescribeScalingPolicies
+PutScalingPolicy
+RegisterScalableTarget
 AttachInstances
 AttachLoadBalancers
 CompleteLifecycleAction
@@ -23,7 +30,6 @@ DescribeLoadBalancers
 DescribeMetricCollectionTypes
 DescribeNotificationConfigurations
 DescribePolicies
-DescribeScalingActivities
 DescribeScalingProcessTypes
 DescribeScheduledActions
 DescribeTags
@@ -37,7 +43,6 @@ ExecutePolicy
 ExitStandby
 PutLifecycleHook
 PutNotificationConfiguration
-PutScalingPolicy
 PutScheduledUpdateGroupAction
 RecordLifecycleActionHeartbeat
 ResumeProcesses

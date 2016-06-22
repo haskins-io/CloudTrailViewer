@@ -6,11 +6,13 @@ DeleteAssociation
 DeleteDocument
 DescribeAssociation
 DescribeDocument
+DescribeDocumentPermission
 DescribeInstanceInformation
 GetDocument
 ListAssociations
 ListCommandInvocations
 ListCommands
 ListDocuments
+ModifyDocumentPermission
 SendCommand
 UpdateAssociationStatus

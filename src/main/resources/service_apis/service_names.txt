@@ -11,12 +11,14 @@ codecommit : AWS CodeCommit
 codedeploy : AWS CodeDeploy
 codepipeline : AWS CodePipeline
 cognito-identity : Amazon Cognito Identity
+cognito-idp : Amazon Cognito Identity Provider
 cognito-sync : Amazon Cognito Sync
 config : AWS Config
 data.iot : AWS IoT Data Plane
 datapipeline : AWS Data Pipeline
 devicefarm : AWS Device Farm
 directconnect : AWS Direct Connect
+discovery : AWS Application Discovery Service
 dms : AWS Database Migration Service
 ds : AWS Directory Service
 dynamodb : Amazon DynamoDB
@@ -32,7 +34,7 @@ elastictranscoder : Amazon Elastic Transcoder
 email : Amazon Simple Email Service
 es : Amazon Elasticsearch Service
 events : Amazon CloudWatch Events
-firehose : Kinesis Firehose
+firehose : Amazon Kinesis Firehose
 gamelift : Amazon GameLift
 glacier : Amazon Glacier
 iam : AWS Identity and Access Management

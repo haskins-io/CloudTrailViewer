@@ -1,6 +1,9 @@
+AddTagsToCertificate
 DeleteCertificate
 DescribeCertificate
 GetCertificate
 ListCertificates
+ListTagsForCertificate
+RemoveTagsFromCertificate
 RequestCertificate
 ResendValidationEmail
