@@ -88,7 +88,7 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
         current_mode = mode;
         
         getAccounts();
-        
+
         fileList = new S3FileList(current_mode, currentAccount);
                 
         Frame frame = JOptionPane.getFrameForComponent(parent);
@@ -121,7 +121,6 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
                     "Filter Error",
                     JOptionPane.ERROR_MESSAGE
                 );
-
 
                 btnLoad.setEnabled(false);
                 return;
@@ -190,10 +189,23 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
         
         this.setLayout(new BorderLayout());
         
-        JComboBox accountCombo = new JComboBox(ACCOUNT_LIST);
+        final JComboBox accountCombo = new JComboBox(ACCOUNT_LIST);
         accountCombo.setMinimumSize(new Dimension(200,30));
         accountCombo.setPreferredSize(new Dimension(200,30));
         accountCombo.setMaximumSize(new Dimension(200,30));
+
+        accountCombo.addActionListener(new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String newAccount = (String)accountCombo.getSelectedItem();
+                currentAccount = ACCOUNT_MAP.get(newAccount);
+
+                setCurrentAccount(currentAccount);
+                fileList.init();
+            }
+        });
+
         
         JPanel accountPanel = new JPanel();
         accountPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
@@ -259,11 +271,28 @@ public class EnhancedS3FileChooser extends JDialog implements ActionListener, S3
 
             String name = account.getName();
 
-            ACCOUNT_MAP.put(name, account);
-            ACCOUNT_LIST.addElement(name);
-            currentAccount = account;
+            if (!ACCOUNT_MAP.containsKey(name)) {
+                ACCOUNT_MAP.put(name, account);
+                ACCOUNT_LIST.addElement(name);
 
-            String setActive = "UPDATE aws_credentials SET active = 1 WHERE ID = " + currentAccount.getId();
+                if (ACCOUNT_MAP.size() == 1) {
+                    setCurrentAccount(account);
+                }
+            }
+        }
+    }
+
+    private static void setCurrentAccount(AwsAccount account) {
+
+        currentAccount = account;
+
+        if (fileList != null) {
+            fileList.setAccount(account);
+
+            String setNotActive = "UPDATE aws_credentials SET active = 0";
+            DbManager.getInstance().doInsertUpdate(setNotActive);
+
+            String setActive = "UPDATE aws_credentials SET active = 1 WHERE ID = " + account.getId();
             DbManager.getInstance().doInsertUpdate(setActive);
         }
     }
