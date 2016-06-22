@@ -31,7 +31,6 @@ import com.haskins.cloudtrailviewer.thirdparty.com.bric.swing.NavigationListener
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import static java.awt.Component.LEFT_ALIGNMENT;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -64,8 +63,8 @@ class S3FileList extends JPanel implements MouseListener, NavigationListener {
     
     private final List<String> selected_keys = new ArrayList<>();
     
-    private final DefaultListModel<S3ListModel> s3ListModel = new DefaultListModel();
-    private final JList s3List;
+    private final DefaultListModel<S3ListModel> s3ListModel = new DefaultListModel<>();
+    private final JList<S3ListModel> s3List;
     
     private final List<S3FileListListener> listeners = new ArrayList<>();
     
@@ -109,7 +108,7 @@ class S3FileList extends JPanel implements MouseListener, NavigationListener {
      * Sets the AWS Account that the class will use to read files from
      * @param newAccount new Account
      */
-    private void setAccount(AwsAccount newAccount) {
+    public void setAccount(AwsAccount newAccount) {
         this.currentAccount = newAccount;
         this.prefix = newAccount.getPrefix();
     }
@@ -160,7 +159,7 @@ class S3FileList extends JPanel implements MouseListener, NavigationListener {
     
     /**
      * returns the current S3 Prefix
-     * @return 
+     * @return current S3 Prefix
      */
     String getPrefix() {
         return this.prefix;
@@ -178,7 +177,7 @@ class S3FileList extends JPanel implements MouseListener, NavigationListener {
 
         } else if (e.getClickCount() == 1) {
 
-            String selected = ((S3ListModel) s3List.getSelectedValue()).getPath();
+            String selected = s3List.getSelectedValue().getPath();
 
             if (!scanning && selected.contains("/")) {
                 notifyListenersOfSelection(false);
@@ -224,7 +223,7 @@ class S3FileList extends JPanel implements MouseListener, NavigationListener {
                 }
             }
 
-            prefix = path.toString();
+            updateAccountPrefix(path.toString());
             reloadContents();
         }
 
@@ -263,22 +262,22 @@ class S3FileList extends JPanel implements MouseListener, NavigationListener {
     
     private void handleDoubleClickEvent() {
 
-        String selected = ((S3ListModel) s3List.getSelectedValue()).getPath();
+        String selected = s3List.getSelectedValue().getPath();
 
         if (selected.equalsIgnoreCase(MOVE_BACK)) {
 
             int lastSlash = prefix.lastIndexOf('/');
             String tmpPrefix = prefix.substring(0, lastSlash);
 
+            prefix = "";
             if (tmpPrefix.contains("/")) {
 
                 lastSlash = tmpPrefix.lastIndexOf('/') + 1;
                 prefix = tmpPrefix.substring(0, lastSlash);
 
-            } else {
-                prefix = "";
             }
 
+            updateAccountPrefix(prefix);
             reloadContents();
 
         } else {
@@ -292,11 +291,12 @@ class S3FileList extends JPanel implements MouseListener, NavigationListener {
             if (lastSlash == selected.length()) {
 
                 prefix = prefix + selected;
+                updateAccountPrefix(prefix);
                 reloadContents();
             } else {
                 
                 addSelectedKeys();
-                currentAccount.setPrefix(prefix);
+                updateAccountPrefix(prefix);
                 
                 for (S3FileListListener l : listeners) {
                     l.selectionComplete();
@@ -349,7 +349,7 @@ class S3FileList extends JPanel implements MouseListener, NavigationListener {
 
         if (s3List.getSelectedValue() != null) {
             
-            String selected = prefix + ((S3ListModel) s3List.getSelectedValue()).getPath();
+            String selected = prefix + s3List.getSelectedValue().getPath();
 
             // if the dialog is being used as part of a scan operation and a folder
             // is selected then we need to discover the files in the folder and
@@ -476,6 +476,10 @@ class S3FileList extends JPanel implements MouseListener, NavigationListener {
 
             alias_map.put(aws_acct, aws_alias);
         }
+    }
+
+    private void updateAccountPrefix(String newPrefix) {
+        currentAccount.setPrefix(newPrefix);
     }
 }
 
