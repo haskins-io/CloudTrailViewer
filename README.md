@@ -62,7 +62,7 @@ On the AWS tab of the Preferences Dialog click the + button in the top section (
 You can leave the Account field blank.
 
 
-In order to be able to load the files from S3 you will need a IAM User that has the following permissions
+In order to be able to load the files from S3 you will need a IAM User that has the following permissions.
 ```
 {
   "Version": "2012-10-17",
@@ -73,7 +73,7 @@ In order to be able to load the files from S3 you will need a IAM User that has 
         "s3:Get*",
         "s3:List*"
       ],
-      "Resource": "arn:aws:s3:::cloudtrail-log*",
+      "Resource": "arn:aws:s3:::cloudtrail-log*"
     }
   ]
 }
