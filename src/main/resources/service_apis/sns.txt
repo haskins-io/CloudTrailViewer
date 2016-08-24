@@ -1,4 +1,5 @@
 AddPermission
+CheckIfPhoneNumberIsOptedOut
 ConfirmSubscription
 CreatePlatformApplication
 CreatePlatformEndpoint
@@ -8,17 +9,21 @@ DeletePlatformApplication
 DeleteTopic
 GetEndpointAttributes
 GetPlatformApplicationAttributes
+GetSMSAttributes
 GetSubscriptionAttributes
 GetTopicAttributes
 ListEndpointsByPlatformApplication
+ListPhoneNumbersOptedOut
 ListPlatformApplications
 ListSubscriptions
 ListSubscriptionsByTopic
 ListTopics
+OptInPhoneNumber
 Publish
 RemovePermission
 SetEndpointAttributes
 SetPlatformApplicationAttributes
+SetSMSAttributes
 SetSubscriptionAttributes
 SetTopicAttributes
 Subscribe

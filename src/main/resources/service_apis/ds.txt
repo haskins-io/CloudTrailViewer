@@ -1,3 +1,5 @@
+AddIpRoutes
+AddTagsToResource
 ConnectDirectory
 CreateAlias
 CreateComputer
@@ -22,7 +24,11 @@ EnableRadius
 EnableSso
 GetDirectoryLimits
 GetSnapshotLimits
+ListIpRoutes
+ListTagsForResource
 RegisterEventTopic
+RemoveIpRoutes
+RemoveTagsFromResource
 RestoreFromSnapshot
 UpdateConditionalForwarder
 UpdateRadius

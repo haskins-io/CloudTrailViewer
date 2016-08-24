@@ -51,6 +51,7 @@ RevokeDBSecurityGroupIngress
 DescribeDBLogFiles
 DownloadDBLogFilePortion
 ApplyPendingMaintenanceAction
+CopyDBClusterParameterGroup
 CopyDBClusterSnapshot
 CopyDBParameterGroup
 CopyOptionGroup
@@ -77,5 +78,6 @@ ModifyDBClusterSnapshotAttribute
 ModifyDBSnapshotAttribute
 PromoteReadReplicaDBCluster
 ResetDBClusterParameterGroup
+RestoreDBClusterFromS3
 RestoreDBClusterFromSnapshot
 RestoreDBClusterToPointInTime

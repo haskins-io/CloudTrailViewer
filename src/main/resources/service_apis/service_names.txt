@@ -42,6 +42,7 @@ importexport : AWS Import/Export
 inspector : Amazon Inspector
 iot : AWS IoT
 kinesis : Amazon Kinesis
+kinesisanalytics : Amazon Kinesis Analytics
 kms : AWS Key Management Service
 lambda : AWS Lambda
 logs : Amazon CloudWatch Logs
@@ -57,6 +58,8 @@ route53 : Amazon Route 53
 route53domains : Amazon Route 53 Domains
 s3 : Amazon Simple Storage Service
 sdb : Amazon SimpleDB
+servicecatalog : AWS Service Catalog
+snowball : Amazon Import/Export Snowball
 sns : Amazon Simple Notification Service
 sqs : Amazon Simple Queue Service
 ssm : Amazon Simple Systems Management Service

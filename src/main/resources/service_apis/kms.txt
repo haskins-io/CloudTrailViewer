@@ -4,6 +4,7 @@ CreateGrant
 CreateKey
 Decrypt
 DeleteAlias
+DeleteImportedKeyMaterial
 DescribeKey
 DisableKey
 DisableKeyRotation
@@ -15,6 +16,8 @@ GenerateDataKeyWithoutPlaintext
 GenerateRandom
 GetKeyPolicy
 GetKeyRotationStatus
+GetParametersForImport
+ImportKeyMaterial
 ListAliases
 ListGrants
 ListKeyPolicies

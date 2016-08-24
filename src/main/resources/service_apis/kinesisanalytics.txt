@@ -1,0 +1,13 @@
+AddApplicationInput
+AddApplicationOutput
+AddApplicationReferenceDataSource
+CreateApplication
+DeleteApplication
+DeleteApplicationOutput
+DeleteApplicationReferenceDataSource
+DescribeApplication
+DiscoverInputSchema
+ListApplications
+StartApplication
+StopApplication
+UpdateApplication

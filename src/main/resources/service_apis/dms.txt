@@ -3,11 +3,13 @@ CreateEndpoint
 CreateReplicationInstance
 CreateReplicationSubnetGroup
 CreateReplicationTask
+DeleteCertificate
 DeleteEndpoint
 DeleteReplicationInstance
 DeleteReplicationSubnetGroup
 DeleteReplicationTask
 DescribeAccountAttributes
+DescribeCertificates
 DescribeConnections
 DescribeEndpointTypes
 DescribeEndpoints
@@ -18,6 +20,7 @@ DescribeReplicationSubnetGroups
 DescribeReplicationTasks
 DescribeSchemas
 DescribeTableStatistics
+ImportCertificate
 ListTagsForResource
 ModifyEndpoint
 ModifyReplicationInstance

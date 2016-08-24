@@ -6,11 +6,13 @@ EnableDomainAutoRenew
 EnableDomainTransferLock
 GetContactReachabilityStatus
 GetDomainDetail
+GetDomainSuggestions
 GetOperationDetail
 ListDomains
 ListOperations
 ListTagsForDomain
 RegisterDomain
+RenewDomain
 ResendContactReachabilityEmail
 RetrieveDomainAuthCode
 TransferDomain
@@ -18,3 +20,4 @@ UpdateDomainContact
 UpdateDomainContactPrivacy
 UpdateDomainNameservers
 UpdateTagsForDomain
+ViewBilling

@@ -1,8 +1,10 @@
 CreateDevicePool
 CreateProject
+CreateRemoteAccessSession
 CreateUpload
 DeleteDevicePool
 DeleteProject
+DeleteRemoteAccessSession
 DeleteRun
 DeleteUpload
 GetAccountSettings
@@ -12,10 +14,12 @@ GetDevicePoolCompatibility
 GetJob
 GetOfferingStatus
 GetProject
+GetRemoteAccessSession
 GetRun
 GetSuite
 GetTest
 GetUpload
+InstallToRemoteAccessSession
 ListArtifacts
 ListDevicePools
 ListDevices
@@ -23,6 +27,7 @@ ListJobs
 ListOfferingTransactions
 ListOfferings
 ListProjects
+ListRemoteAccessSessions
 ListRuns
 ListSamples
 ListSuites
@@ -32,6 +37,7 @@ ListUploads
 PurchaseOffering
 RenewOffering
 ScheduleRun
+StopRemoteAccessSession
 StopRun
 UpdateDevicePool
 UpdateProject

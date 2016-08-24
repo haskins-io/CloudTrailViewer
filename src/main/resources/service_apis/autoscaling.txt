@@ -6,6 +6,7 @@ DescribeScalingPolicies
 PutScalingPolicy
 RegisterScalableTarget
 AttachInstances
+AttachLoadBalancerTargetGroups
 AttachLoadBalancers
 CompleteLifecycleAction
 CreateAutoScalingGroup
@@ -26,6 +27,7 @@ DescribeAutoScalingNotificationTypes
 DescribeLaunchConfigurations
 DescribeLifecycleHookTypes
 DescribeLifecycleHooks
+DescribeLoadBalancerTargetGroups
 DescribeLoadBalancers
 DescribeMetricCollectionTypes
 DescribeNotificationConfigurations
@@ -35,6 +37,7 @@ DescribeScheduledActions
 DescribeTags
 DescribeTerminationPolicyTypes
 DetachInstances
+DetachLoadBalancerTargetGroups
 DetachLoadBalancers
 DisableMetricsCollection
 EnableMetricsCollection

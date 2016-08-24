@@ -85,8 +85,11 @@ DescribeCustomerGateways
 DescribeDhcpOptions
 DescribeExportTasks
 DescribeFlowLogs
+DescribeHostReservationOfferings
+DescribeHostReservations
 DescribeHosts
 DescribeIdFormat
+DescribeIdentityIdFormat
 DescribeImageAttribute
 DescribeImages
 DescribeImportImageTasks
@@ -152,6 +155,7 @@ EnableVpcClassicLink
 EnableVpcClassicLinkDnsSupport
 GetConsoleOutput
 GetConsoleScreenshot
+GetHostReservationPurchasePreview
 GetPasswordData
 ImportImage
 ImportInstance
@@ -160,6 +164,7 @@ ImportSnapshot
 ImportVolume
 ModifyHosts
 ModifyIdFormat
+ModifyIdentityIdFormat
 ModifyImageAttribute
 ModifyInstanceAttribute
 ModifyInstancePlacement
@@ -174,6 +179,7 @@ ModifyVpcEndpoint
 ModifyVpcPeeringConnectionOptions
 MonitorInstances
 MoveAddressToVpc
+PurchaseHostReservation
 PurchaseReservedInstancesOffering
 PurchaseScheduledInstances
 RebootInstances

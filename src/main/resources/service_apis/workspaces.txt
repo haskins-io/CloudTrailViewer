@@ -5,6 +5,10 @@ DescribeTags
 DescribeWorkspaceBundles
 DescribeWorkspaceDirectories
 DescribeWorkspaces
+DescribeWorkspacesConnectionStatus
+ModifyWorkspaceProperties
 RebootWorkspaces
 RebuildWorkspaces
+StartWorkspaces
+StopWorkspaces
 TerminateWorkspaces

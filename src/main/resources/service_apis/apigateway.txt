@@ -7,6 +7,8 @@ CreateModel
 CreateResource
 CreateRestApi
 CreateStage
+CreateUsagePlan
+CreateUsagePlanKey
 DeleteApiKey
 DeleteAuthorizer
 DeleteBasePathMapping
@@ -21,6 +23,8 @@ DeleteModel
 DeleteResource
 DeleteRestApi
 DeleteStage
+DeleteUsagePlan
+DeleteUsagePlanKey
 FlushStageAuthorizersCache
 FlushStageCache
 GenerateClientCertificate
@@ -52,6 +56,12 @@ GetRestApis
 GetSdk
 GetStage
 GetStages
+GetUsage
+GetUsagePlan
+GetUsagePlanKey
+GetUsagePlanKeys
+GetUsagePlans
+ImportApiKeys
 ImportRestApi
 PutIntegration
 PutIntegrationResponse
@@ -75,3 +85,5 @@ UpdateModel
 UpdateResource
 UpdateRestApi
 UpdateStage
+UpdateUsage
+UpdateUsagePlan

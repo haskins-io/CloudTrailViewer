@@ -1,0 +1,11 @@
+DescribeProduct
+DescribeProductView
+DescribeProvisioningParameters
+DescribeRecord
+ListLaunchPaths
+ListRecordHistory
+ProvisionProduct
+ScanProvisionedProducts
+SearchProducts
+TerminateProvisionedProduct
+UpdateProvisionedProduct

@@ -19,6 +19,7 @@ DescribeFleetUtilization
 DescribeGameSessionDetails
 DescribeGameSessions
 DescribePlayerSessions
+DescribeRuntimeConfiguration
 DescribeScalingPolicies
 GetGameSessionLogUrl
 ListAliases
@@ -27,9 +28,11 @@ ListFleets
 PutScalingPolicy
 RequestUploadCredentials
 ResolveAlias
+SearchGameSessions
 UpdateAlias
 UpdateBuild
 UpdateFleetAttributes
 UpdateFleetCapacity
 UpdateFleetPortSettings
 UpdateGameSession
+UpdateRuntimeConfiguration

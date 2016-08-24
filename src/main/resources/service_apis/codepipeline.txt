@@ -15,6 +15,7 @@ ListPipelines
 PollForJobs
 PollForThirdPartyJobs
 PutActionRevision
+PutApprovalResult
 PutJobFailureResult
 PutJobSuccessResult
 PutThirdPartyJobFailureResult

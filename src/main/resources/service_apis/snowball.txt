@@ -1,0 +1,11 @@
+CancelJob
+CreateAddress
+CreateJob
+DescribeAddress
+DescribeAddresses
+DescribeJob
+GetJobManifest
+GetJobUnlockCode
+GetSnowballUsage
+ListJobs
+UpdateJob

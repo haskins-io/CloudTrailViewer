@@ -1,7 +1,9 @@
 CreateCloudFrontOriginAccessIdentity
 CreateDistribution
+CreateDistributionWithTags
 CreateInvalidation
 CreateStreamingDistribution
+CreateStreamingDistributionWithTags
 DeleteCloudFrontOriginAccessIdentity
 DeleteDistribution
 DeleteStreamingDistribution
@@ -17,6 +19,9 @@ ListDistributions
 ListDistributionsByWebACLId
 ListInvalidations
 ListStreamingDistributions
+ListTagsForResource
+TagResource
+UntagResource
 UpdateCloudFrontOriginAccessIdentity
 UpdateDistribution
 UpdateStreamingDistribution

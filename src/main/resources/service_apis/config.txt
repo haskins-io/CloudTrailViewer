@@ -1,5 +1,7 @@
 DeleteConfigRule
+DeleteConfigurationRecorder
 DeleteDeliveryChannel
+DeleteEvaluationResults
 DeliverConfigSnapshot
 DescribeComplianceByConfigRule
 DescribeComplianceByResource
@@ -19,5 +21,6 @@ PutConfigRule
 PutConfigurationRecorder
 PutDeliveryChannel
 PutEvaluations
+StartConfigRulesEvaluation
 StartConfigurationRecorder
 StopConfigurationRecorder

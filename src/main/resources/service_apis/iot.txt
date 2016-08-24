@@ -7,6 +7,7 @@ CreateKeysAndCertificate
 CreatePolicy
 CreatePolicyVersion
 CreateThing
+CreateThingType
 CreateTopicRule
 DeleteCACertificate
 DeleteCertificate
@@ -14,11 +15,14 @@ DeletePolicy
 DeletePolicyVersion
 DeleteRegistrationCode
 DeleteThing
+DeleteThingType
 DeleteTopicRule
+DeprecateThingType
 DescribeCACertificate
 DescribeCertificate
 DescribeEndpoint
 DescribeThing
+DescribeThingType
 DetachPrincipalPolicy
 DetachThingPrincipal
 DisableTopicRule
@@ -31,12 +35,14 @@ GetTopicRule
 ListCACertificates
 ListCertificates
 ListCertificatesByCA
+ListOutgoingCertificates
 ListPolicies
 ListPolicyPrincipals
 ListPolicyVersions
 ListPrincipalPolicies
 ListPrincipalThings
 ListThingPrincipals
+ListThingTypes
 ListThings
 ListTopicRules
 RegisterCACertificate

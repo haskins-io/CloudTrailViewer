@@ -11,8 +11,10 @@ CreatePublicVirtualInterface
 DeleteConnection
 DeleteInterconnect
 DeleteVirtualInterface
+DescribeConnectionLoa
 DescribeConnections
 DescribeConnectionsOnInterconnect
+DescribeInterconnectLoa
 DescribeInterconnects
 DescribeLocations
 DescribeVirtualGateways

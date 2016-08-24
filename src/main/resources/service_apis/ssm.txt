@@ -1,9 +1,14 @@
+AddTagsToResource
 CancelCommand
+CreateActivation
 CreateAssociation
 CreateAssociationBatch
 CreateDocument
+DeleteActivation
 DeleteAssociation
 DeleteDocument
+DeregisterManagedInstance
+DescribeActivations
 DescribeAssociation
 DescribeDocument
 DescribeDocumentPermission
@@ -13,6 +18,9 @@ ListAssociations
 ListCommandInvocations
 ListCommands
 ListDocuments
+ListTagsForResource
 ModifyDocumentPermission
+RemoveTagsFromResource
 SendCommand
 UpdateAssociationStatus
+UpdateManagedInstanceRole
