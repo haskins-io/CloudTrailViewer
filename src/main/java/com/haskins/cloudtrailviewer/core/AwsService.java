@@ -44,7 +44,7 @@ public class AwsService {
 
     /**
      * Returns an instance of the class
-     * @return 
+     * @return An instance of AwsService
      */
     public static AwsService getInstance() {
         return AwsServiceHolder.INSTANCE;
@@ -103,8 +103,8 @@ public class AwsService {
      */
     public List<String> getServices() {
         
-        Set keys = serviceNamesToEndpoints.keySet();
-        List<String> list = new ArrayList(keys);      
+        Set<String> keys = serviceNamesToEndpoints.keySet();
+        List<String> list = new ArrayList<>(keys);
         Collections.sort(list);
 
         return list;
