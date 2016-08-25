@@ -32,7 +32,7 @@ public class AccountDao {
     
     /**
      * Returns an AwsAccount object for the given account number
-     * @param acctNum
+     * @param acctNum AWS account number
      * @return Will return NULL if not found.
      */
     public static AwsAccount getAccountByAcctNum(String acctNum) {
@@ -52,7 +52,7 @@ public class AccountDao {
     
     /**
      * Returns an AwsAccount object for the given account name
-     * @param name
+     * @param name use defined name of AWS Account
      * @return Will return NULL if not found.
      */
     public static AwsAccount getAccountByName(String name) {
@@ -82,7 +82,7 @@ public class AccountDao {
     
     /**
      * returns all Account that have a bucket associated with them
-     * @return 
+     * @return Collection of AWS Accounts that have a bucket configured
      */
     public static List<AwsAccount> getAllAccountsWithBucket() {
 
@@ -91,8 +91,8 @@ public class AccountDao {
     
     /**
      * returns all accounts if they are active.
-     * @param onlyActive
-     * @return 
+     * @param onlyActive Flag to indicate if Active or Inactive AWS Accounts should be returned
+     * @return Collection of AWS Accounts objects
      */
     public static List<AwsAccount> getAllAccounts(boolean onlyActive) {
         
