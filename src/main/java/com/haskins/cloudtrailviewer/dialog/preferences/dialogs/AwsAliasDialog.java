@@ -52,8 +52,8 @@ public class AwsAliasDialog extends JDialog implements ActionListener {
     
     /**
      * Shows the Dialog
-     * @param parent 
-     * @return
+     * @param parent Component to be used as Parent for positioning the dialog
+     * @return AWS Alias object
      */
     public static AwsAlias showDialog(Component parent) {
         
