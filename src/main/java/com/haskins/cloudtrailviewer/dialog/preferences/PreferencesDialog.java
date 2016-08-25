@@ -45,7 +45,7 @@ public class PreferencesDialog extends JDialog implements ActionListener {
     
     /**
      * Shows the Dialog
-     * @param parent 
+     * @param parent Component to be used as the Parent when positioning the dialog
      */
     public static void showDialog(Component parent) {
         
