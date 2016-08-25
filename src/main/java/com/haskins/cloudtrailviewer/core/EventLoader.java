@@ -117,11 +117,8 @@ public class EventLoader implements Serializable {
                     try (InputStream stream = loadEventFromLocalFile(filename)) {
                         processStream(stream, request.getFilter());
                     }
-                    catch (IOException ioe) { 
+                    catch (Exception ioe) {
                         LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
-                    }
-                    catch (Exception e) { 
-                        LOGGER.log(Level.WARNING, "Failed to load file : " + filename, e);
                     }
                 }
                 
@@ -184,9 +181,6 @@ public class EventLoader implements Serializable {
                     try (InputStream stream = loadEventFromS3(s3Client, bucketName, filename)) {
                         processStream(stream, request.getFilter());
 
-                    } 
-                    catch (IOException ioe) {
-                        LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
                     } 
                     catch (Exception e) {
                         LOGGER.log(Level.WARNING, "Failed to load file : " + filename, e);
