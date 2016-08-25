@@ -58,7 +58,7 @@ public class PropertiesController {
     
     /**
      * Returns an instance of the class
-     * @return 
+     * @return An instance of PropertiesController
      */
     public static PropertiesController getInstance() {
         return PropertiesControllerHolder.INSTANCE;
@@ -67,7 +67,7 @@ public class PropertiesController {
     /**
      * returns a property
      * @param key Unique Id of the property
-     * @return 
+     * @return Value of Key
      */
     public String getProperty(String key) {
         
