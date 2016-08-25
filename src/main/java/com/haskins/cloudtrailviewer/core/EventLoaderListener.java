@@ -29,8 +29,8 @@ public interface EventLoaderListener {
      * Fired when a new file is being processed passing the count of the number of
      * files that have been processed.
      * 
-     * @param fileCount 
-     * @param total
+     * @param fileCount position of file in processing
+     * @param total total number of files to process
      */
     void processingFile(int fileCount, int total);
     
