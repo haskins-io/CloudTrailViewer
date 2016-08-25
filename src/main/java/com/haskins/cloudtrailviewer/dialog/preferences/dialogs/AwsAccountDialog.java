@@ -64,9 +64,9 @@ public class AwsAccountDialog extends JDialog implements ActionListener {
     
     /**
      * Shows the Dialog
-     * @param parent 
-     * @param accountToEdit
-     * @return
+     * @param parent  Component to be used as Parent for dialog positioning
+     * @param accountToEdit AWS Account object to edit
+     * @return An AWS Account object
      */
     public static AwsAccount showDialog(Component parent, AwsAccount accountToEdit) {
         
