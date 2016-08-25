@@ -45,7 +45,7 @@ public class DbManager {
 
     /**
      * Returns an instance of the DbManager.
-     * @return 
+     * @return Instance of DbManager
      */
     public static DbManager getInstance() {
         return DbManagerHolder.INSTANCE;
@@ -101,7 +101,7 @@ public class DbManager {
      */
     public List<ResultSetRow> executeCursorStatement(String query) {
 
-        List rows = new ArrayList();
+        List<ResultSetRow> rows = new ArrayList<>();
 
         Connection conn = getDbConnection();
 
@@ -112,7 +112,7 @@ public class DbManager {
             int columns = md.getColumnCount();
 
             while (rs.next()) {
-                HashMap row = new HashMap(columns);
+                HashMap<String, Object> row = new HashMap<>(columns);
                 for (int i = 1; i <= columns; ++i) {
                     row.put(md.getColumnName(i), rs.getObject(i));
                 }
@@ -209,7 +209,7 @@ public class DbManager {
      * performs an Execute command
      * @param query  SQL statement to run
      */
-    public void doExecute(String query) {
+    void doExecute(String query) {
 
         Connection conn = getDbConnection();
 
@@ -223,7 +223,7 @@ public class DbManager {
 
     /**
      * get a valid DB Connection
-     * @return 
+     * @return A DB Connection or NULL if there was a problem
      */
     private Connection getDbConnection() {
 
@@ -241,7 +241,7 @@ public class DbManager {
 
     /**
      * Returns the URL of that database
-     * @return 
+     * @return DB connection URL
      */
     private String getDbUrl() {
 
