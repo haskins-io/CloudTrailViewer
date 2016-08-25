@@ -48,8 +48,8 @@ public class SecurityDialog extends JDialog implements ActionListener {
     
     /**
      * Shows the Dialog
-     * @param parent 
-     * @return
+     * @param parent Component to be used as the Parent for positioning the dialog
+     * @return An Event API
      */
     public static String showDialog(Component parent) {
         
