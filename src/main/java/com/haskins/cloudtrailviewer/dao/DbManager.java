@@ -122,7 +122,7 @@ public class DbManager {
 
         }
         catch (SQLException e) {
-            LOGGER.log(Level.WARNING, "Couldn't excute statement", e);
+            LOGGER.log(Level.WARNING, "Couldn't execute statement", e);
         }
 
         return rows;
@@ -150,7 +150,7 @@ public class DbManager {
 
         }
         catch (SQLException e) {
-            LOGGER.log(Level.WARNING, "Couldn't excute statement", e);
+            LOGGER.log(Level.WARNING, "Couldn't execute statement", e);
         }
 
         return retVal;
@@ -178,7 +178,7 @@ public class DbManager {
 
         }
         catch (SQLException e) {
-            LOGGER.log(Level.WARNING, "Couldn't excute statement", e);
+            LOGGER.log(Level.WARNING, "Couldn't execute statement", e);
         }
 
         return retVal;
@@ -199,7 +199,7 @@ public class DbManager {
             stmt.executeUpdate(query);
         }
         catch (SQLException e) {
-            LOGGER.log(Level.WARNING, "Couldn't excute statement", e);
+            LOGGER.log(Level.WARNING, "Couldn't execute statement", e);
         }
 
         return updated;
@@ -217,7 +217,7 @@ public class DbManager {
             stmt.execute(query);
         }
         catch (SQLException e) {
-            LOGGER.log(Level.WARNING, "Couldn't excute statement", e);
+            LOGGER.log(Level.WARNING, "Couldn't execute statement", e);
         }
     }
 
@@ -233,7 +233,7 @@ public class DbManager {
             conn = DriverManager.getConnection(getDbUrl(), new Properties());
         }
         catch (SQLException e) {
-            LOGGER.log(Level.WARNING, "Couldn't excute statement", e);
+            LOGGER.log(Level.WARNING, "Couldn't execute statement", e);
         }
 
         return conn;
