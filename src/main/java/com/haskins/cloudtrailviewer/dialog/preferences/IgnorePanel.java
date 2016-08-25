@@ -127,14 +127,14 @@ class IgnorePanel extends JPanel implements Preferences, ActionListener {
         
         if (e.getActionCommand().equalsIgnoreCase("New")) {
             
-            String ignore = IgnoreDialog.showDialog(this);
-            if (ignore != null) {
+            String ignore_value = IgnoreDialog.showDialog(this);
+            if (ignore_value != null) {
                 StringBuilder query = new StringBuilder();
                 query.append("INSERT INTO ctv_ignores (ignore)");
-                query.append(" VALUES (").append("'").append(ignore).append("'").append(")");
+                query.append(" VALUES (").append("'").append(ignore_value).append("'").append(")");
                 
                 DbManager.getInstance().doInsertUpdate(query.toString());
-                defaultListModel.addElement(ignore);
+                defaultListModel.addElement(ignore_value);
             }
             
         } else {

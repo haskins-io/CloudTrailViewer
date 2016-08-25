@@ -45,12 +45,12 @@ public class IgnoreDialog extends JDialog implements ActionListener {
     
     private final JTextField needle = new JTextField();
     
-    private static String ignore = null;
+    private static String ignore_value = null;
     
     /**
      * Shows the Dialog
-     * @param parent 
-     * @return
+     * @param parent Component to be used as the Parent for positioning of the dialog
+     * @return String value that should be ignored
      */
     public static String showDialog(Component parent) {
         
@@ -58,7 +58,7 @@ public class IgnoreDialog extends JDialog implements ActionListener {
         dialog = new IgnoreDialog(frame);
         dialog.setVisible(true);
         
-        return ignore;
+        return ignore_value;
     }
     
     
@@ -69,7 +69,7 @@ public class IgnoreDialog extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
         if ("OK".equals(e.getActionCommand())) {
-            ignore = needle.getText();
+            ignore_value = needle.getText();
         }
         
         IgnoreDialog.dialog.setVisible(false);
