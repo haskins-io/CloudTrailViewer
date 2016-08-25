@@ -154,7 +154,7 @@ public class Menu extends JMenuBar implements ApplicationListener {
         int db_version = DbManager.getInstance().getCurrentDbVersion();
         
         StringBuilder message = new StringBuilder();
-        message.append("CloudTrailViewr\n");
+        message.append("CloudTrailViewer\n");
         message.append("Release : ");
         message.append(app_version);
         message.append(" [DB v").append(db_version).append("]");
@@ -162,7 +162,7 @@ public class Menu extends JMenuBar implements ApplicationListener {
         JOptionPane.showMessageDialog(
             CloudTrailViewer.frame, 
             message.toString(), 
-            "CloudTrail Viewer?",
+            "CloudTrail Viewer",
             JOptionPane.INFORMATION_MESSAGE,
             ToolBarUtils.getIcon("logo_50x50.png")
         );
