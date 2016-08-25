@@ -29,7 +29,7 @@ public interface EventDatabaseListener {
     
     /**
      * fired when a new Event is added to the database
-     * @param event
+     * @param event New Event object
      */
     void eventAdded(Event event);
     
