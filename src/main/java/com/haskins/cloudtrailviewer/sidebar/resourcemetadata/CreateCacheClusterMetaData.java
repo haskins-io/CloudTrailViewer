@@ -30,8 +30,8 @@ import java.util.Map;
  */
 public class CreateCacheClusterMetaData implements ResourceMetaData {
     
-    private List<String> engine = new ArrayList<String>();
-    private List<String> cacheNodeType = new ArrayList<String>();
+    private List<String> engine = new ArrayList<>();
+    private List<String> cacheNodeType = new ArrayList<>();
     
     private static final String[] MENU_ITEMS = new String[] {
         "Engine", 
@@ -55,7 +55,7 @@ public class CreateCacheClusterMetaData implements ResourceMetaData {
     @Override
     public List<String> getValuesForMenuItem(String menuItem) {
 
-        List<String> value = new ArrayList<String>();
+        List<String> value = new ArrayList<>();
         
         if (menuItem.equalsIgnoreCase("Engine")) {
             value = this.engine;

@@ -29,15 +29,15 @@ import java.util.List;
  */
 public class DefaultMetaData implements ResourceMetaData {
     
-    private List<String> eventSource = new ArrayList<String>();
-    private List<String> userAgent = new ArrayList<String>();
-    private List<String> userIdentityPrincipalId = new ArrayList<String>();
-    private List<String> userIdentityArn = new ArrayList<String>();
-    private List<String> userIdentityUsername = new ArrayList<String>();
-    private List<String> userIdentityInvokedBy = new ArrayList<String>();
-    private List<String> sessionContextPrincipalId = new ArrayList<String>();
-    private List<String> sessionContextArn = new ArrayList<String>();
-    private List<String> sessionContextUsername = new ArrayList<String>();
+    private List<String> eventSource = new ArrayList<>();
+    private List<String> userAgent = new ArrayList<>();
+    private List<String> userIdentityPrincipalId = new ArrayList<>();
+    private List<String> userIdentityArn = new ArrayList<>();
+    private List<String> userIdentityUsername = new ArrayList<>();
+    private List<String> userIdentityInvokedBy = new ArrayList<>();
+    private List<String> sessionContextPrincipalId = new ArrayList<>();
+    private List<String> sessionContextArn = new ArrayList<>();
+    private List<String> sessionContextUsername = new ArrayList<>();
     
     private static final String[] MENU_ITEMS = new String[] {
         "Event Source", 
@@ -81,7 +81,7 @@ public class DefaultMetaData implements ResourceMetaData {
     @Override
     public List<String> getValuesForMenuItem(String menuItem) {
 
-        List<String> value = new ArrayList<String>();
+        List<String> value = new ArrayList<>();
         
         if (menuItem.equalsIgnoreCase("Event Source")) {
             value = this.eventSource;

@@ -31,9 +31,9 @@ import java.util.Map;
  */
 public class CreateDbInstanceMetaData implements ResourceMetaData {
     
-    private List<String> dBInstanceClass = new ArrayList<String>();
-    private List<String> engine = new ArrayList<String>();
-    private List<String> allocatedStorage = new ArrayList<String>();
+    private List<String> dBInstanceClass = new ArrayList<>();
+    private List<String> engine = new ArrayList<>();
+    private List<String> allocatedStorage = new ArrayList<>();
     
     private static final String[] MENU_ITEMS = new String[] {
         "Instance Class", 
@@ -59,7 +59,7 @@ public class CreateDbInstanceMetaData implements ResourceMetaData {
     @Override
     public List<String> getValuesForMenuItem(String menuItem) {
 
-        List<String> value = new ArrayList<String>();
+        List<String> value = new ArrayList<>();
         
         if (menuItem.equalsIgnoreCase("Instance Class")) {
             value = this.dBInstanceClass;

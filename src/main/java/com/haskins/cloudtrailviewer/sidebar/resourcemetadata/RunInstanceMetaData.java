@@ -30,9 +30,9 @@ import java.util.Map;
  */
 public class RunInstanceMetaData implements ResourceMetaData {
     
-    private List<String> imageId = new ArrayList<String>();
-    private List<String> instanceType = new ArrayList<String>();
-    private List<String> az = new ArrayList<String>();
+    private List<String> imageId = new ArrayList<>();
+    private List<String> instanceType = new ArrayList<>();
+    private List<String> az = new ArrayList<>();
     
     private static final String[] MENU_ITEMS = new String[] {
         "Ami Id", 
@@ -70,7 +70,7 @@ public class RunInstanceMetaData implements ResourceMetaData {
     @Override
     public List<String> getValuesForMenuItem(String menuItem) {
 
-        List<String> values = new ArrayList<String>();
+        List<String> values = new ArrayList<>();
 
         if (menuItem.equalsIgnoreCase("Ami Id")) {
             values = this.imageId;
