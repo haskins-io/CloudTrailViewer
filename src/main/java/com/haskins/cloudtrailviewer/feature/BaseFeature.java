@@ -4,11 +4,13 @@ import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.components.OverviewContainer;
+import com.haskins.cloudtrailviewer.model.FeatureAdditionButton;
 import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,7 +25,7 @@ abstract class BaseFeature extends JPanel implements Feature {
 
     protected final HelpToolBar helpBar;
     protected Help help;
-    private final StatusBar statusBar;
+    final StatusBar statusBar;
     EventTablePanel eventTable;
 
     JSplitPane pJSP;
@@ -31,6 +33,8 @@ abstract class BaseFeature extends JPanel implements Feature {
 
     JSplitPane sJSP;
     OverviewContainer sContainer;
+
+    final List<FeatureAdditionButton> additionalButtons = new ArrayList<>();
 
     BaseFeature(StatusBar sb, HelpToolBar hb, OverviewContainer primary, OverviewContainer secondary, EventTablePanel tb, Help hp) {
 
@@ -122,5 +126,10 @@ abstract class BaseFeature extends JPanel implements Feature {
         eventTable.clearEvents();
         statusBar.setEvents(events);
         eventTable.setEvents(events);
+    }
+
+    @Override
+    public List<FeatureAdditionButton> getAdditionalButtons() {
+        return this.additionalButtons;
     }
 }

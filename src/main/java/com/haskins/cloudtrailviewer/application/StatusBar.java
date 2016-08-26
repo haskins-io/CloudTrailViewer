@@ -52,6 +52,8 @@ public class StatusBar extends JPanel {
     private long earliestEvent = -1;
     private long latestEvent = -1;
 
+    private long numLoadedEvents = 0;
+
     /**
      * Default Constructor
      */
@@ -113,11 +115,16 @@ public class StatusBar extends JPanel {
         }
     }
 
+    public long getNumLoadedEvents() {
+        return numLoadedEvents;
+    }
+
     /**
      * resets all the labels, and hides those that should not be visible when no
      * events are loaded.
      */
     void eventsCleared() {
+        numLoadedEvents = 0;
         messageLabel.setVisible(false);
         from.setVisible(false);
         to.setVisible(false);
@@ -146,6 +153,8 @@ public class StatusBar extends JPanel {
      * @param eventCount int value to show as number of Loaded Events
      */
     public void setLoadedEvents(int eventCount) {
+
+        numLoadedEvents++;
 
         loadedEvents.setVisible(true);
         loadedEvents.setText("Events Loaded : " + eventCount);

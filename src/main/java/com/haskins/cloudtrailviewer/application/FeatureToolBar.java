@@ -19,14 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.application;
 
 import com.haskins.cloudtrailviewer.feature.Feature;
+import com.haskins.cloudtrailviewer.model.FeatureAdditionButton;
+import com.haskins.cloudtrailviewer.components.DropDownButton;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
+import java.util.List;
+import javax.swing.*;
 
 /**
  * Provides the Feature toolbar
@@ -63,10 +64,34 @@ class FeatureToolBar extends JToolBar implements ActionListener {
         
         JButton btn = new JButton();
         btn.setActionCommand(feature.getName());
-        btn.addActionListener(this);
-        
+        btn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                application.changeFeature(e.getActionCommand(), false);
+            }
+        });
+
         ToolBarUtils.addImageToButton(btn, feature.getIcon(), feature.getName(), feature.getTooltip());
-        buttonsPanel.add(btn);
+
+        if (!feature.getAdditionalButtons().isEmpty()) {
+
+            JPopupMenu popupMenu = new JPopupMenu();
+
+            List<FeatureAdditionButton> additionalButtons = feature.getAdditionalButtons();
+            for (FeatureAdditionButton additionButton : additionalButtons) {
+
+                JMenuItem item = new JMenuItem(additionButton.getDescription(), ToolBarUtils.getIcon(additionButton.getIcon()));
+                item.addActionListener(additionButton.getActionCommand());
+                popupMenu.add(item);
+            }
+
+            DropDownButton dropDownButton = new DropDownButton(btn, popupMenu);
+            buttonsPanel.add(dropDownButton);
+
+        } else {
+            buttonsPanel.add(btn);
+        }
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -90,5 +115,4 @@ class FeatureToolBar extends JToolBar implements ActionListener {
                 
         this.add(buttonsPanel, BorderLayout.CENTER);
     }
-
 }

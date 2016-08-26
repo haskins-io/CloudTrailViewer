@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.feature;
 
 import com.haskins.cloudtrailviewer.core.EventDatabaseListener;
+import com.haskins.cloudtrailviewer.model.FeatureAdditionButton;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.List;
 
@@ -85,4 +86,6 @@ public interface Feature extends EventDatabaseListener {
      * locally stored events
      */
     void reset();
+
+    List<FeatureAdditionButton> getAdditionalButtons();
 }

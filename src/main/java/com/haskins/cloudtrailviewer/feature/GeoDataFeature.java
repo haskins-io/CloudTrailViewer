@@ -22,10 +22,10 @@ import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.components.OverviewContainer;
+import com.haskins.cloudtrailviewer.model.FeatureAdditionButton;
 import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.GeoIpUtils;
-import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,13 +55,15 @@ public class GeoDataFeature extends BaseFeature {
     public GeoDataFeature(StatusBar sb, HelpToolBar helpBar) {
 
         super(
-                sb,
-                helpBar,
-                new OverviewContainer(),
-                null,
-                new EventTablePanel(EventTablePanel.CHART_EVENT),
-                new Help("GeoData Feature", "geodata")
+            sb,
+            helpBar,
+            new OverviewContainer(),
+            null,
+            new EventTablePanel(EventTablePanel.CHART_EVENT),
+            new Help("GeoData Feature", "geodata")
         );
+
+        addAdditionalMenuItems();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -106,24 +108,7 @@ public class GeoDataFeature extends BaseFeature {
 
         pContainer.setBackground(Color.white);
 
-        JButton browser = new JButton();
-        browser.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showHeatMap();
-            }
-        });
-        ToolBarUtils.addImageToButton(browser, "Map-48.png", "", "Open Map");
-
-        JToolBar mapToolBar = new JToolBar();
-        mapToolBar.setLayout(new BorderLayout());
-        mapToolBar.setBackground(Color.WHITE);
-        mapToolBar.setFloatable(false);
-        mapToolBar.add(browser, BorderLayout.EAST);
-        
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.add(mapToolBar, BorderLayout.PAGE_START);
 
         JScrollPane sPane = new JScrollPane(pContainer);
         sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
@@ -143,34 +128,37 @@ public class GeoDataFeature extends BaseFeature {
 
     private void showHeatMap() {
 
-        Map<String, String> coords = GeoIpUtils.getInstance().getCoords();
+        if (statusBar.getNumLoadedEvents() > 0) {
 
-        String center = "";
+            Map<String, String> coords = GeoIpUtils.getInstance().getCoords();
 
-        StringBuilder output = new StringBuilder();
-        
-        for (Map.Entry<String, String> entry : coords.entrySet()) {
-            
-            output.append("['").append(entry.getValue()).append("',").append(entry.getKey()).append("]");
+            String center = "";
 
-            if (entry.getValue().equalsIgnoreCase(centerPoint)) {
-                center = entry.getKey();
+            StringBuilder output = new StringBuilder();
+
+            for (Map.Entry<String, String> entry : coords.entrySet()) {
+
+                output.append("['").append(entry.getValue()).append("',").append(entry.getKey()).append("]");
+
+                if (entry.getValue().equalsIgnoreCase(centerPoint)) {
+                    center = entry.getKey();
+                }
+
+                output.append(",");
             }
-            
-            output.append(",");
-        }
-        
-        String html = getHTML();
-        html = html.replaceAll("COORDS", output.toString());
-        html = html.replaceAll("CENTER", center);
 
-        writeGeoDataHtml(html);
+            String html = getHTML();
+            html = html.replaceAll("COORDS", output.toString());
+            html = html.replaceAll("CENTER", center);
 
-        Desktop d = Desktop.getDesktop();
-        try {
-            d.browse(new URI("file://" + getFileName()));
-        } catch (URISyntaxException | IOException ex) {
-            LOGGER.log(Level.WARNING, "Failed to load Geo HTML file in browser", ex);
+            writeGeoDataHtml(html);
+
+            Desktop d = Desktop.getDesktop();
+            try {
+                d.browse(new URI("file://" + getFileName()));
+            } catch (URISyntaxException | IOException ex) {
+                LOGGER.log(Level.WARNING, "Failed to load Geo HTML file in browser", ex);
+            }
         }
     }
 
@@ -219,5 +207,16 @@ public class GeoDataFeature extends BaseFeature {
         
         String userHomeDir = System.getProperty("user.home", ".");
         return userHomeDir + "/.cloudtrailviewer/geoData.html";
+    }
+
+    private void addAdditionalMenuItems() {
+
+        ActionListener menuListener = new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                showHeatMap();
+            }
+        };
+
+        additionalButtons.add(new FeatureAdditionButton("Map-16.png", "Open Map", menuListener));
     }
 }

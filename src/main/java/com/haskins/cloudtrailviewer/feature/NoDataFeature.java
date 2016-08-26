@@ -19,9 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package com.haskins.cloudtrailviewer.feature;
 
 import com.haskins.cloudtrailviewer.application.HelpToolBar;
+import com.haskins.cloudtrailviewer.model.FeatureAdditionButton;
 import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -99,10 +101,11 @@ public class NoDataFeature extends JPanel implements Feature {
     public void showPrimaryData(List<Event> events) {}
         
     @Override
-    public void reset() {
-        
-    }
-    
+    public void reset() { }
+
+    @Override
+    public List<FeatureAdditionButton> getAdditionalButtons() { return new ArrayList<>(); }
+
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
     ////////////////////////////////////////////////////////////////////////////

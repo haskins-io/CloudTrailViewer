@@ -41,7 +41,7 @@ public class SearchPanel extends JPanel {
 
     private static final long serialVersionUID = -1107795006666536735L;
     
-    private final JComboBox searchOptions = new JComboBox();
+    private final JComboBox<Filter> searchOptions = new JComboBox<>();
     private final JTextField searchField = new JTextField();
 
     private final List<SearchPanelListener> listeners = new ArrayList<>();

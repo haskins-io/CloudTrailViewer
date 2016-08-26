@@ -21,9 +21,11 @@ package com.haskins.cloudtrailviewer.feature;
 import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.core.FilteredEventDatabase;
+import com.haskins.cloudtrailviewer.model.FeatureAdditionButton;
 import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -104,7 +106,10 @@ public class SimpleTableFeature extends JPanel implements Feature {
     public void reset() {
         tablePanel.eventLoadingComplete();
     }
-    
+
+    @Override
+    public List<FeatureAdditionButton> getAdditionalButtons() { return new ArrayList<>(); }
+
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
     ////////////////////////////////////////////////////////////////////////////
