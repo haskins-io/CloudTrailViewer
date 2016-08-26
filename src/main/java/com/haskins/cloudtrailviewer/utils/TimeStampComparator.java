@@ -26,22 +26,19 @@ import java.util.Comparator;
  *
  * @author mark
  */
-public class TimeStampComparator implements Comparator, Serializable {
+public class TimeStampComparator implements Comparator<Event>, Serializable {
 
     private static final long serialVersionUID = -9085143387329583256L;
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(Event o1, Event o2) {
        
         int comparisonResult = 0;
-        
-        Event event1 = (Event)o1;
-        Event event2 = (Event)o2;
-        
-        if(event1.getTimestamp() < event2.getTimestamp()) {
+
+        if(o1.getTimestamp() < o2.getTimestamp()) {
             comparisonResult = -1;
             
-        } else if(event1.getTimestamp() > event2.getTimestamp()) {
+        } else if(o1.getTimestamp() > o2.getTimestamp()) {
             comparisonResult = 1;
         }
         
