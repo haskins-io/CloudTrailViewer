@@ -106,7 +106,7 @@ public class EventsTableModel extends AbstractTableModel {
         switch (columnIndex) {
 
             case 0:
-                value = tableUtils.getFormatedDateTime(event.getTimestamp());
+                value = tableUtils.getFormattedDateTime(event.getTimestamp());
                 break;
             case 1:
                 value = tableUtils.getInvokedBy(event);
