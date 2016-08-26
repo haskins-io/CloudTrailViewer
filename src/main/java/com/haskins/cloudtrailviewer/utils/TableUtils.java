@@ -112,7 +112,7 @@ public class TableUtils implements Serializable {
         return AwsService.getInstance().getFriendlyName(tmp); 
     }
     
-    public String getFormatedDateTime(long millis) {
+    public String getFormattedDateTime(long millis) {
         return SIMPLE_DATE_FORMATTER.format(millis);
     }
 }
