@@ -24,6 +24,7 @@ import com.haskins.cloudtrailviewer.requestInfo.ResourceLookup;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class Event implements Serializable {
@@ -364,35 +365,10 @@ public class Event implements Serializable {
                 (!resourceInfo.getResourcesMap().isEmpty() || !resourceInfo.getParameterMap().isEmpty())) {
             
             DefaultMutableTreeNode node = new DefaultMutableTreeNode("Request Parameters");
-            
-            Map<String, List<String>> resourceMap = resourceInfo.getResourcesMap();
-            for (Map.Entry<String, List<String>> entry : resourceMap.entrySet()) {
-                
-                if (entry.getValue().size() > 0) {
-                    
-                    DefaultMutableTreeNode resouceNode = new DefaultMutableTreeNode(entry.getKey());
-                    for (String resource : entry.getValue()) {
-                        resouceNode.add(new DefaultMutableTreeNode(resource));
-                    }
-                
-                    node.add(resouceNode);
-                }
-            }
-            
-            Map<String, List<String>> parameterMap = resourceInfo.getParameterMap();
-            for (Map.Entry<String, List<String>> entry : parameterMap.entrySet()) {
-                
-                if (entry.getValue().size() > 0) {
-                    
-                    DefaultMutableTreeNode parameterNode = new DefaultMutableTreeNode(entry.getKey());
-                    for (String parameter : entry.getValue()) {
-                        parameterNode.add(new DefaultMutableTreeNode(parameter));
-                    }
-                
-                    node.add(parameterNode);
-                }
-            }
-            
+
+            addNodesToTree(node, resourceInfo.getResourcesMap().entrySet());
+            addNodesToTree(node, resourceInfo.getParameterMap().entrySet());
+
             root.add(node);
         }
         
@@ -509,8 +485,26 @@ public class Event implements Serializable {
         
         return modelData.toString();
     }
-    
-    
+
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
+    private void addNodesToTree(DefaultMutableTreeNode node, Set<Map.Entry<String, List<String>>>  leaves) {
+
+        for (Map.Entry<String, List<String>> entry : leaves) {
+
+            if (entry.getValue().size() > 0) {
+
+                DefaultMutableTreeNode parameterNode = new DefaultMutableTreeNode(entry.getKey());
+                for (String parameter : entry.getValue()) {
+                    parameterNode.add(new DefaultMutableTreeNode(parameter));
+                }
+
+                node.add(parameterNode);
+            }
+        }
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     ///// Deprected Event parameters
     ////////////////////////////////////////////////////////////////////////////
