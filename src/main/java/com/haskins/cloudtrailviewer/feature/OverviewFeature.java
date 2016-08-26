@@ -24,54 +24,31 @@ import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.components.servicespanel.ServiceOverviewContainer;
 import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 
 /**
  * Feature that shows loaded events broken down into AWS Services
  * 
  * @author mark
  */
-public class OverviewFeature extends JPanel implements Feature {
+public class OverviewFeature extends BaseFeature {
     
     public static final String NAME = "Overview Feature";
     private static final long serialVersionUID = -2287861024079990428L;
-    
-    private final Help help = new Help("Overview", "overview");
-    
-    private final ServiceOverviewContainer servicesContainer;
-    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_EVENT);
-    
-    private JSplitPane jsp;
-    
-    private final HelpToolBar helpBar;
-    private final StatusBar statusBar;
-    
+
     public OverviewFeature(StatusBar sb, HelpToolBar helpBar) {
-        
-        this.helpBar = helpBar;
-        this.statusBar = sb;
-        
-        servicesContainer = new ServiceOverviewContainer(this);
-        buildUI();
+
+        super(
+                sb,
+                helpBar,
+                new ServiceOverviewContainer(),
+                new EventTablePanel(EventTablePanel.CHART_EVENT),
+                new Help("Overview", "overview")
+        );
     }
            
     ////////////////////////////////////////////////////////////////////////////
     ///// Feature implementation
     ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void eventLoadingComplete() { }
-    
-    @Override
-    public boolean showOnToolBar() {
-        return true;
-    }
-
     @Override
     public String getIcon() {
         return "Service-Overview-48.png";
@@ -86,50 +63,13 @@ public class OverviewFeature extends JPanel implements Feature {
     public String getName() {
         return OverviewFeature.NAME;
     }
-    
-    @Override
-    public void will_hide() {
-        helpBar.setHelp(null);
-    }
-    
-    @Override
-    public void will_appear() {
-        helpBar.setHelp(help);
-    }
-    
-    @Override
-    public void showEventsTable(List<Event> events) {
-        
-        if (!eventTable.isVisible()) {
-            
-            jsp.setDividerLocation(0.5);
-            jsp.setDividerSize(3);
-            eventTable.setVisible(true);
-        }
-        
-        eventTable.clearEvents();
-        statusBar.setEvents(events);
-        eventTable.setEvents(events);
-    }
-        
-    @Override
-    public void reset() {
-        
-        servicesContainer.reset();
-        servicesContainer.revalidate();
-        
-        eventTable.clearEvents();
-        eventTable.setVisible(false);
-        
-        this.revalidate();
-    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void eventAdded(Event event) {
-        servicesContainer.addEvent(event);
+        ((ServiceOverviewContainer)container).addEvent(event);
     }
     
     @Override
@@ -138,22 +78,8 @@ public class OverviewFeature extends JPanel implements Feature {
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     //////////////////////////////////////////////////////////////////////////// 
-    private void buildUI() {
-
-        servicesContainer.setBackground(Color.white);
-        JScrollPane sPane = new JScrollPane(servicesContainer);
-        sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        
-        eventTable.setVisible(false);
-        
-        jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, sPane, eventTable);
-        jsp.setDividerSize(0);
-        jsp.setResizeWeight(1);
-        jsp.setDividerLocation(jsp.getSize().height - jsp.getInsets().bottom - jsp.getDividerSize());
-        jsp.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        
-        this.setLayout(new BorderLayout());
-        this.add(jsp, BorderLayout.CENTER);
+    void buildUI() {
+        super.buildUI();
     }
    
 }

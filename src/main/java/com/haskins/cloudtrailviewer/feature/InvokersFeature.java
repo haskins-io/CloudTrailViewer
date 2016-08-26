@@ -24,54 +24,33 @@ import com.haskins.cloudtrailviewer.components.EventTablePanel;
 import com.haskins.cloudtrailviewer.components.InvokersContainer;
 import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 
 /**
  * Feature that shows API events broken down into Users and Roles
  * 
  * @author mark.haskins
  */
-public class InvokersFeature extends JPanel implements Feature {
+public class InvokersFeature extends BaseFeature {
     
     private static final String NAME = "Invoker Feature";
     private static final long serialVersionUID = 6059342047082169382L;
-    
-    private final Help help = new Help("Invoker Feature", "user");
-        
-    private final InvokersContainer resourcesContainer;
-    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_RESOURCE);
-    
-    private final HelpToolBar helpBar;
-    private final StatusBar statusBar;
-    private JSplitPane jsp;
-    
+
     public InvokersFeature(StatusBar sb, HelpToolBar helpBar) {
-        
-        this.helpBar = helpBar;
-        this.statusBar = sb;
-        
-        resourcesContainer = new InvokersContainer(this);
-        
+
+        super(
+                sb,
+                helpBar,
+                new InvokersContainer(),
+                new EventTablePanel(EventTablePanel.CHART_EVENT),
+                new Help("Invoker Feature", "user")
+        );
+
         buildUI();
     }
            
     ////////////////////////////////////////////////////////////////////////////
     ///// Feature implementation
     ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void eventLoadingComplete() { }
-
-    @Override
-    public boolean showOnToolBar() {
-        return true;
-    }
-
     @Override
     public String getIcon() {
         return "User-Overview-48.png";
@@ -86,76 +65,26 @@ public class InvokersFeature extends JPanel implements Feature {
     public String getName() {
         return InvokersFeature.NAME;
     }
-    
-    @Override
-    public void will_hide() {
-        helpBar.setHelp(null);
-    }
-    
-    @Override
-    public void will_appear() {
-        helpBar.setHelp(help);
-    }
-    
-    @Override
-    public void showEventsTable(List<Event> events) {
-        
-        if (!eventTable.isVisible()) {
-            
-            jsp.setDividerLocation(0.5);
-            jsp.setDividerSize(3);
-            eventTable.setVisible(true);
-        }
-        
-        statusBar.setEvents(events);
-        eventTable.clearEvents();
-        eventTable.setEvents(events);
-    }
-        
-    @Override
-    public void reset() {
-        
-        resourcesContainer.reset();
-        resourcesContainer.revalidate();
-        
-        eventTable.clearEvents();
-        eventTable.setVisible(false);
-        
-        this.revalidate();
-    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void eventAdded(Event event) {
-        resourcesContainer.addEvent(event);
+        ((InvokersContainer)container).addEvent(event);
     }
     
     @Override
     public void finishedLoading() {
-        resourcesContainer.finishedLoading();
+        container.finishedLoading();
     }
     
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     //////////////////////////////////////////////////////////////////////////// 
-    private void buildUI() {
+    void buildUI() {
 
-        resourcesContainer.setBackground(Color.white);
-        JScrollPane sPane = new JScrollPane(resourcesContainer);
-        sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        
-        eventTable.setVisible(false);
-        
-        jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, sPane, eventTable);
-        jsp.setDividerSize(0);
-        jsp.setResizeWeight(1);
-        jsp.setDividerLocation(jsp.getSize().height - jsp.getInsets().bottom - jsp.getDividerSize());
-        jsp.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        
-        this.setLayout(new BorderLayout());
-        this.add(jsp, BorderLayout.CENTER);
+        super.buildUI();
     }
     
 }

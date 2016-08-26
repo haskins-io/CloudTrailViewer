@@ -26,59 +26,37 @@ import com.haskins.cloudtrailviewer.dao.DbManager;
 import com.haskins.cloudtrailviewer.model.Help;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.ResultSetRow;
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 
 /**
  * Feature that shows Events that might be considered to be security risks
  * 
  * @author mark.haskins
  */
-public class SecurityFeature extends JPanel implements Feature {
+public class SecurityFeature extends BaseFeature {
     
     private static final String NAME = "Security Feature";
     private static final long serialVersionUID = -8036727410192669423L;
-    
-    private final Help help = new Help("Security Feature", "security");
-    
+
     private final List<String> securityEvents = new ArrayList<>();
-    
-    private final OverviewContainer securityContainer;
-    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_EVENT);
-    
-    private JSplitPane jsp;
-    
-    private final StatusBar statusBar;
-    private final HelpToolBar helpBar;
-    
+
     public SecurityFeature(StatusBar sb, HelpToolBar helpBar) {
-        
-        this.helpBar = helpBar;
-        this.statusBar = sb;
-        
-        securityContainer = new OverviewContainer(this);
-        
+
+        super(
+                sb,
+                helpBar,
+                new OverviewContainer(),
+                new EventTablePanel(EventTablePanel.CHART_EVENT),
+                new Help("Security Feature", "security")
+        );
+
         loadSecurityEvents();
-        buildUI();
     }
            
     ////////////////////////////////////////////////////////////////////////////
     ///// Feature implementation
     ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void eventLoadingComplete() { }
-
-    @Override
-    public boolean showOnToolBar() {
-        return true;
-    }
-
     @Override
     public String getIcon() {
         return "Warning-48.png";
@@ -93,43 +71,6 @@ public class SecurityFeature extends JPanel implements Feature {
     public String getName() {
         return SecurityFeature.NAME;
     }
-    
-    @Override
-    public void will_hide() {
-        helpBar.setHelp(null);
-    }
-    
-    @Override
-    public void will_appear() {
-        helpBar.setHelp(help);
-    }
-    
-    @Override
-    public void showEventsTable(List<Event> events) {
-        
-        if (!eventTable.isVisible()) {
-            
-            jsp.setDividerLocation(0.5);
-            jsp.setDividerSize(3);
-            eventTable.setVisible(true);
-        }
-        
-        eventTable.clearEvents();
-        statusBar.setEvents(events);
-        eventTable.setEvents(events);
-    }
-        
-    @Override
-    public void reset() {
-        
-        securityContainer.reset();
-        securityContainer.revalidate();
-        
-        eventTable.clearEvents();
-        eventTable.setVisible(false);
-        
-        this.revalidate();
-    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
@@ -138,34 +79,21 @@ public class SecurityFeature extends JPanel implements Feature {
     public void eventAdded(Event event) {
         
         if (securityEvents.contains(event.getEventName())) {
-            securityContainer.addEvent(event, "EventName");
+            container.addEvent(event, "EventName");
         }
     }
     
     @Override
     public void finishedLoading() {
-        securityContainer.finishedLoading();
+        container.finishedLoading();
     }
     
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     //////////////////////////////////////////////////////////////////////////// 
-    private void buildUI() {
+    void buildUI() {
 
-        securityContainer.setBackground(Color.white);
-        JScrollPane sPane = new JScrollPane(securityContainer);
-        sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        
-        eventTable.setVisible(false);
-        
-        jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, sPane, eventTable);
-        jsp.setDividerSize(0);
-        jsp.setResizeWeight(1);
-        jsp.setDividerLocation(jsp.getSize().height - jsp.getInsets().bottom - jsp.getDividerSize());
-        jsp.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        
-        this.setLayout(new BorderLayout());
-        this.add(jsp, BorderLayout.CENTER);
+        super.buildUI();
     }
     
     private void loadSecurityEvents() {

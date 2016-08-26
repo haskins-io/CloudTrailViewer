@@ -41,13 +41,11 @@ public class OverviewContainer extends JPanel {
     private static final long serialVersionUID = 5978572053226212058L;
 
     final Map<String, NameValuePanel> eventsMap = new HashMap<>();
-    final Feature feature;
+    protected Feature feature;
     
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");  
 
-    public OverviewContainer(Feature parent) {
-
-        this.feature = parent;
+    public OverviewContainer() {
 
         this.setLayout(new WrapLayout());
     }
@@ -136,7 +134,11 @@ public class OverviewContainer extends JPanel {
         this.revalidate();
         
     }
-    
+
+    public void setFeature(Feature parent) {
+        this.feature = parent;
+    }
+
     List<Map.Entry<String, NameValuePanel>> entriesSortedByValues(Map<String, NameValuePanel> map) {
 
         List<Map.Entry<String, NameValuePanel>> sortedEntries = new ArrayList<>(map.entrySet());

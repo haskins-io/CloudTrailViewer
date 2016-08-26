@@ -16,38 +16,28 @@
  */
 package com.haskins.cloudtrailviewer.components.servicespanel;
 
-import com.haskins.cloudtrailviewer.feature.Feature;
+import com.haskins.cloudtrailviewer.components.OverviewContainer;
 import com.haskins.cloudtrailviewer.utils.TableUtils;
-import com.haskins.cloudtrailviewer.thirdparty.WrapLayout;
 import com.haskins.cloudtrailviewer.utils.GeneralUtils;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.swing.JPanel;
 
 /**
  * Container that will hold Overview panels are they are discovered.
  * 
  * @author mark
  */
-public class ServiceOverviewContainer extends JPanel {
+public class ServiceOverviewContainer extends OverviewContainer {
 
     private static final long serialVersionUID = -7604555547759281086L;
     
     private final TableUtils tableUtils = new TableUtils();
     
     private final Map<String, ServicesOverviewPanel> servicesMap = new HashMap<>();
-    private final Feature feature;
-    
-    public ServiceOverviewContainer(Feature parent) {
-        
-        this.feature = parent;
-        
-        this.setLayout(new WrapLayout());
-    }
-    
+
     /**
      * Clears any current events and loads the container with the passed events.
      * @param events Collection of events to add to container

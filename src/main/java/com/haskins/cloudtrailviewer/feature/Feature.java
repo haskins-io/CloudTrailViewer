@@ -78,7 +78,7 @@ public interface Feature extends EventDatabaseListener {
      * events
      * @param events Events to populate table with 
      */
-    void showEventsTable(List<Event> events);
+    void showPrimaryData(List<Event> events);
     
     /**
      * Informs feature to clear down it's display removing all components any

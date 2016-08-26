@@ -34,7 +34,6 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,48 +42,30 @@ import java.util.logging.Logger;
  *
  * @author mark.haskins
  */
-public class GeoDataFeature extends JPanel implements Feature {
+public class GeoDataFeature extends BaseFeature {
 
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
     
     private static final String NAME = "GeoData Feature";
     private static final long serialVersionUID = 2337766480593653058L;
 
-    private final Help help = new Help("GeoData Feature", "geodata");
-
-    private final OverviewContainer geoIpContainer;
-    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_EVENT);
-
-    private JSplitPane jsp;
-
-    private final StatusBar statusBar;
-    private final HelpToolBar helpBar;
-    
     private int highestCount = 0;
     private String centerPoint = "";
 
     public GeoDataFeature(StatusBar sb, HelpToolBar helpBar) {
 
-        this.helpBar = helpBar;
-        this.statusBar = sb;
-
-        geoIpContainer = new OverviewContainer(this);
-
-        buildUI();
+        super(
+                sb,
+                helpBar,
+                new OverviewContainer(),
+                new EventTablePanel(EventTablePanel.CHART_EVENT),
+                new Help("GeoData Feature", "geodata")
+        );
     }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// Feature implementation
     ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void eventLoadingComplete() {
-    }
-
-    @Override
-    public boolean showOnToolBar() {
-        return true;
-    }
-
     @Override
     public String getIcon() {
         return "Geo-Data-48.png";
@@ -100,43 +81,6 @@ public class GeoDataFeature extends JPanel implements Feature {
         return GeoDataFeature.NAME;
     }
 
-    @Override
-    public void will_hide() {
-        helpBar.setHelp(null);
-    }
-
-    @Override
-    public void will_appear() {
-        helpBar.setHelp(help);
-    }
-
-    @Override
-    public void showEventsTable(List<Event> events) {
-
-        if (!eventTable.isVisible()) {
-
-            jsp.setDividerLocation(0.5);
-            jsp.setDividerSize(3);
-            eventTable.setVisible(true);
-        }
-
-        eventTable.clearEvents();
-        statusBar.setEvents(events);
-        eventTable.setEvents(events);
-    }
-
-    @Override
-    public void reset() {
-
-        geoIpContainer.reset();
-        geoIpContainer.revalidate();
-        
-        eventTable.clearEvents();
-        eventTable.setVisible(false);
-        
-        this.revalidate();
-    }
-
     ////////////////////////////////////////////////////////////////////////////
     ///// EventDatabaseListener implementation
     ////////////////////////////////////////////////////////////////////////////
@@ -145,7 +89,7 @@ public class GeoDataFeature extends JPanel implements Feature {
 
         String cityName = event.getCity();
         if (cityName != null && cityName.trim().length() > 0) {
-            int totalEvents = geoIpContainer.addEvent(event, "City");
+            int totalEvents = container.addEvent(event, "City");
             
             if (totalEvents > highestCount) {
                 centerPoint = cityName;
@@ -156,13 +100,15 @@ public class GeoDataFeature extends JPanel implements Feature {
 
     @Override
     public void finishedLoading() {
-        geoIpContainer.finishedLoading();
+        container.finishedLoading();
     }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     //////////////////////////////////////////////////////////////////////////// 
-    private void buildUI() {
+    void buildUI() {
+
+        container.setBackground(Color.white);
 
         JButton browser = new JButton();
         browser.addActionListener(new ActionListener() {
@@ -183,8 +129,7 @@ public class GeoDataFeature extends JPanel implements Feature {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(mapToolBar, BorderLayout.PAGE_START);
 
-        geoIpContainer.setBackground(Color.white);
-        JScrollPane sPane = new JScrollPane(geoIpContainer);
+        JScrollPane sPane = new JScrollPane(container);
         sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
         mainPanel.add(sPane, BorderLayout.CENTER);
 

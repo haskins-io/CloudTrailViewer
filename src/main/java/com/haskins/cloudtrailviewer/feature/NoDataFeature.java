@@ -96,7 +96,7 @@ public class NoDataFeature extends JPanel implements Feature {
     }
     
     @Override
-    public void showEventsTable(List<Event> events) {}
+    public void showPrimaryData(List<Event> events) {}
         
     @Override
     public void reset() {

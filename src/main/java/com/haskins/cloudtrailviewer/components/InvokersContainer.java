@@ -17,7 +17,6 @@
  */
 package com.haskins.cloudtrailviewer.components;
 
-import com.haskins.cloudtrailviewer.feature.Feature;
 import com.haskins.cloudtrailviewer.model.event.Event;
 import com.haskins.cloudtrailviewer.utils.ToolBarUtils;
 import java.awt.GridLayout;
@@ -43,12 +42,11 @@ public class InvokersContainer extends OverviewContainer {
     
     /**
      * Default Constructor.
-     * @param parent Parent class
      */
-    public InvokersContainer(Feature parent) {
-        
-        super(parent);
-        
+    public InvokersContainer() {
+
+        super();
+
         this.setLayout(new GridLayout(1,2));
                 
         usersPanel.setLayout(new BoxLayout(usersPanel, BoxLayout.Y_AXIS));        

@@ -41,7 +41,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -69,50 +68,39 @@ import org.jfree.ui.RectangleEdge;
  *
  * @author mark.haskins
  */
-public class MetricsFeature extends JPanel implements Feature, ActionListener, ChartMouseListener {
+public class MetricsFeature extends BaseFeature implements ActionListener, ChartMouseListener {
 
-    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
-    
     private static final String NAME = "Metrics Feature";
-    
-    private static final Map<String, List<Event>> SERVICE_SORTED = new HashMap<>();
     private static final long serialVersionUID = -3462820837131838769L;
+
+
+    private static final Map<String, List<Event>> SERVICE_SORTED = new HashMap<>();
+
     private final Map<Second, List<Event>> secondEvents = new HashMap<>();
 
-    private final Help help = new Help("Metrics Feature", "metrics");
-
-    private final HelpToolBar helpBar;
-
-    private final JToolBar toolbar = new JToolBar();
-    private final JPanel chartCards = new JPanel(new CardLayout());
+    private JToolBar toolbar;
+    private JPanel chartCards;
     
     private final TableUtils tableUtils = new TableUtils();
-    
-    private JSplitPane jsp;
-    
+
     private ChartPanel chartPanel;
     private Crosshair xCrosshair;
-    
-    private final EventTablePanel eventTable = new EventTablePanel(EventTablePanel.CHART_EVENT);
 
     public MetricsFeature(StatusBar sb, HelpToolBar helpBar) {
 
-        this.helpBar = helpBar;
+        super(
+                sb,
+                helpBar,
+                null,
+                new EventTablePanel(EventTablePanel.CHART_EVENT),
+                new Help("Metrics Feature", "metrics")
+        );
 
-        buildUI();
     }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// Feature implementation
     ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void eventLoadingComplete() {
-    }
-
-    @Override
-    public boolean showOnToolBar() {
-        return true;
-    }
 
     @Override
     public String getIcon() {
@@ -130,17 +118,7 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
     }
 
     @Override
-    public void will_hide() {
-        helpBar.setHelp(null);
-    }
-
-    @Override
-    public void will_appear() {
-        helpBar.setHelp(help);
-    }
-
-    @Override
-    public void showEventsTable(List<Event> events) {
+    public void showPrimaryData(List<Event> events) {
     }
 
     @Override
@@ -148,7 +126,6 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
         
         eventTable.clearEvents();
         eventTable.setVisible(false);
-        
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -229,19 +206,20 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
         this.xCrosshair.setValue(x);
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    //////////////////////////////////////////////////////////////////////////// 
-    private void buildUI() {
+
+    @Override
+    void buildUI() {
 
         // toolbar
+        toolbar = new JToolBar();
         toolbar.setLayout(new WrapLayout(FlowLayout.CENTER, 1, 1));
         toolbar.setFloatable(false);
         toolbar.setBackground(Color.white);
         toolbar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.black));
-        
+
+        chartCards = new JPanel(new CardLayout());
         eventTable.setVisible(false);
-        
+
         jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, chartCards, eventTable);
         jsp.setDividerSize(0);
         jsp.setResizeWeight(1);
@@ -253,6 +231,9 @@ public class MetricsFeature extends JPanel implements Feature, ActionListener, C
         this.add(jsp, BorderLayout.CENTER);
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
     private void showChart(String service) {
 
         final TimeSeriesCollection chartData = generateTimeSeriesData(service);

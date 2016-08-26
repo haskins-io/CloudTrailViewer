@@ -85,7 +85,7 @@ class CountPanel extends JPanel {
                     sorted = true;
                 }
 
-                feature.showEventsTable(events);
+                feature.showPrimaryData(events);
             }
         });
         

@@ -78,7 +78,7 @@ class NameValuePanel extends JPanel {
                     sorted = true;
                 }
 
-                parent.showEventsTable(events);
+                parent.showPrimaryData(events);
             }
         });
         nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
