@@ -47,6 +47,7 @@ public class SecurityFeature extends BaseFeature {
                 sb,
                 helpBar,
                 new OverviewContainer(),
+                null,
                 new EventTablePanel(EventTablePanel.CHART_EVENT),
                 new Help("Security Feature", "security")
         );
@@ -79,23 +80,13 @@ public class SecurityFeature extends BaseFeature {
     public void eventAdded(Event event) {
         
         if (securityEvents.contains(event.getEventName())) {
-            container.addEvent(event, "EventName");
+            pContainer.addEvent(event, "EventName");
         }
     }
-    
-    @Override
-    public void finishedLoading() {
-        container.finishedLoading();
-    }
-    
+
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
-    //////////////////////////////////////////////////////////////////////////// 
-    void buildUI() {
-
-        super.buildUI();
-    }
-    
+    ////////////////////////////////////////////////////////////////////////////
     private void loadSecurityEvents() {
         
         String query = "SELECT api_call FROM aws_security";

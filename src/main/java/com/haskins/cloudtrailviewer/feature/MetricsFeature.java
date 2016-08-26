@@ -73,7 +73,6 @@ public class MetricsFeature extends BaseFeature implements ActionListener, Chart
     private static final String NAME = "Metrics Feature";
     private static final long serialVersionUID = -3462820837131838769L;
 
-
     private static final Map<String, List<Event>> SERVICE_SORTED = new HashMap<>();
 
     private final Map<Second, List<Event>> secondEvents = new HashMap<>();
@@ -91,6 +90,7 @@ public class MetricsFeature extends BaseFeature implements ActionListener, Chart
         super(
                 sb,
                 helpBar,
+                null,
                 null,
                 new EventTablePanel(EventTablePanel.CHART_EVENT),
                 new Help("Metrics Feature", "metrics")
@@ -180,8 +180,8 @@ public class MetricsFeature extends BaseFeature implements ActionListener, Chart
                         
             if (!eventTable.isVisible()) {
 
-                jsp.setDividerLocation(0.5);
-                jsp.setDividerSize(3);
+                pJSP.setDividerLocation(0.5);
+                pJSP.setDividerSize(3);
                 eventTable.setVisible(true);
             }
 
@@ -220,15 +220,15 @@ public class MetricsFeature extends BaseFeature implements ActionListener, Chart
         chartCards = new JPanel(new CardLayout());
         eventTable.setVisible(false);
 
-        jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, chartCards, eventTable);
-        jsp.setDividerSize(0);
-        jsp.setResizeWeight(1);
-        jsp.setDividerLocation(jsp.getSize().height - jsp.getInsets().bottom - jsp.getDividerSize());
-        jsp.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
+        pJSP = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, chartCards, eventTable);
+        pJSP.setDividerSize(0);
+        pJSP.setResizeWeight(1);
+        pJSP.setDividerLocation(pJSP.getSize().height - pJSP.getInsets().bottom - pJSP.getDividerSize());
+        pJSP.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
         
         this.setLayout(new BorderLayout());
         this.add(toolbar, BorderLayout.PAGE_START);
-        this.add(jsp, BorderLayout.CENTER);
+        this.add(pJSP, BorderLayout.CENTER);
     }
 
     ////////////////////////////////////////////////////////////////////////////

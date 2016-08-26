@@ -9,6 +9,7 @@ import com.haskins.cloudtrailviewer.model.event.Event;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -22,48 +23,52 @@ abstract class BaseFeature extends JPanel implements Feature {
 
     protected final HelpToolBar helpBar;
     protected Help help;
-
     private final StatusBar statusBar;
-
-    protected OverviewContainer container;
     EventTablePanel eventTable;
 
-    JSplitPane jsp;
+    JSplitPane pJSP;
+    OverviewContainer pContainer;
 
-    BaseFeature(StatusBar sb, HelpToolBar hb, OverviewContainer container, EventTablePanel tb, Help hp) {
+    JSplitPane sJSP;
+    OverviewContainer sContainer;
+
+    BaseFeature(StatusBar sb, HelpToolBar hb, OverviewContainer primary, OverviewContainer secondary, EventTablePanel tb, Help hp) {
 
         this.helpBar = hb;
         this.statusBar = sb;
+        this.eventTable = tb;
+        this.help = hp;
 
-        if (container != null) {
-            this.container = container;
-            this.container.setFeature(this);
+        if (primary != null) {
+            this.pContainer = primary;
+            this.pContainer.setFeature(this);
         }
 
-        eventTable = tb;
-
-        help = hp;
+        if (secondary != null) {
+            this.sContainer = secondary;
+            this.sContainer.setFeature(this);
+        }
 
         buildUI();
     }
 
     void buildUI() {
 
-        container.setBackground(Color.white);
+        this.pContainer.setBackground(Color.white);
 
-        JScrollPane sPane = new JScrollPane(container);
+        JScrollPane sPane = new JScrollPane(this.pContainer);
         sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
 
         eventTable.setVisible(false);
 
-        jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, sPane, eventTable);
-        jsp.setDividerSize(0);
-        jsp.setResizeWeight(1);
-        jsp.setDividerLocation(jsp.getSize().height - jsp.getInsets().bottom - jsp.getDividerSize());
-        jsp.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
+        pJSP = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, sPane, eventTable);
+        pJSP.setDividerSize(0);
+        pJSP.setResizeWeight(1);
+        pJSP.setDividerLocation(pJSP.getSize().height - pJSP.getInsets().bottom - pJSP.getDividerSize());
+        pJSP.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
 
         this.setLayout(new BorderLayout());
-        this.add(jsp, BorderLayout.CENTER);
+        this.add(pJSP, BorderLayout.CENTER);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -73,10 +78,15 @@ abstract class BaseFeature extends JPanel implements Feature {
     public void eventLoadingComplete() { }
 
     @Override
+    public void finishedLoading() {
+        pContainer.finishedLoading();
+    }
+
+    @Override
     public void reset() {
 
-        container.reset();
-        container.revalidate();
+        pContainer.reset();
+        pContainer.revalidate();
 
         eventTable.clearEvents();
         eventTable.setVisible(false);
@@ -100,12 +110,12 @@ abstract class BaseFeature extends JPanel implements Feature {
     }
 
     @Override
-    public void showPrimaryData(java.util.List<Event> events) {
+    public void showPrimaryData(List<Event> events) {
 
         if (!eventTable.isVisible()) {
 
-            jsp.setDividerLocation(0.5);
-            jsp.setDividerSize(3);
+            pJSP.setDividerLocation(0.6);
+            pJSP.setDividerSize(3);
             eventTable.setVisible(true);
         }
 

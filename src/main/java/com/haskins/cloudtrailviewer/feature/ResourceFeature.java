@@ -47,6 +47,7 @@ public class ResourceFeature extends BaseFeature {
                 sb,
                 helpBar,
                 new OverviewContainer(),
+                null,
                 new EventTablePanel(EventTablePanel.CHART_EVENT),
                 new Help("Resource Feature", "resources")
         );
@@ -79,23 +80,13 @@ public class ResourceFeature extends BaseFeature {
     public void eventAdded(Event event) {
         
         if (resourceEvents.contains(event.getEventName())) {
-            container.addEvent(event, "EventName");
+            pContainer.addEvent(event, "EventName");
         }
-    }
-    
-    @Override
-    public void finishedLoading() {
-        container.finishedLoading();
     }
     
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
-    //////////////////////////////////////////////////////////////////////////// 
-    void buildUI() {
-
-        super.buildUI();
-    }
-    
+    ////////////////////////////////////////////////////////////////////////////
     private void loadSecurityEvents() {
         
         String query = "SELECT api_call FROM aws_resources";

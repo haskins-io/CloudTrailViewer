@@ -139,6 +139,7 @@ public class OverviewContainer extends JPanel {
         this.feature = parent;
     }
 
+
     List<Map.Entry<String, NameValuePanel>> entriesSortedByValues(Map<String, NameValuePanel> map) {
 
         List<Map.Entry<String, NameValuePanel>> sortedEntries = new ArrayList<>(map.entrySet());

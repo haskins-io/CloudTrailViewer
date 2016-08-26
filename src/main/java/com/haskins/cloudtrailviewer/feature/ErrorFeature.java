@@ -41,6 +41,7 @@ public class ErrorFeature extends BaseFeature {
                 sb,
                 helpBar,
                 new OverviewContainer(),
+                null,
                 new EventTablePanel(EventTablePanel.CHART_EVENT),
                 new Help("Error Feature", "error")
         );
@@ -72,21 +73,7 @@ public class ErrorFeature extends BaseFeature {
         
         String errorName = event.getErrorCode();
         if (errorName.trim().length() > 0) {
-            container.addEvent(event, "ErrorCode");
+            pContainer.addEvent(event, "ErrorCode");
         }
     }
-    
-    @Override
-    public void finishedLoading() {
-        container.finishedLoading();
-    }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    //////////////////////////////////////////////////////////////////////////// 
-    void buildUI() {
-
-        super.buildUI();
-    }
-   
 }

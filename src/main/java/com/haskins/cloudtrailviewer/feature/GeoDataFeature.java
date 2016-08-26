@@ -58,6 +58,7 @@ public class GeoDataFeature extends BaseFeature {
                 sb,
                 helpBar,
                 new OverviewContainer(),
+                null,
                 new EventTablePanel(EventTablePanel.CHART_EVENT),
                 new Help("GeoData Feature", "geodata")
         );
@@ -89,7 +90,7 @@ public class GeoDataFeature extends BaseFeature {
 
         String cityName = event.getCity();
         if (cityName != null && cityName.trim().length() > 0) {
-            int totalEvents = container.addEvent(event, "City");
+            int totalEvents = pContainer.addEvent(event, "City");
             
             if (totalEvents > highestCount) {
                 centerPoint = cityName;
@@ -98,17 +99,12 @@ public class GeoDataFeature extends BaseFeature {
         }
     }
 
-    @Override
-    public void finishedLoading() {
-        container.finishedLoading();
-    }
-
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     //////////////////////////////////////////////////////////////////////////// 
     void buildUI() {
 
-        container.setBackground(Color.white);
+        pContainer.setBackground(Color.white);
 
         JButton browser = new JButton();
         browser.addActionListener(new ActionListener() {
@@ -129,20 +125,20 @@ public class GeoDataFeature extends BaseFeature {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(mapToolBar, BorderLayout.PAGE_START);
 
-        JScrollPane sPane = new JScrollPane(container);
+        JScrollPane sPane = new JScrollPane(pContainer);
         sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
         mainPanel.add(sPane, BorderLayout.CENTER);
 
         eventTable.setVisible(false);
 
-        jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, mainPanel, eventTable);
-        jsp.setDividerSize(0);
-        jsp.setResizeWeight(1);
-        jsp.setDividerLocation(jsp.getSize().height - jsp.getInsets().bottom - jsp.getDividerSize());
-        jsp.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
+        pJSP = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, mainPanel, eventTable);
+        pJSP.setDividerSize(0);
+        pJSP.setResizeWeight(1);
+        pJSP.setDividerLocation(pJSP.getSize().height - pJSP.getInsets().bottom - pJSP.getDividerSize());
+        pJSP.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
 
         this.setLayout(new BorderLayout());
-        this.add(jsp, BorderLayout.CENTER);
+        this.add(pJSP, BorderLayout.CENTER);
     }
 
     private void showHeatMap() {

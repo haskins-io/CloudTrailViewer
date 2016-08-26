@@ -41,11 +41,10 @@ public class InvokersFeature extends BaseFeature {
                 sb,
                 helpBar,
                 new InvokersContainer(),
+                null,
                 new EventTablePanel(EventTablePanel.CHART_EVENT),
                 new Help("Invoker Feature", "user")
         );
-
-        buildUI();
     }
            
     ////////////////////////////////////////////////////////////////////////////
@@ -71,20 +70,6 @@ public class InvokersFeature extends BaseFeature {
     ////////////////////////////////////////////////////////////////////////////
     @Override
     public void eventAdded(Event event) {
-        ((InvokersContainer)container).addEvent(event);
+        ((InvokersContainer)pContainer).addEvent(event);
     }
-    
-    @Override
-    public void finishedLoading() {
-        container.finishedLoading();
-    }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    //////////////////////////////////////////////////////////////////////////// 
-    void buildUI() {
-
-        super.buildUI();
-    }
-    
 }
