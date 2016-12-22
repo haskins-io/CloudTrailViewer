@@ -21,6 +21,8 @@ package com.haskins.cloudtrailviewer.model.event;
 import java.io.Serializable;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import com.google.gson.annotations.SerializedName;
+
 
 public class UserIdentity implements Serializable {
 
@@ -31,7 +33,10 @@ public class UserIdentity implements Serializable {
     private String arn;
     private String accountId;
     private String accessKeyId;
-    private String userName;
+
+    @SerializedName(value="userName", alternate={"username"}) private String userName;
+
+
     private SessionContext sessionContext;
     private String invokedBy;
     private String webIdFederationData;
