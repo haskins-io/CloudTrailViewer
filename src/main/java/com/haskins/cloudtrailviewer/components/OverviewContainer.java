@@ -46,7 +46,6 @@ public class OverviewContainer extends JPanel {
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");  
 
     public OverviewContainer() {
-
         this.setLayout(new WrapLayout());
     }
 
@@ -137,6 +136,15 @@ public class OverviewContainer extends JPanel {
 
     public void setFeature(Feature parent) {
         this.feature = parent;
+    }
+
+    /**
+     * Returns the NameValuePanel that represents a unique entity in the container.
+     * @param key Value that identifies the panel
+     * @return If value is not found NULL will be returned.
+     */
+    public NameValuePanel getNameValuePanelForKey(String key) {
+        return eventsMap.get(key);
     }
 
 
