@@ -23,11 +23,11 @@ When performing a build Maven will create three binaries for the application:
 * Jar : This is an executable jar.
 
 #### Running the .Jar file
-The .jar file is an executable and on some operating systems when double clicked will automatically run. If you have problems with this then you can using the following command to run the application from a terminal.
+The .jar file is executable and on some operating systems when double clicked will automatically run. If you have problems with this then you can use the following command to run the application from a terminal.
 
 ``` java -jar cloudtrail-viewer.jar ```
 
-Note you will need to have Java 7 (or higher) installed for the application to work. 
+Note: you will need to have Java 7 (or higher) installed for the application to work. 
 
 ### Application configuration database
 The first time you run the application it will attempt to create a preferences database on your computer. This database will be placed into your OS defined UserHome folder for example on linux this would be:
@@ -35,7 +35,7 @@ The first time you run the application it will attempt to create a preferences d
 * /home/joe.blogs/.cloudtrailviewer/prefs.db
 
 ## Loading Events
-The first thing you will need to do once the application is running is to load some CloudTrial logs files, you can either load these from your local filesystem or from an S3 bucket.
+The first thing you will need to do once the application is running is to load some CloudTrial logs files. You can either load these from your local filesystem or from an S3 bucket.
 
 ### Local Files
 To load files from the load filesystem click the left hand icon in the toolbar that looks like a folder. Browse to the required files, select the ones you need and click the load button. **Note the files must be the .gz format generated via CloudTrial**
