@@ -40,7 +40,7 @@ import javax.swing.SwingConstants;
  * 
  * @author mark.haskins
  */
-class NameValuePanel extends JPanel {
+public class NameValuePanel extends JPanel {
 
     private static final long serialVersionUID = 829334953720731893L;
     
@@ -124,7 +124,7 @@ class NameValuePanel extends JPanel {
      * Returns the number of events associated with the panel.
      * @return int value
      */
-    int getEventCount() {
+    public int getEventCount() {
         return events.size();
     }
     
