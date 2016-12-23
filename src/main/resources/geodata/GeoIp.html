@@ -4,11 +4,43 @@
     <head>
         <title>CloudTrail Viewer : Event locations</title>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+
+        <style>
+            .apiMarker {
+                border-style: none;
+                background-color: transparent;
+            }
+            @media screen {
+                .marker {
+                    display: table;
+                    border-collapse: collapse;
+                    border: 1px solid black;
+                }
+
+                .marker > div {
+                    display: table-row;
+                }
+
+                .marker .city {
+                    display: table-cell;
+                    background-color: white;
+                    padding: 0 5px 0 5px;
+                    margin: 3px 0 3px 0;
+                }
+
+                .marker .value {
+                    display: table-cell;
+                    background-color: #669999;
+                    padding: 0 5px 0 5px;
+                    margin: 3px 0 3px 0;
+                }
+            }
+        </style>
     </head>
     <body>
         <div id="map" style="width: 100%; height: 800px"></div>
-        <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
 
         <script>
             var planes = [COORDS];
@@ -22,10 +54,25 @@
             }).addTo(map);
 
             for (var i = 0; i < planes.length; i++) {
-                marker = new L.marker([planes[i][1], planes[i][2]])
-                    .bindPopup(planes[i][0])
-                    .addTo(map);
+
+                parts = planes[i][0].split(":");
+
+                var marker = '<div class="marker"><div>' +
+                    '<div class="city">' + parts[0] + '</div>' +
+                    '<div class="value">' + parts[1] + '</div>' +
+                    '</div></div>';
+
+                new L.marker(
+                    [planes[i][1], planes[i][2]], {
+                        icon: new L.DivIcon({
+                            className: "apiMarker",
+                            html: marker
+                        })
+                    }
+                )
+                .addTo(map);
             }
+
         </script>
     </body>
 </html>
