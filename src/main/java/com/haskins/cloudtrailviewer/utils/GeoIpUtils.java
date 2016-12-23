@@ -75,15 +75,17 @@ public class GeoIpUtils {
                 InetAddress ipAddress = InetAddress.getByName(event.getSourceIPAddress());
                 
                 CityResponse response = reader.city(ipAddress);
-                
-                Country co = response.getCountry();
-                City ci = response.getCity();
+
+                String ct = response.getContinent().getName();
+                String co = response.getCountry().getName();
+                String ci = response.getCity().getName();
                 
                 Location location = response.getLocation();
                 String latLng = location.getLatitude() + "," + location.getLongitude();
 
-                event.setCountry(co.getName());
-                String city = ci.getName();
+                event.setContinent(ct);
+                event.setCountry(co);
+                String city = ci;
                 if (city == null) {
                     city = ipAddress.getHostAddress();
                 }

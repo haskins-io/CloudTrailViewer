@@ -21,6 +21,7 @@ package com.haskins.cloudtrailviewer.feature;
 import com.haskins.cloudtrailviewer.application.HelpToolBar;
 import com.haskins.cloudtrailviewer.application.StatusBar;
 import com.haskins.cloudtrailviewer.components.EventTablePanel;
+import com.haskins.cloudtrailviewer.components.NameValuePanel;
 import com.haskins.cloudtrailviewer.components.OverviewContainer;
 import com.haskins.cloudtrailviewer.model.FeatureAdditionButton;
 import com.haskins.cloudtrailviewer.model.Help;
@@ -58,7 +59,7 @@ public class GeoDataFeature extends BaseFeature {
             sb,
             helpBar,
             new OverviewContainer(),
-            null,
+            new OverviewContainer(),
             new EventTablePanel(EventTablePanel.CHART_EVENT),
             new Help("GeoData Feature", "geodata")
         );
@@ -99,6 +100,11 @@ public class GeoDataFeature extends BaseFeature {
                 highestCount = totalEvents;
             }
         }
+
+        String continent = event.getContinent();
+        if (continent != null && continent.trim().length() > 0) {
+            sContainer.addEvent(event, "Continent");
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -107,20 +113,48 @@ public class GeoDataFeature extends BaseFeature {
     void buildUI() {
 
         pContainer.setBackground(Color.white);
+        sContainer.setBackground(Color.white);
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
 
-        JScrollPane sPane = new JScrollPane(pContainer);
-        sPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        mainPanel.add(sPane, BorderLayout.CENTER);
+        JScrollPane primaryPane = new JScrollPane(this.pContainer);
+        primaryPane.setBackground(Color.WHITE);
+        primaryPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
+
+        JPanel primaryPanel = new JPanel(new BorderLayout());
+        primaryPanel.setBackground(Color.WHITE);
+        JLabel cityLabel = new JLabel("Cities");
+        primaryPanel.add(cityLabel, BorderLayout.PAGE_START);
+        primaryPanel.add(primaryPane, BorderLayout.CENTER);
+
+
+        JScrollPane secondaryPane = new JScrollPane(this.sContainer);
+        secondaryPane.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
+
+        JPanel secondaryPanel = new JPanel(new BorderLayout());
+        secondaryPanel.setBackground(Color.WHITE);
+        JLabel continentLabel = new JLabel("Continents");
+        secondaryPanel.add(continentLabel, BorderLayout.PAGE_START);
+        secondaryPanel.add(secondaryPane, BorderLayout.CENTER);
+
+
 
         eventTable.setVisible(false);
+        pContainer.setVisible(true);
+        sContainer.setVisible(true);
 
-        pJSP = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, mainPanel, eventTable);
+        sJSP = new JSplitPane(JSplitPane.VERTICAL_SPLIT, false, primaryPanel, secondaryPanel);
+        sJSP.setDividerSize(2);
+        sJSP.setResizeWeight(0.5);
+        sJSP.setDividerLocation(0.5);
+        sJSP.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
+        sJSP.setVisible(true);
+
+        pJSP = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, sJSP, eventTable);
         pJSP.setDividerSize(0);
         pJSP.setResizeWeight(1);
         pJSP.setDividerLocation(pJSP.getSize().height - pJSP.getInsets().bottom - pJSP.getDividerSize());
         pJSP.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));
+        pJSP.setVisible(true);
 
         this.setLayout(new BorderLayout());
         this.add(pJSP, BorderLayout.CENTER);
@@ -138,7 +172,16 @@ public class GeoDataFeature extends BaseFeature {
 
             for (Map.Entry<String, String> entry : coords.entrySet()) {
 
-                output.append("['").append(entry.getValue()).append("',").append(entry.getKey()).append("]");
+                NameValuePanel p = pContainer.getNameValuePanelForKey(entry.getValue());
+                int val = p.getEventCount();
+
+                output.append("['").
+                        append(entry.getValue()).
+                        append(":").
+                        append(val).
+                        append("',").
+                        append(entry.getKey()).
+                        append("]");
 
                 if (entry.getValue().equalsIgnoreCase(centerPoint)) {
                     center = entry.getKey();
