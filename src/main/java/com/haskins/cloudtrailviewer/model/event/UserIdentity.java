@@ -29,17 +29,15 @@ public class UserIdentity implements Serializable {
     private static final long serialVersionUID = -4325205520029296556L;
     
     private String type;
-    private String principalId;
     private String arn;
-    private String accountId;
-    private String accessKeyId;
 
     @SerializedName(value="userName", alternate={"username"}) private String userName;
-
-
-    private SessionContext sessionContext;
-    private String invokedBy;
-    private String webIdFederationData;
+    @SerializedName(value="principalId", alternate={"principalid"}) private String principalId;
+    @SerializedName(value="accountId", alternate={"accountid"}) private String accountId;
+    @SerializedName(value="accessKeyId", alternate={"accesskeyid"}) private String accessKeyId;
+    @SerializedName(value="sessionContext", alternate={"sessioncontext"}) private SessionContext sessionContext;
+    @SerializedName(value="invokedBy", alternate={"invokedby"}) private String invokedBy;
+    @SerializedName(value="webIdFederationData", alternate={"webidfederationdata"}) private String webIdFederationData;
     
 
     /**

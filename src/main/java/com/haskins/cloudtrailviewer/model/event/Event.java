@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.haskins.cloudtrailviewer.model.event;
 
+import com.google.gson.annotations.SerializedName;
 import com.haskins.cloudtrailviewer.model.event.deprecated.Resource;
 import com.haskins.cloudtrailviewer.requestInfo.RequestInfo;
 import com.haskins.cloudtrailviewer.requestInfo.ResourceLookup;
@@ -30,25 +31,31 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class Event implements Serializable {
 
     private static final long serialVersionUID = 7492738943200865856L;
-    
-    private String eventTime = "";
-    private String eventVersion = "";
-    private UserIdentity userIdentity;
-    private String eventName = "";
-    private String awsRegion = "";
-    private String sourceIPAddress = "";
-    private String userAgent = "";
-    private String eventSource = "";
-    private String errorCode = "";
-    private String errorMessage = "";
-    private Map<String, ?> requestParameters;
-    private Map responseElements;
-    private String requestID = "";
-    private String eventID = "";
-    private String eventType = "";
-    private String apiVersion = "";
-    private String recipientAccountId = "";
-        
+
+    private List<Resource> resources;
+
+    @SerializedName(value="eventTime", alternate={"eventyime"}) private String eventTime;
+    @SerializedName(value="eventVersion", alternate={"eventversion"}) private String eventVersion = "";
+    @SerializedName(value="userIdentity", alternate={"useridentity"}) private UserIdentity userIdentity;
+    @SerializedName(value="eventSource", alternate={"eventsource"}) private String eventSource = "";
+    @SerializedName(value="eventName", alternate={"eventname"}) private String eventName = "";
+    @SerializedName(value="awsRegion", alternate={"awsregion"}) private String awsRegion = "";
+    @SerializedName(value="userAgent", alternate={"useragent"}) private String userAgent = "";
+    @SerializedName(value="errorCode", alternate={"errorcode"}) private String errorCode = "";
+    @SerializedName(value="errorMessage", alternate={"errormessage"}) private String errorMessage = "";
+    @SerializedName(value="requestParameters", alternate={"requestparameters"}) private Map<String, ?> requestParameters;
+    @SerializedName(value="responseElements", alternate={"responseelements"}) private Map responseElements;
+    @SerializedName(value="additionalEventData", alternate={"additionaleventdata"}) private Map additionalEventData;
+    @SerializedName(value="sourceIPAddress", alternate={"sourceipaddress"}) private String sourceIPAddress = "";
+    @SerializedName(value="requestID", alternate={"requestIid"}) private String requestID = "";
+    @SerializedName(value="eventID", alternate={"eventid"}) private String eventID = "";
+    @SerializedName(value="eventType", alternate={"eventtype"}) private String eventType = "";
+    @SerializedName(value="apiVersion", alternate={"apiversion"}) private String apiVersion = "";
+    @SerializedName(value="readOnly", alternate={"readonly"}) private String readOnly = "";
+    @SerializedName(value="recipientAccountId", alternate={"recipientaccountid"}) private String recipientAccountId = "";
+    @SerializedName(value="serviceEventDetails", alternate={"serviceeventdetails"}) private Map serviceEventDetails;
+    @SerializedName(value="sharedEventID", alternate={"sharedeventid"}) private String sharedEventID = "";
+    @SerializedName(value="vpcEndpointId", alternate={"vpcendpointid"}) private String vpcEndpointId;
 
     /** Internal Use **/
     private String rawJson;
@@ -332,7 +339,77 @@ public class Event implements Serializable {
     public void setApiVersion(String apiVersion) {
         this.apiVersion = apiVersion;
     }
-    
+
+
+    /**
+     * @return the responseElements
+     */
+    public Map getServiceEventDetails() {
+        return serviceEventDetails;
+    }
+
+    /**
+     * @param serviceEventDetails the responseElements to set
+     */
+    public void setServiceEventDetails(Map serviceEventDetails) {
+        this.serviceEventDetails = serviceEventDetails;
+    }
+
+    /**
+     * @return the sharedEventID
+     */
+    public String getSharedEventID() {
+        return sharedEventID;
+    }
+
+    /**
+     * @param sharedEventID the apiVersion to set
+     */
+    public void setSharedEventID(String sharedEventID) {
+        this.sharedEventID = sharedEventID;
+    }
+
+
+    /**
+     * @return the vpcEndpointId
+     */
+    public String getVpcEndpointId() {
+        return vpcEndpointId;
+    }
+
+    /**
+     * @param vpcEndpointId the apiVersion to set
+     */
+    public void setVpcEndpointId(String vpcEndpointId) {
+        this.vpcEndpointId = vpcEndpointId;
+    }
+
+
+    private Map getAdditionalEventData() {
+        return additionalEventData;
+    }
+
+    public void setAdditionalEventData(Map additionalEventData) {
+        this.additionalEventData = additionalEventData;
+    }
+
+    private String getReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(String readOnly) {
+        this.readOnly = readOnly;
+    }
+
+    private List getResources() {
+        return resources;
+    }
+
+    public void setResources(List resources) {
+        this.resources = resources;
+    }
+
+
     public DefaultMutableTreeNode populateTree() {
         
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Event");
@@ -504,35 +581,4 @@ public class Event implements Serializable {
             }
         }
     }
-
-    ////////////////////////////////////////////////////////////////////////////
-    ///// Deprected Event parameters
-    ////////////////////////////////////////////////////////////////////////////
-    private Map additionalEventData;
-    private String readOnly = "";  
-    private List<Resource> resources;
-
-    private Map getAdditionalEventData() {
-        return additionalEventData;
-    }
-
-    public void setAdditionalEventData(Map additionalEventData) {
-        this.additionalEventData = additionalEventData;
-    }
-
-    private String getReadOnly() {
-        return readOnly;
-    }
-
-    public void setReadOnly(String readOnly) {
-        this.readOnly = readOnly;
-    }
-    
-    private List getResources() {
-        return resources;
-    }
-
-    public void setResources(List resources) {
-        this.resources = resources;
-    } 
 }
