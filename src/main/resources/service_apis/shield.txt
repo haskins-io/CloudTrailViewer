@@ -1,0 +1,9 @@
+CreateProtection
+CreateSubscription
+DeleteProtection
+DeleteSubscription
+DescribeAttack
+DescribeProtection
+DescribeSubscription
+ListAttacks
+ListProtections

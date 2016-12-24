@@ -1,10 +1,14 @@
+AcceptReservedInstancesExchangeQuote
 AcceptVpcPeeringConnection
 AllocateAddress
 AllocateHosts
+AssignIpv6Addresses
 AssignPrivateIpAddresses
 AssociateAddress
 AssociateDhcpOptions
 AssociateRouteTable
+AssociateSubnetCidrBlock
+AssociateVpcCidrBlock
 AttachClassicLinkVpc
 AttachInternetGateway
 AttachNetworkInterface
@@ -25,6 +29,7 @@ CopyImage
 CopySnapshot
 CreateCustomerGateway
 CreateDhcpOptions
+CreateEgressOnlyInternetGateway
 CreateFlowLogs
 CreateImage
 CreateInstanceExportTask
@@ -52,6 +57,7 @@ CreateVpnConnectionRoute
 CreateVpnGateway
 DeleteCustomerGateway
 DeleteDhcpOptions
+DeleteEgressOnlyInternetGateway
 DeleteFlowLogs
 DeleteInternetGateway
 DeleteKeyPair
@@ -83,6 +89,7 @@ DescribeClassicLinkInstances
 DescribeConversionTasks
 DescribeCustomerGateways
 DescribeDhcpOptions
+DescribeEgressOnlyInternetGateways
 DescribeExportTasks
 DescribeFlowLogs
 DescribeHostReservationOfferings
@@ -149,6 +156,8 @@ DisableVpcClassicLink
 DisableVpcClassicLinkDnsSupport
 DisassociateAddress
 DisassociateRouteTable
+DisassociateSubnetCidrBlock
+DisassociateVpcCidrBlock
 EnableVgwRoutePropagation
 EnableVolumeIO
 EnableVpcClassicLink
@@ -157,6 +166,7 @@ GetConsoleOutput
 GetConsoleScreenshot
 GetHostReservationPurchasePreview
 GetPasswordData
+GetReservedInstancesExchangeQuote
 ImportImage
 ImportInstance
 ImportKeyPair
@@ -206,5 +216,6 @@ RunScheduledInstances
 StartInstances
 StopInstances
 TerminateInstances
+UnassignIpv6Addresses
 UnassignPrivateIpAddresses
 UnmonitorInstances

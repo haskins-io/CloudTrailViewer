@@ -16,10 +16,13 @@ DescribeMetricFilters
 DescribeSubscriptionFilters
 FilterLogEvents
 GetLogEvents
+ListTagsLogGroup
 PutDestination
 PutDestinationPolicy
 PutLogEvents
 PutMetricFilter
 PutRetentionPolicy
 PutSubscriptionFilter
+TagLogGroup
 TestMetricFilter
+UntagLogGroup

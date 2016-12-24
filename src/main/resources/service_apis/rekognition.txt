@@ -1,0 +1,11 @@
+CompareFaces
+CreateCollection
+DeleteCollection
+DeleteFaces
+DetectFaces
+DetectLabels
+IndexFaces
+ListCollections
+ListFaces
+SearchFaces
+SearchFacesByImage

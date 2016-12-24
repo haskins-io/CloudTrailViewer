@@ -2,6 +2,7 @@ AddTagsToCertificate
 DeleteCertificate
 DescribeCertificate
 GetCertificate
+ImportCertificate
 ListCertificates
 ListTagsForCertificate
 RemoveTagsFromCertificate

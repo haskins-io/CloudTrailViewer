@@ -7,14 +7,15 @@ CreateReusableDelegationSet
 CreateTrafficPolicy
 CreateTrafficPolicyInstance
 CreateTrafficPolicyVersion
+CreateVPCAssociationAuthorization
 DeleteHealthCheck
 DeleteHostedZone
 DeleteReusableDelegationSet
 DeleteTrafficPolicy
 DeleteTrafficPolicyInstance
+DeleteVPCAssociationAuthorization
 DisassociateVPCFromHostedZone
 GetChange
-GetChangeDetails
 GetCheckerIpRanges
 GetGeoLocation
 GetHealthCheck
@@ -27,8 +28,6 @@ GetReusableDelegationSet
 GetTrafficPolicy
 GetTrafficPolicyInstance
 GetTrafficPolicyInstanceCount
-ListChangeBatchesByHostedZone
-ListChangeBatchesByRRSet
 ListGeoLocations
 ListHealthChecks
 ListHostedZones
@@ -42,6 +41,8 @@ ListTrafficPolicyInstances
 ListTrafficPolicyInstancesByHostedZone
 ListTrafficPolicyInstancesByPolicy
 ListTrafficPolicyVersions
+ListVPCAssociationAuthorizations
+TestDNSAnswer
 UpdateHealthCheck
 UpdateHostedZoneComment
 UpdateTrafficPolicyComment

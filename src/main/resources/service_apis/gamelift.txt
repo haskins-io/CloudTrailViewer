@@ -18,10 +18,12 @@ DescribeFleetPortSettings
 DescribeFleetUtilization
 DescribeGameSessionDetails
 DescribeGameSessions
+DescribeInstances
 DescribePlayerSessions
 DescribeRuntimeConfiguration
 DescribeScalingPolicies
 GetGameSessionLogUrl
+GetInstanceAccess
 ListAliases
 ListBuilds
 ListFleets

@@ -4,10 +4,12 @@ AllocatePublicVirtualInterface
 ConfirmConnection
 ConfirmPrivateVirtualInterface
 ConfirmPublicVirtualInterface
+CreateBGPPeer
 CreateConnection
 CreateInterconnect
 CreatePrivateVirtualInterface
 CreatePublicVirtualInterface
+DeleteBGPPeer
 DeleteConnection
 DeleteInterconnect
 DeleteVirtualInterface
@@ -17,5 +19,8 @@ DescribeConnectionsOnInterconnect
 DescribeInterconnectLoa
 DescribeInterconnects
 DescribeLocations
+DescribeTags
 DescribeVirtualGateways
 DescribeVirtualInterfaces
+TagResource
+UntagResource

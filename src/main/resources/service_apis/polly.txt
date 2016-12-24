@@ -1,0 +1,6 @@
+DeleteLexicon
+DescribeVoices
+GetLexicon
+ListLexicons
+PutLexicon
+SynthesizeSpeech

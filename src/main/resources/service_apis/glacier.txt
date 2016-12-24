@@ -21,8 +21,10 @@ InitiateVaultLock
 ListJobs
 ListMultipartUploads
 ListParts
+ListProvisionedCapacity
 ListTagsForVault
 ListVaults
+PurchaseProvisionedCapacity
 RemoveTagsFromVault
 SetDataRetrievalPolicy
 SetVaultAccessPolicy

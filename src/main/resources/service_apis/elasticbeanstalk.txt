@@ -30,6 +30,7 @@ RetrieveEnvironmentInfo
 SwapEnvironmentCNAMEs
 TerminateEnvironment
 UpdateApplication
+UpdateApplicationResourceLifecycle
 UpdateApplicationVersion
 UpdateConfigurationTemplate
 UpdateEnvironment

@@ -1,0 +1,15 @@
+AssociateNode
+CreateBackup
+CreateServer
+DeleteBackup
+DeleteServer
+DescribeAccountAttributes
+DescribeBackups
+DescribeEvents
+DescribeNodeAssociationStatus
+DescribeServers
+DisassociateNode
+RestoreServer
+StartMaintenance
+UpdateServer
+UpdateServerEngineAttributes

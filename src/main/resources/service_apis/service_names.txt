@@ -1,12 +1,16 @@
 acm : AWS Certificate Manager
 apigateway : Amazon API Gateway
+appstream2 : Amazon AppStream
 autoscaling : Auto Scaling
+batch : AWS Batch
+budgets : AWS Budgets
 cloudformation : AWS CloudFormation
 cloudfront : Amazon CloudFront
 cloudhsm : Amazon CloudHSM
 cloudsearch : Amazon CloudSearch
 cloudsearchdomain : Amazon CloudSearch Domain
 cloudtrail : AWS CloudTrail
+codebuild : AWS CodeBuild
 codecommit : AWS CodeCommit
 codedeploy : AWS CodeDeploy
 codepipeline : AWS CodePipeline
@@ -37,6 +41,7 @@ events : Amazon CloudWatch Events
 firehose : Amazon Kinesis Firehose
 gamelift : Amazon GameLift
 glacier : Amazon Glacier
+health : AWS Health APIs and Notifications
 iam : AWS Identity and Access Management
 importexport : AWS Import/Export
 inspector : Amazon Inspector
@@ -45,6 +50,7 @@ kinesis : Amazon Kinesis
 kinesisanalytics : Amazon Kinesis Analytics
 kms : AWS Key Management Service
 lambda : AWS Lambda
+lightsail : Amazon Lightsail
 logs : Amazon CloudWatch Logs
 machinelearning : Amazon Machine Learning
 marketplacecommerceanalytics : AWS Marketplace Commerce Analytics
@@ -52,21 +58,30 @@ metering.marketplace : AWSMarketplace Metering
 mobileanalytics : Amazon Mobile Analytics
 monitoring : Amazon CloudWatch
 opsworks : AWS OpsWorks
+opsworks-cm : AWS OpsWorks for Chef Automate
+pinpoint : Amazon Pinpoint
+polly : Amazon Polly
 rds : Amazon Relational Database Service
 redshift : Amazon Redshift
+rekognition : Amazon Rekognition
 route53 : Amazon Route 53
 route53domains : Amazon Route 53 Domains
 s3 : Amazon Simple Storage Service
 sdb : Amazon SimpleDB
 servicecatalog : AWS Service Catalog
+shield : AWS Shield
+sms : AWS Server Migration Service
 snowball : Amazon Import/Export Snowball
 sns : Amazon Simple Notification Service
 sqs : Amazon Simple Queue Service
-ssm : Amazon Simple Systems Management Service
+ssm : Amazon Simple Systems Manager (SSM)
+states : AWS Step Functions
 storagegateway : AWS Storage Gateway
 streams.dynamodb : Amazon DynamoDB Streams
 sts : AWS Security Token Service
 support : AWS Support
 swf : Amazon Simple Workflow Service
 waf : AWS WAF
+waf-regional : AWS WAF Regional
 workspaces : Amazon WorkSpaces
+xray : AWS X-Ray

@@ -1,10 +1,17 @@
+AssociateConfigurationItemsToApplication
+CreateApplication
 CreateTags
+DeleteApplications
 DeleteTags
 DescribeAgents
 DescribeConfigurations
 DescribeExportConfigurations
 DescribeTags
+DisassociateConfigurationItemsFromApplication
 ExportConfigurations
+GetDiscoverySummary
 ListConfigurations
+ListServerNeighbors
 StartDataCollectionByAgentIds
 StopDataCollectionByAgentIds
+UpdateApplication

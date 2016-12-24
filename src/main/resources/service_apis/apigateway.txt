@@ -2,6 +2,8 @@ CreateApiKey
 CreateAuthorizer
 CreateBasePathMapping
 CreateDeployment
+CreateDocumentationPart
+CreateDocumentationVersion
 CreateDomainName
 CreateModel
 CreateResource
@@ -14,6 +16,8 @@ DeleteAuthorizer
 DeleteBasePathMapping
 DeleteClientCertificate
 DeleteDeployment
+DeleteDocumentationPart
+DeleteDocumentationVersion
 DeleteDomainName
 DeleteIntegration
 DeleteIntegrationResponse
@@ -39,6 +43,10 @@ GetClientCertificate
 GetClientCertificates
 GetDeployment
 GetDeployments
+GetDocumentationPart
+GetDocumentationParts
+GetDocumentationVersion
+GetDocumentationVersions
 GetDomainName
 GetDomainNames
 GetExport
@@ -54,6 +62,8 @@ GetResources
 GetRestApi
 GetRestApis
 GetSdk
+GetSdkType
+GetSdkTypes
 GetStage
 GetStages
 GetUsage
@@ -62,6 +72,7 @@ GetUsagePlanKey
 GetUsagePlanKeys
 GetUsagePlans
 ImportApiKeys
+ImportDocumentationParts
 ImportRestApi
 PutIntegration
 PutIntegrationResponse
@@ -76,6 +87,8 @@ UpdateAuthorizer
 UpdateBasePathMapping
 UpdateClientCertificate
 UpdateDeployment
+UpdateDocumentationPart
+UpdateDocumentationVersion
 UpdateDomainName
 UpdateIntegration
 UpdateIntegrationResponse

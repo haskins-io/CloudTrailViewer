@@ -2,10 +2,12 @@ AddTags
 CreateTrail
 DeleteTrail
 DescribeTrails
+GetEventSelectors
 GetTrailStatus
 ListPublicKeys
 ListTags
 LookupEvents
+PutEventSelectors
 RemoveTags
 StartLogging
 StopLogging

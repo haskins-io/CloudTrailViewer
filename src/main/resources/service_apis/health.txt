@@ -1,0 +1,6 @@
+DescribeAffectedEntities
+DescribeEntityAggregates
+DescribeEventAggregates
+DescribeEventDetails
+DescribeEventTypes
+DescribeEvents

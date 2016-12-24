@@ -1,5 +1,6 @@
 AddIpRoutes
 AddTagsToResource
+CancelSchemaExtension
 ConnectDirectory
 CreateAlias
 CreateComputer
@@ -25,11 +26,13 @@ EnableSso
 GetDirectoryLimits
 GetSnapshotLimits
 ListIpRoutes
+ListSchemaExtensions
 ListTagsForResource
 RegisterEventTopic
 RemoveIpRoutes
 RemoveTagsFromResource
 RestoreFromSnapshot
+StartSchemaExtension
 UpdateConditionalForwarder
 UpdateRadius
 VerifyTrust

@@ -1,11 +1,17 @@
+CancelCluster
 CancelJob
 CreateAddress
+CreateCluster
 CreateJob
 DescribeAddress
 DescribeAddresses
+DescribeCluster
 DescribeJob
 GetJobManifest
 GetJobUnlockCode
 GetSnowballUsage
+ListClusterJobs
+ListClusters
 ListJobs
+UpdateCluster
 UpdateJob

@@ -1,0 +1,11 @@
+CreateReplicationJob
+DeleteReplicationJob
+DeleteServerCatalog
+DisassociateConnector
+GetConnectors
+GetReplicationJobs
+GetReplicationRuns
+GetServers
+ImportServerCatalog
+StartOnDemandReplicationRun
+UpdateReplicationJob

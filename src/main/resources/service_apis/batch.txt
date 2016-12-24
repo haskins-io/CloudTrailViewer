@@ -1,0 +1,16 @@
+CancelJob
+CreateComputeEnvironment
+CreateJobQueue
+DeleteComputeEnvironment
+DeleteJobQueue
+DeregisterJobDefinition
+DescribeComputeEnvironments
+DescribeJobDefinitions
+DescribeJobQueues
+DescribeJobs
+ListJobs
+RegisterJobDefinition
+SubmitJob
+TerminateJob
+UpdateComputeEnvironment
+UpdateJobQueue

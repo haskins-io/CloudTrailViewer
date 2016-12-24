@@ -25,6 +25,7 @@ ListTagsForResource
 ModifyEndpoint
 ModifyReplicationInstance
 ModifyReplicationSubnetGroup
+ModifyReplicationTask
 RefreshSchemas
 RemoveTagsFromResource
 StartReplicationTask

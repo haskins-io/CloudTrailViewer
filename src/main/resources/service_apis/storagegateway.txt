@@ -6,6 +6,7 @@ AddWorkingStorage
 CancelArchival
 CancelRetrieval
 CreateCachediSCSIVolume
+CreateNFSFileShare
 CreateSnapshot
 CreateSnapshotFromVolumeRecoveryPoint
 CreateStorediSCSIVolume
@@ -13,6 +14,7 @@ CreateTapeWithBarcode
 CreateTapes
 DeleteBandwidthRateLimit
 DeleteChapCredentials
+DeleteFileShare
 DeleteGateway
 DeleteSnapshotSchedule
 DeleteTape
@@ -24,6 +26,7 @@ DescribeCachediSCSIVolumes
 DescribeChapCredentials
 DescribeGatewayInformation
 DescribeMaintenanceStartTime
+DescribeNFSFileShares
 DescribeSnapshotSchedule
 DescribeStorediSCSIVolumes
 DescribeTapeArchives
@@ -33,6 +36,7 @@ DescribeUploadBuffer
 DescribeVTLDevices
 DescribeWorkingStorage
 DisableGateway
+ListFileShares
 ListGateways
 ListLocalDisks
 ListTagsForResource
@@ -52,5 +56,6 @@ UpdateChapCredentials
 UpdateGatewayInformation
 UpdateGatewaySoftwareNow
 UpdateMaintenanceStartTime
+UpdateNFSFileShare
 UpdateSnapshotSchedule
 UpdateVTLDeviceType

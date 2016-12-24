@@ -2,6 +2,7 @@ AddTagsToStream
 CreateStream
 DecreaseStreamRetentionPeriod
 DeleteStream
+DescribeLimits
 DescribeStream
 DisableEnhancedMonitoring
 EnableEnhancedMonitoring
@@ -15,3 +16,4 @@ PutRecord
 PutRecords
 RemoveTagsFromStream
 SplitShard
+UpdateShardCount

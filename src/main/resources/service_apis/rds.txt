@@ -50,6 +50,7 @@ RestoreDBInstanceToPointInTime
 RevokeDBSecurityGroupIngress
 DescribeDBLogFiles
 DownloadDBLogFilePortion
+AddRoleToDBCluster
 ApplyPendingMaintenanceAction
 CopyDBClusterParameterGroup
 CopyDBClusterSnapshot
@@ -71,12 +72,14 @@ DescribeDBClusters
 DescribeDBSnapshotAttributes
 DescribeEngineDefaultClusterParameters
 DescribePendingMaintenanceActions
+DescribeSourceRegions
 FailoverDBCluster
 ModifyDBCluster
 ModifyDBClusterParameterGroup
 ModifyDBClusterSnapshotAttribute
 ModifyDBSnapshotAttribute
 PromoteReadReplicaDBCluster
+RemoveRoleFromDBCluster
 ResetDBClusterParameterGroup
 RestoreDBClusterFromS3
 RestoreDBClusterFromSnapshot

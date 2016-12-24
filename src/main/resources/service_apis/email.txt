@@ -1,7 +1,11 @@
 CloneReceiptRuleSet
+CreateConfigurationSet
+CreateConfigurationSetEventDestination
 CreateReceiptFilter
 CreateReceiptRule
 CreateReceiptRuleSet
+DeleteConfigurationSet
+DeleteConfigurationSetEventDestination
 DeleteIdentity
 DeleteIdentityPolicy
 DeleteReceiptFilter
@@ -9,6 +13,7 @@ DeleteReceiptRule
 DeleteReceiptRuleSet
 DeleteVerifiedEmailAddress
 DescribeActiveReceiptRuleSet
+DescribeConfigurationSet
 DescribeReceiptRule
 DescribeReceiptRuleSet
 GetIdentityDkimAttributes
@@ -18,6 +23,7 @@ GetIdentityPolicies
 GetIdentityVerificationAttributes
 GetSendQuota
 GetSendStatistics
+ListConfigurationSets
 ListIdentities
 ListIdentityPolicies
 ListReceiptFilters
@@ -35,6 +41,7 @@ SetIdentityHeadersInNotificationsEnabled
 SetIdentityMailFromDomain
 SetIdentityNotificationTopic
 SetReceiptRulePosition
+UpdateConfigurationSetEventDestination
 UpdateReceiptRule
 VerifyDomainDkim
 VerifyDomainIdentity

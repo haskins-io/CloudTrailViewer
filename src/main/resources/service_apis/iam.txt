@@ -15,6 +15,7 @@ CreatePolicy
 CreatePolicyVersion
 CreateRole
 CreateSAMLProvider
+CreateServiceSpecificCredential
 CreateUser
 CreateVirtualMFADevice
 DeactivateMFADevice
@@ -33,6 +34,7 @@ DeleteRolePolicy
 DeleteSAMLProvider
 DeleteSSHPublicKey
 DeleteServerCertificate
+DeleteServiceSpecificCredential
 DeleteSigningCertificate
 DeleteUser
 DeleteUserPolicy
@@ -83,6 +85,7 @@ ListRoles
 ListSAMLProviders
 ListSSHPublicKeys
 ListServerCertificates
+ListServiceSpecificCredentials
 ListSigningCertificates
 ListUserPolicies
 ListUsers
@@ -93,6 +96,7 @@ PutUserPolicy
 RemoveClientIDFromOpenIDConnectProvider
 RemoveRoleFromInstanceProfile
 RemoveUserFromGroup
+ResetServiceSpecificCredential
 ResyncMFADevice
 SetDefaultPolicyVersion
 SimulateCustomPolicy
@@ -106,6 +110,7 @@ UpdateOpenIDConnectProviderThumbprint
 UpdateSAMLProvider
 UpdateSSHPublicKey
 UpdateServerCertificate
+UpdateServiceSpecificCredential
 UpdateSigningCertificate
 UpdateUser
 UploadSSHPublicKey

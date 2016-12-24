@@ -5,6 +5,7 @@ CompleteLayerUpload
 CreateRepository
 DeleteRepository
 DeleteRepositoryPolicy
+DescribeImages
 DescribeRepositories
 GetAuthorizationToken
 GetDownloadUrlForLayer

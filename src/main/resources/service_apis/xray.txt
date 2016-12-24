@@ -1,0 +1,6 @@
+BatchGetTraces
+GetServiceGraph
+GetTraceGraph
+GetTraceSummaries
+PutTelemetryRecords
+PutTraceSegments

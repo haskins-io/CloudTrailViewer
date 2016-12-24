@@ -15,6 +15,7 @@ CreateEventSourceMapping
 CreateFunction
 DeleteAlias
 DeleteEventSourceMapping
+GetAccountSettings
 GetAlias
 GetEventSourceMapping
 GetPolicy

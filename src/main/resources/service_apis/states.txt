@@ -1,0 +1,17 @@
+CreateActivity
+CreateStateMachine
+DeleteActivity
+DeleteStateMachine
+DescribeActivity
+DescribeExecution
+DescribeStateMachine
+GetActivityTask
+GetExecutionHistory
+ListActivities
+ListExecutions
+ListStateMachines
+SendTaskFailure
+SendTaskHeartbeat
+SendTaskSuccess
+StartExecution
+StopExecution

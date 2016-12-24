@@ -8,6 +8,7 @@ DisableStageTransition
 EnableStageTransition
 GetJobDetails
 GetPipeline
+GetPipelineExecution
 GetPipelineState
 GetThirdPartyJobDetails
 ListActionTypes

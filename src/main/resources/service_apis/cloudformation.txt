@@ -16,6 +16,8 @@ GetStackPolicy
 GetTemplate
 GetTemplateSummary
 ListChangeSets
+ListExports
+ListImports
 ListStackResources
 ListStacks
 SetStackPolicy
