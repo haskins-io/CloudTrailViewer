@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.utils;
 
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
-import io.haskins.java.cloudtrailviewer.controller.widget.dialog.AbstractDialogController;
+import io.haskins.java.cloudtrailviewer.controller.dialog.widget.AbstractDialogController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import javafx.fxml.FXMLLoader;

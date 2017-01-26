@@ -7,9 +7,11 @@
       xmlns="http://javafx.com/javafx/8.0.111"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="io.haskins.java.cloudtrailviewer.controller.menu.DashboardMenuController">
+
         <MenuItem mnemonicParsing="false" text="New" onAction="#newDashboard"/>
         <MenuItem mnemonicParsing="false" text="Open" onAction="#openDashboard"/>
         <MenuItem mnemonicParsing="false" text="Save" onAction="#saveDashboard"/>
+
         <SeparatorMenuItem  />
         <MenuItem mnemonicParsing="false" text="Add Widget" onAction="#addWidget" />
 </Menu>

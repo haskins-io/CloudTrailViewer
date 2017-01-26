@@ -11,11 +11,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<GridPane prefHeight="225.0" prefWidth="290.0"
+<GridPane prefHeight="187.0" prefWidth="290.0"
           hgap="10" vgap="10"
           xmlns="http://javafx.com/javafx/8.0.111"
           xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="io.haskins.java.cloudtrailviewer.controller.widget.dialog.StackedBarChartDialogController">
+          fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.TableDialogController">
 
     <padding><Insets top="15" right="25" bottom="15" left="25"/></padding>
 
@@ -41,26 +41,10 @@
 
 
     <Label text="Series:" GridPane.columnIndex="0"  GridPane.rowIndex="4"/>
-    <fx:include source="../../components/EventField.fxml" fx:id="series" GridPane.columnIndex="1"  GridPane.rowIndex="4"/>
-
-    <Label text="Category:" GridPane.columnIndex="0"  GridPane.rowIndex="5"/>
-    <fx:include source="../../components/EventField.fxml" fx:id="category" GridPane.columnIndex="1"  GridPane.rowIndex="5"/>
-
-    <Label text="Orientation:" GridPane.columnIndex="0"  GridPane.rowIndex="6"/>
-    <ChoiceBox prefWidth="150.0" fx:id="orientation" value="Top"  GridPane.columnIndex="1" GridPane.rowIndex="6">
-        <items>
-            <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Vertical"/>
-                <String fx:value="Horizontal"/>
-            </FXCollections>
-        </items>
-        <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-        </VBox.margin>
-    </ChoiceBox>
+    <fx:include source="../../components/EventField.fxml" fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
 
-    <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="7">
+    <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="5">
         <Button mnemonicParsing="false" text="Cancel" onAction="#handleCancel" />
         <Button mnemonicParsing="false" fx:id="updateButton" text="Update" onAction="#handleUpdate" />
     </HBox>
