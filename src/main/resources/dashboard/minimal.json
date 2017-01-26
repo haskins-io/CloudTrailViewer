@@ -1,0 +1,14 @@
+{
+  "widgets": [
+    {
+      "widget": "PieChart",
+      "title": "Top AWS Events",
+      "type": "Top",
+      "seriesField": "EventName",
+      "xPos": 63,
+      "yPos": 33,
+      "width": 335,
+      "height": 327
+    }
+  ]
+}

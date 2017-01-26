@@ -1,6 +1,10 @@
 # CloudTrail Viewer
 CloudTrail Viewer is a Java Desktop Application for reading and analysing AWS CloudTrail Event logs.
 
+
+**NOTE : The below information is for Version 2 of the application, which can be found on the Releases tab. The source code now in this Repository is for Version 3 of the application. If you want the source for Version 2, that is available for the appropriate release on the Releases Tab.**
+
+
 ## New Feature
 Displaying of API Metrics.
 

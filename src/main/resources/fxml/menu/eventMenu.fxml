@@ -1,0 +1,21 @@
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+
+<Menu mnemonicParsing="false"
+      text="Event"
+      xmlns="http://javafx.com/javafx/8.0.111"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.haskins.java.cloudtrailviewer.controller.menu.EventMenuController">
+
+    <MenuItem mnemonicParsing="false" text="Load Local Files" onAction="#loadLocalEvents"/>
+    <MenuItem mnemonicParsing="false" text="Scan Local Files" disable="true"/>
+
+    <SeparatorMenuItem/>
+    <MenuItem mnemonicParsing="false" text="Load Remote Files" disable="true"/>
+    <MenuItem mnemonicParsing="false" text="Scan Remote Files" disable="true"/>
+
+    <SeparatorMenuItem/>
+    <MenuItem mnemonicParsing="false" text="Clear Events" onAction="#clearEvents"/>
+
+</Menu>

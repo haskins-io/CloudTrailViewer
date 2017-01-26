@@ -1,0 +1,46 @@
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import io.haskins.java.cloudtrailviewer.model.KeyStringValue?>
+
+<ChoiceBox xmlns="http://javafx.com/javafx/8.0.111"
+           xmlns:fx="http://javafx.com/fxml/1"
+           prefWidth="150.0"
+           value="ApiVersion">
+    <items>
+        <FXCollections fx:factory="observableArrayList">
+            <KeyStringValue key="Api Version" value="ApiVersion"/>
+            <KeyStringValue key="Aws Region" value="AwsRegion"/>
+            <KeyStringValue key="City" value="City"/>
+            <KeyStringValue key="Continent" value="Continent"/>
+            <KeyStringValue key="Country" value="Country"/>
+            <KeyStringValue key="Error Code" value="ErrorCode"/>
+            <KeyStringValue key="Error Message" value="ErrorMessage"/>
+            <KeyStringValue key="Event Name" value="EventName"/>
+            <KeyStringValue key="Event Source" value="EventSource"/>
+            <KeyStringValue key="Event Type" value="EventType"/>
+            <KeyStringValue key="Event Version" value="EventVersion"/>
+            <KeyStringValue key="Source IP Address" value="SourceIPAddress"/>
+            <KeyStringValue key="User Agent" value="UserAgent"/>
+            <KeyStringValue key="Vpc Endpoint Id" value="VpcEndpointId"/>
+
+            <KeyStringValue key="User Identity : Type" value="UserIdentity.Type"/>
+            <KeyStringValue key="User Identity : Principal Id" value="UserIdentity.PrincipalId"/>
+            <KeyStringValue key="User Identity : Arn" value="UserIdentity.Arn"/>
+            <KeyStringValue key="User Identity : Account Id" value="UserIdentity.AccountId"/>
+            <KeyStringValue key="User Identity : Access Key Id" value="UserIdentity.AccessKeyId"/>
+            <KeyStringValue key="User Identity : Username" value="UserIdentity.UserName"/>
+            <KeyStringValue key="User Identity : Invoked By" value="UserIdentity.InvokedBy"/>
+
+            <KeyStringValue key="Session Context : Type" value="UserIdentity.SessionContext.SessionIssuer.Type"/>
+            <KeyStringValue key="Session Context : Arn" value="UserIdentity.SessionContext.SessionIssuer.PrincipalId"/>
+            <KeyStringValue key="Session Context : Principal Id" value="UserIdentity.SessionContext.SessionIssuer.Arn"/>
+            <KeyStringValue key="Session Context : Account Id" value="UserIdentity.SessionContext.SessionIssuer.AccountId"/>
+            <KeyStringValue key="Session Context : Username" value="UserIdentity.SessionContext.SessionIssuer.UserName"/>
+        </FXCollections>
+    </items>
+    <VBox.margin>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+    </VBox.margin>
+</ChoiceBox>

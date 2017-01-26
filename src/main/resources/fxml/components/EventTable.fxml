@@ -1,0 +1,34 @@
+<?import javafx.scene.control.TableView?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<TableView xmlns="http://javafx.com/javafx/8.0.111"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="io.haskins.java.cloudtrailviewer.controller.components.EventTableController"
+           fx:id="tableView">
+
+        <columns>
+            <TableColumn fx:id="eventTimeColumn" text="Event Time"><cellValueFactory><PropertyValueFactory property="eventTime" /></cellValueFactory></TableColumn>
+            <TableColumn text="Event Version"><cellValueFactory><PropertyValueFactory property="eventVersion" /></cellValueFactory></TableColumn>
+            <TableColumn text="Event Source"><cellValueFactory><PropertyValueFactory property="eventSource" /></cellValueFactory></TableColumn>
+            <TableColumn text="Event Name"><cellValueFactory><PropertyValueFactory property="eventName" /></cellValueFactory></TableColumn>
+            <TableColumn text="AWS Region"><cellValueFactory><PropertyValueFactory property="awsRegion" /></cellValueFactory></TableColumn>
+            <TableColumn text="User Agent"><cellValueFactory><PropertyValueFactory property="userAgent" /></cellValueFactory></TableColumn>
+            <TableColumn text="Error Code"><cellValueFactory><PropertyValueFactory property="errorCode" /></cellValueFactory></TableColumn>
+            <TableColumn text="Error Message"><cellValueFactory><PropertyValueFactory property="errorMessage" /></cellValueFactory></TableColumn>
+            <TableColumn text="Source IP Address"><cellValueFactory><PropertyValueFactory property="sourceIPAddress" /></cellValueFactory></TableColumn>
+            <TableColumn text="Request ID"><cellValueFactory><PropertyValueFactory property="requestID" /></cellValueFactory></TableColumn>
+            <TableColumn text="Event ID"><cellValueFactory><PropertyValueFactory property="eventID" /></cellValueFactory></TableColumn>
+            <TableColumn text="Event Type"><cellValueFactory><PropertyValueFactory property="eventType" /></cellValueFactory></TableColumn>
+            <TableColumn text="API Version"><cellValueFactory><PropertyValueFactory property="apiVersion" /></cellValueFactory></TableColumn>
+            <TableColumn text="Read Only"><cellValueFactory><PropertyValueFactory property="readOnly" /></cellValueFactory></TableColumn>
+            <TableColumn text="Recipient Account ID"><cellValueFactory><PropertyValueFactory property="recipientAccountId" /></cellValueFactory></TableColumn>
+            <TableColumn text="Shared Event ID"><cellValueFactory><PropertyValueFactory property="sharedEventID" /></cellValueFactory></TableColumn>
+            <TableColumn text="VPC Endpoint ID"><cellValueFactory><PropertyValueFactory property="vpcEndpointId" /></cellValueFactory></TableColumn>
+        </columns>
+
+    <sortOrder>
+        <fx:reference source="eventTimeColumn"/>
+    </sortOrder>
+
+</TableView>

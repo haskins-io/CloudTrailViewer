@@ -1,0 +1,47 @@
+/** general styling **/
+
+#root {
+    -fx-background-color: white;
+}
+
+
+/** Widget Styling **/
+.widget {
+    -fx-border-color: black;
+    -fx-background-color: white;
+}
+
+.widget-header {
+    -fx-background-color: lightgrey;
+}
+
+.widget-title {
+    -fx-text-fill: black;
+}
+
+.edit-button {
+    -fx-graphic: url("icons/Edit.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+}
+
+.edit-button:hover {
+    -fx-background-color: white;
+}
+
+.remove-button {
+    -fx-graphic: url("icons/Remove.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+}
+
+.remove-button:hover {
+    -fx-background-color: white;
+}
+
+/** Chart Styling **/
+.chart {
+    -fx-background-color: white;
+}

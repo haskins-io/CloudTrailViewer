@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.haskins.java.cloudtrailviewer.controller.ApplicationController">
+    <top>
+        <fx:include source="menu/menu.fxml" />
+    </top>
+    <center>
+        <SplitPane dividerPositions="0.9" orientation="VERTICAL">
+                <ScrollPane><Pane fx:id="widgets" /></ScrollPane>
+                <fx:include source="components/EventTable.fxml" />
+        </SplitPane>
+    </center>
+    <bottom>
+        <fx:include source="components/StatusBar.fxml" />
+    </bottom>
+</BorderPane>
