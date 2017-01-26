@@ -33,4 +33,9 @@ public class FileMenuController {
     private void quit() {
         System.exit(0);
     }
+
+    @FXML
+    private void showPreferences() {
+
+    }
 }
