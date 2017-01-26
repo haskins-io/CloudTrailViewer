@@ -21,6 +21,8 @@ package io.haskins.java.cloudtrailviewer.filter;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 
 /**
+ * Interface that all Filters should implement
+ *
  * Created by markhaskins on 05/01/2017.
  */
 interface Filter {

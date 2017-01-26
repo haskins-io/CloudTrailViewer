@@ -1,5 +1,4 @@
-
-/*    
+/*
 CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
 files.
 

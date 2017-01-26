@@ -19,10 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.filter;
 
 /**
+ * Interface that class that are interested in changes to a Filter should implement
+ *
  * Created by markhaskins on 05/01/2017.
  */
 interface FilterListener {
 
+    /**
+     * Called a filter has been modifies.
+     */
     void onFilterChanged();
 
 }

@@ -64,7 +64,7 @@ public class SessionContext implements Serializable {
     
     /**
      * Returns a tree object for the values of the class
-     * @return 
+     * @return Tree representation
      */
     public DefaultMutableTreeNode getTree() {
         

@@ -49,49 +49,51 @@ class ApiExtractor {
         
         File folder = new File(source);
         File[] listOfFiles = folder.listFiles();
-        for (File f : listOfFiles) {
-            
-            String filename = f.getName();
-            
-            if (filename.contains("min")) {
-                                
-                try {
-                    JsonNode rootNode = m.readTree(f.getAbsoluteFile());
-                    JsonNode operationsNode = rootNode.get("operations");
-                    JsonNode metaData = rootNode.get("metadata");
-                    
-                    JsonNode endpointNode = metaData.get("endpointPrefix");
-                    String endpoint = endpointNode.asText();
-                    JsonNode serviceNameNode = metaData.get("serviceFullName");
-                    String serviceName = serviceNameNode.asText();
-                    
-                    serviceNames.put(endpoint, serviceName);
-                    
-                    List apis = serviceAPIs.get(endpoint);
-                    if (apis == null) {
-                        apis = new ArrayList();
-                        serviceAPIs.put(endpoint, apis);
-                    }
-                    
-                    Iterator<String> it = operationsNode.fieldNames();
-                    while (it.hasNext()) {
-                        
-                        String api = it.next();
-                        if (!apis.contains(api)) {
-                            apis.add(api);
+
+        if (listOfFiles != null && listOfFiles.length > 0) {
+            for (File f : listOfFiles) {
+
+                String filename = f.getName();
+
+                if (filename.contains("min")) {
+
+                    try {
+                        JsonNode rootNode = m.readTree(f.getAbsoluteFile());
+                        JsonNode operationsNode = rootNode.get("operations");
+                        JsonNode metaData = rootNode.get("metadata");
+
+                        JsonNode endpointNode = metaData.get("endpointPrefix");
+                        String endpoint = endpointNode.asText();
+                        JsonNode serviceNameNode = metaData.get("serviceFullName");
+                        String serviceName = serviceNameNode.asText();
+
+                        serviceNames.put(endpoint, serviceName);
+
+                        List<String> apis = serviceAPIs.get(endpoint);
+                        if (apis == null) {
+                            apis = new ArrayList<>();
+                            serviceAPIs.put(endpoint, apis);
                         }
-                        
+
+                        Iterator<String> it = operationsNode.fieldNames();
+                        while (it.hasNext()) {
+
+                            String api = it.next();
+                            if (!apis.contains(api)) {
+                                apis.add(api);
+                            }
+
+                        }
                     }
-                }
-                catch (IOException ex) {
-                    
+                    catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         }
-        
-        /**
-         * Create Service API files
-         */
+
+
+
         for (Map.Entry<String, List<String>> entry : serviceAPIs.entrySet()) {
             
             String path = destination + entry.getKey() + ".txt";
@@ -102,13 +104,10 @@ class ApiExtractor {
                     fw.write(api + "\r\n");
                 }   
             } catch(IOException ioe) {
-                
+                ioe.printStackTrace();
             }
         }
-                
-        /**
-         * 
-         */
+
         String path = destination + "service_names.txt";
         try (FileWriter fw = new FileWriter(path)) {
 
@@ -120,9 +119,7 @@ class ApiExtractor {
             }
   
         } catch(IOException ioe) {
-            
+            ioe.printStackTrace();
         }
-        
     }
-    
 }

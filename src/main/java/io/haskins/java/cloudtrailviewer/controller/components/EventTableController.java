@@ -1,3 +1,21 @@
+/*
+CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
+files.
+
+Copyright (C) 2017  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package io.haskins.java.cloudtrailviewer.controller.components;
 
 import io.haskins.java.cloudtrailviewer.model.EventTableModel;
@@ -14,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This component provides the TableView location at the bottom of the application.
+ *
  * Created by markhaskins on 26/01/2017.
  */
 @Component
@@ -26,18 +46,24 @@ public class EventTableController implements EventTableServiceListener {
         eventTableService.addListener(this);
     }
 
+    /**
+     * Updates the table with the provided events.
+     * @param events a List of Events
+     */
     public void setEvents(List<Event> events) {
 
-        tableView.getItems().clear();
+        if (events != null && !events.isEmpty()) {
+            tableView.getItems().clear();
 
-        ObservableList<EventTableModel> data = tableView.getItems();
+            ObservableList<EventTableModel> data = tableView.getItems();
 
-        List<EventTableModel> items = new ArrayList<>();
+            List<EventTableModel> items = new ArrayList<>();
 
-        for (Event event : events) {
-            items.add(new EventTableModel(event));
+            for (Event event : events) {
+                items.add(new EventTableModel(event));
+            }
+
+            data.addAll(items);
         }
-
-        data.addAll(items);
     }
 }

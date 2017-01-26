@@ -19,9 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.model.event;
 
 import com.google.gson.annotations.SerializedName;
-import io.haskins.java.cloudtrailviewer.model.aws.resource.ResourceInfo;
 import io.haskins.java.cloudtrailviewer.model.event.deprecated.Resource;
-import io.haskins.java.cloudtrailviewer.utils.ResourceLookup;
 
 import java.io.Serializable;
 import java.util.List;
@@ -61,7 +59,6 @@ public class Event implements Serializable {
     /** Internal Use **/
     private String rawJson;
     private long timestamp;
-    private ResourceInfo resourceInfo = null;
 
     private String continent = null;
     private String country = null;
@@ -108,19 +105,6 @@ public class Event implements Serializable {
     }
     public long getTimestamp() {
         return this.timestamp;
-    }
-    
-    public ResourceInfo getResourceInfo() {
-        
-        if (resourceInfo == null) {
-            resourceInfo = new ResourceInfo();
-            if (requestParameters != null) {
-                ResourceLookup.getResourceInfo(this, resourceInfo);
-            }
-            
-        }
-        
-        return resourceInfo;
     }
 
     /**
@@ -446,18 +430,7 @@ public class Event implements Serializable {
             node.add(new DefaultMutableTreeNode(getEventSource()));
             root.add(node);
         }
-        
-        if (getRequestParameters() != null && resourceInfo != null && 
-                (!resourceInfo.getResourcesMap().isEmpty() || !resourceInfo.getParameterMap().isEmpty())) {
-            
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Resource Parameters");
 
-            addNodesToTree(node, resourceInfo.getResourcesMap().entrySet());
-            addNodesToTree(node, resourceInfo.getParameterMap().entrySet());
-
-            root.add(node);
-        }
-        
         if (getSourceIPAddress() != null) {
             DefaultMutableTreeNode node = new DefaultMutableTreeNode("Source IP Address");
             node.add(new DefaultMutableTreeNode(getSourceIPAddress()));
