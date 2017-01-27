@@ -20,6 +20,7 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,7 +39,7 @@ import java.util.Map;
  *
  * Created by markhaskins on 10/01/2017.
  */
-public class PieChartWidgetController extends AbstractBaseController {
+public class ChartPieWidgetController extends AbstractBaseController {
 
     @FXML private PieChart pieChart;
 
@@ -47,7 +48,7 @@ public class PieChartWidgetController extends AbstractBaseController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public BorderPane loadFXML() {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/PieChartWidget.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/ChartPieWidget.fxml"));
         loader.setController(this);
         try {
             fxmlObject = loader.load();
@@ -59,9 +60,9 @@ public class PieChartWidgetController extends AbstractBaseController {
     }
 
     @Override
-    public void configure(DashboardWidget widget, EventTableService eventTableService) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService, DatabaseService databaseService) {
 
-        super.configure(widget, eventTableService);
+        super.configure(widget, eventTableService, databaseService);
 
         pieChart.setPrefWidth(widget.getWidth());
         pieChart.setPrefHeight(widget.getHeight());

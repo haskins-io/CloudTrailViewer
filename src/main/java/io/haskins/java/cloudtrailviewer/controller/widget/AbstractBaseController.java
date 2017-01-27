@@ -22,6 +22,7 @@ import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.KeyIntegerValue;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.DragResizeWidget;
@@ -55,7 +56,9 @@ public abstract class AbstractBaseController extends BorderPane implements Event
     final Map<String, String> latlngs = new HashMap<>();
 
     DashboardWidget widget;
+
     EventTableService eventTableService;
+    DatabaseService databaseService;
 
     BorderPane fxmlObject = null;
 
@@ -75,10 +78,12 @@ public abstract class AbstractBaseController extends BorderPane implements Event
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// public methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void configure(DashboardWidget widget, EventTableService eventTableService) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService, DatabaseService databaseService) {
 
         this.widget = widget;
+
         this.eventTableService = eventTableService;
+        this.databaseService = databaseService;
 
         this.titleLabel.setText(widget.getTitle());
 

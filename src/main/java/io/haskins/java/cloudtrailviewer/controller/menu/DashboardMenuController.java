@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.menu;
 
+import io.haskins.java.cloudtrailviewer.controller.dialog.widget.NewWidgetDialogController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.service.DashboardService;
@@ -99,12 +100,17 @@ public class DashboardMenuController {
     @FXML
     private void addWidget() {
 
-        DialogAction addWidget = FXMLUtils.showDialog(new DashboardWidget(), false);
-        if (addWidget.getActionCode() == DialogAction.ACTION_CANCEL) return;
+        DashboardWidget newWidget = new DashboardWidget();
 
-        DialogAction newWidget = FXMLUtils.showDialog((DashboardWidget)addWidget.getActionPayload(), false);
-        if (newWidget.getActionCode() == DialogAction.ACTION_CANCEL) return;
+        DialogAction createWidgetAction = FXMLUtils.showDialog(newWidget, false);
+        if (createWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
 
-        dashboardService.addWidgetToDashboard((DashboardWidget)newWidget.getActionPayload());
+        if (!NewWidgetDialogController.configureLessWidgets.contains(newWidget.getWidget())) {
+
+            DialogAction configureWidgetAction = FXMLUtils.showDialog(newWidget, false);
+            if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
+        }
+
+        dashboardService.addWidgetToDashboard(newWidget);
     }
 }

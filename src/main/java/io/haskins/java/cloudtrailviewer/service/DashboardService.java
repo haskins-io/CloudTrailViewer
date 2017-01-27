@@ -65,14 +65,16 @@ public class DashboardService implements WidgetListener {
 
     private final EventService eventService;
     private final EventTableService eventTableService;
+    private final DatabaseService databaseService;
 
     @Autowired
-    public DashboardService(EventService eventService, EventTableService eventTableService) {
+    public DashboardService(EventService eventService, EventTableService eventTableService, DatabaseService databaseService) {
 
         widgets.put("widgets", new ArrayList<>());
 
         this.eventService = eventService;
         this.eventTableService = eventTableService;
+        this.databaseService = databaseService;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +107,7 @@ public class DashboardService implements WidgetListener {
                 AbstractBaseController controller = (AbstractBaseController)c.newInstance();
                 pane.getChildren().add(controller.loadFXML());
 
-                controller.configure(widget, eventTableService);
+                controller.configure(widget, eventTableService, databaseService);
                 controller.addWidgetListener(this);
 
                 eventService.registerAsListener(controller);

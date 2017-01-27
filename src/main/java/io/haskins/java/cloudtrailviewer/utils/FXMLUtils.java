@@ -35,7 +35,7 @@ import java.io.IOException;
  */
 public class FXMLUtils {
 
-    private static final String EDIT_WIDGET_PACKAGE = "/fxml/widget/dialog/";
+    private static final String EDIT_WIDGET_PACKAGE = "/fxml/dialog/widget/";
 
     private static String getEditWidgetFXML(DashboardWidget widget) {
 

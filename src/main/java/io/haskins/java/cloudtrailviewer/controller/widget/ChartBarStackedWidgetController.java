@@ -20,6 +20,7 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import javafx.collections.FXCollections;
@@ -41,12 +42,12 @@ import java.util.Map;
  *
  * Created by markhaskins on 10/01/2017.
  */
-public class StackedBarChartWidgetController extends XYChartController {
+public class ChartBarStackedWidgetController extends XYChartController {
 
     @FXML private StackedBarChart chart;
 
     public BorderPane loadFXML() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/StackedBarChartWidget.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/ChartBarStackedWidget.fxml"));
         loader.setController(this);
         try {
             fxmlObject = loader.load();
@@ -58,9 +59,9 @@ public class StackedBarChartWidgetController extends XYChartController {
     }
 
     @Override
-    public void configure(DashboardWidget widget, EventTableService eventTableService) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService, DatabaseService databaseService) {
 
-        super.configure(widget, eventTableService);
+        super.configure(widget, eventTableService, databaseService);
 
         chart.setPrefWidth(widget.getWidth());
         chart.setPrefHeight(widget.getHeight());

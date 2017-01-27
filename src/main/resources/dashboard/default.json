@@ -12,7 +12,7 @@
       "height": 327
     },
     {
-      "widget": "PieChart",
+      "widget": "ChartPie",
       "title": "Top Events",
       "type": "Top",
       "top": 5,
@@ -34,7 +34,7 @@
       "height": 327
     },
     {
-      "widget": "StackedBarChart",
+      "widget": "ChartBarStacked",
       "title": "Top Events",
       "type": "Top",
       "top": 5,
@@ -48,7 +48,7 @@
       "height": 327
     },
     {
-      "widget": "BarChart",
+      "widget": "ChartBar",
       "title": "Top Cities",
       "type": "Top",
       "top": 5,

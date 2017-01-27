@@ -20,6 +20,7 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.utils.FileUtils;
 import javafx.fxml.FXML;
@@ -64,9 +65,9 @@ public class MapWidgetController extends AbstractBaseController {
     }
 
     @Override
-    public void configure(DashboardWidget widget, EventTableService eventTableService) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService, DatabaseService databaseService) {
 
-        super.configure(widget, eventTableService);
+        super.configure(widget, eventTableService, databaseService);
 
         map.setPrefHeight(widget.getHeight());
         map.setPrefWidth(widget.getWidth());

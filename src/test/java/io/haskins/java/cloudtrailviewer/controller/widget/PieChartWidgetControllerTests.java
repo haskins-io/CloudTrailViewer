@@ -3,6 +3,7 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 import io.haskins.java.cloudtrailviewer.BaseTest;
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import javafx.application.Application;
 import javafx.scene.chart.PieChart;
@@ -39,7 +40,7 @@ public class PieChartWidgetControllerTests extends BaseTest {
     @Before
     public void init() {
 
-        pieChartController = new PieChartWidgetController();
+        pieChartController = new ChartPieWidgetController();
         pieChartController.loadFXML();
     }
 
@@ -49,8 +50,9 @@ public class PieChartWidgetControllerTests extends BaseTest {
         DashboardWidget widget = getTestWidget();
 
         EventTableService eventTableService = new EventTableService();
+        DatabaseService databaseService = new DatabaseService();
 
-        pieChartController.configure(widget, eventTableService);
+        pieChartController.configure(widget, eventTableService, databaseService);
 
         Class<?> testClass = pieChartController.getClass();
 

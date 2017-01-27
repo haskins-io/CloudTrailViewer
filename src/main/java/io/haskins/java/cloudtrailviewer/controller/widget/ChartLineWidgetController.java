@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.controller.widget;
 
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
@@ -30,14 +31,14 @@ import java.io.IOException;
  *
  * Created by markhaskins on 26/01/2017.
  */
-public class LineChartWidgetController extends XYChartController {
+public class ChartLineWidgetController extends XYChartController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// public methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public BorderPane loadFXML() {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/LineChartWidget.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/ChartLineWidget.fxml"));
         loader.setController(this);
         try {
             fxmlObject = loader.load();
@@ -49,9 +50,9 @@ public class LineChartWidgetController extends XYChartController {
     }
 
     @Override
-    public void configure(DashboardWidget widget, EventTableService eventTableService) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService, DatabaseService databaseService) {
 
-        super.configure(widget, eventTableService);
+        super.configure(widget, eventTableService, databaseService);
 
         chart.setPrefWidth(widget.getWidth());
         chart.setPrefHeight(widget.getHeight());
