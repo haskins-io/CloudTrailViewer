@@ -48,6 +48,7 @@ public abstract class AbstractBaseController extends BorderPane implements Event
     final static Logger LOGGER = Logger.getLogger("CloudTrail");
 
     final static String WIDGET_TYPE_TOP = "Top";
+    public final static String WIDGET_TYPE_ALL = "All";
 
     private final List<Event> allEvents = new ArrayList<>();
 
@@ -64,7 +65,7 @@ public abstract class AbstractBaseController extends BorderPane implements Event
 
     private final List<WidgetListener> listeners = new ArrayList<>();
 
-    @FXML private Button editButton;
+    @FXML Button editButton;
     @FXML private Button removeButton;
     @FXML private Label titleLabel;
     @FXML private BorderPane widgetControlsContainer;
@@ -124,7 +125,11 @@ public abstract class AbstractBaseController extends BorderPane implements Event
         if (!eventsByOccurance.isEmpty()) {
 
             List<Map.Entry<String,Integer>> sorted = entriesSortedByValues(eventsByOccurance);
-            return getTopX(sorted, top);
+            if (top > 0) {
+                return getTopX(sorted, top);
+            } else {
+                return sorted;
+            }
 
         } else {
             return new ArrayList<>();
@@ -215,9 +220,9 @@ public abstract class AbstractBaseController extends BorderPane implements Event
             latlngs.put(latLng, propertyValue);
         }
 
-        if (widget.getType().equalsIgnoreCase(WIDGET_TYPE_TOP)) {
+//        if (widget.getType().equalsIgnoreCase(WIDGET_TYPE_TOP)) {
             addToKeyValueMap(event);
-        }
+//        }
     }
 
     public abstract void finishedLoading(boolean reload);

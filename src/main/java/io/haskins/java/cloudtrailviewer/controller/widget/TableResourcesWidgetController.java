@@ -31,6 +31,8 @@ public class TableResourcesWidgetController extends TableWidgetController {
 
         super.configure(widget, eventTableService, databaseService);
 
+        editButton.setVisible(false);
+
         loadResourceEvents();
     }
 

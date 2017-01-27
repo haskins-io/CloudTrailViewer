@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.dialog.widget;
 
+import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import javafx.fxml.FXML;
@@ -100,26 +101,49 @@ public class NewWidgetDialogController extends AbstractDialogController {
 
     @FXML
     private void ErrorsSelected() {
+
+        configureFixedWidgets();
+
         widget.setWidget(WIDGET_TABLE_ERROR);
         widget.setTitle("Errors");
+        widget.setSeriesField("ErrorCode");
+
         action = DialogAction.ACTION_OK;
         dialogStage.close();
     }
 
     @FXML
-    private void ResourcestSelected() {
+    private void ResourcesSelected() {
+
+        configureFixedWidgets();
+
         widget.setWidget(WIDGET_TABLE_RESOURCES);
         widget.setTitle("Resources");
+
         action = DialogAction.ACTION_OK;
         dialogStage.close();
     }
 
     @FXML
-    private void SecuritytSelected() {
+    private void SecuritySelected() {
+
+        configureFixedWidgets();
+
         widget.setWidget(WIDGET_TABLE_SECURITY);
         widget.setTitle("Security");
+
         action = DialogAction.ACTION_OK;
         dialogStage.close();
+    }
+
+    private void configureFixedWidgets() {
+
+        widget.setType(AbstractBaseController.WIDGET_TYPE_ALL);
+        widget.setTop(-1);
+        widget.setSeriesField("EventName");
+
+        widget.setWidth(335);
+        widget.setHeight(327);
     }
 
     public void setWidget(DashboardWidget widget) {

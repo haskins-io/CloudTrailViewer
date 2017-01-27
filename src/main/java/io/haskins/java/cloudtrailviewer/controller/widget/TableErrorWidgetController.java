@@ -1,6 +1,9 @@
 package io.haskins.java.cloudtrailviewer.controller.widget;
 
+import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
+import io.haskins.java.cloudtrailviewer.service.EventTableService;
 
 import java.util.List;
 
@@ -18,5 +21,13 @@ public class TableErrorWidgetController extends TableWidgetController {
                 newEvent(event);
             }
         }
+    }
+
+    @Override
+    public void configure(DashboardWidget widget, EventTableService eventTableService, DatabaseService databaseService) {
+
+        super.configure(widget, eventTableService, databaseService);
+
+        editButton.setVisible(false);
     }
 }

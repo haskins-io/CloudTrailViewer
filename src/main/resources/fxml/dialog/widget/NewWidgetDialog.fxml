@@ -38,10 +38,10 @@
                 <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Bar Chart" onAction="#BarChartSelected">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Stacked Bar Chart" onAction="#StackedBarChartSelected">
+                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Stacked Bar Chart" onAction="#StackedBarChartSelected" disable="false">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Line Chart" onAction="#LineChartSelected">
+                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Line Chart" onAction="#LineChartSelected" disable="false">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
             </HBox>
@@ -50,10 +50,10 @@
                 <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Errors" onAction="#ErrorsSelected">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Resources" onAction="#ResourcestSelected">
+                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Resources" onAction="#ResourcesSelected">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Security" onAction="#SecuritytSelected">
+                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Security" onAction="#SecuritySelected">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
             </HBox>

@@ -98,10 +98,8 @@ public class TableWidgetController extends AbstractBaseController {
         tableView.setPrefWidth(widget.getWidth());
         tableView.setPrefHeight(widget.getHeight());
 
-        if (widget.getType().equalsIgnoreCase(WIDGET_TYPE_TOP)) {
-            addTopColumns(widget);
-            tableView.setItems(keyValueData);
-        }
+        addTopColumns(widget);
+        tableView.setItems(keyValueData);
 
         tableView.setRowFactory(tv -> {
             TableRow<KeyIntegerValue> row = new TableRow<>();
