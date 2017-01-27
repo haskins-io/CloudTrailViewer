@@ -20,7 +20,9 @@ package io.haskins.java.cloudtrailviewer.controller.components;
 
 import io.haskins.java.cloudtrailviewer.model.EventTableModel;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.service.EventService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
+import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
 import io.haskins.java.cloudtrailviewer.service.listener.EventTableServiceListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,13 +39,15 @@ import java.util.List;
  * Created by markhaskins on 26/01/2017.
  */
 @Component
-public class EventTableController implements EventTableServiceListener {
+public class EventTableController implements EventTableServiceListener, EventServiceListener {
 
     @FXML private TableView tableView;
 
+
     @Autowired
-    public EventTableController(EventTableService eventTableService) {
+    public EventTableController(EventService eventService, EventTableService eventTableService) {
         eventTableService.addListener(this);
+        eventService.registerAsListener(this);
     }
 
     /**
@@ -65,5 +69,30 @@ public class EventTableController implements EventTableServiceListener {
 
             data.addAll(items);
         }
+    }
+
+    @Override
+    public void newEvent(Event event) {
+
+    }
+
+    @Override
+    public void newEvents(List<Event> events) {
+
+    }
+
+    @Override
+    public void loadingFile(int fileNum, int totalFiles) {
+
+    }
+
+    @Override
+    public void finishedLoading(boolean reload) {
+
+    }
+
+    @Override
+    public void clearEvents() {
+        tableView.getItems().clear();
     }
 }
