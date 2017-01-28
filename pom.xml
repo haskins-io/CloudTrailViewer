@@ -13,6 +13,10 @@
     <name>CloudTrail Viewer</name>
     <description>A Java desktop application for reading and analysing AWS CloudTrail logs.</description>
 
+    <organization>
+        <name>Mark P. Haskins</name>
+    </organization>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -26,9 +30,13 @@
         <awssdk.version>1.11.66</awssdk.version>
     </properties>
 
-    <organization>
-        <name>Mark P. Haskins</name>
-    </organization>
+    <repositories>
+        <repository>
+            <id>jerady</id>
+            <name>FontAwesomeFX</name>
+            <url>https://dl.bintray.com/jerady/maven</url>
+        </repository>
+    </repositories>
 
     <dependencies>
 
@@ -82,6 +90,14 @@
             <groupId>com.maxmind.geoip2</groupId>
             <artifactId>geoip2</artifactId>
             <version>2.8.0</version>
+        </dependency>
+
+
+        <!-- Font AweSome -->
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx</artifactId>
+            <version>8.9</version>
         </dependency>
 
         <!-- Test -->
