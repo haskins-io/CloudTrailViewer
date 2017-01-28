@@ -20,15 +20,13 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.widget;
 
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
-import io.haskins.java.cloudtrailviewer.model.KeyStringValue;
+import io.haskins.java.cloudtrailviewer.model.observable.KeyStringValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 /**
  * Abstract class that that provides common Dialog controller functionality

@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.model;
+package io.haskins.java.cloudtrailviewer.model.observable;
 
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import javafx.beans.property.SimpleStringProperty;

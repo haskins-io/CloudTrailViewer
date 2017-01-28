@@ -1,0 +1,9 @@
+/** File Chooser styles **/
+
+.file_dir {
+    -fx-fill: gold;
+}
+
+.file_file {
+    -fx-fill: darkblue;
+}

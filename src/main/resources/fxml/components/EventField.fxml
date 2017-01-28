@@ -2,7 +2,7 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
-<?import io.haskins.java.cloudtrailviewer.model.KeyStringValue?>
+<?import io.haskins.java.cloudtrailviewer.model.observable.KeyStringValue?>
 
 <ChoiceBox xmlns="http://javafx.com/javafx/8.0.111"
            xmlns:fx="http://javafx.com/fxml/1"

@@ -36,8 +36,18 @@ public class AwsAccount implements Serializable {
     private final String key;
     private final String secret;
     private String prefix;
+    private String profile;
+
+    public AwsAccount() {
+        this(1, "","","","","","","");
+    }
 
     public AwsAccount(int id, String name, String acctNum, String bucket, String key, String secret, String prefix) {
+        this(id, name,acctNum,bucket,key,secret,prefix,null);
+
+    }
+
+    public AwsAccount(int id, String name, String acctNum, String bucket, String key, String secret, String prefix, String profile) {
 
         this.id = id;
         this.name = name;
@@ -46,6 +56,7 @@ public class AwsAccount implements Serializable {
         this.key = key;
         this.secret = secret;
         this.prefix = prefix;
+        this.profile = profile;
     }
 
     public int getId() {
@@ -102,5 +113,17 @@ public class AwsAccount implements Serializable {
     }
     public void setPrefix(String prefix) {
         this.prefix = prefix;
+    }
+
+    /**
+     * Todo Remove hardcoded response
+     * @return
+     */
+    public String getProfile() {
+        return "CloudTrailViewer";
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 }

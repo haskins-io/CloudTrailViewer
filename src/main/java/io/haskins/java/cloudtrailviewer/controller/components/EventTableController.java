@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.components;
 
-import io.haskins.java.cloudtrailviewer.model.EventTableModel;
+import io.haskins.java.cloudtrailviewer.model.observable.EventTableModel;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;

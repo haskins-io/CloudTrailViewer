@@ -12,7 +12,7 @@
     <MenuItem mnemonicParsing="false" text="Scan Local Files" disable="true"/>
 
     <SeparatorMenuItem/>
-    <MenuItem mnemonicParsing="false" text="Load Remote Files" disable="true"/>
+    <MenuItem mnemonicParsing="false" text="Load Remote Files" disable="true" onAction="#loadS3Events"/>
     <MenuItem mnemonicParsing="false" text="Scan Remote Files" disable="true"/>
 
     <SeparatorMenuItem/>

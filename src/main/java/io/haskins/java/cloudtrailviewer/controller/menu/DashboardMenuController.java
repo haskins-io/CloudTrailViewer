@@ -23,7 +23,7 @@ import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.service.DashboardService;
 import io.haskins.java.cloudtrailviewer.utils.DialogUtils;
-import io.haskins.java.cloudtrailviewer.utils.FXMLUtils;
+import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import io.haskins.java.cloudtrailviewer.utils.FileUtils;
 import javafx.fxml.FXML;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,12 +102,12 @@ public class DashboardMenuController {
 
         DashboardWidget newWidget = new DashboardWidget();
 
-        DialogAction createWidgetAction = FXMLUtils.showDialog(newWidget, false);
+        DialogAction createWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
         if (createWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
 
         if (!NewWidgetDialogController.configureLessWidgets.contains(newWidget.getWidget())) {
 
-            DialogAction configureWidgetAction = FXMLUtils.showDialog(newWidget, false);
+            DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
             if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
         }
 

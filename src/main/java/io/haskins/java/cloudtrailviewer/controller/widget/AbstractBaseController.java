@@ -20,14 +20,14 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
-import io.haskins.java.cloudtrailviewer.model.KeyIntegerValue;
+import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.DragResizeWidget;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
-import io.haskins.java.cloudtrailviewer.utils.FXMLUtils;
+import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -139,7 +139,7 @@ public abstract class AbstractBaseController extends BorderPane implements Event
     @FXML
     void editWidget() {
 
-        DialogAction action = FXMLUtils.showDialog(widget, true);
+        DialogAction action = WidgetUtils.showWidgetDialog(widget, true);
 
         if (action.getActionCode() != DialogAction.ACTION_CANCEL) {
 

@@ -32,7 +32,7 @@ import java.util.List;
  * Created by markhaskins on 05/01/2017.
  */
 @Service
-class AccountDao {
+public class AccountDao {
 
     private final DatabaseService databaseService;
 

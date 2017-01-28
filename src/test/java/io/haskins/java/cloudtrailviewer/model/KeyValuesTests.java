@@ -1,5 +1,6 @@
 package io.haskins.java.cloudtrailviewer.model;
 
+import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
 import org.junit.Before;
 import org.junit.Test;
 
