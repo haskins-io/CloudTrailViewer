@@ -33,7 +33,7 @@ import java.io.IOException;
 /**
  * Created by markhaskins on 06/01/2017.
  */
-public class FXMLUtils {
+public class WidgetUtils {
 
     private static final String EDIT_WIDGET_PACKAGE = "/fxml/dialog/widget/";
 
@@ -46,13 +46,13 @@ public class FXMLUtils {
         }
     }
 
-    public static DialogAction showDialog(DashboardWidget widget, boolean update) {
+    public static DialogAction showWidgetDialog(DashboardWidget widget, boolean update) {
 
         DialogAction action;
 
         try {
             // Load the fxml file and create a new stage for the popup dialog.
-            String fxmlFile = FXMLUtils.getEditWidgetFXML(widget);
+            String fxmlFile = WidgetUtils.getEditWidgetFXML(widget);
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(CloudTrailViewer.class.getResource(fxmlFile));
