@@ -15,43 +15,44 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+package io.haskins.java.cloudtrailviewer.model.observable;
 
-package io.haskins.java.cloudtrailviewer.model;
-
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
  * Class that provides a Key / Value TableModel
  *
- * Created by markhaskins on 06/01/2017.
+ * Created by markhaskins on 26/01/2017.
  */
-public class KeyIntegerValue {
+public class KeyStringValue {
 
-    private final SimpleStringProperty field;
-    private final IntegerProperty count;
+    private final SimpleStringProperty key;
+    private final SimpleStringProperty value;
 
-    public KeyIntegerValue(String field, int count) {
-        this.field = new SimpleStringProperty(field);
-        this.count = new SimpleIntegerProperty(count);
+    public KeyStringValue() {
+        this("", "");
     }
 
-    public String getField() {
-        return this.field.get();
+    public KeyStringValue(String key, String value) {
+        this.key = new SimpleStringProperty(key);
+        this.value = new SimpleStringProperty(value);
     }
 
-    public void setField(String field) {
-        this.field.set(field);
+    public String getKey() {
+        return this.key.get();
+    }
+    public void setKey(String field) {
+        this.key.set(field);
     }
 
-
-    public int getCount() {
-        return this.count.get();
+    public String getValue() {
+        return this.value.get();
+    }
+    public void setValue(String count) {
+        this.value.set(count);
     }
 
-    public void setCount(int count) {
-        this.count.set(count);
+    public String toString() {
+        return key.get();
     }
-
 }
