@@ -18,14 +18,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.menu;
 
+import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
 import io.haskins.java.cloudtrailviewer.controller.ApplicationController;
+import io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController;
+import io.haskins.java.cloudtrailviewer.controller.dialog.widget.AbstractDialogController;
+import io.haskins.java.cloudtrailviewer.model.DialogAction;
+import io.haskins.java.cloudtrailviewer.service.AccountDao;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
+import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,11 +54,13 @@ public class EventMenuController {
 
     private final ApplicationController applicationController;
     private final EventService eventService;
+    private final AccountDao accountDao;
 
     @Autowired
-    public EventMenuController(EventService eventService, ApplicationController appController) {
+    public EventMenuController(EventService eventService, ApplicationController appController, AccountDao accountDao) {
         this.eventService = eventService;
         this.applicationController = appController;
+        this.accountDao = accountDao;
     }
 
     @FXML
@@ -62,10 +77,57 @@ public class EventMenuController {
 
             eventService.loadFiles(filenames, null, EventService.FILE_TYPE_LOCAL);
         }
+
+//        List<String> selectedItems = showFileChooser(true);
+//        if (selectedItems != null && !selectedItems.isEmpty()) {
+//            eventService.loadFiles(selectedItems, null, EventService.FILE_TYPE_LOCAL);
+//        }
+    }
+
+    @FXML
+    private void loadS3Events() {
+
     }
 
     @FXML
     private void clearEvents() {
         eventService.clearEvents();
+    }
+
+
+    private List<String> showFileChooser(boolean localFiles) {
+
+        try {
+
+            String fxmlFile = "/fxml/dialog/filechooser/FileChooser.fxml";
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(CloudTrailViewer.class.getResource(fxmlFile));
+            Pane page = loader.load();
+
+            Scene scene = new Scene(page);
+            scene.getStylesheets().add(getClass().getResource("/style/filechooser.css").toExternalForm());
+
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setScene(scene);
+
+            FileChooserController controller = loader.getController();
+
+            if (localFiles) {
+                controller.init(dialogStage, null);
+            } else {
+                controller.init(dialogStage, accountDao);
+            }
+
+            dialogStage.showAndWait();
+
+            return controller.getSelectedItems();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            return null;
+        }
     }
 }
