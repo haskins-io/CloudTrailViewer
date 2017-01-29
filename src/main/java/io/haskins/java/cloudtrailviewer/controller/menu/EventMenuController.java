@@ -21,12 +21,9 @@ package io.haskins.java.cloudtrailviewer.controller.menu;
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
 import io.haskins.java.cloudtrailviewer.controller.ApplicationController;
 import io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController;
-import io.haskins.java.cloudtrailviewer.controller.dialog.widget.AbstractDialogController;
-import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.service.AccountDao;
-import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
-import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
