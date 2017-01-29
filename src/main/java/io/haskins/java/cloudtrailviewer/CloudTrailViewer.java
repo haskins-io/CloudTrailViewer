@@ -36,8 +36,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class CloudTrailViewer extends Application {
 
-    public static final String APP_NAME = "CloudTrail Viewer";
-
     private static final ConfigurableApplicationContext springContext = SpringApplication.run(CloudTrailViewer.class);
 
     private BorderPane rootPane;
