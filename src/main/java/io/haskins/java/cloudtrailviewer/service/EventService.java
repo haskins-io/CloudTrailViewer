@@ -32,6 +32,7 @@ import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,47 +82,54 @@ public class EventService {
 
     public void loadFiles(List<String> filenames, final CompositeFilter filters, int file_type) {
 
-        Platform.runLater(() -> {
+        Task task = new Task<Void>() {
 
-            AwsAccount activeAccount = null;
-            AmazonS3 s3Client = null;
+            @Override
+            public Void call() {
 
-            if (file_type == FILE_TYPE_S3) {
-                activeAccount = AwsService.getActiveAccount(accountDao);
-                s3Client = AwsService.getS3ClientUsingProfile(activeAccount);
-            }
-
-            int count = 0;
-            int total = filenames.size();
-
-            for (String filename : filenames) {
-
-                count++;
-
-                for (EventServiceListener l : listeners) {
-                    l.loadingFile(count, total);
-                }
+                AwsAccount activeAccount = null;
+                AmazonS3 s3Client = null;
 
                 if (file_type == FILE_TYPE_S3) {
-                    try (InputStream stream = loadEventFromS3(s3Client, activeAccount.getBucket(), filename)) {
-                        processStream(stream, filters);
-                    } catch (Exception ioe) {
-                        LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
+                    activeAccount = AwsService.getActiveAccount(accountDao);
+                    s3Client = AwsService.getS3ClientUsingProfile(activeAccount);
+                }
+
+                int count = 0;
+                int total = filenames.size();
+
+                for (String filename : filenames) {
+
+                    count++;
+
+                    for (EventServiceListener l : listeners) {
+                        l.loadingFile(count, total);
                     }
-                } else if (file_type == FILE_TYPE_LOCAL) {
-                    try (InputStream stream = loadEventFromLocalFile(filename)) {
-                        processStream(stream, filters);
-                    } catch (Exception ioe) {
-                        LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
+
+                    if (file_type == FILE_TYPE_S3) {
+                        try (InputStream stream = loadEventFromS3(s3Client, activeAccount.getBucket(), filename)) {
+                            processStream(stream, filters);
+                        } catch (Exception ioe) {
+                            LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
+                        }
+                    } else if (file_type == FILE_TYPE_LOCAL) {
+                        try (InputStream stream = loadEventFromLocalFile(filename)) {
+                            processStream(stream, filters);
+                        } catch (Exception ioe) {
+                            LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
+                        }
                     }
                 }
-            }
 
-            for (EventServiceListener l : listeners) {
-                l.finishedLoading(false);
-            }
+                for (EventServiceListener l : listeners) {
+                    l.finishedLoading(false);
+                }
 
-        });
+                return null;
+            }
+        };
+
+        new Thread(task).start();
     }
 
     public void injectEvents(EventServiceListener l) {
