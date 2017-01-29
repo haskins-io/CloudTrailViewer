@@ -1,6 +1,24 @@
+/*
+CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
+files.
+
+Copyright (C) 2017  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 
-import io.haskins.java.cloudtrailviewer.model.observable.S3ListModel;
+import io.haskins.java.cloudtrailviewer.model.observable.FileListModel;
 import io.haskins.java.cloudtrailviewer.utils.FileUtils;
 import javafx.scene.control.ListView;
 
@@ -8,13 +26,15 @@ import java.io.File;
 import java.util.List;
 
 /**
+ * Hanlder for navigating files on the local file system.
+ *
  * Created by markhaskins on 27/01/2017.
  */
 class LocalFileHandler extends FileHandler {
 
     private String path = FileUtils.getApplicationDirectory();
 
-    LocalFileHandler(ListView<S3ListModel> listView, FileListControllerListener listener) {
+    LocalFileHandler(ListView<FileListModel> listView, FileListControllerListener listener) {
 
         this.listView = listView;
         listView.setItems(data);
@@ -34,7 +54,7 @@ class LocalFileHandler extends FileHandler {
     @Override
     void handleDoubleClickEvent() {
 
-        S3ListModel selected = listView.getSelectionModel().getSelectedItem();
+        FileListModel selected = listView.getSelectionModel().getSelectedItem();
         File file = (File)selected.getPath();
 
         if (selected.getName().equalsIgnoreCase(MOVE_BACK)) {
@@ -60,9 +80,9 @@ class LocalFileHandler extends FileHandler {
         if (listView.getSelectionModel().getSelectedItems() != null &&
                 !listView.getSelectionModel().getSelectedItems().isEmpty()) {
 
-            List<S3ListModel> selectedItems = listView.getSelectionModel().getSelectedItems();
+            List<FileListModel> selectedItems = listView.getSelectionModel().getSelectedItems();
 
-            for (S3ListModel key : selectedItems) {
+            for (FileListModel key : selectedItems) {
                 selected_keys.add(((File)key.getPath()).getAbsolutePath());
             }
         }
@@ -76,7 +96,7 @@ class LocalFileHandler extends FileHandler {
         File[] objects = f.listFiles();
 
         if (f.getParent() != null) {
-            S3ListModel model = new S3ListModel(MOVE_BACK, f, S3ListModel.FILE_BACK);
+            FileListModel model = new FileListModel(MOVE_BACK, f, FileListModel.FILE_BACK);
             data.add(model);
         }
 
@@ -89,7 +109,7 @@ class LocalFileHandler extends FileHandler {
         for (File object : objects) {
 
             if (object.isDirectory() && !object.isHidden()) {
-                S3ListModel model = new S3ListModel(object.getName(), object, S3ListModel.FILE_DIR);
+                FileListModel model = new FileListModel(object.getName(), object, FileListModel.FILE_DIR);
                 data.add(model);
             }
         }
@@ -100,7 +120,7 @@ class LocalFileHandler extends FileHandler {
         for (File file : objects) {
 
             if (file.isFile() && FileUtils.getFileExtension(file).equalsIgnoreCase(FILE_EXTENSION)) {
-                S3ListModel model = new S3ListModel(file.getName(), file, S3ListModel.FILE_DOC);
+                FileListModel model = new FileListModel(file.getName(), file, FileListModel.FILE_DOC);
                 data.add(model);
             }
         }

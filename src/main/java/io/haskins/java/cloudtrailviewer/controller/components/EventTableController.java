@@ -41,7 +41,7 @@ import java.util.List;
 @Component
 public class EventTableController implements EventTableServiceListener, EventServiceListener {
 
-    @FXML private TableView tableView;
+    @FXML private TableView<EventTableModel> tableView;
 
 
     @Autowired

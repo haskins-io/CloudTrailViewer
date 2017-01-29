@@ -43,8 +43,7 @@ public class AwsAccount implements Serializable {
     }
 
     public AwsAccount(int id, String name, String acctNum, String bucket, String key, String secret, String prefix) {
-        this(id, name,acctNum,bucket,key,secret,prefix,null);
-
+        this(id, name, acctNum, bucket, key, secret, prefix,null);
     }
 
     public AwsAccount(int id, String name, String acctNum, String bucket, String key, String secret, String prefix, String profile) {

@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.controller.menu;
 
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
-import io.haskins.java.cloudtrailviewer.controller.ApplicationController;
 import io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController;
 import io.haskins.java.cloudtrailviewer.filter.AllFilter;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
@@ -36,9 +35,7 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,14 +48,12 @@ public class EventMenuController {
 
     private final FileChooser fileChooser = new FileChooser();
 
-    private final ApplicationController applicationController;
     private final EventService eventService;
     private final AccountDao accountDao;
 
     @Autowired
-    public EventMenuController(EventService eventService, ApplicationController appController, AccountDao accountDao) {
+    public EventMenuController(EventService eventService, AccountDao accountDao) {
         this.eventService = eventService;
-        this.applicationController = appController;
         this.accountDao = accountDao;
     }
 

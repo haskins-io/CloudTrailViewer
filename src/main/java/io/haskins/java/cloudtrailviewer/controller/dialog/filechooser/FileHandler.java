@@ -1,7 +1,24 @@
+/*
+CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
+files.
+
+Copyright (C) 2017  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 
-import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
-import io.haskins.java.cloudtrailviewer.model.observable.S3ListModel;
+import io.haskins.java.cloudtrailviewer.model.observable.FileListModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -13,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Abstract class that handles common logic for File Handlers
+ *
  * Created by markhaskins on 27/01/2017.
  */
 abstract class FileHandler {
@@ -20,10 +39,10 @@ abstract class FileHandler {
     static final String MOVE_BACK = "..";
     static final String FILE_EXTENSION = "gz";
 
-    ListView<S3ListModel> listView;
-    final ObservableList<S3ListModel> data = FXCollections.observableArrayList();
+    ListView<FileListModel> listView;
+    final ObservableList<FileListModel> data = FXCollections.observableArrayList();
 
-    protected final List<String> selected_keys = new ArrayList<>();
+    final List<String> selected_keys = new ArrayList<>();
 
     boolean scanning = false;
 
@@ -67,7 +86,6 @@ abstract class FileHandler {
                             fileListControllerListener.listItemSelected(true);
                         }
                     }
-
                 }
             }
         });

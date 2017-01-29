@@ -25,7 +25,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import io.haskins.java.cloudtrailviewer.filter.AllFilter;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.model.event.Event;

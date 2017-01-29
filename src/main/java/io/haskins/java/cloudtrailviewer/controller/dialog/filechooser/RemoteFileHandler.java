@@ -1,3 +1,21 @@
+/*
+CloudTrail Viewer, is a Java desktop application for reading AWS CloudTrail logs
+files.
+
+Copyright (C) 2017  Mark P. Haskins
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -5,13 +23,15 @@ import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
-import io.haskins.java.cloudtrailviewer.model.observable.S3ListModel;
+import io.haskins.java.cloudtrailviewer.model.observable.FileListModel;
 import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import javafx.scene.control.ListView;
 
 import java.util.List;
 
 /**
+ * Hanlding for navigating files in S3.
+ *
  * Created by markhaskins on 27/01/2017.
  */
 class RemoteFileHandler extends FileHandler {
@@ -19,7 +39,7 @@ class RemoteFileHandler extends FileHandler {
     private AwsAccount currentAccount = null;
     private String prefix = "";
 
-    RemoteFileHandler(ListView<S3ListModel> listView, AwsAccount awsAccount, FileListControllerListener listener) {
+    RemoteFileHandler(ListView<FileListModel> listView, AwsAccount awsAccount, FileListControllerListener listener) {
 
         this.listView = listView;
         listView.setItems(data);
@@ -87,7 +107,7 @@ class RemoteFileHandler extends FileHandler {
 
         // Add .. if not at root
         if (prefix.trim().length() != 0) {
-            S3ListModel model = new S3ListModel(MOVE_BACK, MOVE_BACK, S3ListModel.FILE_BACK);
+            FileListModel model = new FileListModel(MOVE_BACK, MOVE_BACK, FileListModel.FILE_BACK);
             listView.getItems().add(model);
         }
 
@@ -120,8 +140,8 @@ class RemoteFileHandler extends FileHandler {
         if (listView.getSelectionModel().getSelectedItems() != null &&
                 !listView.getSelectionModel().getSelectedItems().isEmpty()) {
 
-            List<S3ListModel> selectedItems = listView.getSelectionModel().getSelectedItems();
-            for (S3ListModel key : selectedItems) {
+            List<FileListModel> selectedItems = listView.getSelectionModel().getSelectedItems();
+            for (FileListModel key : selectedItems) {
                 selected_keys.add(prefix + key.getName());
             }
         }
@@ -158,7 +178,7 @@ class RemoteFileHandler extends FileHandler {
 
             String dir = stripPrefix(directory);
 
-            S3ListModel model = new S3ListModel(dir, dir, S3ListModel.FILE_DIR);
+            FileListModel model = new FileListModel(dir, dir, FileListModel.FILE_DIR);
             listView.getItems().add(model);
         }
     }
@@ -170,7 +190,7 @@ class RemoteFileHandler extends FileHandler {
 
             String file = stripPrefix(objectSummary.getKey());
 
-            S3ListModel model = new S3ListModel(file, file, S3ListModel.FILE_DOC);
+            FileListModel model = new FileListModel(file, file, FileListModel.FILE_DOC);
             listView.getItems().add(model);
         }
     }
