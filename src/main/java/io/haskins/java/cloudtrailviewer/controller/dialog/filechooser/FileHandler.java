@@ -1,6 +1,9 @@
 package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 
+import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
 import io.haskins.java.cloudtrailviewer.model.observable.S3ListModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -18,6 +21,7 @@ abstract class FileHandler {
     static final String FILE_EXTENSION = "gz";
 
     ListView<S3ListModel> listView;
+    final ObservableList<S3ListModel> data = FXCollections.observableArrayList();
 
     protected final List<String> selected_keys = new ArrayList<>();
 
@@ -28,6 +32,7 @@ abstract class FileHandler {
     abstract void handleDoubleClickEvent();
 
     public abstract List<String> getSelectedItems();
+
 
     void setUpMouseListener() {
 
@@ -42,13 +47,27 @@ abstract class FileHandler {
 
                 } else if (e.getClickCount() == 1) {
 
-                    File selected = (File)listView.getSelectionModel().getSelectedItem().getPath();
+                    Object obj = listView.getSelectionModel().getSelectedItem().getPath();
+                    if (obj instanceof  File) {
 
-                    if (selected.isDirectory()) {
-                        fileListControllerListener.listItemSelected(false);
+                        File selected = (File)obj;
+                        if (selected.isDirectory()) {
+                            fileListControllerListener.listItemSelected(false);
+                        } else {
+                            fileListControllerListener.listItemSelected(true);
+                        }
+
                     } else {
-                        fileListControllerListener.listItemSelected(true);
+
+                        String selected = (String)obj;
+                        if (selected.contains("/")) {
+                            fileListControllerListener.listItemSelected(false);
+                        }
+                        else {
+                            fileListControllerListener.listItemSelected(true);
+                        }
                     }
+
                 }
             }
         });
