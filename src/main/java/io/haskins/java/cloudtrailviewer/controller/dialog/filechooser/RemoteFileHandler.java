@@ -137,6 +137,8 @@ class RemoteFileHandler extends FileHandler {
 
     private void addSelectedKeys() {
 
+        selected_keys.clear();
+
         if (listView.getSelectionModel().getSelectedItems() != null &&
                 !listView.getSelectionModel().getSelectedItems().isEmpty()) {
 
