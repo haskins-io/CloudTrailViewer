@@ -6,4 +6,4 @@
                     fx:id="listView"
                     prefHeight="200.0"
                     prefWidth="200.0"
-                    fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileListController" />
+                    fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileListController"/>

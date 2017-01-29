@@ -1,14 +1,12 @@
 package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.model.observable.S3ListModel;
+import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import javafx.scene.control.ListView;
 
 import java.util.List;
@@ -21,22 +19,21 @@ class RemoteFileHandler extends FileHandler {
     private AwsAccount currentAccount = null;
     private String prefix = "";
 
-
     RemoteFileHandler(ListView<S3ListModel> listView, AwsAccount awsAccount, FileListControllerListener listener) {
 
         this.listView = listView;
+        listView.setItems(data);
+
         this.fileListControllerListener = listener;
         this.currentAccount = awsAccount;
 
         setUpMouseListener();
-
         reloadContents();
     }
 
     public List<String> getSelectedItems() {
 
         addSelectedKeys();
-
         return this.selected_keys;
     }
 
@@ -88,14 +85,14 @@ class RemoteFileHandler extends FileHandler {
 
         ObjectListing objectListing = s3ListObjects(prefix, "/");
 
+        // Add .. if not at root
+        if (prefix.trim().length() != 0) {
+            S3ListModel model = new S3ListModel(MOVE_BACK, MOVE_BACK, S3ListModel.FILE_BACK);
+            listView.getItems().add(model);
+        }
+
         addDirectories(objectListing);
         addFileKeys(objectListing);
-    }
-
-    private AmazonS3 getS3Client() {
-
-        AWSCredentials credentials = new ProfileCredentialsProvider(currentAccount.getProfile()).getCredentials();
-        return new AmazonS3Client(credentials);
     }
 
     private void updateAccountPrefix(String newPrefix) {
@@ -113,36 +110,26 @@ class RemoteFileHandler extends FileHandler {
             listObjectsRequest.setDelimiter(delimiter);
         }
 
-        AmazonS3 s3Client = getS3Client();
+        AmazonS3 s3Client = AwsService.getS3ClientUsingProfile(currentAccount);
 
         return s3Client.listObjects(listObjectsRequest);
     }
 
     private void addSelectedKeys() {
 
-        if (listView.getItems() != null && !listView.getItems().isEmpty()) {
+        if (listView.getSelectionModel().getSelectedItems() != null &&
+                !listView.getSelectionModel().getSelectedItems().isEmpty()) {
 
-            String selected = prefix + listView.getSelectionModel().getSelectedItem().getName();
-
-            // if the dialog is being used as part of a scan operation and a folder
-            // is selected then we need to discover the files in the folder and
-            // add them
-            if (scanning && selected.endsWith("/")) {
-                addFolderFiles(selected);
-
-            } else {
-
-                List<S3ListModel> selectedItems = listView.getItems();
-                for (S3ListModel key : selectedItems) {
-                    selected_keys.add(prefix + key.getName());
-                }
+            List<S3ListModel> selectedItems = listView.getSelectionModel().getSelectedItems();
+            for (S3ListModel key : selectedItems) {
+                selected_keys.add(prefix + key.getName());
             }
         }
     }
 
     private void addFolderFiles(String path) {
 
-        AmazonS3 s3Client = getS3Client();
+        AmazonS3 s3Client = AwsService.getS3ClientUsingProfile(currentAccount);
 
         ObjectListing current = s3Client.listObjects(currentAccount.getBucket(), path);
         List<S3ObjectSummary> objectSummaries = current.getObjectSummaries();
@@ -170,9 +157,8 @@ class RemoteFileHandler extends FileHandler {
         for (String directory : directories) {
 
             String dir = stripPrefix(directory);
-            String alias = dir;
 
-            S3ListModel model = new S3ListModel(dir, alias, S3ListModel.FILE_DIR);
+            S3ListModel model = new S3ListModel(dir, dir, S3ListModel.FILE_DIR);
             listView.getItems().add(model);
         }
     }

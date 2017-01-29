@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 
@@ -27,6 +28,7 @@ public class FileListController extends ListView<S3ListModel> {
 
     public FileListController() {
 
+        this.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         this.setItems(oList);
 
         this.setCellFactory(new Callback<ListView<S3ListModel>, ListCell<S3ListModel>>() {

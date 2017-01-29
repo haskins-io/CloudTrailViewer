@@ -30,7 +30,9 @@ import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
+import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
+import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,29 +49,30 @@ import java.util.zip.ZipException;
 
 /**
  * Service responsible for handling CloudTrail events.
- *
+ * <p>
  * Created by markhaskins on 04/01/2017.
  */
 @Service
 public class EventService {
 
     public static final int FILE_TYPE_LOCAL = 1;
-    private static final int FILE_TYPE_S3 = 2;
+    public static final int FILE_TYPE_S3 = 2;
 
     private final static int BUFFER_SIZE = 32;
 
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
 
-    private final AwsService awsService;
     private final GeoService geoService;
+    private final AccountDao accountDao;
 
     private final List<EventServiceListener> listeners = new ArrayList<>();
 
     private final List<Event> eventDb = new ArrayList<>();
 
     @Autowired
-    public EventService(AwsService awsService, GeoService geoService) {
-        this.awsService = awsService;
+    public EventService(AccountDao accountDao, GeoService geoService) {
+
+        this.accountDao = accountDao;
         this.geoService = geoService;
     }
 
@@ -77,52 +80,49 @@ public class EventService {
         listeners.add(l);
     }
 
-    public void loadFiles(List<String> filenames, CompositeFilter filters, int file_type) {
+    public void loadFiles(List<String> filenames, final CompositeFilter filters, int file_type) {
 
-        if (filters == null) {
-            filters = new CompositeFilter();
-            filters.addFilter(new AllFilter());
-        }
+        Platform.runLater(() -> {
 
-        AwsAccount activeAccount = null;
-        AmazonS3 s3Client = null;
-
-        if (file_type == FILE_TYPE_S3) {
-            activeAccount = awsService.getActiveAccount();
-            s3Client = awsService.getS3Client(activeAccount);
-        }
-
-        int count = 0;
-        int total = filenames.size();
-
-        for (String filename : filenames) {
-
-            count++;
-
-            for (EventServiceListener l : listeners) {
-                l.loadingFile(count, total);
-            }
+            AwsAccount activeAccount = null;
+            AmazonS3 s3Client = null;
 
             if (file_type == FILE_TYPE_S3) {
-                try(InputStream stream = loadEventFromS3(s3Client, activeAccount.getBucket(), filename)) {
-                    processStream(stream, filters);
+                activeAccount = AwsService.getActiveAccount(accountDao);
+                s3Client = AwsService.getS3ClientUsingProfile(activeAccount);
+            }
+
+            int count = 0;
+            int total = filenames.size();
+
+            for (String filename : filenames) {
+
+                count++;
+
+                for (EventServiceListener l : listeners) {
+                    l.loadingFile(count, total);
                 }
-                catch (Exception ioe) {
-                    LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
-                }
-            } else {
-                try(InputStream stream = loadEventFromLocalFile(filename)) {
-                    processStream(stream, filters);
-                }
-                catch (Exception ioe) {
-                    LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
+
+                if (file_type == FILE_TYPE_S3) {
+                    try (InputStream stream = loadEventFromS3(s3Client, activeAccount.getBucket(), filename)) {
+                        processStream(stream, filters);
+                    } catch (Exception ioe) {
+                        LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
+                    }
+                } else if (file_type == FILE_TYPE_LOCAL) {
+                    try (InputStream stream = loadEventFromLocalFile(filename)) {
+                        processStream(stream, filters);
+                    } catch (Exception ioe) {
+                        LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
+                    }
                 }
             }
-        }
 
-        for (EventServiceListener l : listeners) {
-            l.finishedLoading(false);
-        }
+            for (EventServiceListener l : listeners) {
+                l.finishedLoading(false);
+            }
+
+        });
     }
 
     public void injectEvents(EventServiceListener l) {
@@ -166,14 +166,11 @@ public class EventService {
                     json.append(line);
                 }
             }
-        }
-        catch (ZipException ex) {
+        } catch (ZipException ex) {
             json.append(loadUncompressedFile(stream));
-        }
-        catch (UnsupportedEncodingException ex) {
+        } catch (UnsupportedEncodingException ex) {
             LOGGER.log(Level.WARNING, "File encoding not recognised : ", ex);
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "Problem uncompressing file data : ", ex);
         }
 
@@ -191,7 +188,7 @@ public class EventService {
         }
 
         // check if the first character is a { otherwise add one
-        String firstChars = json.substring(0,2);
+        String firstChars = json.substring(0, 2);
         if (firstChars.equalsIgnoreCase("Re")) {
             json.insert(0, "{\"");
         } else if (firstChars.equalsIgnoreCase("\"R")) {
@@ -208,7 +205,7 @@ public class EventService {
         List<Event> events = new ArrayList<>();
 
         JsonObject jsonObject = new JsonParser().parse(json_string).getAsJsonObject();
-        JsonArray records = (JsonArray)jsonObject.get("Records");
+        JsonArray records = (JsonArray) jsonObject.get("Records");
 
         for (Object record : records) {
 

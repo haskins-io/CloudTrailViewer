@@ -21,6 +21,8 @@ package io.haskins.java.cloudtrailviewer.controller.menu;
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
 import io.haskins.java.cloudtrailviewer.controller.ApplicationController;
 import io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController;
+import io.haskins.java.cloudtrailviewer.filter.AllFilter;
+import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.service.AccountDao;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 
@@ -63,27 +65,27 @@ public class EventMenuController {
     @FXML
     private void loadLocalEvents() {
 
-        List<File> files = fileChooser.showOpenMultipleDialog(applicationController.getScene().getWindow());
-        if (files != null) {
+        List<String> selectedItems = showFileChooser(true);
+        if (selectedItems != null && !selectedItems.isEmpty()) {
 
-            List<String> filenames = new ArrayList<>();
+            CompositeFilter filters = new CompositeFilter();
+            filters.addFilter(new AllFilter());
 
-            for (File f: files) {
-                filenames.add(f.getAbsolutePath());
-            }
-
-            eventService.loadFiles(filenames, null, EventService.FILE_TYPE_LOCAL);
+            eventService.loadFiles(selectedItems, filters, EventService.FILE_TYPE_LOCAL);
         }
-
-//        List<String> selectedItems = showFileChooser(true);
-//        if (selectedItems != null && !selectedItems.isEmpty()) {
-//            eventService.loadFiles(selectedItems, null, EventService.FILE_TYPE_LOCAL);
-//        }
     }
 
     @FXML
     private void loadS3Events() {
 
+        List<String> selectedItems = showFileChooser(false);
+        if (selectedItems != null && !selectedItems.isEmpty()) {
+
+            CompositeFilter filters = new CompositeFilter();
+            filters.addFilter(new AllFilter());
+
+            eventService.loadFiles(selectedItems, filters, EventService.FILE_TYPE_S3);
+        }
     }
 
     @FXML
@@ -106,7 +108,7 @@ public class EventMenuController {
             scene.getStylesheets().add(getClass().getResource("/style/filechooser.css").toExternalForm());
 
             Stage dialogStage = new Stage();
-            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.setScene(scene);
 
             FileChooserController controller = loader.getController();

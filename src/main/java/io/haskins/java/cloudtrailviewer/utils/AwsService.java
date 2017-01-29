@@ -16,34 +16,26 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.service;
+package io.haskins.java.cloudtrailviewer.utils;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import io.haskins.java.cloudtrailviewer.service.AccountDao;
 
 import java.util.List;
 
 /**
- * Service class that handles AWS functionality
+ * Utility class that handles AWS functionality
  *
  * Created by markhaskins on 05/01/2017.
  */
-@Service
-class AwsService {
+public class AwsService {
 
-    private final AccountDao accountDao;
-
-    @Autowired
-    public AwsService(AccountDao accountDao) {
-        this.accountDao = accountDao;
-    }
-
-    public AwsAccount getActiveAccount() {
+    public static AwsAccount getActiveAccount(AccountDao accountDao) {
 
         List<AwsAccount> accounts = accountDao.getAllAccounts(true);
         if (accounts.isEmpty()) {
@@ -53,13 +45,19 @@ class AwsService {
         return accounts.get(0);
     }
 
-    public AmazonS3 getS3Client(AwsAccount activeAccount) {
+    public static AmazonS3 getS3ClientUsingKeys(AwsAccount activeAccount) {
 
         String key = activeAccount.getKey();
         String secret = activeAccount.getSecret();
 
         AWSCredentials credentials= new BasicAWSCredentials(key, secret);
 
+        return new AmazonS3Client(credentials);
+    }
+
+    public static AmazonS3 getS3ClientUsingProfile(AwsAccount currentAccount) {
+
+        AWSCredentials credentials = new ProfileCredentialsProvider(currentAccount.getProfile()).getCredentials();
         return new AmazonS3Client(credentials);
     }
 

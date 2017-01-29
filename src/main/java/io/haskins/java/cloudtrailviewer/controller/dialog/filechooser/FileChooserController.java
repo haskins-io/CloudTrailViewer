@@ -23,6 +23,8 @@ public class FileChooserController implements FileListControllerListener {
 
     private Stage dialogStage;
 
+    private boolean canceled = false;
+
     public void init(Stage dialogStage, AccountDao accountDao) {
 
         this.dialogStage = dialogStage;
@@ -38,11 +40,20 @@ public class FileChooserController implements FileListControllerListener {
     }
 
     public List<String> getSelectedItems() {
-        return fileListController.getSelectedItems();
+
+        if (!canceled) {
+            return fileListController.getSelectedItems();
+        } else {
+            return null;
+        }
     }
 
     private void getAccounts() {
-        setCurrentAccount(new AwsAccount());
+
+        List<AwsAccount> accounts = accountDao.getAllAccountsWithBucket();
+        for (AwsAccount account : accounts) {
+            setCurrentAccount(account);
+        }
     }
 
     private static void setCurrentAccount(AwsAccount account) {
@@ -53,6 +64,8 @@ public class FileChooserController implements FileListControllerListener {
     ///// FXML
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void cancel() {
+
+        canceled = true;
         dialogStage.close();
     }
 

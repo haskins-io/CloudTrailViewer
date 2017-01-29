@@ -17,6 +17,8 @@ class LocalFileHandler extends FileHandler {
     LocalFileHandler(ListView<S3ListModel> listView, FileListControllerListener listener) {
 
         this.listView = listView;
+        listView.setItems(data);
+
         this.fileListControllerListener = listener;
 
         setUpMouseListener();
@@ -55,7 +57,8 @@ class LocalFileHandler extends FileHandler {
 
     private void addSelectedKeys() {
 
-        if (listView.getItems() != null && !listView.getItems().isEmpty()) {
+        if (listView.getSelectionModel().getSelectedItems() != null &&
+                !listView.getSelectionModel().getSelectedItems().isEmpty()) {
 
             List<S3ListModel> selectedItems = listView.getSelectionModel().getSelectedItems();
 
@@ -67,14 +70,14 @@ class LocalFileHandler extends FileHandler {
 
     private void reloadContents() {
 
-        listView.getItems().clear();
+        data.clear();
 
         File f = new File(path);
         File[] objects = f.listFiles();
 
         if (f.getParent() != null) {
             S3ListModel model = new S3ListModel(MOVE_BACK, f, S3ListModel.FILE_BACK);
-            listView.getItems().add(model);
+            data.add(model);
         }
 
         addDirectories(objects);
@@ -87,7 +90,7 @@ class LocalFileHandler extends FileHandler {
 
             if (object.isDirectory() && !object.isHidden()) {
                 S3ListModel model = new S3ListModel(object.getName(), object, S3ListModel.FILE_DIR);
-                listView.getItems().add(model);
+                data.add(model);
             }
         }
     }
@@ -98,7 +101,7 @@ class LocalFileHandler extends FileHandler {
 
             if (file.isFile() && FileUtils.getFileExtension(file).equalsIgnoreCase(FILE_EXTENSION)) {
                 S3ListModel model = new S3ListModel(file.getName(), file, S3ListModel.FILE_DOC);
-                listView.getItems().add(model);
+                data.add(model);
             }
         }
     }
