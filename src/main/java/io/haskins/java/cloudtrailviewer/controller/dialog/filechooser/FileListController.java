@@ -102,6 +102,9 @@ class ListViewCell extends ListCell<S3ListModel> {
 
             setText(null);
             setGraphic(layout);
+        } else {
+            setText(null);
+            setGraphic(null);
         }
     }
 }
