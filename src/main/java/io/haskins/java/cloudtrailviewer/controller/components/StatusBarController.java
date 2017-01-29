@@ -21,6 +21,7 @@ package io.haskins.java.cloudtrailviewer.controller.components;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,18 +62,20 @@ public class StatusBarController implements EventServiceListener {
 
         if (earliestEvent == -1 || event.getTimestamp() < earliestEvent) {
             earliestEvent = event.getTimestamp();
-            this.fromDate.setText(event.getEventTime());
+
+            updateLabel(fromDate, event.getEventTime());
         }
 
         if (latestEvent == -1 || event.getTimestamp() > latestEvent) {
             latestEvent = event.getTimestamp();
-            this.toDate.setText(event.getEventTime());
+
+            updateLabel(toDate, event.getEventTime());
         }
 
         numEventsLoaded++;
 
         loadedEvents.setVisible(true);
-        loadedEvents.setText("Events Loaded : " + numEventsLoaded);
+        updateLabel(loadedEvents, "Events Loaded : " + numEventsLoaded);
     }
 
     @Override
@@ -90,12 +93,12 @@ public class StatusBarController implements EventServiceListener {
 
     @Override
     public void loadingFile(int fileNum, int totalFiles) {
-        message.setText("Processing file " + fileNum + " of " + totalFiles);
+        updateLabel(message, "Processing file " + fileNum + " of " + totalFiles);
     }
 
     @Override
     public void finishedLoading(boolean reload) {
-        message.setText("");
+        updateLabel(message, "");
     }
 
     @Override
@@ -115,6 +118,10 @@ public class StatusBarController implements EventServiceListener {
 
         loadedEvents.setVisible(true);
         loadedEvents.setText("Current Events : " + eventCount);
+    }
+
+    private void updateLabel(Label l, String value) {
+        Platform.runLater(() -> l.setText(value));
     }
 
 }
