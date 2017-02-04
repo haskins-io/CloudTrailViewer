@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
-import io.haskins.java.cloudtrailviewer.service.AccountDao;
+import io.haskins.java.cloudtrailviewer.service.AccountService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -38,14 +38,14 @@ public class FileChooserController implements FileListControllerListener {
     @FXML private Button cancel;
     @FXML private Button load;
 
-    private AccountDao accountDao;
+    private AccountService accountDao;
     private static AwsAccount currentAccount = null;
 
     private Stage dialogStage;
 
     private boolean canceled = false;
 
-    public void init(Stage dialogStage, AccountDao accountDao) {
+    public void init(Stage dialogStage, AccountService accountDao) {
 
         this.dialogStage = dialogStage;
 
