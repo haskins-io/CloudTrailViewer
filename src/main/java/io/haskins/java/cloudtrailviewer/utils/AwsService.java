@@ -24,7 +24,7 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
-import io.haskins.java.cloudtrailviewer.service.AccountDao;
+import io.haskins.java.cloudtrailviewer.service.AccountService;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class AwsService {
 
-    public static AwsAccount getActiveAccount(AccountDao accountDao) {
+    public static AwsAccount getActiveAccount(AccountService accountDao) {
 
         List<AwsAccount> accounts = accountDao.getAllAccounts(true);
         if (accounts.isEmpty()) {

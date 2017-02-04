@@ -17,6 +17,7 @@ public class AwsAccountTests {
         int id = 1;
         String name = "Test";
         String acctNum = "123456789012";
+        String acctAlias = "TestAccount";
         String bucket = "test-bucket";
         String key = "Key";
         String secret = "Secret";
@@ -26,6 +27,7 @@ public class AwsAccountTests {
                 id,
                 name,
                 acctNum,
+                acctAlias,
                 bucket,
                 key,
                 secret,

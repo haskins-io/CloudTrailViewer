@@ -28,16 +28,16 @@ import java.util.List;
 
 /**
  * DAO class that handles AWS Account database interacation
- *
+ * <p>
  * Created by markhaskins on 05/01/2017.
  */
 @Service
-public class AccountDao {
+public class AccountService {
 
     private final DatabaseService databaseService;
 
     @Autowired
-    public AccountDao(DatabaseService databaseService) {
+    public AccountService(DatabaseService databaseService) {
         this.databaseService = databaseService;
     }
 
@@ -140,13 +140,14 @@ public class AccountDao {
     private AwsAccount getAccountFromResultSetRow(ResultSetRow row) {
 
         return new AwsAccount(
-            (Integer) row.get("id"),
-            (String) row.get("aws_name"),
-            (String) row.get("aws_acct"),
-            (String) row.get("aws_bucket"),
-            (String) row.get("aws_key"),
-            (String) row.get("aws_secret"),
-            (String) row.get("aws_prefix")
+                (Integer) row.get("id"),
+                (String) row.get("aws_name"),
+                (String) row.get("aws_acct"),
+                (String) row.get("acct_alias"),
+                (String) row.get("aws_bucket"),
+                (String) row.get("aws_key"),
+                (String) row.get("aws_secret"),
+                (String) row.get("aws_prefix")
         );
     }
 }

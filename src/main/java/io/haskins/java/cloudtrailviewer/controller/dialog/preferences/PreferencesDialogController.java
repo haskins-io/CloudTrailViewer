@@ -18,8 +18,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.dialog.preferences;
 
+import io.haskins.java.cloudtrailviewer.service.AccountService;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
+import javafx.fxml.FXML;
+
 /**
  * Created by markhaskins on 26/01/2017.
  */
 public class PreferencesDialogController {
+
+    @FXML private AccountPanelController accountsController;
+    @FXML private ResourcesPanelController resourcesController;
+    @FXML private SecurityPanelController securityController;
+
+    @FXML
+    private void ok() {
+
+    }
+
+    public void init(AccountService accountDao, DatabaseService databaseService) {
+
+        accountsController.init(accountDao);
+        resourcesController.init(databaseService);
+        securityController.init(databaseService);;
+    }
 }

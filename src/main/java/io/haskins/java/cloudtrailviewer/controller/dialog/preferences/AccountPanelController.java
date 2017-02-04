@@ -18,8 +18,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.dialog.preferences;
 
+import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
+import io.haskins.java.cloudtrailviewer.service.AccountService;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableView;
+
+import java.util.List;
+
 /**
  * Created by markhaskins on 26/01/2017.
  */
-public class AwsAccountPanelController {
+public class AccountPanelController {
+
+    @FXML private TableView<AwsAccount> tableView;
+
+    private AccountService accountDao;
+
+    public void init(AccountService accountDao) {
+        this.accountDao = accountDao;
+
+        tableView.getItems().clear();
+
+        ObservableList<AwsAccount> data = tableView.getItems();
+
+        List<AwsAccount> accounts = accountDao.getAllAccounts(false);
+        for (AwsAccount account : accounts) {
+            data.add(account);
+        }
+    }
 }

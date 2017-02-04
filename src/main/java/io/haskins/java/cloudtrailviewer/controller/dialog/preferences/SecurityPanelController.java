@@ -18,8 +18,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.dialog.preferences;
 
+import io.haskins.java.cloudtrailviewer.model.observable.StringObservable;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
+
 /**
  * Created by markhaskins on 26/01/2017.
  */
-public class SecurityPanelController {
+public class SecurityPanelController extends PreferencesPanel {
+
+    @FXML private ListView<StringObservable> listView;
+
+    public void init(DatabaseService databaseService) {
+
+        this.databaseService = databaseService;
+
+        configureListView(listView);
+
+        String query = "SELECT api_call FROM aws_security";
+        populateListBySQL(listView, query);
+    }
+
 }

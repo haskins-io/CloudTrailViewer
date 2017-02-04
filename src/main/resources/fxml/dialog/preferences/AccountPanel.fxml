@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.preferences.AccountPanelController">
+
+    <center>
+        <TableView prefHeight="200.0" prefWidth="242.0" BorderPane.alignment="CENTER" fx:id="tableView">
+            <columns>
+                <TableColumn fx:id="name" text="Name"><cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory></TableColumn>
+                <TableColumn fx:id="acctNumber" text="Acct Number"><cellValueFactory><PropertyValueFactory property="acctNumber" /></cellValueFactory></TableColumn>
+                <TableColumn fx:id="acctAlias" text="Acct Alias"><cellValueFactory><PropertyValueFactory property="acctAlias" /></cellValueFactory></TableColumn>
+                <TableColumn fx:id="bucket" text="S3 Bucket"><cellValueFactory><PropertyValueFactory property="bucket" /></cellValueFactory></TableColumn>
+                <TableColumn fx:id="key" text="AWS Key"><cellValueFactory><PropertyValueFactory property="key" /></cellValueFactory></TableColumn>
+                <TableColumn fx:id="secret" text="AWS Secret"><cellValueFactory><PropertyValueFactory property="secret" /></cellValueFactory></TableColumn>
+                <TableColumn fx:id="profile" text="AWS Profile"><cellValueFactory><PropertyValueFactory property="profile" /></cellValueFactory></TableColumn>
+            </columns>
+        </TableView>
+    </center>
+    <bottom>
+        <HBox prefHeight="35.0" prefWidth="242.0" BorderPane.alignment="CENTER">
+            <Button mnemonicParsing="false" text="+">
+                <HBox.margin>
+                    <Insets left="3.0" right="3.0"/>
+                </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" text="-">
+                <HBox.margin>
+                    <Insets left="3.0" right="3.0"/>
+                </HBox.margin>
+            </Button>
+            <BorderPane.margin>
+                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+            </BorderPane.margin>
+        </HBox>
+    </bottom>
+</BorderPane>
+

@@ -18,6 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.model.aws;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.Serializable;
 
 /**
@@ -29,100 +34,95 @@ public class AwsAccount implements Serializable {
 
     private static final long serialVersionUID = 1298354923304275550L;
 
-    private final int id;
-    private final String name;
-    private String acctNumber;
-    private final String bucket;
-    private final String key;
-    private final String secret;
-    private String prefix;
-    private String profile;
+    private final IntegerProperty id;
+    private final StringProperty name;
+    private StringProperty acctNumber;
+    private StringProperty acctAlias;
+    private final StringProperty bucket;
+    private final StringProperty key;
+    private final StringProperty secret;
+    private StringProperty prefix;
+    private StringProperty profile;
 
     public AwsAccount() {
         this(1, "","","","","","","");
     }
 
-    public AwsAccount(int id, String name, String acctNum, String bucket, String key, String secret, String prefix) {
-        this(id, name, acctNum, bucket, key, secret, prefix,null);
+    public AwsAccount(int id, String name, String acctNum, String acctAlias, String bucket, String key, String secret, String prefix) {
+        this(id, name, acctNum, acctAlias, bucket, key, secret, prefix,null);
     }
 
-    public AwsAccount(int id, String name, String acctNum, String bucket, String key, String secret, String prefix, String profile) {
+    public AwsAccount(int id, String name, String acctNum, String acctAlias, String bucket, String key, String secret, String prefix, String profile) {
 
-        this.id = id;
-        this.name = name;
-        this.acctNumber = acctNum;
-        this.bucket = bucket;
-        this.key = key;
-        this.secret = secret;
-        this.prefix = prefix;
-        this.profile = profile;
+        this.id = new SimpleIntegerProperty(id);
+        this.name = new SimpleStringProperty(name);
+        this.acctNumber = new SimpleStringProperty(acctNum);
+        this.acctAlias = new SimpleStringProperty(acctAlias);
+        this.bucket = new SimpleStringProperty(bucket);
+        this.key = new SimpleStringProperty(key);
+        this.secret = new SimpleStringProperty(secret);
+        this.prefix = new SimpleStringProperty(prefix);
+        this.profile = new SimpleStringProperty(profile);
     }
 
     public int getId() {
-        return this.id;
+        return this.id.get();
     }
 
-    /**
-     * @return the name
-     */
+    public void setName(String name) {
+        this.name.set(name);
+    }
     public String getName() {
-        return name;
+        return name.get();
     }
 
-    /**
-     * @return the acctNumber
-     */
     public String getAcctNumber() {
-        return acctNumber;
+        return acctNumber.get();
     }
-
-    /**
-     * @param acctNumber the acctNumber to set
-     */
     public void setAcctNumber(String acctNumber) {
-        this.acctNumber = acctNumber;
+        this.acctNumber.set(acctNumber);
     }
 
-    /**
-     * @return the bucket
-     */
+    public String getAcctAlias() {
+        return this.acctAlias.get();
+    }
+    public void setAcctAlias(String acctAlias)
+    {
+        this.acctAlias.set(acctAlias);
+    }
+
     public String getBucket() {
-        return bucket;
+        return bucket.get();
+    }
+    public void setBucket(String bucket) {
+        this.bucket.set(bucket);
     }
 
-    /**
-     * @return the key
-     */
+    public void setKey(String key) {
+        this.key.set(key);
+    }
     public String getKey() {
-        return key;
+        return key.get();
     }
 
-    /**
-     * @return the secret
-     */
+    public void setSecret(String secret) {
+        this.secret.set(secret);
+    }
     public String getSecret() {
-        return secret;
+        return secret.get();
     }
 
-    /**
-     * @return the prefix
-     */
     public String getPrefix() {
-        return prefix;
+        return prefix.get();
     }
     public void setPrefix(String prefix) {
-        this.prefix = prefix;
+        this.prefix.set(prefix);
     }
 
-    /**
-     * Todo Remove hardcoded response
-     * @return
-     */
     public String getProfile() {
-        return "CloudTrailViewer";
+        return this.profile.get();
     }
-
     public void setProfile(String profile) {
-        this.profile = profile;
+        this.profile.set(profile);
     }
 }

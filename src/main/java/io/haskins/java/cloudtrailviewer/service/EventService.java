@@ -61,14 +61,14 @@ public class EventService {
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
 
     private final GeoService geoService;
-    private final AccountDao accountDao;
+    private final AccountService accountDao;
 
     private final List<EventServiceListener> listeners = new ArrayList<>();
 
     private final List<Event> eventDb = new ArrayList<>();
 
     @Autowired
-    public EventService(AccountDao accountDao, GeoService geoService) {
+    public EventService(AccountService accountDao, GeoService geoService) {
 
         this.accountDao = accountDao;
         this.geoService = geoService;

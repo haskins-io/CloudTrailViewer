@@ -22,7 +22,7 @@ import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
 import io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController;
 import io.haskins.java.cloudtrailviewer.filter.AllFilter;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
-import io.haskins.java.cloudtrailviewer.service.AccountDao;
+import io.haskins.java.cloudtrailviewer.service.AccountService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 
 import javafx.fxml.FXML;
@@ -49,10 +49,10 @@ public class EventMenuController {
     private final FileChooser fileChooser = new FileChooser();
 
     private final EventService eventService;
-    private final AccountDao accountDao;
+    private final AccountService accountDao;
 
     @Autowired
-    public EventMenuController(EventService eventService, AccountDao accountDao) {
+    public EventMenuController(EventService eventService, AccountService accountDao) {
         this.eventService = eventService;
         this.accountDao = accountDao;
     }
