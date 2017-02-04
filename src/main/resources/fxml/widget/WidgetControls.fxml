@@ -7,7 +7,8 @@
 <BorderPane xmlns="http://javafx.com/javafx/8.0.111"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:id="borderPane"
-            styleClass="widget-header">
+            styleClass="widget-header"
+            fx:controller="io.haskins.java.cloudtrailviewer.controller.components.WidgetControlsController">
     <center>
         <Label fx:id="titleLabel" BorderPane.alignment="CENTER" styleClass="widget-title" />
     </center>
