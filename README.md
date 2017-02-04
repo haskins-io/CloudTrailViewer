@@ -25,14 +25,14 @@ that you have the latest version of Java installed before attempting to compile 
 Version 3 provides the capability to read files from the local files system as well as from an S3 bucket. Currently to 
 access S3 with this version you will need to do two things.
 
-1. Make sure that you have used the previous release of the application to create an AWS account via the preferences 
+1. Make sure that you have used the previous release of the application to create an AWS account via the preferences, 
 and entered the name of your CloudTrail S3 bucket
 
-V3 currently does not use the API key and Secret that you configured in the above step instead if uses AWS SDK profiles. 
+V3 currently does not use the API key and Secret that you configured in the above step, instead it uses AWS SDK profiles. 
 For more information about setting your computer up to use these read this 
 [page](http://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html)
 
-2. Create an entry on the credentials file like this (less the bullet points).
+2. Create an entry in the credentials file like this (less the bullet points).
 
 - [CloudTrailViewer]
 - aws_access_key_id = YOUR_KEY
