@@ -143,12 +143,98 @@ public class AccountService {
                 (Integer) row.get("id"),
                 (String) row.get("aws_name"),
                 (String) row.get("aws_acct"),
-                (String) row.get("acct_alias"),
+                (String) row.get("alias"),
                 (String) row.get("aws_bucket"),
                 (String) row.get("aws_key"),
                 (String) row.get("aws_secret"),
-                (String) row.get("aws_prefix")
+                (String) row.get("aws_prefix"),
+                (String) row.get("profile")
         );
+    }
+
+    public void updateAccount(AwsAccount account) {
+
+        if (account.getId() == 0) {
+
+            StringBuilder query = new StringBuilder();
+            query.append("INSERT INTO aws_credentials");
+            query.append(" (aws_name, ");
+
+            if (account.getAcctNumber() != null && account.getAcctNumber().length() > 0) {
+                query.append(" aws_acct, ");
+            }
+
+            if (account.getAcctAlias()!= null && account.getAcctAlias().length() > 0) {
+                query.append(" alias, ");
+            }
+
+            if (account.getBucket() != null && account.getBucket().length() > 0) {
+                query.append(" aws_bucket, ");
+            }
+
+            query.append(" aws_key, aws_secret, profile, aws_prefix, active)");
+            query.append(" VALUES (");
+            query.append("'").append(account.getName()).append("'").append(",");
+
+            if (account.getAcctNumber() != null && account.getAcctNumber().length() > 0) {
+                query.append("'").append(account.getAcctNumber()).append("',");
+            }
+
+            if (account.getAcctAlias() != null && account.getAcctAlias().length() > 0) {
+                query.append("'").append(account.getAcctAlias()).append("',");
+            }
+
+            if (account.getBucket() != null && account.getBucket().length() > 0) {
+                query.append("'").append(account.getBucket()).append("'").append(",");
+            }
+
+            query.append("'").append(account.getKey()).append("'").append(",");
+            query.append("'").append(account.getSecret()).append("'").append(",");
+            query.append("'").append(account.getProfile()).append("'").append(",");
+
+            query.append("''").append(",");
+            query.append("1");
+            query.append(")");
+
+
+            int id = databaseService.doInsertUpdate(query.toString());
+            account.setId(id);
+
+
+        } else {
+
+            StringBuilder updateQuery = new StringBuilder();
+            updateQuery.append("UPDATE aws_credentials SET");
+            updateQuery.append(" aws_name = '").append(account.getName()).append("',");
+
+            if (account.getBucket()!= null && account.getBucket().length() > 0) {
+                updateQuery.append(" aws_bucket = '").append(account.getBucket()).append("',");
+            }
+
+            if (account.getAcctNumber()!= null && account.getAcctNumber().length() > 0) {
+                updateQuery.append(" aws_acct = '").append(account.getAcctNumber()).append("',");
+            }
+
+            if (account.getAcctAlias()!= null && account.getAcctAlias().length() > 0) {
+                updateQuery.append(" alias = '").append(account.getAcctAlias()).append("',");
+            }
+
+            updateQuery.append(" aws_key = '").append(account.getKey()).append("',");
+            updateQuery.append(" aws_secret = '").append(account.getSecret()).append("',");
+
+            updateQuery.append(" profile = '").append(account.getProfile()).append("'");
+
+            updateQuery.append(" WHERE id = ").append(account.getId());
+
+            databaseService.doInsertUpdate(updateQuery.toString());
+
+        }
+    }
+
+    public void deleteAccount(AwsAccount account) {
+
+        String query = "DELETE FROM aws_credentials WHERE id = " +  account.getId();
+        databaseService.doInsertUpdate(query);
     }
 }
 

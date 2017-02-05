@@ -20,18 +20,27 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.preferences;
 
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.service.AccountService;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.util.List;
 
 /**
+ *
+ * controller class for the Account panel.
+ *
  * Created by markhaskins on 26/01/2017.
  */
 public class AccountPanelController {
 
     @FXML private TableView<AwsAccount> tableView;
+
+    private final ObservableList<AwsAccount> data = FXCollections.observableArrayList();
 
     private AccountService accountDao;
 
@@ -39,15 +48,119 @@ public class AccountPanelController {
 
         this.accountDao = accountDao;
 
-        tableView.setEditable(true);
-        tableView.getItems().clear();
-
-        ObservableList<AwsAccount> data = tableView.getItems();
+        configureTableView();
 
         List<AwsAccount> accounts = accountDao.getAllAccounts(false);
         for (AwsAccount account : accounts) {
             data.add(account);
         }
+    }
+
+    private void configureTableView() {
+
+        tableView.setEditable(true);
+        tableView.setItems(data);
+
+        TableColumn<AwsAccount, String> nameCol =  new TableColumn<>("Name");
+        nameCol.setMinWidth(100);
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        nameCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        nameCol.setOnEditCommit(
+            (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
+
+                AwsAccount acct = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                acct.setName(t.getNewValue());
+
+                accountDao.updateAccount(acct);
+            });
+
+        TableColumn<AwsAccount, String> acctNumCol =  new TableColumn<>("Acct Number");
+        acctNumCol.setMinWidth(100);
+        acctNumCol.setCellValueFactory(new PropertyValueFactory<>("acctNumber"));
+
+        acctNumCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        acctNumCol.setOnEditCommit(
+                (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
+
+                    AwsAccount acct = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                    acct.setAcctNumber(t.getNewValue());
+
+                    accountDao.updateAccount(acct);
+
+                });
+
+        TableColumn<AwsAccount, String> acctAliasCol =  new TableColumn<>("Acct Alias");
+        acctAliasCol.setMinWidth(100);
+        acctAliasCol.setCellValueFactory(new PropertyValueFactory<>("acctAlias"));
+
+        acctAliasCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        acctAliasCol.setOnEditCommit(
+                (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
+
+                    AwsAccount acct = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                    acct.setAcctAlias(t.getNewValue());
+
+                    accountDao.updateAccount(acct);
+                });
+
+        TableColumn<AwsAccount, String> bucketCol =  new TableColumn<>("S3 Bucket");
+        bucketCol.setMinWidth(100);
+        bucketCol.setCellValueFactory(new PropertyValueFactory<>("bucket"));
+
+        bucketCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        bucketCol.setOnEditCommit(
+                (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
+
+                    AwsAccount acct = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                    acct.setBucket(t.getNewValue());
+
+                    accountDao.updateAccount(acct);
+                });
+
+        TableColumn<AwsAccount, String> keyCol =  new TableColumn<>("AWS Key");
+        keyCol.setMinWidth(100);
+        keyCol.setCellValueFactory(new PropertyValueFactory<>("key"));
+
+        keyCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        keyCol.setOnEditCommit(
+                (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
+
+                    AwsAccount acct = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                    acct.setKey(t.getNewValue());
+
+                    accountDao.updateAccount(acct);
+                });
+
+        TableColumn<AwsAccount, String> secretCol =  new TableColumn<>("AWS Secret");
+        secretCol.setMinWidth(100);
+        secretCol.setCellValueFactory(new PropertyValueFactory<>("secret"));
+
+        secretCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        secretCol.setOnEditCommit(
+                (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
+
+                    AwsAccount acct = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                    acct.setSecret(t.getNewValue());
+
+                    accountDao.updateAccount(acct);
+                });
+
+        TableColumn<AwsAccount, String> profileCol =  new TableColumn<>("AWS Profile");
+        profileCol.setMinWidth(100);
+        profileCol.setCellValueFactory(new PropertyValueFactory<>("profile"));
+
+        profileCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        profileCol.setOnEditCommit(
+                (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
+
+                    AwsAccount acct = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                    acct.setProfile(t.getNewValue());
+
+                    accountDao.updateAccount(acct);
+                });
+
+        tableView.getColumns().addAll(nameCol, acctNumCol, acctAliasCol,bucketCol,keyCol,secretCol,profileCol);
     }
 
     @FXML
@@ -57,6 +170,12 @@ public class AccountPanelController {
 
     @FXML
     private void remove() {
-        tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
+
+        AwsAccount selected = tableView.getSelectionModel().getSelectedItem();
+        tableView.getItems().remove(selected);
+
+        accountDao.deleteAccount(selected);
+
     }
+
 }

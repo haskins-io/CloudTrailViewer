@@ -40,7 +40,7 @@ class MigrationService {
 
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
 
-    public void createVersion1(Connection conn, CurrentDbVersion currentVersion) {
+    void createVersion1(Connection conn, CurrentDbVersion currentVersion) {
 
         if (currentVersion.getDbVersion() < 1) {
 
@@ -94,7 +94,7 @@ class MigrationService {
         }
     }
 
-    public void createVersion2(Connection conn, CurrentDbVersion currentVersion) {
+    void createVersion2(Connection conn, CurrentDbVersion currentVersion) {
 
         if (currentVersion.getDbVersion() < 2) {
 
@@ -120,7 +120,7 @@ class MigrationService {
         }
     }
 
-    public void createVersion3(Connection conn, CurrentDbVersion currentVersion) {
+    void createVersion3(Connection conn, CurrentDbVersion currentVersion) {
 
         if (currentVersion.getDbVersion() < 3) {
 
@@ -136,7 +136,7 @@ class MigrationService {
         }
     }
 
-    public void createVersion4(Connection conn, CurrentDbVersion currentVersion) {
+    void createVersion4(Connection conn, CurrentDbVersion currentVersion) {
 
         if (currentVersion.getDbVersion() < 4) {
 
@@ -161,7 +161,7 @@ class MigrationService {
         }
     }
 
-    public void createVersion5(Connection conn, CurrentDbVersion currentVersion) {
+    void createVersion5(Connection conn, CurrentDbVersion currentVersion) {
 
         if (currentVersion.getDbVersion() < 5) {
 
@@ -238,7 +238,7 @@ class MigrationService {
         }
     }
 
-    public void createVersion6(Connection conn, CurrentDbVersion currentVersion) {
+    void createVersion6(Connection conn, CurrentDbVersion currentVersion) {
 
         if (currentVersion.getDbVersion() < 6) {
 
@@ -254,7 +254,7 @@ class MigrationService {
         }
     }
 
-    public void createVersion7(Connection conn, CurrentDbVersion currentVersion) {
+    void createVersion7(Connection conn, CurrentDbVersion currentVersion) {
 
         if (currentVersion.getDbVersion() < 7) {
 
@@ -267,7 +267,28 @@ class MigrationService {
             String insertQuery = "UPDATE db_properties SET db_version = 7 WHERE id = 1";
             databaseService.doInsertUpdate(insertQuery);
 
-            currentVersion.setDbVersion(6);
+            currentVersion.setDbVersion(7);
+        }
+    }
+
+    void createVersion8(Connection conn, CurrentDbVersion currentVersion) {
+
+        if (currentVersion.getDbVersion() < 8) {
+
+            StringBuilder addAliasColumn = new StringBuilder();
+            addAliasColumn.append("ALTER TABLE aws_credentials ");
+            addAliasColumn.append("ADD COLUMN alias VARCHAR(25)");
+            databaseService.doExecute(addAliasColumn.toString());
+
+            StringBuilder addProfileColumn = new StringBuilder();
+            addProfileColumn.append("ALTER TABLE aws_credentials ");
+            addProfileColumn.append("ADD COLUMN profile VARCHAR(25)");
+            databaseService.doExecute(addProfileColumn.toString());
+
+            String insertQuery = "UPDATE db_properties SET db_version = 8 WHERE id = 1";
+            databaseService.doInsertUpdate(insertQuery);
+
+            currentVersion.setDbVersion(8);
         }
     }
 

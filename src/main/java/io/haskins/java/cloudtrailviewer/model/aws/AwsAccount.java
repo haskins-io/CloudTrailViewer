@@ -35,17 +35,18 @@ public class AwsAccount implements Serializable {
     private static final long serialVersionUID = 1298354923304275550L;
 
     private final IntegerProperty id;
-    public final StringProperty name;
-    public StringProperty acctNumber;
-    public StringProperty acctAlias;
-    public final StringProperty bucket;
-    public final StringProperty key;
-    public final StringProperty secret;
-    public StringProperty prefix;
-    public StringProperty profile;
+    private final StringProperty name;
+    private StringProperty acctNumber;
+    private StringProperty acctAlias;
+    private final StringProperty bucket;
+    private final StringProperty key;
+    private final StringProperty secret;
+    private StringProperty prefix;
+    private StringProperty profile;
 
     public AwsAccount() {
-        this(1, "","","","","","","");
+
+        this(0, "","","","","","","");
     }
 
     public AwsAccount(int id, String name, String acctNum, String acctAlias, String bucket, String key, String secret, String prefix) {
@@ -65,6 +66,7 @@ public class AwsAccount implements Serializable {
         this.profile = new SimpleStringProperty(profile);
     }
 
+    public void setId(int id) {this.id.set(id);}
     public int getId() {
         return this.id.get();
     }
@@ -76,26 +78,26 @@ public class AwsAccount implements Serializable {
         return name.get();
     }
 
-    public String getAcctNumber() {
-        return acctNumber.get();
-    }
     public void setAcctNumber(String acctNumber) {
         this.acctNumber.set(acctNumber);
     }
-
-    public String getAcctAlias() {
-        return this.acctAlias.get();
+    public String getAcctNumber() {
+        return acctNumber.get();
     }
+
     public void setAcctAlias(String acctAlias)
     {
         this.acctAlias.set(acctAlias);
     }
-
-    public String getBucket() {
-        return bucket.get();
+    public String getAcctAlias() {
+        return this.acctAlias.get();
     }
+
     public void setBucket(String bucket) {
         this.bucket.set(bucket);
+    }
+    public String getBucket() {
+        return bucket.get();
     }
 
     public void setKey(String key) {
@@ -112,17 +114,17 @@ public class AwsAccount implements Serializable {
         return secret.get();
     }
 
-    public String getPrefix() {
-        return prefix.get();
-    }
     public void setPrefix(String prefix) {
         this.prefix.set(prefix);
     }
-
-    public String getProfile() {
-        return this.profile.get();
+    public String getPrefix() {
+        return prefix.get();
     }
+
     public void setProfile(String profile) {
         this.profile.set(profile);
+    }
+    public String getProfile() {
+        return this.profile.get();
     }
 }
