@@ -19,14 +19,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.controller.components;
 
 import io.haskins.java.cloudtrailviewer.model.event.Event;
-import io.haskins.java.cloudtrailviewer.service.EventService;
+import io.haskins.java.cloudtrailviewer.service.MemoryCheckService;
 import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -37,22 +37,31 @@ import java.util.List;
 @Component
 public class StatusBarController implements EventServiceListener {
 
-    @FXML private Label message;
+    @FXML public Label message;
     @FXML private Label loadedEvents;
     @FXML private Label fromDate;
     @FXML private Label toDate;
     @FXML private Label memoryUsage;
 
-    private long earliestEvent;
-    private long latestEvent;
+    private long earliestEventLong = -1;
+    private String earliestEventString;
+
+    private long latestEventLong = -1;
+    private String latestEventString;
 
     private long numEventsLoaded;
 
-    @Autowired
-    public StatusBarController(EventService eventService) {
-        eventService.registerAsListener(this);
-    }
+//    private MemoryCheckService memoryCheckService;
+//
+//    @Autowired
+//    public StatusBarController(MemoryCheckService memoryCheckService) {
+//        this.memoryCheckService = memoryCheckService;
+//    }
 
+    @PostConstruct
+    public void init() {
+//        memoryCheckService.addLabel(memoryUsage);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// EventServiceListener methods
@@ -60,29 +69,24 @@ public class StatusBarController implements EventServiceListener {
     @Override
     public void newEvent(Event event) {
 
-        if (earliestEvent == -1 || event.getTimestamp() < earliestEvent) {
-            earliestEvent = event.getTimestamp();
-
-            updateLabel(fromDate, event.getEventTime());
+        if (earliestEventLong == -1 || event.getTimestamp() < earliestEventLong) {
+            earliestEventLong = event.getTimestamp();
+            earliestEventString = event.getEventTime();
         }
 
-        if (latestEvent == -1 || event.getTimestamp() > latestEvent) {
-            latestEvent = event.getTimestamp();
-
-            updateLabel(toDate, event.getEventTime());
+        if (latestEventLong == -1 || event.getTimestamp() > latestEventLong) {
+            latestEventLong = event.getTimestamp();
+            latestEventString = event.getEventTime();
         }
 
         numEventsLoaded++;
-
-        loadedEvents.setVisible(true);
-        updateLabel(loadedEvents, "Events Loaded : " + numEventsLoaded);
     }
 
     @Override
     public void newEvents(List<Event> events) {
 
-        earliestEvent = -1;
-        latestEvent = -1;
+        earliestEventLong = -1;
+        latestEventLong = -1;
 
         setVisibleEvents(events.size());
 
@@ -92,13 +96,15 @@ public class StatusBarController implements EventServiceListener {
     }
 
     @Override
-    public void loadingFile(int fileNum, int totalFiles) {
-        updateLabel(message, "Processing file " + fileNum + " of " + totalFiles);
-    }
+    public void loadingFile(int fileNum, int totalFiles) { }
 
     @Override
     public void finishedLoading(boolean reload) {
-        updateLabel(message, "");
+
+        fromDate.setText(earliestEventString);
+        toDate.setText(latestEventString);
+
+        loadedEvents.setText(String.valueOf("Current Events : " + numEventsLoaded));
     }
 
     @Override
@@ -110,18 +116,12 @@ public class StatusBarController implements EventServiceListener {
         loadedEvents.setVisible(false);
     }
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// private methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void setVisibleEvents(int eventCount) {
 
-        loadedEvents.setVisible(true);
         loadedEvents.setText("Current Events : " + eventCount);
-    }
-
-    private void updateLabel(Label l, String value) {
-        Platform.runLater(() -> l.setText(value));
     }
 
 }
