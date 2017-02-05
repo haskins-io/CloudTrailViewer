@@ -100,6 +100,12 @@
             <version>8.9</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark</artifactId>
+            <version>0.8.0</version>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.testfx</groupId>
