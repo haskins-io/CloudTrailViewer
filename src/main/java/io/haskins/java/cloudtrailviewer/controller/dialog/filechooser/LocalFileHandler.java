@@ -55,24 +55,29 @@ class LocalFileHandler extends FileHandler {
     void handleDoubleClickEvent() {
 
         FileListModel selected = listView.getSelectionModel().getSelectedItem();
-        File file = (File)selected.getPath();
+        if (selected != null) {
 
-        if (selected.getName().equalsIgnoreCase(MOVE_BACK)) {
+            File file = (File)selected.getPath();
 
-            if (file.getParent() != null) {
-                path = file.getParent();
-                reloadContents();
-            }
-        } else {
+            if (selected.getName().equalsIgnoreCase(MOVE_BACK)) {
 
-            if (file.isDirectory()) {
-                path = file.getAbsolutePath();
-                reloadContents();
+                if (file.getParent() != null) {
+                    path = file.getParent();
+                    reloadContents();
+                }
             } else {
-                addSelectedKeys();
-                fileListControllerListener.selectionComplete();
+
+                if (file.isDirectory()) {
+                    path = file.getAbsolutePath();
+                    reloadContents();
+                } else {
+                    addSelectedKeys();
+                    fileListControllerListener.selectionComplete();
+                }
             }
         }
+
+
     }
 
     private void addSelectedKeys() {

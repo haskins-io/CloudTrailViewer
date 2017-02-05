@@ -59,42 +59,45 @@ class RemoteFileHandler extends FileHandler {
 
     void handleDoubleClickEvent() {
 
-        String selected = listView.getSelectionModel().getSelectedItem().getName();
+        if (listView.getSelectionModel().getSelectedItem() != null) {
 
-        if (selected.equalsIgnoreCase(MOVE_BACK)) {
+            String selected = listView.getSelectionModel().getSelectedItem().getName();
 
-            int lastSlash = prefix.lastIndexOf('/');
-            String tmpPrefix = prefix.substring(0, lastSlash);
+            if (selected.equalsIgnoreCase(MOVE_BACK)) {
 
-            prefix = "";
-            if (tmpPrefix.contains("/")) {
+                int lastSlash = prefix.lastIndexOf('/');
+                String tmpPrefix = prefix.substring(0, lastSlash);
 
-                lastSlash = tmpPrefix.lastIndexOf('/') + 1;
-                prefix = tmpPrefix.substring(0, lastSlash);
-            }
+                prefix = "";
+                if (tmpPrefix.contains("/")) {
 
-            updateAccountPrefix(prefix);
-            reloadContents();
+                    lastSlash = tmpPrefix.lastIndexOf('/') + 1;
+                    prefix = tmpPrefix.substring(0, lastSlash);
+                }
 
-        } else {
-
-            int firstSlash = selected.indexOf('/');
-            if (firstSlash == 0) {
-                selected = selected.substring(1, selected.length());
-            }
-
-            int lastSlash = selected.lastIndexOf('/') + 1;
-            if (lastSlash == selected.length()) {
-
-                prefix = prefix + selected;
                 updateAccountPrefix(prefix);
                 reloadContents();
+
             } else {
 
-                addSelectedKeys();
-                updateAccountPrefix(prefix);
+                int firstSlash = selected.indexOf('/');
+                if (firstSlash == 0) {
+                    selected = selected.substring(1, selected.length());
+                }
 
-                fileListControllerListener.selectionComplete();
+                int lastSlash = selected.lastIndexOf('/') + 1;
+                if (lastSlash == selected.length()) {
+
+                    prefix = prefix + selected;
+                    updateAccountPrefix(prefix);
+                    reloadContents();
+                } else {
+
+                    addSelectedKeys();
+                    updateAccountPrefix(prefix);
+
+                    fileListControllerListener.selectionComplete();
+                }
             }
         }
     }

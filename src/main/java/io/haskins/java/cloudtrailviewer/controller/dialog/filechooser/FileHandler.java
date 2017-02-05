@@ -66,24 +66,27 @@ abstract class FileHandler {
 
                 } else if (e.getClickCount() == 1) {
 
-                    Object obj = listView.getSelectionModel().getSelectedItem().getPath();
-                    if (obj instanceof  File) {
+                    if (listView.getSelectionModel().getSelectedItem() != null) {
 
-                        File selected = (File)obj;
-                        if (selected.isDirectory()) {
-                            fileListControllerListener.listItemSelected(false);
+                        Object obj = listView.getSelectionModel().getSelectedItem().getPath();
+                        if (obj instanceof  File) {
+
+                            File selected = (File)obj;
+                            if (selected.isDirectory()) {
+                                fileListControllerListener.listItemSelected(false);
+                            } else {
+                                fileListControllerListener.listItemSelected(true);
+                            }
+
                         } else {
-                            fileListControllerListener.listItemSelected(true);
-                        }
 
-                    } else {
-
-                        String selected = (String)obj;
-                        if (selected.contains("/")) {
-                            fileListControllerListener.listItemSelected(false);
-                        }
-                        else {
-                            fileListControllerListener.listItemSelected(true);
+                            String selected = (String)obj;
+                            if (selected.contains("/")) {
+                                fileListControllerListener.listItemSelected(false);
+                            }
+                            else {
+                                fileListControllerListener.listItemSelected(true);
+                            }
                         }
                     }
                 }
