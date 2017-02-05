@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.haskins.java.cloudtrailviewer.controller.components.StatusBarController;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
@@ -63,16 +64,20 @@ public class EventService {
 
     private final GeoService geoService;
     private final AccountService accountDao;
+    private final StatusBarController statusBarController;
 
     private final List<EventServiceListener> listeners = new ArrayList<>();
 
     private final List<Event> eventDb = new ArrayList<>();
 
     @Autowired
-    public EventService(AccountService accountDao, GeoService geoService) {
+    public EventService(AccountService accountDao, GeoService geoService, StatusBarController statusBarController) {
 
         this.accountDao = accountDao;
         this.geoService = geoService;
+
+        this.statusBarController = statusBarController;
+        this.listeners.add(statusBarController);
     }
 
     public void registerAsListener(EventServiceListener l) {
@@ -81,9 +86,8 @@ public class EventService {
 
     public void loadFiles(List<String> filenames, final CompositeFilter filters, int file_type) {
 
-        int total = filenames.size();
-
         Task<Void> task = new Task<Void>() {
+
             @Override
             protected Void call() throws Exception {
 
@@ -101,9 +105,8 @@ public class EventService {
 
                     count++;
 
-                    for (EventServiceListener l : listeners) {
-                        l.loadingFile(count, total);
-                    }
+                    String message = "Processing file " + count + " of " + filenames.size();
+                    updateMessage(message);
 
                     if (file_type == FILE_TYPE_S3) {
                         try (InputStream stream = loadEventFromS3(s3Client, activeAccount.getBucket(), filename)) {
@@ -123,7 +126,8 @@ public class EventService {
                 return null;
             }
 
-            @Override protected void succeeded() {
+            @Override
+            protected void succeeded() {
                 super.succeeded();
                 for (EventServiceListener l : listeners) {
                     l.finishedLoading(false);
@@ -132,8 +136,9 @@ public class EventService {
 
         };
 
-        new Thread(task).start();
+        statusBarController.message.textProperty().bind(task.messageProperty());
 
+        new Thread(task).start();
     }
 
     public void injectEvents(EventServiceListener l) {
