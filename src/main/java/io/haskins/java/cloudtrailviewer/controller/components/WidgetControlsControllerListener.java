@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.controller.components;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.BorderPane;
 
 /**
  * Created by markhaskins on 29/01/2017.
