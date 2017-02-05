@@ -52,7 +52,7 @@ public class TableSecurityWidgetController extends TableWidgetController {
 
         super.configure(widget, eventTableService, databaseService);
 
-        editButton.setVisible(false);
+        widgetControlsController.hideEditButton();
 
         loadSecurityEvents();
     }

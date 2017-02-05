@@ -51,6 +51,10 @@ public class WidgetControlsController extends BorderPane {
         editButton.setVisible(false);
     }
 
+    public void setTitle(String title) {
+        titleLabel.setText(title);
+    }
+
     public void addListener(WidgetControlsControllerListener l) {
         listener = l;
     }

@@ -31,11 +31,7 @@ import javafx.scene.input.MouseEvent;
  */
 public class DragResizeWidget {
 
-    public interface OnDragResizeEventListener {
 
-        void onDrag(double x, double y);
-        void onResize(double h, double w);
-    }
 
     public enum S {
         DEFAULT,

@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.widget;
 
+import io.haskins.java.cloudtrailviewer.controller.components.WidgetControlsController;
+import io.haskins.java.cloudtrailviewer.controller.components.WidgetControlsControllerListener;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
@@ -27,6 +29,7 @@ import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.DragResizeWidget;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
+import io.haskins.java.cloudtrailviewer.utils.OnDragResizeEventListener;
 import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,7 +46,7 @@ import java.util.logging.Logger;
  *
  * Created by markhaskins on 13/01/2017.
  */
-public abstract class AbstractBaseController extends BorderPane implements EventServiceListener, DragResizeWidget.OnDragResizeEventListener {
+public abstract class AbstractBaseController extends BorderPane implements EventServiceListener, OnDragResizeEventListener, WidgetControlsControllerListener {
 
     final static Logger LOGGER = Logger.getLogger("CloudTrail");
 
@@ -65,11 +68,10 @@ public abstract class AbstractBaseController extends BorderPane implements Event
 
     private final List<WidgetListener> listeners = new ArrayList<>();
 
-    @FXML Button editButton;
-    @FXML private Button removeButton;
-    @FXML private Label titleLabel;
     @FXML private BorderPane widgetControlsContainer;
     @FXML private BorderPane widgetContainer;
+
+    @FXML WidgetControlsController widgetControlsController;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// abstract methods
@@ -86,10 +88,8 @@ public abstract class AbstractBaseController extends BorderPane implements Event
         this.eventTableService = eventTableService;
         this.databaseService = databaseService;
 
-        this.titleLabel.setText(widget.getTitle());
-
-        widgetControlsContainer.prefWidth(220);
-        widgetControlsContainer.prefHeight(65);
+        widgetControlsController.addListener(this);
+        widgetControlsController.setTitle(widget.getTitle());
 
         widgetContainer.setLayoutX(widget.getXPos());
         widgetContainer.setLayoutY(widget.getYPos());
@@ -133,26 +133,6 @@ public abstract class AbstractBaseController extends BorderPane implements Event
 
         } else {
             return new ArrayList<>();
-        }
-    }
-
-    @FXML
-    void editWidget() {
-
-        DialogAction action = WidgetUtils.showWidgetDialog(widget, true);
-
-        if (action.getActionCode() != DialogAction.ACTION_CANCEL) {
-
-            this.titleLabel.setText(widget.getTitle());
-
-            keyValueMap.clear();
-            keyValueData.clear();
-
-            for (Event event : allEvents) {
-                addToKeyValueMap(event);
-            }
-
-            finishedLoading(true);
         }
     }
 
@@ -264,9 +244,28 @@ public abstract class AbstractBaseController extends BorderPane implements Event
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// FXML methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @FXML public void removeWidget() {
+    public void removeWidget() {
         for (WidgetListener l : listeners) {
             l.removeWidget(this);
+        }
+    }
+
+    public void editWidget() {
+
+        DialogAction action = WidgetUtils.showWidgetDialog(widget, true);
+
+        if (action.getActionCode() != DialogAction.ACTION_CANCEL) {
+
+            widgetControlsController.setTitle(widget.getTitle());
+
+            keyValueMap.clear();
+            keyValueData.clear();
+
+            for (Event event : allEvents) {
+                addToKeyValueMap(event);
+            }
+
+            finishedLoading(true);
         }
     }
 }

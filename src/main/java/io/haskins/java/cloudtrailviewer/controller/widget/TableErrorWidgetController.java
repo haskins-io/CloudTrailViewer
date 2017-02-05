@@ -48,6 +48,6 @@ public class TableErrorWidgetController extends TableWidgetController {
 
         super.configure(widget, eventTableService, databaseService);
 
-        editButton.setVisible(false);
+        widgetControlsController.hideEditButton();
     }
 }
