@@ -1,6 +1,15 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 
-<Menu mnemonicParsing="false" text="Help">
+<Menu mnemonicParsing="false"
+      text="Help"
+      xmlns="http://javafx.com/javafx/8.0.111"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.haskins.java.cloudtrailviewer.controller.menu.HelpMenuController">
+
+    <MenuItem mnemonicParsing="false" text="User Guide" onAction="#showUserGuide"/>
+    <SeparatorMenuItem  />
+
     <MenuItem mnemonicParsing="false" text="About" disable="true"/>
 </Menu>
