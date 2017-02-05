@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<?import javafx.scene.layout.BorderPane?>
-
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111"
-            xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.haskins.java.cloudtrailviewer.controller.components.StatusBarController">
 
     <left>
         <HBox>
-            <Label fx:id="fromDate"/>
+            <Label fx:id="fromDate" prefHeight="17.0" prefWidth="150.0"/>
             <Label text=" - "/>
-            <Label fx:id="toDate"/>
+            <Label fx:id="toDate" prefHeight="17.0" prefWidth="150.0"/>
         </HBox>
 
     </left>
@@ -23,8 +21,10 @@
     </center>
 
     <right>
-        <Label fx:id="loadedEvents"/>
-        <Label fx:id="memoryUsage"/>
+        <HBox>
+            <Label fx:id="loadedEvents" prefHeight="17.0" prefWidth="150.0"/>
+            <Label fx:id="memoryUsage"/>
+        </HBox>
     </right>
 
 
