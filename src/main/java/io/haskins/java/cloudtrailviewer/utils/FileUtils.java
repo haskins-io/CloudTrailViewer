@@ -61,19 +61,14 @@ public class FileUtils {
         return new String(Files.readAllBytes(Paths.get(pathToFile)), StandardCharsets.UTF_8);
     }
 
-    public static boolean writeStringToFile(String content, String pathToFile) {
-
-        boolean written = false;
+    public static void writeStringToFile(String content, String pathToFile) {
 
         try (BufferedWriter out = new BufferedWriter(new FileWriter(pathToFile))) {
             out.write(content);
             out.close();
-            written = true;
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, "Failed to write String to File", e);
         }
-
-        return written;
     }
 
     public static String removeExtension(String filename) {
