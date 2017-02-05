@@ -42,7 +42,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.net.URL;
 
 /**
  *
