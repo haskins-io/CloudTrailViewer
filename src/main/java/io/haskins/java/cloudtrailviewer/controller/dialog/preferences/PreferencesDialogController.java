@@ -21,6 +21,7 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.preferences;
 import io.haskins.java.cloudtrailviewer.service.AccountService;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
 
 /**
  * Created by markhaskins on 26/01/2017.
@@ -31,15 +32,19 @@ public class PreferencesDialogController {
     @FXML private ResourcesPanelController resourcesController;
     @FXML private SecurityPanelController securityController;
 
+    private Stage dialogStage;
+
     @FXML
     private void ok() {
-
+        dialogStage.close();
     }
 
-    public void init(AccountService accountDao, DatabaseService databaseService) {
+    public void init(Stage dialogStage, AccountService accountDao, DatabaseService databaseService) {
+
+        this.dialogStage = dialogStage;
 
         accountsController.init(accountDao);
         resourcesController.init(databaseService);
-        securityController.init(databaseService);;
+        securityController.init(databaseService);
     }
 }

@@ -65,7 +65,7 @@ public class AccountPanelController {
         nameCol.setMinWidth(100);
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        nameCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         nameCol.setOnEditCommit(
             (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
 
@@ -79,7 +79,7 @@ public class AccountPanelController {
         acctNumCol.setMinWidth(100);
         acctNumCol.setCellValueFactory(new PropertyValueFactory<>("acctNumber"));
 
-        acctNumCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        acctNumCol.setCellFactory(TextFieldTableCell.forTableColumn());
         acctNumCol.setOnEditCommit(
                 (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
 
@@ -94,7 +94,7 @@ public class AccountPanelController {
         acctAliasCol.setMinWidth(100);
         acctAliasCol.setCellValueFactory(new PropertyValueFactory<>("acctAlias"));
 
-        acctAliasCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        acctAliasCol.setCellFactory(TextFieldTableCell.forTableColumn());
         acctAliasCol.setOnEditCommit(
                 (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
 
@@ -108,7 +108,7 @@ public class AccountPanelController {
         bucketCol.setMinWidth(100);
         bucketCol.setCellValueFactory(new PropertyValueFactory<>("bucket"));
 
-        bucketCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        bucketCol.setCellFactory(TextFieldTableCell.forTableColumn());
         bucketCol.setOnEditCommit(
                 (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
 
@@ -122,7 +122,7 @@ public class AccountPanelController {
         keyCol.setMinWidth(100);
         keyCol.setCellValueFactory(new PropertyValueFactory<>("key"));
 
-        keyCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        keyCol.setCellFactory(TextFieldTableCell.forTableColumn());
         keyCol.setOnEditCommit(
                 (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
 
@@ -136,7 +136,7 @@ public class AccountPanelController {
         secretCol.setMinWidth(100);
         secretCol.setCellValueFactory(new PropertyValueFactory<>("secret"));
 
-        secretCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        secretCol.setCellFactory(TextFieldTableCell.forTableColumn());
         secretCol.setOnEditCommit(
                 (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
 
@@ -150,7 +150,7 @@ public class AccountPanelController {
         profileCol.setMinWidth(100);
         profileCol.setCellValueFactory(new PropertyValueFactory<>("profile"));
 
-        profileCol.setCellFactory(TextFieldTableCell.<AwsAccount>forTableColumn());
+        profileCol.setCellFactory(TextFieldTableCell.forTableColumn());
         profileCol.setOnEditCommit(
                 (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
 
@@ -175,7 +175,5 @@ public class AccountPanelController {
         tableView.getItems().remove(selected);
 
         accountDao.deleteAccount(selected);
-
     }
-
 }
