@@ -73,7 +73,7 @@ public class FileMenuController {
             dialogStage.setScene(scene);
 
             PreferencesDialogController controller = loader.getController();
-            controller.init(accountDao, databaseService);
+            controller.init(dialogStage, accountDao, databaseService);
 
             dialogStage.showAndWait();
 
