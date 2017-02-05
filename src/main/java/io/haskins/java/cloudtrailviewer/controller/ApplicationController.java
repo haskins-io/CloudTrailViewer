@@ -65,7 +65,4 @@ public class ApplicationController implements Initializable {
         dashboardService.loadDashboard("default");
     }
 
-    public Scene getScene() {
-        return this.root.getScene();
-    }
 }
