@@ -14,8 +14,8 @@
     </center>
     <right>
         <HBox prefHeight="35.0" BorderPane.alignment="BOTTOM_RIGHT">
-            <Button fx:id="editButton" mnemonicParsing="false" styleClass="edit-button" onAction="#editWidget" />
-            <Button fx:id="removeButton" mnemonicParsing="false"  styleClass="remove-button" onAction="#removeWidget" />
+            <Button fx:id="editButton" mnemonicParsing="false" styleClass="control-button" onAction="#editWidget" />
+            <Button fx:id="removeButton" mnemonicParsing="false"  styleClass="control-button" onAction="#removeWidget" />
             <padding>
                 <Insets top="5.0" left="5.0" right="5.0" />
             </padding>

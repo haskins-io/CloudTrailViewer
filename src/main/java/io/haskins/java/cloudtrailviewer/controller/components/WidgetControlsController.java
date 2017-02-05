@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.components;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -34,9 +36,22 @@ public class WidgetControlsController extends BorderPane {
 
     private WidgetControlsControllerListener listener;
 
+    private FontAwesomeIconView configure = new FontAwesomeIconView(FontAwesomeIcon.COG);
+    private FontAwesomeIconView remove = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
+
     public WidgetControlsController() {
         this.prefWidth(220);
         this.prefHeight(65);
+
+
+    }
+
+    public void init(WidgetControlsControllerListener l, String title) {
+        listener = l;
+        titleLabel.setText(title);
+
+        editButton.setGraphic(configure);
+        removeButton.setGraphic(remove);
     }
 
     @FXML void editWidget() {
@@ -55,7 +70,4 @@ public class WidgetControlsController extends BorderPane {
         titleLabel.setText(title);
     }
 
-    public void addListener(WidgetControlsControllerListener l) {
-        listener = l;
-    }
 }

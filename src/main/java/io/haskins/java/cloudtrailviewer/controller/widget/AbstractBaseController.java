@@ -88,8 +88,7 @@ public abstract class AbstractBaseController extends BorderPane implements Event
         this.eventTableService = eventTableService;
         this.databaseService = databaseService;
 
-        widgetControlsController.addListener(this);
-        widgetControlsController.setTitle(widget.getTitle());
+        widgetControlsController.init(this, widget.getTitle());
 
         widgetContainer.setLayoutX(widget.getXPos());
         widgetContainer.setLayoutY(widget.getYPos());

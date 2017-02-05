@@ -19,26 +19,9 @@
     -fx-text-fill: black;
 }
 
-.edit-button {
-    -fx-graphic: url("icons/Edit.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
+.control-button {
     -fx-background-color: transparent;
-}
-
-.edit-button:hover {
-    -fx-background-color: white;
-}
-
-.remove-button {
-    -fx-graphic: url("icons/Remove.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-color: transparent;
-}
-
-.remove-button:hover {
-    -fx-background-color: white;
+    -fx-border-style: none;
 }
 
 /** Chart Styling **/
