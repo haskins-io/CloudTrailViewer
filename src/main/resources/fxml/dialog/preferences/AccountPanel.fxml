@@ -7,32 +7,54 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.TextFieldTableCell?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.111"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.preferences.AccountPanelController">
 
     <center>
-        <TableView prefHeight="200.0" prefWidth="242.0" BorderPane.alignment="CENTER" fx:id="tableView">
+        <TableView prefHeight="200.0" prefWidth="242.0" BorderPane.alignment="CENTER" fx:id="tableView" editable="true">
             <columns>
-                <TableColumn fx:id="name" text="Name"><cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory></TableColumn>
-                <TableColumn fx:id="acctNumber" text="Acct Number"><cellValueFactory><PropertyValueFactory property="acctNumber" /></cellValueFactory></TableColumn>
-                <TableColumn fx:id="acctAlias" text="Acct Alias"><cellValueFactory><PropertyValueFactory property="acctAlias" /></cellValueFactory></TableColumn>
-                <TableColumn fx:id="bucket" text="S3 Bucket"><cellValueFactory><PropertyValueFactory property="bucket" /></cellValueFactory></TableColumn>
-                <TableColumn fx:id="key" text="AWS Key"><cellValueFactory><PropertyValueFactory property="key" /></cellValueFactory></TableColumn>
-                <TableColumn fx:id="secret" text="AWS Secret"><cellValueFactory><PropertyValueFactory property="secret" /></cellValueFactory></TableColumn>
-                <TableColumn fx:id="profile" text="AWS Profile"><cellValueFactory><PropertyValueFactory property="profile" /></cellValueFactory></TableColumn>
+                <TableColumn fx:id="name" text="Name">
+                    <cellValueFactory><PropertyValueFactory property="name"/></cellValueFactory>
+                    <cellFactory><TextFieldTableCell fx:factory="forTableColumn"/></cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="acctNumber" text="Acct Number">
+                    <cellValueFactory><PropertyValueFactory property="acctNumber"/></cellValueFactory>
+                    <cellFactory><TextFieldTableCell fx:factory="forTableColumn"/></cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="acctAlias" text="Acct Alias">
+                    <cellFactory><TextFieldTableCell fx:factory="forTableColumn"/></cellFactory>
+                    <cellFactory><TextFieldTableCell fx:factory="forTableColumn"/></cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="bucket" text="S3 Bucket">
+                    <cellValueFactory><PropertyValueFactory property="bucket"/></cellValueFactory>
+                    <cellFactory><TextFieldTableCell fx:factory="forTableColumn"/></cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="key" text="AWS Key">
+                    <cellValueFactory><PropertyValueFactory property="key"/></cellValueFactory>
+                    <cellFactory><TextFieldTableCell fx:factory="forTableColumn"/></cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="secret" text="AWS Secret">
+                    <cellValueFactory><PropertyValueFactory property="secret"/></cellValueFactory>
+                    <cellFactory><TextFieldTableCell fx:factory="forTableColumn"/></cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="profile" text="AWS Profile">
+                    <cellValueFactory><PropertyValueFactory property="profile"/></cellValueFactory>
+                    <cellFactory><TextFieldTableCell fx:factory="forTableColumn"/></cellFactory>
+                </TableColumn>
             </columns>
         </TableView>
     </center>
     <bottom>
         <HBox prefHeight="35.0" prefWidth="242.0" BorderPane.alignment="CENTER">
-            <Button mnemonicParsing="false" text="+">
+            <Button mnemonicParsing="false" text="+" onAction="#add">
                 <HBox.margin>
                     <Insets left="3.0" right="3.0"/>
                 </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="-">
+            <Button mnemonicParsing="false" text="-" onAction="#remove">
                 <HBox.margin>
                     <Insets left="3.0" right="3.0"/>
                 </HBox.margin>

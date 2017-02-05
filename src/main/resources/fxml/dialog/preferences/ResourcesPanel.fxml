@@ -11,16 +11,16 @@
             fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.preferences.ResourcesPanelController">
 
     <center>
-        <ListView prefHeight="200.0" prefWidth="242.0" BorderPane.alignment="CENTER" fx:id="listView" />
+        <ListView prefHeight="200.0" prefWidth="242.0" BorderPane.alignment="CENTER" fx:id="listView" editable="true" />
     </center>
     <bottom>
         <HBox prefHeight="35.0" prefWidth="242.0" BorderPane.alignment="CENTER">
-            <Button mnemonicParsing="false" text="+">
+            <Button mnemonicParsing="false" text="+" onAction="#add">
                 <HBox.margin>
                     <Insets left="3.0" right="3.0"/>
                 </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="-">
+            <Button mnemonicParsing="false" text="-" onAction="#remove">
                 <HBox.margin>
                     <Insets left="3.0" right="3.0"/>
                 </HBox.margin>

@@ -18,26 +18,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.dialog.preferences;
 
-import io.haskins.java.cloudtrailviewer.model.observable.StringObservable;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
-import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
 
 /**
+ * Controller class that handles the Security Panel.
+ *
  * Created by markhaskins on 26/01/2017.
  */
 public class SecurityPanelController extends PreferencesPanel {
-
-    @FXML private ListView<StringObservable> listView;
 
     public void init(DatabaseService databaseService) {
 
         this.databaseService = databaseService;
 
-        configureListView(listView);
+        configureListView();
 
-        String query = "SELECT api_call FROM aws_security";
-        populateListBySQL(listView, query);
+        String query = "SELECT api_call FROM aws_security ORDER BY api_call ASC";
+        populateListBySQL(query);
+    }
+
+    void removeItem(String itemToRemove) {
+
+        String query = "DELETE FROM aws_security WHERE api_call = '" + itemToRemove + "'";
+        databaseService.doInsertUpdate(query);
+
+        listView.getItems().remove(itemToRemove);
+    }
+
+    void addItem(String itemToAdd) {
+
+        StringBuilder query = new StringBuilder();
+        query.append("INSERT INTO aws_security (api_call)");
+        query.append(" VALUES (").append("'").append(itemToAdd).append("'").append(")");
+
+        databaseService.doInsertUpdate(query.toString());
     }
 
 }

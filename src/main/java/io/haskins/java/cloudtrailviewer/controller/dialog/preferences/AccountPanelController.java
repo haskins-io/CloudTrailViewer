@@ -36,8 +36,10 @@ public class AccountPanelController {
     private AccountService accountDao;
 
     public void init(AccountService accountDao) {
+
         this.accountDao = accountDao;
 
+        tableView.setEditable(true);
         tableView.getItems().clear();
 
         ObservableList<AwsAccount> data = tableView.getItems();
@@ -46,5 +48,15 @@ public class AccountPanelController {
         for (AwsAccount account : accounts) {
             data.add(account);
         }
+    }
+
+    @FXML
+    private void add() {
+        tableView.getItems().add(0, new AwsAccount());
+    }
+
+    @FXML
+    private void remove() {
+        tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
     }
 }

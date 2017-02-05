@@ -35,14 +35,14 @@ public class AwsAccount implements Serializable {
     private static final long serialVersionUID = 1298354923304275550L;
 
     private final IntegerProperty id;
-    private final StringProperty name;
-    private StringProperty acctNumber;
-    private StringProperty acctAlias;
-    private final StringProperty bucket;
-    private final StringProperty key;
-    private final StringProperty secret;
-    private StringProperty prefix;
-    private StringProperty profile;
+    public final StringProperty name;
+    public StringProperty acctNumber;
+    public StringProperty acctAlias;
+    public final StringProperty bucket;
+    public final StringProperty key;
+    public final StringProperty secret;
+    public StringProperty prefix;
+    public StringProperty profile;
 
     public AwsAccount() {
         this(1, "","","","","","","");

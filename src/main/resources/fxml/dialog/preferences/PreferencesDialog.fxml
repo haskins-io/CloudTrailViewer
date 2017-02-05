@@ -8,7 +8,7 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.preferences.PreferencesDialogController">
     <center>
-        <TabPane>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
 
             <Tab text="AWS Accounts">
                 <fx:include fx:id="accounts" source="AccountPanel.fxml"/>
