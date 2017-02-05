@@ -25,6 +25,7 @@ import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -75,6 +76,7 @@ public class CloudTrailViewer extends Application {
 
         splashLayout = new VBox();
         splashLayout.getChildren().addAll(splash);
+        splashLayout.setEffect(new DropShadow());
 
     }
 
@@ -117,7 +119,7 @@ public class CloudTrailViewer extends Application {
             if (newState == Worker.State.SUCCEEDED) {
 
                 initStage.toFront();
-                FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), splashLayout);
+                FadeTransition fadeSplash = new FadeTransition(Duration.seconds(0.8), splashLayout);
                 fadeSplash.setFromValue(1.0);
                 fadeSplash.setToValue(0.0);
                 fadeSplash.setOnFinished(actionEvent -> initStage.hide());
