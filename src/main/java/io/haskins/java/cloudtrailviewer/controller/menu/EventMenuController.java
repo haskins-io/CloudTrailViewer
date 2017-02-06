@@ -100,7 +100,7 @@ public class EventMenuController {
             Pane page = loader.load();
 
             Scene scene = new Scene(page);
-            scene.getStylesheets().add(getClass().getResource("/style/filechooser.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/style/fileChooser.css").toExternalForm());
 
             Stage dialogStage = new Stage();
             dialogStage.initModality(Modality.APPLICATION_MODAL);
