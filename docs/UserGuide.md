@@ -4,11 +4,37 @@ CloudTrail viewer is a Java application for reading and analysing AWS CloudTrial
 
 The log files can be loaded from the local filesystem or from an AWS S3 bucket.
 
+### Preferences ###
+The Preferences option on the File menu is where you configure the application.
+
+#### AWS Accounts
+In this section you can defined AWS account to work with. This functionality is only required to load files from an S3
+bucket. If you are not intending to do this then you can leave this section.
+
+#### Security
+The security section allow you to define what AWS API calls you consider to be a security risk. The application comes
+with some values pre-loaded. The entries shown here are use by the Security Widget.
+
+You can remove existing values if you wish, or add another. When you click the add button to add another you need to type
+in the name of the API call that you consider to be a risk.
+
+#### Resources
+The resources section works similar to the Security Section. It allows you to define what AWS API calls you want to monitor.
+The idea of this section is that you define API events that create, modify or delete resources.
+ 
+The application comes with some values pre-loaded. The entries shown here are use by the Resources Widget.
+
+You can remove existing values if you wish, or add another. When you click the add button to add another you need to type
+in the name of the API call that you want to monitor.
+
 ### Events
+The Events menu is where you will import CloudTrail Log files into the application. There are two ways of doing this.
 
 #### Local Events
+You can load files you have downloaded and have on your local machine.
 
 #### Remote Events
+You can load files from an S3 bucket.
 
 ### Dashboards
 A dashboard is a collection of widgets that show information about loaded CloudTrail events.
