@@ -71,6 +71,8 @@ public class MapWidgetController extends AbstractBaseController {
 
         map.setPrefHeight(widget.getHeight());
         map.setPrefWidth(widget.getWidth());
+
+        widgetControlsController.hideEditButton();
     }
 
     public void newEvents(List<Event> events) {
