@@ -104,7 +104,7 @@ public class TableWidgetController extends AbstractBaseController {
         tableView.setRowFactory(tv -> {
             TableRow<KeyIntegerValue> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                if (!row.isEmpty()) {
                     KeyIntegerValue rowData = row.getItem();
                     eventTableService.setTableEvents(keyValueMap.get(rowData.getField()));
                 }
