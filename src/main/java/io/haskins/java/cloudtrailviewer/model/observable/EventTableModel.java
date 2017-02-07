@@ -46,7 +46,11 @@ public class EventTableModel {
     private SimpleStringProperty sharedEventID = new SimpleStringProperty("");
     private SimpleStringProperty vpcEndpointId = new SimpleStringProperty("");
 
+    private Event event;
+
     public EventTableModel(Event event) {
+
+        this.event = event;
 
         setEventTime(event.getEventTime());
         setEventVersion(event.getEventVersion());
@@ -201,5 +205,9 @@ public class EventTableModel {
 
     public void setVpcEndpointId(String vpcEndpointId) {
         this.vpcEndpointId.set(vpcEndpointId);
+    }
+
+    public Event getEvent() {
+        return this.event;
     }
 }

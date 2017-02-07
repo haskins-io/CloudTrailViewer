@@ -18,14 +18,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.components;
 
+import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.observable.EventTableModel;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
+import io.haskins.java.cloudtrailviewer.service.DashboardService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
 import io.haskins.java.cloudtrailviewer.service.listener.EventTableServiceListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,13 +47,41 @@ public class EventTableController implements EventTableServiceListener, EventSer
 
     @FXML private TableView<EventTableModel> tableView;
 
+    private DashboardService dashboardService;
 
     @Autowired
-    public EventTableController(EventService eventService, EventTableService eventTableService) {
+    public EventTableController(EventService eventService, EventTableService eventTableService, DashboardService dashboardService) {
+
         eventTableService.addListener(this);
         eventService.registerAsListener(this);
+
+        this.dashboardService = dashboardService;
     }
 
+    public void initialize() {
+
+        tableView.setRowFactory(tv -> {
+
+            TableRow<EventTableModel> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+
+                if (event.getClickCount() ==2 && !row.isEmpty()) {
+                    EventTableModel rowData = row.getItem();
+
+                    DashboardWidget widget = new DashboardWidget();
+                    widget.setWidget("Json");
+                    widget.setTitle("Event JSON");
+                    widget.setWidth(425);
+                    widget.setHeight(600);
+                    widget.setPayload(rowData.getEvent());
+
+                    dashboardService.addWidgetToDashboard(widget);
+                }
+            });
+
+            return row;
+        });
+    }
     /**
      * Updates the table with the provided events.
      * @param events a List of Events

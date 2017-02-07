@@ -44,6 +44,8 @@ public class DashboardWidget implements Serializable {
     private double width;
     private double height;
 
+    private Object payload;
+
     public String getWidget() {
         return widget;
     }
@@ -138,5 +140,12 @@ public class DashboardWidget implements Serializable {
 
     public void setTop(int top) {
         this.top = top;
+    }
+
+    public void setPayload(Object obj) {
+        this.payload = obj;
+    }
+    public Object getPayload() {
+        return this.payload;
     }
 }
