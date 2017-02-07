@@ -129,6 +129,8 @@ public class EventService {
             @Override
             protected void succeeded() {
                 super.succeeded();
+
+                updateMessage("");
                 for (EventServiceListener l : listeners) {
                     l.finishedLoading(false);
                 }
