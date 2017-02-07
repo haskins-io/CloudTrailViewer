@@ -18,6 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.menu;
 
+import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
+import io.haskins.java.cloudtrailviewer.utils.DialogUtils;
+import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.fxml.FXML;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
@@ -26,6 +29,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
@@ -41,26 +45,34 @@ public class HelpMenuController {
 
         StringBuilder result = new StringBuilder();
 
-        ClassLoader classLoader = this.getClass().getClassLoader();
-        InputStreamReader io = new InputStreamReader(classLoader.getResourceAsStream("docs/UserGuide.md"));
 
-        try( BufferedReader br = new BufferedReader(io) ) {
+        try(InputStream stream = CloudTrailViewer.class.getResourceAsStream("/docs/UserGuide.md")) {
 
-            String line;
-            while ((line = br.readLine()) != null) {
-                result.append(line).append("\n");
+            if (stream != null) {
+
+                InputStreamReader io = new InputStreamReader(stream);
+                BufferedReader br = new BufferedReader(io);
+
+                String line;
+                while ((line = br.readLine()) != null) {
+                    result.append(line).append("\n");
+                }
+
+                Parser parser = Parser.builder().build();
+                Node document = parser.parse(result.toString());
+                HtmlRenderer renderer = HtmlRenderer.builder().build();
+                String userGuide = renderer.render(document);
+
+                System.out.print(userGuide);
+
+            } else {
+                DialogUtils.showAlertDialog("Application Error", "Unable to load User Guide.");
             }
 
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+
+            DialogUtils.showAlertDialog("Application Error", "Unable to load User Guide.");
         }
-
-        Parser parser = Parser.builder().build();
-        Node document = parser.parse(result.toString());
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
-        String userGuide = renderer.render(document);
-
-//        System.out.print(userGuide);
 
     }
 }
