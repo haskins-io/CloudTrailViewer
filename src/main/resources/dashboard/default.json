@@ -49,7 +49,7 @@
     },
     {
       "widget": "ChartBar",
-      "title": "Top Cities",
+      "title": "Top Events",
       "type": "Top",
       "top": 5,
       "orientation": "Horizontal",
