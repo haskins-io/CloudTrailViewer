@@ -9,7 +9,7 @@ Releases tab -> [Releases](https://github.com/githublemming/CloudTrailViewer/rel
 
 ## Version 3
 
-Version three is currently in Beta and is not yet finished or bug free. Habing said this however it does work.
+Version three is currently in Beta and is not yet finished or bug free. Having said this however it does work.
 
 ### Getting Started
 Version 3 has been completely rewritten from the ground up using the latest technologies and libraries. You should ensure
