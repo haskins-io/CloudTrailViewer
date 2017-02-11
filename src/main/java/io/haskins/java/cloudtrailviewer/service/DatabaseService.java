@@ -262,7 +262,7 @@ public class DatabaseService {
      * Returns the current version of the database
      * @return version number of database
      */
-    private int getCurrentDbVersion() {
+    public int getCurrentDbVersion() {
 
         int currentVersion = 0;
 

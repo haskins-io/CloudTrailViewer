@@ -26,6 +26,7 @@ import io.haskins.java.cloudtrailviewer.utils.DialogUtils;
 import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import io.haskins.java.cloudtrailviewer.utils.FileUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -62,7 +63,7 @@ public class DashboardMenuController {
 
         dashboardService.saveDashboard();
 
-        DialogUtils.showAlertDialog("Save Dashboard", "Dashboard has been saved.");
+        DialogUtils.showAlertDialog("CloudTrail Viewer", "Saving Dashboard","Dashboard has been saved.", Alert.AlertType.CONFIRMATION);
     }
 
     @FXML
@@ -87,7 +88,7 @@ public class DashboardMenuController {
 
             if (dashboards.isEmpty()) {
 
-                DialogUtils.showAlertDialog("Open Dashboard", "No other Dashboards are available");
+                DialogUtils.showAlertDialog("CloudTrail Viewer", "Opening Dashboard" ,"No other Dashboards are available", Alert.AlertType.WARNING);
 
             } else {
 

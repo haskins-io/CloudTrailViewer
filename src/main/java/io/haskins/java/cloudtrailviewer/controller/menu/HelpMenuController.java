@@ -19,12 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.controller.menu;
 
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
+import io.haskins.java.cloudtrailviewer.service.PropertiesService;
 import io.haskins.java.cloudtrailviewer.utils.DialogUtils;
-import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -39,6 +42,15 @@ import java.io.InputStreamReader;
  */
 @Component
 public class HelpMenuController {
+
+    private DatabaseService databaseService;
+    private PropertiesService propertiesService;
+
+    @Autowired
+    public HelpMenuController(DatabaseService databaseService, PropertiesService propertiesService) {
+        this.databaseService = databaseService;
+        this.propertiesService = propertiesService;
+    }
 
     @FXML
     private void showUserGuide() {
@@ -66,13 +78,33 @@ public class HelpMenuController {
                 System.out.print(userGuide);
 
             } else {
-                DialogUtils.showAlertDialog("Application Error", "Unable to load User Guide.");
+                DialogUtils.showAlertDialog("CloudTrail Viewer", "Application Error", "Unable to load User Guide.", Alert.AlertType.ERROR);
             }
 
         } catch (IOException ioe) {
 
-            DialogUtils.showAlertDialog("Application Error", "Unable to load User Guide.");
+            DialogUtils.showAlertDialog("CloudTrail Viewer", "Application Error", "Unable to load User Guide.", Alert.AlertType.ERROR);
         }
 
+    }
+
+    @FXML
+    private void showLogs() {
+
+    }
+
+    @FXML
+    private void showAbout() {
+
+        String app_version = propertiesService.getProperty("application.version");
+        int db_version = databaseService.getCurrentDbVersion();
+
+        StringBuilder message = new StringBuilder();
+        message.append("CloudTrailViewer\n");
+        message.append("Release : ");
+        message.append(app_version);
+        message.append(" [DB v").append(db_version).append("]");
+
+        DialogUtils.showAlertDialog("CloudTrail Viewer", "About CloudTrail Viewer",  message.toString(), Alert.AlertType.INFORMATION);
     }
 }

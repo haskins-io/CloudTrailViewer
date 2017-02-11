@@ -11,5 +11,8 @@
     <MenuItem mnemonicParsing="false" text="User Guide" onAction="#showUserGuide"/>
     <SeparatorMenuItem  />
 
-    <MenuItem mnemonicParsing="false" text="About" disable="true"/>
+    <MenuItem mnemonicParsing="false" text="Logs" onAction="#showLogs"/>
+    <SeparatorMenuItem  />
+
+    <MenuItem mnemonicParsing="false" text="About"  onAction="#showAbout"/>
 </Menu>

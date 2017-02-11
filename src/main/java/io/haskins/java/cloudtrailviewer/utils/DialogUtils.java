@@ -48,11 +48,11 @@ public class DialogUtils {
         return dialog.showAndWait();
     }
 
-    public static void showAlertDialog(String title, String message) {
+    public static void showAlertDialog(String title, String header, String message, Alert.AlertType type) {
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(type);
         alert.setTitle(title);
-        alert.setHeaderText("Information Alert");
+        alert.setHeaderText(header);
         alert.setContentText(message);
 
         alert.show();
