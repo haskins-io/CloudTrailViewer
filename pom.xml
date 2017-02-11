@@ -132,7 +132,7 @@
             </resource>
             <resource>
                 <directory>${project.basedir}/docs</directory>
-                <targetPath>${project.build.directory}</targetPath>
+                <targetPath>${project.build.directory}/classes/docs</targetPath>
                 <filtering>true</filtering>
                 <includes><!-- what -->
                     <include>UserGuide.md</include>

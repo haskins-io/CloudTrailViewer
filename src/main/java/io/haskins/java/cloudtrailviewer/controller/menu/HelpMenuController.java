@@ -19,11 +19,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.controller.menu;
 
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
+import io.haskins.java.cloudtrailviewer.controller.components.UserGuideController;
+import io.haskins.java.cloudtrailviewer.controller.dialog.preferences.PreferencesDialogController;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.PropertiesService;
 import io.haskins.java.cloudtrailviewer.utils.DialogUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.Pane;
+import javafx.scene.web.WebView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -55,8 +63,52 @@ public class HelpMenuController {
     @FXML
     private void showUserGuide() {
 
-        StringBuilder result = new StringBuilder();
+        String userGuide = getHTMLUserGuide();
+        if (userGuide != null) {
 
+            try {
+
+                String fxmlFile = "/fxml/components/WebView.fxml";
+
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(CloudTrailViewer.class.getResource(fxmlFile));
+                WebView page = loader.load();
+
+                Scene scene = new Scene(page);
+
+                Stage dialogStage = new Stage();
+                dialogStage.initModality(Modality.APPLICATION_MODAL);
+                dialogStage.setScene(scene);
+
+                UserGuideController controller = loader.getController();
+                controller.setHTML(userGuide);
+
+                dialogStage.showAndWait();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    private void showAbout() {
+
+        String app_version = propertiesService.getProperty("application.version");
+        int db_version = databaseService.getCurrentDbVersion();
+
+        StringBuilder message = new StringBuilder();
+        message.append("CloudTrailViewer\n");
+        message.append("Release : ");
+        message.append(app_version);
+        message.append(" [DB v").append(db_version).append("]");
+
+        DialogUtils.showAlertDialog("CloudTrail Viewer", "About CloudTrail Viewer",  message.toString(), Alert.AlertType.INFORMATION);
+    }
+
+    private String getHTMLUserGuide() {
+
+        StringBuilder result = new StringBuilder();
 
         try(InputStream stream = CloudTrailViewer.class.getResourceAsStream("/docs/UserGuide.md")) {
 
@@ -73,38 +125,19 @@ public class HelpMenuController {
                 Parser parser = Parser.builder().build();
                 Node document = parser.parse(result.toString());
                 HtmlRenderer renderer = HtmlRenderer.builder().build();
-                String userGuide = renderer.render(document);
 
-                System.out.print(userGuide);
+                return renderer.render(document);
 
             } else {
                 DialogUtils.showAlertDialog("CloudTrail Viewer", "Application Error", "Unable to load User Guide.", Alert.AlertType.ERROR);
+                return null;
             }
 
         } catch (IOException ioe) {
 
             DialogUtils.showAlertDialog("CloudTrail Viewer", "Application Error", "Unable to load User Guide.", Alert.AlertType.ERROR);
+            return null;
         }
 
-    }
-
-    @FXML
-    private void showLogs() {
-
-    }
-
-    @FXML
-    private void showAbout() {
-
-        String app_version = propertiesService.getProperty("application.version");
-        int db_version = databaseService.getCurrentDbVersion();
-
-        StringBuilder message = new StringBuilder();
-        message.append("CloudTrailViewer\n");
-        message.append("Release : ");
-        message.append(app_version);
-        message.append(" [DB v").append(db_version).append("]");
-
-        DialogUtils.showAlertDialog("CloudTrail Viewer", "About CloudTrail Viewer",  message.toString(), Alert.AlertType.INFORMATION);
     }
 }
