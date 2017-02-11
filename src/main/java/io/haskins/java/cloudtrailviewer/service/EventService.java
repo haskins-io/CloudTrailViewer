@@ -96,7 +96,7 @@ public class EventService {
 
                 if (file_type == FILE_TYPE_S3) {
                     activeAccount = AwsService.getActiveAccount(accountDao);
-                    s3Client = AwsService.getS3ClientUsingProfile(activeAccount);
+                    s3Client = AwsService.getS3Client(activeAccount);
                 }
 
                 int count = 0;

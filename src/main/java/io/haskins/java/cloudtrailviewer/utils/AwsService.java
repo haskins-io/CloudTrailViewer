@@ -45,20 +45,46 @@ public class AwsService {
         return accounts.get(0);
     }
 
-    public static AmazonS3 getS3ClientUsingKeys(AwsAccount activeAccount) {
+    public static AmazonS3 getS3Client(AwsAccount activeAccount) {
+
+        AmazonS3 client = getS3ClientUsingProfile(activeAccount);
+        if (client != null) {
+            return client;
+        }
+
+        client = getS3ClientUsingKeys(activeAccount);
+        if (client != null) {
+            return client;
+        }
+
+        return null;
+    }
+
+    private static AmazonS3 getS3ClientUsingKeys(AwsAccount activeAccount) {
 
         String key = activeAccount.getKey();
         String secret = activeAccount.getSecret();
 
-        AWSCredentials credentials= new BasicAWSCredentials(key, secret);
+        if ( (key != null && key.trim().length() > 10) &&
+             (secret != null && secret.trim().length() > 10) )
+        {
+            AWSCredentials credentials = new BasicAWSCredentials(key, secret);
+            return new AmazonS3Client(credentials);
+        }
 
-        return new AmazonS3Client(credentials);
+        return null;
     }
 
-    public static AmazonS3 getS3ClientUsingProfile(AwsAccount currentAccount) {
+    private static AmazonS3 getS3ClientUsingProfile(AwsAccount currentAccount) {
 
-        AWSCredentials credentials = new ProfileCredentialsProvider(currentAccount.getProfile()).getCredentials();
-        return new AmazonS3Client(credentials);
+        String profile = currentAccount.getProfile();
+
+        if (profile != null && profile.trim().length() > 1) {
+            AWSCredentials credentials = new ProfileCredentialsProvider(currentAccount.getProfile()).getCredentials();
+            return new AmazonS3Client(credentials);
+        }
+
+        return null;
     }
 
     public String getS3BucketForAccount(AwsAccount activeAccount) {

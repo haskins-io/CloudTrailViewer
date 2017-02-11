@@ -133,7 +133,7 @@ class RemoteFileHandler extends FileHandler {
             listObjectsRequest.setDelimiter(delimiter);
         }
 
-        AmazonS3 s3Client = AwsService.getS3ClientUsingProfile(currentAccount);
+        AmazonS3 s3Client = AwsService.getS3Client(currentAccount);
 
         return s3Client.listObjects(listObjectsRequest);
     }
@@ -154,7 +154,7 @@ class RemoteFileHandler extends FileHandler {
 
     private void addFolderFiles(String path) {
 
-        AmazonS3 s3Client = AwsService.getS3ClientUsingProfile(currentAccount);
+        AmazonS3 s3Client = AwsService.getS3Client(currentAccount);
 
         ObjectListing current = s3Client.listObjects(currentAccount.getBucket(), path);
         List<S3ObjectSummary> objectSummaries = current.getObjectSummaries();
