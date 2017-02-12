@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.widget;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
@@ -62,6 +64,10 @@ public class MapWidgetController extends AbstractBaseController {
         }
 
         return fxmlObject;
+    }
+
+    FontAwesomeIconView getWidgetIcon() {
+        return new FontAwesomeIconView(FontAwesomeIcon.MAP_MARKER);
     }
 
     @Override

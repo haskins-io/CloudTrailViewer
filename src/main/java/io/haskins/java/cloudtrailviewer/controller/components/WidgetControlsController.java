@@ -20,6 +20,7 @@ package io.haskins.java.cloudtrailviewer.controller.components;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,31 +34,32 @@ public class WidgetControlsController extends BorderPane {
     @FXML private Button editButton;
     @FXML private Button removeButton;
     @FXML private Label titleLabel;
+    @FXML private Label icon;
 
     private WidgetControlsControllerListener listener;
 
-    private FontAwesomeIconView configure = new FontAwesomeIconView(FontAwesomeIcon.COG);
-    private FontAwesomeIconView remove = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
+    private final FontAwesomeIconView ICON_CONFIG = new FontAwesomeIconView(FontAwesomeIcon.COG);
+    private final FontAwesomeIconView ICON_REMOVE = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
 
     public WidgetControlsController() {
         this.prefWidth(220);
         this.prefHeight(65);
-
-
     }
 
-    public void init(WidgetControlsControllerListener l, String title) {
-        listener = l;
-        titleLabel.setText(title);
+    public void init(WidgetControlsControllerListener l, DashboardWidget widget) {
 
-        editButton.setGraphic(configure);
-        removeButton.setGraphic(remove);
+        listener = l;
+        titleLabel.setText(widget.getTitle());
+
+        editButton.setGraphic(ICON_CONFIG);
+        removeButton.setGraphic(ICON_REMOVE);
+
+        icon.setGraphic(widget.getIcon());
     }
 
     @FXML void editWidget() {
         listener.editWidget();
     }
-
     @FXML void removeWidget() {
         listener.removeWidget();
     }

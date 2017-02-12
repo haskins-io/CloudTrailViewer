@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.widget;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
@@ -47,6 +49,10 @@ public class ChartLineWidgetController extends XYChartController {
         }
 
         return fxmlObject;
+    }
+
+    FontAwesomeIconView getWidgetIcon() {
+        return new FontAwesomeIconView(FontAwesomeIcon.LINE_CHART);
     }
 
     @Override

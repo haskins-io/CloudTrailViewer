@@ -9,15 +9,23 @@
             fx:id="borderPane"
             styleClass="widget-header"
             fx:controller="io.haskins.java.cloudtrailviewer.controller.components.WidgetControlsController">
+    <left>
+        <HBox prefHeight="35.0">
+            <Label prefWidth="30" prefHeight="30" fx:id="icon"/>
+            <padding>
+                <Insets top="5.0" left="15.0" right="5.0"/>
+            </padding>
+        </HBox>
+    </left>
     <center>
-        <Label fx:id="titleLabel" BorderPane.alignment="CENTER" styleClass="widget-title" />
+        <Label fx:id="titleLabel"  styleClass="widget-title"/>
     </center>
     <right>
-        <HBox prefHeight="35.0" BorderPane.alignment="BOTTOM_RIGHT">
-            <Button fx:id="editButton" mnemonicParsing="false" styleClass="control-button" onAction="#editWidget" />
-            <Button fx:id="removeButton" mnemonicParsing="false"  styleClass="control-button" onAction="#removeWidget" />
+        <HBox prefHeight="35.0">
+            <Button fx:id="editButton" mnemonicParsing="false" styleClass="control-button" onAction="#editWidget"/>
+            <Button fx:id="removeButton" mnemonicParsing="false" styleClass="control-button" onAction="#removeWidget" />
             <padding>
-                <Insets top="5.0" left="5.0" right="5.0" />
+                <Insets top="5.0" left="5.0" right="5.0"/>
             </padding>
         </HBox>
     </right>

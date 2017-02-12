@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.model;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+
 import java.io.Serializable;
 
 /**
@@ -45,6 +47,8 @@ public class DashboardWidget implements Serializable {
     private double height;
 
     private Object payload;
+
+    private transient FontAwesomeIconView icon;
 
     public String getWidget() {
         return widget;
@@ -147,5 +151,13 @@ public class DashboardWidget implements Serializable {
     }
     public Object getPayload() {
         return this.payload;
+    }
+
+    public FontAwesomeIconView getIcon() {
+        return icon;
+    }
+
+    public void setIcon(FontAwesomeIconView icon) {
+        this.icon = icon;
     }
 }

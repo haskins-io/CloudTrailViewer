@@ -64,7 +64,7 @@ public class WidgetUtils {
             if (update) {
                 dialogStage.setTitle("Update " + widget.getWidget());
             } else {
-                dialogStage.setTitle("Create " + widget.getWidget());
+                dialogStage.setTitle("Add new Widget.");
             }
 
             dialogStage.initModality(Modality.WINDOW_MODAL);

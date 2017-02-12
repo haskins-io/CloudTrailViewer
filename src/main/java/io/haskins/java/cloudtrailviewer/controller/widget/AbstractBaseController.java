@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.widget;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.controller.components.WidgetControlsController;
 import io.haskins.java.cloudtrailviewer.controller.components.WidgetControlsControllerListener;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
@@ -77,17 +78,20 @@ public abstract class AbstractBaseController extends BorderPane implements Event
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public abstract BorderPane loadFXML();
 
+    abstract FontAwesomeIconView getWidgetIcon();
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// public methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void configure(DashboardWidget widget, EventTableService eventTableService, DatabaseService databaseService) {
 
         this.widget = widget;
+        this.widget.setIcon(getWidgetIcon());
 
         this.eventTableService = eventTableService;
         this.databaseService = databaseService;
 
-        widgetControlsController.init(this, widget.getTitle());
+        widgetControlsController.init(this, widget);
 
         widgetContainer.setLayoutX(widget.getXPos());
         widgetContainer.setLayoutY(widget.getYPos());

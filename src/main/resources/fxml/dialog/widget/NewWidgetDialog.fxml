@@ -24,36 +24,36 @@
     <center>
         <VBox>
             <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Map" onAction="#MapSelected">
+                <Button fx:id="btnMap" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Map" onAction="#MapSelected">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Table" onAction="#TableSelected">
+                <Button fx:id="btnTable" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Table" onAction="#TableSelected">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Pie Chart" onAction="#PieChartSelected">
+                <Button fx:id="btnPieChart" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Pie Chart" onAction="#PieChartSelected">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Bar Chart" onAction="#BarChartSelected">
+                <Button fx:id="btnBarChart" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Bar Chart" onAction="#BarChartSelected">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Stacked Bar Chart" onAction="#StackedBarChartSelected" disable="true">
+                <Button fx:id="btnSBarChart" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Stacked Bar Chart" onAction="#StackedBarChartSelected" disable="true">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Line Chart" onAction="#LineChartSelected" disable="true">
+                <Button fx:id="btnLineChart" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Line Chart" onAction="#LineChartSelected" disable="true">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
             </HBox>
 
             <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Errors" onAction="#ErrorsSelected">
+                <Button fx:id="btnErros" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Errors" onAction="#ErrorsSelected">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Resources" onAction="#ResourcesSelected">
+                <Button fx:id="btnResources" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Resources" onAction="#ResourcesSelected">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Security" onAction="#SecuritySelected">
+                <Button fx:id="btnSecurity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Security" onAction="#SecuritySelected">
                     <HBox.margin><Insets left="5.0" right="5.0" top="5.0"/></HBox.margin>
                 </Button>
             </HBox>

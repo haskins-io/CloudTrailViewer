@@ -1,6 +1,7 @@
 package io.haskins.java.cloudtrailviewer.controller.widget;
 
-import com.sun.javafx.event.EventUtil;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
@@ -34,6 +35,10 @@ public class JsonWidgetController extends AbstractBaseController {
         return fxmlObject;
     }
 
+    FontAwesomeIconView getWidgetIcon() {
+        return new FontAwesomeIconView(FontAwesomeIcon.FILE_TEXT);
+    }
+
     @Override
     public void configure(DashboardWidget widget, EventTableService eventTableService, DatabaseService databaseService) {
 
@@ -45,13 +50,18 @@ public class JsonWidgetController extends AbstractBaseController {
     @Override
     public void finishedLoading(boolean reload) {
 
-        Event event = (Event)widget.getPayload();
+        try {
+            Event event = (Event)widget.getPayload();
 
-        if (event.getRawJSON() == null) {
-            EventUtils.addRawJson(event);
+            if (event.getRawJSON() == null) {
+                EventUtils.addRawJson(event);
+            }
+
+            textArea.setText(event.getRawJSON());
+        } catch (Exception e) {
+            // dp nothing
         }
 
-        textArea.setText(event.getRawJSON());
     }
 
     @Override

@@ -18,10 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.dialog.widget;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +50,28 @@ public class NewWidgetDialogController extends AbstractDialogController {
 
     public static final List<String> configureLessWidgets = Arrays.asList(WIDGET_TABLE_ERROR, WIDGET_TABLE_RESOURCES, WIDGET_TABLE_SECURITY);
 
+    @FXML private Button btnMap;
+    @FXML private Button btnTable;
+    @FXML private Button btnPieChart;
+    @FXML private Button btnBarChart;
+    @FXML private Button btnSBarChart;
+    @FXML private Button btnLineChart;
+    @FXML private Button btnErros;
+    @FXML private Button btnResources;
+    @FXML private Button btnSecurity;
+
+    @FXML
+    public void initialize() {
+        btnMap.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.MAP_MARKER));
+        btnTable.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.TABLE));
+        btnPieChart.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.PIE_CHART));
+        btnBarChart.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
+        btnSBarChart.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART_ALT));
+        btnLineChart.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.LINE_CHART));
+        btnErros.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE));
+        btnResources.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SERVER));
+        btnSecurity.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SHIELD));
+    }
 
     @FXML
     protected void handleUpdate() {
