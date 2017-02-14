@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.controller.dialog.widget;
 
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
+import io.haskins.java.cloudtrailviewer.model.observable.KeyStringValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
@@ -31,7 +33,7 @@ import javafx.scene.control.TextField;
 public class StackedBarChartDialogController extends AbstractDialogController {
 
     @FXML private TextField top;
-    @FXML private ChoiceBox<String> category;
+    @FXML private ChoiceBox<KeyStringValue> category;
     @FXML private ChoiceBox<String> orientation;
 
     @FXML
@@ -39,7 +41,7 @@ public class StackedBarChartDialogController extends AbstractDialogController {
 
         widget.setTop(Integer.parseInt(top.getText()));
 
-        widget.setCategoryField(category.getSelectionModel().getSelectedItem());
+        widget.setCategoryField(category.getSelectionModel().getSelectedItem().getValue());
         widget.setOrientation(orientation.getSelectionModel().getSelectedItem());
 
         super.handleUpdate();
@@ -53,8 +55,14 @@ public class StackedBarChartDialogController extends AbstractDialogController {
             top.setText(String.valueOf(widget.getTop()));
         }
 
-        if (widget.getCategoryField() != null && category != null) {
-            category.setValue(widget.getCategoryField());
+        ObservableList<KeyStringValue> items = category.getItems();
+        for (KeyStringValue val : items) {
+
+            String itemValue = val.getValue();
+
+            if (itemValue.equalsIgnoreCase(widget.getCategoryField())) {
+                category.setValue(val);
+            }
         }
 
         if (widget.getOrientation() != null && orientation != null) {

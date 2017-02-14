@@ -46,19 +46,6 @@
     <Label text="Category:" GridPane.columnIndex="0"  GridPane.rowIndex="5"/>
     <fx:include source="../../components/EventField.fxml" fx:id="category" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
-    <Label text="Orientation:" GridPane.columnIndex="0"  GridPane.rowIndex="6"/>
-    <ChoiceBox prefWidth="150.0" fx:id="orientation" value="Top"  GridPane.columnIndex="1" GridPane.rowIndex="6">
-        <items>
-            <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Vertical"/>
-                <String fx:value="Horizontal"/>
-            </FXCollections>
-        </items>
-        <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-        </VBox.margin>
-    </ChoiceBox>
-
 
     <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="7">
         <Button mnemonicParsing="false" text="Cancel" onAction="#handleCancel" />

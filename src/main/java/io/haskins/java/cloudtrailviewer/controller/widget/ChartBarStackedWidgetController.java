@@ -74,7 +74,7 @@ public class ChartBarStackedWidgetController extends XYChartController {
 
         chart.getXAxis().setTickLabelsVisible(false);
 
-        widgetControlsController.hideEditButton();
+//        widgetControlsController.hideEditButton();
     }
 
     public void newEvents(List<Event> events) {
