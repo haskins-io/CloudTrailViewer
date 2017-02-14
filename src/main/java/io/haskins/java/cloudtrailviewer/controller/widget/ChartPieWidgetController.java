@@ -24,17 +24,27 @@ import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
+import io.haskins.java.cloudtrailviewer.utils.ChartHoverUtil;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Controller for a Pie Chart.
@@ -107,7 +117,17 @@ public class ChartPieWidgetController extends AbstractBaseController {
         }
 
         for (PieChart.Data item: pieChart.getData()){
-            item.getNode().setOnMousePressed((MouseEvent event) -> eventTableService.setTableEvents(keyValueMap.get(item.getName())));
+
+            item.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    eventTableService.setTableEvents(keyValueMap.get(item.getName()));
+                }
+            });
+
         }
+
+        ChartHoverUtil.setupPieChartHovering(pieChart);
     }
 }
+
