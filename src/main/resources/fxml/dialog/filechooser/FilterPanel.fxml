@@ -1,0 +1,62 @@
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import io.haskins.java.cloudtrailviewer.model.observable.FilterChoiceObservable?>
+
+<?import javafx.scene.control.ComboBox?>
+<BorderPane prefHeight="595.0"
+            prefWidth="658.0"
+            xmlns="http://javafx.com/javafx/8.0.111"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FilterPanelController">
+
+    <top>
+        <GridPane>
+            <Label text="Filter" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <ComboBox prefWidth="200.0" fx:id="filter" value="No Filter" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+
+                        <FilterChoiceObservable name="No Filter" filter="null" field=""/>
+
+                        <FilterChoiceObservable name="Text Filter" filter="AllFilter" field=""/>
+                        <FilterChoiceObservable name="Date Filter" filter="DateFilter" field=""/>
+                        <FilterChoiceObservable name="Ignore Filter" filter="IgnoreFilter" field=""/>
+
+                        <FilterChoiceObservable name="Event Name" filter="EventFieldFilter" field="eventName"/>
+                        <FilterChoiceObservable name="AWS Region" filter="EventFieldFilter" field="awsRegion"/>
+                        <FilterChoiceObservable name="Source IP Address" filter="EventFieldFilter" field="sourceIPAddress"/>
+                        <FilterChoiceObservable name="User Agent" filter="EventFieldFilter" field="userAgent"/>
+                        <FilterChoiceObservable name="Event Source" filter="EventFieldFilter" field="eventSource"/>
+                        <FilterChoiceObservable name="Error Code" filter="EventFieldFilter" field="errorCode"/>
+                        <FilterChoiceObservable name="Error Message" filter="EventFieldFilter" field="errorMessage"/>
+                        <FilterChoiceObservable name="Recipient Account Id" filter="EventFieldFilter" field="recipientAccountId"/>
+
+                        <FilterChoiceObservable name="User Identity : Type" filter="EventFieldFilter" field="userIdentity.type"/>
+                        <FilterChoiceObservable name="User Identity : Principal Id" filter="EventFieldFilter" field="userIdentity.principalId"/>
+                        <FilterChoiceObservable name="User Identity : Arn" filter="EventFieldFilter" field="userIdentity.arn"/>
+                        <FilterChoiceObservable name="User Identity : Account Id" filter="EventFieldFilter" field="userIdentity.accountId"/>
+                        <FilterChoiceObservable name="User Identity : Access Key Id" filter="EventFieldFilter" field="userIdentity.accessKeyId"/>
+                        <FilterChoiceObservable name="User Identity : User name" filter="EventFieldFilter" field="userIdentity.userName"/>
+                        <FilterChoiceObservable name="User Identity : Invoked By" filter="EventFieldFilter" field="userIdentity.invokedBy"/>
+                        <FilterChoiceObservable name="User Identity : Web Id Federation Data" filter="EventFieldFilter" field="userIdentity.webIdFederationData"/>
+
+                        <FilterChoiceObservable name="Session Issuer : Type" filter="EventFieldFilter" field="userIdentity.sessionContext.sessionIssuer.type"/>
+                        <FilterChoiceObservable name="Session Issuer : Principal Id" filter="EventFieldFilter" field="userIdentity.sessionContext.sessionIssuer.principalId"/>
+                        <FilterChoiceObservable name="Session Issuer : Arn" filter="EventFieldFilter" field="userIdentity.sessionContext.sessionIssuer.arn"/>
+                        <FilterChoiceObservable name="Session Issuer : Account Id" filter="EventFieldFilter" field="userIdentity.sessionContext.sessionIssuer.accountId"/>
+                        <FilterChoiceObservable name="Session Issuer : User name" filter="EventFieldFilter" field="userIdentity.sessionContext.sessionIssuer.userName"/>
+                    </FXCollections>
+                </items>
+                <VBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+            </ComboBox>
+
+        </GridPane>
+    </top>
+
+</BorderPane>
