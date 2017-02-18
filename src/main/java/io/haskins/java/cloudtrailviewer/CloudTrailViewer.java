@@ -20,6 +20,7 @@ package io.haskins.java.cloudtrailviewer;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
@@ -105,6 +106,10 @@ public class CloudTrailViewer extends Application {
         scene.getStylesheets().add(getClass().getResource("/style/cloudtrailviewer.css").toExternalForm());
 
         Stage mainStage = new Stage(StageStyle.DECORATED);
+        mainStage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
         mainStage.setScene(scene);
         mainStage.setTitle("CloudTrail Viewer");
         mainStage.show();
