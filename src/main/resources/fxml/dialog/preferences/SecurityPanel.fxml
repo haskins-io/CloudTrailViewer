@@ -15,16 +15,8 @@
     </center>
     <bottom>
         <HBox prefHeight="35.0" prefWidth="242.0" BorderPane.alignment="CENTER">
-            <Button mnemonicParsing="false" text="+" onAction="#add">
-                <HBox.margin>
-                    <Insets left="3.0" right="3.0"/>
-                </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" text="-" onAction="#remove">
-                <HBox.margin>
-                    <Insets left="3.0" right="3.0"/>
-                </HBox.margin>
-            </Button>
+            <Button mnemonicParsing="false" text="+" onAction="#add"/>
+            <Button mnemonicParsing="false" text="-" onAction="#remove"/>
             <BorderPane.margin>
                 <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
             </BorderPane.margin>

@@ -6,29 +6,18 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.preferences.AccountPanelController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.preferences.AccountPanelController">
 
     <center>
-        <TableView prefHeight="200.0" prefWidth="242.0" BorderPane.alignment="CENTER" fx:id="tableView" editable="true" />
+        <TableView fx:id="tableView" editable="true" prefHeight="200.0" prefWidth="242.0" BorderPane.alignment="CENTER" />
     </center>
     <bottom>
         <HBox prefHeight="35.0" prefWidth="242.0" BorderPane.alignment="CENTER">
-            <Button mnemonicParsing="false" text="+" onAction="#add">
-                <HBox.margin>
-                    <Insets left="3.0" right="3.0"/>
-                </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" text="-" onAction="#remove">
-                <HBox.margin>
-                    <Insets left="3.0" right="3.0"/>
-                </HBox.margin>
-            </Button>
+            <Button mnemonicParsing="false" onAction="#add" text="+" />
+            <Button mnemonicParsing="false" onAction="#remove" text="-" />
             <BorderPane.margin>
-                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
             </BorderPane.margin>
         </HBox>
     </bottom>
 </BorderPane>
-
