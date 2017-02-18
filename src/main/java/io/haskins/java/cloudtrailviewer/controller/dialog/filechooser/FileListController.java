@@ -18,24 +18,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.model.observable.FileListModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.util.List;
 
 /**
- * Class that extends ListView to provide custom controll using ListViewCell
+ * Class that extends ListView to provide custom controll using FileListViewCell
  *
  * Created by markhaskins on 27/01/2017.
  */
@@ -52,7 +47,7 @@ public class FileListController extends ListView<FileListModel> {
         this.setCellFactory(new Callback<ListView<FileListModel>, ListCell<FileListModel>>() {
             @Override
             public ListCell<FileListModel> call(ListView<FileListModel> list) {
-                return new ListViewCell();
+                return new FileListViewCell();
             }
         });
     }
@@ -68,7 +63,11 @@ public class FileListController extends ListView<FileListModel> {
      * Initialises the Class, and attempts to load the first batch of files from S3
      */
     public void init(AwsAccount currentAccount, FileListControllerListener listener) {
-        fileHandler = new RemoteFileHandler(this, currentAccount, listener);
+        fileHandler = new S3FileHandler(this, currentAccount, listener);
+    }
+
+    public void setScanning(boolean isScanning) {
+        fileHandler.setScanning(isScanning);
     }
 
     List<String> getSelectedItems() {
@@ -76,51 +75,5 @@ public class FileListController extends ListView<FileListModel> {
     }
 }
 
-class ListViewCell extends ListCell<FileListModel> {
-
-    private HBox layout = new HBox();
-    private Label icon = new Label();
-    private Label name = new Label();
-
-    private FontAwesomeIconView folder = new FontAwesomeIconView(FontAwesomeIcon.FOLDER);
-    private FontAwesomeIconView file = new FontAwesomeIconView(FontAwesomeIcon.FILE);
-    private FontAwesomeIconView parent = new FontAwesomeIconView(FontAwesomeIcon.ARROW_UP);
-
-    ListViewCell() {
-
-        name.setPadding(new Insets(0, 0, 0, 10));
-
-        layout.getChildren().add(icon);
-        layout.getChildren().add(name);
-
-        folder.getStyleClass().add("file_dir");
-        file.getStyleClass().add("file_file");
-    }
-
-    @Override
-    public void updateItem(FileListModel model, boolean empty) {
-
-        super.updateItem(model, empty);
-
-        if (model != null) {
-
-            if (model.getFileType() == FileListModel.FILE_DIR) {
-                icon.setGraphic(folder);
-            } else if (model.getFileType() == FileListModel.FILE_DOC) {
-                icon.setGraphic(file);
-            } else {
-                icon.setGraphic(parent);
-            }
-
-            name.setText(model.getName());
-
-            setText(null);
-            setGraphic(layout);
-        } else {
-            setText(null);
-            setGraphic(null);
-        }
-    }
-}
 
 

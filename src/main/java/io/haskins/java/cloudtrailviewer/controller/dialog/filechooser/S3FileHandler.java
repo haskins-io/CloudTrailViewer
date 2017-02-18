@@ -34,12 +34,12 @@ import java.util.List;
  *
  * Created by markhaskins on 27/01/2017.
  */
-class RemoteFileHandler extends FileHandler {
+class S3FileHandler extends FileHandler {
 
     private AwsAccount currentAccount = null;
     private String prefix = "";
 
-    RemoteFileHandler(ListView<FileListModel> listView, AwsAccount awsAccount, FileListControllerListener listener) {
+    S3FileHandler(ListView<FileListModel> listView, AwsAccount awsAccount, FileListControllerListener listener) {
 
         this.listView = listView;
         listView.setItems(data);
@@ -145,9 +145,17 @@ class RemoteFileHandler extends FileHandler {
         if (listView.getSelectionModel().getSelectedItems() != null &&
                 !listView.getSelectionModel().getSelectedItems().isEmpty()) {
 
-            List<FileListModel> selectedItems = listView.getSelectionModel().getSelectedItems();
-            for (FileListModel key : selectedItems) {
-                selected_keys.add(prefix + key.getName());
+            String selected = prefix + listView.getSelectionModel().getSelectedItem().getName();
+
+            if (isScanning && selected.endsWith("/")) {
+                addFolderFiles(selected);
+
+            } else {
+
+                List<FileListModel> selectedItems = listView.getSelectionModel().getSelectedItems();
+                for (FileListModel key : selectedItems) {
+                    selected_keys.add(prefix + key.getName());
+                }
             }
         }
     }

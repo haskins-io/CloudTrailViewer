@@ -32,8 +32,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 
-import java.util.logging.Level;
-
 /**
  * Provides the logic for the filter panel
  *

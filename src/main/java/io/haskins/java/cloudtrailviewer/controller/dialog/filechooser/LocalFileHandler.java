@@ -76,8 +76,6 @@ class LocalFileHandler extends FileHandler {
                 }
             }
         }
-
-
     }
 
     private void addSelectedKeys() {
@@ -87,10 +85,27 @@ class LocalFileHandler extends FileHandler {
         if (listView.getSelectionModel().getSelectedItems() != null &&
                 !listView.getSelectionModel().getSelectedItems().isEmpty()) {
 
-            List<FileListModel> selectedItems = listView.getSelectionModel().getSelectedItems();
+            File file = (File)listView.getSelectionModel().getSelectedItem().getPath();
 
-            for (FileListModel key : selectedItems) {
-                selected_keys.add(((File)key.getPath()).getAbsolutePath());
+            if (isScanning && file.isDirectory()) {
+
+                File f = new File(file.getAbsolutePath());
+                File[] files = f.listFiles();
+                if (files != null) {
+                    for (File object : files) {
+
+                        if (object.isFile()) {
+                            selected_keys.add(object.getAbsolutePath());
+                        }
+                    }
+                }
+
+            } else {
+                List<FileListModel> selectedItems = listView.getSelectionModel().getSelectedItems();
+
+                for (FileListModel key : selectedItems) {
+                    selected_keys.add(((File)key.getPath()).getAbsolutePath());
+                }
             }
         }
     }

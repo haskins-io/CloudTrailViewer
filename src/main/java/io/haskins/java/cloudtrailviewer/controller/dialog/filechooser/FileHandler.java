@@ -44,7 +44,7 @@ abstract class FileHandler {
 
     final List<String> selected_keys = new ArrayList<>();
 
-    boolean scanning = false;
+    protected boolean isScanning = false;
 
     FileListControllerListener fileListControllerListener;
 
@@ -52,6 +52,10 @@ abstract class FileHandler {
 
     public abstract List<String> getSelectedItems();
 
+
+    void setScanning(boolean isScanning) {
+        this.isScanning = isScanning;
+    }
 
     void setUpMouseListener() {
 
@@ -72,7 +76,7 @@ abstract class FileHandler {
                         if (obj instanceof  File) {
 
                             File selected = (File)obj;
-                            if (selected.isDirectory()) {
+                            if (!isScanning && selected.isDirectory()) {
                                 fileListControllerListener.listItemSelected(false);
                             } else {
                                 fileListControllerListener.listItemSelected(true);
@@ -81,7 +85,7 @@ abstract class FileHandler {
                         } else {
 
                             String selected = (String)obj;
-                            if (selected.contains("/")) {
+                            if (!isScanning && selected.contains("/")) {
                                 fileListControllerListener.listItemSelected(false);
                             }
                             else {

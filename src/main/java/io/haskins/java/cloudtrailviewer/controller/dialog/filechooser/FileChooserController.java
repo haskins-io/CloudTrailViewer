@@ -49,7 +49,6 @@ public class FileChooserController implements FileListControllerListener, Filter
 
     private boolean showingFilterPanel = false;
     private boolean canceled = false;
-    private boolean scanning = false;
 
     private AccountService accountDao;
     private static AwsAccount currentAccount = null;
@@ -153,11 +152,10 @@ public class FileChooserController implements FileListControllerListener, Filter
 
         if (scanAvailable) {
             load.setText("Scan");
-            scanning = true;
         } else {
             load.setText("Load");
-            scanning = false;
         }
 
+        fileListController.setScanning(scanAvailable);
     }
 }
