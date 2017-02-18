@@ -32,7 +32,7 @@ import java.util.List;
  */
 public class CompositeFilter implements Serializable {
 
-    private static final int BITWISE_AND = 0;
+    public static final int BITWISE_AND = 0;
     public static final int BITWISE_OR = 1;
 
     private static final String[] BITWISE_OPERATORS = { "AND", "OR" };
@@ -53,15 +53,19 @@ public class CompositeFilter implements Serializable {
         filters.add(f);
     }
 
-    public void removeFilter(Filter f) {
+    void removeFilter(Filter f) {
         filters.remove(f);
+    }
+
+    public void clear() {
+        filters.clear();
     }
 
     public void setMode(int mode) {
         this.mode = mode;
     }
 
-    public int getMode() {
+    int getMode() {
         return this.mode;
     }
 
@@ -69,7 +73,7 @@ public class CompositeFilter implements Serializable {
         return BITWISE_OPERATORS[mode];
     }
 
-    public boolean allFiltersConfigured() {
+    boolean allFiltersConfigured() {
 
         boolean allFiltersConfigured = true;
 

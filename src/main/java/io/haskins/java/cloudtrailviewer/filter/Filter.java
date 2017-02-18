@@ -25,7 +25,7 @@ import io.haskins.java.cloudtrailviewer.model.event.Event;
  *
  * Created by markhaskins on 05/01/2017.
  */
-interface Filter {
+public interface Filter {
 
     boolean passesFilter(Event event);
 

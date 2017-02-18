@@ -143,7 +143,7 @@ public class EventService {
         new Thread(task).start();
     }
 
-    public void injectEvents(EventServiceListener l) {
+    void injectEvents(EventServiceListener l) {
         l.newEvents(eventDb);
     }
 

@@ -11,15 +11,18 @@ public class FilterChoiceObservable {
     private final SimpleStringProperty filter;
     private final SimpleStringProperty field;
 
+    private final SimpleStringProperty needle;
+
     public FilterChoiceObservable() {
-        this("", "", "");
+        this("", "", "", "");
     }
 
-    public FilterChoiceObservable(String name, String filter, String field) {
+    public FilterChoiceObservable(String name, String filter, String field, String needle) {
 
         this.name = new SimpleStringProperty(name);
         this.filter = new SimpleStringProperty(filter);
         this.field = new SimpleStringProperty(field);
+        this.needle = new SimpleStringProperty(needle);
     }
 
     public String getName() {
@@ -41,5 +44,27 @@ public class FilterChoiceObservable {
     }
     public void setField(String count) {
         this.field.set(count);
+    }
+
+    public String getNeedle() {
+        return needle.get();
+    }
+    public void setNeedle(String needle) {
+        this.needle.setValue(needle);
+    }
+
+    public boolean isfilterConfigure() {
+
+        boolean set = false;
+
+        if (needle != null && needle.get().length() > 0) {
+            set = true;
+        }
+
+        return set;
+    }
+
+    public String toString() {
+        return this.name.get();
     }
 }

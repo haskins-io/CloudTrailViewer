@@ -22,6 +22,7 @@ import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
 import io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController;
 import io.haskins.java.cloudtrailviewer.filter.AllFilter;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
+import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
 import io.haskins.java.cloudtrailviewer.service.AccountService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 
@@ -59,28 +60,12 @@ public class EventMenuController {
 
     @FXML
     private void loadLocalEvents() {
-
-        List<String> selectedItems = showFileChooser(true);
-        if (selectedItems != null && !selectedItems.isEmpty()) {
-
-            CompositeFilter filters = new CompositeFilter();
-            filters.addFilter(new AllFilter());
-
-            eventService.loadFiles(selectedItems, filters, EventService.FILE_TYPE_LOCAL);
-        }
+        handleRequest(showFileChooser(true), EventService.FILE_TYPE_LOCAL);
     }
 
     @FXML
     private void loadS3Events() {
-
-        List<String> selectedItems = showFileChooser(false);
-        if (selectedItems != null && !selectedItems.isEmpty()) {
-
-            CompositeFilter filters = new CompositeFilter();
-            filters.addFilter(new AllFilter());
-
-            eventService.loadFiles(selectedItems, filters, EventService.FILE_TYPE_S3);
-        }
+        handleRequest(showFileChooser(false), EventService.FILE_TYPE_S3);
     }
 
     @FXML
@@ -88,8 +73,14 @@ public class EventMenuController {
         eventService.clearEvents();
     }
 
+    private void handleRequest(LoadLogsRequest request, int requestType) {
 
-    private List<String> showFileChooser(boolean localFiles) {
+        if (request != null && !request.getFilenames().isEmpty()) {
+            eventService.loadFiles(request.getFilenames(), request.getFilter(), requestType);
+        }
+    }
+
+    private LoadLogsRequest showFileChooser(boolean localFiles) {
 
         try {
 

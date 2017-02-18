@@ -6,41 +6,58 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane prefHeight="595.0"
-            prefWidth="658.0"
-            xmlns="http://javafx.com/javafx/8.0.111"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController">
+<BorderPane
+        prefHeight="595.0"
+        prefWidth="658.0"
+        xmlns="http://javafx.com/javafx/8.0.112"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController">
 
     <bottom>
-        <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="658.0" BorderPane.alignment="CENTER">
-            <Button fx:id="cancel" mnemonicParsing="false" text="Cancel" onAction="#cancel">
-                <HBox.margin>
-                    <Insets left="5.0" right="5.0"/>
-                </HBox.margin>
-            </Button>
-            <Button fx:id="load" mnemonicParsing="false" text="Load" onAction="#load">
-                <HBox.margin>
-                    <Insets left="5.0" right="5.0"/>
-                </HBox.margin>
-            </Button>
-            <padding>
-                <Insets right="5.0"/>
-            </padding>
-        </HBox>
+        <BorderPane>
+            <left>
+                <HBox alignment="CENTER_RIGHT" prefHeight="50.0"  BorderPane.alignment="CENTER">
+                    <Button fx:id="filter" mnemonicParsing="false" onAction="#filter" text="Filter">
+                        <HBox.margin>
+                            <Insets left="5.0" right="5.0" />
+                        </HBox.margin>
+                    </Button>
+                    <padding>
+                        <Insets right="5.0" />
+                    </padding>
+                </HBox>
+            </left>
+            <right>
+                <HBox alignment="CENTER_RIGHT" prefHeight="50.0"  BorderPane.alignment="CENTER">
+                    <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" text="Cancel">
+                        <HBox.margin>
+                            <Insets left="5.0" right="5.0" />
+                        </HBox.margin>
+                    </Button>
+                    <Button fx:id="load" mnemonicParsing="false" onAction="#load" text="Load">
+                        <HBox.margin>
+                            <Insets left="5.0" right="5.0" />
+                        </HBox.margin>
+                    </Button>
+                    <padding>
+                        <Insets right="5.0" />
+                    </padding>
+                </HBox>
+            </right>
+        </BorderPane>
+
+
     </bottom>
     <center>
-        <SplitPane dividerPositions="0.3" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <SplitPane fx:id="splitPane"  prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <BorderPane>
                 <center>
-                    <!--
-                    <fx:include source="FilterPanel.fxml" fx:id="filterPanelController"/>
-                    -->
+                    <fx:include fx:id="filterPanel" source="FilterPanel.fxml" />
                 </center>
             </BorderPane>
             <BorderPane>
                 <center>
-                    <fx:include source="FileList.fxml" fx:id="fileListController"/>
+                    <fx:include fx:id="fileListController" source="FileList.fxml" />
                 </center>
             </BorderPane>
         </SplitPane>
