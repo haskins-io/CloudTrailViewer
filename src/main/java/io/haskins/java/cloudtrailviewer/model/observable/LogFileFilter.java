@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 /**
  * Created by markhaskins on 14/02/2017.
  */
-public class FilterChoiceObservable {
+public class LogFileFilter {
 
     private final SimpleStringProperty name;
     private final SimpleStringProperty filter;
@@ -13,11 +13,11 @@ public class FilterChoiceObservable {
 
     private final SimpleStringProperty needle;
 
-    public FilterChoiceObservable() {
+    public LogFileFilter() {
         this("", "", "", "");
     }
 
-    public FilterChoiceObservable(String name, String filter, String field, String needle) {
+    public LogFileFilter(String name, String filter, String field, String needle) {
 
         this.name = new SimpleStringProperty(name);
         this.filter = new SimpleStringProperty(filter);

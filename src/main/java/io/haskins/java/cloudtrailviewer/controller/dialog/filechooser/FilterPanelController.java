@@ -21,7 +21,7 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.filter.EventFieldFilter;
 import io.haskins.java.cloudtrailviewer.filter.Filter;
-import io.haskins.java.cloudtrailviewer.model.observable.FilterChoiceObservable;
+import io.haskins.java.cloudtrailviewer.model.observable.LogFileFilter;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -31,6 +31,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
+import javafx.util.Callback;
 
 /**
  * Provides the logic for the filter panel
@@ -39,11 +40,11 @@ import javafx.scene.layout.BorderPane;
  */
 public class FilterPanelController extends BorderPane {
 
-    @FXML private TableView<FilterChoiceObservable> filterTable;
+    @FXML private TableView<LogFileFilter> filterTable;
 
     @FXML private Button addBtn;
 
-    private final ObservableList<FilterChoiceObservable> data = FXCollections.observableArrayList();
+    private final ObservableList<LogFileFilter> data = FXCollections.observableArrayList();
 
     private final ContextMenu addFilterMenu = new ContextMenu();
 
@@ -63,7 +64,7 @@ public class FilterPanelController extends BorderPane {
     @FXML
     private void remove() {
 
-        FilterChoiceObservable selected = filterTable.getSelectionModel().getSelectedItem();
+        LogFileFilter selected = filterTable.getSelectionModel().getSelectedItem();
         filterTable.getItems().remove(selected);
     }
 
@@ -85,23 +86,22 @@ public class FilterPanelController extends BorderPane {
 
     private void initTable() {
 
-        TableColumn<FilterChoiceObservable, String> nameCol =  new TableColumn<>("Filter");
+        TableColumn<LogFileFilter, String> nameCol =  new TableColumn<>("Filter");
         nameCol.setMinWidth(100);
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
 
 
-        TableColumn<FilterChoiceObservable, String> valueCol =  new TableColumn<>("Value");
+        TableColumn<LogFileFilter, String> valueCol =  new TableColumn<>("Value");
         valueCol.setMinWidth(100);
         valueCol.setCellValueFactory(new PropertyValueFactory<>("needle"));
-
         valueCol.setCellFactory(TextFieldTableCell.forTableColumn());
         valueCol.setOnEditCommit(
-            (TableColumn.CellEditEvent<FilterChoiceObservable, String> t) -> {
+            (TableColumn.CellEditEvent<LogFileFilter, String> t) -> {
 
-                FilterChoiceObservable acct = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                LogFileFilter acct = t.getTableView().getItems().get(t.getTablePosition().getRow());
                 acct.setNeedle(t.getNewValue());
-                filtersUpdated();
 
+                filtersUpdated();
             }
         );
 
@@ -109,10 +109,10 @@ public class FilterPanelController extends BorderPane {
         filterTable.setEditable(true);
         filterTable.setItems(data);
 
-        data.addListener(new ListChangeListener<FilterChoiceObservable>(){
+        data.addListener(new ListChangeListener<LogFileFilter>(){
 
             @Override
-            public void onChanged(javafx.collections.ListChangeListener.Change<? extends FilterChoiceObservable> pChange) {
+            public void onChanged(javafx.collections.ListChangeListener.Change<? extends LogFileFilter> pChange) {
                 while(pChange.next()) {
                     filtersUpdated();
                 }
@@ -122,45 +122,45 @@ public class FilterPanelController extends BorderPane {
 
     private void initContextMenu() {
 
-        configureMenuItem(new MenuItem("No Filter"), new FilterChoiceObservable("No Filter", "", "", ""));
+        configureMenuItem(new MenuItem("No Filter"), new LogFileFilter("No Filter", "", "", ""));
 
-        configureMenuItem(new MenuItem("Text Filter"), new FilterChoiceObservable("Text Filter", "AllFilter", "", ""));
-        configureMenuItem(new MenuItem("Date Filter"), new FilterChoiceObservable("Date Filter", "DateFilter", "", ""));
-        configureMenuItem(new MenuItem("Ignore Filter"), new FilterChoiceObservable("Ignore Filter", "IgnoreFilter", "", ""));
+        configureMenuItem(new MenuItem("Text Filter"), new LogFileFilter("Text Filter", "AllFilter", "", ""));
+        configureMenuItem(new MenuItem("Date Filter"), new LogFileFilter("Date Filter", "DateFilter", "", ""));
+        configureMenuItem(new MenuItem("Ignore Filter"), new LogFileFilter("Ignore Filter", "IgnoreFilter", "", ""));
 
-        configureMenuItem(new MenuItem("Event Name"), new FilterChoiceObservable("Event Name", "EventFieldFilter", "eventName", ""));
-        configureMenuItem(new MenuItem("AWS Region"), new FilterChoiceObservable("AWS Region", "EventFieldFilter", "awsRegion", ""));
-        configureMenuItem(new MenuItem("Source IP Address"), new FilterChoiceObservable("Source IP Address", "EventFieldFilter", "sourceIPAddress", ""));
-        configureMenuItem(new MenuItem("User Agent"), new FilterChoiceObservable("User Agent", "EventFieldFilter", "userAgent", ""));
-        configureMenuItem(new MenuItem("Event Source"), new FilterChoiceObservable("Event Source", "EventFieldFilter", "eventSource", ""));
-        configureMenuItem(new MenuItem("Error Code"), new FilterChoiceObservable("Error Code", "EventFieldFilter", "errorCode", ""));
-        configureMenuItem(new MenuItem("Error Message"), new FilterChoiceObservable("Error Message", "EventFieldFilter", "errorMessage", ""));
-        configureMenuItem(new MenuItem("Recipient Account Id"), new FilterChoiceObservable("Recipient Account Id", "EventFieldFilter", "recipientAccountId", ""));
+        configureMenuItem(new MenuItem("Event Name"), new LogFileFilter("Event Name", "EventFieldFilter", "eventName", ""));
+        configureMenuItem(new MenuItem("AWS Region"), new LogFileFilter("AWS Region", "EventFieldFilter", "awsRegion", ""));
+        configureMenuItem(new MenuItem("Source IP Address"), new LogFileFilter("Source IP Address", "EventFieldFilter", "sourceIPAddress", ""));
+        configureMenuItem(new MenuItem("User Agent"), new LogFileFilter("User Agent", "EventFieldFilter", "userAgent", ""));
+        configureMenuItem(new MenuItem("Event Source"), new LogFileFilter("Event Source", "EventFieldFilter", "eventSource", ""));
+        configureMenuItem(new MenuItem("Error Code"), new LogFileFilter("Error Code", "EventFieldFilter", "errorCode", ""));
+        configureMenuItem(new MenuItem("Error Message"), new LogFileFilter("Error Message", "EventFieldFilter", "errorMessage", ""));
+        configureMenuItem(new MenuItem("Recipient Account Id"), new LogFileFilter("Recipient Account Id", "EventFieldFilter", "recipientAccountId", ""));
 
-        configureMenuItem(new MenuItem("User Identity : Type"), new FilterChoiceObservable("User Identity : Type", "EventFieldFilter", "userIdentity.type", ""));
-        configureMenuItem(new MenuItem("User Identity : Principal Id"), new FilterChoiceObservable("User Identity : Principal Id", "EventFieldFilter", "userIdentity.principalId", ""));
-        configureMenuItem(new MenuItem("User Identity : Arn"), new FilterChoiceObservable("User Identity : Arn", "EventFieldFilter", "userIdentity.arn", ""));
-        configureMenuItem(new MenuItem("User Identity : Account Id"), new FilterChoiceObservable("User Identity : Account Id", "EventFieldFilter", "userIdentity.accountId", ""));
-        configureMenuItem(new MenuItem("User Identity : Access Key Id"), new FilterChoiceObservable("User Identity : Access Key Id", "EventFieldFilter", "userIdentity.accessKeyId", ""));
-        configureMenuItem(new MenuItem("User Identity : User name"), new FilterChoiceObservable("User Identity : User name", "EventFieldFilter", "userIdentity.userName", ""));
-        configureMenuItem(new MenuItem("User Identity : Invoked By"), new FilterChoiceObservable("User Identity : Invoked By", "EventFieldFilter", "userIdentity.invokedBy", ""));
-        configureMenuItem(new MenuItem("User Identity : Web Id Federation Data"), new FilterChoiceObservable("User Identity : Web Id Federation Data", "EventFieldFilter", "userIdentity.webIdFederationData", ""));
+        configureMenuItem(new MenuItem("User Identity : Type"), new LogFileFilter("User Identity : Type", "EventFieldFilter", "userIdentity.type", ""));
+        configureMenuItem(new MenuItem("User Identity : Principal Id"), new LogFileFilter("User Identity : Principal Id", "EventFieldFilter", "userIdentity.principalId", ""));
+        configureMenuItem(new MenuItem("User Identity : Arn"), new LogFileFilter("User Identity : Arn", "EventFieldFilter", "userIdentity.arn", ""));
+        configureMenuItem(new MenuItem("User Identity : Account Id"), new LogFileFilter("User Identity : Account Id", "EventFieldFilter", "userIdentity.accountId", ""));
+        configureMenuItem(new MenuItem("User Identity : Access Key Id"), new LogFileFilter("User Identity : Access Key Id", "EventFieldFilter", "userIdentity.accessKeyId", ""));
+        configureMenuItem(new MenuItem("User Identity : User name"), new LogFileFilter("User Identity : User name", "EventFieldFilter", "userIdentity.userName", ""));
+        configureMenuItem(new MenuItem("User Identity : Invoked By"), new LogFileFilter("User Identity : Invoked By", "EventFieldFilter", "userIdentity.invokedBy", ""));
+        configureMenuItem(new MenuItem("User Identity : Web Id Federation Data"), new LogFileFilter("User Identity : Web Id Federation Data", "EventFieldFilter", "userIdentity.webIdFederationData", ""));
 
-        configureMenuItem(new MenuItem("Session Issuer : Type"), new FilterChoiceObservable("Session Issuer : Type", "EventFieldFilter", "userIdentity.sessionContext.sessionIssuer.type", ""));
-        configureMenuItem(new MenuItem("Session Issuer : Principal Id"), new FilterChoiceObservable("Session Issuer : Principal Id", "EventFieldFilter", "userIdentity.sessionContext.sessionIssuer.principalId", ""));
-        configureMenuItem(new MenuItem("Session Issuer : Arn"), new FilterChoiceObservable("Session Issuer : Arn", "EventFieldFilter", "userIdentity.sessionContext.sessionIssuer.arn", ""));
-        configureMenuItem(new MenuItem("Session Issuer : Account Id"), new FilterChoiceObservable("Session Issuer : Account Id", "EventFieldFilter", "userIdentity.sessionContext.sessionIssuer.accountId", ""));
-        configureMenuItem(new MenuItem("Session Issuer : User name"), new FilterChoiceObservable("Session Issuer : User name", "EventFieldFilter", "userIdentity.sessionContext.sessionIssuer.userName", ""));
+        configureMenuItem(new MenuItem("Session Issuer : Type"), new LogFileFilter("Session Issuer : Type", "EventFieldFilter", "userIdentity.sessionContext.sessionIssuer.type", ""));
+        configureMenuItem(new MenuItem("Session Issuer : Principal Id"), new LogFileFilter("Session Issuer : Principal Id", "EventFieldFilter", "userIdentity.sessionContext.sessionIssuer.principalId", ""));
+        configureMenuItem(new MenuItem("Session Issuer : Arn"), new LogFileFilter("Session Issuer : Arn", "EventFieldFilter", "userIdentity.sessionContext.sessionIssuer.arn", ""));
+        configureMenuItem(new MenuItem("Session Issuer : Account Id"), new LogFileFilter("Session Issuer : Account Id", "EventFieldFilter", "userIdentity.sessionContext.sessionIssuer.accountId", ""));
+        configureMenuItem(new MenuItem("Session Issuer : User name"), new LogFileFilter("Session Issuer : User name", "EventFieldFilter", "userIdentity.sessionContext.sessionIssuer.userName", ""));
 
     }
 
-    private void configureMenuItem(MenuItem menuItem, FilterChoiceObservable observable) {
+    private void configureMenuItem(MenuItem menuItem, LogFileFilter observable) {
 
         menuItem.setUserData(observable);
 
         menuItem.setOnAction(e -> {
 
-            FilterChoiceObservable selected = (FilterChoiceObservable)((MenuItem)e.getSource()).getUserData();
+            LogFileFilter selected = (LogFileFilter)((MenuItem)e.getSource()).getUserData();
             filterTable.getItems().add(selected);
         });
 
@@ -175,13 +175,13 @@ public class FilterPanelController extends BorderPane {
             passed = false;
 
         } else {
-            for (FilterChoiceObservable aData : data) {
+            for (LogFileFilter aData : data) {
                 passed &= aData.isfilterConfigure();
             }
         }
 
         if (passed) {
-            for (FilterChoiceObservable aData : data) {
+            for (LogFileFilter aData : data) {
                 filters.addFilter(getFilter(aData));
             }
         } else {
@@ -191,7 +191,7 @@ public class FilterPanelController extends BorderPane {
         listener.scanAvailable(passed);
     }
 
-    private Filter getFilter(FilterChoiceObservable filterChoiceObservable) {
+    private Filter getFilter(LogFileFilter filterChoiceObservable) {
 
         Filter filter = null;
 
