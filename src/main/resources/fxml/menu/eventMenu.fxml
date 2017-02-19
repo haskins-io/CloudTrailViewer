@@ -8,10 +8,6 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="io.haskins.java.cloudtrailviewer.controller.menu.EventMenuController">
 
-    <MenuItem mnemonicParsing="false" text="Load Local Files" onAction="#loadLocalEvents"/>
-    <MenuItem mnemonicParsing="false" text="Load Remote Files" onAction="#loadS3Events"/>
-
-    <SeparatorMenuItem/>
     <MenuItem mnemonicParsing="false" text="Clear Events" onAction="#clearEvents"/>
 
 </Menu>

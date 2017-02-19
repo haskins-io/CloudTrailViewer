@@ -27,7 +27,7 @@ import java.io.Serializable;
  *
  * Created by markhaskins on 04/01/2017.
  */
-public class DashboardWidget implements Serializable {
+public class DashboardWidget {
 
     private String widget;
     private String title;
@@ -49,6 +49,15 @@ public class DashboardWidget implements Serializable {
     private Object payload;
 
     private transient FontAwesomeIconView icon;
+
+    public DashboardWidget() {
+
+    }
+
+    public DashboardWidget(String widgetType) {
+        this.widget = widgetType;
+    }
+
 
     public String getWidget() {
         return widget;

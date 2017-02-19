@@ -98,20 +98,4 @@ public class DashboardMenuController {
         }
     }
 
-    @FXML
-    private void addWidget() {
-
-        DashboardWidget newWidget = new DashboardWidget();
-
-        DialogAction createWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
-        if (createWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
-
-        if (!NewWidgetDialogController.configureLessWidgets.contains(newWidget.getWidget())) {
-
-            DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
-            if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
-        }
-
-        dashboardService.addWidgetToDashboard(newWidget);
-    }
 }

@@ -49,22 +49,10 @@ public class EventMenuController {
     private final FileChooser fileChooser = new FileChooser();
 
     private final EventService eventService;
-    private final AccountService accountDao;
 
     @Autowired
-    public EventMenuController(EventService eventService, AccountService accountDao) {
+    public EventMenuController(EventService eventService) {
         this.eventService = eventService;
-        this.accountDao = accountDao;
-    }
-
-    @FXML
-    private void loadLocalEvents() {
-        handleRequest(showFileChooser(true), EventService.FILE_TYPE_LOCAL);
-    }
-
-    @FXML
-    private void loadS3Events() {
-        handleRequest(showFileChooser(false), EventService.FILE_TYPE_S3);
     }
 
     @FXML
@@ -72,46 +60,4 @@ public class EventMenuController {
         eventService.clearEvents();
     }
 
-    private void handleRequest(LoadLogsRequest request, int requestType) {
-
-        if (request != null && !request.getFilenames().isEmpty()) {
-            eventService.loadFiles(request.getFilenames(), request.getFilter(), requestType);
-        }
-    }
-
-    private LoadLogsRequest showFileChooser(boolean localFiles) {
-
-        try {
-
-            String fxmlFile = "/fxml/dialog/filechooser/FileChooser.fxml";
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(CloudTrailViewer.class.getResource(fxmlFile));
-            Pane page = loader.load();
-
-            Scene scene = new Scene(page);
-            scene.getStylesheets().add(getClass().getResource("/style/fileChooser.css").toExternalForm());
-
-            Stage dialogStage = new Stage();
-            dialogStage.initModality(Modality.APPLICATION_MODAL);
-            dialogStage.setScene(scene);
-
-            FileChooserController controller = loader.getController();
-
-            if (localFiles) {
-                controller.init(dialogStage, null);
-            } else {
-                controller.init(dialogStage, accountDao);
-            }
-
-            dialogStage.showAndWait();
-
-            return controller.getSelectedItems();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
 }

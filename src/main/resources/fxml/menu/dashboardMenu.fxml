@@ -12,6 +12,4 @@
         <MenuItem mnemonicParsing="false" text="Open" onAction="#openDashboard"/>
         <MenuItem mnemonicParsing="false" text="Save" onAction="#saveDashboard"/>
 
-        <SeparatorMenuItem  />
-        <MenuItem mnemonicParsing="false" text="Add Widget" onAction="#addWidget" />
 </Menu>

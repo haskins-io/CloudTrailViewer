@@ -7,7 +7,10 @@
 
 <BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.haskins.java.cloudtrailviewer.controller.ApplicationController">
     <top>
-        <fx:include source="menu/menu.fxml" />
+        <BorderPane>
+            <top><fx:include source="menu/menu.fxml" /></top>
+            <bottom><fx:include source="components/ToolBar.fxml" /></bottom>
+        </BorderPane>
     </top>
     <center>
         <SplitPane dividerPositions="0.9" orientation="VERTICAL">
