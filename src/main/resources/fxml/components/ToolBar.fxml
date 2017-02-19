@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Separator?>
+
+<ToolBar xmlns="http://javafx.com/javafx/8.0.112"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="io.haskins.java.cloudtrailviewer.controller.components.ToolBarController">
+
+    <Button fx:id="btnLocal" mnemonicParsing="false" onAction="#doLocal"/>
+    <Button fx:id="btnS3" mnemonicParsing="false" onAction="#doS3"/>
+    <Separator/>
+    <Button fx:id="btnMap" mnemonicParsing="false" onAction="#doMap"/>
+    <Button fx:id="btnTable" mnemonicParsing="false" onAction="#doTable"/>
+    <Separator/>
+    <Button fx:id="btnChartPie" mnemonicParsing="false" onAction="#doChartPie"/>
+    <Button fx:id="btnChartBar" mnemonicParsing="false" onAction="#doChartBar"/>
+    <Separator/>
+    <Button fx:id="btnError" mnemonicParsing="false" onAction="#doError"/>
+    <Button fx:id="btnResource" mnemonicParsing="false" onAction="#doResource"/>
+    <Button fx:id="btnSecurity" mnemonicParsing="false" onAction="#doSecurity"/>
+</ToolBar>
