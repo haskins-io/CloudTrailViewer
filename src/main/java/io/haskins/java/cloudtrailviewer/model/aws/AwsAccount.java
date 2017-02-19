@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.model.aws;
 
+import io.haskins.java.cloudtrailviewer.controls.warningcell.WarningCell;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -30,9 +31,12 @@ import java.io.Serializable;
  *
  * Created by markhaskins on 05/01/2017.
  */
-public class AwsAccount implements Serializable {
+public class AwsAccount  implements WarningCell {
 
-    private static final long serialVersionUID = 1298354923304275550L;
+    private static final int S3_BUCKET = 3;
+    private static final int API_KEY = 4;
+    private static final int API_SECRET = 5;
+    private static final int PROFILE = 6;
 
     private final IntegerProperty id;
     private final StringProperty name;
@@ -126,5 +130,58 @@ public class AwsAccount implements Serializable {
     }
     public String getProfile() {
         return this.profile.get();
+    }
+
+    public boolean displayWarning(int index) {
+
+        switch(index) {
+            case S3_BUCKET:
+                return this.getBucket() == null || this.getBucket().length() == 0;
+
+            case API_KEY:
+
+                if (this.getKey() == null && this.getSecret() == null && this.getProfile() == null) {
+                    return true;
+                }
+
+                if (this.getProfile() != null && this.getProfile().length() > 0) {
+                    return false;
+                }
+
+                if (this.getProfile() == null && this.getProfile().length() == 0 && this.getSecret() != null || this.getSecret().length() > 0) {
+                    return true;
+                }
+
+            case API_SECRET:
+
+                if (this.getKey() == null && this.getSecret() == null && this.getProfile() == null) {
+                    return true;
+                }
+
+                if (this.getProfile() != null && this.getProfile().length() > 0) {
+                    return false;
+                }
+
+                if (this.getProfile() == null && this.getProfile().length() == 0 && this.getKey() != null || this.getKey().length() > 0) {
+                    return true;
+                }
+
+            case PROFILE:
+
+                if (this.getKey() == null && this.getSecret() == null && this.getProfile() == null) {
+                    return true;
+                }
+
+                if (this.getProfile() != null && this.getProfile().length() > 0) {
+                    return false;
+                }
+
+                if (this.getProfile() == null && this.getProfile().length() == 0 && this.getKey() != null || this.getKey().length() > 0) {
+                    return true;
+                }
+        }
+
+        return false;
+
     }
 }

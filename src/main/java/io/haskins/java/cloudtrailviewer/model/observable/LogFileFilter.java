@@ -1,11 +1,12 @@
 package io.haskins.java.cloudtrailviewer.model.observable;
 
+import io.haskins.java.cloudtrailviewer.controls.warningcell.WarningCell;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
  * Created by markhaskins on 14/02/2017.
  */
-public class LogFileFilter {
+public class LogFileFilter implements WarningCell {
 
     private final SimpleStringProperty name;
     private final SimpleStringProperty filter;
@@ -66,5 +67,11 @@ public class LogFileFilter {
 
     public String toString() {
         return this.name.get();
+    }
+
+    public boolean displayWarning(int index) {
+
+        return this.getNeedle() == null || this.getNeedle().length() == 0;
+
     }
 }

@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 
+import io.haskins.java.cloudtrailviewer.controls.warningcell.WarningCellFactory;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.filter.EventFieldFilter;
 import io.haskins.java.cloudtrailviewer.filter.Filter;
@@ -29,9 +30,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
-import javafx.util.Callback;
 
 /**
  * Provides the logic for the filter panel
@@ -94,7 +93,8 @@ public class FilterPanelController extends BorderPane {
         TableColumn<LogFileFilter, String> valueCol =  new TableColumn<>("Value");
         valueCol.setMinWidth(100);
         valueCol.setCellValueFactory(new PropertyValueFactory<>("needle"));
-        valueCol.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        valueCol.setCellFactory(new WarningCellFactory());
         valueCol.setOnEditCommit(
             (TableColumn.CellEditEvent<LogFileFilter, String> t) -> {
 
