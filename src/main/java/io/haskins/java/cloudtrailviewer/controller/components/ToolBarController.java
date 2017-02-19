@@ -4,7 +4,6 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
 import io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController;
-import io.haskins.java.cloudtrailviewer.controller.dialog.widget.NewWidgetDialogController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
@@ -16,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -25,6 +25,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
+ * Controller for ToolBar
+ *
  * Created by markhaskins on 19/02/2017.
  */
 @Component
@@ -38,6 +40,7 @@ public class ToolBarController {
 
     @FXML private Button btnChartPie;
     @FXML private Button btnChartBar;
+    @FXML private Button btnChartStacked;
 
     @FXML private Button btnError;
     @FXML private Button btnResource;
@@ -60,19 +63,35 @@ public class ToolBarController {
     public void initialize() {
 
         btnLocal.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FOLDER_OPEN));
+        btnLocal.setTooltip(new Tooltip("Load Local Files"));
+
         btnS3.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.CLOUD_DOWNLOAD));
+        btnS3.setTooltip(new Tooltip("Load Files from S3"));
 
         btnMap.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.MAP_MARKER));
+        btnMap.setTooltip(new Tooltip("Add Map"));
+
         btnTable.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.TABLE));
+        btnTable.setTooltip(new Tooltip("Add Table"));
 
         btnChartPie.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.PIE_CHART));
+        btnChartPie.setTooltip(new Tooltip("Add Pie Chart"));
+
         btnChartBar.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
+        btnChartBar.setTooltip(new Tooltip("Add Bar Chart"));
 
+        btnChartStacked.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
+        btnChartStacked.setTooltip(new Tooltip("Add Stacked Bar Chart"));
+
+        btnError.setTooltip(new Tooltip("Add Error Widget"));
         btnError.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE));
-        btnResource.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SERVER));
-        btnSecurity.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SHIELD));
-    }
 
+        btnResource.setTooltip(new Tooltip("Add Resource Widget"));
+        btnResource.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SERVER));
+
+        btnSecurity.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SHIELD));
+        btnSecurity.setTooltip(new Tooltip("Add Security Widget"));
+    }
 
     @FXML private void doLocal() {
         handleRequest(showFileChooser(true), EventService.FILE_TYPE_LOCAL);
@@ -107,6 +126,15 @@ public class ToolBarController {
 
     @FXML private void doChartBar() {
         DashboardWidget newWidget = new DashboardWidget("ChartBar");
+
+        DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
+        if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
+
+        dashboardService.addWidgetToDashboard(newWidget);
+    }
+
+    @FXML private void doChartStacked() {
+        DashboardWidget newWidget = new DashboardWidget("ChartBarStacked");
 
         DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
         if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
