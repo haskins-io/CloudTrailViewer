@@ -4,6 +4,8 @@ import io.haskins.java.cloudtrailviewer.controls.warningcell.WarningCell;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
+ * File that models an Observable row in the Filter Table
+ *
  * Created by markhaskins on 14/02/2017.
  */
 public class LogFileFilter implements WarningCell {

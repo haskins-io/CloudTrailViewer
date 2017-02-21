@@ -31,12 +31,12 @@ import java.io.Serializable;
  *
  * Created by markhaskins on 05/01/2017.
  */
-public class AwsAccount  implements WarningCell {
+public class AwsAccount implements WarningCell {
 
-    private static final int S3_BUCKET = 3;
-    private static final int API_KEY = 4;
-    private static final int API_SECRET = 5;
-    private static final int PROFILE = 6;
+    public static final int S3_BUCKET = 3;
+    public static final int API_KEY = 4;
+    public static final int API_SECRET = 5;
+    public static final int PROFILE = 6;
 
     private final IntegerProperty id;
     private final StringProperty name;
@@ -148,7 +148,7 @@ public class AwsAccount  implements WarningCell {
                     return false;
                 }
 
-                if (this.getProfile() == null && this.getProfile().length() == 0 && this.getSecret() != null || this.getSecret().length() > 0) {
+                if ((this.getProfile() == null || this.getProfile().length() == 0) && (this.getSecret() != null || this.getSecret().length() > 0)) {
                     return true;
                 }
 
@@ -162,7 +162,7 @@ public class AwsAccount  implements WarningCell {
                     return false;
                 }
 
-                if (this.getProfile() == null && this.getProfile().length() == 0 && this.getKey() != null || this.getKey().length() > 0) {
+                if ((this.getProfile() == null || this.getProfile().length() == 0) && (this.getKey() != null || this.getKey().length() > 0)) {
                     return true;
                 }
 
@@ -176,7 +176,7 @@ public class AwsAccount  implements WarningCell {
                     return false;
                 }
 
-                if (this.getProfile() == null && this.getProfile().length() == 0 && this.getKey() != null || this.getKey().length() > 0) {
+                if ((this.getProfile() == null || this.getProfile().length() == 0) && (this.getKey() != null || this.getKey().length() > 0)) {
                     return true;
                 }
         }

@@ -15,6 +15,12 @@ public class WarningCellFactory<E> implements Callback<TableColumn<WarningCell,S
     private String normalStyle = ".table-cell{-fx-border-color: white; -fx-text-fill: black;-fx-border-width: 0;};",
             wrongStyle = "-fx-border-color: red; -fx-border-width: 1; -fx-text-fill: tomato;";
 
+    private final int colIndex;
+
+    public WarningCellFactory(int colIndex) {
+        this.colIndex = colIndex;
+    }
+
     @Override
     public TableCell<WarningCell, String> call(TableColumn<WarningCell, String> col) {
         return createTableCell(col);
@@ -35,7 +41,7 @@ public class WarningCellFactory<E> implements Callback<TableColumn<WarningCell,S
                     this.setText( arg0 );
                     WarningCell warnableObject = (WarningCell) this.getTableRow().getItem();
 
-                    if( warnableObject != null && warnableObject.displayWarning(getIndex()) ) {
+                    if( warnableObject != null && warnableObject.displayWarning(colIndex) ) {
                         this.setStyle(wrongStyle);
 
                     } else {

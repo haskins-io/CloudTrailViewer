@@ -94,7 +94,7 @@ public class FilterPanelController extends BorderPane {
         valueCol.setMinWidth(100);
         valueCol.setCellValueFactory(new PropertyValueFactory<>("needle"));
 
-        valueCol.setCellFactory(new WarningCellFactory());
+        valueCol.setCellFactory(new WarningCellFactory(0));
         valueCol.setOnEditCommit(
             (TableColumn.CellEditEvent<LogFileFilter, String> t) -> {
 
@@ -125,8 +125,8 @@ public class FilterPanelController extends BorderPane {
         configureMenuItem(new MenuItem("No Filter"), new LogFileFilter("No Filter", "", "", ""));
 
         configureMenuItem(new MenuItem("Text Filter"), new LogFileFilter("Text Filter", "AllFilter", "", ""));
-        configureMenuItem(new MenuItem("Date Filter"), new LogFileFilter("Date Filter", "DateFilter", "", ""));
-        configureMenuItem(new MenuItem("Ignore Filter"), new LogFileFilter("Ignore Filter", "IgnoreFilter", "", ""));
+//        configureMenuItem(new MenuItem("Date Filter"), new LogFileFilter("Date Filter", "DateFilter", "", ""));
+//        configureMenuItem(new MenuItem("Ignore Filter"), new LogFileFilter("Ignore Filter", "IgnoreFilter", "", ""));
 
         configureMenuItem(new MenuItem("Event Name"), new LogFileFilter("Event Name", "EventFieldFilter", "eventName", ""));
         configureMenuItem(new MenuItem("AWS Region"), new LogFileFilter("AWS Region", "EventFieldFilter", "awsRegion", ""));
