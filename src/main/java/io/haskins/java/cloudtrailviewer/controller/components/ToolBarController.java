@@ -10,6 +10,7 @@ import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
 import io.haskins.java.cloudtrailviewer.service.AccountService;
 import io.haskins.java.cloudtrailviewer.service.DashboardService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
+import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +36,8 @@ public class ToolBarController {
     @FXML private Button btnLocal;
     @FXML private Button btnS3;
 
+    @FXML private Button btnAllEvents;
+
     @FXML private Button btnMap;
     @FXML private Button btnTable;
 
@@ -50,13 +53,15 @@ public class ToolBarController {
     private final EventService eventService;
     private final AccountService accountDao;
     private final DashboardService dashboardService;
+    private final EventTableService eventTableService;
 
 
     @Autowired
-    public ToolBarController(DashboardService dashboardService, EventService eventService, AccountService accountDao) {
+    public ToolBarController(DashboardService dashboardService, EventService eventService, AccountService accountDao, EventTableService eventTableService) {
         this.dashboardService = dashboardService;
         this.eventService = eventService;
         this.accountDao = accountDao;
+        this.eventTableService = eventTableService;
     }
 
     @FXML
@@ -67,6 +72,9 @@ public class ToolBarController {
 
         btnS3.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.CLOUD_DOWNLOAD));
         btnS3.setTooltip(new Tooltip("Load Files from S3"));
+
+        btnAllEvents.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.ARCHIVE));
+        btnAllEvents.setTooltip(new Tooltip("View all Events"));
 
         btnMap.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.MAP_MARKER));
         btnMap.setTooltip(new Tooltip("Add Map"));
@@ -152,6 +160,10 @@ public class ToolBarController {
 
     @FXML private void doSecurity() {
         dashboardService.addWidgetToDashboard(new DashboardWidget("TableSecurity"));
+    }
+
+    @FXML private void allEvents() {
+        this.eventTableService.setTableEvents(eventService.getAllEvents());
     }
 
     private void handleRequest(LoadLogsRequest request, int requestType) {

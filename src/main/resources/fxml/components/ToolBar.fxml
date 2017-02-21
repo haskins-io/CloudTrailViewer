@@ -10,6 +10,8 @@
     <Button fx:id="btnLocal" mnemonicParsing="false" onAction="#doLocal"/>
     <Button fx:id="btnS3" mnemonicParsing="false" onAction="#doS3"/>
     <Separator/>
+    <Button fx:id="btnAllEvents" mnemonicParsing="false" onAction="#allEvents"/>
+    <Separator/>
     <Button fx:id="btnMap" mnemonicParsing="false" onAction="#doMap"/>
     <Button fx:id="btnTable" mnemonicParsing="false" onAction="#doTable"/>
     <Separator/>
