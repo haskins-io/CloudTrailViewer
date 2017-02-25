@@ -18,19 +18,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.components;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
-import io.haskins.java.cloudtrailviewer.model.observable.EventTableModel;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
-import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
 import io.haskins.java.cloudtrailviewer.service.DashboardService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
 import io.haskins.java.cloudtrailviewer.service.listener.EventTableServiceListener;
+import io.haskins.java.cloudtrailviewer.utils.EventUtils;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,7 +49,14 @@ import java.util.List;
 @Component
 public class EventTableController implements EventTableServiceListener, EventServiceListener {
 
-    @FXML private TableView<EventTableModel> tableView;
+    @FXML private TableView<Event> tableView;
+
+    @FXML private Label searchLabel;
+    @FXML private TextField searchField;
+    @FXML private Label resultCount;
+
+    private List<Event> allEvents = new ArrayList<>();
+    private ObservableList<Event> filteredEvents = FXCollections.observableArrayList();
 
     private DashboardService dashboardService;
 
@@ -58,22 +69,28 @@ public class EventTableController implements EventTableServiceListener, EventSer
         this.dashboardService = dashboardService;
     }
 
+    @FXML private void resetSearch() {
+        filteredEvents.clear();
+        filteredEvents.addAll(allEvents);
+    }
+
     public void initialize() {
 
         tableView.setRowFactory(tv -> {
 
-            TableRow<EventTableModel> row = new TableRow<>();
+            TableRow<Event> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
 
                 if (event.getClickCount() ==2 && !row.isEmpty()) {
-                    EventTableModel rowData = row.getItem();
+
+                    Event rowItem = row.getItem();
 
                     DashboardWidget widget = new DashboardWidget();
                     widget.setWidget("Json");
                     widget.setTitle("Event JSON");
                     widget.setWidth(425);
                     widget.setHeight(600);
-                    widget.setPayload(rowData.getEvent());
+                    widget.setPayload(rowItem);
 
                     dashboardService.addWidgetToDashboard(widget);
                 }
@@ -81,6 +98,38 @@ public class EventTableController implements EventTableServiceListener, EventSer
 
             return row;
         });
+
+        tableView.setItems(filteredEvents);
+
+        FilteredList<Event> filteredData = new FilteredList<>(filteredEvents, p -> true);
+        searchField.textProperty().addListener((observable, oldValue, newValue) ->
+        {
+            filteredData.setPredicate(event -> {
+                if (newValue== null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (event.getRawJSON() == null) {
+                    EventUtils.addRawJson(event);
+                }
+
+                if (event.getRawJSON().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+
+                return false;
+            });
+        });
+
+        SortedList<Event> sortedData = new SortedList<Event>(filteredData);
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+
+        tableView.setItems(sortedData);
+
+        searchLabel.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SEARCH));
+        resultCount.textProperty().bind(Bindings.size(filteredData).asString());
+
     }
     /**
      * Updates the table with the provided events.
@@ -89,17 +138,12 @@ public class EventTableController implements EventTableServiceListener, EventSer
     public void setEvents(List<Event> events) {
 
         if (events != null && !events.isEmpty()) {
-            tableView.getItems().clear();
 
-            ObservableList<EventTableModel> data = tableView.getItems();
+            allEvents.clear();
+            filteredEvents.clear();
 
-            List<EventTableModel> items = new ArrayList<>();
-
-            for (Event event : events) {
-                items.add(new EventTableModel(event));
-            }
-
-            data.addAll(items);
+            allEvents.addAll(events);
+            filteredEvents.addAll(events);
         }
     }
 
@@ -125,6 +169,7 @@ public class EventTableController implements EventTableServiceListener, EventSer
 
     @Override
     public void clearEvents() {
-        tableView.getItems().clear();
+        filteredEvents.clear();
     }
+
 }

@@ -1,34 +1,81 @@
-<?import javafx.scene.control.TableView?>
+<?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<TableView xmlns="http://javafx.com/javafx/8.0.111"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="io.haskins.java.cloudtrailviewer.controller.components.EventTableController"
-           fx:id="tableView">
+<?import javafx.scene.layout.BorderPane?>
 
-        <columns>
-            <TableColumn fx:id="eventTimeColumn" text="Event Time"><cellValueFactory><PropertyValueFactory property="eventTime" /></cellValueFactory></TableColumn>
-            <TableColumn text="Event Version"><cellValueFactory><PropertyValueFactory property="eventVersion" /></cellValueFactory></TableColumn>
-            <TableColumn text="Event Source"><cellValueFactory><PropertyValueFactory property="eventSource" /></cellValueFactory></TableColumn>
-            <TableColumn text="Event Name"><cellValueFactory><PropertyValueFactory property="eventName" /></cellValueFactory></TableColumn>
-            <TableColumn text="AWS Region"><cellValueFactory><PropertyValueFactory property="awsRegion" /></cellValueFactory></TableColumn>
-            <TableColumn text="User Agent"><cellValueFactory><PropertyValueFactory property="userAgent" /></cellValueFactory></TableColumn>
-            <TableColumn text="Error Code"><cellValueFactory><PropertyValueFactory property="errorCode" /></cellValueFactory></TableColumn>
-            <TableColumn text="Error Message"><cellValueFactory><PropertyValueFactory property="errorMessage" /></cellValueFactory></TableColumn>
-            <TableColumn text="Source IP Address"><cellValueFactory><PropertyValueFactory property="sourceIPAddress" /></cellValueFactory></TableColumn>
-            <TableColumn text="Request ID"><cellValueFactory><PropertyValueFactory property="requestID" /></cellValueFactory></TableColumn>
-            <TableColumn text="Event ID"><cellValueFactory><PropertyValueFactory property="eventID" /></cellValueFactory></TableColumn>
-            <TableColumn text="Event Type"><cellValueFactory><PropertyValueFactory property="eventType" /></cellValueFactory></TableColumn>
-            <TableColumn text="API Version"><cellValueFactory><PropertyValueFactory property="apiVersion" /></cellValueFactory></TableColumn>
-            <TableColumn text="Read Only"><cellValueFactory><PropertyValueFactory property="readOnly" /></cellValueFactory></TableColumn>
-            <TableColumn text="Recipient Account ID"><cellValueFactory><PropertyValueFactory property="recipientAccountId" /></cellValueFactory></TableColumn>
-            <TableColumn text="Shared Event ID"><cellValueFactory><PropertyValueFactory property="sharedEventID" /></cellValueFactory></TableColumn>
-            <TableColumn text="VPC Endpoint ID"><cellValueFactory><PropertyValueFactory property="vpcEndpointId" /></cellValueFactory></TableColumn>
-        </columns>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.haskins.java.cloudtrailviewer.controller.components.EventTableController">
 
-    <sortOrder>
-        <fx:reference source="eventTimeColumn"/>
-    </sortOrder>
+    <top>
+        <ToolBar>
+            <BorderPane>
+                <center>
+                    <BorderPane style="-fx-border-style: solid; -fx-border-color: gainsboro; -fx-background-color: white;">
+                        <left>
+                            <Label fx:id="searchLabel" prefHeight="25.0" prefWidth="15.0" style="-fx-background-color: white;">
+                                <padding>
+                                   <Insets left="5.0" top="1.0" />
+                                </padding>
+                                <BorderPane.margin>
+                                    <Insets left="3.0" top="1.0" />
+                                </BorderPane.margin>
+                            </Label>
+                        </left>
+                        <center>
+                            <TextField fx:id="searchField" prefHeight="24.0" style="-fx-border-color: white; -fx-background-color: white;" />
+                        </center>
+                    </BorderPane>
+                </center>
+                <right>
+                    <Label fx:id="resultCount" text="0">
+                        <padding>
+                            <Insets left="5.0" top="1.0" />
+                        </padding>
+                        <BorderPane.margin>
+                            <Insets left="3.0" top="7.0" />
+                        </BorderPane.margin>
+                    </Label>
+                </right>
+            </BorderPane>
+        </ToolBar>
+    </top>
 
-</TableView>
+    <center>
+        <TableView fx:id="tableView">
+            <columns>
+                <TableColumn fx:id="eventTimeColumn" text="Event Time"><cellValueFactory><PropertyValueFactory property="eventTime" /></cellValueFactory></TableColumn>
+                <TableColumn text="Event Version"><cellValueFactory><PropertyValueFactory property="eventVersion" /></cellValueFactory></TableColumn>
+                <TableColumn text="Event Source"><cellValueFactory><PropertyValueFactory property="eventSource" /></cellValueFactory></TableColumn>
+                <TableColumn text="Event Name"><cellValueFactory><PropertyValueFactory property="eventName" /></cellValueFactory></TableColumn>
+                <TableColumn text="AWS Region"><cellValueFactory><PropertyValueFactory property="awsRegion" /></cellValueFactory></TableColumn>
+                <TableColumn text="User Agent"><cellValueFactory><PropertyValueFactory property="userAgent" /></cellValueFactory></TableColumn>
+                <TableColumn text="Error Code"><cellValueFactory><PropertyValueFactory property="errorCode" /></cellValueFactory></TableColumn>
+                <TableColumn text="Error Message"><cellValueFactory><PropertyValueFactory property="errorMessage" /></cellValueFactory></TableColumn>
+                <TableColumn text="Source IP Address"><cellValueFactory><PropertyValueFactory property="sourceIPAddress" /></cellValueFactory></TableColumn>
+                <TableColumn text="Request ID"><cellValueFactory><PropertyValueFactory property="requestID" /></cellValueFactory></TableColumn>
+                <TableColumn text="Event ID"><cellValueFactory><PropertyValueFactory property="eventID" /></cellValueFactory></TableColumn>
+                <TableColumn text="Event Type"><cellValueFactory><PropertyValueFactory property="eventType" /></cellValueFactory></TableColumn>
+                <TableColumn text="API Version"><cellValueFactory><PropertyValueFactory property="apiVersion" /></cellValueFactory></TableColumn>
+                <TableColumn text="Read Only"><cellValueFactory><PropertyValueFactory property="readOnly" /></cellValueFactory></TableColumn>
+                <TableColumn text="Recipient Account ID"><cellValueFactory><PropertyValueFactory property="recipientAccountId" /></cellValueFactory></TableColumn>
+                <TableColumn text="Shared Event ID"><cellValueFactory><PropertyValueFactory property="sharedEventID" /></cellValueFactory></TableColumn>
+                <TableColumn text="VPC Endpoint ID"><cellValueFactory><PropertyValueFactory property="vpcEndpointId" /></cellValueFactory></TableColumn>
+            </columns>
+
+            <sortOrder>
+                <fx:reference source="eventTimeColumn" />
+            </sortOrder>
+        </TableView>
+
+    </center>
+
+    <bottom>
+
+    </bottom>
+
+</BorderPane>
