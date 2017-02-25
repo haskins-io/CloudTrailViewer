@@ -98,7 +98,7 @@ abstract class XYChartController extends AbstractBaseController {
         xAxis.setLabel(widget.getSeriesField());
         yAxis.setLabel("Count");
 
-        List<Map.Entry<String, Integer>> topEvents = getTopEvents(widget.getTop());
+        List<Map.Entry<String, Integer>> topEvents = getTopEvents();
         if (topEvents != null) {
 
             categories.clear();

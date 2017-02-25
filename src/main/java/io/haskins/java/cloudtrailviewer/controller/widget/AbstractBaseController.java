@@ -35,7 +35,6 @@ import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 import java.util.*;
@@ -47,11 +46,13 @@ import java.util.logging.Logger;
  *
  * Created by markhaskins on 13/01/2017.
  */
-public abstract class AbstractBaseController extends BorderPane implements EventServiceListener, OnDragResizeEventListener, WidgetControlsControllerListener {
+public abstract class AbstractBaseController
+        extends BorderPane
+        implements EventServiceListener, OnDragResizeEventListener, WidgetControlsControllerListener {
 
     final static Logger LOGGER = Logger.getLogger("CloudTrail");
 
-    final static String WIDGET_TYPE_TOP = "Top";
+    public final static String WIDGET_TYPE_TOP = "Top";
     public final static String WIDGET_TYPE_ALL = "All";
 
     private final List<Event> allEvents = new ArrayList<>();
@@ -69,7 +70,6 @@ public abstract class AbstractBaseController extends BorderPane implements Event
 
     private final List<WidgetListener> listeners = new ArrayList<>();
 
-    @FXML private BorderPane widgetControlsContainer;
     @FXML private BorderPane widgetContainer;
 
     @FXML WidgetControlsController widgetControlsController;
@@ -117,7 +117,7 @@ public abstract class AbstractBaseController extends BorderPane implements Event
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// protected methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    List<Map.Entry<String,Integer>> getTopEvents(int top) {
+    List<Map.Entry<String,Integer>> getTopEvents() {
 
         Map<String, Integer> eventsByOccurance = new HashMap<>();
 
@@ -128,8 +128,8 @@ public abstract class AbstractBaseController extends BorderPane implements Event
         if (!eventsByOccurance.isEmpty()) {
 
             List<Map.Entry<String,Integer>> sorted = entriesSortedByValues(eventsByOccurance);
-            if (top > 0) {
-                return getTopX(sorted, top);
+            if (widget.getType().equalsIgnoreCase(WIDGET_TYPE_TOP) && widget.getTop() > 0) {
+                return getTopX(sorted, widget.getTop());
             } else {
                 return sorted;
             }

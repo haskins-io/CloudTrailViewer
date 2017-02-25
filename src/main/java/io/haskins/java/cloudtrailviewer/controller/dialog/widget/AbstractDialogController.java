@@ -21,11 +21,15 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.widget;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.observable.KeyStringValue;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -35,11 +39,16 @@ import javafx.stage.Stage;
  */
 public abstract class AbstractDialogController {
 
+    private final static int TYPE_TOP = 1;
+
     @FXML protected Button updateButton;
 
     @FXML protected TextField title;
     @FXML protected ChoiceBox<String> type;
+    @FXML protected TextField top;
     @FXML protected ChoiceBox<KeyStringValue> series;
+
+    @FXML private BorderPane topPanel;
 
     int action = DialogAction.ACTION_CANCEL;
 
@@ -64,6 +73,19 @@ public abstract class AbstractDialogController {
         } else {
             updateButton.setText("Create");
         }
+
+        type.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
+                if (newValue.intValue() == TYPE_TOP) {
+                    topPanel.setVisible(true);
+
+                } else  {
+                    topPanel.setVisible(false);
+                }
+            }
+        });
 
         if (widget.getType() != null && type != null) {
             type.setValue(widget.getType());

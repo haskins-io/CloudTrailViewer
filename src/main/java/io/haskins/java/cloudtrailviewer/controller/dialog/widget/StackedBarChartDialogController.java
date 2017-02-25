@@ -32,7 +32,6 @@ import javafx.scene.control.TextField;
  */
 public class StackedBarChartDialogController extends AbstractDialogController {
 
-    @FXML private TextField top;
     @FXML private ChoiceBox<KeyStringValue> category;
     @FXML private ChoiceBox<String> orientation;
 

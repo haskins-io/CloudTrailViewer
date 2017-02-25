@@ -104,7 +104,7 @@ public class ChartPieWidgetController extends AbstractBaseController {
 
         List<PieChart.Data> items = new ArrayList<>();
 
-        List<Map.Entry<String, Integer>> topEvents = getTopEvents(widget.getTop());
+        List<Map.Entry<String, Integer>> topEvents = getTopEvents();
         if (topEvents != null) {
             for (Map.Entry<String, Integer> entry : topEvents) {
 

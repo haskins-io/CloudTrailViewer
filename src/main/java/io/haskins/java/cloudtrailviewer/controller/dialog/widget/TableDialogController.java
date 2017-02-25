@@ -29,8 +29,6 @@ import javafx.scene.control.TextField;
  */
 public class TableDialogController extends AbstractDialogController {
 
-    @FXML private TextField top;
-
     @FXML
     protected void handleUpdate() {
 

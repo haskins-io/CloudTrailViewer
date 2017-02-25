@@ -86,7 +86,7 @@ public class TableWidgetController extends AbstractBaseController {
 
         List<KeyIntegerValue> items = new ArrayList<>();
 
-        List<Map.Entry<String, Integer>> topEvents = getTopEvents(widget.getTop());
+        List<Map.Entry<String, Integer>> topEvents = getTopEvents();
         for (Map.Entry<String, Integer> entry : topEvents) {
 
             KeyIntegerValue kv = new KeyIntegerValue(entry.getKey(), entry.getValue());

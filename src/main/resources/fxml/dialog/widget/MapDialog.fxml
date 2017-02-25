@@ -37,7 +37,6 @@
     <Label text="Series:" GridPane.columnIndex="0"  GridPane.rowIndex="3"/>
     <fx:include source="../../components/EventField.fxml" fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-
     <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="5">
         <Button mnemonicParsing="false" text="Cancel" onAction="#handleCancel" />
         <Button mnemonicParsing="false" fx:id="updateButton" text="Update" onAction="#handleUpdate" />

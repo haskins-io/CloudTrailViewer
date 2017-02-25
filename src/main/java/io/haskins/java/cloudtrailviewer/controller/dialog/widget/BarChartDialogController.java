@@ -29,8 +29,6 @@ import javafx.scene.control.TextField;
  */
 public class BarChartDialogController extends AbstractDialogController {
 
-    @FXML private TextField top;
-
     @FXML public void handleUpdate() {
 
         widget.setTop(Integer.parseInt(top.getText()));
