@@ -25,11 +25,17 @@ import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.utils.FileUtils;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.events.EventTarget;
 
 import java.io.*;
 import java.util.List;
@@ -49,9 +55,36 @@ public class MapWidgetController extends AbstractBaseController {
     private WebEngine webEngine;
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
+
         webEngine = map.getEngine();
+
+        webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+
+            if (newValue == Worker.State.SUCCEEDED) {
+
+                Document doc = webEngine.getDocument();
+                NodeList nList = doc.getElementsByTagName("Div");
+                for (int i=0;  i < nList.getLength(); i++) {
+
+                    Node node = nList.item(i);
+
+                    Element element = (Element) node;
+                    if (element.getAttribute("class") != null &&
+                        element.getAttribute("class").equalsIgnoreCase("city")) {
+
+                        ((EventTarget) element).addEventListener(
+                                "click",
+                                ev -> {
+                                    String cityName = element.getTextContent();
+                                    eventTableService.setTableEvents(keyValueMap.get(cityName));
+                                },
+                                false
+                        );
+                    }
+                }
+            }
+        });
     }
 
     public BorderPane loadFXML() {
