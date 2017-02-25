@@ -104,7 +104,7 @@ public class StatusBarController implements EventServiceListener {
         fromDate.setText(earliestEventString);
         toDate.setText(latestEventString);
 
-        loadedEvents.setText(String.valueOf("Current Events : " + numEventsLoaded));
+        loadedEvents.setText(String.valueOf("Loaded Events : " + numEventsLoaded));
     }
 
     @Override
