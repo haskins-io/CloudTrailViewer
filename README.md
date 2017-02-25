@@ -27,8 +27,8 @@ Version 3 using a customisable Dashboard.
 
 ![CloudTrail Viewer v3](/docs/ScreenShot.png)
 
-When you first run the application a default dashboard will be created for you. Using the Dashboard menu you can add
-additional 'widgets' to this, create a new dashboard, and save your changes. To remove a widget click the trash can icon
+When you first run the application a default dashboard will be created for you. You can add additional 'widgets' to this,
+ create a new dashboard, and save your changes. To remove a widget click the trash can icon
 at the top right of the widget, you need to save the dashboard if you want to permanently remove it.
 
 While the application is being finalised you can find more detailed information about the application in 
