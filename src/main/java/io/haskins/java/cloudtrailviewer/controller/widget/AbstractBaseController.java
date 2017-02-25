@@ -39,6 +39,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -143,23 +144,28 @@ public abstract class AbstractBaseController extends BorderPane implements Event
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void addToKeyValueMap(Event event) {
 
-        String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
+        try {
+            String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
 
-        if (propertyValue != null) {
+            if (propertyValue != null) {
 
-            List<Event> events;
-            if (!keyValueMap.containsKey(propertyValue)) {
+                List<Event> events;
+                if (!keyValueMap.containsKey(propertyValue)) {
 
-                events = new ArrayList<>();
+                    events = new ArrayList<>();
 
-            } else {
+                } else {
 
-                events = keyValueMap.get(propertyValue);
+                    events = keyValueMap.get(propertyValue);
+                }
+
+                events.add(event);
+                keyValueMap.put(propertyValue, events);
             }
-
-            events.add(event);
-            keyValueMap.put(propertyValue, events);
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Exception caught trying to add Event to KeyValueMap");
         }
+
     }
 
     private List<Map.Entry<String,Integer>> getTopX(List<Map.Entry<String,Integer>> sorted, int top) {
@@ -195,16 +201,18 @@ public abstract class AbstractBaseController extends BorderPane implements Event
 
         allEvents.add(event);
 
-        String latLng = event.getLatLng();
-        if (latLng!= null && !latlngs.containsKey(latLng)) {
+        try {
+            String latLng = event.getLatLng();
+            if (latLng!= null && !latlngs.containsKey(latLng)) {
 
-            String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
-            latlngs.put(latLng, propertyValue);
+                String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
+                latlngs.put(latLng, propertyValue);
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Exception caught trying to add Event to KeyValueMap");
         }
 
-//        if (widget.getType().equalsIgnoreCase(WIDGET_TYPE_TOP)) {
-            addToKeyValueMap(event);
-//        }
+        addToKeyValueMap(event);
     }
 
     public abstract void finishedLoading(boolean reload);
