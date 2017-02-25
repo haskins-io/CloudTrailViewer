@@ -4,6 +4,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
 import io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController;
+import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
@@ -151,15 +152,39 @@ public class ToolBarController {
     }
 
     @FXML private void doError() {
-        dashboardService.addWidgetToDashboard(new DashboardWidget("TableError"));
+        DashboardWidget newWidget = new DashboardWidget("TableError");
+
+        configureFixedWidgets(newWidget);
+
+        newWidget.setTitle("Errors");
+        newWidget.setSeriesField("ErrorCode");
+
+        dashboardService.addWidgetToDashboard(newWidget);
     }
 
     @FXML private void doResource() {
-        dashboardService.addWidgetToDashboard(new DashboardWidget("TableResources"));
+
+        DashboardWidget newWidget = new DashboardWidget("TableResources");
+
+        configureFixedWidgets(newWidget);
+
+        newWidget.setTitle("Resources");
+        newWidget.setSeriesField("EventName");
+
+        dashboardService.addWidgetToDashboard(newWidget);
+
     }
 
     @FXML private void doSecurity() {
-        dashboardService.addWidgetToDashboard(new DashboardWidget("TableSecurity"));
+
+        DashboardWidget newWidget = new DashboardWidget("TableSecurity");
+
+        configureFixedWidgets(newWidget);
+
+        newWidget.setTitle("Security");
+        newWidget.setSeriesField("EventName");
+
+        dashboardService.addWidgetToDashboard(newWidget);
     }
 
     @FXML private void allEvents() {
@@ -207,5 +232,14 @@ public class ToolBarController {
 
             return null;
         }
+    }
+
+    private void configureFixedWidgets(DashboardWidget widget) {
+
+        widget.setType(AbstractBaseController.WIDGET_TYPE_ALL);
+        widget.setTop(-1);
+
+        widget.setWidth(335);
+        widget.setHeight(327);
     }
 }
