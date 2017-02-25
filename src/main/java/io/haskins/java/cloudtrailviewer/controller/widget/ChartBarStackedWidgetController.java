@@ -26,10 +26,11 @@ import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import javafx.collections.FXCollections;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.chart.StackedBarChart;
+import javafx.scene.Node;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
@@ -46,7 +47,7 @@ import java.util.Map;
  */
 public class ChartBarStackedWidgetController extends XYChartController {
 
-    @FXML private StackedBarChart chart;
+//    @FXML private StackedBarChart chart;
 
     public BorderPane loadFXML() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/ChartBarStackedWidget.fxml"));
@@ -73,8 +74,6 @@ public class ChartBarStackedWidgetController extends XYChartController {
         chart.setPrefHeight(widget.getHeight());
 
         chart.getXAxis().setTickLabelsVisible(false);
-
-//        widgetControlsController.hideEditButton();
     }
 
     public void newEvents(List<Event> events) {
@@ -141,9 +140,29 @@ public class ChartBarStackedWidgetController extends XYChartController {
                 List<Event> events = data.getValue();
 
                 series.getData().add(new XYChart.Data<>(catName, events.size()));
+
             }
 
             chart.getData().add(series);
+        }
+
+        for (XYChart.Series<String,Number> series: chart.getData()){
+            for (XYChart.Data<String, Number> item: series.getData()){
+
+                String seriesName = series.getName();
+                Map<String, List<Event>> catData = multiSeries.get(seriesName);
+
+                for (Map.Entry<String, List<Event>> catData2 : catData.entrySet()) {
+
+                    List<Event> events = catData2.getValue();
+                    item.getNode().setOnMousePressed((MouseEvent event) -> eventTableService.setTableEvents(events));
+
+                    Node node = item.getNode();
+                    Tooltip t = new Tooltip(seriesName + " : " + item.getYValue());
+                    Tooltip.install(node, t);
+
+                }
+            }
         }
     }
 

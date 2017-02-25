@@ -19,12 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.controller.widget;
 
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.utils.ChartHoverUtil;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
@@ -116,6 +119,10 @@ abstract class XYChartController extends AbstractBaseController {
             for (XYChart.Series<String,Number> serie: chart.getData()){
                 for (XYChart.Data<String, Number> item: serie.getData()){
                     item.getNode().setOnMousePressed((MouseEvent event) -> eventTableService.setTableEvents(singleSeries.get(serie.getName())));
+
+                    Node node = item.getNode();
+                    Tooltip t = new Tooltip(serie.getName() + " : " + item.getYValue());
+                    Tooltip.install(node, t);
                 }
             }
         }

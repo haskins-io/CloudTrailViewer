@@ -33,7 +33,7 @@ public class ChartHoverUtil<T> {
 
         if (chart instanceof XYChart) {
             new ChartHoverUtil<XYChart.Series<String, Number>>(
-                    data -> String.format("Value = %s", data),
+                    data -> String.format("Value = %s", data.getData().get(0).getYValue()),
                     data -> data.getNode())
                     .setupHovering(((XYChart)chart).getData());
         }
@@ -90,6 +90,7 @@ public class ChartHoverUtil<T> {
     }
 
     private void setupHovering(Collection<T> data) {
+
         for (T chartData : data) {
             Node node = nodeProvider.apply(chartData);
             if (node != null) {

@@ -124,9 +124,10 @@ public class ChartPieWidgetController extends AbstractBaseController {
                 }
             });
 
+            Node node = item.getNode();
+            Tooltip t = new Tooltip(item.getName() + " : " + item.getPieValue());
+            Tooltip.install(node, t);
         }
-
-        ChartHoverUtil.setupPieChartHovering(pieChart);
     }
 }
 
