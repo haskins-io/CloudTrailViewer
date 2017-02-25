@@ -44,7 +44,6 @@ import java.util.ResourceBundle;
 public class ApplicationController implements Initializable {
 
     @FXML private Pane widgets;
-    @FXML private Node root;
 
     private final DatabaseService databaseService;
     private final DashboardService dashboardService;
