@@ -19,14 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.controller.components;
 
 import io.haskins.java.cloudtrailviewer.model.event.Event;
-import io.haskins.java.cloudtrailviewer.service.MemoryCheckService;
 import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -41,7 +37,6 @@ public class StatusBarController implements EventServiceListener {
     @FXML private Label loadedEvents;
     @FXML private Label fromDate;
     @FXML private Label toDate;
-    @FXML private Label memoryUsage;
 
     private long earliestEventLong = -1;
     private String earliestEventString;
@@ -51,16 +46,10 @@ public class StatusBarController implements EventServiceListener {
 
     private long numEventsLoaded;
 
-//    private MemoryCheckService memoryCheckService;
-//
-//    @Autowired
-//    public StatusBarController(MemoryCheckService memoryCheckService) {
-//        this.memoryCheckService = memoryCheckService;
-//    }
+    @FXML
+    public void initialize() {
 
-    @PostConstruct
-    public void init() {
-//        memoryCheckService.addLabel(memoryUsage);
+        loadedEvents.setText("Loaded Events : 0");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,8 +77,6 @@ public class StatusBarController implements EventServiceListener {
         earliestEventLong = -1;
         latestEventLong = -1;
 
-        setVisibleEvents(events.size());
-
         for (Event event : events) {
             newEvent(event);
         }
@@ -113,15 +100,6 @@ public class StatusBarController implements EventServiceListener {
         message.setVisible(false);
         fromDate.setVisible(false);
         toDate.setVisible(false);
-        loadedEvents.setVisible(false);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void setVisibleEvents(int eventCount) {
-
-        loadedEvents.setText("Current Events : " + eventCount);
     }
 
 }
