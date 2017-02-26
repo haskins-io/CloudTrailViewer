@@ -1,6 +1,8 @@
 package io.haskins.java.cloudtrailviewer.utils;
 
 /**
+ *
+ *
  * Created by markhaskins on 05/02/2017.
  */
 public interface OnDragResizeEventListener {

@@ -119,25 +119,20 @@ public class EventTableController implements EventTableServiceListener, EventSer
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         FilteredList<Event> filteredData = new FilteredList<>(filteredEvents, p -> true);
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(event -> {
 
-            filteredData.setPredicate(event -> {
-                if (newValue== null || newValue.isEmpty()) {
-                    return true;
-                }
+            if (newValue== null || newValue.isEmpty()) {
+                return true;
+            }
 
-                String lowerCaseFilter = newValue.toLowerCase();
-                if (event.getRawJSON() == null) {
-                    EventUtils.addRawJson(event);
-                }
+            String lowerCaseFilter = newValue.toLowerCase();
+            if (event.getRawJSON() == null) {
+                EventUtils.addRawJson(event);
+            }
 
-                if (event.getRawJSON().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }
+            return event.getRawJSON().toLowerCase().contains(lowerCaseFilter);
 
-                return false;
-            });
-        });
+        }));
 
         SortedList<Event> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());

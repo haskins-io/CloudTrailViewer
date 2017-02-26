@@ -1,7 +1,5 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-
 <Menu mnemonicParsing="false"
       text="Dashboard"
       xmlns="http://javafx.com/javafx/8.0.111"

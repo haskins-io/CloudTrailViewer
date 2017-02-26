@@ -109,13 +109,9 @@ public class FilterPanelController extends BorderPane {
         filterTable.setEditable(true);
         filterTable.setItems(data);
 
-        data.addListener(new ListChangeListener<LogFileFilter>(){
-
-            @Override
-            public void onChanged(javafx.collections.ListChangeListener.Change<? extends LogFileFilter> pChange) {
-                while(pChange.next()) {
-                    filtersUpdated();
-                }
+        data.addListener((ListChangeListener<LogFileFilter>) pChange -> {
+            while(pChange.next()) {
+                filtersUpdated();
             }
         });
     }

@@ -44,12 +44,7 @@ public class FileListController extends ListView<FileListModel> {
         ObservableList<FileListModel> oList = FXCollections.observableArrayList();
         this.setItems(oList);
 
-        this.setCellFactory(new Callback<ListView<FileListModel>, ListCell<FileListModel>>() {
-            @Override
-            public ListCell<FileListModel> call(ListView<FileListModel> list) {
-                return new FileListViewCell();
-            }
-        });
+        this.setCellFactory(list -> new FileListViewCell());
     }
 
     /**

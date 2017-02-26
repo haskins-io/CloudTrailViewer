@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * Utility Class for displaying three types of Information Dialogs
+ *
  * Created by markhaskins on 25/01/2017.
  */
 public class DialogUtils {

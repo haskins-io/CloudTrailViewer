@@ -41,7 +41,6 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -117,12 +116,7 @@ public class ChartPieWidgetController extends AbstractBaseController {
 
         for (PieChart.Data item: pieChart.getData()){
 
-            item.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    eventTableService.setTableEvents(keyValueMap.get(item.getName()));
-                }
-            });
+            item.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> eventTableService.setTableEvents(keyValueMap.get(item.getName())));
 
             Node node = item.getNode();
             Tooltip t = new Tooltip(item.getName() + " : " + item.getPieValue());

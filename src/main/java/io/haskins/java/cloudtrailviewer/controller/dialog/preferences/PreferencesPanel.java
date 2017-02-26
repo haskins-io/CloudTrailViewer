@@ -21,7 +21,6 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.preferences;
 
 import io.haskins.java.cloudtrailviewer.model.dao.ResultSetRow;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.TextFieldListCell;
@@ -62,56 +61,46 @@ abstract class PreferencesPanel {
         listView.setEditable(true);
         listView.setCellFactory(TextFieldListCell.forListView());
 
-        listView.setOnEditStart(new EventHandler<ListView.EditEvent<String>>() {
-            @Override
-            public void handle(ListView.EditEvent<String> t) {
-                selectedIndex = listView.getSelectionModel().getSelectedIndex();
-                oldValue = listView.getSelectionModel().getSelectedItem();
-            }
-
+        listView.setOnEditStart(t -> {
+            selectedIndex = listView.getSelectionModel().getSelectedIndex();
+            oldValue = listView.getSelectionModel().getSelectedItem();
         });
 
-        listView.setOnEditCommit(new EventHandler<ListView.EditEvent<String>>() {
-            @Override
-            public void handle(ListView.EditEvent<String> t) {
+        listView.setOnEditCommit(t -> {
 
-                listView.getItems().set(t.getIndex(), t.getNewValue());
-                String newValue = listView.getSelectionModel().getSelectedItem();
+            listView.getItems().set(t.getIndex(), t.getNewValue());
+            String newValue = listView.getSelectionModel().getSelectedItem();
 
-                if (oldValue == null) {
-                    addItem(newValue);
-                }
+            if (oldValue == null) {
+                addItem(newValue);
+            }
 
-                if (oldValue != null && !newValue.equalsIgnoreCase(oldValue)) {
+            if (oldValue != null && !newValue.equalsIgnoreCase(oldValue)) {
 
-                    removeItem(oldValue);
-                    addItem(newValue);
-                }
+                removeItem(oldValue);
+                addItem(newValue);
             }
         });
 
-        listView.setOnEditCancel(new EventHandler<ListView.EditEvent<String>>() {
-            @Override
-            public void handle(ListView.EditEvent<String> t) {
+        listView.setOnEditCancel(t -> {
 
-                String newValue = listView.getSelectionModel().getSelectedItem();
+            String newValue = listView.getSelectionModel().getSelectedItem();
 
-                if ( (oldValue == null && newValue == null) ||
-                     (oldValue == null && newValue.trim().length() == 0) ) {
+            if ( (oldValue == null && newValue == null) ||
+                 (oldValue == null && newValue.trim().length() == 0) ) {
 
-                    if (selectedIndex == -1) {
-                        listView.getItems().remove(0);
-                    } else {
-                        listView.getItems().remove(selectedIndex);
-                    }
-
+                if (selectedIndex == -1) {
+                    listView.getItems().remove(0);
+                } else {
+                    listView.getItems().remove(selectedIndex);
                 }
 
-                if (oldValue != null &&
-                    newValue != null &&
-                    newValue.trim().equalsIgnoreCase("")) {
-                        listView.getItems().remove(oldValue);
-                }
+            }
+
+            if (oldValue != null &&
+                newValue != null &&
+                newValue.trim().equalsIgnoreCase("")) {
+                    listView.getItems().remove(oldValue);
             }
         });
     }

@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.controller.widget;
 
 import io.haskins.java.cloudtrailviewer.model.event.Event;
-import io.haskins.java.cloudtrailviewer.utils.ChartHoverUtil;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;

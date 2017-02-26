@@ -20,8 +20,6 @@ package io.haskins.java.cloudtrailviewer.model;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 
-import java.io.Serializable;
-
 /**
  * Class that models a widget
  *
@@ -57,7 +55,6 @@ public class DashboardWidget {
     public DashboardWidget(String widgetType) {
         this.widget = widgetType;
     }
-
 
     public String getWidget() {
         return widget;

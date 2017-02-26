@@ -20,7 +20,6 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.widget;
 
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 
 /**
  * Dialog that provides the functionality to modify a BarChart Widget

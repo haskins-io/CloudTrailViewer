@@ -24,8 +24,6 @@ import io.haskins.java.cloudtrailviewer.model.event.deprecated.Resource;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 public class Event implements Serializable {
 

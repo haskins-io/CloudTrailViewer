@@ -32,6 +32,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Service that provides DAO functionality
+ *
  * Created by markhaskins on 05/01/2017.
  */
 @Service

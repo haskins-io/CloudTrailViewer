@@ -31,6 +31,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
+ * Utility Class for Showing Alert Dialogs
+ *
  * Created by markhaskins on 06/01/2017.
  */
 public class WidgetUtils {

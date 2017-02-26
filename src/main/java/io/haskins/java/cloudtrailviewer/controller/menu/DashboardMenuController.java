@@ -23,7 +23,6 @@ import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.service.DashboardService;
 import io.haskins.java.cloudtrailviewer.utils.DialogUtils;
-import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import io.haskins.java.cloudtrailviewer.utils.FileUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

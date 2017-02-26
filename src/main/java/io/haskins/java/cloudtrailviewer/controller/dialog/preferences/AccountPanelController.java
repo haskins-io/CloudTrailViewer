@@ -161,7 +161,7 @@ public class AccountPanelController {
                     accountDao.updateAccount(acct);
                 });
 
-        tableView.getColumns().addAll(nameCol, acctNumCol, acctAliasCol,bucketCol,keyCol,secretCol,profileCol);
+        tableView.getColumns().addAll(nameCol, acctNumCol, acctAliasCol, bucketCol, keyCol, secretCol, profileCol);
     }
 
     @FXML

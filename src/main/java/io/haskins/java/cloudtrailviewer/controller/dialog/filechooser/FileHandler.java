@@ -23,7 +23,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.ListView;
-import javafx.scene.input.MouseEvent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,38 +58,34 @@ abstract class FileHandler {
 
     void setUpMouseListener() {
 
-        listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        listView.setOnMouseClicked(e -> {
 
-            @Override
-            public void handle(MouseEvent e) {
+            if (e.getClickCount() == 2) {
 
-                if (e.getClickCount() == 2) {
+                handleDoubleClickEvent();
 
-                    handleDoubleClickEvent();
+            } else if (e.getClickCount() == 1) {
 
-                } else if (e.getClickCount() == 1) {
+                if (listView.getSelectionModel().getSelectedItem() != null) {
 
-                    if (listView.getSelectionModel().getSelectedItem() != null) {
+                    Object obj = listView.getSelectionModel().getSelectedItem().getPath();
+                    if (obj instanceof  File) {
 
-                        Object obj = listView.getSelectionModel().getSelectedItem().getPath();
-                        if (obj instanceof  File) {
-
-                            File selected = (File)obj;
-                            if (!isScanning && selected.isDirectory()) {
-                                fileListControllerListener.listItemSelected(false);
-                            } else {
-                                fileListControllerListener.listItemSelected(true);
-                            }
-
+                        File selected = (File)obj;
+                        if (!isScanning && selected.isDirectory()) {
+                            fileListControllerListener.listItemSelected(false);
                         } else {
+                            fileListControllerListener.listItemSelected(true);
+                        }
 
-                            String selected = (String)obj;
-                            if (!isScanning && selected.contains("/")) {
-                                fileListControllerListener.listItemSelected(false);
-                            }
-                            else {
-                                fileListControllerListener.listItemSelected(true);
-                            }
+                    } else {
+
+                        String selected = (String)obj;
+                        if (!isScanning && selected.contains("/")) {
+                            fileListControllerListener.listItemSelected(false);
+                        }
+                        else {
+                            fileListControllerListener.listItemSelected(true);
                         }
                     }
                 }

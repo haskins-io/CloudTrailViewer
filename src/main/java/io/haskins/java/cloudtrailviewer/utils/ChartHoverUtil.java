@@ -27,7 +27,7 @@ public class ChartHoverUtil<T> {
         if (chart instanceof PieChart) {
             new ChartHoverUtil<PieChart.Data>(
                     data -> String.format("Value = %s", data.getPieValue()),
-                    data -> data.getNode())
+                    PieChart.Data::getNode)
                     .setupHovering(((PieChart)chart).getData());
         }
 
@@ -45,12 +45,9 @@ public class ChartHoverUtil<T> {
     private final Function<T, String> textProvider;
     private final Function<T, Node> nodeProvider;
 
-    private EventHandler<MouseEvent> moveHandler = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent e) {
-            if (tooltip.isShowing()) {
-                setLabelPosition(e);
-            }
+    private EventHandler<MouseEvent> moveHandler = e -> {
+        if (tooltip.isShowing()) {
+            setLabelPosition(e);
         }
     };
 

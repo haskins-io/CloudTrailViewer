@@ -74,16 +74,13 @@ public abstract class AbstractDialogController {
             updateButton.setText("Create");
         }
 
-        type.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+        type.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
 
-                if (newValue.intValue() == TYPE_TOP) {
-                    topPanel.setVisible(true);
+            if (newValue.intValue() == TYPE_TOP) {
+                topPanel.setVisible(true);
 
-                } else  {
-                    topPanel.setVisible(false);
-                }
+            } else  {
+                topPanel.setVisible(false);
             }
         });
 

@@ -23,6 +23,8 @@ import io.haskins.java.cloudtrailviewer.model.event.Event;
 import java.util.List;
 
 /**
+ * Interface
+ *
  * Created by markhaskins on 26/01/2017.
  */
 public interface EventTableServiceListener {
