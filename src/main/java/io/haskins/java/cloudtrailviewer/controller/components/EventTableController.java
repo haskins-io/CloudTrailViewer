@@ -34,7 +34,11 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -55,6 +59,11 @@ public class EventTableController implements EventTableServiceListener, EventSer
     @FXML private TextField searchField;
     @FXML private Label resultCount;
 
+    @FXML private HBox hboxPopup;
+    @FXML private Button popupMenu;
+
+    private ContextMenu colPopup = new ContextMenu();
+
     private List<Event> allEvents = new ArrayList<>();
     private ObservableList<Event> filteredEvents = FXCollections.observableArrayList();
 
@@ -69,11 +78,18 @@ public class EventTableController implements EventTableServiceListener, EventSer
         this.dashboardService = dashboardService;
     }
 
-    @FXML private void resetSearch() {
+    @FXML
+    private void resetSearch() {
         filteredEvents.clear();
         filteredEvents.addAll(allEvents);
     }
 
+    @FXML
+    private void showPopupMenu() {
+        colPopup.show(popupMenu, Side.LEFT, 0, 0);
+    }
+
+    @FXML
     public void initialize() {
 
         tableView.setRowFactory(tv -> {
@@ -100,10 +116,11 @@ public class EventTableController implements EventTableServiceListener, EventSer
         });
 
         tableView.setItems(filteredEvents);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         FilteredList<Event> filteredData = new FilteredList<>(filteredEvents, p -> true);
-        searchField.textProperty().addListener((observable, oldValue, newValue) ->
-        {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+
             filteredData.setPredicate(event -> {
                 if (newValue== null || newValue.isEmpty()) {
                     return true;
@@ -122,13 +139,19 @@ public class EventTableController implements EventTableServiceListener, EventSer
             });
         });
 
-        SortedList<Event> sortedData = new SortedList<Event>(filteredData);
+        SortedList<Event> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
 
         tableView.setItems(sortedData);
 
         searchLabel.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SEARCH));
         resultCount.textProperty().bind(Bindings.size(filteredData).asString());
+
+        HBox.setHgrow(hboxPopup, Priority.ALWAYS);
+        hboxPopup.setAlignment(Pos.CENTER_RIGHT);
+        popupMenu.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.COG));
+
+        createPopupMenu();
 
     }
     /**
@@ -172,4 +195,20 @@ public class EventTableController implements EventTableServiceListener, EventSer
         filteredEvents.clear();
     }
 
+    private void createPopupMenu() {
+
+        ObservableList<TableColumn<Event,?>> cols = tableView.getColumns();
+        for (TableColumn col : cols) {
+            String name = col.textProperty().get();
+
+            CheckMenuItem item = new CheckMenuItem(name);
+            item.setSelected(col.isVisible());
+            item.setOnAction(event -> {
+                col.setVisible(!col.isVisible());
+                item.setSelected(col.isVisible());
+            });
+
+            colPopup.getItems().add(item);
+        }
+    }
 }
