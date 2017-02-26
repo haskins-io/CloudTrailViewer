@@ -103,6 +103,7 @@ public class TableWidgetController extends AbstractBaseController {
 
         tableView.setPrefWidth(widget.getWidth());
         tableView.setPrefHeight(widget.getHeight());
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         addTopColumns(widget);
         tableView.setItems(keyValueData);

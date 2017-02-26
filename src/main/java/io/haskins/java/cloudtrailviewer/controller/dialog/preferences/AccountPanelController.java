@@ -60,6 +60,7 @@ public class AccountPanelController {
 
         tableView.setEditable(true);
         tableView.setItems(data);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         TableColumn<AwsAccount, String> nameCol =  new TableColumn<>("Name");
         nameCol.setMinWidth(100);
