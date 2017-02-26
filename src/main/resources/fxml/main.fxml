@@ -5,7 +5,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.haskins.java.cloudtrailviewer.controller.ApplicationController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.112"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="io.haskins.java.cloudtrailviewer.controller.ApplicationController">
     <top>
         <BorderPane>
             <top><fx:include source="menu/menu.fxml" /></top>
