@@ -63,14 +63,23 @@
                 <TableColumn text="Error Code"><cellValueFactory><PropertyValueFactory property="errorCode" /></cellValueFactory></TableColumn>
                 <TableColumn text="Error Message"><cellValueFactory><PropertyValueFactory property="errorMessage" /></cellValueFactory></TableColumn>
                 <TableColumn text="Source IP Address"><cellValueFactory><PropertyValueFactory property="sourceIPAddress" /></cellValueFactory></TableColumn>
-                <TableColumn text="Request ID"><cellValueFactory><PropertyValueFactory property="requestID" /></cellValueFactory></TableColumn>
-                <TableColumn text="Event ID"><cellValueFactory><PropertyValueFactory property="eventID" /></cellValueFactory></TableColumn>
+                <TableColumn text="Request ID"><cellValueFactory><PropertyValueFactory property="requestId" /></cellValueFactory></TableColumn>
+                <TableColumn text="Event ID"><cellValueFactory><PropertyValueFactory property="eventId" /></cellValueFactory></TableColumn>
                 <TableColumn text="Event Type" visible="false"><cellValueFactory><PropertyValueFactory property="eventType" /></cellValueFactory></TableColumn>
                 <TableColumn text="API Version" visible="false"><cellValueFactory><PropertyValueFactory property="apiVersion" /></cellValueFactory></TableColumn>
                 <TableColumn text="Read Only" visible="false"><cellValueFactory><PropertyValueFactory property="readOnly" /></cellValueFactory></TableColumn>
                 <TableColumn text="Recipient Account ID" visible="false"><cellValueFactory><PropertyValueFactory property="recipientAccountId" /></cellValueFactory></TableColumn>
                 <TableColumn text="Shared Event ID" visible="false"><cellValueFactory><PropertyValueFactory property="sharedEventID" /></cellValueFactory></TableColumn>
                 <TableColumn text="VPC Endpoint ID" visible="false"><cellValueFactory><PropertyValueFactory property="vpcEndpointId" /></cellValueFactory></TableColumn>
+
+                <TableColumn text="User Id - Arn" visible="false"><cellValueFactory><PropertyValueFactory property="UserIdentityArn" /></cellValueFactory></TableColumn>
+                <TableColumn text="User Id - Type" visible="false"><cellValueFactory><PropertyValueFactory property="UserIdentityType" /></cellValueFactory></TableColumn>
+                <TableColumn text="User Id - User Name" visible="false"><cellValueFactory><PropertyValueFactory property="UserIdentityUserName" /></cellValueFactory></TableColumn>
+                <TableColumn text="User Id - Principal Id" visible="false"><cellValueFactory><PropertyValueFactory property="UserIdentityPrincipalID" /></cellValueFactory></TableColumn>
+                <TableColumn text="User Id - Account Id" visible="false"><cellValueFactory><PropertyValueFactory property="UserIdentityAccountId" /></cellValueFactory></TableColumn>
+                <TableColumn text="User Id - Access Key Id" visible="false"><cellValueFactory><PropertyValueFactory property="UserIdentityAccessKeyId" /></cellValueFactory></TableColumn>
+                <TableColumn text="User Id - Invoked By" visible="false"><cellValueFactory><PropertyValueFactory property="UserIdentityInvokedBy" /></cellValueFactory></TableColumn>
+                <TableColumn text="User Id - Web Id Federation Data" visible="false"><cellValueFactory><PropertyValueFactory property="UserIdentityWebIdFederationData" /></cellValueFactory></TableColumn>
             </columns>
 
             <sortOrder>

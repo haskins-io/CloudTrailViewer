@@ -85,7 +85,7 @@ public class UserIdentity implements Serializable {
     /**
      * @return the accountId
      */
-    private String getAccountId() {
+    public String getAccountId() {
         return accountId;
     }
 
@@ -99,7 +99,7 @@ public class UserIdentity implements Serializable {
     /**
      * @return the accessKeyId
      */
-    private String getAccessKeyId() {
+    public String getAccessKeyId() {
         return accessKeyId;
     }
 
@@ -155,7 +155,7 @@ public class UserIdentity implements Serializable {
     /**
      * @return the webIdFederationData
      */
-    private String getWebIdFederationData() {
+    public String getWebIdFederationData() {
         return webIdFederationData;
     }
 

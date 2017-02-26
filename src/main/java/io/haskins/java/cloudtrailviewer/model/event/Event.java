@@ -31,8 +31,6 @@ public class Event implements Serializable {
 
     private static final long serialVersionUID = 7492738943200865856L;
 
-    private List<Resource> resources;
-
     @SerializedName(value="eventTime", alternate={"eventtime"}) private String eventTime;
     @SerializedName(value="eventVersion", alternate={"eventversion"}) private String eventVersion = "";
     @SerializedName(value="userIdentity", alternate={"useridentity"}) private UserIdentity userIdentity;
@@ -55,6 +53,7 @@ public class Event implements Serializable {
     @SerializedName(value="serviceEventDetails", alternate={"serviceeventdetails"}) private Map serviceEventDetails;
     @SerializedName(value="sharedEventID", alternate={"sharedeventid"}) private String sharedEventID = "";
     @SerializedName(value="vpcEndpointId", alternate={"vpcendpointid"}) private String vpcEndpointId;
+
 
     /** Internal Use **/
     private String rawJson;
@@ -394,129 +393,41 @@ public class Event implements Serializable {
         this.readOnly = readOnly;
     }
 
-    private List getResources() {
-        return resources;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///// Methods used by EventTable
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public String getUserIdentityArn() {
+        return this.getUserIdentity().getArn();
+    }
+    public String getUserIdentityType() {
+        return this.getUserIdentity().getType();
     }
 
-    public void setResources(List resources) {
-        this.resources = resources;
+    public String getUserIdentityUserName() {
+        return this.getUserIdentity().getUserName();
+    }
+
+    public String getUserIdentityPrincipalID() {
+        return this.getUserIdentity().getPrincipalId();
+    }
+
+    public String getUserIdentityAccountId() {
+        return this.getUserIdentity().getAccountId();
+    }
+
+    public String getUserIdentityAccessKeyId() {
+        return this.getUserIdentity().getAccessKeyId();
+    }
+
+    public String getUserIdentityInvokedBy() {
+        return this.getUserIdentity().getInvokedBy();
+    }
+
+    public String getUserIdentityWebIdFederationData() {
+        return this.getUserIdentity().getWebIdFederationData();
     }
 
 
-    public DefaultMutableTreeNode populateTree() {
-        
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Event");
-        
-        if (getEventName() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Name");
-            node.add(new DefaultMutableTreeNode(getEventName()));
-            root.add(node);
-        }
-        
-        if (getEventVersion() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Version");
-            node.add(new DefaultMutableTreeNode(getEventVersion()));
-            root.add(node);
-        }
-
-        if (getEventTime() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Time");
-            node.add(new DefaultMutableTreeNode(getEventTime()));
-            root.add(node);
-        }
-        
-        if (getEventSource() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Source");
-            node.add(new DefaultMutableTreeNode(getEventSource()));
-            root.add(node);
-        }
-
-        if (getSourceIPAddress() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Source IP Address");
-            node.add(new DefaultMutableTreeNode(getSourceIPAddress()));
-            root.add(node);
-        }
-
-        if (getAwsRegion() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("AWS Region");
-            node.add(new DefaultMutableTreeNode(getAwsRegion()));
-            root.add(node);
-        }
-        
-        if (getUserAgent()!= null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("User Agent");
-            node.add(new DefaultMutableTreeNode(getUserAgent()));
-            root.add(node);
-        }
-        
-        if (getErrorCode() != null && getErrorCode().trim().length() > 0) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Error Code");
-            node.add(new DefaultMutableTreeNode(getErrorCode()));
-            root.add(node);
-        }
-        
-        if (getErrorMessage()!= null && getErrorCode().trim().length() > 0) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Error Message");
-            node.add(new DefaultMutableTreeNode(getErrorMessage()));
-            root.add(node);
-        }
-        
-        if (getRequestId()!= null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Resource Id");
-            node.add(new DefaultMutableTreeNode(getRequestId()));
-            root.add(node);
-        }
-        
-        if (getEventId()!= null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Event Id");
-            node.add(new DefaultMutableTreeNode(getEventId()));
-            root.add(node);
-        }
-        
-        if (getEventType()!= null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Event Type");
-            node.add(new DefaultMutableTreeNode(getEventType()));
-            root.add(node);
-        }
-        
-        if (getApiVersion()!= null && getErrorCode().trim().length() > 0) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Api Version");
-            node.add(new DefaultMutableTreeNode(getApiVersion()));
-            root.add(node);
-        }
-        
-        if (getRecipientAccountId()!= null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Recipient Account Id");
-            node.add(new DefaultMutableTreeNode(getRecipientAccountId()));
-            root.add(node);
-        }
-
-        if (getUserIdentity() != null) {
-            root.add(userIdentity.getTree());
-        }
-        
-        if (getCountry() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Country");
-            node.add(new DefaultMutableTreeNode(getCountry()));
-            root.add(node);
-        }
-        
-        if (getCity() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("City");
-            node.add(new DefaultMutableTreeNode(getCity()));
-            root.add(node);
-        }
-        
-        if (getLatLng()!= null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Long/Lat");
-            node.add(new DefaultMutableTreeNode(getLatLng()));
-            root.add(node);
-        }
-        
-        
-        return root;
-    }
-    
     @Override
     public String toString() {
         
@@ -537,30 +448,15 @@ public class Event implements Serializable {
         if (getErrorCode() != null) { modelData.append(getErrorCode()).append(", "); }
         if (getErrorMessage() != null) { modelData.append(getErrorMessage()).append(", "); }
         if (getReadOnly() != null) { modelData.append(getReadOnly()).append(", "); }
-        if (getResources() != null) { modelData.append(getResources().toString()).append(", "); }
         if (getEventType() != null) { modelData.append(getEventType()).append(", "); }
         if (getRecipientAccountId() != null) { modelData.append(getRecipientAccountId()).append(", "); }
         if (getAdditionalEventData() != null) { modelData.append(getAdditionalEventData().toString()).append(", "); }
+        if (getContinent() != null) { modelData.append(getContinent()).append(", "); }
+        if (getCountry() != null) { modelData.append(getCountry()).append(", "); }
+        if (getCity() != null) { modelData.append(getCity()).append(", "); }
+        if (getLatLng() != null) { modelData.append(getLatLng()).append(", "); }
         
         return modelData.toString();
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    ////////////////////////////////////////////////////////////////////////////
-    private void addNodesToTree(DefaultMutableTreeNode node, Set<Map.Entry<String, List<String>>>  leaves) {
-
-        for (Map.Entry<String, List<String>> entry : leaves) {
-
-            if (entry.getValue().size() > 0) {
-
-                DefaultMutableTreeNode parameterNode = new DefaultMutableTreeNode(entry.getKey());
-                for (String parameter : entry.getValue()) {
-                    parameterNode.add(new DefaultMutableTreeNode(parameter));
-                }
-
-                node.add(parameterNode);
-            }
-        }
-    }
 }
