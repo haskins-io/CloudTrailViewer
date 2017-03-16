@@ -39,13 +39,19 @@ class S3FileHandler extends FileHandler {
     private AwsAccount currentAccount = null;
     private String prefix = "";
 
-    S3FileHandler(ListView<FileListModel> listView, AwsAccount awsAccount, FileListControllerListener listener) {
+    private final AwsService awsService;
+
+    S3FileHandler(
+            ListView<FileListModel> listView, AwsAccount awsAccount,
+            FileListControllerListener listener, AwsService awsService) {
 
         this.listView = listView;
         listView.setItems(data);
 
         this.fileListControllerListener = listener;
         this.currentAccount = awsAccount;
+
+        this.awsService = awsService;
 
         setUpMouseListener();
         reloadContents();
@@ -133,7 +139,7 @@ class S3FileHandler extends FileHandler {
             listObjectsRequest.setDelimiter(delimiter);
         }
 
-        AmazonS3 s3Client = AwsService.getS3Client(currentAccount);
+        AmazonS3 s3Client = awsService.getS3Client(currentAccount);
 
         return s3Client.listObjects(listObjectsRequest);
     }
@@ -162,7 +168,7 @@ class S3FileHandler extends FileHandler {
 
     private void addFolderFiles(String path) {
 
-        AmazonS3 s3Client = AwsService.getS3Client(currentAccount);
+        AmazonS3 s3Client = awsService.getS3Client(currentAccount);
 
         ObjectListing current = s3Client.listObjects(currentAccount.getBucket(), path);
         List<S3ObjectSummary> objectSummaries = current.getObjectSummaries();

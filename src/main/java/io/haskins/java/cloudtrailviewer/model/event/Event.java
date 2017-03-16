@@ -400,31 +400,24 @@ public class Event implements Serializable {
     public String getUserIdentityType() {
         return this.getUserIdentity().getType();
     }
-
     public String getUserIdentityUserName() {
         return this.getUserIdentity().getUserName();
     }
-
     public String getUserIdentityPrincipalID() {
         return this.getUserIdentity().getPrincipalId();
     }
-
     public String getUserIdentityAccountId() {
         return this.getUserIdentity().getAccountId();
     }
-
     public String getUserIdentityAccessKeyId() {
         return this.getUserIdentity().getAccessKeyId();
     }
-
     public String getUserIdentityInvokedBy() {
         return this.getUserIdentity().getInvokedBy();
     }
-
     public String getUserIdentityWebIdFederationData() {
         return this.getUserIdentity().getWebIdFederationData();
     }
-
 
     @Override
     public String toString() {

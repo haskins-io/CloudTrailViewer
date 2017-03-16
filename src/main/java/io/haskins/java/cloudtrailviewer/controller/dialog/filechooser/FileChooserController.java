@@ -21,6 +21,7 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.service.AccountService;
+import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
@@ -55,7 +56,7 @@ public class FileChooserController implements FileListControllerListener, Filter
 
     private Stage dialogStage;
 
-    public void init(Stage dialogStage, AccountService accountDao) {
+    public void init(Stage dialogStage, AccountService accountDao, AwsService awsService) {
 
         this.dialogStage = dialogStage;
 
@@ -63,7 +64,7 @@ public class FileChooserController implements FileListControllerListener, Filter
             this.accountDao = accountDao;
             getAccounts();
 
-            fileListController.init(currentAccount, this);
+            fileListController.init(currentAccount, this, awsService);
         } else {
             fileListController.init(this);
         }

@@ -29,6 +29,8 @@ import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
 import io.haskins.java.cloudtrailviewer.service.listener.EventTableServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -42,7 +44,6 @@ import javafx.scene.layout.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,7 +65,6 @@ public class EventTableController implements EventTableServiceListener, EventSer
 
     private ContextMenu colPopup = new ContextMenu();
 
-    private List<Event> allEvents = new ArrayList<>();
     private ObservableList<Event> filteredEvents = FXCollections.observableArrayList();
 
     private DashboardService dashboardService;
@@ -76,12 +76,6 @@ public class EventTableController implements EventTableServiceListener, EventSer
         eventService.registerAsListener(this);
 
         this.dashboardService = dashboardService;
-    }
-
-    @FXML
-    private void resetSearch() {
-        filteredEvents.clear();
-        filteredEvents.addAll(allEvents);
     }
 
     @FXML
@@ -131,7 +125,6 @@ public class EventTableController implements EventTableServiceListener, EventSer
             }
 
             return event.getRawJSON().toLowerCase().contains(lowerCaseFilter);
-
         }));
 
         SortedList<Event> sortedData = new SortedList<>(filteredData);
@@ -140,6 +133,7 @@ public class EventTableController implements EventTableServiceListener, EventSer
         tableView.setItems(sortedData);
 
         searchLabel.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SEARCH));
+
         resultCount.textProperty().bind(Bindings.size(filteredData).asString());
 
         HBox.setHgrow(hboxPopup, Priority.ALWAYS);
@@ -147,7 +141,6 @@ public class EventTableController implements EventTableServiceListener, EventSer
         popupMenu.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.COG));
 
         createPopupMenu();
-
     }
     /**
      * Updates the table with the provided events.
@@ -157,10 +150,7 @@ public class EventTableController implements EventTableServiceListener, EventSer
 
         if (events != null && !events.isEmpty()) {
 
-            allEvents.clear();
             filteredEvents.clear();
-
-            allEvents.addAll(events);
             filteredEvents.addAll(events);
         }
     }

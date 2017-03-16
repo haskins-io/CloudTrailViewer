@@ -12,6 +12,7 @@ import io.haskins.java.cloudtrailviewer.service.AccountService;
 import io.haskins.java.cloudtrailviewer.service.DashboardService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
+import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -55,14 +56,21 @@ public class ToolBarController {
     private final AccountService accountDao;
     private final DashboardService dashboardService;
     private final EventTableService eventTableService;
+    private final AwsService awsService;
 
 
     @Autowired
-    public ToolBarController(DashboardService dashboardService, EventService eventService, AccountService accountDao, EventTableService eventTableService) {
+    public ToolBarController(
+            DashboardService dashboardService, EventService eventService,
+            AccountService accountDao, EventTableService eventTableService,
+            AwsService awsService) {
+
+
         this.dashboardService = dashboardService;
         this.eventService = eventService;
         this.accountDao = accountDao;
         this.eventTableService = eventTableService;
+        this.awsService = awsService;
     }
 
     @FXML
@@ -218,9 +226,9 @@ public class ToolBarController {
             FileChooserController controller = loader.getController();
 
             if (localFiles) {
-                controller.init(dialogStage, null);
+                controller.init(dialogStage, null, null);
             } else {
-                controller.init(dialogStage, accountDao);
+                controller.init(dialogStage, accountDao, awsService);
             }
 
             dialogStage.showAndWait();

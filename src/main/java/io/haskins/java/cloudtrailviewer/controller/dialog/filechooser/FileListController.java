@@ -20,6 +20,7 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.model.observable.FileListModel;
+import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListCell;
@@ -57,8 +58,8 @@ public class FileListController extends ListView<FileListModel> {
     /**
      * Initialises the Class, and attempts to load the first batch of files from S3
      */
-    public void init(AwsAccount currentAccount, FileListControllerListener listener) {
-        fileHandler = new S3FileHandler(this, currentAccount, listener);
+    public void init(AwsAccount currentAccount, FileListControllerListener listener, AwsService awsService) {
+        fileHandler = new S3FileHandler(this, currentAccount, listener, awsService);
     }
 
     public void setScanning(boolean isScanning) {

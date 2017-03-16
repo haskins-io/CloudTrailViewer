@@ -25,17 +25,52 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.service.AccountService;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Utility class that handles AWS functionality
  *
  * Created by markhaskins on 05/01/2017.
  */
+@Service
 public class AwsService {
 
-    public static AwsAccount getActiveAccount(AccountService accountDao) {
+    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+
+    private final Map<String, String> serviceNamesToEndpoints = new HashMap<>();
+    private final Map<String, String> serviceEndpointsToNames = new HashMap<>();
+
+    private final Map<String, List<String>> serviceAPIs = new HashMap<>();
+
+    public AwsService() {
+
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        InputStreamReader io = new InputStreamReader(classLoader.getResourceAsStream("service_apis/service_names.txt"));
+
+        try( BufferedReader br = new BufferedReader(io) ) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+
+                String[] parts = line.split(":");
+
+                serviceNamesToEndpoints.put(parts[1].trim(), parts[0].trim());
+                serviceEndpointsToNames.put(parts[0].trim(), parts[1].trim());
+            }
+
+        } catch (IOException ioe) {
+            LOGGER.log(Level.WARNING, "Unable to load service APIs", ioe);
+        }
+    }
+
+    public AwsAccount getActiveAccount(AccountService accountDao) {
 
         List<AwsAccount> accounts = accountDao.getAllAccounts(true);
         if (accounts.isEmpty()) {
@@ -45,7 +80,7 @@ public class AwsService {
         return accounts.get(0);
     }
 
-    public static AmazonS3 getS3Client(AwsAccount activeAccount) {
+    public AmazonS3 getS3Client(AwsAccount activeAccount) {
 
         AmazonS3 client = getS3ClientUsingProfile(activeAccount);
         if (client != null) {
@@ -60,7 +95,46 @@ public class AwsService {
         return null;
     }
 
-    private static AmazonS3 getS3ClientUsingKeys(AwsAccount activeAccount) {
+    /**
+     * Returns the friendly name of a service for example autoscaling.amazonaws.com
+     * would return AutoScaling
+     * @param name service name
+     * @return String value of Friendly name
+     */
+    public String getFriendlyName(String name) {
+
+        String friendlyName = serviceEndpointsToNames.get(name);
+        if (friendlyName == null) {
+            friendlyName = name;
+        }
+
+        return friendlyName;
+    }
+
+    public String getEndpointFromFriendlyName(String friendlyName) {
+
+        String endpoint = serviceNamesToEndpoints.get(friendlyName);
+        if (endpoint == null) {
+            endpoint = friendlyName;
+        }
+
+        return endpoint;
+    }
+
+    /**
+     * Returns the names of all available AWS Services
+     * @return Collection of AWS Services
+     */
+    public List<String> getServices() {
+
+        Set<String> keys = serviceNamesToEndpoints.keySet();
+        List<String> list = new ArrayList<>(keys);
+        Collections.sort(list);
+
+        return list;
+    }
+
+    private AmazonS3 getS3ClientUsingKeys(AwsAccount activeAccount) {
 
         String key = activeAccount.getKey();
         String secret = activeAccount.getSecret();
@@ -75,7 +149,7 @@ public class AwsService {
         return null;
     }
 
-    private static AmazonS3 getS3ClientUsingProfile(AwsAccount currentAccount) {
+    private AmazonS3 getS3ClientUsingProfile(AwsAccount currentAccount) {
 
         String profile = currentAccount.getProfile();
 

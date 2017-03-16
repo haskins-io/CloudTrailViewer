@@ -65,16 +65,20 @@ public class EventService {
     private final GeoService geoService;
     private final AccountService accountDao;
     private final StatusBarController statusBarController;
+    private final AwsService awsService;
 
     private final List<EventServiceListener> listeners = new ArrayList<>();
 
     private final List<Event> eventDb = new ArrayList<>();
 
     @Autowired
-    public EventService(AccountService accountDao, GeoService geoService, StatusBarController statusBarController) {
+    public EventService(
+            AccountService accountDao, GeoService geoService,
+            StatusBarController statusBarController, AwsService awsService) {
 
         this.accountDao = accountDao;
         this.geoService = geoService;
+        this.awsService = awsService;
 
         this.statusBarController = statusBarController;
         this.listeners.add(statusBarController);
@@ -95,8 +99,8 @@ public class EventService {
                 AmazonS3 s3Client = null;
 
                 if (file_type == FILE_TYPE_S3) {
-                    activeAccount = AwsService.getActiveAccount(accountDao);
-                    s3Client = AwsService.getS3Client(activeAccount);
+                    activeAccount = awsService.getActiveAccount(accountDao);
+                    s3Client = awsService.getS3Client(activeAccount);
                 }
 
                 int count = 0;
