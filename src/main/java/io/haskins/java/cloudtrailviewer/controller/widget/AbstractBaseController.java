@@ -149,14 +149,9 @@ public abstract class AbstractBaseController
 
             if (propertyValue != null) {
 
-                List<Event> events;
-                if (!keyValueMap.containsKey(propertyValue)) {
-
+                List<Event> events = keyValueMap.get(propertyValue);
+                if (events == null) {
                     events = new ArrayList<>();
-
-                } else {
-
-                    events = keyValueMap.get(propertyValue);
                 }
 
                 events.add(event);
@@ -203,13 +198,13 @@ public abstract class AbstractBaseController
 
         try {
             String latLng = event.getLatLng();
-            if (latLng!= null && !latlngs.containsKey(latLng)) {
+            if (latLng != null && latLng.length() > 0 && !latlngs.containsKey(latLng)) {
 
                 String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
                 latlngs.put(latLng, propertyValue);
             }
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Exception caught trying to add Event to KeyValueMap");
+            LOGGER.log(Level.WARNING, "Exception resolving Geo Data");
         }
 
         addToKeyValueMap(event);

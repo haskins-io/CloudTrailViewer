@@ -82,7 +82,7 @@ public abstract class BaseTest {
         e.setErrorMessage("");
         e.setRequestParameters(null);
         e.setResponseElements(null);
-        e.setAdditionalEventData(null);
+//        e.setAdditionalEventData(null);
         e.setSourceIPAddress("autoscaling.amazonaws.com");
         e.setRequestId("00034f13-a123-456a-78e9-e309dcd392e8");
         e.setEventId("8e9da4f8-123e-4567-8901-c018560827d6");

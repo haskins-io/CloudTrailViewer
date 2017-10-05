@@ -40,7 +40,7 @@ public class Event implements Serializable {
     @SerializedName(value="errorMessage", alternate={"errormessage"}) private String errorMessage = "";
     @SerializedName(value="requestParameters", alternate={"requestparameters"}) private Map<String, ?> requestParameters;
     @SerializedName(value="responseElements", alternate={"responseelements"}) private Map responseElements;
-    @SerializedName(value="additionalEventData", alternate={"additionaleventdata"}) private Map additionalEventData;
+//    @SerializedName(value="additionalEventData", alternate={"additionaleventdata"}) private Map additionalEventData;
     @SerializedName(value="sourceIPAddress", alternate={"sourceipaddress"}) private String sourceIPAddress = "";
     @SerializedName(value="requestID", alternate={"requestIid"}) private String requestID = "";
     @SerializedName(value="eventID", alternate={"eventid"}) private String eventID = "";
@@ -375,13 +375,13 @@ public class Event implements Serializable {
     }
 
 
-    private Map getAdditionalEventData() {
-        return additionalEventData;
-    }
-
-    public void setAdditionalEventData(Map additionalEventData) {
-        this.additionalEventData = additionalEventData;
-    }
+//    private Map getAdditionalEventData() {
+//        return additionalEventData;
+//    }
+//
+//    public void setAdditionalEventData(Map additionalEventData) {
+//        this.additionalEventData = additionalEventData;
+//    }
 
     public String getReadOnly() {
         return readOnly;
@@ -441,7 +441,7 @@ public class Event implements Serializable {
         if (getReadOnly() != null) { modelData.append(getReadOnly()).append(", "); }
         if (getEventType() != null) { modelData.append(getEventType()).append(", "); }
         if (getRecipientAccountId() != null) { modelData.append(getRecipientAccountId()).append(", "); }
-        if (getAdditionalEventData() != null) { modelData.append(getAdditionalEventData().toString()).append(", "); }
+//        if (getAdditionalEventData() != null) { modelData.append(getAdditionalEventData().toString()).append(", "); }
         if (getContinent() != null) { modelData.append(getContinent()).append(", "); }
         if (getCountry() != null) { modelData.append(getCountry()).append(", "); }
         if (getCity() != null) { modelData.append(getCity()).append(", "); }
