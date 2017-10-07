@@ -252,10 +252,14 @@ public class EventService {
         List<Event> events = createEvents(uncompress(stream));
         for (Event event : events) {
 
-            geoService.populateGeoData(event);
-
             EventUtils.addTimestamp(event);
             if (filter.passes(event)) {
+
+                try {
+                    geoService.populateGeoData(event);
+                } catch (Exception e) {
+                    LOGGER.log(Level.WARNING, "Failed populate Location information");
+                }
 
                 eventDb.add(event);
 

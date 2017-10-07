@@ -44,7 +44,13 @@ public class FileUtils {
      */
     public static String getApplicationDirectory() {
 
-        return System.getProperty("user.home", ".") + "/.cloudtrailviewer/";
+        StringBuilder appDir = new StringBuilder()
+                .append(System.getProperty("user.home", "."))
+                .append(File.separator)
+                .append(".cloudtrailviewer")
+                .append(File.separator);
+
+        return appDir.toString();
     }
 
     public static String getFullPathToFile(String pathToFile) {

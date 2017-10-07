@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.service;
 
 import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.Location;
@@ -84,7 +85,7 @@ class GeoService {
         }
     }
 
-    CityResponse getCityResponse(InetAddress ipAddress) throws GeoIp2Exception, IOException {
+    CityResponse getCityResponse(InetAddress ipAddress) throws GeoIp2Exception, IOException, AddressNotFoundException {
         return reader.city(ipAddress);
     }
 

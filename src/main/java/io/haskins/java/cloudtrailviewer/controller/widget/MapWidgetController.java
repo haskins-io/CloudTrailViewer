@@ -161,7 +161,8 @@ public class MapWidgetController extends AbstractBaseController {
 
         writeGeoDataHtml(html);
 
-        webEngine.load("file://" + FileUtils.getFullPathToFile(HTML_FILENAME));
+        String htmlFileUri = new File(FileUtils.getFullPathToFile(HTML_FILENAME)).toURI().toString();
+        webEngine.load(htmlFileUri);
     }
 
     private String getHTML() {
