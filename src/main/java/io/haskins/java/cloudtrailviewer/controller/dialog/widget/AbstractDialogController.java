@@ -21,14 +21,11 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.widget;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.observable.KeyStringValue;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -44,7 +41,7 @@ public abstract class AbstractDialogController {
     @FXML protected Button updateButton;
 
     @FXML protected TextField title;
-    @FXML protected ChoiceBox<String> type;
+    @FXML protected ChoiceBox<String> chartType;
     @FXML protected TextField top;
     @FXML protected ChoiceBox<KeyStringValue> series;
 
@@ -74,7 +71,7 @@ public abstract class AbstractDialogController {
             updateButton.setText("Create");
         }
 
-        type.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+        chartType.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
 
             if (newValue.intValue() == TYPE_TOP) {
                 topPanel.setVisible(true);
@@ -84,8 +81,8 @@ public abstract class AbstractDialogController {
             }
         });
 
-        if (widget.getType() != null && type != null) {
-            type.setValue(widget.getType());
+        if (widget.getChartType() != null && chartType != null) {
+            chartType.setValue(widget.getChartType());
         }
 
         ObservableList<KeyStringValue> items = series.getItems();
@@ -117,7 +114,7 @@ public abstract class AbstractDialogController {
         action = DialogAction.ACTION_OK;
 
         widget.setTitle(title.getText());
-        widget.setType(type.getSelectionModel().getSelectedItem());
+        widget.setChartType(chartType.getSelectionModel().getSelectedItem());
         widget.setSeriesField(series.getSelectionModel().getSelectedItem().getValue());
 
         dialogStage.close();

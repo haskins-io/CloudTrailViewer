@@ -44,7 +44,14 @@ public class WidgetUtils {
         if (widget.getWidget() == null) {
             return EDIT_WIDGET_PACKAGE + "NewWidgetDialog.fxml";
         } else {
-            return EDIT_WIDGET_PACKAGE + widget.getWidget() + "Dialog.fxml";
+
+            return new StringBuilder()
+                    .append(EDIT_WIDGET_PACKAGE)
+                    .append(widget.getType())
+                    .append("/")
+                    .append(widget.getWidget())
+                    .append("Dialog.fxml")
+                    .toString();
         }
     }
 

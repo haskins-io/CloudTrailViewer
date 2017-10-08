@@ -16,10 +16,20 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.controller.widget;
+package io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail;
+
+import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
 
 /**
- * Created by markhaskins on 26/01/2017.
+ *
+ *
+ * Created by Mark on 18/01/17.
  */
-public class OverviewWidgetController {
+public interface WidgetListener {
+
+    /**
+     *
+     * @param controller Controller that needs to be removed
+     */
+    void removeWidget(AbstractBaseController controller);
 }

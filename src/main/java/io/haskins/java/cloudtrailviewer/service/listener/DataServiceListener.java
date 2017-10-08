@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.service.listener;
 
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 
 import java.util.List;
@@ -27,19 +28,19 @@ import java.util.List;
  *
  * Created by markhaskins on 04/01/2017.
  */
-public interface EventServiceListener {
+public interface DataServiceListener {
 
     /**
      * A new Event
-     * @param event the new Event
+     * @param data the new AwsData
      */
-    void newEvent(Event event);
+    void newEvent(AwsData data);
 
     /**
-     * A collection of new Events
-     * @param events a collection of Event
+     * A collection of new AwsData
+     * @param events a collection of AwsData
      */
-    void newEvents(List<Event> events);
+    void newEvents(List<? extends AwsData> events);
 
     /**
      * The Event service is currently processing this file

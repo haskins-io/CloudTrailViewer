@@ -16,37 +16,45 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.controller.widget;
+package io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
+import io.haskins.java.cloudtrailviewer.model.dao.ResultSetRow;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Controller that provides a widget for displaying Error codes.
+ *
+ * Controller that provides a widget that shows Events that the user has defined as being security concerns.
  *
  * Created by markhaskins on 26/01/2017.
  */
-public class TableErrorWidgetController extends TableWidgetController {
+public class TableSecurityWidgetController extends TableWidgetController {
+
+    private final List<String> securityEvents = new ArrayList<>();
 
     @Override
-    public void newEvents(List<Event> events) {
-        for (Event event : events) {
+    public void newEvents(List<? extends AwsData> data) {
 
-            String errorName = event.getErrorCode();
-            if (errorName.trim().length() > 0) {
+        for (AwsData d : data) {
+
+            Event event = (Event)d;
+
+            if (securityEvents.contains(event.getEventName())) {
                 newEvent(event);
             }
         }
     }
 
-    FontAwesomeIconView getWidgetIcon() {
-        return new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE);
+    protected FontAwesomeIconView getWidgetIcon() {
+        return new FontAwesomeIconView(FontAwesomeIcon.SHIELD);
     }
 
     @Override
@@ -55,5 +63,20 @@ public class TableErrorWidgetController extends TableWidgetController {
         super.configure(widget, eventTableService, databaseService);
 
         widgetControlsController.hideEditButton();
+
+        loadSecurityEvents();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ///// private methods
+    ////////////////////////////////////////////////////////////////////////////
+    private void loadSecurityEvents() {
+
+        String query = "SELECT api_call FROM aws_security";
+        List<ResultSetRow> rows = databaseService.executeCursorStatement(query);
+        for (ResultSetRow row : rows) {
+            String aws_name = (String)row.get("api_call");
+            securityEvents.add(aws_name);
+        }
     }
 }

@@ -16,7 +16,7 @@
           hgap="10" vgap="10"
           xmlns="http://javafx.com/javafx/8.0.111"
           xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.TableDialogController">
+          fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.BarChartDialogController">
 
     <padding><Insets top="15" right="25" bottom="15" left="25"/></padding>
 
@@ -25,7 +25,7 @@
 
 
     <Label text="Type:" GridPane.columnIndex="0"  GridPane.rowIndex="2"/>
-    <ChoiceBox prefWidth="150.0" fx:id="type" value="Top"  GridPane.columnIndex="1" GridPane.rowIndex="2">
+    <ChoiceBox prefWidth="150.0" fx:id="chartType" value="Top"  GridPane.columnIndex="1" GridPane.rowIndex="2">
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="All"/>
@@ -43,7 +43,7 @@
     </BorderPane>
 
     <Label text="Series:" GridPane.columnIndex="0"  GridPane.rowIndex="4"/>
-    <fx:include source="../../components/EventField.fxml" fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    <fx:include source="../../../components/EventField.fxml" fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
     <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="5">
         <Button mnemonicParsing="false" text="Cancel" onAction="#handleCancel" />

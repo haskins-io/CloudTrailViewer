@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.controller.widget;
+package io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -40,7 +40,7 @@ public class ChartLineWidgetController extends XYChartController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public BorderPane loadFXML() {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/ChartLineWidget.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/cloudtrail/ChartLineWidget.fxml"));
         loader.setController(this);
         try {
             fxmlObject = loader.load();
@@ -51,7 +51,7 @@ public class ChartLineWidgetController extends XYChartController {
         return fxmlObject;
     }
 
-    FontAwesomeIconView getWidgetIcon() {
+    protected FontAwesomeIconView getWidgetIcon() {
         return new FontAwesomeIconView(FontAwesomeIcon.LINE_CHART);
     }
 

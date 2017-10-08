@@ -162,7 +162,7 @@ public class NewWidgetDialogController extends AbstractDialogController {
 
     private void configureFixedWidgets() {
 
-        widget.setType(AbstractBaseController.WIDGET_TYPE_ALL);
+        widget.setChartType(AbstractBaseController.WIDGET_TYPE_ALL);
         widget.setTop(-1);
         widget.setSeriesField("EventName");
 

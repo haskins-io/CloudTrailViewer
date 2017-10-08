@@ -27,10 +27,12 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
  */
 public class DashboardWidget {
 
+    private String type;
+
     private String widget;
     private String title;
 
-    private String type;
+    private String chartType;
 
     private int top = 0;
 
@@ -52,8 +54,9 @@ public class DashboardWidget {
 
     }
 
-    public DashboardWidget(String widgetType) {
-        this.widget = widgetType;
+    public DashboardWidget(String type, String widget) {
+        this.type = type;
+        this.widget = widget;
     }
 
     public String getWidget() {
@@ -64,12 +67,12 @@ public class DashboardWidget {
         this.widget = widget;
     }
 
-    public String getType() {
-        return type;
+    public String getChartType() {
+        return chartType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setChartType(String chartType) {
+        this.chartType = chartType;
     }
 
     public String getSeriesField() {
@@ -165,5 +168,13 @@ public class DashboardWidget {
 
     public void setIcon(FontAwesomeIconView icon) {
         this.icon = icon;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

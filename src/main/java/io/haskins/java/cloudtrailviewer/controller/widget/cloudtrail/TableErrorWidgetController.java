@@ -16,40 +16,41 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.controller.widget;
+package io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
-import io.haskins.java.cloudtrailviewer.model.dao.ResultSetRow;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Controller that provides a widget for showing Events that the user has defined as being resource related.
+ * Controller that provides a widget for displaying Error codes.
  *
  * Created by markhaskins on 26/01/2017.
  */
-public class TableResourcesWidgetController extends TableWidgetController {
-
-    private final List<String> resourceEvents = new ArrayList<>();
+public class TableErrorWidgetController extends TableWidgetController {
 
     @Override
-    public void newEvents(List<Event> events) {
+    public void newEvents(List<? extends AwsData> data) {
 
-        for (Event event : events) {
-            if (resourceEvents.contains(event.getEventName())) {
+        for (AwsData d : data) {
+
+            Event event = (Event)d;
+
+            String errorName = event.getErrorCode();
+            if (errorName.trim().length() > 0) {
                 newEvent(event);
             }
         }
     }
 
-    FontAwesomeIconView getWidgetIcon() {
-        return new FontAwesomeIconView(FontAwesomeIcon.SERVER);
+    protected FontAwesomeIconView getWidgetIcon() {
+        return new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE);
     }
 
     @Override
@@ -58,21 +59,5 @@ public class TableResourcesWidgetController extends TableWidgetController {
         super.configure(widget, eventTableService, databaseService);
 
         widgetControlsController.hideEditButton();
-
-        loadResourceEvents();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    ////////////////////////////////////////////////////////////////////////////
-    private void loadResourceEvents() {
-
-        String query = "SELECT api_call FROM aws_resources";
-
-        List<ResultSetRow> rows = databaseService.executeCursorStatement(query);
-        for (ResultSetRow row : rows) {
-            String aws_name = (String)row.get("api_call");
-            resourceEvents.add(aws_name);
-        }
     }
 }

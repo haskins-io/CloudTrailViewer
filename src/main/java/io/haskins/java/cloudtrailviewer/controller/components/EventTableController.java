@@ -20,17 +20,16 @@ package io.haskins.java.cloudtrailviewer.controller.components;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DashboardService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
-import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
+import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.service.listener.EventTableServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -52,7 +51,7 @@ import java.util.List;
  * Created by markhaskins on 26/01/2017.
  */
 @Component
-public class EventTableController implements EventTableServiceListener, EventServiceListener {
+public class EventTableController implements EventTableServiceListener, DataServiceListener {
 
     @FXML private TableView<Event> tableView;
 
@@ -67,10 +66,13 @@ public class EventTableController implements EventTableServiceListener, EventSer
 
     private ObservableList<Event> filteredEvents = FXCollections.observableArrayList();
 
+    private EventService eventService;
     private DashboardService dashboardService;
 
     @Autowired
     public EventTableController(EventService eventService, EventTableService eventTableService, DashboardService dashboardService) {
+
+        this.eventService = eventService;
 
         eventTableService.addListener(this);
         eventService.registerAsListener(this);
@@ -102,7 +104,7 @@ public class EventTableController implements EventTableServiceListener, EventSer
                     widget.setHeight(600);
                     widget.setPayload(rowItem);
 
-                    dashboardService.addWidgetToDashboard(widget);
+                    dashboardService.addWidgetToDashboard(widget, this.eventService);
                 }
             });
 
@@ -156,12 +158,12 @@ public class EventTableController implements EventTableServiceListener, EventSer
     }
 
     @Override
-    public void newEvent(Event event) {
+    public void newEvent(AwsData event) {
 
     }
 
     @Override
-    public void newEvents(List<Event> events) {
+    public void newEvents(List<? extends AwsData> events) {
 
     }
 

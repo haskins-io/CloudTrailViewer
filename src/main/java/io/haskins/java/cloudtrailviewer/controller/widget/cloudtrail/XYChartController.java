@@ -16,8 +16,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.controller.widget;
+package io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail;
 
+import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import javafx.collections.FXCollections;
@@ -60,15 +62,17 @@ abstract class XYChartController extends AbstractBaseController {
         super.clearEvents();
     }
 
-    public void newEvents(List<Event> events) {
+    public void newEvents(List<? extends AwsData> events) {
 
-        for (Event event : events) {
+        for (AwsData event : events) {
             newEvent(event);
         }
     }
 
     @Override
-    public void newEvent(Event event) {
+    public void newEvent(AwsData data) {
+
+        Event event = (Event)data;
 
         super.newEvent(event);
 

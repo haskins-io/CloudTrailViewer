@@ -16,21 +16,17 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.controller.widget;
+package io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
-import io.haskins.java.cloudtrailviewer.utils.ChartHoverUtil;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableBooleanValue;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -58,7 +54,7 @@ public class ChartPieWidgetController extends AbstractBaseController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public BorderPane loadFXML() {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/ChartPieWidget.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/cloudtrail/ChartPieWidget.fxml"));
         loader.setController(this);
         try {
             fxmlObject = loader.load();
@@ -69,7 +65,7 @@ public class ChartPieWidgetController extends AbstractBaseController {
         return fxmlObject;
     }
 
-    FontAwesomeIconView getWidgetIcon() {
+    protected FontAwesomeIconView getWidgetIcon() {
         return new FontAwesomeIconView(FontAwesomeIcon.PIE_CHART);
     }
 
@@ -82,9 +78,9 @@ public class ChartPieWidgetController extends AbstractBaseController {
         pieChart.setPrefHeight(widget.getHeight());
     }
 
-    public void newEvents(List<Event> events) {
+    public void newEvents(List<? extends AwsData> events) {
 
-        for (Event event : events) {
+        for (AwsData event : events) {
             newEvent(event);
         }
     }

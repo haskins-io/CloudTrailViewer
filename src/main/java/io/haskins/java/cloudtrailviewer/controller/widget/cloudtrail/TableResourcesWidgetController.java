@@ -16,10 +16,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.controller.widget;
+package io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.dao.ResultSetRow;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
@@ -30,27 +31,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * Controller that provides a widget that shows Events that the user has defined as being security concerns.
+ * Controller that provides a widget for showing Events that the user has defined as being resource related.
  *
  * Created by markhaskins on 26/01/2017.
  */
-public class TableSecurityWidgetController extends TableWidgetController {
+public class TableResourcesWidgetController extends TableWidgetController {
 
-    private final List<String> securityEvents = new ArrayList<>();
+    private final List<String> resourceEvents = new ArrayList<>();
 
     @Override
-    public void newEvents(List<Event> events) {
+    public void newEvents(List<? extends AwsData> data) {
 
-        for (Event event : events) {
-            if (securityEvents.contains(event.getEventName())) {
+        for (AwsData d : data) {
+
+            Event event = (Event)d;
+
+            if (resourceEvents.contains( event.getEventName())) {
                 newEvent(event);
             }
         }
     }
 
-    FontAwesomeIconView getWidgetIcon() {
-        return new FontAwesomeIconView(FontAwesomeIcon.SHIELD);
+    protected FontAwesomeIconView getWidgetIcon() {
+        return new FontAwesomeIconView(FontAwesomeIcon.SERVER);
     }
 
     @Override
@@ -60,19 +63,20 @@ public class TableSecurityWidgetController extends TableWidgetController {
 
         widgetControlsController.hideEditButton();
 
-        loadSecurityEvents();
+        loadResourceEvents();
     }
 
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     ////////////////////////////////////////////////////////////////////////////
-    private void loadSecurityEvents() {
+    private void loadResourceEvents() {
 
-        String query = "SELECT api_call FROM aws_security";
+        String query = "SELECT api_call FROM aws_resources";
+
         List<ResultSetRow> rows = databaseService.executeCursorStatement(query);
         for (ResultSetRow row : rows) {
             String aws_name = (String)row.get("api_call");
-            securityEvents.add(aws_name);
+            resourceEvents.add(aws_name);
         }
     }
 }

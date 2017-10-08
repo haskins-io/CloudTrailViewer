@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.112"
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.haskins.java.cloudtrailviewer.controller.ApplicationController">
     <top>

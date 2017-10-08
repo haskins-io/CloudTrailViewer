@@ -50,7 +50,7 @@ public abstract class BaseTest {
 
         w.setWidget("TableWidget");
         w.setTitle("TableWidget Title");
-        w.setType("Top");
+        w.setChartType("Top");
 
         w.setStyle("Stacked");
         w.setOrientation("Vertical");

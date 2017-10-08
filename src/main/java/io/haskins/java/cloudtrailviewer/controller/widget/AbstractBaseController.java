@@ -21,13 +21,15 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.controller.components.WidgetControlsController;
 import io.haskins.java.cloudtrailviewer.controller.components.WidgetControlsControllerListener;
+import io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail.WidgetListener;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
-import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
+import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.DragResizeWidget;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import io.haskins.java.cloudtrailviewer.utils.OnDragResizeEventListener;
@@ -48,38 +50,38 @@ import java.util.logging.Logger;
  */
 public abstract class AbstractBaseController
         extends BorderPane
-        implements EventServiceListener, OnDragResizeEventListener, WidgetControlsControllerListener {
+        implements DataServiceListener, OnDragResizeEventListener, WidgetControlsControllerListener {
 
-    final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    protected final static Logger LOGGER = Logger.getLogger("CloudTrail");
 
     public final static String WIDGET_TYPE_TOP = "Top";
     public final static String WIDGET_TYPE_ALL = "All";
 
     private final List<Event> allEvents = new ArrayList<>();
 
-    final Map<String, List<Event>> keyValueMap = new HashMap<>();
-    final ObservableList<KeyIntegerValue> keyValueData = FXCollections.observableArrayList();
-    final Map<String, String> latlngs = new HashMap<>();
+    protected final Map<String, List<Event>> keyValueMap = new HashMap<>();
+    protected final ObservableList<KeyIntegerValue> keyValueData = FXCollections.observableArrayList();
+    protected final Map<String, String> latlngs = new HashMap<>();
 
-    DashboardWidget widget;
+    protected DashboardWidget widget;
 
-    EventTableService eventTableService;
-    DatabaseService databaseService;
+    protected EventTableService eventTableService;
+    protected DatabaseService databaseService;
 
-    BorderPane fxmlObject = null;
+    protected BorderPane fxmlObject = null;
 
     private final List<WidgetListener> listeners = new ArrayList<>();
 
     @FXML private BorderPane widgetContainer;
 
-    @FXML WidgetControlsController widgetControlsController;
+    @FXML protected WidgetControlsController widgetControlsController;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// abstract methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public abstract BorderPane loadFXML();
 
-    abstract FontAwesomeIconView getWidgetIcon();
+    protected abstract FontAwesomeIconView getWidgetIcon();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// public methods
@@ -117,7 +119,7 @@ public abstract class AbstractBaseController
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// protected methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    List<Map.Entry<String,Integer>> getTopEvents() {
+    protected List<Map.Entry<String,Integer>> getTopEvents() {
 
         Map<String, Integer> eventsByOccurance = new HashMap<>();
 
@@ -128,7 +130,7 @@ public abstract class AbstractBaseController
         if (!eventsByOccurance.isEmpty()) {
 
             List<Map.Entry<String,Integer>> sorted = entriesSortedByValues(eventsByOccurance);
-            if (widget.getType().equalsIgnoreCase(WIDGET_TYPE_TOP) && widget.getTop() > 0) {
+            if (widget.getChartType().equalsIgnoreCase(WIDGET_TYPE_TOP) && widget.getTop() > 0) {
                 return getTopX(sorted, widget.getTop());
             } else {
                 return sorted;
@@ -190,9 +192,11 @@ public abstract class AbstractBaseController
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///// EventServiceListener methods
+    ///// DataServiceListener methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void newEvent(Event event) {
+    public void newEvent(AwsData data) {
+
+        Event event = (Event)data;
 
         allEvents.add(event);
 
@@ -213,7 +217,7 @@ public abstract class AbstractBaseController
     public abstract void finishedLoading(boolean reload);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///// EventServiceListener methods
+    ///// DataServiceListener methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onDrag(double x, double y) {

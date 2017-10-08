@@ -28,7 +28,7 @@ or
 The security section allows you to define what AWS API calls you consider to be a security risk. The application comes
 with some values pre-loaded. The events defined here are use by the Security Widget.
 
-You can remove existing values if you wish, or add another. When you click the add button to add another you need to type
+You can remove existing values if you wish, or add another. When you click the add button to add another you need to chartType
 in the name of the API call that you consider to be a risk.
 
 #### Resources
@@ -37,7 +37,7 @@ The idea of this section is that you define API events that create, modify or de
  
 The application comes with some values pre-loaded. The entries defined here are use by the Resources Widget.
 
-You can remove existing values if you wish, or add another. When you click the add button to add another you need to type
+You can remove existing values if you wish, or add another. When you click the add button to add another you need to chartType
 in the name of the API call that you want to monitor.
 
 ### Events
@@ -83,7 +83,7 @@ To save a dashboard select save on the Dashboard menu. The dashboard will be sav
 with the same name
 
 #### Adding a widget
-To add a widget to a Dashboard select add widget from the Dashboard menu. A dialog will open for you to select the type
+To add a widget to a Dashboard select add widget from the Dashboard menu. A dialog will open for you to select the chartType
 of widget too added. Once you have selected a widget another dialog will open allowing you to configure the widget.
 
 #### Removing a widget.

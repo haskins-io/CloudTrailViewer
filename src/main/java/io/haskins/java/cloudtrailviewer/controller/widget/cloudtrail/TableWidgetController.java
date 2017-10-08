@@ -16,10 +16,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.controller.widget;
+package io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
@@ -50,7 +52,7 @@ public class TableWidgetController extends AbstractBaseController {
     @FXML private TableView tableView;
 
     public BorderPane loadFXML() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/TableWidget.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/cloudtrail/TableWidget.fxml"));
         loader.setController(this);
         try {
             fxmlObject = loader.load();
@@ -61,12 +63,12 @@ public class TableWidgetController extends AbstractBaseController {
         return fxmlObject;
     }
 
-    FontAwesomeIconView getWidgetIcon() {
+    protected FontAwesomeIconView getWidgetIcon() {
         return new FontAwesomeIconView(FontAwesomeIcon.TABLE);
     }
 
-    public void newEvents(List<Event> events) {
-        for (Event event : events) {
+    public void newEvents(List<? extends AwsData> events) {
+        for (AwsData event : events) {
             newEvent(event);
         }
     }

@@ -1,7 +1,9 @@
-package io.haskins.java.cloudtrailviewer.controller.widget;
+package io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
@@ -24,7 +26,7 @@ public class JsonWidgetController extends AbstractBaseController {
     private TextArea textArea;
 
     public BorderPane loadFXML() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/JsonWidget.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/cloudtrail/JsonWidget.fxml"));
         loader.setController(this);
         try {
             fxmlObject = loader.load();
@@ -35,7 +37,7 @@ public class JsonWidgetController extends AbstractBaseController {
         return fxmlObject;
     }
 
-    FontAwesomeIconView getWidgetIcon() {
+    protected FontAwesomeIconView getWidgetIcon() {
         return new FontAwesomeIconView(FontAwesomeIcon.FILE_TEXT);
     }
 
@@ -65,7 +67,7 @@ public class JsonWidgetController extends AbstractBaseController {
     }
 
     @Override
-    public void newEvents(List<Event> events) {
+    public void newEvents(List<? extends AwsData> events) {
 
     }
 

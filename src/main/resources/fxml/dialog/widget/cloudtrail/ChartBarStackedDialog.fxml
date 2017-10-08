@@ -25,7 +25,7 @@
 
 
     <Label text="Type:" GridPane.columnIndex="0"  GridPane.rowIndex="2"/>
-    <ChoiceBox prefWidth="150.0" fx:id="type" value="Top"  GridPane.columnIndex="1" GridPane.rowIndex="2">
+    <ChoiceBox prefWidth="150.0" fx:id="chartType" value="Top"  GridPane.columnIndex="1" GridPane.rowIndex="2">
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="All"/>
@@ -43,10 +43,10 @@
     </BorderPane>
 
     <Label text="Series:" GridPane.columnIndex="0"  GridPane.rowIndex="4"/>
-    <fx:include source="../../components/EventField.fxml" fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    <fx:include source="../../../components/EventField.fxml" fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
     <Label text="Category:" GridPane.columnIndex="0"  GridPane.rowIndex="5"/>
-    <fx:include source="../../components/EventField.fxml" fx:id="category" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    <fx:include source="../../../components/EventField.fxml" fx:id="category" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
     <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="7">
         <Button mnemonicParsing="false" text="Cancel" onAction="#handleCancel" />

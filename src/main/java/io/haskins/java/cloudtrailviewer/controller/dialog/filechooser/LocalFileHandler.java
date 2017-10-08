@@ -141,7 +141,7 @@ class LocalFileHandler extends FileHandler {
 
         for (File file : objects) {
 
-            if (file.isFile() && FileUtils.getFileExtension(file).equalsIgnoreCase(FILE_EXTENSION)) {
+            if (file.isFile()) {
                 FileListModel model = new FileListModel(file.getName(), file, FileListModel.FILE_DOC);
                 data.add(model);
             }

@@ -16,10 +16,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.controller.widget;
+package io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
@@ -50,7 +51,7 @@ public class ChartBarStackedWidgetController extends XYChartController {
 //    @FXML private StackedBarChart chart;
 
     public BorderPane loadFXML() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/ChartBarStackedWidget.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/cloudtrail/ChartBarStackedWidget.fxml"));
         loader.setController(this);
         try {
             fxmlObject = loader.load();
@@ -61,7 +62,7 @@ public class ChartBarStackedWidgetController extends XYChartController {
         return fxmlObject;
     }
 
-    FontAwesomeIconView getWidgetIcon() {
+    protected FontAwesomeIconView getWidgetIcon() {
         return new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART_ALT);
     }
 
@@ -76,15 +77,17 @@ public class ChartBarStackedWidgetController extends XYChartController {
         chart.getXAxis().setTickLabelsVisible(false);
     }
 
-    public void newEvents(List<Event> events) {
+    public void newEvents(List<? extends AwsData> events) {
 
-        for (Event event : events) {
+        for (AwsData event : events) {
             newEvent(event);
         }
     }
 
     @Override
-    public void newEvent(Event event) {
+    public void newEvent(AwsData data) {
+
+        Event event = (Event)data;
 
         String c = EventUtils.getEventProperty(this.widget.getCategoryField(), event);
         if (!categories.contains(c)) {
