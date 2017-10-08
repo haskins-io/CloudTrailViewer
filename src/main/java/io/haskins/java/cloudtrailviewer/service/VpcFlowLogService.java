@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,9 +23,6 @@ import java.util.regex.Pattern;
 public class VpcFlowLogService extends DataService {
 
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
-
-    private static final String REGEX = "^([^ ]*) (\\d) (\\d+) (eni-\\w+) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (ACCEPT|REJECT) (OK|NODATA|SKIPDATA)$";
-    private Pattern pattern = Pattern.compile(REGEX);
 
     private final List<VpcFlowLog> logsDb = new ArrayList<>();
 
@@ -39,20 +37,30 @@ public class VpcFlowLogService extends DataService {
                     String line = scanner.nextLine().trim();
                     line = line.replace("\n", "").replace("\r", "");
 
-                    Matcher matcher = pattern.matcher(line);
+                    String regexPattern = "^([^ ]*) (\\d) (\\d+) (eni-\\w+) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (ACCEPT|REJECT) (OK|NODATA|SKIPDATA)$";
 
-                    try {
-                        VpcFlowLog log = new VpcFlowLog();
-                        log.populateFromRegex(matcher);
+                    Pattern pattern = Pattern.compile(regexPattern);
+                    Matcher m = pattern.matcher(line);
 
-                        logsDb.add(log);
+                    if (m.matches()) {
 
-                        for (DataServiceListener l : listeners) {
-                            l.newEvent(log);
+                        try {
+                            VpcFlowLog log = new VpcFlowLog();
+                            log.populateFromRegex(m);
+
+                            logsDb.add(log);
+
+                            for (DataServiceListener l : listeners) {
+                                l.newEvent(log);
+                            }
+                        } catch (IllegalStateException e) {
+                            System.out.println(e.getMessage());
                         }
-                    } catch (IllegalStateException e) {
-                        System.out.println(e.getMessage());
+
+                    } else {
+                        LOGGER.log(Level.INFO, line);
                     }
+
                 }
 
             } catch (Exception e) {
