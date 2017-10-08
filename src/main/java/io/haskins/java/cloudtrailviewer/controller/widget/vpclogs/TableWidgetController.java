@@ -3,9 +3,7 @@ package io.haskins.java.cloudtrailviewer.controller.widget.vpclogs;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
-import io.haskins.java.cloudtrailviewer.model.event.Event;
-import io.haskins.java.cloudtrailviewer.model.flowlog.VpcFlowLog;
-import javafx.collections.FXCollections;
+import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,13 +18,13 @@ public class TableWidgetController extends AbstractBaseController {
     @FXML
     private TableView tableView;
 
-    ObservableList<VpcFlowLog> data = FXCollections.observableArrayList();
-
-    BorderPane fxmlObject = null;
+    private BorderPane fxmlObject = null;
 
     public BorderPane loadFXML() {
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/vpclogs/TableWidget.fxml"));
         loader.setController(this);
+
         try {
             fxmlObject = loader.load();
         } catch (IOException e) {
@@ -43,19 +41,29 @@ public class TableWidgetController extends AbstractBaseController {
     @Override
     public void newEvents(List events) {
 
-        tableView.getItems().clear();
 
-        for (Object log : events) {
-            data.add((VpcFlowLog) log);
-        }
 
     }
 
     @Override
-    public void loadingFile(int fileNum, int totalFiles) { }
+    public void loadingFile(int fileNum, int totalFiles) {
+
+
+
+    }
 
     @Override
-    public void finishedLoading(boolean reload) { }
+    public void finishedLoading(boolean reload) {
+
+        tableView.getItems().clear();
+
+        ObservableList<VpcFlowLog> data = tableView.getItems();
+
+        for (Object log : getAllData()) {
+            data.add((VpcFlowLog) log);
+        }
+
+    }
 
     public void setLogs(List<VpcFlowLog> logs) {
 

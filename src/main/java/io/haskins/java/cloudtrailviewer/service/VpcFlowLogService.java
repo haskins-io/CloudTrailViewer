@@ -1,6 +1,8 @@
 package io.haskins.java.cloudtrailviewer.service;
 
-import io.haskins.java.cloudtrailviewer.model.flowlog.VpcFlowLog;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
+import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
+import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -15,14 +17,13 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 @Service
 public class VpcFlowLogService extends DataService {
 
     private final static Logger LOGGER = Logger.getLogger("CloudTrail");
 
-    private static final String REGEX = "^(\\d) (\\d+) (eni-\\w+) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (ACCEPT|REJECT) (OK|NODATA|SKIPDATA)$";
+    private static final String REGEX = "^([^ ]*) (\\d) (\\d+) (eni-\\w+) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (ACCEPT|REJECT) (OK|NODATA|SKIPDATA)$";
     private Pattern pattern = Pattern.compile(REGEX);
 
     private final List<VpcFlowLog> logsDb = new ArrayList<>();
@@ -35,22 +36,32 @@ public class VpcFlowLogService extends DataService {
 
                 while (scanner.hasNext()){
 
-                    String line = scanner.nextLine();
+                    String line = scanner.nextLine().trim();
+                    line = line.replace("\n", "").replace("\r", "");
 
                     Matcher matcher = pattern.matcher(line);
 
-                    if (matcher.matches()) {
+                    try {
                         VpcFlowLog log = new VpcFlowLog();
                         log.populateFromRegex(matcher);
 
                         logsDb.add(log);
-                    }
 
+                        for (DataServiceListener l : listeners) {
+                            l.newEvent(log);
+                        }
+                    } catch (IllegalStateException e) {
+                        System.out.println(e.getMessage());
+                    }
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+
+        for (DataServiceListener l : listeners) {
+            l.finishedLoading(true);
         }
     }
 
@@ -58,6 +69,12 @@ public class VpcFlowLogService extends DataService {
 
         byte[] encoded = Files.readAllBytes(Paths.get(file));
         return new ByteArrayInputStream(encoded);
+    }
+
+    public void newEvent(AwsData data) {
+
+        VpcFlowLog event = (VpcFlowLog)data;
+        logsDb.add(event);
     }
 
     public List<VpcFlowLog> getAllLogs() {

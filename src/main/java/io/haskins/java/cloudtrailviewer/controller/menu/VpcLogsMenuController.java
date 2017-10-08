@@ -33,6 +33,10 @@ public class VpcLogsMenuController extends LogsController {
             vpcFlowLogService.processRecords(request.getFilenames());
 
             DashboardWidget newWidget = new DashboardWidget("vpclogs","Table");
+
+//            DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
+//            if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
+
             dashboardService.addWidgetToDashboard(newWidget, vpcFlowLogService);
         }
 

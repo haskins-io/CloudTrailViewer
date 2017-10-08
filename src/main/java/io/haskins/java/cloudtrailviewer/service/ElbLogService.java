@@ -1,7 +1,6 @@
 package io.haskins.java.cloudtrailviewer.service;
 
 import io.haskins.java.cloudtrailviewer.model.elblog.ElbLog;
-import io.haskins.java.cloudtrailviewer.model.flowlog.VpcFlowLog;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

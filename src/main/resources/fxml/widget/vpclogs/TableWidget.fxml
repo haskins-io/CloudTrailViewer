@@ -2,6 +2,7 @@
 
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.111"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -11,6 +12,23 @@
         <fx:include source="../cloudtrail/WidgetControls.fxml" fx:id="widgetControls"/>
     </top>
     <center>
-        <TableView fx:id="tableView"/>
+        <TableView fx:id="tableView">
+            <columns>
+                <TableColumn text="Version"/>
+                <TableColumn text="Account Id"/>
+                <TableColumn text="Interface Id"/>
+                <TableColumn text="Src Addr"/>
+                <TableColumn text="Dest Addr"/>
+                <TableColumn text="Src Port"/>
+                <TableColumn text="Dest Port"/>
+                <TableColumn text="Protocol"/>
+                <TableColumn text="Packets"/>
+                <TableColumn text="Bytes"/>
+                <TableColumn text="Start"/>
+                <TableColumn text="End"/>
+                <TableColumn text="Action"/>
+                <TableColumn text="Log Status"/>
+            </columns>
+        </TableView>
     </center>
 </BorderPane>

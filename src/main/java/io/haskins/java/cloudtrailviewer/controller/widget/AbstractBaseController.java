@@ -57,7 +57,7 @@ public abstract class AbstractBaseController
     public final static String WIDGET_TYPE_TOP = "Top";
     public final static String WIDGET_TYPE_ALL = "All";
 
-    private final List<Event> allEvents = new ArrayList<>();
+    private final List<AwsData> allData = new ArrayList<>();
 
     protected final Map<String, List<Event>> keyValueMap = new HashMap<>();
     protected final ObservableList<KeyIntegerValue> keyValueData = FXCollections.observableArrayList();
@@ -141,10 +141,16 @@ public abstract class AbstractBaseController
         }
     }
 
+    protected List<AwsData> getAllData() {
+        return this.allData;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// private methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void addToKeyValueMap(Event event) {
+    private void addToKeyValueMap(AwsData data) {
+
+        Event event = (Event)data;
 
         try {
             String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
@@ -198,7 +204,7 @@ public abstract class AbstractBaseController
 
         Event event = (Event)data;
 
-        allEvents.add(event);
+        allData.add(event);
 
         try {
             String latLng = event.getLatLng();
@@ -241,7 +247,7 @@ public abstract class AbstractBaseController
 
     @Override
     public void clearEvents() {
-        allEvents.clear();
+        allData.clear();
 
         keyValueMap.clear();
         keyValueData.clear();
@@ -270,8 +276,8 @@ public abstract class AbstractBaseController
             keyValueMap.clear();
             keyValueData.clear();
 
-            for (Event event : allEvents) {
-                addToKeyValueMap(event);
+            for (AwsData data : allData) {
+                addToKeyValueMap(data);
             }
 
             finishedLoading(true);
