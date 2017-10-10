@@ -73,7 +73,8 @@ public class DashboardService implements WidgetListener {
     public DashboardService(
             EventService eventService, VpcFlowLogService vpcFlowLogService, ElbLogService elbLogService,
             EventTableService eventTableService, DatabaseService databaseService
-    ) {
+    )
+    {
 
         widgets.put("widgets", new ArrayList<>());
 

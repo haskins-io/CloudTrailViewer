@@ -1,8 +1,11 @@
 package io.haskins.java.cloudtrailviewer.service;
 
+import io.haskins.java.cloudtrailviewer.controller.components.StatusBarController;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
+import javafx.concurrent.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -26,51 +29,87 @@ public class VpcFlowLogService extends DataService {
 
     private final List<VpcFlowLog> logsDb = new ArrayList<>();
 
+    private final StatusBarController statusBarController;
+
+    @Autowired
+    public VpcFlowLogService(StatusBarController statusBarController) {
+        this.statusBarController = statusBarController;
+    }
+
+
     public void processRecords(List<String> records) {
 
-        for (String record : records) {
+        String regexPattern = "^([^ ]*) (\\d) (\\d+) (eni-\\w+) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (ACCEPT|REJECT) (OK|NODATA|SKIPDATA)$";
+        Pattern pattern = Pattern.compile(regexPattern);
 
-            try (Scanner scanner = new Scanner(new File(record))) {
+        Task<Void> task = new Task<Void>() {
 
-                while (scanner.hasNext()){
+            @Override
+            protected Void call() throws Exception {
 
-                    String line = scanner.nextLine().trim();
-                    line = line.replace("\n", "").replace("\r", "");
+                int count = 0;
+                for (String record : records) {
 
-                    String regexPattern = "^([^ ]*) (\\d) (\\d+) (eni-\\w+) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (ACCEPT|REJECT) (OK|NODATA|SKIPDATA)$";
+                    count++;
 
-                    Pattern pattern = Pattern.compile(regexPattern);
-                    Matcher m = pattern.matcher(line);
+                    String message = "Processing event " + count + " of " + records.size();
+                    updateMessage(message);
 
-                    if (m.matches()) {
+                    try (Scanner scanner = new Scanner(new File(record))) {
 
-                        try {
-                            VpcFlowLog log = new VpcFlowLog();
-                            log.populateFromRegex(m);
+                        while (scanner.hasNext()) {
 
-                            logsDb.add(log);
+                            String line = scanner.nextLine().trim();
+                            line = line.replace("\n", "").replace("\r", "");
 
-                            for (DataServiceListener l : listeners) {
-                                l.newEvent(log);
+                            Matcher m = pattern.matcher(line);
+
+                            if (m.matches()) {
+
+                                try {
+                                    VpcFlowLog log = new VpcFlowLog();
+                                    log.populateFromRegex(m);
+
+                                    logsDb.add(log);
+
+                                    for (DataServiceListener l : listeners) {
+                                        l.newEvent(log);
+                                    }
+                                } catch (IllegalStateException e) {
+                                    System.out.println(e.getMessage());
+                                }
+
+                            } else {
+                                LOGGER.log(Level.INFO, line);
                             }
-                        } catch (IllegalStateException e) {
-                            System.out.println(e.getMessage());
+
                         }
 
-                    } else {
-                        LOGGER.log(Level.INFO, line);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-
                 }
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                return null;
             }
-        }
 
-        for (DataServiceListener l : listeners) {
-            l.finishedLoading(true);
-        }
+            @Override
+            protected void succeeded() {
+
+                super.succeeded();
+
+                updateMessage("");
+
+                for (DataServiceListener l : listeners) {
+                    l.finishedLoading(false);
+                }
+            }
+
+        };
+
+        statusBarController.message.textProperty().bind(task.messageProperty());
+
+        new Thread(task).start();
     }
 
     private InputStream loadEventFromLocalFile(final String file) throws IOException {

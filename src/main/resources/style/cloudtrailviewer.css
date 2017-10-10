@@ -9,6 +9,7 @@
 .widget {
     -fx-border-color: black;
     -fx-background-color: white;
+    -fx-padding: 5px;
 }
 
 .widget-header {

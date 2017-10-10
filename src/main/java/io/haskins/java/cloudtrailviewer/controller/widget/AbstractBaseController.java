@@ -202,22 +202,26 @@ public abstract class AbstractBaseController
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void newEvent(AwsData data) {
 
-        Event event = (Event)data;
+        allData.add(data);
 
-        allData.add(event);
+        if (data instanceof Event) {
 
-        try {
-            String latLng = event.getLatLng();
-            if (latLng != null && latLng.length() > 0 && !latlngs.containsKey(latLng)) {
+            Event event = (Event)data;
 
-                String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
-                latlngs.put(latLng, propertyValue);
+            try {
+                String latLng = event.getLatLng();
+                if (latLng != null && latLng.length() > 0 && !latlngs.containsKey(latLng)) {
+
+                    String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
+                    latlngs.put(latLng, propertyValue);
+                }
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, "Exception resolving Geo Data");
             }
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Exception resolving Geo Data");
+
+            addToKeyValueMap(event);
         }
 
-        addToKeyValueMap(event);
     }
 
     public abstract void finishedLoading(boolean reload);

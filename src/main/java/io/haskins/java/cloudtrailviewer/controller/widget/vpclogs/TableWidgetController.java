@@ -3,6 +3,7 @@ package io.haskins.java.cloudtrailviewer.controller.widget.vpclogs;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -39,9 +40,11 @@ public class TableWidgetController extends AbstractBaseController {
     }
 
     @Override
-    public void newEvents(List events) {
+    public void newEvents(List<? extends AwsData> data) {
 
-
+        for (AwsData d : data) {
+            newEvent(d);
+        }
 
     }
 
@@ -60,6 +63,8 @@ public class TableWidgetController extends AbstractBaseController {
         ObservableList<VpcFlowLog> data = tableView.getItems();
 
         for (Object log : getAllData()) {
+
+
             data.add((VpcFlowLog) log);
         }
 
@@ -67,6 +72,6 @@ public class TableWidgetController extends AbstractBaseController {
 
     public void setLogs(List<VpcFlowLog> logs) {
 
-
+        System.out.println("Setting Logs");
     }
 }
