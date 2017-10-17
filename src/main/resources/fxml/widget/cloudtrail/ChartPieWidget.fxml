@@ -8,7 +8,7 @@
             fx:id="widgetContainer"
             styleClass="widget">
     <top>
-        <fx:include source="WidgetControls.fxml" fx:id="widgetControls"/>
+        <fx:include source="../WidgetControls.fxml" fx:id="widgetControls"/>
     </top>
     <center>
         <PieChart fx:id="pieChart" />

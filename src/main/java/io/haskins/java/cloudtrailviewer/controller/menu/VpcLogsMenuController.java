@@ -37,10 +37,8 @@ public class VpcLogsMenuController extends LogsController {
     @FXML
     public void showTable() {
 
-        DashboardWidget newWidget = new DashboardWidget("vpclogs","Table");
-
-//        DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
-//        if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
+        DashboardWidget newWidget = new DashboardWidget("vpclogs","FlowLogTable");
+        newWidget.setTitle("VPC Flow Logs");
 
         dashboardService.addWidgetToDashboard(newWidget, vpcFlowLogService);
     }

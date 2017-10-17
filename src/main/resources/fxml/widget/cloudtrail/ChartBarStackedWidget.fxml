@@ -10,7 +10,7 @@
             fx:id="widgetContainer"
             styleClass="widget">
     <top>
-        <fx:include source="WidgetControls.fxml" fx:id="widgetControls"/>
+        <fx:include source="../WidgetControls.fxml" fx:id="widgetControls"/>
     </top>
     <center>
         <StackedBarChart fx:id="chart" styleClass="chart">

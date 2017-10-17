@@ -8,7 +8,7 @@
             fx:id="widgetContainer"
             styleClass="widget">
     <top>
-        <fx:include source="../cloudtrail/WidgetControls.fxml" fx:id="widgetControls"/>
+        <fx:include source="../WidgetControls.fxml" fx:id="widgetControls"/>
     </top>
     <center>
         <TableView fx:id="tableView" />

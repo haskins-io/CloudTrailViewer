@@ -23,6 +23,7 @@
 .control-button {
     -fx-background-color: transparent;
     -fx-border-style: none;
+    -fx-cursor: hand;
 }
 
 /** Chart Styling **/

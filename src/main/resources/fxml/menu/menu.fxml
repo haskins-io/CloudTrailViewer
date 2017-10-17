@@ -7,7 +7,7 @@
     <fx:include source="fileMenu.fxml"/>
     <fx:include source="eventMenu.fxml"/>
     <fx:include source="dashboardMenu.fxml"/>
-    <!--<fx:include source="elbLogsMenu.fxml"/>-->
-    <!--<fx:include source="vpcLogsMenu.fxml"/>-->
+    <fx:include source="elbLogsMenu.fxml"/>
+    <fx:include source="vpcLogsMenu.fxml"/>
     <fx:include source="helpMenu.fxml"/>
 </MenuBar>

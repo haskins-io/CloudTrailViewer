@@ -82,7 +82,6 @@ public class DashboardService implements WidgetListener {
         this.vpcFlowLogService = vpcFlowLogService;
         this.elbLogService = elbLogService;
 
-
         this.eventTableService = eventTableService;
         this.databaseService = databaseService;
     }

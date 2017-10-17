@@ -2,6 +2,8 @@ package io.haskins.java.cloudtrailviewer.model.elblog;
 
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 
+import java.util.regex.Matcher;
+
 public class ElbLog extends AwsData {
 
     private String timestamp;
@@ -129,5 +131,9 @@ public class ElbLog extends AwsData {
 
     public void setSslProtocol(String sslProtocol) {
         this.sslProtocol = sslProtocol;
+    }
+
+    public void populateFromRegex(Matcher matcher) {
+
     }
 }
