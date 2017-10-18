@@ -76,8 +76,6 @@ public class ElbLogTableWidgetController extends AbstractBaseController {
         ObservableList<ElbLog> data = tableView.getItems();
 
         for (Object log : getAllData()) {
-
-
             data.add((ElbLog) log);
         }
 

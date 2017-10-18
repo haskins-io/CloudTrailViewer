@@ -65,7 +65,6 @@ public class ToolBarController {
             AccountService accountDao, EventTableService eventTableService,
             AwsService awsService) {
 
-
         this.dashboardService = dashboardService;
         this.eventService = eventService;
         this.accountDao = accountDao;
@@ -119,7 +118,6 @@ public class ToolBarController {
     }
 
     @FXML private void doMap() {
-
         dashboardService.addWidgetToDashboard(new DashboardWidget("cloudtrail", "Map"), this.eventService);
     }
 

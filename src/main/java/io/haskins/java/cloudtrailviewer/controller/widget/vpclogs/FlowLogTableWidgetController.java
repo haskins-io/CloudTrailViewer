@@ -74,8 +74,6 @@ public class FlowLogTableWidgetController extends AbstractBaseController {
         ObservableList<VpcFlowLog> data = tableView.getItems();
 
         for (Object log : getAllData()) {
-
-
             data.add((VpcFlowLog) log);
         }
 

@@ -49,7 +49,6 @@ public class StatusBarController implements DataServiceListener {
 
     @FXML
     public void initialize() {
-
         loadedEvents.setText("Loaded Events : 0");
     }
 
