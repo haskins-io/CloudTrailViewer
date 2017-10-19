@@ -65,7 +65,6 @@ public class ToolBarController {
             AccountService accountDao, EventTableService eventTableService,
             AwsService awsService) {
 
-
         this.dashboardService = dashboardService;
         this.eventService = eventService;
         this.accountDao = accountDao;
@@ -119,80 +118,79 @@ public class ToolBarController {
     }
 
     @FXML private void doMap() {
-
-        dashboardService.addWidgetToDashboard(new DashboardWidget("Map"));
+        dashboardService.addWidgetToDashboard(new DashboardWidget("cloudtrail", "Map"), this.eventService);
     }
 
     @FXML private void doTable() {
-        DashboardWidget newWidget = new DashboardWidget("Table");
+        DashboardWidget newWidget = new DashboardWidget("cloudtrail","Table");
 
         DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
         if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
 
-        dashboardService.addWidgetToDashboard(newWidget);
+        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
     }
 
     @FXML private void doChartPie() {
-        DashboardWidget newWidget = new DashboardWidget("ChartPie");
+        DashboardWidget newWidget = new DashboardWidget("cloudtrail","ChartPie");
 
         DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
         if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
 
-        dashboardService.addWidgetToDashboard(newWidget);
+        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
     }
 
     @FXML private void doChartBar() {
-        DashboardWidget newWidget = new DashboardWidget("ChartBar");
+        DashboardWidget newWidget = new DashboardWidget("cloudtrail","ChartBar");
 
         DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
         if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
 
-        dashboardService.addWidgetToDashboard(newWidget);
+        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
     }
 
     @FXML private void doChartStacked() {
-        DashboardWidget newWidget = new DashboardWidget("ChartBarStacked");
+        DashboardWidget newWidget = new DashboardWidget("cloudtrail","ChartBarStacked");
 
         DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
         if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
 
-        dashboardService.addWidgetToDashboard(newWidget);
+        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
     }
 
     @FXML private void doError() {
-        DashboardWidget newWidget = new DashboardWidget("TableError");
+        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableError");
 
         configureFixedWidgets(newWidget);
 
         newWidget.setTitle("Errors");
         newWidget.setSeriesField("ErrorCode");
 
-        dashboardService.addWidgetToDashboard(newWidget);
+        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
     }
 
     @FXML private void doResource() {
 
-        DashboardWidget newWidget = new DashboardWidget("TableResources");
+        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableResources");
 
         configureFixedWidgets(newWidget);
 
         newWidget.setTitle("Resources");
         newWidget.setSeriesField("EventName");
 
-        dashboardService.addWidgetToDashboard(newWidget);
+        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
 
     }
 
     @FXML private void doSecurity() {
 
-        DashboardWidget newWidget = new DashboardWidget("TableSecurity");
+        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableSecurity");
 
         configureFixedWidgets(newWidget);
 
         newWidget.setTitle("Security");
         newWidget.setSeriesField("EventName");
 
-        dashboardService.addWidgetToDashboard(newWidget);
+        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
     }
 
     @FXML private void allEvents() {
@@ -244,7 +242,7 @@ public class ToolBarController {
 
     private void configureFixedWidgets(DashboardWidget widget) {
 
-        widget.setType(AbstractBaseController.WIDGET_TYPE_ALL);
+        widget.setChartType(AbstractBaseController.WIDGET_TYPE_ALL);
         widget.setTop(-1);
 
         widget.setWidth(335);

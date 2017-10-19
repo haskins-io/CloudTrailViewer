@@ -23,7 +23,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
-import io.haskins.java.cloudtrailviewer.controller.widget.WidgetListener;
+import io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail.WidgetListener;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.utils.FileUtils;
 import javafx.application.Platform;
@@ -55,24 +55,33 @@ public class DashboardService implements WidgetListener {
     private static final String DASHBOARD_EXT = ".ctd";
     private static final String DEFAULT_DASHBOARD = "default" + DASHBOARD_EXT;
 
-    private final static String WIDGET_CONTROLLER_PACKAGE = "io.haskins.java.cloudtrailviewer.controller.widget.";
+    private final static String WIDGET_CONTROLLER_PACKAGE = "io.haskins.java.cloudtrailviewer.controller.widget";
 
     private Pane pane;
     private String dashboardName;
 
-
     private final Map<String, List<DashboardWidget>> widgets = new HashMap<>();
 
     private final EventService eventService;
+    private final VpcFlowLogService vpcFlowLogService;
+    private final ElbLogService elbLogService;
+
     private final EventTableService eventTableService;
     private final DatabaseService databaseService;
 
     @Autowired
-    public DashboardService(EventService eventService, EventTableService eventTableService, DatabaseService databaseService) {
+    public DashboardService(
+            EventService eventService, VpcFlowLogService vpcFlowLogService, ElbLogService elbLogService,
+            EventTableService eventTableService, DatabaseService databaseService
+    )
+    {
 
         widgets.put("widgets", new ArrayList<>());
 
         this.eventService = eventService;
+        this.vpcFlowLogService = vpcFlowLogService;
+        this.elbLogService = elbLogService;
+
         this.eventTableService = eventTableService;
         this.databaseService = databaseService;
     }
@@ -92,17 +101,34 @@ public class DashboardService implements WidgetListener {
         List<DashboardWidget> widgets = loadDashboardFile(name);
 
         for (DashboardWidget widget : widgets) {
-            addWidgetToDashboard(widget);
+
+            if (widget.getType().equalsIgnoreCase("cloudtrail")) {
+                addWidgetToDashboard(widget, this.eventService);
+
+            } else if (widget.getType().equalsIgnoreCase("vpclogs")) {
+                addWidgetToDashboard(widget, this.vpcFlowLogService);
+
+            } else if (widget.getType().equalsIgnoreCase("elblogs")) {
+                addWidgetToDashboard(widget, this.elbLogService);
+            }
+
         }
     }
 
-    public void addWidgetToDashboard(DashboardWidget widget) {
+    public void addWidgetToDashboard(DashboardWidget widget, DataService dataService) {
 
         Platform.runLater(() -> {
 
-            String widget_class_name = WIDGET_CONTROLLER_PACKAGE + widget.getWidget() + "WidgetController";
+            StringBuilder widget_class_name = new StringBuilder()
+                    .append(WIDGET_CONTROLLER_PACKAGE)
+                    .append(".")
+                    .append(widget.getType())
+                    .append(".")
+                    .append(widget.getWidget())
+                    .append("WidgetController");
+
             try {
-                Class widget_class = Class.forName(widget_class_name);
+                Class widget_class = Class.forName(widget_class_name.toString());
                 Constructor c = widget_class.getConstructor();
                 AbstractBaseController controller = (AbstractBaseController)c.newInstance();
                 pane.getChildren().add(controller.loadFXML());
@@ -110,8 +136,8 @@ public class DashboardService implements WidgetListener {
                 controller.configure(widget, eventTableService, databaseService);
                 controller.addWidgetListener(this);
 
-                eventService.registerAsListener(controller);
-                eventService.injectEvents(controller);
+                dataService.registerAsListener(controller);
+                dataService.injectEvents(controller);
                 controller.finishedLoading(true);
 
                 List<DashboardWidget> widgetsList = widgets.get("widgets");

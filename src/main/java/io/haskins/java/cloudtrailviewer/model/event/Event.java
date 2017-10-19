@@ -19,13 +19,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.model.event;
 
 import com.google.gson.annotations.SerializedName;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.event.deprecated.Resource;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class Event implements Serializable {
+public class Event extends AwsData implements Serializable {
 
     private static final long serialVersionUID = 7492738943200865856L;
 

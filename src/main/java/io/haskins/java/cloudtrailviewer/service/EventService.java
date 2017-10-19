@@ -29,7 +29,7 @@ import io.haskins.java.cloudtrailviewer.controller.components.StatusBarControlle
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
-import io.haskins.java.cloudtrailviewer.service.listener.EventServiceListener;
+import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import javafx.concurrent.Task;
@@ -53,7 +53,7 @@ import java.util.zip.ZipException;
  * Created by markhaskins on 04/01/2017.
  */
 @Service
-public class EventService {
+public class EventService extends DataService {
 
     public static final int FILE_TYPE_LOCAL = 1;
     public static final int FILE_TYPE_S3 = 2;
@@ -66,8 +66,6 @@ public class EventService {
     private final AccountService accountDao;
     private final StatusBarController statusBarController;
     private final AwsService awsService;
-
-    private final List<EventServiceListener> listeners = new ArrayList<>();
 
     private final List<Event> eventDb = new ArrayList<>();
 
@@ -82,10 +80,6 @@ public class EventService {
 
         this.statusBarController = statusBarController;
         this.listeners.add(statusBarController);
-    }
-
-    public void registerAsListener(EventServiceListener l) {
-        listeners.add(l);
     }
 
     public void loadFiles(List<String> filenames, final CompositeFilter filters, int file_type) {
@@ -135,7 +129,7 @@ public class EventService {
                 super.succeeded();
 
                 updateMessage("");
-                for (EventServiceListener l : listeners) {
+                for (DataServiceListener l : listeners) {
                     l.finishedLoading(false);
                 }
             }
@@ -147,21 +141,22 @@ public class EventService {
         new Thread(task).start();
     }
 
-    void injectEvents(EventServiceListener l) {
-        l.newEvents(eventDb);
-    }
 
     public void clearEvents() {
 
         eventDb.clear();
 
-        for (EventServiceListener l : listeners) {
+        for (DataServiceListener l : listeners) {
             l.clearEvents();
         }
     }
 
     public List<Event> getAllEvents() {
         return this.eventDb;
+    }
+
+    List getDataDb() {
+        return getAllEvents();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -263,7 +258,7 @@ public class EventService {
 
                 eventDb.add(event);
 
-                for (EventServiceListener l : listeners) {
+                for (DataServiceListener l : listeners) {
                     l.newEvent(event);
                 }
             }

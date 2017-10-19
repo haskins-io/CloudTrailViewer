@@ -1,9 +1,10 @@
 {
   "widgets": [
     {
+      "type":"cloudtrail",
       "widget": "Map",
       "title": "Top Cities",
-      "type": "Top",
+      "chartType": "Top",
       "top": 5,
       "seriesField": "City",
       "xPos": 0,
@@ -12,9 +13,10 @@
       "height": 327
     },
     {
+      "type":"cloudtrail",
       "widget": "ChartPie",
       "title": "Top Events",
-      "type": "Top",
+      "chartType": "Top",
       "top": 5,
       "seriesField": "EventName",
       "xPos": 701,
@@ -23,9 +25,10 @@
       "height": 327
     },
     {
+      "type":"cloudtrail",
       "widget": "Table",
       "title": "Top Sources",
-      "type": "Top",
+      "chartType": "Top",
       "top": 5,
       "seriesField": "EventSource",
       "xPos": 701,
@@ -34,9 +37,10 @@
       "height": 327
     },
     {
+      "type":"cloudtrail",
       "widget": "ChartBarStacked",
       "title": "Top Events",
-      "type": "Top",
+      "chartType": "Top",
       "top": 5,
       "style": "Stacked",
       "orientation": "Vertical",
@@ -48,9 +52,10 @@
       "height": 327
     },
     {
+      "type":"cloudtrail",
       "widget": "ChartBar",
       "title": "Top Events",
-      "type": "Top",
+      "chartType": "Top",
       "top": 5,
       "orientation": "Horizontal",
       "seriesField": "EventName",

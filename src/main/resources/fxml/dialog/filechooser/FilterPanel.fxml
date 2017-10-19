@@ -12,7 +12,7 @@
 
 <BorderPane prefHeight="595.0"
             prefWidth="658.0"
-            xmlns="http://javafx.com/javafx/8.0.112"
+            xmlns="http://javafx.com/javafx/8.0.111"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FilterPanelController">
 

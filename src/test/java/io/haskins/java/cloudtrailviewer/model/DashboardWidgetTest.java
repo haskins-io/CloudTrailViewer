@@ -27,8 +27,8 @@ public class DashboardWidgetTest {
     @Test
     public void getType() throws Exception {
         String type = "Top";
-        dw.setType(type);
-        assertEquals(type, dw.getType());
+        dw.setChartType(type);
+        assertEquals(type, dw.getChartType());
     }
 
     @Test

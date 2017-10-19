@@ -4,8 +4,10 @@
          xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="io.haskins.java.cloudtrailviewer.controller.menu.MenuController">
 
-        <fx:include source="fileMenu.fxml"/>
-        <fx:include source="eventMenu.fxml"/>
-        <fx:include source="dashboardMenu.fxml"/>
-        <fx:include source="helpMenu.fxml"/>
+    <fx:include source="fileMenu.fxml"/>
+    <fx:include source="eventMenu.fxml"/>
+    <fx:include source="dashboardMenu.fxml"/>
+    <fx:include source="elbLogsMenu.fxml"/>
+    <fx:include source="vpcLogsMenu.fxml"/>
+    <fx:include source="helpMenu.fxml"/>
 </MenuBar>
