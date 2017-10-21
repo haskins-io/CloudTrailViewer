@@ -1,10 +1,14 @@
 AddTags
 CreateElasticsearchDomain
 DeleteElasticsearchDomain
+DeleteElasticsearchServiceRole
 DescribeElasticsearchDomain
 DescribeElasticsearchDomainConfig
 DescribeElasticsearchDomains
+DescribeElasticsearchInstanceTypeLimits
 ListDomainNames
+ListElasticsearchInstanceTypes
+ListElasticsearchVersions
 ListTags
 RemoveTags
 UpdateElasticsearchDomainConfig

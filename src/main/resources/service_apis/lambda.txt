@@ -22,9 +22,12 @@ GetPolicy
 Invoke
 ListAliases
 ListEventSourceMappings
+ListTags
 ListVersionsByFunction
 PublishVersion
 RemovePermission
+TagResource
+UntagResource
 UpdateAlias
 UpdateEventSourceMapping
 UpdateFunctionCode

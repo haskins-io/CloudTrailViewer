@@ -1,5 +1,6 @@
 CreateCluster
 CreateService
+DeleteAttributes
 DeleteCluster
 DeleteService
 DeregisterContainerInstance
@@ -10,12 +11,14 @@ DescribeServices
 DescribeTaskDefinition
 DescribeTasks
 DiscoverPollEndpoint
+ListAttributes
 ListClusters
 ListContainerInstances
 ListServices
 ListTaskDefinitionFamilies
 ListTaskDefinitions
 ListTasks
+PutAttributes
 RegisterContainerInstance
 RegisterTaskDefinition
 RunTask
@@ -24,4 +27,5 @@ StopTask
 SubmitContainerStateChange
 SubmitTaskStateChange
 UpdateContainerAgent
+UpdateContainerInstancesState
 UpdateService

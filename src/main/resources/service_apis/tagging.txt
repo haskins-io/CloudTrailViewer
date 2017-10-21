@@ -1,0 +1,5 @@
+GetResources
+GetTagKeys
+GetTagValues
+TagResources
+UntagResources

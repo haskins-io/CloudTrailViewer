@@ -15,6 +15,7 @@ CreatePolicy
 CreatePolicyVersion
 CreateRole
 CreateSAMLProvider
+CreateServiceLinkedRole
 CreateServiceSpecificCredential
 CreateUser
 CreateVirtualMFADevice
@@ -34,6 +35,7 @@ DeleteRolePolicy
 DeleteSAMLProvider
 DeleteSSHPublicKey
 DeleteServerCertificate
+DeleteServiceLinkedRole
 DeleteServiceSpecificCredential
 DeleteSigningCertificate
 DeleteUser
@@ -63,6 +65,7 @@ GetRolePolicy
 GetSAMLProvider
 GetSSHPublicKey
 GetServerCertificate
+GetServiceLinkedRoleDeletionStatus
 GetUser
 GetUserPolicy
 ListAccessKeys
@@ -107,6 +110,7 @@ UpdateAssumeRolePolicy
 UpdateGroup
 UpdateLoginProfile
 UpdateOpenIDConnectProviderThumbprint
+UpdateRoleDescription
 UpdateSAMLProvider
 UpdateSSHPublicKey
 UpdateServerCertificate

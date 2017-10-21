@@ -1,3 +1,4 @@
+AssociateKmsKey
 CancelExportTask
 CreateExportTask
 CreateLogGroup
@@ -6,6 +7,7 @@ DeleteDestination
 DeleteLogGroup
 DeleteLogStream
 DeleteMetricFilter
+DeleteResourcePolicy
 DeleteRetentionPolicy
 DeleteSubscriptionFilter
 DescribeDestinations
@@ -13,7 +15,9 @@ DescribeExportTasks
 DescribeLogGroups
 DescribeLogStreams
 DescribeMetricFilters
+DescribeResourcePolicies
 DescribeSubscriptionFilters
+DisassociateKmsKey
 FilterLogEvents
 GetLogEvents
 ListTagsLogGroup
@@ -21,6 +25,7 @@ PutDestination
 PutDestinationPolicy
 PutLogEvents
 PutMetricFilter
+PutResourcePolicy
 PutRetentionPolicy
 PutSubscriptionFilter
 TagLogGroup

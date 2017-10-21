@@ -1,11 +1,15 @@
 DeleteAlarms
+DeleteDashboards
 DescribeAlarmHistory
 DescribeAlarms
 DescribeAlarmsForMetric
 DisableAlarmActions
 EnableAlarmActions
+GetDashboard
 GetMetricStatistics
+ListDashboards
 ListMetrics
+PutDashboard
 PutMetricAlarm
 PutMetricData
 SetAlarmState

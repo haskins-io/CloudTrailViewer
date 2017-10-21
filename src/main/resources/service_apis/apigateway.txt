@@ -6,6 +6,7 @@ CreateDocumentationPart
 CreateDocumentationVersion
 CreateDomainName
 CreateModel
+CreateRequestValidator
 CreateResource
 CreateRestApi
 CreateStage
@@ -19,11 +20,13 @@ DeleteDeployment
 DeleteDocumentationPart
 DeleteDocumentationVersion
 DeleteDomainName
+DeleteGatewayResponse
 DeleteIntegration
 DeleteIntegrationResponse
 DeleteMethod
 DeleteMethodResponse
 DeleteModel
+DeleteRequestValidator
 DeleteResource
 DeleteRestApi
 DeleteStage
@@ -50,6 +53,8 @@ GetDocumentationVersions
 GetDomainName
 GetDomainNames
 GetExport
+GetGatewayResponse
+GetGatewayResponses
 GetIntegration
 GetIntegrationResponse
 GetMethod
@@ -57,6 +62,8 @@ GetMethodResponse
 GetModel
 GetModelTemplate
 GetModels
+GetRequestValidator
+GetRequestValidators
 GetResource
 GetResources
 GetRestApi
@@ -74,6 +81,7 @@ GetUsagePlans
 ImportApiKeys
 ImportDocumentationParts
 ImportRestApi
+PutGatewayResponse
 PutIntegration
 PutIntegrationResponse
 PutMethod
@@ -90,11 +98,13 @@ UpdateDeployment
 UpdateDocumentationPart
 UpdateDocumentationVersion
 UpdateDomainName
+UpdateGatewayResponse
 UpdateIntegration
 UpdateIntegrationResponse
 UpdateMethod
 UpdateMethodResponse
 UpdateModel
+UpdateRequestValidator
 UpdateResource
 UpdateRestApi
 UpdateStage

@@ -5,6 +5,7 @@ BatchGetDeploymentGroups
 BatchGetDeploymentInstances
 BatchGetDeployments
 BatchGetOnPremisesInstances
+ContinueDeployment
 CreateApplication
 CreateDeployment
 CreateDeploymentConfig
@@ -26,10 +27,12 @@ ListDeploymentConfigs
 ListDeploymentGroups
 ListDeploymentInstances
 ListDeployments
+ListGitHubAccountTokenNames
 ListOnPremisesInstances
 RegisterApplicationRevision
 RegisterOnPremisesInstance
 RemoveTagsFromOnPremisesInstances
+SkipWaitTimeForInstanceTermination
 StopDeployment
 UpdateApplication
 UpdateDeploymentGroup

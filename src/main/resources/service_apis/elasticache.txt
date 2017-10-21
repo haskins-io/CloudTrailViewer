@@ -36,3 +36,4 @@ RebootCacheCluster
 RemoveTagsFromResource
 ResetCacheParameterGroup
 RevokeCacheSecurityGroupIngress
+TestFailover

@@ -16,4 +16,6 @@ PutRecord
 PutRecords
 RemoveTagsFromStream
 SplitShard
+StartStreamEncryption
+StopStreamEncryption
 UpdateShardCount

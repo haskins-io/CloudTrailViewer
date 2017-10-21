@@ -12,3 +12,8 @@ Scan
 UpdateItem
 UpdateTable
 DescribeLimits
+DescribeTimeToLive
+ListTagsOfResource
+TagResource
+UntagResource
+UpdateTimeToLive

@@ -12,6 +12,7 @@ GetPipelineExecution
 GetPipelineState
 GetThirdPartyJobDetails
 ListActionTypes
+ListPipelineExecutions
 ListPipelines
 PollForJobs
 PollForThirdPartyJobs

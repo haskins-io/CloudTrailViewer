@@ -1,7 +1,10 @@
+BatchDeleteBuilds
 BatchGetBuilds
 BatchGetProjects
 CreateProject
+CreateWebhook
 DeleteProject
+DeleteWebhook
 ListBuilds
 ListBuildsForProject
 ListCuratedEnvironmentImages

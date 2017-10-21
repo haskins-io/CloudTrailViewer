@@ -44,6 +44,7 @@ DetachElasticLoadBalancer
 DisassociateElasticIp
 GetHostnameSuggestion
 GrantAccess
+ListTags
 RebootInstance
 RegisterEcsCluster
 RegisterElasticIp
@@ -57,8 +58,10 @@ StartInstance
 StartStack
 StopInstance
 StopStack
+TagResource
 UnassignInstance
 UnassignVolume
+UntagResource
 UpdateApp
 UpdateElasticIp
 UpdateInstance

@@ -1,0 +1,10 @@
+CreateCluster
+CreateHsm
+DeleteCluster
+DeleteHsm
+DescribeBackups
+DescribeClusters
+InitializeCluster
+ListTags
+TagResource
+UntagResource

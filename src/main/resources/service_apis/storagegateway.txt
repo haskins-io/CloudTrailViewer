@@ -44,6 +44,7 @@ ListTapes
 ListVolumeInitiators
 ListVolumeRecoveryPoints
 ListVolumes
+RefreshCache
 RemoveTagsFromResource
 ResetCache
 RetrieveTapeArchive

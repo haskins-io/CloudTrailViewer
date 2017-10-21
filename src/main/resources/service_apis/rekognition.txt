@@ -4,8 +4,11 @@ DeleteCollection
 DeleteFaces
 DetectFaces
 DetectLabels
+DetectModerationLabels
+GetCelebrityInfo
 IndexFaces
 ListCollections
 ListFaces
+RecognizeCelebrities
 SearchFaces
 SearchFacesByImage

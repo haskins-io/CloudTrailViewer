@@ -6,6 +6,7 @@ DeleteTags
 DescribeAgents
 DescribeConfigurations
 DescribeExportConfigurations
+DescribeExportTasks
 DescribeTags
 DisassociateConfigurationItemsFromApplication
 ExportConfigurations
@@ -13,5 +14,6 @@ GetDiscoverySummary
 ListConfigurations
 ListServerNeighbors
 StartDataCollectionByAgentIds
+StartExportTask
 StopDataCollectionByAgentIds
 UpdateApplication

@@ -1,0 +1,16 @@
+AssociateCreatedArtifact
+AssociateDiscoveredResource
+CreateProgressUpdateStream
+DeleteProgressUpdateStream
+DescribeApplicationState
+DescribeMigrationTask
+DisassociateCreatedArtifact
+DisassociateDiscoveredResource
+ImportMigrationTask
+ListCreatedArtifacts
+ListDiscoveredResources
+ListMigrationTasks
+ListProgressUpdateStreams
+NotifyApplicationState
+NotifyMigrationTaskState
+PutResourceAttributes

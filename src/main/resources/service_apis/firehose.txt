@@ -1,6 +1,7 @@
 CreateDeliveryStream
 DeleteDeliveryStream
 DescribeDeliveryStream
+GetKinesisStream
 ListDeliveryStreams
 PutRecord
 PutRecordBatch

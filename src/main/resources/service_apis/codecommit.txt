@@ -1,9 +1,12 @@
 BatchGetRepositories
 CreateBranch
 CreateRepository
+DeleteBranch
 DeleteRepository
+GetBlob
 GetBranch
 GetCommit
+GetDifferences
 GetRepository
 GetRepositoryTriggers
 ListBranches

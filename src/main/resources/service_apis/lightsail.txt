@@ -39,6 +39,7 @@ ImportKeyPair
 IsVpcPeered
 OpenInstancePublicPorts
 PeerVpc
+PutInstancePublicPorts
 RebootInstance
 ReleaseStaticIp
 StartInstance
