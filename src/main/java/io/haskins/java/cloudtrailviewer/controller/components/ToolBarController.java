@@ -118,7 +118,13 @@ public class ToolBarController {
     }
 
     @FXML private void doMap() {
-        dashboardService.addWidgetToDashboard(new DashboardWidget("cloudtrail", "Map"), this.eventService);
+
+        DashboardWidget newWidget = new DashboardWidget("cloudtrail","Map");
+        newWidget.setSeriesField("City");
+        newWidget.setWidth(700);
+        newWidget.setHeight(327);
+
+        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
     }
 
     @FXML private void doTable() {

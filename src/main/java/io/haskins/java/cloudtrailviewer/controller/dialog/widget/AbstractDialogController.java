@@ -47,10 +47,10 @@ public abstract class AbstractDialogController {
 
     @FXML private BorderPane topPanel;
 
-    int action = DialogAction.ACTION_CANCEL;
+    protected int action = DialogAction.ACTION_CANCEL;
 
-    Stage dialogStage;
-    DashboardWidget widget;
+    protected Stage dialogStage;
+    protected DashboardWidget widget;
 
     /**
      * Sets the stage of this dialog.

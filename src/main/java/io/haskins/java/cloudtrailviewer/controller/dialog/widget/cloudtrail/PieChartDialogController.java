@@ -16,8 +16,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.controller.dialog.widget;
+package io.haskins.java.cloudtrailviewer.controller.dialog.widget.cloudtrail;
 
+import io.haskins.java.cloudtrailviewer.controller.dialog.widget.AbstractDialogController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
