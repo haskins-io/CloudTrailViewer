@@ -75,7 +75,6 @@ public class DashboardService implements WidgetListener {
             EventTableService eventTableService, DatabaseService databaseService
     )
     {
-
         widgets.put("widgets", new ArrayList<>());
 
         this.eventService = eventService;
@@ -200,6 +199,8 @@ public class DashboardService implements WidgetListener {
                 try {
                     JsonObject obj = (JsonObject) widget;
                     DashboardWidget e = g.fromJson(obj, DashboardWidget.class);
+                    e.validate();
+
                     widgets.add(e);
                 } catch (Exception e) {
                     LOGGER.log(Level.WARNING, "Create Event from JSON : ", e);
