@@ -177,4 +177,13 @@ public class DashboardWidget {
     public void setType(String type) {
         this.type = type;
     }
+
+    public void validate() {
+
+        if (this.chartType == null) {
+            this.chartType = this.type;
+            this.type = "cloudtrail";
+        }
+
+    }
 }
