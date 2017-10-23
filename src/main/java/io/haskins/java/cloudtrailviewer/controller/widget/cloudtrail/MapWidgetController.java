@@ -134,7 +134,7 @@ public class MapWidgetController extends AbstractBaseController {
 
         for (Map.Entry<String, String> entry : latlngs.entrySet()) {
 
-            List<Event> events = keyValueMap.get(entry.getValue());
+            List<AwsData> events = keyValueMap.get(entry.getValue());
 
             output.append("['").
                     append(entry.getValue()).

@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 
 public class ElbLog extends AwsData {
 
-    private String timestamp;
+    private String eventTime;
     private String elb;
     private String clientAddress;
     private String clientPort;
@@ -25,11 +25,11 @@ public class ElbLog extends AwsData {
     private String sslCipher;
     private String sslProtocol;
 
-    public String getTimestamp() {
-        return timestamp;
+    public String getEventTime() {
+        return eventTime;
     }
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setEventTime(String timestamp) {
+        this.eventTime = eventTime;
     }
 
     public String getElb() {
@@ -125,7 +125,7 @@ public class ElbLog extends AwsData {
 
     public void populateFromRegex(Matcher matcher) {
 
-        this.setTimestamp(matcher.group(1));
+        this.setEventTime(matcher.group(1));
         this.setElb(matcher.group(2));
         this.setClientAddress(matcher.group(3));
         this.setClientPort(matcher.group(4));
@@ -141,6 +141,8 @@ public class ElbLog extends AwsData {
         this.setRequest(matcher.group(14));
         this.setUrl(matcher.group(15));
         this.setUserAgent(matcher.group(17));
+
+        // convert EventTime to long timestamp
     }
 
     public String getClientPort() {

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 @Service
 public class PropertiesService {
 
-    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    private final static Logger LOGGER = Logger.getLogger("PropertiesService");
 
     private static final String PROP_FILE = "cloudtrailviewer.properties";
 

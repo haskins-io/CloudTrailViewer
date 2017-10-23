@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.controller.components;
+package io.haskins.java.cloudtrailviewer.controller.components.cloudtrail;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -51,9 +51,9 @@ import java.util.List;
  * Created by markhaskins on 26/01/2017.
  */
 @Component
-public class EventTableController implements EventTableServiceListener, DataServiceListener {
+public class CloudTrailEventTableController implements EventTableServiceListener, DataServiceListener {
 
-    @FXML private TableView<Event> tableView;
+    @FXML private TableView<AwsData> tableView;
 
     @FXML private Label searchLabel;
     @FXML private TextField searchField;
@@ -64,13 +64,13 @@ public class EventTableController implements EventTableServiceListener, DataServ
 
     private ContextMenu colPopup = new ContextMenu();
 
-    private ObservableList<Event> filteredEvents = FXCollections.observableArrayList();
+    private ObservableList<AwsData> filteredEvents = FXCollections.observableArrayList();
 
     private EventService eventService;
     private DashboardService dashboardService;
 
     @Autowired
-    public EventTableController(EventService eventService, EventTableService eventTableService, DashboardService dashboardService) {
+    public CloudTrailEventTableController(EventService eventService, EventTableService eventTableService, DashboardService dashboardService) {
 
         this.eventService = eventService;
 
@@ -90,12 +90,12 @@ public class EventTableController implements EventTableServiceListener, DataServ
 
         tableView.setRowFactory(tv -> {
 
-            TableRow<Event> row = new TableRow<>();
+            TableRow<AwsData> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
 
                 if (event.getClickCount() ==2 && !row.isEmpty()) {
 
-                    Event rowItem = row.getItem();
+                    Event rowItem = (Event)row.getItem();
 
                     DashboardWidget widget = new DashboardWidget();
                     widget.setWidget("Json");
@@ -114,22 +114,24 @@ public class EventTableController implements EventTableServiceListener, DataServ
         tableView.setItems(filteredEvents);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        FilteredList<Event> filteredData = new FilteredList<>(filteredEvents, p -> true);
+        FilteredList<AwsData> filteredData = new FilteredList<>(filteredEvents, p -> true);
         searchField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(event -> {
 
             if (newValue== null || newValue.isEmpty()) {
                 return true;
             }
 
+            Event e = (Event)event;
+
             String lowerCaseFilter = newValue.toLowerCase();
-            if (event.getRawJSON() == null) {
-                EventUtils.addRawJson(event);
+            if (e.getRawJSON() == null) {
+                EventUtils.addRawJson(e);
             }
 
-            return event.getRawJSON().toLowerCase().contains(lowerCaseFilter);
+            return e.getRawJSON().toLowerCase().contains(lowerCaseFilter);
         }));
 
-        SortedList<Event> sortedData = new SortedList<>(filteredData);
+        SortedList<AwsData> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
 
         tableView.setItems(sortedData);
@@ -144,13 +146,16 @@ public class EventTableController implements EventTableServiceListener, DataServ
 
         createPopupMenu();
     }
+
     /**
      * Updates the table with the provided events.
      * @param events a List of Events
      */
-    public void setEvents(List<Event> events) {
+    public void setEvents(List<AwsData> events) {
 
-        if (events != null && !events.isEmpty()) {
+        AwsData d = events.get(0);
+
+        if (events != null && !events.isEmpty() && d instanceof Event) {
 
             filteredEvents.clear();
             filteredEvents.addAll(events);
@@ -184,7 +189,7 @@ public class EventTableController implements EventTableServiceListener, DataServ
 
     private void createPopupMenu() {
 
-        ObservableList<TableColumn<Event,?>> cols = tableView.getColumns();
+        ObservableList<TableColumn<AwsData,?>> cols = tableView.getColumns();
         for (TableColumn col : cols) {
             String name = col.textProperty().get();
 

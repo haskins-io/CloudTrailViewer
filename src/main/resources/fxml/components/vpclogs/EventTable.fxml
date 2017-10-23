@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.BorderPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="io.haskins.java.cloudtrailviewer.controller.components.vpclogs.VpcLogEventTableController">
+
+    <top>
+        <ToolBar>
+            <BorderPane>
+                <center>
+                    <BorderPane style="-fx-border-style: solid; -fx-border-color: gainsboro; -fx-background-color: white;">
+                        <left>
+                            <Label fx:id="searchLabel" prefHeight="25.0" prefWidth="15.0" style="-fx-background-color: white;">
+                                <padding>
+                                   <Insets left="5.0" top="1.0" />
+                                </padding>
+                                <BorderPane.margin>
+                                    <Insets left="3.0" top="1.0" />
+                                </BorderPane.margin>
+                            </Label>
+                        </left>
+                        <center>
+                            <TextField fx:id="searchField" prefHeight="24.0" style="-fx-border-color: white; -fx-background-color: white;" />
+                        </center>
+                    </BorderPane>
+                </center>
+                <right>
+                    <Label fx:id="resultCount" text="0">
+                        <padding>
+                            <Insets left="5.0" top="1.0" />
+                        </padding>
+                        <BorderPane.margin>
+                            <Insets left="3.0" top="7.0" />
+                        </BorderPane.margin>
+                    </Label>
+                </right>
+            </BorderPane>
+
+            <fx:include source="ToolBar.fxml" />
+
+        </ToolBar>
+    </top>
+
+    <center>
+        <TableView fx:id="tableView">
+            <columns>
+                <TableColumn text="Version"><cellValueFactory><PropertyValueFactory property="version" /></cellValueFactory></TableColumn>
+                <TableColumn text="Account Id"><cellValueFactory><PropertyValueFactory property="accountId" /></cellValueFactory></TableColumn>
+                <TableColumn text="Interface Id"><cellValueFactory><PropertyValueFactory property="interfaceId" /></cellValueFactory></TableColumn>
+                <TableColumn text="Src Addr"><cellValueFactory><PropertyValueFactory property="srcaddr" /></cellValueFactory></TableColumn>
+                <TableColumn text="Dest Addr"><cellValueFactory><PropertyValueFactory property="dstaddr" /></cellValueFactory></TableColumn>
+                <TableColumn text="Src Port"><cellValueFactory><PropertyValueFactory property="srcport" /></cellValueFactory></TableColumn>
+                <TableColumn text="Dest Port"><cellValueFactory><PropertyValueFactory property="dstport" /></cellValueFactory></TableColumn>
+                <TableColumn text="Protocol"><cellValueFactory><PropertyValueFactory property="protocol" /></cellValueFactory></TableColumn>
+                <TableColumn text="Packets"><cellValueFactory><PropertyValueFactory property="packets" /></cellValueFactory></TableColumn>
+                <TableColumn text="Bytes"><cellValueFactory><PropertyValueFactory property="bytes" /></cellValueFactory></TableColumn>
+                <TableColumn text="Start"><cellValueFactory><PropertyValueFactory property="start" /></cellValueFactory></TableColumn>
+                <TableColumn text="End"><cellValueFactory><PropertyValueFactory property="end" /></cellValueFactory></TableColumn>
+                <TableColumn text="Action"><cellValueFactory><PropertyValueFactory property="action" /></cellValueFactory></TableColumn>
+                <TableColumn text="Log Status"><cellValueFactory><PropertyValueFactory property="logStatus" /></cellValueFactory></TableColumn>
+            </columns>
+        </TableView>
+
+    </center>
+
+    <bottom>
+
+    </bottom>
+
+</BorderPane>

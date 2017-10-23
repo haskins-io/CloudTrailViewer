@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.service;
 
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.listener.EventTableServiceListener;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class EventTableService {
         listeners.add(l);
     }
 
-    public void setTableEvents(List<Event> events) {
+    public void setTableEvents(List<AwsData> events) {
 
         for (EventTableServiceListener l : listeners) {
             l.setEvents(events);

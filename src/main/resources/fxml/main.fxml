@@ -5,19 +5,27 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <BorderPane xmlns="http://javafx.com/javafx/8.0.111"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.haskins.java.cloudtrailviewer.controller.ApplicationController">
     <top>
         <BorderPane>
             <top><fx:include source="menu/menu.fxml" /></top>
-            <bottom><fx:include source="components/ToolBar.fxml" /></bottom>
+            <bottom><fx:include source="components/cloudtrail/ToolBar.fxml" /></bottom>
         </BorderPane>
     </top>
     <center>
         <SplitPane dividerPositions="0.8" orientation="VERTICAL">
-                <ScrollPane><Pane fx:id="widgets" /></ScrollPane>
-                <fx:include source="components/EventTable.fxml" />
+            <ScrollPane><Pane fx:id="widgets" /></ScrollPane>
+
+            <TabPane tabClosingPolicy="UNAVAILABLE">
+                <Tab fx:id="ct" text="CloudTrail"><fx:include source="components/cloudtrail/EventTable.fxml" /></Tab>
+                <Tab fx:id="fl" text="VPC Logs"><fx:include source="components/vpclogs/EventTable.fxml" /></Tab>
+                <Tab fx:id="el" text="EBL Logs"><fx:include source="components/elblogs/EventTable.fxml" /></Tab>
+            </TabPane>
+
         </SplitPane>
     </center>
     <bottom>

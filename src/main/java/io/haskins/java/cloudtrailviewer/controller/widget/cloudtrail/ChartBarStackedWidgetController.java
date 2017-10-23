@@ -96,7 +96,7 @@ public class ChartBarStackedWidgetController extends XYChartController {
 
         String s = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
 
-        Map<String, List<Event>> catMap;
+        Map<String, List<AwsData>> catMap;
         if (multiSeries.containsKey(s)) {
             catMap = multiSeries.get(s);
         } else {
@@ -104,7 +104,7 @@ public class ChartBarStackedWidgetController extends XYChartController {
             multiSeries.put(s, catMap);
         }
 
-        List<Event> evList;
+        List<AwsData> evList;
         if (catMap.containsKey(c)) {
             evList = catMap.get(c);
         } else {
@@ -128,19 +128,19 @@ public class ChartBarStackedWidgetController extends XYChartController {
 
         yAxis.setLabel("Count");
 
-        for (Map.Entry<String, Map<String, List<Event>>> entry : multiSeries.entrySet()) {
+        for (Map.Entry<String, Map<String, List<AwsData>>> entry : multiSeries.entrySet()) {
 
             String seriesName = entry.getKey();
 
             XYChart.Series<String, Number> series = new XYChart.Series<>();
             series.setName(seriesName);
 
-            Map<String, List<Event>> catData = entry.getValue();
+            Map<String, List<AwsData>> catData = entry.getValue();
 
-            for (Map.Entry<String, List<Event>> data : catData.entrySet()) {
+            for (Map.Entry<String, List<AwsData>> data : catData.entrySet()) {
 
                 String catName = data.getKey();
-                List<Event> events = data.getValue();
+                List<AwsData> events = data.getValue();
 
                 series.getData().add(new XYChart.Data<>(catName, events.size()));
 
@@ -153,11 +153,11 @@ public class ChartBarStackedWidgetController extends XYChartController {
             for (XYChart.Data<String, Number> item: series.getData()){
 
                 String seriesName = series.getName();
-                Map<String, List<Event>> catData = multiSeries.get(seriesName);
+                Map<String, List<AwsData>> catData = multiSeries.get(seriesName);
 
-                for (Map.Entry<String, List<Event>> catData2 : catData.entrySet()) {
+                for (Map.Entry<String, List<AwsData>> catData2 : catData.entrySet()) {
 
-                    List<Event> events = catData2.getValue();
+                    List<AwsData> events = catData2.getValue();
                     item.getNode().setOnMousePressed((MouseEvent event) -> eventTableService.setTableEvents(events));
 
                     Node node = item.getNode();

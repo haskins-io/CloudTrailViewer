@@ -59,20 +59,18 @@ public class StatusBarController implements DataServiceListener {
     @Override
     public void newEvent(AwsData data) {
 
-        Event event = (Event)data;
 
-        if (earliestEventLong == -1 || event.getTimestamp() < earliestEventLong) {
-            earliestEventLong = event.getTimestamp();
-            earliestEventString = event.getEventTime();
+        if (earliestEventLong == -1 || data.getTimestamp() < earliestEventLong) {
+            earliestEventLong = data.getTimestamp();
+            earliestEventString = data.getEventTime();
         }
 
-        if (latestEventLong == -1 || event.getTimestamp() > latestEventLong) {
-            latestEventLong = event.getTimestamp();
-            latestEventString = event.getEventTime();
+        if (latestEventLong == -1 || data.getTimestamp() > latestEventLong) {
+            latestEventLong = data.getTimestamp();
+            latestEventString = data.getEventTime();
         }
 
         numEventsLoaded++;
-
 
         Platform.runLater(new Runnable() {
             @Override public void run() {

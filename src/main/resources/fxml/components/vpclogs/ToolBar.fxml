@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Separator?>
+
+<ToolBar xmlns="http://javafx.com/javafx/8.0.111"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="io.haskins.java.cloudtrailviewer.controller.components.vpclogs.VpcLogToolBarController">
+
+    <Button fx:id="btnLocal" mnemonicParsing="false" onAction="#doLocal"/>
+    <Separator/>
+    <Button fx:id="btnAllEvents" mnemonicParsing="false" onAction="#allEvents"/>
+</ToolBar>

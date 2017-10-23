@@ -20,9 +20,9 @@ import java.util.regex.Pattern;
 @Service
 public class ElbLogService extends DataService {
 
-    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    private final static Logger LOGGER = Logger.getLogger("ElbLogService");
 
-    private final List<ElbLog> logsDb = new ArrayList<>();
+    private final List<AwsData> logsDb = new ArrayList<>();
 
     private final StatusBarController statusBarController;
 
@@ -114,11 +114,11 @@ public class ElbLogService extends DataService {
         logsDb.add(event);
     }
 
-    private List<ElbLog> getAllLogs() {
+    public List<AwsData> getAllLogs() {
         return logsDb;
     }
 
-    List<ElbLog> getDataDb() {
+    List<AwsData> getDataDb() {
         return getAllLogs();
     }
 }

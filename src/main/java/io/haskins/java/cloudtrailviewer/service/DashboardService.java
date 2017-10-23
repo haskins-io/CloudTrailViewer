@@ -50,7 +50,7 @@ import java.util.logging.Logger;
 @Service
 public class DashboardService implements WidgetListener {
 
-    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    private final static Logger LOGGER = Logger.getLogger("DashboardService");
 
     private static final String DASHBOARD_EXT = ".ctd";
     private static final String DEFAULT_DASHBOARD = "default" + DASHBOARD_EXT;

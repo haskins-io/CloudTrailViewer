@@ -49,8 +49,8 @@ abstract class XYChartController extends AbstractBaseController {
 
     final List<String> categories = new ArrayList<>();
 
-    final Map<String, Map<String, List<Event>>> multiSeries = new HashMap<>();
-    private final Map<String, List<Event>> singleSeries = new HashMap<>();
+    final Map<String, Map<String, List<AwsData>>> multiSeries = new HashMap<>();
+    private final Map<String, List<AwsData>> singleSeries = new HashMap<>();
 
     @Override
     public void clearEvents() {
@@ -80,7 +80,7 @@ abstract class XYChartController extends AbstractBaseController {
 
         if (s != null) {
 
-            List<Event> events;
+            List<AwsData> events;
             if (singleSeries.containsKey(s)) {
                 events = singleSeries.get(s);
             } else {
@@ -121,7 +121,9 @@ abstract class XYChartController extends AbstractBaseController {
 
             for (XYChart.Series<String,Number> serie: chart.getData()){
                 for (XYChart.Data<String, Number> item: serie.getData()){
-                    item.getNode().setOnMousePressed((MouseEvent event) -> eventTableService.setTableEvents(singleSeries.get(serie.getName())));
+                    item.getNode().setOnMousePressed((MouseEvent event) -> {
+                        eventTableService.setTableEvents(singleSeries.get(serie.getName()));
+                    });
 
                     Node node = item.getNode();
                     Tooltip t = new Tooltip(serie.getName() + " : " + item.getYValue());
