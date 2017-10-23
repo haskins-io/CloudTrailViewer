@@ -1,12 +1,15 @@
 acm : AWS Certificate Manager
 apigateway : Amazon API Gateway
 appstream2 : Amazon AppStream
+athena : Amazon Athena
 autoscaling : Auto Scaling
 batch : AWS Batch
 budgets : AWS Budgets
+clouddirectory : Amazon CloudDirectory
 cloudformation : AWS CloudFormation
 cloudfront : Amazon CloudFront
 cloudhsm : Amazon CloudHSM
+cloudhsmv2 : AWS CloudHSM V2
 cloudsearch : Amazon CloudSearch
 cloudsearchdomain : Amazon CloudSearch Domain
 cloudtrail : AWS CloudTrail
@@ -14,12 +17,15 @@ codebuild : AWS CodeBuild
 codecommit : AWS CodeCommit
 codedeploy : AWS CodeDeploy
 codepipeline : AWS CodePipeline
+codestar : AWS CodeStar
 cognito-identity : Amazon Cognito Identity
 cognito-idp : Amazon Cognito Identity Provider
 cognito-sync : Amazon Cognito Sync
 config : AWS Config
+cur : AWS Cost and Usage Report Service
 data.iot : AWS IoT Data Plane
 datapipeline : AWS Data Pipeline
+dax : Amazon DynamoDB Accelerator (DAX)
 devicefarm : AWS Device Farm
 directconnect : AWS Direct Connect
 discovery : AWS Application Discovery Service
@@ -36,11 +42,14 @@ elasticloadbalancing : Elastic Load Balancing
 elasticmapreduce : Amazon Elastic MapReduce
 elastictranscoder : Amazon Elastic Transcoder
 email : Amazon Simple Email Service
+entitlement.marketplace : AWS Marketplace Entitlement Service
 es : Amazon Elasticsearch Service
 events : Amazon CloudWatch Events
 firehose : Amazon Kinesis Firehose
 gamelift : Amazon GameLift
 glacier : Amazon Glacier
+glue : AWS Glue
+greengrass : AWS Greengrass
 health : AWS Health APIs and Notifications
 iam : AWS Identity and Access Management
 importexport : AWS Import/Export
@@ -55,10 +64,15 @@ logs : Amazon CloudWatch Logs
 machinelearning : Amazon Machine Learning
 marketplacecommerceanalytics : AWS Marketplace Commerce Analytics
 metering.marketplace : AWSMarketplace Metering
+mgh : AWS Migration Hub
+mobile : AWS Mobile
 mobileanalytics : Amazon Mobile Analytics
+models.lex : Amazon Lex Model Building Service
 monitoring : Amazon CloudWatch
+mturk-requester : Amazon Mechanical Turk
 opsworks : AWS OpsWorks
 opsworks-cm : AWS OpsWorks for Chef Automate
+organizations : AWS Organizations
 pinpoint : Amazon Pinpoint
 polly : Amazon Polly
 rds : Amazon Relational Database Service
@@ -66,6 +80,7 @@ redshift : Amazon Redshift
 rekognition : Amazon Rekognition
 route53 : Amazon Route 53
 route53domains : Amazon Route 53 Domains
+runtime.lex : Amazon Lex Runtime Service
 s3 : Amazon Simple Storage Service
 sdb : Amazon SimpleDB
 servicecatalog : AWS Service Catalog
@@ -81,7 +96,9 @@ streams.dynamodb : Amazon DynamoDB Streams
 sts : AWS Security Token Service
 support : AWS Support
 swf : Amazon Simple Workflow Service
+tagging : AWS Resource Groups Tagging API
 waf : AWS WAF
 waf-regional : AWS WAF Regional
+workdocs : Amazon WorkDocs
 workspaces : Amazon WorkSpaces
 xray : AWS X-Ray

@@ -18,9 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.menu;
 
-import io.haskins.java.cloudtrailviewer.controller.dialog.widget.NewWidgetDialogController;
-import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
-import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.service.DashboardService;
 import io.haskins.java.cloudtrailviewer.utils.DialogUtils;
 import io.haskins.java.cloudtrailviewer.utils.FileUtils;

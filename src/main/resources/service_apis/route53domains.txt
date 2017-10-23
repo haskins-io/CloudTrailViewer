@@ -1,4 +1,5 @@
 CheckDomainAvailability
+CheckDomainTransferability
 DeleteTagsForDomain
 DisableDomainAutoRenew
 DisableDomainTransferLock

@@ -22,11 +22,14 @@ ListAliases
 ListGrants
 ListKeyPolicies
 ListKeys
+ListResourceTags
 ListRetirableGrants
 PutKeyPolicy
 ReEncrypt
 RetireGrant
 RevokeGrant
 ScheduleKeyDeletion
+TagResource
+UntagResource
 UpdateAlias
 UpdateKeyDescription

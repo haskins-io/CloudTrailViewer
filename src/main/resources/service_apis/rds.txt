@@ -50,12 +50,12 @@ RestoreDBInstanceToPointInTime
 RevokeDBSecurityGroupIngress
 DescribeDBLogFiles
 DownloadDBLogFilePortion
+CopyDBParameterGroup
+CopyOptionGroup
 AddRoleToDBCluster
 ApplyPendingMaintenanceAction
 CopyDBClusterParameterGroup
 CopyDBClusterSnapshot
-CopyDBParameterGroup
-CopyOptionGroup
 CreateDBCluster
 CreateDBClusterParameterGroup
 CreateDBClusterSnapshot
@@ -73,10 +73,12 @@ DescribeDBSnapshotAttributes
 DescribeEngineDefaultClusterParameters
 DescribePendingMaintenanceActions
 DescribeSourceRegions
+DescribeValidDBInstanceModifications
 FailoverDBCluster
 ModifyDBCluster
 ModifyDBClusterParameterGroup
 ModifyDBClusterSnapshotAttribute
+ModifyDBSnapshot
 ModifyDBSnapshotAttribute
 PromoteReadReplicaDBCluster
 RemoveRoleFromDBCluster
@@ -84,3 +86,5 @@ ResetDBClusterParameterGroup
 RestoreDBClusterFromS3
 RestoreDBClusterFromSnapshot
 RestoreDBClusterToPointInTime
+StartDBInstance
+StopDBInstance

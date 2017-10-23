@@ -16,31 +16,20 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package io.haskins.java.cloudtrailviewer.controller.dialog.widget;
+package io.haskins.java.cloudtrailviewer.controller.dialog.widget.cloudtrail;
 
-import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
+import io.haskins.java.cloudtrailviewer.controller.dialog.widget.AbstractDialogController;
 import javafx.fxml.FXML;
 
 /**
- * Dialog that provides the functionality to modify a BarChart Widget
+ * Dialog that provides the ability to modify a Map Widget
  *
  * Created by markhaskins on 25/01/2017.
  */
-public class BarChartDialogController extends AbstractDialogController {
+public class MapDialogController extends AbstractDialogController {
 
-    @FXML public void handleUpdate() {
-
-        widget.setTop(Integer.parseInt(top.getText()));
-
+    @FXML
+    protected void handleUpdate() {
         super.handleUpdate();
-    }
-
-    public void setWidget(DashboardWidget widget) {
-
-        super.setWidget(widget);
-
-        if (widget.getTop() != 0) {
-            top.setText(String.valueOf(widget.getTop()));
-        }
     }
 }

@@ -21,6 +21,7 @@ package io.haskins.java.cloudtrailviewer.controller.components;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.springframework.stereotype.Component;
@@ -71,6 +72,14 @@ public class StatusBarController implements DataServiceListener {
         }
 
         numEventsLoaded++;
+
+
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                loadedEvents.setText(String.valueOf("Loaded Events : " + numEventsLoaded));
+            }
+        });
+
     }
 
     @Override

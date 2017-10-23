@@ -1,10 +1,12 @@
 AddTagsToResource
 CreateEndpoint
+CreateEventSubscription
 CreateReplicationInstance
 CreateReplicationSubnetGroup
 CreateReplicationTask
 DeleteCertificate
 DeleteEndpoint
+DeleteEventSubscription
 DeleteReplicationInstance
 DeleteReplicationSubnetGroup
 DeleteReplicationTask
@@ -13,6 +15,9 @@ DescribeCertificates
 DescribeConnections
 DescribeEndpointTypes
 DescribeEndpoints
+DescribeEventCategories
+DescribeEventSubscriptions
+DescribeEvents
 DescribeOrderableReplicationInstances
 DescribeRefreshSchemasStatus
 DescribeReplicationInstances
@@ -23,10 +28,12 @@ DescribeTableStatistics
 ImportCertificate
 ListTagsForResource
 ModifyEndpoint
+ModifyEventSubscription
 ModifyReplicationInstance
 ModifyReplicationSubnetGroup
 ModifyReplicationTask
 RefreshSchemas
+ReloadTables
 RemoveTagsFromResource
 StartReplicationTask
 StopReplicationTask

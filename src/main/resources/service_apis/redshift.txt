@@ -46,6 +46,7 @@ DisableLogging
 DisableSnapshotCopy
 EnableLogging
 EnableSnapshotCopy
+GetClusterCredentials
 ModifyCluster
 ModifyClusterIamRoles
 ModifyClusterParameterGroup

@@ -1,0 +1,3 @@
+DeleteReportDefinition
+DescribeReportDefinitions
+PutReportDefinition

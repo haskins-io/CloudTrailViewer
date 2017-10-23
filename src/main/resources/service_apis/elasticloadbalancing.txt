@@ -11,6 +11,7 @@ DeleteLoadBalancer
 DeleteLoadBalancerListeners
 DeleteLoadBalancerPolicy
 DeregisterInstancesFromLoadBalancer
+DescribeAccountLimits
 DescribeInstanceHealth
 DescribeLoadBalancerAttributes
 DescribeLoadBalancerPolicies
@@ -26,6 +27,7 @@ RemoveTags
 SetLoadBalancerListenerSSLCertificate
 SetLoadBalancerPoliciesForBackendServer
 SetLoadBalancerPoliciesOfListener
+AddListenerCertificates
 CreateListener
 CreateRule
 CreateTargetGroup
@@ -33,6 +35,7 @@ DeleteListener
 DeleteRule
 DeleteTargetGroup
 DeregisterTargets
+DescribeListenerCertificates
 DescribeListeners
 DescribeRules
 DescribeSSLPolicies
@@ -44,6 +47,8 @@ ModifyRule
 ModifyTargetGroup
 ModifyTargetGroupAttributes
 RegisterTargets
+RemoveListenerCertificates
+SetIpAddressType
 SetRulePriorities
 SetSecurityGroups
 SetSubnets

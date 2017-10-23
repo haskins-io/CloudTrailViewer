@@ -16,6 +16,7 @@ DeleteTrust
 DeregisterEventTopic
 DescribeConditionalForwarders
 DescribeDirectories
+DescribeDomainControllers
 DescribeEventTopics
 DescribeSnapshots
 DescribeTrusts
@@ -34,5 +35,6 @@ RemoveTagsFromResource
 RestoreFromSnapshot
 StartSchemaExtension
 UpdateConditionalForwarder
+UpdateNumberOfDomainControllers
 UpdateRadius
 VerifyTrust

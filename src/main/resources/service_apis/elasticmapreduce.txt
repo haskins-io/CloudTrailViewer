@@ -1,3 +1,4 @@
+AddInstanceFleet
 AddInstanceGroups
 AddJobFlowSteps
 AddTags
@@ -10,10 +11,12 @@ DescribeSecurityConfiguration
 DescribeStep
 ListBootstrapActions
 ListClusters
+ListInstanceFleets
 ListInstanceGroups
 ListInstances
 ListSecurityConfigurations
 ListSteps
+ModifyInstanceFleet
 ModifyInstanceGroups
 PutAutoScalingPolicy
 RemoveAutoScalingPolicy

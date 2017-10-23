@@ -6,11 +6,13 @@ CreateApplication
 CreateApplicationVersion
 CreateConfigurationTemplate
 CreateEnvironment
+CreatePlatformVersion
 CreateStorageLocation
 DeleteApplication
 DeleteApplicationVersion
 DeleteConfigurationTemplate
 DeleteEnvironmentConfiguration
+DeletePlatformVersion
 DescribeApplicationVersions
 DescribeApplications
 DescribeConfigurationOptions
@@ -22,7 +24,10 @@ DescribeEnvironmentResources
 DescribeEnvironments
 DescribeEvents
 DescribeInstancesHealth
+DescribePlatformVersion
 ListAvailableSolutionStacks
+ListPlatformVersions
+ListTagsForResource
 RebuildEnvironment
 RequestEnvironmentInfo
 RestartAppServer
@@ -34,4 +39,5 @@ UpdateApplicationResourceLifecycle
 UpdateApplicationVersion
 UpdateConfigurationTemplate
 UpdateEnvironment
+UpdateTagsForResource
 ValidateConfigurationSettings

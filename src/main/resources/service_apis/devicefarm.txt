@@ -1,8 +1,10 @@
 CreateDevicePool
+CreateNetworkProfile
 CreateProject
 CreateRemoteAccessSession
 CreateUpload
 DeleteDevicePool
+DeleteNetworkProfile
 DeleteProject
 DeleteRemoteAccessSession
 DeleteRun
@@ -12,6 +14,7 @@ GetDevice
 GetDevicePool
 GetDevicePoolCompatibility
 GetJob
+GetNetworkProfile
 GetOfferingStatus
 GetProject
 GetRemoteAccessSession
@@ -24,6 +27,8 @@ ListArtifacts
 ListDevicePools
 ListDevices
 ListJobs
+ListNetworkProfiles
+ListOfferingPromotions
 ListOfferingTransactions
 ListOfferings
 ListProjects
@@ -40,4 +45,5 @@ ScheduleRun
 StopRemoteAccessSession
 StopRun
 UpdateDevicePool
+UpdateNetworkProfile
 UpdateProject

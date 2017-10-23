@@ -15,7 +15,7 @@
         </BorderPane>
     </top>
     <center>
-        <SplitPane dividerPositions="0.9" orientation="VERTICAL">
+        <SplitPane dividerPositions="0.8" orientation="VERTICAL">
                 <ScrollPane><Pane fx:id="widgets" /></ScrollPane>
                 <fx:include source="components/EventTable.fxml" />
         </SplitPane>

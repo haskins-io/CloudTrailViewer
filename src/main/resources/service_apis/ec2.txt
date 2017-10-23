@@ -6,6 +6,7 @@ AssignIpv6Addresses
 AssignPrivateIpAddresses
 AssociateAddress
 AssociateDhcpOptions
+AssociateIamInstanceProfile
 AssociateRouteTable
 AssociateSubnetCidrBlock
 AssociateVpcCidrBlock
@@ -25,12 +26,15 @@ CancelReservedInstancesListing
 CancelSpotFleetRequests
 CancelSpotInstanceRequests
 ConfirmProductInstance
+CopyFpgaImage
 CopyImage
 CopySnapshot
 CreateCustomerGateway
+CreateDefaultVpc
 CreateDhcpOptions
 CreateEgressOnlyInternetGateway
 CreateFlowLogs
+CreateFpgaImage
 CreateImage
 CreateInstanceExportTask
 CreateInternetGateway
@@ -39,6 +43,7 @@ CreateNatGateway
 CreateNetworkAcl
 CreateNetworkAclEntry
 CreateNetworkInterface
+CreateNetworkInterfacePermission
 CreatePlacementGroup
 CreateReservedInstancesListing
 CreateRoute
@@ -59,12 +64,14 @@ DeleteCustomerGateway
 DeleteDhcpOptions
 DeleteEgressOnlyInternetGateway
 DeleteFlowLogs
+DeleteFpgaImage
 DeleteInternetGateway
 DeleteKeyPair
 DeleteNatGateway
 DeleteNetworkAcl
 DeleteNetworkAclEntry
 DeleteNetworkInterface
+DeleteNetworkInterfacePermission
 DeletePlacementGroup
 DeleteRoute
 DeleteRouteTable
@@ -90,11 +97,15 @@ DescribeConversionTasks
 DescribeCustomerGateways
 DescribeDhcpOptions
 DescribeEgressOnlyInternetGateways
+DescribeElasticGpus
 DescribeExportTasks
 DescribeFlowLogs
+DescribeFpgaImageAttribute
+DescribeFpgaImages
 DescribeHostReservationOfferings
 DescribeHostReservations
 DescribeHosts
+DescribeIamInstanceProfileAssociations
 DescribeIdFormat
 DescribeIdentityIdFormat
 DescribeImageAttribute
@@ -110,6 +121,7 @@ DescribeMovingAddresses
 DescribeNatGateways
 DescribeNetworkAcls
 DescribeNetworkInterfaceAttribute
+DescribeNetworkInterfacePermissions
 DescribeNetworkInterfaces
 DescribePlacementGroups
 DescribePrefixLists
@@ -137,6 +149,7 @@ DescribeTags
 DescribeVolumeAttribute
 DescribeVolumeStatus
 DescribeVolumes
+DescribeVolumesModifications
 DescribeVpcAttribute
 DescribeVpcClassicLink
 DescribeVpcClassicLinkDnsSupport
@@ -155,6 +168,7 @@ DisableVgwRoutePropagation
 DisableVpcClassicLink
 DisableVpcClassicLinkDnsSupport
 DisassociateAddress
+DisassociateIamInstanceProfile
 DisassociateRouteTable
 DisassociateSubnetCidrBlock
 DisassociateVpcCidrBlock
@@ -172,6 +186,7 @@ ImportInstance
 ImportKeyPair
 ImportSnapshot
 ImportVolume
+ModifyFpgaImageAttribute
 ModifyHosts
 ModifyIdFormat
 ModifyIdentityIdFormat
@@ -183,10 +198,12 @@ ModifyReservedInstances
 ModifySnapshotAttribute
 ModifySpotFleetRequest
 ModifySubnetAttribute
+ModifyVolume
 ModifyVolumeAttribute
 ModifyVpcAttribute
 ModifyVpcEndpoint
 ModifyVpcPeeringConnectionOptions
+ModifyVpcTenancy
 MonitorInstances
 MoveAddressToVpc
 PurchaseHostReservation
@@ -197,6 +214,7 @@ RegisterImage
 RejectVpcPeeringConnection
 ReleaseAddress
 ReleaseHosts
+ReplaceIamInstanceProfileAssociation
 ReplaceNetworkAclAssociation
 ReplaceNetworkAclEntry
 ReplaceRoute
@@ -204,6 +222,7 @@ ReplaceRouteTableAssociation
 ReportInstanceStatus
 RequestSpotFleet
 RequestSpotInstances
+ResetFpgaImageAttribute
 ResetImageAttribute
 ResetInstanceAttribute
 ResetNetworkInterfaceAttribute
@@ -219,3 +238,5 @@ TerminateInstances
 UnassignIpv6Addresses
 UnassignPrivateIpAddresses
 UnmonitorInstances
+UpdateSecurityGroupRuleDescriptionsEgress
+UpdateSecurityGroupRuleDescriptionsIngress

@@ -1,0 +1,11 @@
+BatchGetNamedQuery
+BatchGetQueryExecution
+CreateNamedQuery
+DeleteNamedQuery
+GetNamedQuery
+GetQueryExecution
+GetQueryResults
+ListNamedQueries
+ListQueryExecutions
+StartQueryExecution
+StopQueryExecution

@@ -12,6 +12,7 @@ DescribeCrossAccountAccessRole
 DescribeFindings
 DescribeResourceGroups
 DescribeRulesPackages
+GetAssessmentReport
 GetTelemetryMetadata
 ListAssessmentRunAgents
 ListAssessmentRuns

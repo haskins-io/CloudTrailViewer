@@ -15,6 +15,7 @@ GetComplianceDetailsByConfigRule
 GetComplianceDetailsByResource
 GetComplianceSummaryByConfigRule
 GetComplianceSummaryByResourceType
+GetDiscoveredResourceCounts
 GetResourceConfigHistory
 ListDiscoveredResources
 PutConfigRule
