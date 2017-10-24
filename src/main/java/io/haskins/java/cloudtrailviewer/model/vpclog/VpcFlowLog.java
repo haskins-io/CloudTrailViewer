@@ -151,6 +151,8 @@ public class VpcFlowLog extends AwsData {
         setEnd(matcher.group(13));
         setAction(matcher.group(14));
         setLogStatus(matcher.group(15));
+
+        // convert EventTime to long timestamp
     }
 
 }

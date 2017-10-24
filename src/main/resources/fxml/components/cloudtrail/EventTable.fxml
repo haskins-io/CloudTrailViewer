@@ -11,7 +11,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.haskins.java.cloudtrailviewer.controller.components.EventTableController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.haskins.java.cloudtrailviewer.controller.components.cloudtrail.CloudTrailEventTableController">
 
     <top>
         <ToolBar>
@@ -44,6 +44,9 @@
                     </Label>
                 </right>
             </BorderPane>
+
+            <fx:include source="ToolBar.fxml" />
+
             <HBox fx:id="hboxPopup">
                 <Button fx:id="popupMenu" onAction="#showPopupMenu"/>
             </HBox>

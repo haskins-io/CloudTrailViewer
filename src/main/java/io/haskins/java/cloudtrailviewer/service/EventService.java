@@ -27,6 +27,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.haskins.java.cloudtrailviewer.controller.components.StatusBarController;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
@@ -60,14 +61,14 @@ public class EventService extends DataService {
 
     private final static int BUFFER_SIZE = 32;
 
-    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    private final static Logger LOGGER = Logger.getLogger("EventService");
 
     private final GeoService geoService;
     private final AccountService accountDao;
     private final StatusBarController statusBarController;
     private final AwsService awsService;
 
-    private final List<Event> eventDb = new ArrayList<>();
+    private final List<AwsData> eventDb = new ArrayList<>();
 
     @Autowired
     public EventService(
@@ -151,7 +152,7 @@ public class EventService extends DataService {
         }
     }
 
-    public List<Event> getAllEvents() {
+    public List<AwsData> getAllEvents() {
         return this.eventDb;
     }
 

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.BorderPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="io.haskins.java.cloudtrailviewer.controller.components.elblogs.ElbLogEventTableController">
+
+    <top>
+        <ToolBar>
+            <BorderPane>
+                <center>
+                    <BorderPane style="-fx-border-style: solid; -fx-border-color: gainsboro; -fx-background-color: white;">
+                        <left>
+                            <Label fx:id="searchLabel" prefHeight="25.0" prefWidth="15.0" style="-fx-background-color: white;">
+                                <padding>
+                                   <Insets left="5.0" top="1.0" />
+                                </padding>
+                                <BorderPane.margin>
+                                    <Insets left="3.0" top="1.0" />
+                                </BorderPane.margin>
+                            </Label>
+                        </left>
+                        <center>
+                            <TextField fx:id="searchField" prefHeight="24.0" style="-fx-border-color: white; -fx-background-color: white;" />
+                        </center>
+                    </BorderPane>
+                </center>
+                <right>
+                    <Label fx:id="resultCount" text="0">
+                        <padding>
+                            <Insets left="5.0" top="1.0" />
+                        </padding>
+                        <BorderPane.margin>
+                            <Insets left="3.0" top="7.0" />
+                        </BorderPane.margin>
+                    </Label>
+                </right>
+            </BorderPane>
+
+            <fx:include source="ToolBar.fxml" />
+
+        </ToolBar>
+    </top>
+
+    <center>
+        <TableView fx:id="tableView">
+            <columns>
+                <TableColumn text="Timestamp"><cellValueFactory><PropertyValueFactory property="timestamp" /></cellValueFactory></TableColumn>
+                <TableColumn text="ELB"><cellValueFactory><PropertyValueFactory property="elb" /></cellValueFactory></TableColumn>
+                <TableColumn text="Client Address"><cellValueFactory><PropertyValueFactory property="clientAddress" /></cellValueFactory></TableColumn>
+                <TableColumn text="Client Port"><cellValueFactory><PropertyValueFactory property="clientPort" /></cellValueFactory></TableColumn>
+                <TableColumn text="Backend Address"><cellValueFactory><PropertyValueFactory property="backendAddress" /></cellValueFactory></TableColumn>
+                <TableColumn text="Backend Port"><cellValueFactory><PropertyValueFactory property="backendPort" /></cellValueFactory></TableColumn>
+                <TableColumn text="Request Processing Time"><cellValueFactory><PropertyValueFactory property="requestProcessingTime" /></cellValueFactory></TableColumn>
+                <TableColumn text="Backend Processing Time"><cellValueFactory><PropertyValueFactory property="backendProcessingTime" /></cellValueFactory></TableColumn>
+                <TableColumn text="Response Processing Time"><cellValueFactory><PropertyValueFactory property="responseProcessingTime" /></cellValueFactory></TableColumn>
+                <TableColumn text="ELB Status Code"><cellValueFactory><PropertyValueFactory property="elbStatusCode" /></cellValueFactory></TableColumn>
+                <TableColumn text="Backend Status Code"><cellValueFactory><PropertyValueFactory property="backendStatusCode" /></cellValueFactory></TableColumn>
+                <TableColumn text="Received Bytes"><cellValueFactory><PropertyValueFactory property="receivedBytes" /></cellValueFactory></TableColumn>
+                <TableColumn text="Sent Bytes"><cellValueFactory><PropertyValueFactory property="sentByes" /></cellValueFactory></TableColumn>
+                <TableColumn text="Request"><cellValueFactory><PropertyValueFactory property="request" /></cellValueFactory></TableColumn>
+                <TableColumn text="URL"><cellValueFactory><PropertyValueFactory property="url" /></cellValueFactory></TableColumn>
+                <TableColumn text="User Agent"><cellValueFactory><PropertyValueFactory property="userAgent" /></cellValueFactory></TableColumn>
+            </columns>
+        </TableView>
+
+    </center>
+
+</BorderPane>

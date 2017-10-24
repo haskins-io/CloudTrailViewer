@@ -20,9 +20,9 @@ import java.util.regex.Pattern;
 @Service
 public class VpcFlowLogService extends DataService {
 
-    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    private final static Logger LOGGER = Logger.getLogger("VpcFlowLogService");
 
-    private final List<VpcFlowLog> logsDb = new ArrayList<>();
+    private final List<AwsData> logsDb = new ArrayList<>();
 
     private final StatusBarController statusBarController;
 
@@ -31,7 +31,6 @@ public class VpcFlowLogService extends DataService {
         this.statusBarController = statusBarController;
         this.listeners.add(statusBarController);
     }
-
 
     public void processRecords(List<String> records) {
 
@@ -114,11 +113,11 @@ public class VpcFlowLogService extends DataService {
         logsDb.add(event);
     }
 
-    private List<VpcFlowLog> getAllLogs() {
+    public List<AwsData> getAllLogs() {
         return logsDb;
     }
 
-    List<VpcFlowLog> getDataDb() {
+    List<AwsData> getDataDb() {
         return getAllLogs();
     }
 }

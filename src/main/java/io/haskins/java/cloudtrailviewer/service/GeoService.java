@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
 @Service
 class GeoService {
 
-    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    private final static Logger LOGGER = Logger.getLogger("GeoService");
 
     private static final String GEO_FILE = "geodata/GeoLite2-City.mmdb";
     private static final Pattern REGEX_PATTERN = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");

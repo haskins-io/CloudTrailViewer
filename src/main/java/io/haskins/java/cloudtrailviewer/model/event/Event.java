@@ -30,7 +30,7 @@ public class Event extends AwsData implements Serializable {
 
     private static final long serialVersionUID = 7492738943200865856L;
 
-    @SerializedName(value="eventTime", alternate={"eventtime"}) private String eventTime;
+
     @SerializedName(value="eventVersion", alternate={"eventversion"}) private String eventVersion = "";
     @SerializedName(value="userIdentity", alternate={"useridentity"}) private UserIdentity userIdentity;
     @SerializedName(value="eventSource", alternate={"eventsource"}) private String eventSource = "";
@@ -56,7 +56,7 @@ public class Event extends AwsData implements Serializable {
 
     /** Internal Use **/
     private String rawJson;
-    private long timestamp;
+
 
     private String continent = null;
     private String country = null;
@@ -98,12 +98,7 @@ public class Event extends AwsData implements Serializable {
     	return this.rawJson;
     }
     
-    public void setTimestamp(long millis) {
-        this.timestamp = millis;
-    }
-    public long getTimestamp() {
-        return this.timestamp;
-    }
+
 
     /**
      * @return the eventVersion
@@ -133,19 +128,7 @@ public class Event extends AwsData implements Serializable {
         this.userIdentity = userIdentity;
     }
 
-    /**
-     * @return the eventTime
-     */
-    public String getEventTime() {
-        return eventTime;
-    }
 
-    /**
-     * @param eventTime the eventTime to set
-     */
-    public void setEventTime(String eventTime) {
-        this.eventTime = eventTime;
-    }
 
     /**
      * @return the eventSource

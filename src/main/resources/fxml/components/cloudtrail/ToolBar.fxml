@@ -5,7 +5,7 @@
 
 <ToolBar xmlns="http://javafx.com/javafx/8.0.111"
          xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="io.haskins.java.cloudtrailviewer.controller.components.ToolBarController">
+         fx:controller="io.haskins.java.cloudtrailviewer.controller.components.cloudtrail.CloudTrailToolBarController">
 
     <Button fx:id="btnLocal" mnemonicParsing="false" onAction="#doLocal"/>
     <Button fx:id="btnS3" mnemonicParsing="false" onAction="#doS3"/>

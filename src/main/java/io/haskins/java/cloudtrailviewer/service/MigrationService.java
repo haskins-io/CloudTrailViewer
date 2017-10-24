@@ -38,7 +38,7 @@ class MigrationService {
     // this is not done in the constructor to handle circular dependency
     @Autowired private DatabaseService databaseService;
 
-    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    private final static Logger LOGGER = Logger.getLogger("MigrationService");
 
     void createVersion1(Connection conn, CurrentDbVersion currentVersion) {
 

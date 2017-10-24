@@ -59,7 +59,7 @@ public abstract class AbstractBaseController
 
     private final List<AwsData> allData = new ArrayList<>();
 
-    protected final Map<String, List<Event>> keyValueMap = new HashMap<>();
+    protected final Map<String, List<AwsData>> keyValueMap = new HashMap<>();
     protected final ObservableList<KeyIntegerValue> keyValueData = FXCollections.observableArrayList();
     protected final Map<String, String> latlngs = new HashMap<>();
 
@@ -123,7 +123,7 @@ public abstract class AbstractBaseController
 
         Map<String, Integer> eventsByOccurance = new HashMap<>();
 
-        for (Map.Entry<String, List<Event>> entry : keyValueMap.entrySet()) {
+        for (Map.Entry<String, List<AwsData>> entry : keyValueMap.entrySet()) {
             eventsByOccurance.put(entry.getKey(), entry.getValue().size());
         }
 
@@ -157,7 +157,7 @@ public abstract class AbstractBaseController
 
             if (propertyValue != null) {
 
-                List<Event> events = keyValueMap.get(propertyValue);
+                List<AwsData> events = keyValueMap.get(propertyValue);
                 if (events == null) {
                     events = new ArrayList<>();
                 }

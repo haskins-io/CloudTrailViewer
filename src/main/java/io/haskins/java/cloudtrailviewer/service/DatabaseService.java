@@ -42,7 +42,7 @@ public class DatabaseService {
     // this is not done in the constructor to handle circular dependency
     @Autowired private MigrationService migrationService;
 
-    private final static Logger LOGGER = Logger.getLogger("CloudTrail");
+    private final static Logger LOGGER = Logger.getLogger("DatabaseService");
 
     /**
      * Checks if there any any updates to the database required and applies them.

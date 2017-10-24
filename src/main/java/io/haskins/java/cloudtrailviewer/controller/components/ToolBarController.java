@@ -1,216 +1,19 @@
 package io.haskins.java.cloudtrailviewer.controller.components;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
 import io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController;
-import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
-import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
-import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
-import io.haskins.java.cloudtrailviewer.service.AccountService;
-import io.haskins.java.cloudtrailviewer.service.DashboardService;
-import io.haskins.java.cloudtrailviewer.service.EventService;
-import io.haskins.java.cloudtrailviewer.service.EventTableService;
-import io.haskins.java.cloudtrailviewer.utils.AwsService;
-import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-/**
- * Controller for ToolBar
- *
- * Created by markhaskins on 19/02/2017.
- */
-@Component
-public class ToolBarController {
+public abstract class ToolBarController {
 
-    @FXML private Button btnLocal;
-    @FXML private Button btnS3;
-
-    @FXML private Button btnAllEvents;
-
-    @FXML private Button btnMap;
-    @FXML private Button btnTable;
-
-    @FXML private Button btnChartPie;
-    @FXML private Button btnChartBar;
-    @FXML private Button btnChartStacked;
-
-    @FXML private Button btnError;
-    @FXML private Button btnResource;
-    @FXML private Button btnSecurity;
-
-
-    private final EventService eventService;
-    private final AccountService accountDao;
-    private final DashboardService dashboardService;
-    private final EventTableService eventTableService;
-    private final AwsService awsService;
-
-
-    @Autowired
-    public ToolBarController(
-            DashboardService dashboardService, EventService eventService,
-            AccountService accountDao, EventTableService eventTableService,
-            AwsService awsService) {
-
-        this.dashboardService = dashboardService;
-        this.eventService = eventService;
-        this.accountDao = accountDao;
-        this.eventTableService = eventTableService;
-        this.awsService = awsService;
-    }
-
-    @FXML
-    public void initialize() {
-
-        btnLocal.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FOLDER_OPEN));
-        btnLocal.setTooltip(new Tooltip("Load Local Files"));
-
-        btnS3.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.CLOUD_DOWNLOAD));
-        btnS3.setTooltip(new Tooltip("Load Files from S3"));
-
-        btnAllEvents.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.ARCHIVE));
-        btnAllEvents.setTooltip(new Tooltip("View all Events"));
-
-        btnMap.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.MAP_MARKER));
-        btnMap.setTooltip(new Tooltip("Add Map"));
-
-        btnTable.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.TABLE));
-        btnTable.setTooltip(new Tooltip("Add Table"));
-
-        btnChartPie.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.PIE_CHART));
-        btnChartPie.setTooltip(new Tooltip("Add Pie Chart"));
-
-        btnChartBar.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
-        btnChartBar.setTooltip(new Tooltip("Add Bar Chart"));
-
-        btnChartStacked.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
-        btnChartStacked.setTooltip(new Tooltip("Add Stacked Bar Chart"));
-
-        btnError.setTooltip(new Tooltip("Add Error Widget"));
-        btnError.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE));
-
-        btnResource.setTooltip(new Tooltip("Add Resource Widget"));
-        btnResource.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SERVER));
-
-        btnSecurity.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SHIELD));
-        btnSecurity.setTooltip(new Tooltip("Add Security Widget"));
-    }
-
-    @FXML private void doLocal() {
-        handleRequest(showFileChooser(true), EventService.FILE_TYPE_LOCAL);
-    }
-
-    @FXML private void doS3() {
-        handleRequest(showFileChooser(false), EventService.FILE_TYPE_S3);
-    }
-
-    @FXML private void doMap() {
-
-        DashboardWidget newWidget = new DashboardWidget("cloudtrail","Map");
-        newWidget.setSeriesField("City");
-        newWidget.setWidth(700);
-        newWidget.setHeight(327);
-
-        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-    }
-
-    @FXML private void doTable() {
-        DashboardWidget newWidget = new DashboardWidget("cloudtrail","Table");
-
-        DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
-        if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
-
-        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-    }
-
-    @FXML private void doChartPie() {
-        DashboardWidget newWidget = new DashboardWidget("cloudtrail","ChartPie");
-
-        DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
-        if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
-
-        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-    }
-
-    @FXML private void doChartBar() {
-        DashboardWidget newWidget = new DashboardWidget("cloudtrail","ChartBar");
-
-        DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
-        if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
-
-        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-    }
-
-    @FXML private void doChartStacked() {
-        DashboardWidget newWidget = new DashboardWidget("cloudtrail","ChartBarStacked");
-
-        DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
-        if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
-
-        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-    }
-
-    @FXML private void doError() {
-        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableError");
-
-        configureFixedWidgets(newWidget);
-
-        newWidget.setTitle("Errors");
-        newWidget.setSeriesField("ErrorCode");
-
-        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-    }
-
-    @FXML private void doResource() {
-
-        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableResources");
-
-        configureFixedWidgets(newWidget);
-
-        newWidget.setTitle("Resources");
-        newWidget.setSeriesField("EventName");
-
-        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-
-    }
-
-    @FXML private void doSecurity() {
-
-        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableSecurity");
-
-        configureFixedWidgets(newWidget);
-
-        newWidget.setTitle("Security");
-        newWidget.setSeriesField("EventName");
-
-        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-    }
-
-    @FXML private void allEvents() {
-        this.eventTableService.setTableEvents(eventService.getAllEvents());
-    }
-
-    private void handleRequest(LoadLogsRequest request, int requestType) {
-
-        if (request != null && !request.getFilenames().isEmpty()) {
-            eventService.loadFiles(request.getFilenames(), request.getFilter(), requestType);
-        }
-    }
-
-    private LoadLogsRequest showFileChooser(boolean localFiles) {
+    protected LoadLogsRequest openDialog() {
 
         try {
 
@@ -229,11 +32,7 @@ public class ToolBarController {
 
             FileChooserController controller = loader.getController();
 
-            if (localFiles) {
-                controller.init(dialogStage, null, null);
-            } else {
-                controller.init(dialogStage, accountDao, awsService);
-            }
+            controller.init(dialogStage, null, null);
 
             dialogStage.showAndWait();
 
@@ -244,14 +43,6 @@ public class ToolBarController {
 
             return null;
         }
-    }
 
-    private void configureFixedWidgets(DashboardWidget widget) {
-
-        widget.setChartType(AbstractBaseController.WIDGET_TYPE_ALL);
-        widget.setTop(-1);
-
-        widget.setWidth(335);
-        widget.setHeight(327);
     }
 }
