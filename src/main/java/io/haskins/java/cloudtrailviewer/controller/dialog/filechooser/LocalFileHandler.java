@@ -20,8 +20,10 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 
 import io.haskins.java.cloudtrailviewer.model.observable.FileListModel;
 import io.haskins.java.cloudtrailviewer.utils.FileUtils;
+import io.haskins.java.cloudtrailviewer.utils.OsUtils;
 import javafx.scene.control.ListView;
 
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.util.List;
 
@@ -64,7 +66,25 @@ class LocalFileHandler extends FileHandler {
                 if (file.getParent() != null) {
                     path = file.getParent();
                     reloadContents();
+
+                } else {
+
+                    // Need to test this on a windows machine
+
+//                    if (OsUtils.isWindows()) {
+
+//                        File[] paths;
+//                        FileSystemView fsv = FileSystemView.getFileSystemView();
+//
+//                        paths = File.listRoots();
+//
+//                        for(File path:paths) {
+//                    FileListModel model = new FileListModel(path.getName(), object, FileListModel.FILE_DIR);
+//                    data.add(model);
+//                        }
+//                    }
                 }
+
             } else {
 
                 if (file.isDirectory()) {
