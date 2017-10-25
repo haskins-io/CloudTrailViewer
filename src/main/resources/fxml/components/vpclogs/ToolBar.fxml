@@ -10,4 +10,6 @@
     <Button fx:id="btnLocal" mnemonicParsing="false" onAction="#doLocal"/>
     <Separator/>
     <Button fx:id="btnAllEvents" mnemonicParsing="false" onAction="#allEvents"/>
+    <Separator/>
+    <Button fx:id="btnChartPie" mnemonicParsing="false" onAction="#doChartPie"/>
 </ToolBar>

@@ -11,7 +11,7 @@
             prefWidth="398.0"
             xmlns="http://javafx.com/javafx/8.0.111"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.cloudtrail.NewWidgetDialogController">
+            fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.NewWidgetDialogController">
     <bottom>
         <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="398.0" BorderPane.alignment="CENTER">
             <Button mnemonicParsing="false" text="Cancel" onAction="#handleCancel">

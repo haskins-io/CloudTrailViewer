@@ -71,8 +71,7 @@ public class EventService extends DataService {
     private final List<AwsData> eventDb = new ArrayList<>();
 
     @Autowired
-    public EventService(
-            AccountService accountDao, GeoService geoService,
+    public EventService(AccountService accountDao, GeoService geoService,
             StatusBarController statusBarController, AwsService awsService) {
 
         this.accountDao = accountDao;

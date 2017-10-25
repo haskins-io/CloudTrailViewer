@@ -21,7 +21,6 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.controller.components.WidgetControlsController;
 import io.haskins.java.cloudtrailviewer.controller.components.WidgetControlsControllerListener;
-import io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail.WidgetListener;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
@@ -150,10 +149,9 @@ public abstract class AbstractBaseController
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void addToKeyValueMap(AwsData data) {
 
-        Event event = (Event)data;
 
         try {
-            String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
+            String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
 
             if (propertyValue != null) {
 
@@ -162,7 +160,7 @@ public abstract class AbstractBaseController
                     events = new ArrayList<>();
                 }
 
-                events.add(event);
+                events.add(data);
                 keyValueMap.put(propertyValue, events);
             }
         } catch (Exception e) {
@@ -219,8 +217,10 @@ public abstract class AbstractBaseController
                 LOGGER.log(Level.WARNING, "Exception resolving Geo Data");
             }
 
-            addToKeyValueMap(event);
+
         }
+
+        addToKeyValueMap(data);
 
     }
 

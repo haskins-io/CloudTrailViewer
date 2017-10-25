@@ -12,11 +12,12 @@
 <?import javafx.scene.layout.HBox?>
 
 <?import javafx.scene.layout.BorderPane?>
+
 <GridPane prefHeight="187.0" prefWidth="290.0"
           hgap="10" vgap="10"
           xmlns="http://javafx.com/javafx/8.0.111"
           xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.cloudtrail.PieChartDialogController">
+          fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.PieChartDialogController">
 
     <padding><Insets top="15" right="25" bottom="15" left="25"/></padding>
 

@@ -12,11 +12,13 @@
 <?import javafx.scene.layout.HBox?>
 
 <?import javafx.scene.layout.BorderPane?>
+
+<?import io.haskins.java.cloudtrailviewer.model.observable.KeyStringValue?>
 <GridPane prefHeight="187.0" prefWidth="290.0"
           hgap="10" vgap="10"
           xmlns="http://javafx.com/javafx/8.0.111"
           xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.BarChartDialogController">
+          fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.PieChartDialogController">
 
     <padding><Insets top="15" right="25" bottom="15" left="25"/></padding>
 
@@ -43,7 +45,23 @@
     </BorderPane>
 
     <Label text="Series:" GridPane.columnIndex="0"  GridPane.rowIndex="4"/>
-    <fx:include source="../../../components/EventField.fxml" fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    <ChoiceBox fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <KeyStringValue key="Action" value="action"/>
+                <KeyStringValue key="Interface Id" value="interfaceId"/>
+                <KeyStringValue key="Src Addr" value="srcaddr"/>
+                <KeyStringValue key="Src Port" value="srcport"/>
+                <KeyStringValue key="Dest Addr" value="dstaddr"/>
+                <KeyStringValue key="Dest Port" value="dstport"/>
+                <KeyStringValue key="Protocol" value="protocol"/>
+                <KeyStringValue key="Log Status" value="logStatus"/>
+            </FXCollections>
+        </items>
+        <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        </VBox.margin>
+    </ChoiceBox>
 
     <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="5">
         <Button mnemonicParsing="false" text="Cancel" onAction="#handleCancel" />
