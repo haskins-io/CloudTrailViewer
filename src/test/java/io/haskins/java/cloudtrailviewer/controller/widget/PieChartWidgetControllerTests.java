@@ -2,7 +2,6 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 
 import io.haskins.java.cloudtrailviewer.BaseTest;
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
-import io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail.ChartPieWidgetController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;

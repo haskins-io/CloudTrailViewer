@@ -23,7 +23,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
-import io.haskins.java.cloudtrailviewer.controller.widget.cloudtrail.WidgetListener;
+import io.haskins.java.cloudtrailviewer.controller.widget.WidgetListener;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.utils.FileUtils;
 import javafx.application.Platform;
@@ -120,8 +120,6 @@ public class DashboardService implements WidgetListener {
 
             StringBuilder widget_class_name = new StringBuilder()
                     .append(WIDGET_CONTROLLER_PACKAGE)
-                    .append(".")
-                    .append(widget.getType())
                     .append(".")
                     .append(widget.getWidget())
                     .append("WidgetController");

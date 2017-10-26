@@ -1,10 +1,15 @@
 package io.haskins.java.cloudtrailviewer.controller.components;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
 import io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController;
 import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -12,6 +17,24 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public abstract class ToolBarController {
+
+    @FXML private Button btnLocal;
+    @FXML private Button btnAllEvents;
+    @FXML private Button btnChartPie;
+
+
+    @FXML
+    public void initialize() {
+
+        btnLocal.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FOLDER_OPEN));
+        btnLocal.setTooltip(new Tooltip("Load Local Files"));
+
+        btnAllEvents.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.ARCHIVE));
+        btnAllEvents.setTooltip(new Tooltip("View all Events"));
+
+        btnChartPie.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.PIE_CHART));
+        btnChartPie.setTooltip(new Tooltip("Add Pie Chart"));
+    }
 
     protected LoadLogsRequest openDialog() {
 

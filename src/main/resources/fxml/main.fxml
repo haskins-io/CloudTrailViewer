@@ -13,7 +13,6 @@
     <top>
         <BorderPane>
             <top><fx:include source="menu/menu.fxml" /></top>
-            <bottom><fx:include source="components/cloudtrail/ToolBar.fxml" /></bottom>
         </BorderPane>
     </top>
     <center>

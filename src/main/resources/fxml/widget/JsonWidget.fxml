@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="widgetContainer"
+            styleClass="widget">
+    <top>
+        <fx:include source="WidgetControls.fxml" fx:id="widgetControls"/>
+    </top>
+    <center>
+        <TextArea fx:id="textArea"/>
+    </center>
+</BorderPane>
+
