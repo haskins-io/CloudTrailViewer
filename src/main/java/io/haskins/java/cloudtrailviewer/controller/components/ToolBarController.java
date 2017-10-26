@@ -22,7 +22,7 @@ public abstract class ToolBarController {
     @FXML private Button btnAllEvents;
     @FXML private Button btnChartPie;
     @FXML private Button btnChartBar;
-    @FXML private Button btnChartStacked;
+//    @FXML private Button btnChartStacked;
 
 
     @FXML
@@ -40,8 +40,8 @@ public abstract class ToolBarController {
         btnChartBar.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
         btnChartBar.setTooltip(new Tooltip("Add Bar Chart"));
 
-        btnChartStacked.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
-        btnChartStacked.setTooltip(new Tooltip("Add Stacked Bar Chart"));
+//        btnChartStacked.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
+//        btnChartStacked.setTooltip(new Tooltip("Add Stacked Bar Chart"));
     }
 
     protected LoadLogsRequest openDialog() {
