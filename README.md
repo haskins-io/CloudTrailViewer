@@ -9,7 +9,7 @@ the application. JavaFX is used to draw the interface and is bundled with Oracle
 you use another version of Java, such as OpenJDK, then you will need to install the JavaFX libraries yourself.
 
 
-## Running the application
+### Running the application
 You can run the application in one of two ways:
 
 * you can either download(clone/fork) the source, compile it and run it
