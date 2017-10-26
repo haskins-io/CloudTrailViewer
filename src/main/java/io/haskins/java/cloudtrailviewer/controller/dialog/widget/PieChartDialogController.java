@@ -33,17 +33,18 @@ public class PieChartDialogController extends AbstractDialogController {
     @FXML
     protected void handleUpdate() {
 
-        widget.setTop(Integer.parseInt(top.getText()));
+        widget.setTop(top.getValue());
 
         super.handleUpdate();
     }
 
+    @Override
     public void setWidget(DashboardWidget widget) {
 
         super.setWidget(widget);
 
         if (widget.getTop() != 0) {
-            top.setText(String.valueOf(widget.getTop()));
+            top.setValue(widget.getTop());
         }
 
     }

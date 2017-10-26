@@ -39,7 +39,7 @@ public class StackedBarChartDialogController extends AbstractDialogController {
     @FXML
     protected void handleUpdate() {
 
-        widget.setTop(Integer.parseInt(top.getText()));
+        widget.setTop(top.getValue());
 
         widget.setCategoryField(category.getSelectionModel().getSelectedItem().getValue());
         widget.setOrientation(orientation.getSelectionModel().getSelectedItem());
@@ -52,7 +52,7 @@ public class StackedBarChartDialogController extends AbstractDialogController {
         super.setWidget(widget);
 
         if (widget.getTop() != 0) {
-            top.setText(String.valueOf(widget.getTop()));
+            top.setValue(top.getValue());
         }
 
         ObservableList<KeyStringValue> items = category.getItems();

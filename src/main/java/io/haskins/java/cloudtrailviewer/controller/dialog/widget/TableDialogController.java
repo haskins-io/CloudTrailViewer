@@ -32,7 +32,7 @@ public class TableDialogController extends AbstractDialogController {
     @FXML
     protected void handleUpdate() {
 
-        widget.setTop(Integer.parseInt(top.getText()));
+        widget.setTop(top.getValue());
 
         super.handleUpdate();
     }
@@ -42,7 +42,7 @@ public class TableDialogController extends AbstractDialogController {
         super.setWidget(widget);
 
         if (widget.getTop() != 0) {
-            top.setText(String.valueOf(widget.getTop()));
+            top.setValue(widget.getTop());
         }
 
     }

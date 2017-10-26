@@ -42,7 +42,7 @@ public abstract class AbstractDialogController {
 
     @FXML protected TextField title;
     @FXML protected ChoiceBox<String> chartType;
-    @FXML protected TextField top;
+    @FXML protected ChoiceBox<Integer> top;
     @FXML protected ChoiceBox<KeyStringValue> series;
 
     @FXML private BorderPane topPanel;

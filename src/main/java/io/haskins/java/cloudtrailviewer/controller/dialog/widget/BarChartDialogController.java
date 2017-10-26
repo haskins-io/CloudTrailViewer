@@ -31,7 +31,7 @@ public class BarChartDialogController extends AbstractDialogController {
 
     @FXML public void handleUpdate() {
 
-        widget.setTop(Integer.parseInt(top.getText()));
+        widget.setTop(top.getValue());
 
         super.handleUpdate();
     }
@@ -41,7 +41,7 @@ public class BarChartDialogController extends AbstractDialogController {
         super.setWidget(widget);
 
         if (widget.getTop() != 0) {
-            top.setText(String.valueOf(widget.getTop()));
+            top.setValue(widget.getTop());
         }
     }
 }
