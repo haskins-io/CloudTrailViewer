@@ -19,6 +19,7 @@ class FileListViewCell extends ListCell<FileListModel> {
     private Label icon = new Label();
     private Label name = new Label();
 
+    private FontAwesomeIconView drive = new FontAwesomeIconView(FontAwesomeIcon.SERVER);
     private FontAwesomeIconView folder = new FontAwesomeIconView(FontAwesomeIcon.FOLDER);
     private FontAwesomeIconView file = new FontAwesomeIconView(FontAwesomeIcon.FILE);
     private FontAwesomeIconView parent = new FontAwesomeIconView(FontAwesomeIcon.ARROW_UP);
@@ -45,7 +46,9 @@ class FileListViewCell extends ListCell<FileListModel> {
                 icon.setGraphic(folder);
             } else if (model.getFileType() == FileListModel.FILE_DOC) {
                 icon.setGraphic(file);
-            } else {
+            } else if (model.getFileType() == FileListModel.FILE_DRIVE) {
+                icon.setGraphic(drive);
+            }  else {
                 icon.setGraphic(parent);
             }
 

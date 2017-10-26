@@ -30,6 +30,7 @@ public class FileListModel {
     public static final int FILE_BACK = 0;
     public static final int FILE_DIR = 1;
     public static final int FILE_DOC = 2;
+    public static final int FILE_DRIVE = 2;
 
     private final StringProperty name;
     private final ObjectProperty path;

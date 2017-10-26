@@ -28,11 +28,13 @@ import java.io.File;
 import java.util.List;
 
 /**
- * Hanlder for navigating files on the local file system.
+ * Handler for navigating files on the local file system.
  *
  * Created by markhaskins on 27/01/2017.
  */
 class LocalFileHandler extends FileHandler {
+
+    private static final String WINDOWS_ROOT = "WindowsRoot";
 
     private String path = FileUtils.getApplicationDirectory();
 
@@ -66,23 +68,9 @@ class LocalFileHandler extends FileHandler {
                 if (file.getParent() != null) {
                     path = file.getParent();
                     reloadContents();
-
-                } else {
-
-                    // Need to test this on a windows machine
-
-//                    if (OsUtils.isWindows()) {
-
-//                        File[] paths;
-//                        FileSystemView fsv = FileSystemView.getFileSystemView();
-//
-//                        paths = File.listRoots();
-//
-//                        for(File path:paths) {
-//                    FileListModel model = new FileListModel(path.getName(), object, FileListModel.FILE_DIR);
-//                    data.add(model);
-//                        }
-//                    }
+                } else if (file.getParent() == null && OsUtils.isWindows()) {
+                    path = WINDOWS_ROOT;
+                    reloadContents();
                 }
 
             } else {
@@ -134,16 +122,40 @@ class LocalFileHandler extends FileHandler {
 
         data.clear();
 
-        File f = new File(path);
-        File[] objects = f.listFiles();
+        if (path.equalsIgnoreCase(WINDOWS_ROOT)) {
 
-        if (f.getParent() != null) {
-            FileListModel model = new FileListModel(MOVE_BACK, f, FileListModel.FILE_BACK);
-            data.add(model);
+            File[] roots = File.listRoots();
+            addDrives(roots);
+
+        } else {
+
+            File f = new File(path);
+            File[] objects = f.listFiles();
+
+            if (f.getParent() != null) {
+                FileListModel model = new FileListModel(MOVE_BACK, f, FileListModel.FILE_BACK);
+                data.add(model);
+            }
+
+            if (f.getParent() == null && OsUtils.isWindows()) {
+                FileListModel model = new FileListModel(MOVE_BACK, f, FileListModel.FILE_BACK);
+                data.add(model);
+            }
+
+            addDirectories(objects);
+            addFileKeys(objects);
         }
 
-        addDirectories(objects);
-        addFileKeys(objects);
+    }
+
+    private void addDrives(File[] objects) {
+
+        FileSystemView fsv = FileSystemView.getFileSystemView();
+
+        for (File object : objects) {
+            FileListModel model = new FileListModel(fsv.getSystemDisplayName(object), object, FileListModel.FILE_DRIVE);
+            data.add(model);
+        }
     }
 
     private void addDirectories(File[] objects) {
