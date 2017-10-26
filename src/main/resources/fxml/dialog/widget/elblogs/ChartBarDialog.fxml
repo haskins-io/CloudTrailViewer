@@ -12,11 +12,12 @@
 <?import javafx.scene.layout.HBox?>
 
 <?import java.lang.Integer?>
-<GridPane prefHeight="225.0" prefWidth="290.0"
+<?import io.haskins.java.cloudtrailviewer.model.observable.KeyStringValue?>
+<GridPane prefHeight="187.0" prefWidth="290.0"
           hgap="10" vgap="10"
           xmlns="http://javafx.com/javafx/8.0.111"
           xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.StackedBarChartDialogController">
+          fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.BarChartDialogController">
 
     <padding><Insets top="15" right="25" bottom="15" left="25"/></padding>
 
@@ -37,7 +38,7 @@
         </VBox.margin>
     </ChoiceBox>
 
-    <Label text="Top:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+    <Label text="Top:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
     <ChoiceBox fx:id="top" GridPane.columnIndex="1" GridPane.rowIndex="3">
         <items>
             <FXCollections fx:factory="observableArrayList">
@@ -53,12 +54,26 @@
     </ChoiceBox>
 
     <Label text="Series:" GridPane.columnIndex="0"  GridPane.rowIndex="4"/>
-    <fx:include source="../../../components/EventField.fxml" fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    <ChoiceBox fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <KeyStringValue key="ELB" value="elb"/>
+                <KeyStringValue key="Client Addr" value="clientAddress"/>
+                <KeyStringValue key="Client Port" value="clientPort"/>
+                <KeyStringValue key="Backend Addr" value="backendAddress"/>
+                <KeyStringValue key="Backend Port" value="backendPort"/>
+                <KeyStringValue key="ELB Status Code" value="elbStatusCode"/>
+                <KeyStringValue key="Backend Status Code" value="backendStatusCode"/>
+                <KeyStringValue key="Request" value="request"/>
+                <KeyStringValue key="Url" value="url"/>
+            </FXCollections>
+        </items>
+        <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        </VBox.margin>
+    </ChoiceBox>
 
-    <Label text="Category:" GridPane.columnIndex="0"  GridPane.rowIndex="5"/>
-    <fx:include source="../../../components/EventField.fxml" fx:id="category" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-
-    <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="7">
+    <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="5">
         <Button mnemonicParsing="false" text="Cancel" onAction="#handleCancel" />
         <Button mnemonicParsing="false" fx:id="updateButton" text="Update" onAction="#handleUpdate" />
     </HBox>

@@ -34,7 +34,7 @@ import javafx.scene.control.TextField;
 public class StackedBarChartDialogController extends AbstractDialogController {
 
     @FXML private ChoiceBox<KeyStringValue> category;
-    @FXML private ChoiceBox<String> orientation;
+//    @FXML private ChoiceBox<String> orientation;
 
     @FXML
     protected void handleUpdate() {
@@ -42,7 +42,7 @@ public class StackedBarChartDialogController extends AbstractDialogController {
         widget.setTop(top.getValue());
 
         widget.setCategoryField(category.getSelectionModel().getSelectedItem().getValue());
-        widget.setOrientation(orientation.getSelectionModel().getSelectedItem());
+//        widget.setOrientation(orientation.getSelectionModel().getSelectedItem());
 
         super.handleUpdate();
     }
@@ -65,8 +65,8 @@ public class StackedBarChartDialogController extends AbstractDialogController {
             }
         }
 
-        if (widget.getOrientation() != null && orientation != null) {
-            orientation.setValue(widget.getOrientation());
-        }
+//        if (widget.getOrientation() != null && orientation != null) {
+//            orientation.setValue(widget.getOrientation());
+//        }
     }
 }

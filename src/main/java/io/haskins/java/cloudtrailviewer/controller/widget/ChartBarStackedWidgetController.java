@@ -87,14 +87,12 @@ public class ChartBarStackedWidgetController extends XYChartController {
     @Override
     public void newEvent(AwsData data) {
 
-        Event event = (Event)data;
-
-        String c = EventUtils.getEventProperty(this.widget.getCategoryField(), event);
+        String c = EventUtils.getEventProperty(this.widget.getCategoryField(), data);
         if (!categories.contains(c)) {
             categories.add(c);
         }
 
-        String s = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
+        String s = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
 
         Map<String, List<AwsData>> catMap;
         if (multiSeries.containsKey(s)) {
@@ -112,7 +110,7 @@ public class ChartBarStackedWidgetController extends XYChartController {
             catMap.put(c, evList);
         }
 
-        evList.add(event);
+        evList.add(data);
     }
 
     public void loadingFile(int fileName, int totalFiles) { }

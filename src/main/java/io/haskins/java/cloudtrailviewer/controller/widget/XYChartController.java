@@ -72,11 +72,9 @@ abstract class XYChartController extends AbstractBaseController {
     @Override
     public void newEvent(AwsData data) {
 
-        Event event = (Event)data;
+        super.newEvent(data);
 
-        super.newEvent(event);
-
-        String s = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
+        String s = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
 
         if (s != null) {
 
@@ -88,7 +86,7 @@ abstract class XYChartController extends AbstractBaseController {
                 singleSeries.put(s, events);
             }
 
-            events.add(event);
+            events.add(data);
         }
     }
 

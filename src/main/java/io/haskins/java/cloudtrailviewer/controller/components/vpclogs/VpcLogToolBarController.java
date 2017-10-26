@@ -44,6 +44,25 @@ public class VpcLogToolBarController extends ToolBarController {
         dashboardService.addWidgetToDashboard(newWidget, this.vpcFlowLogService);
     }
 
+    @FXML private void doChartBar() {
+        DashboardWidget newWidget = new DashboardWidget("vpclogs","ChartBar");
+
+        DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
+        if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
+
+        dashboardService.addWidgetToDashboard(newWidget, this.vpcFlowLogService);
+    }
+
+    @FXML private void doChartStacked() {
+        DashboardWidget newWidget = new DashboardWidget("vpclogs","ChartBarStacked");
+
+        DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
+        if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
+
+        dashboardService.addWidgetToDashboard(newWidget, this.vpcFlowLogService);
+    }
+
+
     @FXML private void allEvents() {
         this.eventTableService.setTableEvents(vpcFlowLogService.getAllLogs());
     }

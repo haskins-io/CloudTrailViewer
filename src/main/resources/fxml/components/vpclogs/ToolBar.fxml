@@ -12,4 +12,5 @@
     <Button fx:id="btnAllEvents" mnemonicParsing="false" onAction="#allEvents"/>
     <Separator/>
     <Button fx:id="btnChartPie" mnemonicParsing="false" onAction="#doChartPie"/>
+    <Button fx:id="btnChartBar" mnemonicParsing="false" onAction="#doChartBar"/>
 </ToolBar>
