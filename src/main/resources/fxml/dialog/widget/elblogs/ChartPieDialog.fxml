@@ -64,6 +64,9 @@
                 <KeyStringValue key="ELB" value="elb"/>
                 <KeyStringValue key="Client Addr" value="clientAddress"/>
                 <KeyStringValue key="Client Port" value="clientPort"/>
+                <KeyStringValue key="Client City" value="city"/>
+                <KeyStringValue key="Client Country" value="country"/>
+                <KeyStringValue key="Client Continent" value="continent"/>
                 <KeyStringValue key="Backend Addr" value="backendAddress"/>
                 <KeyStringValue key="Backend Port" value="backendPort"/>
                 <KeyStringValue key="ELB Status Code" value="elbStatusCode"/>

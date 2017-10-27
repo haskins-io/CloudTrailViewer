@@ -64,6 +64,9 @@
                 <KeyStringValue key="Interface Id" value="interfaceId"/>
                 <KeyStringValue key="Src Addr" value="srcaddr"/>
                 <KeyStringValue key="Src Port" value="srcport"/>
+                <KeyStringValue key="Src City" value="city"/>
+                <KeyStringValue key="Src Country" value="country"/>
+                <KeyStringValue key="Src Continent" value="continent"/>
                 <KeyStringValue key="Dest Addr" value="dstaddr"/>
                 <KeyStringValue key="Dest Port" value="dstport"/>
                 <KeyStringValue key="Protocol" value="protocol"/>
