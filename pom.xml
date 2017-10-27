@@ -7,7 +7,7 @@
 
     <groupId>io.haskins.java</groupId>
     <artifactId>cloudtrail-viewer</artifactId>
-    <version>3.0.1</version>
+    <version>3.1.0</version>
     <packaging>jar</packaging>
 
     <name>CloudTrail Viewer</name>
