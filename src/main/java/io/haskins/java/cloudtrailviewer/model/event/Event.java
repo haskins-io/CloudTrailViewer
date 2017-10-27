@@ -58,39 +58,6 @@ public class Event extends AwsData implements Serializable {
     private String rawJson;
 
 
-    private String continent = null;
-    private String country = null;
-    private String city = null;
-    private String latLng = null;
-
-    public void setContinent(String continent) {
-        this.continent = continent;
-    }
-    public String getContinent() {
-        return this.continent;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-    public String getCountry() {
-        return this.country;
-    }
-    
-    public void setCity(String city) {
-        this.city = city;
-    }
-    public String getCity() {
-        return this.city;
-    }
-    
-    public void setLatLng(String LatLong) {
-        this.latLng = LatLong;
-    }
-    public String getLatLng() {
-        return this.latLng;
-    }
-    
     public void setRawJSON(String json) {
         this.rawJson = json;
     }

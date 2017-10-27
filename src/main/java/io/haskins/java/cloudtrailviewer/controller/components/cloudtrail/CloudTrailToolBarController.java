@@ -34,18 +34,10 @@ import java.io.IOException;
  * Created by markhaskins on 19/02/2017.
  */
 @Component
-public class CloudTrailToolBarController {
+public class CloudTrailToolBarController extends ToolBarController {
 
-    @FXML private Button btnLocal;
     @FXML private Button btnS3;
 
-    @FXML private Button btnAllEvents;
-
-    @FXML private Button btnMap;
-    @FXML private Button btnTable;
-
-    @FXML private Button btnChartPie;
-    @FXML private Button btnChartBar;
     @FXML private Button btnChartStacked;
 
     @FXML private Button btnError;
@@ -74,28 +66,13 @@ public class CloudTrailToolBarController {
     }
 
     @FXML
+    @Override
     public void initialize() {
 
-        btnLocal.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FOLDER_OPEN));
-        btnLocal.setTooltip(new Tooltip("Load Local Files"));
+        super.initialize();
 
         btnS3.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.CLOUD_DOWNLOAD));
         btnS3.setTooltip(new Tooltip("Load Files from S3"));
-
-        btnAllEvents.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.ARCHIVE));
-        btnAllEvents.setTooltip(new Tooltip("View all Events"));
-
-        btnMap.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.MAP_MARKER));
-        btnMap.setTooltip(new Tooltip("Add Map"));
-
-        btnTable.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.TABLE));
-        btnTable.setTooltip(new Tooltip("Add Table"));
-
-        btnChartPie.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.PIE_CHART));
-        btnChartPie.setTooltip(new Tooltip("Add Pie Chart"));
-
-        btnChartBar.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
-        btnChartBar.setTooltip(new Tooltip("Add Bar Chart"));
 
         btnChartStacked.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
         btnChartStacked.setTooltip(new Tooltip("Add Stacked Bar Chart"));

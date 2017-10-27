@@ -19,10 +19,14 @@ import java.io.IOException;
 public abstract class ToolBarController {
 
     @FXML private Button btnLocal;
+
     @FXML private Button btnAllEvents;
+
+    @FXML private Button btnMap;
+    @FXML private Button btnTable;
+
     @FXML private Button btnChartPie;
     @FXML private Button btnChartBar;
-//    @FXML private Button btnChartStacked;
 
 
     @FXML
@@ -34,14 +38,18 @@ public abstract class ToolBarController {
         btnAllEvents.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.ARCHIVE));
         btnAllEvents.setTooltip(new Tooltip("View all Events"));
 
+        btnMap.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.MAP_MARKER));
+        btnMap.setTooltip(new Tooltip("Add Map"));
+
+        btnTable.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.TABLE));
+        btnTable.setTooltip(new Tooltip("Add Table"));
+
         btnChartPie.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.PIE_CHART));
         btnChartPie.setTooltip(new Tooltip("Add Pie Chart"));
 
         btnChartBar.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
         btnChartBar.setTooltip(new Tooltip("Add Bar Chart"));
 
-//        btnChartStacked.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
-//        btnChartStacked.setTooltip(new Tooltip("Add Stacked Bar Chart"));
     }
 
     protected LoadLogsRequest openDialog() {

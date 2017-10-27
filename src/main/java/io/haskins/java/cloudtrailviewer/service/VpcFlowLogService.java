@@ -26,10 +26,13 @@ public class VpcFlowLogService extends DataService {
 
     private final StatusBarController statusBarController;
 
+    private final GeoService geoService;
+
     @Autowired
-    public VpcFlowLogService(StatusBarController statusBarController) {
+    public VpcFlowLogService(StatusBarController statusBarController, GeoService geoService1) {
         this.statusBarController = statusBarController;
         this.listeners.add(statusBarController);
+        this.geoService = geoService1;
     }
 
     public void processRecords(List<String> records) {
@@ -64,6 +67,12 @@ public class VpcFlowLogService extends DataService {
                                 try {
                                     VpcFlowLog log = new VpcFlowLog();
                                     log.populateFromRegex(m);
+
+                                    try {
+                                        geoService.populateGeoData(log);
+                                    } catch (Exception e) {
+                                        LOGGER.log(Level.WARNING, "Failed populate Location information");
+                                    }
 
                                     logsDb.add(log);
 

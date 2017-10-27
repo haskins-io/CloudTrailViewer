@@ -35,6 +35,25 @@ public class VpcLogToolBarController extends ToolBarController {
         }
     }
 
+    @FXML private void doMap() {
+
+        DashboardWidget newWidget = new DashboardWidget("vpclogs","Map");
+        newWidget.setSeriesField("City");
+        newWidget.setWidth(700);
+        newWidget.setHeight(327);
+
+        dashboardService.addWidgetToDashboard(newWidget, this.vpcFlowLogService);
+    }
+
+    @FXML private void doTable() {
+        DashboardWidget newWidget = new DashboardWidget("vpclogs","Table");
+
+        DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
+        if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
+
+        dashboardService.addWidgetToDashboard(newWidget, this.vpcFlowLogService);
+    }
+
     @FXML private void doChartPie() {
         DashboardWidget newWidget = new DashboardWidget("vpclogs","ChartPie");
 
@@ -52,16 +71,6 @@ public class VpcLogToolBarController extends ToolBarController {
 
         dashboardService.addWidgetToDashboard(newWidget, this.vpcFlowLogService);
     }
-
-//    @FXML private void doChartStacked() {
-//        DashboardWidget newWidget = new DashboardWidget("vpclogs","ChartBarStacked");
-//
-//        DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
-//        if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
-//
-//        dashboardService.addWidgetToDashboard(newWidget, this.vpcFlowLogService);
-//    }
-
 
     @FXML private void allEvents() {
         this.eventTableService.setTableEvents(vpcFlowLogService.getAllLogs());

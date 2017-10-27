@@ -36,7 +36,7 @@ public class GeoServicesTests {
 
         try {
             CityResponse cityResponse = geoService.getCityResponse(ipAddress);
-            String city = geoService.getCity(cityResponse);
+            String city = geoService.getCity(cityResponse, ipAddress);
 
             assertEquals(city, CITY);
 

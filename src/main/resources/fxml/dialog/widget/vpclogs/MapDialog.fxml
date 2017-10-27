@@ -2,35 +2,31 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 
-<?import javafx.scene.layout.BorderPane?>
 <?import io.haskins.java.cloudtrailviewer.model.observable.KeyStringValue?>
-<?import java.lang.Integer?>
-<GridPane prefHeight="187.0" prefWidth="290.0"
+<GridPane prefHeight="127.0" prefWidth="290.0"
           hgap="10" vgap="10"
           xmlns="http://javafx.com/javafx/8.0.111"
           xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.TableDialogController">
+          fx:controller="io.haskins.java.cloudtrailviewer.controller.dialog.widget.MapDialogController">
 
     <padding><Insets top="15" right="25" bottom="15" left="25"/></padding>
 
     <Label text="Title:" GridPane.columnIndex="0"  GridPane.rowIndex="1"/>
     <TextField fx:id="title" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-
-    <Label text="Type:" GridPane.columnIndex="0"  GridPane.rowIndex="2"/>
-    <ChoiceBox prefWidth="150.0" fx:id="chartType" value="Top"  GridPane.columnIndex="1" GridPane.rowIndex="2">
+    <Label text="Type:" GridPane.columnIndex="0"  GridPane.rowIndex="2" visible="false"/>
+    <ChoiceBox prefWidth="150.0" fx:id="chartType" value="Top" GridPane.columnIndex="1" GridPane.rowIndex="2"  visible="false">
         <items>
             <FXCollections fx:factory="observableArrayList">
-                <String fx:value="All"/>
                 <String fx:value="Top"/>
             </FXCollections>
         </items>
@@ -39,25 +35,8 @@
         </VBox.margin>
     </ChoiceBox>
 
-
-    <Label text="Top:" GridPane.rowIndex="3" GridPane.columnSpan="2"/>
-    <ChoiceBox fx:id="top" GridPane.columnIndex="1" GridPane.rowIndex="3">
-        <items>
-            <FXCollections fx:factory="observableArrayList">
-                <Integer fx:value="5"/>
-                <Integer fx:value="10"/>
-                <Integer fx:value="15"/>
-                <Integer fx:value="20"/>
-            </FXCollections>
-        </items>
-        <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-        </VBox.margin>
-    </ChoiceBox>
-
-
-    <Label text="Series:" GridPane.columnIndex="0"  GridPane.rowIndex="4"/>
-    <ChoiceBox fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="4">
+    <Label text="Series:" GridPane.columnIndex="0"  GridPane.rowIndex="3"/>
+    <ChoiceBox fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="3">
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <KeyStringValue key="Action" value="action"/>

@@ -23,11 +23,15 @@ import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.Location;
+import io.haskins.java.cloudtrailviewer.model.AwsData;
+import io.haskins.java.cloudtrailviewer.model.elblog.ElbLog;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -58,39 +62,61 @@ class GeoService {
         }
     }
 
-    void populateGeoData(Event event) {
+    void populateGeoData(AwsData data) {
 
-        if (reader != null && isIp(event.getSourceIPAddress())) {
-
-            try {
-                InetAddress ipAddress = InetAddress.getByName(event.getSourceIPAddress());
-
-                CityResponse response = getCityResponse(ipAddress);
-
-                event.setContinent(getContinent(response));
-                event.setCountry(getCountry(response));
-
-                String city = getCity(response);
-                if (city == null) {
-                    city = ipAddress.getHostAddress();
-                }
-                event.setCity(city);
-
-                String latLng = getLatLong(response.getLocation());
-                event.setLatLng(latLng);
-
-            } catch (IOException | GeoIp2Exception ex) {
-                LOGGER.log(Level.WARNING, "Failed to convert SourceIpAddress to Geo data", ex);
-            }
+        if (reader == null) {
+            return;
         }
+
+        String ip = "";
+
+        if (data instanceof Event) {
+            ip = ((Event)data).getSourceIPAddress();
+
+        } else if (data instanceof ElbLog) {
+            ip = ((ElbLog)data).getClientAddress();
+
+        } else if (data instanceof VpcFlowLog) {
+            ip = ((VpcFlowLog)data).getSrcaddr();
+
+        } else {
+            return;
+        }
+
+        if (!isIp(ip)) {
+            return;
+        }
+
+        InetAddress ipAddress;
+        CityResponse response;
+        try {
+            ipAddress = InetAddress.getByName(ip);
+            response = getCityResponse(ipAddress);
+
+        } catch (IOException | GeoIp2Exception e) {
+            return;
+        }
+
+        String latLng = getLatLong(response.getLocation());
+
+        data.setContinent(getContinent(response));
+        data.setCountry(getCountry(response));
+        data.setCity(getCity(response, ipAddress));
+        data.setLatLng(latLng);
     }
 
-    CityResponse getCityResponse(InetAddress ipAddress) throws GeoIp2Exception, IOException, AddressNotFoundException {
+    CityResponse getCityResponse(InetAddress ipAddress) throws GeoIp2Exception, IOException {
         return reader.city(ipAddress);
     }
 
-    String getCity(CityResponse cityResponse) {
-        return cityResponse.getCity().getName();
+    String getCity(CityResponse cityResponse, InetAddress ipAddress) {
+
+        String city = cityResponse.getCity().getName();
+        if (city == null) {
+            city = ipAddress.getHostAddress();
+        }
+
+        return city;
     }
 
     String getCountry(CityResponse cityResponse) {

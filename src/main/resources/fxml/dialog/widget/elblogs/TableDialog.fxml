@@ -11,9 +11,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<?import javafx.scene.layout.BorderPane?>
-<?import io.haskins.java.cloudtrailviewer.model.observable.KeyStringValue?>
 <?import java.lang.Integer?>
+<?import io.haskins.java.cloudtrailviewer.model.observable.KeyStringValue?>
 <GridPane prefHeight="187.0" prefWidth="290.0"
           hgap="10" vgap="10"
           xmlns="http://javafx.com/javafx/8.0.111"
@@ -60,14 +59,15 @@
     <ChoiceBox fx:id="series" GridPane.columnIndex="1" GridPane.rowIndex="4">
         <items>
             <FXCollections fx:factory="observableArrayList">
-                <KeyStringValue key="Action" value="action"/>
-                <KeyStringValue key="Interface Id" value="interfaceId"/>
-                <KeyStringValue key="Src Addr" value="srcaddr"/>
-                <KeyStringValue key="Src Port" value="srcport"/>
-                <KeyStringValue key="Dest Addr" value="dstaddr"/>
-                <KeyStringValue key="Dest Port" value="dstport"/>
-                <KeyStringValue key="Protocol" value="protocol"/>
-                <KeyStringValue key="Log Status" value="logStatus"/>
+                <KeyStringValue key="ELB" value="elb"/>
+                <KeyStringValue key="Client Addr" value="clientAddress"/>
+                <KeyStringValue key="Client Port" value="clientPort"/>
+                <KeyStringValue key="Backend Addr" value="backendAddress"/>
+                <KeyStringValue key="Backend Port" value="backendPort"/>
+                <KeyStringValue key="ELB Status Code" value="elbStatusCode"/>
+                <KeyStringValue key="Backend Status Code" value="backendStatusCode"/>
+                <KeyStringValue key="Request" value="request"/>
+                <KeyStringValue key="Url" value="url"/>
             </FXCollections>
         </items>
         <VBox.margin>

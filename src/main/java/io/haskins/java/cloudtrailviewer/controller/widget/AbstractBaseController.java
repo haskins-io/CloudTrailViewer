@@ -202,22 +202,15 @@ public abstract class AbstractBaseController
 
         allData.add(data);
 
-        if (data instanceof Event) {
+        try {
+            String latLng = data.getLatLng();
+            if (latLng != null && latLng.length() > 0 && !latlngs.containsKey(latLng)) {
 
-            Event event = (Event)data;
-
-            try {
-                String latLng = event.getLatLng();
-                if (latLng != null && latLng.length() > 0 && !latlngs.containsKey(latLng)) {
-
-                    String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), event);
-                    latlngs.put(latLng, propertyValue);
-                }
-            } catch (Exception e) {
-                LOGGER.log(Level.WARNING, "Exception resolving Geo Data");
+                String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
+                latlngs.put(latLng, propertyValue);
             }
-
-
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Exception resolving Geo Data");
         }
 
         addToKeyValueMap(data);
