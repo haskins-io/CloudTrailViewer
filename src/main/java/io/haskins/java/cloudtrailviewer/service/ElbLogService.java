@@ -34,7 +34,7 @@ public class ElbLogService extends DataService {
 
     public void processRecords(List<String> records) {
 
-        String regexPattern = "([^ ]*) ([^ ]*) ([^ ]*):([0-9]*) ([^ ]*):([0-9]*) ([.0-9]*) ([.0-9]*) ([.0-9]*) (-|[0-9]*) (-|[0-9]*) ([-0-9]*) ([-0-9]*) \"([^ ]*) ([^ ]*) (- |[^ ]*)\".* \"([^ ]*) ([^ ]*) (- |[^ ]*)\".* ([^ ]*) ([^ ]*)";
+        String regexPattern = "([^ ]*) ([^ ]*) ([^ ]*):([0-9]*) ([^ ]*):([0-9]*) ([.0-9]*) ([.0-9]*) ([.0-9]*) (-|[0-9]*) (-|[0-9]*) ([-0-9]*) ([-0-9]*) \"([^ ]*) ([^ ]*) (- |[^ ]*)\".* \"(.*?)\".* ([^ ]*) ([^ ]*)";
         Pattern pattern = Pattern.compile(regexPattern);
 
         Task<Void> task = new Task<Void>() {
