@@ -39,6 +39,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.events.EventTarget;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -135,25 +137,29 @@ public class MapWidgetController extends AbstractBaseController {
 
             List<AwsData> events = keyValueMap.get(entry.getValue());
 
-            output.append("['").
-                    append(entry.getValue()).
-                    append(":").
-                    append(events.size()).
-                    append("',").
-                    append(entry.getKey()).
-                    append("]");
+            if (!entry.getValue().contains("'")) {
 
-            output.append(",");
+                output.append("['").
+                        append(entry.getValue()).
+                        append(":").
+                        append(events.size()).
+                        append("',").
+                        append(entry.getKey()).
+                        append("]");
 
-            String cityName = entry.getValue();
-            if (cityName != null && cityName.trim().length() > 0) {
-                int totalEvents = events.size();
+                output.append(",");
 
-                if (totalEvents > highestCount) {
-                    centerPoint = entry.getKey();
-                    highestCount = totalEvents;
+                String cityName = entry.getValue();
+                if (cityName != null && cityName.trim().length() > 0) {
+                    int totalEvents = events.size();
+
+                    if (totalEvents > highestCount) {
+                        centerPoint = entry.getKey();
+                        highestCount = totalEvents;
+                    }
                 }
             }
+
         }
 
         String html = getHTML();
@@ -208,4 +214,5 @@ public class MapWidgetController extends AbstractBaseController {
             LOGGER.log(Level.WARNING, "Failed to create new Geo HTML file", e);
         }
     }
+
 }
