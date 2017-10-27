@@ -22,7 +22,7 @@
             <TabPane tabClosingPolicy="UNAVAILABLE">
                 <Tab fx:id="ct" text="CloudTrail"><fx:include source="components/cloudtrail/EventTable.fxml" /></Tab>
                 <Tab fx:id="fl" text="VPC Logs"><fx:include source="components/vpclogs/EventTable.fxml" /></Tab>
-                <Tab fx:id="el" text="EBL Logs"><fx:include source="components/elblogs/EventTable.fxml" /></Tab>
+                <Tab fx:id="el" text="ELB Logs"><fx:include source="components/elblogs/EventTable.fxml" /></Tab>
             </TabPane>
 
         </SplitPane>
