@@ -47,6 +47,8 @@ public class VpcLogToolBarController extends ToolBarController {
 
     @FXML private void doTable() {
         DashboardWidget newWidget = new DashboardWidget("vpclogs","Table");
+        newWidget.setWidth(335);
+        newWidget.setHeight(327);
 
         DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
         if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
