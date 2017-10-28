@@ -1,7 +1,5 @@
 package io.haskins.java.cloudtrailviewer.controller.components.elblogs;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.controller.components.ToolBarController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
@@ -9,8 +7,6 @@ import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
 import io.haskins.java.cloudtrailviewer.service.*;
 import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

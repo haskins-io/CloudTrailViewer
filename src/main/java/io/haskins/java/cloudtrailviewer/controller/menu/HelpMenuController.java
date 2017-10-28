@@ -20,7 +20,6 @@ package io.haskins.java.cloudtrailviewer.controller.menu;
 
 import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
 import io.haskins.java.cloudtrailviewer.controller.components.UserGuideController;
-import io.haskins.java.cloudtrailviewer.controller.dialog.preferences.PreferencesDialogController;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.PropertiesService;
 import io.haskins.java.cloudtrailviewer.utils.DialogUtils;
@@ -28,7 +27,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.Pane;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;

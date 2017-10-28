@@ -18,11 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.service.listener;
 
-import io.haskins.java.cloudtrailviewer.model.AwsData;
-import io.haskins.java.cloudtrailviewer.model.event.Event;
 import org.apache.lucene.search.TopDocs;
-
-import java.util.List;
 
 /**
  * Interface

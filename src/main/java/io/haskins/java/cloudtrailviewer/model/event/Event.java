@@ -20,12 +20,9 @@ package io.haskins.java.cloudtrailviewer.model.event;
 
 import com.google.gson.annotations.SerializedName;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
-import io.haskins.java.cloudtrailviewer.model.event.deprecated.Resource;
-import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
 import org.apache.lucene.document.Document;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 public class Event extends AwsData implements Serializable {

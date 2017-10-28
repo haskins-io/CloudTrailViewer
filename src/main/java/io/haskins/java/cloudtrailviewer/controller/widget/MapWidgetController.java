@@ -24,7 +24,6 @@ import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.service.DataService;
-import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.utils.FileUtils;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
@@ -42,8 +41,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.events.EventTarget;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;

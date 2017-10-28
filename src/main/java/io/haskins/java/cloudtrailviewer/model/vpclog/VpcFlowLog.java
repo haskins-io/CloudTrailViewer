@@ -4,8 +4,6 @@ import io.haskins.java.cloudtrailviewer.model.AwsData;
 import javafx.beans.property.SimpleStringProperty;
 import org.apache.lucene.document.Document;
 
-import java.util.regex.Matcher;
-
 public class VpcFlowLog extends AwsData {
 
     // FlowLog data

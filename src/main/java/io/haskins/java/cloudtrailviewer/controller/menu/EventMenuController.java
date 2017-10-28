@@ -18,21 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.menu;
 
-import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
-import io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController;
-import io.haskins.java.cloudtrailviewer.filter.AllFilter;
-import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
-import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
-import io.haskins.java.cloudtrailviewer.service.AccountService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

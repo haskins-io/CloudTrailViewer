@@ -20,7 +20,6 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 
 import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
-import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.collections.FXCollections;

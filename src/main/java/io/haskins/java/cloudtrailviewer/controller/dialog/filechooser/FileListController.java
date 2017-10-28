@@ -23,10 +23,8 @@ import io.haskins.java.cloudtrailviewer.model.observable.FileListModel;
 import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
-import javafx.util.Callback;
 
 import java.util.List;
 

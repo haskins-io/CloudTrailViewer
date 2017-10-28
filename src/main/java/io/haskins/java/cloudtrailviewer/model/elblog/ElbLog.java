@@ -3,8 +3,6 @@ package io.haskins.java.cloudtrailviewer.model.elblog;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import org.apache.lucene.document.Document;
 
-import java.util.regex.Matcher;
-
 public class ElbLog extends AwsData {
 
     private String eventTime;

@@ -24,7 +24,6 @@ import io.haskins.java.cloudtrailviewer.model.observable.KeyStringValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
 
 /**
  * Dialog that provides functionality to modify a Stacked Bar Chart widget

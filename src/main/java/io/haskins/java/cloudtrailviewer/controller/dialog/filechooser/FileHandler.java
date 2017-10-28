@@ -21,7 +21,6 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.filechooser;
 import io.haskins.java.cloudtrailviewer.model.observable.FileListModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.control.ListView;
 
 import java.io.File;

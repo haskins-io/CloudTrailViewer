@@ -21,7 +21,6 @@ package io.haskins.java.cloudtrailviewer.controller.dialog.widget;
 import io.haskins.java.cloudtrailviewer.controller.dialog.widget.AbstractDialogController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 
 /**
  * Controller that handles the displaying of the dialog for configuring a Chart widget
