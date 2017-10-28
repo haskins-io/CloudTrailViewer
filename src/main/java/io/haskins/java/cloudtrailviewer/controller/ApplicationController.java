@@ -59,7 +59,7 @@ public class ApplicationController implements Initializable {
         databaseService.sync();
 
         dashboardService.init(widgets);
-        dashboardService.loadDashboard("default");
+        dashboardService.loadDashboard("empty");
     }
 
 }

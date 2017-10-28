@@ -24,6 +24,7 @@ import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
+import io.haskins.java.cloudtrailviewer.service.DataService;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import javafx.collections.ObservableList;
@@ -34,6 +35,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import org.apache.lucene.misc.TermStats;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,20 +87,27 @@ public class TableWidgetController extends AbstractBaseController {
             data = tableView.getItems();
         }
 
-        List<KeyIntegerValue> items = new ArrayList<>();
 
-        List<Map.Entry<String, Integer>> topEvents = getTopEvents();
-        for (Map.Entry<String, Integer> entry : topEvents) {
+        try {
+            List<KeyIntegerValue> items = new ArrayList<>();
 
-            KeyIntegerValue kv = new KeyIntegerValue(entry.getKey(), entry.getValue());
-            items.add(kv);
+            TermStats[] top = dataService.getTop(widget.getTop(), widget.getSeriesField());
+            for (TermStats stat : top) {
+
+                KeyIntegerValue kv = new KeyIntegerValue(stat.termtext.utf8ToString(), stat.docFreq);
+                items.add(kv);
+            }
+
+            data.addAll(items);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        data.addAll(items);
     }
 
     @Override
-    public void configure(DashboardWidget widget, EventTableService eventTableService, DatabaseService databaseService) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService, DataService databaseService) {
 
         super.configure(widget, eventTableService, databaseService);
 

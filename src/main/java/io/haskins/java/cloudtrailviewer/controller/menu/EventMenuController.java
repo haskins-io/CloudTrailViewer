@@ -55,7 +55,7 @@ public class EventMenuController {
 
     @FXML
     private void clearEvents() {
-        eventService.clearEvents();
+//        eventService.clearEvents();
     }
 
 }

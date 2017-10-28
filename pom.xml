@@ -112,6 +112,12 @@
             <artifactId>lucene-core</artifactId>
             <version>7.1.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-misc -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-misc</artifactId>
+            <version>7.1.0</version>
+        </dependency>
 
         <!-- Test -->
         <dependency>

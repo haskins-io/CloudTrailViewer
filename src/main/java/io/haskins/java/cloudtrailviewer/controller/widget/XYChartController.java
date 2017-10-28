@@ -30,6 +30,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import org.apache.lucene.misc.TermStats;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,35 +100,40 @@ abstract class XYChartController extends AbstractBaseController {
         xAxis.setLabel(widget.getSeriesField());
         yAxis.setLabel("Count");
 
-        List<Map.Entry<String, Integer>> topEvents = getTopEvents();
-        if (topEvents != null) {
+        try {
+            TermStats[] top = dataService.getTop(widget.getTop(), widget.getSeriesField());
+            if (top != null) {
 
-            categories.clear();
+                categories.clear();
 
-            for (Map.Entry<String, Integer> entry : topEvents) {
+                for (TermStats stat : top) {
 
-                String seriesName = entry.getKey();
-                categories.add(seriesName);
+                    String seriesName = stat.termtext.utf8ToString();
+                    categories.add(seriesName);
 
-                XYChart.Series<String, Number> series = new XYChart.Series<>();
-                series.setName(seriesName);
-                series.getData().add(new XYChart.Data<>(seriesName, entry.getValue()));
+                    XYChart.Series<String, Number> series = new XYChart.Series<>();
+                    series.setName(seriesName);
+                    series.getData().add(new XYChart.Data<>(seriesName, stat.docFreq));
 
-                chart.getData().add(series);
+                    chart.getData().add(series);
 
-            }
+                }
 
-            for (XYChart.Series<String,Number> serie: chart.getData()){
-                for (XYChart.Data<String, Number> item: serie.getData()){
-                    item.getNode().setOnMousePressed((MouseEvent event) -> {
-                        eventTableService.setTableEvents(singleSeries.get(serie.getName()));
-                    });
+                for (XYChart.Series<String,Number> serie: chart.getData()){
+                    for (XYChart.Data<String, Number> item: serie.getData()){
+                        item.getNode().setOnMousePressed((MouseEvent event) -> {
+                            eventTableService.setTableEvents(singleSeries.get(serie.getName()));
+                        });
 
-                    Node node = item.getNode();
-                    Tooltip t = new Tooltip(serie.getName() + " : " + item.getYValue());
-                    Tooltip.install(node, t);
+                        Node node = item.getNode();
+                        Tooltip t = new Tooltip(serie.getName() + " : " + item.getYValue());
+                        Tooltip.install(node, t);
+                    }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
 
         xAxis.setCategories(FXCollections.observableArrayList(categories));

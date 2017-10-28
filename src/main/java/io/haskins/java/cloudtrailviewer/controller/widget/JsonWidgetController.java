@@ -6,6 +6,7 @@ import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.service.DataService;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
@@ -42,7 +43,7 @@ public class JsonWidgetController extends AbstractBaseController {
     }
 
     @Override
-    public void configure(DashboardWidget widget, EventTableService eventTableService, DatabaseService databaseService) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService, DataService databaseService) {
 
         super.configure(widget, eventTableService, databaseService);
 

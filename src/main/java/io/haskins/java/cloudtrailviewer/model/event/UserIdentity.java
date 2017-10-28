@@ -31,13 +31,13 @@ public class UserIdentity implements Serializable {
     private String type;
     private String arn;
 
-    @SerializedName(value="userName", alternate={"username"}) private String userName;
-    @SerializedName(value="principalId", alternate={"principalid"}) private String principalId;
-    @SerializedName(value="accountId", alternate={"accountid"}) private String accountId;
-    @SerializedName(value="accessKeyId", alternate={"accesskeyid"}) private String accessKeyId;
+    @SerializedName(value="userName", alternate={"username"}) private String userName = "";
+    @SerializedName(value="principalId", alternate={"principalid"}) private String principalId = "";
+    @SerializedName(value="accountId", alternate={"accountid"}) private String accountId = "";
+    @SerializedName(value="accessKeyId", alternate={"accesskeyid"}) private String accessKeyId = "";
     @SerializedName(value="sessionContext", alternate={"sessioncontext"}) private SessionContext sessionContext;
-    @SerializedName(value="invokedBy", alternate={"invokedby"}) private String invokedBy;
-    @SerializedName(value="webIdFederationData", alternate={"webidfederationdata"}) private String webIdFederationData;
+    @SerializedName(value="invokedBy", alternate={"invokedby"}) private String invokedBy = "";
+    @SerializedName(value="webIdFederationData", alternate={"webidfederationdata"}) private String webIdFederationData = "";
     
 
     /**

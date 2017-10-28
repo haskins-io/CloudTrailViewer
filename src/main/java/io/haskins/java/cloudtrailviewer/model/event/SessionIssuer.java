@@ -30,11 +30,11 @@ public class SessionIssuer implements Serializable {
 
     private static final long serialVersionUID = 952252937271655940L;
     
-    private String type;
-    private String principalId;
-    private String arn;
-    private String accountId;
-    private String userName;
+    private String type = "";
+    private String principalId = "";
+    private String arn = "";
+    private String accountId = "";
+    private String userName = "";
 
     /**
      * @return the type

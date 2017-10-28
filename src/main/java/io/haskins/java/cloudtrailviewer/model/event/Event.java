@@ -51,7 +51,7 @@ public class Event extends AwsData implements Serializable {
     @SerializedName(value="recipientAccountId", alternate={"recipientaccountid"}) private String recipientAccountId = "";
     @SerializedName(value="serviceEventDetails", alternate={"serviceeventdetails"}) private Map serviceEventDetails;
     @SerializedName(value="sharedEventID", alternate={"sharedeventid"}) private String sharedEventID = "";
-    @SerializedName(value="vpcEndpointId", alternate={"vpcendpointid"}) private String vpcEndpointId;
+    @SerializedName(value="vpcEndpointId", alternate={"vpcendpointid"}) private String vpcEndpointId = "";
 
 
     /** Internal Use **/

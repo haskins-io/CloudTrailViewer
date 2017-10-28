@@ -20,10 +20,10 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
-import io.haskins.java.cloudtrailviewer.service.DatabaseService;
+import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
+import io.haskins.java.cloudtrailviewer.service.DataService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,11 +33,11 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import org.apache.lucene.misc.TermStats;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Controller for a Pie Chart.
@@ -69,7 +69,7 @@ public class ChartPieWidgetController extends AbstractBaseController {
     }
 
     @Override
-    public void configure(DashboardWidget widget, EventTableService eventTableService, DatabaseService databaseService) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService, DataService databaseService) {
 
         super.configure(widget, eventTableService, databaseService);
 
@@ -96,27 +96,37 @@ public class ChartPieWidgetController extends AbstractBaseController {
             data = pieChart.getData();
         }
 
-        List<PieChart.Data> items = new ArrayList<>();
 
-        List<Map.Entry<String, Integer>> topEvents = getTopEvents();
-        if (topEvents != null) {
-            for (Map.Entry<String, Integer> entry : topEvents) {
+        try {
+            List<PieChart.Data> items = new ArrayList<>();
 
-                PieChart.Data pcd = new PieChart.Data(entry.getKey(), entry.getValue());
+            TermStats[] top = dataService.getTop(widget.getTop(), widget.getSeriesField());
+            for (TermStats stat : top) {
+
+                PieChart.Data pcd = new PieChart.Data(stat.termtext.utf8ToString(), stat.docFreq);
                 items.add(pcd);
             }
 
             data.addAll(items);
+
+            for (PieChart.Data item: pieChart.getData()){
+
+                item.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+
+
+                    eventTableService.setTableEvents(keyValueMap.get(item.getName()));
+                });
+
+                Node node = item.getNode();
+                Tooltip t = new Tooltip(item.getName() + " : " + item.getPieValue());
+                Tooltip.install(node, t);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        for (PieChart.Data item: pieChart.getData()){
 
-            item.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> eventTableService.setTableEvents(keyValueMap.get(item.getName())));
-
-            Node node = item.getNode();
-            Tooltip t = new Tooltip(item.getName() + " : " + item.getPieValue());
-            Tooltip.install(node, t);
-        }
     }
 }
 

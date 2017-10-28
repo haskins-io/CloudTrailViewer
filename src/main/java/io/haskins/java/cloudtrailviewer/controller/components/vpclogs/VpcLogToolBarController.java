@@ -31,7 +31,7 @@ public class VpcLogToolBarController extends ToolBarController {
         LoadLogsRequest request = openDialog();
 
         if (request != null && !request.getFilenames().isEmpty()) {
-            vpcFlowLogService.processRecords(request.getFilenames());
+            vpcFlowLogService.processRecords(request.getFilenames(),null, EventService.FILE_LOCATION_LOCAL);
         }
     }
 

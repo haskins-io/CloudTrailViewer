@@ -10,34 +10,34 @@
            value="ApiVersion">
     <items>
         <FXCollections fx:factory="observableArrayList">
-            <KeyStringValue key="Api Version" value="ApiVersion"/>
-            <KeyStringValue key="Aws Region" value="AwsRegion"/>
-            <KeyStringValue key="City" value="City"/>
-            <KeyStringValue key="Continent" value="Continent"/>
-            <KeyStringValue key="Country" value="Country"/>
-            <KeyStringValue key="Error Code" value="ErrorCode"/>
-            <KeyStringValue key="Error Message" value="ErrorMessage"/>
-            <KeyStringValue key="Event Name" value="EventName"/>
-            <KeyStringValue key="Event Source" value="EventSource"/>
-            <KeyStringValue key="Event Type" value="EventType"/>
-            <KeyStringValue key="Event Version" value="EventVersion"/>
-            <KeyStringValue key="Source IP Address" value="SourceIPAddress"/>
-            <KeyStringValue key="User Agent" value="UserAgent"/>
-            <KeyStringValue key="Vpc Endpoint Id" value="VpcEndpointId"/>
+            <KeyStringValue key="Api Version" value="apiVersion"/>
+            <KeyStringValue key="Aws Region" value="awsRegion"/>
+            <KeyStringValue key="City" value="city"/>
+            <KeyStringValue key="Continent" value="continent"/>
+            <KeyStringValue key="Country" value="country"/>
+            <KeyStringValue key="Error Code" value="errorCode"/>
+            <KeyStringValue key="Error Message" value="errorMessage"/>
+            <KeyStringValue key="Event Name" value="eventName"/>
+            <KeyStringValue key="Event Source" value="eventSource"/>
+            <KeyStringValue key="Event Type" value="eventType"/>
+            <KeyStringValue key="Event Version" value="eventVersion"/>
+            <KeyStringValue key="Source IP Address" value="sourceIPAddress"/>
+            <KeyStringValue key="User Agent" value="userAgent"/>
+            <KeyStringValue key="Vpc Endpoint Id" value="vpcEndpointId"/>
 
-            <KeyStringValue key="User Identity : Type" value="UserIdentity.Type"/>
-            <KeyStringValue key="User Identity : Principal Id" value="UserIdentity.PrincipalId"/>
-            <KeyStringValue key="User Identity : Arn" value="UserIdentity.Arn"/>
-            <KeyStringValue key="User Identity : Account Id" value="UserIdentity.AccountId"/>
-            <KeyStringValue key="User Identity : Access Key Id" value="UserIdentity.AccessKeyId"/>
-            <KeyStringValue key="User Identity : Username" value="UserIdentity.UserName"/>
-            <KeyStringValue key="User Identity : Invoked By" value="UserIdentity.InvokedBy"/>
+            <KeyStringValue key="User Identity : Type" value="userIdentity.type"/>
+            <KeyStringValue key="User Identity : Principal Id" value="userIdentity.principalId"/>
+            <KeyStringValue key="User Identity : Arn" value="userIdentity.arn"/>
+            <KeyStringValue key="User Identity : Account Id" value="userIdentity.accountId"/>
+            <KeyStringValue key="User Identity : Access Key Id" value="userIdentity.accessKeyId"/>
+            <KeyStringValue key="User Identity : Username" value="userIdentity.userName"/>
+            <KeyStringValue key="User Identity : Invoked By" value="userIdentity.invokedBy"/>
 
-            <KeyStringValue key="Session Context : Type" value="UserIdentity.SessionContext.SessionIssuer.Type"/>
-            <KeyStringValue key="Session Context : Arn" value="UserIdentity.SessionContext.SessionIssuer.PrincipalId"/>
-            <KeyStringValue key="Session Context : Principal Id" value="UserIdentity.SessionContext.SessionIssuer.Arn"/>
-            <KeyStringValue key="Session Context : Account Id" value="UserIdentity.SessionContext.SessionIssuer.AccountId"/>
-            <KeyStringValue key="Session Context : Username" value="UserIdentity.SessionContext.SessionIssuer.UserName"/>
+            <KeyStringValue key="Session Context : Type" value="userIdentity.sessionContext.sessionIssuer.type"/>
+            <KeyStringValue key="Session Context : Arn" value="userIdentity.sessionContext.sessionIssuer.principalId"/>
+            <KeyStringValue key="Session Context : Principal Id" value="userIdentity.sessionContext.sessionIssuer.arn"/>
+            <KeyStringValue key="Session Context : Account Id" value="userIdentity.sessionContext.sessionIssuer.accountId"/>
+            <KeyStringValue key="Session Context : Username" value="userIdentity.sessionContext.sessionIssuer.userName"/>
         </FXCollections>
     </items>
     <VBox.margin>

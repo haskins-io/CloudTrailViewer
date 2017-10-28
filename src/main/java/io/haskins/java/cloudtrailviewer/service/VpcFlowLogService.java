@@ -1,17 +1,17 @@
 package io.haskins.java.cloudtrailviewer.service;
 
 import io.haskins.java.cloudtrailviewer.controller.components.StatusBarController;
+import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
+import io.haskins.java.cloudtrailviewer.model.event.Event;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
-import org.apache.lucene.index.IndexWriter;
 
+import org.apache.lucene.misc.TermStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import java.util.logging.Logger;
@@ -23,8 +23,6 @@ public class VpcFlowLogService extends LuceneIndexer {
 
     private final static String LUCENE_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/vpclogs";
 
-    private List<Document> documents = new ArrayList<>();
-
     @Autowired
     public VpcFlowLogService(StatusBarController statusBarController, GeoService geoService1) {
         this.statusBarController = statusBarController;
@@ -32,12 +30,20 @@ public class VpcFlowLogService extends LuceneIndexer {
         LOGGER = Logger.getLogger("VpcFlowLogService");
     }
 
-    public void processRecords(List<String> records) {
+    public void processRecords(List<String> records, CompositeFilter filter, int requestType) {
         String regexPattern = "^([^ ]*) (\\d) (\\d+) (eni-\\w+) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (ACCEPT|REJECT) (OK|NODATA|SKIPDATA)$";
-        process(records, regexPattern);
+        process(records, regexPattern, filter, requestType);
     }
 
-    @Override
+
+    public TermStats[] getTop(int top, String series) throws Exception {
+        return getTopFromLucence(LUCENE_DIR, top, series);
+    }
+
+    String getLucenceDir() {
+        return LUCENE_DIR;
+    }
+
     void createDocument(Matcher matcher) {
 
         Document document = new Document();
@@ -60,19 +66,10 @@ public class VpcFlowLogService extends LuceneIndexer {
         documents.add(document);
     }
 
+    void createDocument(Event e) { /* Not needed */ }
 
-    @Override
-    void index() throws IOException {
-
-        IndexWriter writer = createWriter(LUCENE_DIR);
-        writer.deleteAll();
-        writer.addDocuments(documents);
-        writer.commit();
-        writer.close();
-    }
-
-    @Override
     List<? extends AwsData> getDataDb() {
         return null;
     }
+
 }

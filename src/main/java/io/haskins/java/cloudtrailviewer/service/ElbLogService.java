@@ -1,133 +1,76 @@
 package io.haskins.java.cloudtrailviewer.service;
 
 import io.haskins.java.cloudtrailviewer.controller.components.StatusBarController;
+import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
-import io.haskins.java.cloudtrailviewer.model.elblog.ElbLog;
-import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
-import javafx.concurrent.Task;
+import io.haskins.java.cloudtrailviewer.model.event.Event;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.misc.TermStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
-public class ElbLogService extends DataService {
+public class ElbLogService extends LuceneIndexer {
 
-    private final static Logger LOGGER = Logger.getLogger("ElbLogService");
 
-    private final List<AwsData> logsDb = new ArrayList<>();
-
-    private final StatusBarController statusBarController;
-
-    private final GeoService geoService;
+    private final static String LUCENE_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/elblogs";
 
     @Autowired
     public ElbLogService(StatusBarController statusBarController, GeoService geoService1) {
         this.statusBarController = statusBarController;
-        this.listeners.add(statusBarController);
-        this.geoService = geoService1;
+
+        LOGGER = Logger.getLogger("ElbLogService");
     }
 
-    public void processRecords(List<String> records) {
-
+    public void processRecords(List<String> records, CompositeFilter filter, int requestType) {
         String regexPattern = "([^ ]*) ([^ ]*) ([^ ]*):([0-9]*) ([^ ]*):([0-9]*) ([.0-9]*) ([.0-9]*) ([.0-9]*) (-|[0-9]*) (-|[0-9]*) ([-0-9]*) ([-0-9]*) \"([^ ]*) ([^ ]*) (- |[^ ]*)\".* \"(.*?)\".* ([^ ]*) ([^ ]*)";
-        Pattern pattern = Pattern.compile(regexPattern);
-
-        Task<Void> task = new Task<Void>() {
-
-            @Override
-            protected Void call() throws Exception {
-
-                int count = 0;
-                for (String record : records) {
-
-                    count++;
-
-                    String message = "Processing event " + count + " of " + records.size();
-                    updateMessage(message);
-
-                    try (Scanner scanner = new Scanner(new File(record))) {
-
-                        while (scanner.hasNext()) {
-
-                            String line = scanner.nextLine().trim();
-                            line = line.replace("\n", "").replace("\r", "");
-
-                            Matcher m = pattern.matcher(line);
-
-                            if (m.matches()) {
-
-                                try {
-                                    ElbLog log = new ElbLog();
-                                    log.populateFromRegex(m);
-
-                                    try {
-                                        geoService.populateGeoData(log);
-                                    } catch (Exception e) {
-                                        LOGGER.log(Level.WARNING, "Failed populate Location information");
-                                    }
-
-                                    logsDb.add(log);
-
-                                    for (DataServiceListener l : listeners) {
-                                        l.newEvent(log);
-                                    }
-
-                                } catch (IllegalStateException e) {
-                                    System.out.println(e.getMessage());
-                                }
-
-                            } else {
-                                LOGGER.log(Level.INFO, line);
-                            }
-
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void succeeded() {
-
-                super.succeeded();
-
-                updateMessage("");
-
-                for (DataServiceListener l : listeners) {
-                    l.finishedLoading(false);
-                }
-            }
-
-        };
-
-        statusBarController.message.textProperty().bind(task.messageProperty());
-
-        new Thread(task).start();
+        process(records, regexPattern,filter, requestType);
     }
 
-    public void newEvent(AwsData data) {
 
-        ElbLog event = (ElbLog)data;
-        logsDb.add(event);
+    public TermStats[] getTop(int top, String series) throws Exception {
+        return getTopFromLucence(LUCENE_DIR, top, series);
     }
 
-    public List<AwsData> getAllLogs() {
-        return logsDb;
+    String getLucenceDir() {
+        return LUCENE_DIR;
     }
 
-    List<AwsData> getDataDb() {
-        return getAllLogs();
+    @Override
+    void createDocument(Matcher matcher) {
+
+        Document document = new Document();
+
+        document.add(new StringField("eventTime", matcher.group(1), Field.Store.YES));
+        document.add(new StringField("elb", matcher.group(2), Field.Store.YES));
+        document.add(new StringField("clientAddress", matcher.group(3), Field.Store.YES));
+        document.add(new StringField("clientPort", matcher.group(4), Field.Store.YES));
+        document.add(new StringField("backendAddress", matcher.group(5), Field.Store.YES));
+        document.add(new StringField("backendPort", matcher.group(6), Field.Store.YES));
+        document.add(new StringField("requestProcessingTime", matcher.group(7), Field.Store.YES));
+        document.add(new StringField("backendProcessingTime", matcher.group(8), Field.Store.YES));
+        document.add(new StringField("responseProcessingTime", matcher.group(9), Field.Store.YES));
+        document.add(new StringField("elbStatusCode", matcher.group(10), Field.Store.YES));
+        document.add(new StringField("backendStatusCode", matcher.group(11), Field.Store.YES));
+        document.add(new StringField("receivedBytes", matcher.group(12), Field.Store.YES));
+        document.add(new StringField("sentByes", matcher.group(13), Field.Store.YES));
+        document.add(new StringField("request", matcher.group(14), Field.Store.YES));
+        document.add(new StringField("url", matcher.group(15), Field.Store.YES));
+        document.add(new StringField("userAgent", matcher.group(17), Field.Store.YES));
+
+        documents.add(document);
     }
+
+    void createDocument(Event e) { /* Not needed */ }
+
+    List<? extends AwsData> getDataDb() {
+        return null;
+    }
+
 }

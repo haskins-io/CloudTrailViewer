@@ -33,7 +33,7 @@ public class ElbLogToolBarController extends ToolBarController {
         LoadLogsRequest request = openDialog();
 
         if (request != null && !request.getFilenames().isEmpty()) {
-            elbLogService .processRecords(request.getFilenames());
+            elbLogService.processRecords(request.getFilenames(), null, EventService.FILE_LOCATION_LOCAL);
         }
     }
 
@@ -78,7 +78,7 @@ public class ElbLogToolBarController extends ToolBarController {
 
 
     @FXML private void allEvents() {
-        this.eventTableService.setTableEvents(elbLogService.getAllLogs());
+//        this.eventTableService.setTableEvents(elbLogService.getAllLogs());
     }
 
 }

@@ -88,11 +88,11 @@ public class CloudTrailToolBarController extends ToolBarController {
     }
 
     @FXML private void doLocal() {
-        handleRequest(showFileChooser(true), EventService.FILE_TYPE_LOCAL);
+        handleRequest(showFileChooser(true), EventService.FILE_LOCATION_LOCAL);
     }
 
     @FXML private void doS3() {
-        handleRequest(showFileChooser(false), EventService.FILE_TYPE_S3);
+        handleRequest(showFileChooser(false), EventService.FILE_LOCATION_S3);
     }
 
     @FXML private void doMap() {
@@ -180,13 +180,13 @@ public class CloudTrailToolBarController extends ToolBarController {
     }
 
     @FXML private void allEvents() {
-        this.eventTableService.setTableEvents(eventService.getAllEvents());
+//        this.eventTableService.setTableEvents(eventService.getAllEvents());
     }
 
     private void handleRequest(LoadLogsRequest request, int requestType) {
 
         if (request != null && !request.getFilenames().isEmpty()) {
-            eventService.loadFiles(request.getFilenames(), request.getFilter(), requestType);
+            eventService.processRecords(request.getFilenames(), request.getFilter(), requestType);
         }
     }
 

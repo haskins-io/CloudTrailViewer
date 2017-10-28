@@ -34,6 +34,10 @@ import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import javafx.concurrent.Task;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.misc.TermStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +49,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
 
@@ -54,21 +59,22 @@ import java.util.zip.ZipException;
  * Created by markhaskins on 04/01/2017.
  */
 @Service
-public class EventService extends DataService {
+public class EventService extends LuceneIndexer {
 
-    public static final int FILE_TYPE_LOCAL = 1;
-    public static final int FILE_TYPE_S3 = 2;
-
-    private final static int BUFFER_SIZE = 32;
+    private final static String LUCENE_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/cloudtrail";
 
     private final static Logger LOGGER = Logger.getLogger("EventService");
 
     private final GeoService geoService;
-    private final AccountService accountDao;
-    private final StatusBarController statusBarController;
-    private final AwsService awsService;
 
-    private final List<AwsData> eventDb = new ArrayList<>();
+
+    public TermStats[] getTop(int top, String series) throws Exception {
+        return getTopFromLucence(LUCENE_DIR, top, series);
+    }
+
+    String getLucenceDir() {
+        return LUCENE_DIR;
+    }
 
     @Autowired
     public EventService(AccountService accountDao, GeoService geoService,
@@ -79,189 +85,61 @@ public class EventService extends DataService {
         this.awsService = awsService;
 
         this.statusBarController = statusBarController;
-        this.listeners.add(statusBarController);
     }
 
-    public void loadFiles(List<String> filenames, final CompositeFilter filters, int file_type) {
-
-        Task<Void> task = new Task<Void>() {
-
-            @Override
-            protected Void call() throws Exception {
-
-                AwsAccount activeAccount = null;
-                AmazonS3 s3Client = null;
-
-                if (file_type == FILE_TYPE_S3) {
-                    activeAccount = awsService.getActiveAccount(accountDao);
-                    s3Client = awsService.getS3Client(activeAccount);
-                }
-
-                int count = 0;
-
-                for (String filename : filenames) {
-
-                    count++;
-
-                    String message = "Processing file " + count + " of " + filenames.size();
-                    updateMessage(message);
-
-                    if (file_type == FILE_TYPE_S3) {
-                        try (InputStream stream = loadEventFromS3(s3Client, activeAccount.getBucket(), filename)) {
-                            processStream(stream, filters);
-                        } catch (Exception ioe) {
-                            LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
-                        }
-                    } else if (file_type == FILE_TYPE_LOCAL) {
-                        try (InputStream stream = loadEventFromLocalFile(filename)) {
-                            processStream(stream, filters);
-                        } catch (Exception ioe) {
-                            LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
-                        }
-                    }
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-
-                updateMessage("");
-                for (DataServiceListener l : listeners) {
-                    l.finishedLoading(false);
-                }
-            }
-
-        };
-
-        statusBarController.message.textProperty().bind(task.messageProperty());
-
-        new Thread(task).start();
+    public void processRecords(List<String> records, CompositeFilter filter, int requestType) {
+        process(records, null, filter, requestType);
     }
 
+    @Override
+    void createDocument(Matcher matcher) { /* Not needed */ }
 
-    public void clearEvents() {
+    void createDocument(Event e) {
 
-        eventDb.clear();
+        Document document = new Document();
 
-        for (DataServiceListener l : listeners) {
-            l.clearEvents();
-        }
-    }
+        document.add(new StringField("eventVersion", e.getEventVersion() , Field.Store.YES));
+        document.add(new StringField("eventSource", e.getEventSource() , Field.Store.YES));
+        document.add(new StringField("eventName", e.getEventName() , Field.Store.YES));
+        document.add(new StringField("awsRegion", e.getAwsRegion() , Field.Store.YES));
+        document.add(new StringField("userAgent", e.getUserAgent() , Field.Store.YES));
+        document.add(new StringField("errorCode", e.getErrorCode() , Field.Store.YES));
+        document.add(new StringField("errorMessage", e.getErrorMessage() , Field.Store.YES));
+        document.add(new StringField("sourceIPAddress", e.getSourceIPAddress() , Field.Store.YES));
+        document.add(new StringField("requestID", e.getRequestId() , Field.Store.YES));
+        document.add(new StringField("eventID", e.getEventId() , Field.Store.YES));
+        document.add(new StringField("eventType", e.getEventType() , Field.Store.YES));
+        document.add(new StringField("apiVersion", e.getApiVersion() , Field.Store.YES));
+        document.add(new StringField("readOnly", e.getReadOnly() , Field.Store.YES));
+        document.add(new StringField("recipientAccountId", e.getRecipientAccountId() , Field.Store.YES));
+        document.add(new StringField("sharedEventID", e.getSharedEventID() , Field.Store.YES));
+        document.add(new StringField("vpcEndpointId", e.getVpcEndpointId(), Field.Store.YES));
 
-    public List<AwsData> getAllEvents() {
-        return this.eventDb;
-    }
+        if (e.getUserIdentity() != null) {
+            document.add(new StringField("userIdentity.type", e.getUserIdentity().getType() , Field.Store.YES));
+            document.add(new StringField("userIdentity.principalId", e.getUserIdentity().getPrincipalId() , Field.Store.YES));
+            document.add(new StringField("userIdentity.arn", e.getUserIdentity().getArn() , Field.Store.YES));
+            document.add(new StringField("userIdentity.accountId", e.getUserIdentity().getAccountId() , Field.Store.YES));
+            document.add(new StringField("userIdentity.accessKeyId", e.getUserIdentity().getAccessKeyId() , Field.Store.YES));
+            document.add(new StringField("userIdentity.userName", e.getUserIdentity().getUserName() , Field.Store.YES));
+            document.add(new StringField("userIdentity.invokedBy", e.getUserIdentity().getInvokedBy(), Field.Store.YES));
 
-    List getDataDb() {
-        return getAllEvents();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    ////////////////////////////////////////////////////////////////////////////
-    private static InputStream loadEventFromLocalFile(final String file) throws IOException {
-
-        byte[] encoded = Files.readAllBytes(Paths.get(file));
-        return new ByteArrayInputStream(encoded);
-    }
-
-    private InputStream loadEventFromS3(AmazonS3 s3Client, String bucketName, final String key) {
-
-        S3Object s3Object = s3Client.getObject(new GetObjectRequest(bucketName, key));
-        return s3Object.getObjectContent();
-    }
-
-    private String uncompress(InputStream stream) {
-
-        StringBuilder json = new StringBuilder();
-
-        try (GZIPInputStream gzis = new GZIPInputStream(stream, BUFFER_SIZE)) {
-
-            try (BufferedReader bf = new BufferedReader(new InputStreamReader(gzis, "UTF-8"))) {
-
-                String line;
-                while ((line = bf.readLine()) != null) {
-                    json.append(line);
-                }
-            }
-        } catch (ZipException ex) {
-            json.append(loadUncompressedFile(stream));
-        } catch (UnsupportedEncodingException ex) {
-            LOGGER.log(Level.WARNING, "File encoding not recognised : ", ex);
-        } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "Problem uncompressing file data : ", ex);
-        }
-
-        return json.toString();
-    }
-
-    private String loadUncompressedFile(InputStream stream) {
-
-        StringBuilder json = new StringBuilder();
-
-        Scanner scanner = new Scanner(stream, "UTF-8");
-        while (scanner.hasNext()) {
-            String line = scanner.next();
-            json.append(line.replaceAll("(\\r|\\n|\\t)", ""));
-        }
-
-        // check if the first character is a { otherwise add one
-        String firstChars = json.substring(0, 2);
-        if (firstChars.equalsIgnoreCase("Re")) {
-            json.insert(0, "{\"");
-        } else if (firstChars.equalsIgnoreCase("\"R")) {
-            json.insert(0, "{");
-        }
-
-        return json.toString();
-    }
-
-    private List<Event> createEvents(String json_string) {
-
-        Gson g = new Gson();
-
-        List<Event> events = new ArrayList<>();
-
-        JsonObject jsonObject = new JsonParser().parse(json_string).getAsJsonObject();
-        JsonArray records = (JsonArray) jsonObject.get("Records");
-
-        for (Object record : records) {
-
-            try {
-                JsonObject obj = (JsonObject) record;
-                Event e = g.fromJson(obj, Event.class);
-                events.add(e);
-            } catch (Exception e) {
-                LOGGER.log(Level.WARNING, "Create Event from JSON : ", e);
+            if (e.getUserIdentity().getSessionContext() != null && e.getUserIdentity().getSessionContext().getSessionIssuer() != null) {
+                document.add(new StringField("userIdentity.sessionContext.sessionIssuer.type", e.getUserIdentity().getSessionContext().getSessionIssuer().getType() , Field.Store.YES));
+                document.add(new StringField("userIdentity.sessionContext.sessionIssuer.principalId", e.getUserIdentity().getSessionContext().getSessionIssuer().getPrincipalId() , Field.Store.YES));
+                document.add(new StringField("userIdentity.sessionContext.sessionIssuer.arn", e.getUserIdentity().getSessionContext().getSessionIssuer().getArn() , Field.Store.YES));
+                document.add(new StringField("userIdentity.sessionContext.sessionIssuer.accountId", e.getUserIdentity().getSessionContext().getSessionIssuer().getAccountId() , Field.Store.YES));
+                document.add(new StringField("userIdentity.sessionContext.sessionIssuer.userName", e.getUserIdentity().getSessionContext().getSessionIssuer().getUserName(), Field.Store.YES));
             }
         }
 
-        return events;
+        documents.add(document);
+
     }
 
-    private void processStream(InputStream stream, CompositeFilter filter) {
-
-        List<Event> events = createEvents(uncompress(stream));
-        for (Event event : events) {
-
-            EventUtils.addTimestamp(event);
-            if (filter.passes(event)) {
-
-                try {
-                    geoService.populateGeoData(event);
-                } catch (Exception e) {
-                    LOGGER.log(Level.WARNING, "Failed populate Location information");
-                }
-
-                eventDb.add(event);
-
-                for (DataServiceListener l : listeners) {
-                    l.newEvent(event);
-                }
-            }
-        }
+    List<? extends AwsData> getDataDb() {
+        return null;
     }
+
+
 }
