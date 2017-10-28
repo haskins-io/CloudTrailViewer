@@ -75,6 +75,6 @@ public class VpcLogToolBarController extends ToolBarController {
     }
 
     @FXML private void allEvents() {
-        this.eventTableService.setTableEvents(vpcFlowLogService.getAllLogs());
+//        this.eventTableService.setTableEvents(vpcFlowLogService.getAllLogs());
     }
 }
