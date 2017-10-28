@@ -19,6 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.model;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import io.haskins.java.cloudtrailviewer.service.ElbLogService;
+import io.haskins.java.cloudtrailviewer.service.EventService;
+import io.haskins.java.cloudtrailviewer.service.VpcFlowLogService;
 
 /**
  * Class that models a widget
@@ -185,5 +188,20 @@ public class DashboardWidget {
             this.type = "cloudtrail";
         }
 
+    }
+
+    public String luceneDir() {
+
+        switch (this.getType()) {
+            case "cloudtrail":
+                return EventService.LUCENE_DIR;
+            case "vpclogs":
+                return VpcFlowLogService.LUCENE_DIR;
+            case "elblogs":
+                return ElbLogService.LUCENE_DIR;
+
+        }
+
+        return null;
     }
 }

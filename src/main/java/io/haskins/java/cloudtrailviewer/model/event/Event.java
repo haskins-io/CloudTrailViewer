@@ -21,6 +21,8 @@ package io.haskins.java.cloudtrailviewer.model.event;
 import com.google.gson.annotations.SerializedName;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.event.deprecated.Resource;
+import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
+import org.apache.lucene.document.Document;
 
 import java.io.Serializable;
 import java.util.List;
@@ -399,6 +401,29 @@ public class Event extends AwsData implements Serializable {
         if (getLatLng() != null) { modelData.append(getLatLng()).append(", "); }
         
         return modelData.toString();
+    }
+
+    public Event withDocument(Document d) {
+
+        setEventVersion(d.getField("eventVersion").stringValue());
+        setEventSource(d.getField("eventSource").stringValue());
+        setEventName(d.getField("eventName").stringValue());
+        setAwsRegion(d.getField("awsRegion").stringValue());
+        setUserAgent(d.getField("userAgent").stringValue());
+        setErrorCode(d.getField("errorCode").stringValue());
+        setErrorMessage(d.getField("errorMessage").stringValue());
+        setSourceIPAddress(d.getField("sourceIPAddress").stringValue());
+        setRequestId(d.getField("requestID").stringValue());
+        setEventId(d.getField("eventID").stringValue());
+        setEventType(d.getField("eventType").stringValue());
+        setApiVersion(d.getField("apiVersion").stringValue());
+        setReadOnly(d.getField("readOnly").stringValue());
+        setRecipientAccountId(d.getField("recipientAccountId").stringValue());
+        setSharedEventID(d.getField("sharedEventID").stringValue());
+        setVpcEndpointId(d.getField("vpcEndpointId").stringValue());
+
+        return this;
+
     }
 
 }

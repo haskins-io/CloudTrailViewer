@@ -23,12 +23,15 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
 import io.haskins.java.cloudtrailviewer.service.DashboardService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
+import io.haskins.java.cloudtrailviewer.service.VpcFlowLogService;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.service.listener.EventTableServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
+import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,9 +43,15 @@ import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,7 +83,7 @@ public class CloudTrailEventTableController implements EventTableServiceListener
 
         this.eventService = eventService;
 
-        eventTableService.addListener(this);
+        eventTableService.addListener(this, "cloudtrail");
         eventService.registerAsListener(this);
 
         this.dashboardService = dashboardService;
@@ -151,15 +160,26 @@ public class CloudTrailEventTableController implements EventTableServiceListener
      * Updates the table with the provided events.
      * @param events a List of Events
      */
-    public void setEvents(List<AwsData> events) {
+    public void setEvents(TopDocs results) {
 
-        AwsData d = events.get(0);
+        try {
+            IndexSearcher searcher = LuceneUtils.createSearcher(VpcFlowLogService.LUCENE_DIR);
 
-        if (events != null && !events.isEmpty() && d instanceof Event) {
+            List<Event> logs = new ArrayList<>();
+
+            for (ScoreDoc sd : results.scoreDocs) {
+
+                Document d = searcher.doc(sd.doc);
+                logs.add(new Event().withDocument(d));
+            }
 
             filteredEvents.clear();
-            filteredEvents.addAll(events);
+            filteredEvents.addAll(logs);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override

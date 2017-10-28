@@ -25,6 +25,7 @@ import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
 import io.haskins.java.cloudtrailviewer.service.DataService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
+import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +35,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import org.apache.lucene.misc.TermStats;
+import org.apache.lucene.search.TopDocs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -113,8 +115,14 @@ public class ChartPieWidgetController extends AbstractBaseController {
 
                 item.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 
+                    try {
+                        TopDocs result = LuceneUtils.performQuery(widget.luceneDir(), widget.getSeriesField(), item.getName());
+                        eventTableService.setTableEvents(result, widget.getType());
 
-                    eventTableService.setTableEvents(keyValueMap.get(item.getName()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 });
 
                 Node node = item.getNode();

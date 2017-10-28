@@ -13,16 +13,10 @@ import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
+import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.concurrent.Task;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.misc.TermStats;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.misc.HighFreqTerms;
-import org.apache.lucene.store.FSDirectory;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -37,7 +31,7 @@ import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
 
-public abstract class LuceneIndexer extends DataService {
+public abstract class LuceneDataService extends DataService {
 
     static Logger LOGGER;
 
@@ -103,7 +97,6 @@ public abstract class LuceneIndexer extends DataService {
                             LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
                         }
                     }
-
                 }
 
                 index();
@@ -113,9 +106,7 @@ public abstract class LuceneIndexer extends DataService {
 
             @Override
             protected void succeeded() {
-
                 super.succeeded();
-
                 updateMessage("");
             }
         };
@@ -249,33 +240,15 @@ public abstract class LuceneIndexer extends DataService {
 
 
     ////////////////////////////////////////////////////////////////////////////
-    ///// Lucene methods
+    ///// Lucene utiltiy methods
     ////////////////////////////////////////////////////////////////////////////
     private void index() throws IOException {
 
-        IndexWriter writer = createWriter(getLucenceDir());
+        IndexWriter writer = LuceneUtils.createWriter(getLucenceDir());
         writer.deleteAll();
         writer.addDocuments(documents);
         writer.commit();
         writer.close();
     }
 
-    private IndexWriter createWriter(String path) throws IOException {
-
-        FSDirectory dir = FSDirectory.open(Paths.get(path));
-        IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
-        return new IndexWriter(dir, config);
-    }
-
-    TermStats[] getTopFromLucence(String path, int top, String series) throws Exception {
-        HighFreqTerms.DocFreqComparator cmp = new HighFreqTerms.DocFreqComparator();
-        return HighFreqTerms.getHighFreqTerms(getReader(path), top, series, cmp);
-    }
-
-    private IndexReader getReader(String path) throws IOException {
-
-        FSDirectory dir = FSDirectory.open(Paths.get(path));
-        return DirectoryReader.open(dir);
-
-    }
 }

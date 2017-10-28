@@ -21,6 +21,7 @@ package io.haskins.java.cloudtrailviewer.service;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.listener.EventTableServiceListener;
+import org.apache.lucene.search.TopDocs;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,16 +33,45 @@ import java.util.List;
 @Service
 public class EventTableService {
 
-    private List<EventTableServiceListener> listeners = new ArrayList<>();
+    private List<EventTableServiceListener> eventListeners = new ArrayList<>();
+    private List<EventTableServiceListener> vpcListeners = new ArrayList<>();
+    private List<EventTableServiceListener> elbListeners = new ArrayList<>();
 
-    public void addListener(EventTableServiceListener l) {
-        listeners.add(l);
+    public void addListener(EventTableServiceListener l, String type) {
+
+        switch (type) {
+            case "cloudtrail":
+                eventListeners.add(l);
+                break;
+            case "vpclogs":
+                vpcListeners.add(l);
+                break;
+            case "elblogs":
+                elbListeners.add(l);
+                break;
+        }
     }
 
-    public void setTableEvents(List<AwsData> events) {
+    public void setTableEvents(TopDocs results, String type) {
 
-        for (EventTableServiceListener l : listeners) {
-            l.setEvents(events);
+        List<EventTableServiceListener> listeners = null;
+
+        switch (type) {
+            case "cloudtrail":
+                listeners = eventListeners;
+                break;
+            case "vpclogs":
+                listeners = vpcListeners;
+                break;
+            case "elblogs":
+                listeners = elbListeners;
+                break;
+        }
+
+        if (listeners != null) {
+            for (EventTableServiceListener l : listeners) {
+                l.setEvents(results);
+            }
         }
     }
 }

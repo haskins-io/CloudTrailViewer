@@ -22,6 +22,7 @@ import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
+import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -31,6 +32,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import org.apache.lucene.misc.TermStats;
+import org.apache.lucene.search.TopDocs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -122,7 +124,14 @@ abstract class XYChartController extends AbstractBaseController {
                 for (XYChart.Series<String,Number> serie: chart.getData()){
                     for (XYChart.Data<String, Number> item: serie.getData()){
                         item.getNode().setOnMousePressed((MouseEvent event) -> {
-                            eventTableService.setTableEvents(singleSeries.get(serie.getName()));
+
+                            try {
+                                TopDocs result = LuceneUtils.performQuery(widget.luceneDir(), widget.getSeriesField(), serie.getName());
+                                eventTableService.setTableEvents(result, widget.getType());
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         });
 
                         Node node = item.getNode();

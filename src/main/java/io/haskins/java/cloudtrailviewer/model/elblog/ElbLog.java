@@ -1,6 +1,7 @@
 package io.haskins.java.cloudtrailviewer.model.elblog;
 
 import io.haskins.java.cloudtrailviewer.model.AwsData;
+import org.apache.lucene.document.Document;
 
 import java.util.regex.Matcher;
 
@@ -123,26 +124,26 @@ public class ElbLog extends AwsData {
         this.sslProtocol = sslProtocol;
     }
 
-    public void populateFromRegex(Matcher matcher) {
+    public ElbLog withDocument(Document d) {
 
-        this.setEventTime(matcher.group(1));
-        this.setElb(matcher.group(2));
-        this.setClientAddress(matcher.group(3));
-        this.setClientPort(matcher.group(4));
-        this.setBackendAddress(matcher.group(5));
-        this.setBackendPort(matcher.group(6));
-        this.setRequestProcessingTime(matcher.group(7));
-        this.setBackendProcessingTime(matcher.group(8));
-        this.setResponseProcessingTime(matcher.group(9));
-        this.setElbStatusCode(matcher.group(10));
-        this.setBackendStatusCode(matcher.group(11));
-        this.setReceivedBytes(matcher.group(12));
-        this.setSentByes(matcher.group(13));
-        this.setRequest(matcher.group(14));
-        this.setUrl(matcher.group(15));
-        this.setUserAgent(matcher.group(17));
+        this.setEventTime(d.getField("eventTime").stringValue());
+        this.setElb(d.getField("elb").stringValue());
+        this.setClientAddress(d.getField("clientAddress").stringValue());
+        this.setClientPort(d.getField("clientPort").stringValue());
+        this.setBackendAddress(d.getField("backendAddress").stringValue());
+        this.setBackendPort(d.getField("backendPort").stringValue());
+        this.setRequestProcessingTime(d.getField("requestProcessingTime").stringValue());
+        this.setBackendProcessingTime(d.getField("backendProcessingTime").stringValue());
+        this.setResponseProcessingTime(d.getField("responseProcessingTime").stringValue());
+        this.setElbStatusCode(d.getField("elbStatusCode").stringValue());
+        this.setBackendStatusCode(d.getField("backendStatusCode").stringValue());
+        this.setReceivedBytes(d.getField("receivedBytes").stringValue());
+        this.setSentByes(d.getField("sentByes").stringValue());
+        this.setRequest(d.getField("request").stringValue());
+        this.setUrl(d.getField("url").stringValue());
+        this.setUserAgent(d.getField("userAgent").stringValue());
 
-        // convert EventTime to long timestamp
+        return this;
     }
 
     public String getClientPort() {

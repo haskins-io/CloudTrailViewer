@@ -20,6 +20,7 @@ package io.haskins.java.cloudtrailviewer.service.listener;
 
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import org.apache.lucene.search.TopDocs;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public interface EventTableServiceListener {
 
     /**
      * sets the collection of Events
-     * @param events collection of Event objects to set
+     * @param results collection of Event objects to set
      */
-    void setEvents(List<AwsData> events);
+    void setEvents(TopDocs results);
 }

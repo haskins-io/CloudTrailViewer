@@ -2,6 +2,7 @@ package io.haskins.java.cloudtrailviewer.model.vpclog;
 
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import javafx.beans.property.SimpleStringProperty;
+import org.apache.lucene.document.Document;
 
 import java.util.regex.Matcher;
 
@@ -135,24 +136,25 @@ public class VpcFlowLog extends AwsData {
         this.logStatus.set(logStatus);
     }
 
-    public void populateFromRegex(Matcher matcher) {
+    public VpcFlowLog withDocument(Document d) {
 
-        setVersion(matcher.group(2));
-        setAccountId(matcher.group(3));
-        setInterfaceId(matcher.group(4));
-        setSrcaddr(matcher.group(5));
-        setDstaddr(matcher.group(6));
-        setSrcport(matcher.group(7));
-        setDstport(matcher.group(8));
-        setProtocol(matcher.group(9));
-        setPackets(matcher.group(10));
-        setBytes(matcher.group(11));
-        setStart(matcher.group(12));
-        setEnd(matcher.group(13));
-        setAction(matcher.group(14));
-        setLogStatus(matcher.group(15));
+        setVersion(d.getField("version").stringValue());
+        setAccountId(d.getField("accountId").stringValue());
+        setInterfaceId(d.getField("interfaceId").stringValue());
+        setSrcaddr(d.getField("srcaddr").stringValue());
+        setDstaddr(d.getField("dstaddr").stringValue());
+        setSrcport(d.getField("srcport").stringValue());
+        setDstport(d.getField("dstport").stringValue());
+        setProtocol(d.getField("protocol").stringValue());
+        setPackets(d.getField("packets").stringValue());
+        setBytes(d.getField("bytes").stringValue());
+        setStart(d.getField("start").stringValue());
+        setEnd(d.getField("end").stringValue());
+        setAction(d.getField("action").stringValue());
+        setLogStatus(d.getField("logStatus").stringValue());
 
-        // convert EventTime to long timestamp
+        return this;
+
     }
 
 }

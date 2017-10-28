@@ -18,22 +18,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.service;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import io.haskins.java.cloudtrailviewer.controller.components.StatusBarController;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
-import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
-import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.AwsService;
-import io.haskins.java.cloudtrailviewer.utils.EventUtils;
-import javafx.concurrent.Task;
+import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -41,17 +31,9 @@ import org.apache.lucene.misc.TermStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.ZipException;
 
 /**
  * Service responsible for handling CloudTrail events.
@@ -59,9 +41,9 @@ import java.util.zip.ZipException;
  * Created by markhaskins on 04/01/2017.
  */
 @Service
-public class EventService extends LuceneIndexer {
+public class EventService extends LuceneDataService {
 
-    private final static String LUCENE_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/cloudtrail";
+    public final static String LUCENE_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/cloudtrail";
 
     private final static Logger LOGGER = Logger.getLogger("EventService");
 
@@ -69,7 +51,7 @@ public class EventService extends LuceneIndexer {
 
 
     public TermStats[] getTop(int top, String series) throws Exception {
-        return getTopFromLucence(LUCENE_DIR, top, series);
+        return LuceneUtils.getTopFromLucence(LUCENE_DIR, top, series);
     }
 
     String getLucenceDir() {

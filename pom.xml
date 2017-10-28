@@ -119,6 +119,14 @@
             <version>7.1.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-queryparser -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+            <version>7.1.0</version>
+        </dependency>
+
+
         <!-- Test -->
         <dependency>
             <groupId>org.testfx</groupId>

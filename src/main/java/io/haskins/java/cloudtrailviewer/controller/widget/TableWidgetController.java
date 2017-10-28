@@ -27,6 +27,7 @@ import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
 import io.haskins.java.cloudtrailviewer.service.DataService;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
+import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +37,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import org.apache.lucene.misc.TermStats;
+import org.apache.lucene.search.TopDocs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -123,7 +125,15 @@ public class TableWidgetController extends AbstractBaseController {
             row.setOnMouseClicked(event -> {
                 if (!row.isEmpty()) {
                     KeyIntegerValue rowData = row.getItem();
-                    eventTableService.setTableEvents(keyValueMap.get(rowData.getField()));
+
+                    try {
+                        TopDocs result = LuceneUtils.performQuery(widget.luceneDir(), widget.getSeriesField(), rowData.getField());
+                        eventTableService.setTableEvents(result, widget.getType());
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
             });
             return row;

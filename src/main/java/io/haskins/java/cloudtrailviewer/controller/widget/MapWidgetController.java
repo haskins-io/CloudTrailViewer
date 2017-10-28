@@ -27,12 +27,14 @@ import io.haskins.java.cloudtrailviewer.service.DataService;
 import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.utils.FileUtils;
+import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.apache.lucene.search.TopDocs;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -81,7 +83,15 @@ public class MapWidgetController extends AbstractBaseController {
                                 "click",
                                 ev -> {
                                     String cityName = element.getTextContent();
-                                    eventTableService.setTableEvents(keyValueMap.get(cityName));
+
+                                    try {
+                                        TopDocs result = LuceneUtils.performQuery(widget.luceneDir(), widget.getSeriesField(), cityName);
+                                        eventTableService.setTableEvents(result, widget.getType());
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
                                 },
                                 false
                         );

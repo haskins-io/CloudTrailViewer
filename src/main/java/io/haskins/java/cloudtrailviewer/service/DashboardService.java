@@ -63,7 +63,7 @@ public class DashboardService implements WidgetListener {
     private final Map<String, List<DashboardWidget>> widgets = new HashMap<>();
 
     private final EventService eventService;
-    private final VpcFlowLogService vpcFlowLogService;
+    private final LuceneDataService vpcFlowLogService;
     private final ElbLogService elbLogService;
 
     private final EventTableService eventTableService;
@@ -71,7 +71,7 @@ public class DashboardService implements WidgetListener {
 
     @Autowired
     public DashboardService(
-            EventService eventService, VpcFlowLogService vpcFlowLogService, ElbLogService elbLogService,
+            EventService eventService, LuceneDataService vpcFlowLogService, ElbLogService elbLogService,
             EventTableService eventTableService, DatabaseService databaseService
     )
     {

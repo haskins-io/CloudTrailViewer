@@ -148,24 +148,27 @@ public class ChartBarStackedWidgetController extends XYChartController {
             chart.getData().add(series);
         }
 
-        for (XYChart.Series<String,Number> series: chart.getData()){
-            for (XYChart.Data<String, Number> item: series.getData()){
-
-                String seriesName = series.getName();
-                Map<String, List<AwsData>> catData = multiSeries.get(seriesName);
-
-                for (Map.Entry<String, List<AwsData>> catData2 : catData.entrySet()) {
-
-                    List<AwsData> events = catData2.getValue();
-                    item.getNode().setOnMousePressed((MouseEvent event) -> eventTableService.setTableEvents(events));
-
-                    Node node = item.getNode();
-                    Tooltip t = new Tooltip(seriesName + " : " + item.getYValue());
-                    Tooltip.install(node, t);
-
-                }
-            }
-        }
+//        for (XYChart.Series<String,Number> series: chart.getData()){
+//            for (XYChart.Data<String, Number> item: series.getData()){
+//
+//                String seriesName = series.getName();
+//                Map<String, List<AwsData>> catData = multiSeries.get(seriesName);
+//
+//                for (Map.Entry<String, List<AwsData>> catData2 : catData.entrySet()) {
+//
+//                    List<AwsData> events = catData2.getValue();
+//                    item.getNode().setOnMousePressed((MouseEvent event) -> {
+//
+//                        eventTableService.setTableEvents(events);
+//                    });
+//
+//                    Node node = item.getNode();
+//                    Tooltip t = new Tooltip(seriesName + " : " + item.getYValue());
+//                    Tooltip.install(node, t);
+//
+//                }
+//            }
+//        }
     }
 
 }
