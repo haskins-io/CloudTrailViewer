@@ -26,6 +26,9 @@ import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.elblog.ElbLog;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -60,29 +63,57 @@ class GeoService {
         }
     }
 
-    void populateGeoData(AwsData data) {
+    void populateGeoData(Document document, String type) {
 
         if (reader == null) {
             return;
         }
 
         String ip = "";
-
-        if (data instanceof Event) {
-            ip = ((Event)data).getSourceIPAddress();
-
-        } else if (data instanceof ElbLog) {
-            ip = ((ElbLog)data).getClientAddress();
-
-        } else if (data instanceof VpcFlowLog) {
-            ip = ((VpcFlowLog)data).getSrcaddr();
-
-        } else {
-            return;
+        switch (type) {
+            case "cloudtrail":
+                ip = document.getField("sourceIPAddress").stringValue();
+                break;
+            case "vpclogs":
+                ip = document.getField("srcaddr").stringValue();
+                break;
+            case "elblogs":
+                ip = document.getField("clientAddress").stringValue();
+                break;
         }
 
+        GeoData source = getGeoData(ip);
+        if (source != null) {
+            document.add(new StringField("srcContinent", source.getContinent() , Field.Store.YES));
+            document.add(new StringField("srcCountry", source.getCountry() , Field.Store.YES));
+            document.add(new StringField("srcCity", source.getCity() , Field.Store.YES));
+            document.add(new StringField("srcLatLng", source.getLatLng() , Field.Store.YES));
+        }
+
+        ip = "";
+        switch (type) {
+            case "vpclogs":
+                ip = document.getField("dstaddr").stringValue();
+                break;
+            case "elblogs":
+                ip = document.getField("backendAddress").stringValue();
+                break;
+        }
+
+        GeoData destination = getGeoData(ip);
+        if (destination != null) {
+            document.add(new StringField("dstContinent", destination.getContinent() , Field.Store.YES));
+            document.add(new StringField("dstCountry", destination.getCountry() , Field.Store.YES));
+            document.add(new StringField("dstCity", destination.getCity() , Field.Store.YES));
+            document.add(new StringField("dstLatLng", destination.getLatLng() , Field.Store.YES));
+        }
+
+    }
+
+    private GeoData getGeoData(String ip) {
+
         if (!isIp(ip)) {
-            return;
+            return null;
         }
 
         InetAddress ipAddress;
@@ -92,16 +123,20 @@ class GeoService {
             response = getCityResponse(ipAddress);
 
         } catch (IOException | GeoIp2Exception e) {
-            return;
+            return null;
         }
 
         String latLng = getLatLong(response.getLocation());
+        GeoData data = new GeoData();
 
         data.setContinent(getContinent(response));
         data.setCountry(getCountry(response));
         data.setCity(getCity(response, ipAddress));
         data.setLatLng(latLng);
+
+        return data;
     }
+
 
     CityResponse getCityResponse(InetAddress ipAddress) throws GeoIp2Exception, IOException {
         return reader.city(ipAddress);
@@ -133,5 +168,45 @@ class GeoService {
 
         Matcher m = REGEX_PATTERN.matcher(eventSource);
         return m.find();
+    }
+
+    class GeoData {
+
+        private String city = "";
+        private String country = "";
+        private String continent = "";
+        private String latLng = "";
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getCountry() {
+            return country;
+        }
+
+        public void setCountry(String country) {
+            this.country = country;
+        }
+
+        public String getContinent() {
+            return continent;
+        }
+
+        public void setContinent(String continent) {
+            this.continent = continent;
+        }
+
+        public String getLatLng() {
+            return latLng;
+        }
+
+        public void setLatLng(String lanLog) {
+            this.latLng = lanLog;
+        }
     }
 }

@@ -27,6 +27,7 @@ public class VpcFlowLogService extends LuceneDataService {
     @Autowired
     public VpcFlowLogService(StatusBarController statusBarController, GeoService geoService1) {
         this.statusBarController = statusBarController;
+        this.geoService = geoService;
 
         LOGGER = Logger.getLogger("VpcFlowLogService");
     }
@@ -63,6 +64,8 @@ public class VpcFlowLogService extends LuceneDataService {
         document.add(new StringField("end", matcher.group(13) , Field.Store.YES));
         document.add(new StringField("action", matcher.group(14) , Field.Store.YES));
         document.add(new StringField("logStatus", matcher.group(15) , Field.Store.YES));
+
+        geoService.populateGeoData(document, "vpclogs");
 
         documents.add(document);
     }

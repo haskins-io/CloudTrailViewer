@@ -52,6 +52,7 @@ public abstract class LuceneDataService extends DataService {
     AccountService accountDao;
     AwsService awsService;
     StatusBarController statusBarController;
+    GeoService geoService;
 
     void process(List<String> files, String regexPattern, final CompositeFilter filters, int file_location) {
 
@@ -237,7 +238,6 @@ public abstract class LuceneDataService extends DataService {
 
         return null;
     }
-
 
     ////////////////////////////////////////////////////////////////////////////
     ///// Lucene utiltiy methods

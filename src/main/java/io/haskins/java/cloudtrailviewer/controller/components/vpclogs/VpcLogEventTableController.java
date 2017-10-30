@@ -70,7 +70,7 @@ public class VpcLogEventTableController implements EventTableServiceListener, Da
 
     /**
      * Updates the table with the provided events.
-     * @param events a List of Events
+     * @param results a List of Events
      */
     public void setEvents(TopDocs results) {
 
@@ -80,7 +80,6 @@ public class VpcLogEventTableController implements EventTableServiceListener, Da
             List<VpcFlowLog> logs = new ArrayList<>();
 
             for (ScoreDoc sd : results.scoreDocs) {
-
                 Document d = searcher.doc(sd.doc);
                 logs.add(new VpcFlowLog().withDocument(d));
             }

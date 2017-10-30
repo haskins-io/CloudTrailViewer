@@ -24,6 +24,7 @@ public class ElbLogService extends LuceneDataService {
     @Autowired
     public ElbLogService(StatusBarController statusBarController, GeoService geoService1) {
         this.statusBarController = statusBarController;
+        this.geoService = geoService;
 
         LOGGER = Logger.getLogger("ElbLogService");
     }
@@ -63,6 +64,8 @@ public class ElbLogService extends LuceneDataService {
         document.add(new StringField("request", matcher.group(14), Field.Store.YES));
         document.add(new StringField("url", matcher.group(15), Field.Store.YES));
         document.add(new StringField("userAgent", matcher.group(17), Field.Store.YES));
+
+        geoService.populateGeoData(document, "elblogs");
 
         documents.add(document);
     }

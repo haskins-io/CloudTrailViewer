@@ -97,7 +97,6 @@ public class ChartPieWidgetController extends AbstractBaseController {
             data = pieChart.getData();
         }
 
-
         try {
             List<PieChart.Data> items = new ArrayList<>();
 

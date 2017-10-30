@@ -47,7 +47,7 @@ public class EventService extends LuceneDataService {
 
     private final static Logger LOGGER = Logger.getLogger("EventService");
 
-    private final GeoService geoService;
+
 
 
     public TermStats[] getTop(int top, String series) throws Exception {
@@ -114,6 +114,8 @@ public class EventService extends LuceneDataService {
                 document.add(new StringField("userIdentity.sessionContext.sessionIssuer.userName", e.getUserIdentity().getSessionContext().getSessionIssuer().getUserName(), Field.Store.YES));
             }
         }
+
+        geoService.populateGeoData(document, "cloudtrail");
 
         documents.add(document);
 

@@ -30,9 +30,11 @@ import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.chart.PieChart;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.apache.lucene.misc.TermStats;
 import org.apache.lucene.search.TopDocs;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -140,6 +142,7 @@ public class MapWidgetController extends AbstractBaseController {
 
         int highestCount = 0;
         String centerPoint = "";
+
 
         for (Map.Entry<String, String> entry : latlngs.entrySet()) {
 

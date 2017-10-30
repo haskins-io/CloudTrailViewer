@@ -157,12 +157,12 @@ public class CloudTrailEventTableController implements EventTableServiceListener
 
     /**
      * Updates the table with the provided events.
-     * @param events a List of Events
+     * @param results a List of Events
      */
     public void setEvents(TopDocs results) {
 
         try {
-            IndexSearcher searcher = LuceneUtils.createSearcher(VpcFlowLogService.LUCENE_DIR);
+            IndexSearcher searcher = LuceneUtils.createSearcher(EventService.LUCENE_DIR);
 
             List<Event> logs = new ArrayList<>();
 
