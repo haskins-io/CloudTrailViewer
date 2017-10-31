@@ -45,11 +45,6 @@ public class EventService extends LuceneDataService {
 
     public final static String LUCENE_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/cloudtrail";
 
-    private final static Logger LOGGER = Logger.getLogger("EventService");
-
-
-
-
     public TermStats[] getTop(int top, String series) throws Exception {
         return LuceneUtils.getTopFromLucence(LUCENE_DIR, top, series);
     }
@@ -61,6 +56,8 @@ public class EventService extends LuceneDataService {
     @Autowired
     public EventService(AccountService accountDao, GeoService geoService,
             StatusBarController statusBarController, AwsService awsService) {
+
+        LOGGER = Logger.getLogger("EventService");
 
         this.accountDao = accountDao;
         this.geoService = geoService;
@@ -118,7 +115,6 @@ public class EventService extends LuceneDataService {
         geoService.populateGeoData(document, "cloudtrail");
 
         documents.add(document);
-
     }
 
     List<? extends AwsData> getDataDb() {

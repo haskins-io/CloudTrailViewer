@@ -133,8 +133,7 @@ public class DashboardService implements WidgetListener {
                 controller.configure(widget, eventTableService, dataService);
                 controller.addWidgetListener(this);
 
-//                dataService.registerAsListener(controller);
-//                dataService.injectEvents(controller);
+                dataService.registerAsListener(controller);
                 controller.finishedLoading(true);
 
                 List<DashboardWidget> widgetsList = widgets.get("widgets");

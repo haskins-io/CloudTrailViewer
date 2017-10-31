@@ -11,6 +11,7 @@ import io.haskins.java.cloudtrailviewer.controller.components.StatusBarControlle
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
@@ -109,6 +110,11 @@ public abstract class LuceneDataService extends DataService {
             protected void succeeded() {
                 super.succeeded();
                 updateMessage("");
+
+                for (DataServiceListener l : listeners) {
+                    l.finishedLoading(false);
+                }
+
             }
         };
 

@@ -40,9 +40,9 @@ public class CloudTrailToolBarController extends ToolBarController {
 
     @FXML private Button btnChartStacked;
 
-    @FXML private Button btnError;
-    @FXML private Button btnResource;
-    @FXML private Button btnSecurity;
+//    @FXML private Button btnError;
+//    @FXML private Button btnResource;
+//    @FXML private Button btnSecurity;
 
 
     private final EventService eventService;
@@ -77,14 +77,14 @@ public class CloudTrailToolBarController extends ToolBarController {
         btnChartStacked.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
         btnChartStacked.setTooltip(new Tooltip("Add Stacked Bar Chart"));
 
-        btnError.setTooltip(new Tooltip("Add Error Widget"));
-        btnError.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE));
-
-        btnResource.setTooltip(new Tooltip("Add Resource Widget"));
-        btnResource.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SERVER));
-
-        btnSecurity.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SHIELD));
-        btnSecurity.setTooltip(new Tooltip("Add Security Widget"));
+//        btnError.setTooltip(new Tooltip("Add Error Widget"));
+//        btnError.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE));
+//
+//        btnResource.setTooltip(new Tooltip("Add Resource Widget"));
+//        btnResource.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SERVER));
+//
+//        btnSecurity.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SHIELD));
+//        btnSecurity.setTooltip(new Tooltip("Add Security Widget"));
     }
 
     @FXML private void doLocal() {
@@ -143,41 +143,41 @@ public class CloudTrailToolBarController extends ToolBarController {
         dashboardService.addWidgetToDashboard(newWidget, this.eventService);
     }
 
-    @FXML private void doError() {
-        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableError");
-
-        configureFixedWidgets(newWidget);
-
-        newWidget.setTitle("Errors");
-        newWidget.setSeriesField("ErrorCode");
-
-        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-    }
-
-    @FXML private void doResource() {
-
-        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableResources");
-
-        configureFixedWidgets(newWidget);
-
-        newWidget.setTitle("Resources");
-        newWidget.setSeriesField("EventName");
-
-        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-
-    }
-
-    @FXML private void doSecurity() {
-
-        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableSecurity");
-
-        configureFixedWidgets(newWidget);
-
-        newWidget.setTitle("Security");
-        newWidget.setSeriesField("EventName");
-
-        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-    }
+//    @FXML private void doError() {
+//        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableError");
+//
+//        configureFixedWidgets(newWidget);
+//
+//        newWidget.setTitle("Errors");
+//        newWidget.setSeriesField("ErrorCode");
+//
+//        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
+//    }
+//
+//    @FXML private void doResource() {
+//
+//        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableResources");
+//
+//        configureFixedWidgets(newWidget);
+//
+//        newWidget.setTitle("Resources");
+//        newWidget.setSeriesField("EventName");
+//
+//        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
+//
+//    }
+//
+//    @FXML private void doSecurity() {
+//
+//        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableSecurity");
+//
+//        configureFixedWidgets(newWidget);
+//
+//        newWidget.setTitle("Security");
+//        newWidget.setSeriesField("EventName");
+//
+//        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
+//    }
 
     @FXML private void allEvents() {
 //        this.eventTableService.setTableEvents(eventService.getAllEvents());

@@ -18,8 +18,8 @@
     <Button fx:id="btnChartPie" mnemonicParsing="false" onAction="#doChartPie"/>
     <Button fx:id="btnChartBar" mnemonicParsing="false" onAction="#doChartBar"/>
     <Button fx:id="btnChartStacked" mnemonicParsing="false" onAction="#doChartStacked"/>
-    <Separator/>
-    <Button fx:id="btnError" mnemonicParsing="false" onAction="#doError"/>
-    <Button fx:id="btnResource" mnemonicParsing="false" onAction="#doResource"/>
-    <Button fx:id="btnSecurity" mnemonicParsing="false" onAction="#doSecurity"/>
+    <!--<Separator/>-->
+    <!--<Button fx:id="btnError" mnemonicParsing="false" onAction="#doError"/>-->
+    <!--<Button fx:id="btnResource" mnemonicParsing="false" onAction="#doResource"/>-->
+    <!--<Button fx:id="btnSecurity" mnemonicParsing="false" onAction="#doSecurity"/>-->
 </ToolBar>
