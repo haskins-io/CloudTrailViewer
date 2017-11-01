@@ -67,11 +67,6 @@ public class JsonWidgetController extends AbstractBaseController {
     }
 
     @Override
-    public void newEvents(List<? extends AwsData> events) {
-
-    }
-
-    @Override
     public void loadingFile(int fileNum, int totalFiles) {
 
     }

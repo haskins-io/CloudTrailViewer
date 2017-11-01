@@ -19,8 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.service.listener;
 
 import io.haskins.java.cloudtrailviewer.model.AwsData;
-
-import java.util.List;
+import org.apache.lucene.document.Document;
 
 /**
  * Interface that should be implemented if a class need to know about EventService events
@@ -31,15 +30,9 @@ public interface DataServiceListener {
 
     /**
      * A new Event
-     * @param data the new AwsData
+     * @param document the new Document
      */
-    void newEvent(AwsData data);
-
-    /**
-     * A collection of new AwsData
-     * @param events a collection of AwsData
-     */
-    void newEvents(List<? extends AwsData> events);
+    void newEvent(Document document);
 
     /**
      * The Event service is currently processing this file

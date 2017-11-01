@@ -36,6 +36,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
+import org.apache.lucene.document.Document;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -199,23 +200,22 @@ public abstract class AbstractBaseController
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// DataServiceListener methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void newEvent(AwsData data) {
+    public void newEvent(Document documen) {
 
-        allData.add(data);
-
-        try {
-            String latLng = data.getLatLng();
-            if (latLng != null && latLng.length() > 0 && !latlngs.containsKey(latLng)) {
-
-                String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
-                latlngs.put(latLng, propertyValue);
-            }
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Exception resolving Geo Data");
-        }
-
-        addToKeyValueMap(data);
-
+//        allData.add(data);
+//
+//        try {
+//            String latLng = data.getLatLng();
+//            if (latLng != null && latLng.length() > 0 && !latlngs.containsKey(latLng)) {
+//
+//                String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
+//                latlngs.put(latLng, propertyValue);
+//            }
+//        } catch (Exception e) {
+//            LOGGER.log(Level.WARNING, "Exception resolving Geo Data");
+//        }
+//
+//        addToKeyValueMap(data);
     }
 
     public abstract void finishedLoading(boolean reload);

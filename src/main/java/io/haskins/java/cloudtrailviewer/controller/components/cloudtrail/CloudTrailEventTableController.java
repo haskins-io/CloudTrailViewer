@@ -182,12 +182,7 @@ public class CloudTrailEventTableController implements EventTableServiceListener
     }
 
     @Override
-    public void newEvent(AwsData event) {
-
-    }
-
-    @Override
-    public void newEvents(List<? extends AwsData> events) {
+    public void newEvent(Document document) {
 
     }
 

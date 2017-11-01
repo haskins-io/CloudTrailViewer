@@ -38,19 +38,6 @@ public class TableResourcesWidgetController extends TableWidgetController {
 
     private final List<String> resourceEvents = new ArrayList<>();
 
-    @Override
-    public void newEvents(List<? extends AwsData> data) {
-
-        for (AwsData d : data) {
-
-            Event event = (Event)d;
-
-            if (resourceEvents.contains( event.getEventName())) {
-                newEvent(event);
-            }
-        }
-    }
-
     protected FontAwesomeIconView getWidgetIcon() {
         return new FontAwesomeIconView(FontAwesomeIcon.SERVER);
     }

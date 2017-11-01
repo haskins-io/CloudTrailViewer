@@ -29,7 +29,7 @@ public class VpcFlowLogService extends LuceneDataService {
         this.statusBarController = statusBarController;
         this.geoService = geoService;
 
-        LOGGER = Logger.getLogger("VpcFlowLogService");
+        logger = Logger.getLogger("VpcFlowLogService");
     }
 
     public void processRecords(List<String> records, CompositeFilter filter, int requestType) {
@@ -49,6 +49,8 @@ public class VpcFlowLogService extends LuceneDataService {
     void createDocument(Matcher matcher) {
 
         Document document = new Document();
+
+        document.add(new StringField("timestamp", matcher.group(12) , Field.Store.YES));
 
         document.add(new StringField("version", matcher.group(2) , Field.Store.YES));
         document.add(new StringField("accountId", matcher.group(3) , Field.Store.YES));

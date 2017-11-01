@@ -93,14 +93,10 @@ public class VpcLogEventTableController implements EventTableServiceListener, Da
     }
 
     @Override
-    public void newEvent(AwsData event) {
+    public void newEvent(Document documen) {
 
     }
 
-    @Override
-    public void newEvents(List<? extends AwsData> events) {
-
-    }
 
     @Override
     public void loadingFile(int fileNum, int totalFiles) {

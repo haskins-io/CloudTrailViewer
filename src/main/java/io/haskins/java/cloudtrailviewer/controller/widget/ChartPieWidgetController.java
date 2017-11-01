@@ -78,13 +78,6 @@ public class ChartPieWidgetController extends AbstractBaseController {
         pieChart.setPrefHeight(widget.getHeight());
     }
 
-    public void newEvents(List<? extends AwsData> events) {
-
-        for (AwsData event : events) {
-            newEvent(event);
-        }
-    }
-
     public void loadingFile(int fileName, int totalFiles) { }
 
     public void finishedLoading(boolean reload) {
@@ -131,8 +124,6 @@ public class ChartPieWidgetController extends AbstractBaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 }
 

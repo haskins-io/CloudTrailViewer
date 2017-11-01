@@ -68,12 +68,6 @@ public class TableWidgetController extends AbstractBaseController {
         return new FontAwesomeIconView(FontAwesomeIcon.TABLE);
     }
 
-    public void newEvents(List<? extends AwsData> events) {
-        for (AwsData event : events) {
-            newEvent(event);
-        }
-    }
-
     public void loadingFile(int fileName, int totalFiles) { }
 
     @Override

@@ -127,13 +127,6 @@ public class MapWidgetController extends AbstractBaseController {
         widgetControlsController.hideEditButton();
     }
 
-    public void newEvents(List<? extends AwsData> events) {
-
-        for (AwsData event : events) {
-            newEvent(event);
-        }
-    }
-
     public void loadingFile(int fileName, int totalFiles) { }
 
     public void finishedLoading(boolean reload) {

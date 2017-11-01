@@ -29,6 +29,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.BorderPane;
+import org.apache.lucene.document.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,40 +74,33 @@ public class ChartBarStackedWidgetController extends XYChartController {
         chart.getXAxis().setTickLabelsVisible(false);
     }
 
-    public void newEvents(List<? extends AwsData> events) {
-
-        for (AwsData event : events) {
-            newEvent(event);
-        }
-    }
-
     @Override
-    public void newEvent(AwsData data) {
+    public void newEvent(Document documen) {
 
-        String c = EventUtils.getEventProperty(this.widget.getCategoryField(), data);
-        if (!categories.contains(c)) {
-            categories.add(c);
-        }
-
-        String s = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
-
-        Map<String, List<AwsData>> catMap;
-        if (multiSeries.containsKey(s)) {
-            catMap = multiSeries.get(s);
-        } else {
-            catMap = new HashMap<>();
-            multiSeries.put(s, catMap);
-        }
-
-        List<AwsData> evList;
-        if (catMap.containsKey(c)) {
-            evList = catMap.get(c);
-        } else {
-            evList = new ArrayList<>();
-            catMap.put(c, evList);
-        }
-
-        evList.add(data);
+//        String c = EventUtils.getEventProperty(this.widget.getCategoryField(), data);
+//        if (!categories.contains(c)) {
+//            categories.add(c);
+//        }
+//
+//        String s = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
+//
+//        Map<String, List<AwsData>> catMap;
+//        if (multiSeries.containsKey(s)) {
+//            catMap = multiSeries.get(s);
+//        } else {
+//            catMap = new HashMap<>();
+//            multiSeries.put(s, catMap);
+//        }
+//
+//        List<AwsData> evList;
+//        if (catMap.containsKey(c)) {
+//            evList = catMap.get(c);
+//        } else {
+//            evList = new ArrayList<>();
+//            catMap.put(c, evList);
+//        }
+//
+//        evList.add(data);
     }
 
     public void loadingFile(int fileName, int totalFiles) { }

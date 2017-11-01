@@ -34,7 +34,7 @@ import java.util.zip.ZipException;
 
 public abstract class LuceneDataService extends DataService {
 
-    static Logger LOGGER;
+    static Logger logger;
 
     abstract void createDocument(Matcher m);
     abstract void createDocument(Event e);
@@ -44,7 +44,7 @@ public abstract class LuceneDataService extends DataService {
     public static final int FILE_LOCATION_LOCAL = 1;
     public static final int FILE_LOCATION_S3 = 2;
 
-    private final static int BUFFER_SIZE = 32;
+    private static final int BUFFER_SIZE = 32;
 
     List<Document> documents = new ArrayList<>();
 
@@ -90,13 +90,13 @@ public abstract class LuceneDataService extends DataService {
                         try (InputStream stream = loadEventFromS3(s3Client, activeAccount.getBucket(), filename)) {
                             processStream(stream, filters, isJson);
                         } catch (Exception ioe) {
-                            LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
+                            logger.log(Level.WARNING, "Failed to load file : " + filename, ioe);
                         }
                     } else if (file_location == FILE_LOCATION_LOCAL) {
                         try (InputStream stream = loadEventFromLocalFile(filename)) {
                             processStream(stream, filters, isJson);
                         } catch (Exception ioe) {
-                            LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
+                            logger.log(Level.WARNING, "Failed to load file : " + filename, ioe);
                         }
                     }
                 }
@@ -169,7 +169,7 @@ public abstract class LuceneDataService extends DataService {
                 Event e = g.fromJson(obj, Event.class);
                 events.add(e);
             } catch (Exception e) {
-                LOGGER.log(Level.WARNING, "Create Event from JSON : ", e);
+                logger.log(Level.WARNING, "Create Event from JSON : ", e);
             }
         }
 
@@ -193,9 +193,9 @@ public abstract class LuceneDataService extends DataService {
         } catch (ZipException ex) {
             return loadUncompressedFile(stream, isJson);
         } catch (UnsupportedEncodingException ex) {
-            LOGGER.log(Level.WARNING, "File encoding not recognised : ", ex);
+            logger.log(Level.WARNING, "File encoding not recognised : ", ex);
         } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "Problem uncompressing file data : ", ex);
+            logger.log(Level.WARNING, "Problem uncompressing file data : ", ex);
         }
 
         return data.toString();
@@ -235,7 +235,7 @@ public abstract class LuceneDataService extends DataService {
                     if (m.matches()) {
                         createDocument(m);
                     } else {
-                        LOGGER.log(Level.INFO, line);
+                        logger.log(Level.INFO, line);
                     }
                 }
             }

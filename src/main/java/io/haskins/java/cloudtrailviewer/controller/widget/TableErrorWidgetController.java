@@ -35,20 +35,6 @@ import java.util.List;
  */
 public class TableErrorWidgetController extends TableWidgetController {
 
-    @Override
-    public void newEvents(List<? extends AwsData> data) {
-
-        for (AwsData d : data) {
-
-            Event event = (Event)d;
-
-            String errorName = event.getErrorCode();
-            if (errorName.trim().length() > 0) {
-                newEvent(event);
-            }
-        }
-    }
-
     protected FontAwesomeIconView getWidgetIcon() {
         return new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE);
     }

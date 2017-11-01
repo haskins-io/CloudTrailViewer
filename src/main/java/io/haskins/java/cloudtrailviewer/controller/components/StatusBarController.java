@@ -23,6 +23,7 @@ import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import org.apache.lucene.document.Document;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
@@ -56,39 +57,29 @@ public class StatusBarController implements DataServiceListener {
     ///// DataServiceListener methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public void newEvent(AwsData data) {
+    public void newEvent(Document document) {
 
 
-        if (earliestEventLong == -1 || data.getTimestamp() < earliestEventLong) {
-            earliestEventLong = data.getTimestamp();
-            earliestEventString = data.getEventTime();
-        }
-
-        if (latestEventLong == -1 || data.getTimestamp() > latestEventLong) {
-            latestEventLong = data.getTimestamp();
-            latestEventString = data.getEventTime();
-        }
-
-        numEventsLoaded++;
-
-        Platform.runLater(new Runnable() {
-            @Override public void run() {
-                loadedEvents.setText(String.valueOf("Loaded Events : " + numEventsLoaded));
-            }
-        });
+//        if (earliestEventLong == -1 || data.getTimestamp() < earliestEventLong) {
+//            earliestEventLong = data.getTimestamp();
+//            earliestEventString = data.getEventTime();
+//        }
+//
+//        if (latestEventLong == -1 || data.getTimestamp() > latestEventLong) {
+//            latestEventLong = data.getTimestamp();
+//            latestEventString = data.getEventTime();
+//        }
+//
+//        numEventsLoaded++;
+//
+//        Platform.runLater(new Runnable() {
+//            @Override public void run() {
+//                loadedEvents.setText(String.valueOf("Loaded Events : " + numEventsLoaded));
+//            }
+//        });
 
     }
 
-    @Override
-    public void newEvents(List<? extends AwsData> events) {
-
-        earliestEventLong = -1;
-        latestEventLong = -1;
-
-        for (AwsData event : events) {
-            newEvent(event);
-        }
-    }
 
     @Override
     public void loadingFile(int fileNum, int totalFiles) { }

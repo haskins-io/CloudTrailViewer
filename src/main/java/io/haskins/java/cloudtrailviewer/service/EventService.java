@@ -57,7 +57,7 @@ public class EventService extends LuceneDataService {
     public EventService(AccountService accountDao, GeoService geoService,
             StatusBarController statusBarController, AwsService awsService) {
 
-        LOGGER = Logger.getLogger("EventService");
+        logger = Logger.getLogger("EventService");
 
         this.accountDao = accountDao;
         this.geoService = geoService;
@@ -77,6 +77,9 @@ public class EventService extends LuceneDataService {
 
         Document document = new Document();
 
+        document.add(new StringField("timestamp", e.getEventTime() , Field.Store.YES));
+
+        document.add(new StringField("eventTime", e.getEventTime() , Field.Store.YES));
         document.add(new StringField("eventVersion", e.getEventVersion() , Field.Store.YES));
         document.add(new StringField("eventSource", e.getEventSource() , Field.Store.YES));
         document.add(new StringField("eventName", e.getEventName() , Field.Store.YES));

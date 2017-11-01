@@ -26,7 +26,7 @@ public class ElbLogService extends LuceneDataService {
         this.statusBarController = statusBarController;
         this.geoService = geoService;
 
-        LOGGER = Logger.getLogger("ElbLogService");
+        logger = Logger.getLogger("ElbLogService");
     }
 
     public void processRecords(List<String> records, CompositeFilter filter, int requestType) {
@@ -47,6 +47,8 @@ public class ElbLogService extends LuceneDataService {
     void createDocument(Matcher matcher) {
 
         Document document = new Document();
+
+        document.add(new StringField("timestamp", matcher.group(1) , Field.Store.YES));
 
         document.add(new StringField("eventTime", matcher.group(1), Field.Store.YES));
         document.add(new StringField("elb", matcher.group(2), Field.Store.YES));

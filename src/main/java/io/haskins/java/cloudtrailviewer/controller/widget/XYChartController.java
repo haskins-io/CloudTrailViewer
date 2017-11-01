@@ -30,6 +30,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.misc.TermStats;
 import org.apache.lucene.search.TopDocs;
 
@@ -64,32 +65,25 @@ abstract class XYChartController extends AbstractBaseController {
         super.clearEvents();
     }
 
-    public void newEvents(List<? extends AwsData> events) {
-
-        for (AwsData event : events) {
-            newEvent(event);
-        }
-    }
-
     @Override
-    public void newEvent(AwsData data) {
+    public void newEvent(Document documen) {
 
-        super.newEvent(data);
-
-        String s = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
-
-        if (s != null) {
-
-            List<AwsData> events;
-            if (singleSeries.containsKey(s)) {
-                events = singleSeries.get(s);
-            } else {
-                events = new ArrayList<>();
-                singleSeries.put(s, events);
-            }
-
-            events.add(data);
-        }
+//        super.newEvent(data);
+//
+//        String s = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
+//
+//        if (s != null) {
+//
+//            List<AwsData> events;
+//            if (singleSeries.containsKey(s)) {
+//                events = singleSeries.get(s);
+//            } else {
+//                events = new ArrayList<>();
+//                singleSeries.put(s, events);
+//            }
+//
+//            events.add(data);
+//        }
     }
 
     public void finishedLoading(boolean reload) {
