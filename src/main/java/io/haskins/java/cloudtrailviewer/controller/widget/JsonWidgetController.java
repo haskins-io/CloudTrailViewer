@@ -3,7 +3,6 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
-import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.DataService;
@@ -15,7 +14,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by markhaskins on 07/02/2017.

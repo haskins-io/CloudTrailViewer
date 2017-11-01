@@ -167,6 +167,7 @@ public abstract class LuceneDataService extends DataService {
             try {
                 JsonObject obj = (JsonObject) record;
                 Event e = g.fromJson(obj, Event.class);
+                EventUtils.addTimestamp(e);
                 events.add(e);
             } catch (Exception e) {
                 logger.log(Level.WARNING, "Create Event from JSON : ", e);

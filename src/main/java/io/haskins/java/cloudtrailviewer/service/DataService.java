@@ -1,6 +1,5 @@
 package io.haskins.java.cloudtrailviewer.service;
 
-import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import org.apache.lucene.misc.TermStats;
 

@@ -31,8 +31,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import org.apache.lucene.search.MatchAllDocsQuery;
-import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -41,7 +39,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.events.EventTarget;
 
 import java.io.*;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -180,11 +177,10 @@ public class MapWidgetController extends AbstractBaseController {
 
             String cityName = entry.getValue();
             if (cityName != null && cityName.trim().length() > 0) {
-                int totalEvents = count;
 
-                if (totalEvents > highestCount) {
+                if (count > highestCount) {
                     centerPoint = entry.getKey();
-                    highestCount = totalEvents;
+                    highestCount = count;
                 }
             }
 
