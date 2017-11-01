@@ -112,7 +112,7 @@ public abstract class LuceneDataService extends DataService {
                 updateMessage("");
 
                 for (DataServiceListener l : listeners) {
-                    l.finishedLoading(false);
+                    l.finishedLoading(true);
                 }
 
             }

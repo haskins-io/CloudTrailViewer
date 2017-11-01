@@ -125,5 +125,7 @@ public class ChartPieWidgetController extends AbstractBaseController {
             e.printStackTrace();
         }
     }
+
+    public void newEvent(org.apache.lucene.document.Document document) { }
 }
 

@@ -142,4 +142,6 @@ public class TableWidgetController extends AbstractBaseController {
 
         tableView.getColumns().addAll(col1, col2);
     }
+
+    public void newEvent(org.apache.lucene.document.Document document) { }
 }

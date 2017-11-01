@@ -29,17 +29,14 @@ import io.haskins.java.cloudtrailviewer.service.DataService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.DragResizeWidget;
-import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import io.haskins.java.cloudtrailviewer.utils.OnDragResizeEventListener;
 import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
-import org.apache.lucene.document.Document;
 
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -58,14 +55,13 @@ public abstract class AbstractBaseController
 
     private final List<AwsData> allData = new ArrayList<>();
 
-    protected final Map<String, List<AwsData>> keyValueMap = new HashMap<>();
+    protected final Map<String, Integer> keyValueMap = new HashMap<>();
     protected final ObservableList<KeyIntegerValue> keyValueData = FXCollections.observableArrayList();
     protected final Map<String, String> latlngs = new HashMap<>();
 
     protected DashboardWidget widget;
 
     protected EventTableService eventTableService;
-//    protected DatabaseService databaseService;
     protected DataService dataService;
 
     protected BorderPane fxmlObject = null;
@@ -92,7 +88,6 @@ public abstract class AbstractBaseController
         this.widget.setIcon(getWidgetIcon());
 
         this.eventTableService = eventTableService;
-//        this.databaseService = databaseService;
         this.dataService = dataService1;
 
         widgetControlsController.init(this, widget);
@@ -117,107 +112,10 @@ public abstract class AbstractBaseController
         listeners.add(l);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///// protected methods
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    protected List<Map.Entry<String,Integer>> getTopEvents() {
-
-        Map<String, Integer> eventsByOccurance = new HashMap<>();
-
-        for (Map.Entry<String, List<AwsData>> entry : keyValueMap.entrySet()) {
-            eventsByOccurance.put(entry.getKey(), entry.getValue().size());
-        }
-
-        if (!eventsByOccurance.isEmpty()) {
-
-            List<Map.Entry<String,Integer>> sorted = entriesSortedByValues(eventsByOccurance);
-            if (widget.getChartType().equalsIgnoreCase(WIDGET_TYPE_TOP) && widget.getTop() > 0) {
-                return getTopX(sorted, widget.getTop());
-            } else {
-                return sorted;
-            }
-
-        } else {
-            return new ArrayList<>();
-        }
-    }
-
-    protected List<AwsData> getAllData() {
-        return this.allData;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void addToKeyValueMap(AwsData data) {
-
-
-        try {
-            String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
-
-            if (propertyValue != null) {
-
-                List<AwsData> events = keyValueMap.get(propertyValue);
-                if (events == null) {
-                    events = new ArrayList<>();
-                }
-
-                events.add(data);
-                keyValueMap.put(propertyValue, events);
-            }
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Exception caught trying to add Event to KeyValueMap");
-        }
-
-    }
-
-    private List<Map.Entry<String,Integer>> getTopX(List<Map.Entry<String,Integer>> sorted, int top) {
-
-        List<Map.Entry<String,Integer>> topEvents = new ArrayList<>();
-
-        int count = top;
-        if (sorted.size() < count) {
-            count = sorted.size();
-        }
-
-        for (int i=0; i<count; i++) {
-            topEvents.add(sorted.get(i));
-        }
-
-        return topEvents;
-    }
-
-    private <K,V extends Comparable<? super V>>  List<Map.Entry<K, V>> entriesSortedByValues(Map<K,V> map) {
-
-        List<Map.Entry<K,V>> sortedEntries = new ArrayList<>(map.entrySet());
-
-        sortedEntries.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
-
-        return sortedEntries;
-    }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// DataServiceListener methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void newEvent(Document document) {
-
-//        allData.add(data);
-//
-//        try {
-//            String latLng = data.getLatLng();
-//            if (latLng != null && latLng.length() > 0 && !latlngs.containsKey(latLng)) {
-//
-//                String propertyValue = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
-//                latlngs.put(latLng, propertyValue);
-//            }
-//        } catch (Exception e) {
-//            LOGGER.log(Level.WARNING, "Exception resolving Geo Data");
-//        }
-//
-//        addToKeyValueMap(data);
-    }
-
     public abstract void finishedLoading(boolean reload);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -245,7 +143,6 @@ public abstract class AbstractBaseController
 
     @Override
     public void clearEvents() {
-        allData.clear();
 
         keyValueMap.clear();
         keyValueData.clear();
@@ -274,9 +171,9 @@ public abstract class AbstractBaseController
             keyValueMap.clear();
             keyValueData.clear();
 
-            for (AwsData data : allData) {
-                addToKeyValueMap(data);
-            }
+//            for (AwsData data : allData) {
+//                addToKeyValueMap(data);
+//            }
 
             finishedLoading(true);
         }

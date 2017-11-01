@@ -20,8 +20,6 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
-import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.service.DataService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
@@ -30,11 +28,11 @@ import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.chart.PieChart;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import org.apache.lucene.misc.TermStats;
+import org.apache.lucene.search.MatchAllDocsQuery;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -129,9 +127,34 @@ public class MapWidgetController extends AbstractBaseController {
 
     public void loadingFile(int fileName, int totalFiles) { }
 
-    @Override
     public void newEvent(org.apache.lucene.document.Document document) {
-        System.out.println("Received a document");
+
+        String latLng = "";
+        if (this.widget.getSeriesField().startsWith("src") && document.getField("srcLatLng") != null) {
+            latLng = document.getField("srcLatLng").stringValue();
+        } else if (this.widget.getSeriesField().startsWith("dst") && document.getField("dstLatLng") != null) {
+            latLng = document.getField("dstLatLng").stringValue();
+        }
+
+        if (latLng != null && latLng.length() > 0 && !latlngs.containsKey(latLng)) {
+
+            String city;
+            if (this.widget.getSeriesField().startsWith("src")) {
+                city = document.getField("srcCity").stringValue();
+            } else {
+                city = document.getField("dstCity").stringValue();
+            }
+
+            latlngs.put(latLng, city);
+
+            int count = 0;
+            if (keyValueMap.containsKey(latLng)) {
+                count = keyValueMap.get(latLng);
+            }
+            count++;
+            keyValueMap.put(latLng, count);
+        }
+
     }
 
     public void finishedLoading(boolean reload) {
@@ -141,31 +164,27 @@ public class MapWidgetController extends AbstractBaseController {
         int highestCount = 0;
         String centerPoint = "";
 
-
         for (Map.Entry<String, String> entry : latlngs.entrySet()) {
 
-            List<AwsData> events = keyValueMap.get(entry.getValue());
+            int count = keyValueMap.get(entry.getKey());
 
-            if (!entry.getValue().contains("'")) {
+            output.append("[\"").
+                    append(entry.getValue()).
+                    append(":").
+                    append(count).
+                    append("\",").
+                    append(entry.getKey()).
+                    append("]");
 
-                output.append("['").
-                        append(entry.getValue()).
-                        append(":").
-                        append(events.size()).
-                        append("',").
-                        append(entry.getKey()).
-                        append("]");
+            output.append(",");
 
-                output.append(",");
+            String cityName = entry.getValue();
+            if (cityName != null && cityName.trim().length() > 0) {
+                int totalEvents = count;
 
-                String cityName = entry.getValue();
-                if (cityName != null && cityName.trim().length() > 0) {
-                    int totalEvents = events.size();
-
-                    if (totalEvents > highestCount) {
-                        centerPoint = entry.getKey();
-                        highestCount = totalEvents;
-                    }
+                if (totalEvents > highestCount) {
+                    centerPoint = entry.getKey();
+                    highestCount = totalEvents;
                 }
             }
 

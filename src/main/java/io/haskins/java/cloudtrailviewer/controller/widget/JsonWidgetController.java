@@ -70,4 +70,6 @@ public class JsonWidgetController extends AbstractBaseController {
     public void loadingFile(int fileNum, int totalFiles) {
 
     }
+
+    public void newEvent(org.apache.lucene.document.Document document) { }
 }
