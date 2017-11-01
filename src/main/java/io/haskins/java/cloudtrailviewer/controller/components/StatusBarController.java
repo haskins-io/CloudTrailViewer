@@ -18,14 +18,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.controller.components;
 
-import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.apache.lucene.document.Document;
 import org.springframework.stereotype.Component;
-import java.util.List;
 
 /**
  * Component that provides the Status Bar at the bottom of the application Window.
@@ -59,27 +57,27 @@ public class StatusBarController implements DataServiceListener {
     @Override
     public void newEvent(Document document) {
 
+        String longTimestamp = document.getField("timestamp").stringValue();
+        long timestamp = Long.parseLong(longTimestamp);
 
-//        if (earliestEventLong == -1 || data.getTimestamp() < earliestEventLong) {
-//            earliestEventLong = data.getTimestamp();
-//            earliestEventString = data.getEventTime();
-//        }
-//
-//        if (latestEventLong == -1 || data.getTimestamp() > latestEventLong) {
-//            latestEventLong = data.getTimestamp();
-//            latestEventString = data.getEventTime();
-//        }
-//
-//        numEventsLoaded++;
-//
-//        Platform.runLater(new Runnable() {
-//            @Override public void run() {
-//                loadedEvents.setText(String.valueOf("Loaded Events : " + numEventsLoaded));
-//            }
-//        });
+        if (earliestEventLong == -1 || timestamp < earliestEventLong) {
+            earliestEventLong = timestamp;
+            earliestEventString = document.getField("dateTime").stringValue();
+        }
 
+        if (latestEventLong == -1 || timestamp > latestEventLong) {
+            latestEventLong = timestamp;
+            latestEventString = document.getField("dateTime").stringValue();
+        }
+
+        numEventsLoaded++;
+
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                loadedEvents.setText(String.valueOf("Loaded Events : " + numEventsLoaded));
+            }
+        });
     }
-
 
     @Override
     public void loadingFile(int fileNum, int totalFiles) { }
@@ -100,5 +98,4 @@ public class StatusBarController implements DataServiceListener {
         fromDate.setVisible(false);
         toDate.setVisible(false);
     }
-
 }

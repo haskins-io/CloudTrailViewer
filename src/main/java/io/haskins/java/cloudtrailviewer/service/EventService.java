@@ -22,6 +22,7 @@ import io.haskins.java.cloudtrailviewer.controller.components.StatusBarControlle
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import org.apache.lucene.document.Document;
@@ -77,7 +78,8 @@ public class EventService extends LuceneDataService {
 
         Document document = new Document();
 
-        document.add(new StringField("timestamp", e.getEventTime() , Field.Store.YES));
+        document.add(new StringField("timestamp", String.valueOf(e.getTimestamp()) , Field.Store.YES));
+        document.add(new StringField("dateTime",  e.getEventTime() , Field.Store.YES));
 
         document.add(new StringField("eventTime", e.getEventTime() , Field.Store.YES));
         document.add(new StringField("eventVersion", e.getEventVersion() , Field.Store.YES));
@@ -116,6 +118,10 @@ public class EventService extends LuceneDataService {
         }
 
         geoService.populateGeoData(document, "cloudtrail");
+
+        for (DataServiceListener l : listeners) {
+            l.newEvent(document);
+        }
 
         documents.add(document);
     }

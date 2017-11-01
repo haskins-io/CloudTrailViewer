@@ -4,6 +4,7 @@ import io.haskins.java.cloudtrailviewer.controller.components.StatusBarControlle
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -49,6 +50,7 @@ public class ElbLogService extends LuceneDataService {
         Document document = new Document();
 
         document.add(new StringField("timestamp", matcher.group(1) , Field.Store.YES));
+        document.add(new StringField("dateTime", matcher.group(1) , Field.Store.YES));
 
         document.add(new StringField("eventTime", matcher.group(1), Field.Store.YES));
         document.add(new StringField("elb", matcher.group(2), Field.Store.YES));
@@ -68,6 +70,10 @@ public class ElbLogService extends LuceneDataService {
         document.add(new StringField("userAgent", matcher.group(17), Field.Store.YES));
 
         geoService.populateGeoData(document, "elblogs");
+
+        for (DataServiceListener l : listeners) {
+            l.newEvent(document);
+        }
 
         documents.add(document);
     }

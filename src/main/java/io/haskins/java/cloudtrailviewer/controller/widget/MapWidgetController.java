@@ -129,6 +129,11 @@ public class MapWidgetController extends AbstractBaseController {
 
     public void loadingFile(int fileName, int totalFiles) { }
 
+    @Override
+    public void newEvent(org.apache.lucene.document.Document document) {
+        System.out.println("Received a document");
+    }
+
     public void finishedLoading(boolean reload) {
 
         StringBuilder output = new StringBuilder();
