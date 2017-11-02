@@ -2,7 +2,6 @@ package io.haskins.java.cloudtrailviewer.controller.components.elblogs;
 
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.elblog.ElbLog;
-import io.haskins.java.cloudtrailviewer.service.ElbLogService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
@@ -33,12 +32,8 @@ public class ElbLogEventTableController implements EventTableServiceListener, Da
 
     private ObservableList<AwsData> filteredEvents = FXCollections.observableArrayList();
 
-    private EventService eventService;
-
     @Autowired
     public ElbLogEventTableController(EventService eventService, EventTableService eventTableService) {
-
-        this.eventService = eventService;
 
         eventTableService.addListener(this, "elblogs");
         eventService.registerAsListener(this);
@@ -83,25 +78,32 @@ public class ElbLogEventTableController implements EventTableServiceListener, Da
         }
     }
 
-    @Override
-    public void newEvent(Document documen) {
+    public void setEvents(List<Document> documents) {
 
+        List<ElbLog> logs = new ArrayList<>();
+
+        for (Document doc : documents) {
+            logs.add(new ElbLog().withDocument(doc));
+        }
+
+        filteredEvents.clear();
+        filteredEvents.addAll(logs);
+
+        documents.clear();
     }
 
 
     @Override
-    public void loadingFile(int fileNum, int totalFiles) {
+    public void newEvent(Document documen) {}
 
-    }
-
-    @Override
-    public void finishedLoading(boolean reload) {
-
-    }
 
     @Override
-    public void clearEvents() {
+    public void loadingFile(int fileNum, int totalFiles) {}
 
-    }
+    @Override
+    public void finishedLoading(boolean reload) {}
+
+    @Override
+    public void clearEvents() {}
 
 }

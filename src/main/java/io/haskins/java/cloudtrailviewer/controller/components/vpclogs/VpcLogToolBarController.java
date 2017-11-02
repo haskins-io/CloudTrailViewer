@@ -4,7 +4,9 @@ import io.haskins.java.cloudtrailviewer.controller.components.ToolBarController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
+import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
 import io.haskins.java.cloudtrailviewer.service.*;
+import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.fxml.FXML;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +77,6 @@ public class VpcLogToolBarController extends ToolBarController {
     }
 
     @FXML private void allEvents() {
-//        this.eventTableService.setTableEvents(vpcFlowLogService.getAllLogs());
+        this.eventTableService.setTableEvents(LuceneUtils.getAllDocuments(VpcFlowLog.TYPE), VpcFlowLog.TYPE);
     }
 }

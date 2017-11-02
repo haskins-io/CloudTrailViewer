@@ -180,20 +180,28 @@ public class CloudTrailEventTableController implements EventTableServiceListener
 
     }
 
-    @Override
-    public void newEvent(Document document) {
+    public void setEvents(List<Document> documents) {
 
+        List<Event> logs = new ArrayList<>();
+
+        for (Document doc : documents) {
+            logs.add(new Event().withDocument(doc));
+        }
+
+        filteredEvents.clear();
+        filteredEvents.addAll(logs);
+
+        documents.clear();
     }
 
     @Override
-    public void loadingFile(int fileNum, int totalFiles) {
-
-    }
+    public void newEvent(Document document) { }
 
     @Override
-    public void finishedLoading(boolean reload) {
+    public void loadingFile(int fileNum, int totalFiles) {}
 
-    }
+    @Override
+    public void finishedLoading(boolean reload) { }
 
     @Override
     public void clearEvents() {

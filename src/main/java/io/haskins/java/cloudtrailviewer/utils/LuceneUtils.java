@@ -4,6 +4,7 @@ import io.haskins.java.cloudtrailviewer.model.elblog.ElbLog;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
@@ -20,6 +21,8 @@ import org.apache.lucene.store.FSDirectory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LuceneUtils {
 
@@ -66,7 +69,7 @@ public class LuceneUtils {
 
     }
 
-    public static String getLucenePath(String type) {
+    private static String getLucenePath(String type) {
 
         switch(type) {
             case Event.TYPE:
@@ -78,6 +81,27 @@ public class LuceneUtils {
             default:
                 return "";
         }
+    }
+
+    public static List<Document> getAllDocuments(String type)  {
+
+        List<Document> documents = new ArrayList<>();
+
+        try {
+
+            IndexReader reader = getReader(type);
+            for (int i=0; i<reader.maxDoc(); i++) {
+
+                Document doc = reader.document(i);
+                documents.add(doc);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return documents;
+
     }
 
 }

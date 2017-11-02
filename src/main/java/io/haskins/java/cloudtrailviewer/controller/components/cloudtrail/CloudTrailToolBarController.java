@@ -9,11 +9,13 @@ import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
+import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.AccountService;
 import io.haskins.java.cloudtrailviewer.service.DashboardService;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.utils.AwsService;
+import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -180,7 +182,7 @@ public class CloudTrailToolBarController extends ToolBarController {
 //    }
 
     @FXML private void allEvents() {
-//        this.eventTableService.setTableEvents(eventService.getAllEvents());
+        this.eventTableService.setTableEvents(LuceneUtils.getAllDocuments(Event.TYPE), Event.TYPE);
     }
 
     private void handleRequest(LoadLogsRequest request, int requestType) {

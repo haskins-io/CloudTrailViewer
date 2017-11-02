@@ -31,7 +31,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -40,6 +39,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.events.EventTarget;
 
 import java.io.*;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -159,18 +159,12 @@ public class MapWidgetController extends AbstractBaseController {
 
         if (latlngs.isEmpty()) {
 
-            try {
-
-                IndexReader reader = LuceneUtils.getReader(this.widget.getType());
-                for (int i=0; i<reader.maxDoc(); i++) {
-
-                    org.apache.lucene.document.Document doc = reader.document(i);
-                    newEvent(doc);
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
+            List<org.apache.lucene.document.Document> documents = LuceneUtils.getAllDocuments(this.widget.getType());
+            for (org.apache.lucene.document.Document doc : documents) {
+                newEvent(doc);
             }
+
+            documents.clear();
         }
 
         StringBuilder output = new StringBuilder();

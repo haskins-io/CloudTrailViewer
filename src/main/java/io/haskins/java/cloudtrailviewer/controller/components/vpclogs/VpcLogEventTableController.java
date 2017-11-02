@@ -6,7 +6,6 @@ import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
 import io.haskins.java.cloudtrailviewer.service.EventService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
-import io.haskins.java.cloudtrailviewer.service.VpcFlowLogService;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.service.listener.EventTableServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
@@ -39,12 +38,8 @@ public class VpcLogEventTableController implements EventTableServiceListener, Da
 
     private ObservableList<AwsData> filteredEvents = FXCollections.observableArrayList();
 
-    private EventService eventService;
-
     @Autowired
     public VpcLogEventTableController(EventService eventService, EventTableService eventTableService) {
-
-        this.eventService = eventService;
 
         eventTableService.addListener(this, "vpclogs");
         eventService.registerAsListener(this);
@@ -92,25 +87,31 @@ public class VpcLogEventTableController implements EventTableServiceListener, Da
         }
     }
 
-    @Override
-    public void newEvent(Document documen) {
+    public void setEvents(List<Document> documents) {
 
-    }
+        List<VpcFlowLog> logs = new ArrayList<>();
 
+        for (Document doc : documents) {
+            logs.add(new VpcFlowLog().withDocument(doc));
+        }
 
-    @Override
-    public void loadingFile(int fileNum, int totalFiles) {
+        filteredEvents.clear();
+        filteredEvents.addAll(logs);
 
-    }
-
-    @Override
-    public void finishedLoading(boolean reload) {
-
+        documents.clear();
     }
 
     @Override
-    public void clearEvents() {
+    public void newEvent(Document documen) {}
 
-    }
+
+    @Override
+    public void loadingFile(int fileNum, int totalFiles) {}
+
+    @Override
+    public void finishedLoading(boolean reload) {}
+
+    @Override
+    public void clearEvents() { }
 
 }

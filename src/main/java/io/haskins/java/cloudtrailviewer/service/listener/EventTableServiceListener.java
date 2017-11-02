@@ -18,7 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.service.listener;
 
+import org.apache.lucene.document.Document;
 import org.apache.lucene.search.TopDocs;
+
+import java.util.List;
 
 /**
  * Interface
@@ -32,4 +35,7 @@ public interface EventTableServiceListener {
      * @param results collection of Event objects to set
      */
     void setEvents(TopDocs results);
+
+
+    void setEvents(List<Document> documents);
 }

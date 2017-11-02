@@ -18,7 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.service;
 
+import io.haskins.java.cloudtrailviewer.model.elblog.ElbLog;
+import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
 import io.haskins.java.cloudtrailviewer.service.listener.EventTableServiceListener;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.search.TopDocs;
 import org.springframework.stereotype.Service;
 
@@ -38,13 +42,13 @@ public class EventTableService {
     public void addListener(EventTableServiceListener l, String type) {
 
         switch (type) {
-            case "cloudtrail":
+            case Event.TYPE:
                 eventListeners.add(l);
                 break;
-            case "vpclogs":
+            case VpcFlowLog.TYPE:
                 vpcListeners.add(l);
                 break;
-            case "elblogs":
+            case ElbLog.TYPE:
                 elbListeners.add(l);
                 break;
         }
@@ -55,13 +59,36 @@ public class EventTableService {
         List<EventTableServiceListener> listeners = null;
 
         switch (type) {
-            case "cloudtrail":
+            case Event.TYPE:
                 listeners = eventListeners;
                 break;
-            case "vpclogs":
+            case VpcFlowLog.TYPE:
                 listeners = vpcListeners;
                 break;
-            case "elblogs":
+            case ElbLog.TYPE:
+                listeners = elbListeners;
+                break;
+        }
+
+        if (listeners != null) {
+            for (EventTableServiceListener l : listeners) {
+                l.setEvents(results);
+            }
+        }
+    }
+
+    public void setTableEvents(List<Document> results, String type) {
+
+        List<EventTableServiceListener> listeners = null;
+
+        switch (type) {
+            case Event.TYPE:
+                listeners = eventListeners;
+                break;
+            case VpcFlowLog.TYPE:
+                listeners = vpcListeners;
+                break;
+            case ElbLog.TYPE:
                 listeners = elbListeners;
                 break;
         }

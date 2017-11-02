@@ -4,7 +4,9 @@ import io.haskins.java.cloudtrailviewer.controller.components.ToolBarController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
+import io.haskins.java.cloudtrailviewer.model.elblog.ElbLog;
 import io.haskins.java.cloudtrailviewer.service.*;
+import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.fxml.FXML;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +76,7 @@ public class ElbLogToolBarController extends ToolBarController {
 
 
     @FXML private void allEvents() {
-//        this.eventTableService.setTableEvents(elbLogService.getAllLogs());
+        this.eventTableService.setTableEvents(LuceneUtils.getAllDocuments(ElbLog.TYPE), ElbLog.TYPE);
     }
 
 }
