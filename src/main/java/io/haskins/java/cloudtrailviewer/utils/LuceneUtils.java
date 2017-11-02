@@ -3,6 +3,7 @@ package io.haskins.java.cloudtrailviewer.utils;
 import io.haskins.java.cloudtrailviewer.model.elblog.ElbLog;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
+import org.apache.lucene.analysis.core.KeywordAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -26,13 +27,13 @@ import java.util.List;
 
 public class LuceneUtils {
 
-    public final static String VPC_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/vpclogs";
-    public final static String CLOUDTRAIL_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/cloudtrail";
-    public final static String ELB_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/elblogs";
+    private final static String VPC_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/vpclogs";
+    private final static String CLOUDTRAIL_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/cloudtrail";
+    private final static String ELB_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/elblogs";
 
     public static TopDocs performQuery(String type, String field, String value) throws Exception {
 
-        QueryParser qp = new QueryParser(field, new StandardAnalyzer());
+        QueryParser qp = new QueryParser(field, new KeywordAnalyzer());
         Query idQuery = qp.parse(value);
 
         IndexSearcher searcher = createSearcher(type);
@@ -62,26 +63,6 @@ public class LuceneUtils {
         return new IndexSearcher(reader);
     }
 
-    public static IndexReader getReader(String type) throws IOException {
-
-        FSDirectory dir = FSDirectory.open(Paths.get(getLucenePath(type)));
-        return DirectoryReader.open(dir);
-
-    }
-
-    private static String getLucenePath(String type) {
-
-        switch(type) {
-            case Event.TYPE:
-                return CLOUDTRAIL_DIR;
-            case VpcFlowLog.TYPE:
-                return VPC_DIR;
-            case ElbLog.TYPE:
-                return ELB_DIR;
-            default:
-                return "";
-        }
-    }
 
     public static List<Document> getAllDocuments(String type)  {
 
@@ -102,6 +83,27 @@ public class LuceneUtils {
 
         return documents;
 
+    }
+
+    private static IndexReader getReader(String type) throws IOException {
+
+        FSDirectory dir = FSDirectory.open(Paths.get(getLucenePath(type)));
+        return DirectoryReader.open(dir);
+
+    }
+
+    private static String getLucenePath(String type) {
+
+        switch(type) {
+            case Event.TYPE:
+                return CLOUDTRAIL_DIR;
+            case VpcFlowLog.TYPE:
+                return VPC_DIR;
+            case ElbLog.TYPE:
+                return ELB_DIR;
+            default:
+                return "";
+        }
     }
 
 }

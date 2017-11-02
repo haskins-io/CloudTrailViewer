@@ -38,6 +38,21 @@
     },
     {
       "type":"cloudtrail",
+      "widget": "ChartBarStacked",
+      "title": "Top Events",
+      "chartType": "Top",
+      "top": 5,
+      "style": "Stacked",
+      "orientation": "Vertical",
+      "categoryField": "eventSource",
+      "seriesField": "eventName",
+      "xPos": 0,
+      "yPos": 327,
+      "width": 335,
+      "height": 327
+    },
+    {
+      "type":"cloudtrail",
       "widget": "ChartBar",
       "title": "Top Events",
       "chartType": "Top",

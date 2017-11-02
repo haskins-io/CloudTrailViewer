@@ -110,15 +110,14 @@ abstract class XYChartController extends AbstractBaseController {
                     series.getData().add(new XYChart.Data<>(seriesName, stat.docFreq));
 
                     chart.getData().add(series);
-
                 }
 
-                for (XYChart.Series<String,Number> serie: chart.getData()){
-                    for (XYChart.Data<String, Number> item: serie.getData()){
+                for (XYChart.Series<String,Number> series: chart.getData()){
+                    for (XYChart.Data<String, Number> item: series.getData()){
                         item.getNode().setOnMousePressed((MouseEvent event) -> {
 
                             try {
-                                TopDocs result = LuceneUtils.performQuery(this.widget.getType(), widget.getSeriesField(), serie.getName());
+                                TopDocs result = LuceneUtils.performQuery(this.widget.getType(), widget.getSeriesField(), series.getName());
                                 eventTableService.setTableEvents(result, widget.getType());
 
                             } catch (Exception e) {
@@ -127,7 +126,7 @@ abstract class XYChartController extends AbstractBaseController {
                         });
 
                         Node node = item.getNode();
-                        Tooltip t = new Tooltip(serie.getName() + " : " + item.getYValue());
+                        Tooltip t = new Tooltip(series.getName() + " : " + item.getYValue());
                         Tooltip.install(node, t);
                     }
                 }

@@ -42,7 +42,6 @@ public class Event extends AwsData implements Serializable {
     @SerializedName(value="errorMessage", alternate={"errormessage"}) private String errorMessage = "";
     @SerializedName(value="requestParameters", alternate={"requestparameters"}) private Map<String, ?> requestParameters;
     @SerializedName(value="responseElements", alternate={"responseelements"}) private Map responseElements;
-//    @SerializedName(value="additionalEventData", alternate={"additionaleventdata"}) private Map additionalEventData;
     @SerializedName(value="sourceIPAddress", alternate={"sourceipaddress"}) private String sourceIPAddress = "";
     @SerializedName(value="requestID", alternate={"requestIid"}) private String requestID = "";
     @SerializedName(value="eventID", alternate={"eventid"}) private String eventID = "";
@@ -58,14 +57,12 @@ public class Event extends AwsData implements Serializable {
     /** Internal Use **/
     private String rawJson;
 
-
     public void setRawJSON(String json) {
         this.rawJson = json;
     }
     public String getRawJSON() {
     	return this.rawJson;
     }
-    
 
 
     /**
@@ -327,14 +324,6 @@ public class Event extends AwsData implements Serializable {
     }
 
 
-//    private Map getAdditionalEventData() {
-//        return additionalEventData;
-//    }
-//
-//    public void setAdditionalEventData(Map additionalEventData) {
-//        this.additionalEventData = additionalEventData;
-//    }
-
     public String getReadOnly() {
         return readOnly;
     }
@@ -343,33 +332,6 @@ public class Event extends AwsData implements Serializable {
         this.readOnly = readOnly;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///// Methods used by EventTable
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public String getUserIdentityArn() {
-        return this.getUserIdentity().getArn();
-    }
-    public String getUserIdentityType() {
-        return this.getUserIdentity().getType();
-    }
-    public String getUserIdentityUserName() {
-        return this.getUserIdentity().getUserName();
-    }
-    public String getUserIdentityPrincipalID() {
-        return this.getUserIdentity().getPrincipalId();
-    }
-    public String getUserIdentityAccountId() {
-        return this.getUserIdentity().getAccountId();
-    }
-    public String getUserIdentityAccessKeyId() {
-        return this.getUserIdentity().getAccessKeyId();
-    }
-    public String getUserIdentityInvokedBy() {
-        return this.getUserIdentity().getInvokedBy();
-    }
-    public String getUserIdentityWebIdFederationData() {
-        return this.getUserIdentity().getWebIdFederationData();
-    }
 
     @Override
     public String toString() {
@@ -393,7 +355,6 @@ public class Event extends AwsData implements Serializable {
         if (getReadOnly() != null) { modelData.append(getReadOnly()).append(", "); }
         if (getEventType() != null) { modelData.append(getEventType()).append(", "); }
         if (getRecipientAccountId() != null) { modelData.append(getRecipientAccountId()).append(", "); }
-//        if (getAdditionalEventData() != null) { modelData.append(getAdditionalEventData().toString()).append(", "); }
         if (getContinent() != null) { modelData.append(getContinent()).append(", "); }
         if (getCountry() != null) { modelData.append(getCountry()).append(", "); }
         if (getCity() != null) { modelData.append(getCity()).append(", "); }
@@ -404,6 +365,7 @@ public class Event extends AwsData implements Serializable {
 
     public Event withDocument(Document d) {
 
+        setEventTime(d.getField("eventTime").stringValue());
         setEventVersion(d.getField("eventVersion").stringValue());
         setEventSource(d.getField("eventSource").stringValue());
         setEventName(d.getField("eventName").stringValue());
@@ -422,7 +384,6 @@ public class Event extends AwsData implements Serializable {
         setVpcEndpointId(d.getField("vpcEndpointId").stringValue());
 
         return this;
-
     }
 
 }

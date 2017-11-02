@@ -36,8 +36,8 @@ public abstract class LuceneDataService extends DataService {
 
     static Logger logger;
 
-    abstract void createDocument(Matcher m);
-    abstract void createDocument(Event e);
+    abstract void createDocument(Matcher m) throws IOException;
+    abstract void createDocument(Event e) throws IOException;
 
     abstract String getType();
 
@@ -46,7 +46,7 @@ public abstract class LuceneDataService extends DataService {
 
     private static final int BUFFER_SIZE = 32;
 
-    List<Document> documents = new ArrayList<>();
+//    List<Document> documents = new ArrayList<>();
 
     private Pattern pattern;
 
@@ -55,12 +55,17 @@ public abstract class LuceneDataService extends DataService {
     StatusBarController statusBarController;
     GeoService geoService;
 
+    protected IndexWriter writer;
+
     void process(List<String> files, String regexPattern, final CompositeFilter filters, int file_location) {
 
         Task<Void> task = new Task<Void>() {
 
             @Override
             protected Void call() throws Exception {
+
+                writer = LuceneUtils.createWriter(getType());
+                writer.deleteAll();
 
                 AwsAccount activeAccount = null;
                 AmazonS3 s3Client = null;
@@ -101,7 +106,9 @@ public abstract class LuceneDataService extends DataService {
                     }
                 }
 
-                index();
+//                index();
+                writer.commit();
+                writer.close();
 
                 return null;
             }
@@ -138,7 +145,7 @@ public abstract class LuceneDataService extends DataService {
         return s3Object.getObjectContent();
     }
 
-    private void processStream(InputStream stream, CompositeFilter filter, boolean isJson) {
+    private void processStream(InputStream stream, CompositeFilter filter, boolean isJson) throws IOException {
 
         String data = uncompress(stream, isJson);
         if (data != null) {
@@ -177,7 +184,7 @@ public abstract class LuceneDataService extends DataService {
         return events;
     }
 
-    private String uncompress(InputStream stream, boolean isJson) {
+    private String uncompress(InputStream stream, boolean isJson) throws IOException {
 
         StringBuilder data = new StringBuilder();
 
@@ -202,7 +209,7 @@ public abstract class LuceneDataService extends DataService {
         return data.toString();
     }
 
-    private String loadUncompressedFile(InputStream stream, boolean isJson) {
+    private String loadUncompressedFile(InputStream stream, boolean isJson) throws IOException {
 
         if (isJson) {
 
@@ -246,16 +253,16 @@ public abstract class LuceneDataService extends DataService {
         return null;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    ///// Lucene utiltiy methods
-    ////////////////////////////////////////////////////////////////////////////
-    private void index() throws IOException {
-
-        IndexWriter writer = LuceneUtils.createWriter(getType());
-        writer.deleteAll();
-        writer.addDocuments(documents);
-        writer.commit();
-        writer.close();
-    }
+//    ////////////////////////////////////////////////////////////////////////////
+//    ///// Lucene utiltiy methods
+//    ////////////////////////////////////////////////////////////////////////////
+//    private void index() throws IOException {
+//
+//        IndexWriter writer = LuceneUtils.createWriter(getType());
+//        writer.deleteAll();
+//        writer.addDocuments(documents);
+//        writer.commit();
+//        writer.close();
+//    }
 
 }

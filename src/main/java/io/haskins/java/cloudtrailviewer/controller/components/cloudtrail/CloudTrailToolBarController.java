@@ -40,7 +40,7 @@ public class CloudTrailToolBarController extends ToolBarController {
 
     @FXML private Button btnS3;
 
-//    @FXML private Button btnChartStacked;
+    @FXML private Button btnChartStacked;
 
 //    @FXML private Button btnError;
 //    @FXML private Button btnResource;
@@ -76,8 +76,8 @@ public class CloudTrailToolBarController extends ToolBarController {
         btnS3.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.CLOUD_DOWNLOAD));
         btnS3.setTooltip(new Tooltip("Load Files from S3"));
 
-//        btnChartStacked.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
-//        btnChartStacked.setTooltip(new Tooltip("Add Stacked Bar Chart"));
+        btnChartStacked.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.BAR_CHART));
+        btnChartStacked.setTooltip(new Tooltip("Add Stacked Bar Chart"));
 
 //        btnError.setTooltip(new Tooltip("Add Error Widget"));
 //        btnError.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE));
@@ -136,14 +136,14 @@ public class CloudTrailToolBarController extends ToolBarController {
         dashboardService.addWidgetToDashboard(newWidget, this.eventService);
     }
 
-//    @FXML private void doChartStacked() {
-//        DashboardWidget newWidget = new DashboardWidget("cloudtrail","ChartBarStacked");
-//
-//        DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
-//        if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
-//
-//        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-//    }
+    @FXML private void doChartStacked() {
+        DashboardWidget newWidget = new DashboardWidget("cloudtrail","ChartBarStacked");
+
+        DialogAction configureWidgetAction = WidgetUtils.showWidgetDialog(newWidget, false);
+        if (configureWidgetAction.getActionCode() == DialogAction.ACTION_CANCEL) return;
+
+        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
+    }
 
 //    @FXML private void doError() {
 //        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableError");

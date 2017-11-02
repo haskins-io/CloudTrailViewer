@@ -134,7 +134,7 @@ public class MapWidgetController extends AbstractBaseController {
             latLng = document.getField("dstLatLng").stringValue();
         }
 
-        if (latLng != null && latLng.length() > 0 && !latlngs.containsKey(latLng)) {
+        if (latLng != null && latLng.length() > 0) {
 
             String city;
             if (this.widget.getSeriesField().startsWith("src")) {
@@ -152,12 +152,13 @@ public class MapWidgetController extends AbstractBaseController {
             count++;
             keyValueMap.put(latLng, count);
         }
-
     }
 
     public void finishedLoading(boolean reload) {
 
         if (latlngs.isEmpty()) {
+
+            keyValueMap.clear();
 
             List<org.apache.lucene.document.Document> documents = LuceneUtils.getAllDocuments(this.widget.getType());
             for (org.apache.lucene.document.Document doc : documents) {
@@ -192,7 +193,6 @@ public class MapWidgetController extends AbstractBaseController {
                     highestCount = count;
                 }
             }
-
         }
 
         String html = getHTML();
@@ -247,5 +247,4 @@ public class MapWidgetController extends AbstractBaseController {
             LOGGER.log(Level.WARNING, "Failed to create new Geo HTML file", e);
         }
     }
-
 }

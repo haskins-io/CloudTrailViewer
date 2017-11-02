@@ -15,6 +15,7 @@ import org.apache.lucene.misc.TermStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 import java.util.logging.Logger;
@@ -23,7 +24,6 @@ import java.util.regex.Matcher;
 
 @Service
 public class VpcFlowLogService extends LuceneDataService {
-
 
     @Autowired
     public VpcFlowLogService(StatusBarController statusBarController, GeoService geoService1) {
@@ -47,7 +47,7 @@ public class VpcFlowLogService extends LuceneDataService {
         return VpcFlowLog.TYPE;
     }
 
-    void createDocument(Matcher matcher) {
+    void createDocument(Matcher matcher) throws IOException {
 
         Document document = new Document();
 
@@ -71,11 +71,13 @@ public class VpcFlowLogService extends LuceneDataService {
 
         geoService.populateGeoData(document, "vpclogs");
 
-        for (DataServiceListener l : listeners) {
-            l.newEvent(document);
+        if (writer.addDocument(document) == 0) {
+            for (DataServiceListener l : listeners) {
+                l.newEvent(document);
+            }
         }
 
-        documents.add(document);
+//        documents.add(document);
     }
 
     void createDocument(Event e) { /* Not needed */ }

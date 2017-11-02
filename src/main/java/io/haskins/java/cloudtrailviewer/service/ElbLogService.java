@@ -15,6 +15,7 @@ import org.apache.lucene.misc.TermStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -46,7 +47,7 @@ public class ElbLogService extends LuceneDataService {
     }
 
     @Override
-    void createDocument(Matcher matcher) {
+    void createDocument(Matcher matcher) throws IOException {
 
         Document document = new Document();
 
@@ -72,11 +73,13 @@ public class ElbLogService extends LuceneDataService {
 
         geoService.populateGeoData(document, "elblogs");
 
-        for (DataServiceListener l : listeners) {
-            l.newEvent(document);
+        if (writer.addDocument(document) == 0) {
+            for (DataServiceListener l : listeners) {
+                l.newEvent(document);
+            }
         }
 
-        documents.add(document);
+//        documents.add(document);
     }
 
     void createDocument(Event e) { /* Not needed */ }

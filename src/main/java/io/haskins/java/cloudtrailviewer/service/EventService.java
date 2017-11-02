@@ -32,6 +32,7 @@ import org.apache.lucene.misc.TermStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -73,7 +74,7 @@ public class EventService extends LuceneDataService {
     @Override
     void createDocument(Matcher matcher) { /* Not needed */ }
 
-    void createDocument(Event e) {
+    void createDocument(Event e) throws IOException {
 
         Document document = new Document();
 
@@ -118,11 +119,13 @@ public class EventService extends LuceneDataService {
 
         geoService.populateGeoData(document, "cloudtrail");
 
-        for (DataServiceListener l : listeners) {
-            l.newEvent(document);
-        }
+        long retVal = writer.addDocument(document);
 
-        documents.add(document);
+        if (retVal == 0) {
+            for (DataServiceListener l : listeners) {
+                l.newEvent(document);
+            }
+        }
     }
 
     List<? extends AwsData> getDataDb() {
