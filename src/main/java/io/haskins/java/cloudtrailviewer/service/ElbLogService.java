@@ -3,7 +3,9 @@ package io.haskins.java.cloudtrailviewer.service;
 import io.haskins.java.cloudtrailviewer.controller.components.StatusBarController;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
+import io.haskins.java.cloudtrailviewer.model.elblog.ElbLog;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
+import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import org.apache.lucene.document.Document;
@@ -20,7 +22,6 @@ import java.util.regex.Matcher;
 @Service
 public class ElbLogService extends LuceneDataService {
 
-    public final static String LUCENE_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/elblogs";
 
     @Autowired
     public ElbLogService(StatusBarController statusBarController, GeoService geoService1) {
@@ -37,11 +38,11 @@ public class ElbLogService extends LuceneDataService {
 
 
     public TermStats[] getTop(int top, String series) throws Exception {
-        return LuceneUtils.getTopFromLucence(LUCENE_DIR, top, series);
+        return LuceneUtils.getTopFromLucence(ElbLog.TYPE, top, series);
     }
 
     String getLucenceDir() {
-        return LUCENE_DIR;
+        return LuceneUtils.ELB_DIR;
     }
 
     @Override

@@ -65,7 +65,7 @@ public class ElbLogEventTableController implements EventTableServiceListener, Da
     public void setEvents(TopDocs results) {
 
         try {
-            IndexSearcher searcher = LuceneUtils.createSearcher(ElbLogService.LUCENE_DIR);
+            IndexSearcher searcher = LuceneUtils.createSearcher(ElbLog.TYPE);
 
             List<ElbLog> logs = new ArrayList<>();
 

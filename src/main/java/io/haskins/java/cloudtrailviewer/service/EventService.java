@@ -44,14 +44,13 @@ import java.util.regex.Matcher;
 @Service
 public class EventService extends LuceneDataService {
 
-    public final static String LUCENE_DIR = System.getProperty("user.home", ".") + "/.cloudtrailviewer/lucene/cloudtrail";
 
     public TermStats[] getTop(int top, String series) throws Exception {
-        return LuceneUtils.getTopFromLucence(LUCENE_DIR, top, series);
+        return LuceneUtils.getTopFromLucence(Event.TYPE, top, series);
     }
 
     String getLucenceDir() {
-        return LUCENE_DIR;
+        return LuceneUtils.CLOUDTRAIL_DIR;
     }
 
     @Autowired

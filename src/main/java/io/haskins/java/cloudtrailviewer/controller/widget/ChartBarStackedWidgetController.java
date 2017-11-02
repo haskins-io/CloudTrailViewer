@@ -31,6 +31,8 @@ import javafx.scene.layout.BorderPane;
 import org.apache.lucene.document.Document;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,32 +74,32 @@ public class ChartBarStackedWidgetController extends XYChartController {
     }
 
     @Override
-    public void newEvent(Document documen) {
+    public void newEvent(Document document) {
 
-//        String c = EventUtils.getEventProperty(this.widget.getCategoryField(), data);
-//        if (!categories.contains(c)) {
-//            categories.add(c);
-//        }
-//
-//        String s = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
-//
-//        Map<String, List<AwsData>> catMap;
-//        if (multiSeries.containsKey(s)) {
-//            catMap = multiSeries.get(s);
-//        } else {
-//            catMap = new HashMap<>();
-//            multiSeries.put(s, catMap);
-//        }
-//
-//        List<AwsData> evList;
-//        if (catMap.containsKey(c)) {
-//            evList = catMap.get(c);
-//        } else {
-//            evList = new ArrayList<>();
-//            catMap.put(c, evList);
-//        }
-//
-//        evList.add(data);
+        String c = document.getField(this.widget.getCategoryField()).stringValue();
+        if (!categories.contains(c)) {
+            categories.add(c);
+        }
+
+        String s = document.getField(this.widget.getSeriesField()).stringValue();
+
+        Map<String, List<AwsData>> catMap;
+        if (multiSeries.containsKey(s)) {
+            catMap = multiSeries.get(s);
+        } else {
+            catMap = new HashMap<>();
+            multiSeries.put(s, catMap);
+        }
+
+        List<AwsData> evList;
+        if (catMap.containsKey(c)) {
+            evList = catMap.get(c);
+        } else {
+            evList = new ArrayList<>();
+            catMap.put(c, evList);
+        }
+
+//        evList.add(data);data
     }
 
     public void loadingFile(int fileName, int totalFiles) { }

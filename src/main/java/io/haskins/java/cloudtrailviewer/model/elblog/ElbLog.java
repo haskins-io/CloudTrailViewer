@@ -5,6 +5,8 @@ import org.apache.lucene.document.Document;
 
 public class ElbLog extends AwsData {
 
+    public static final String TYPE = "elblogs";
+
     private String eventTime;
     private String elb;
     private String clientAddress;

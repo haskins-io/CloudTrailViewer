@@ -35,8 +35,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
+import org.apache.lucene.document.Document;
 
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -116,7 +118,33 @@ public abstract class AbstractBaseController
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// DataServiceListener methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void newEvent(Document document) {
+        addToKeyValueMap(document);
+    }
+
     public abstract void finishedLoading(boolean reload);
+
+
+    private void addToKeyValueMap(Document document) {
+
+
+        try {
+            String propertyValue = document.getField(this.widget.getSeriesField()).stringValue();;
+
+            if (propertyValue != null) {
+
+                int count = 0;
+                if (keyValueMap.containsKey(propertyValue)) {
+                    count = keyValueMap.get(propertyValue);
+                }
+                count++;
+                keyValueMap.put(propertyValue, count);
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Exception caught trying to add Event to KeyValueMap");
+        }
+
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// DataServiceListener methods

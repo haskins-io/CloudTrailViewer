@@ -190,18 +190,4 @@ public class DashboardWidget {
 
     }
 
-    public String luceneDir() {
-
-        switch (this.getType()) {
-            case "cloudtrail":
-                return EventService.LUCENE_DIR;
-            case "vpclogs":
-                return VpcFlowLogService.LUCENE_DIR;
-            case "elblogs":
-                return ElbLogService.LUCENE_DIR;
-
-        }
-
-        return null;
-    }
 }

@@ -6,6 +6,8 @@ import org.apache.lucene.document.Document;
 
 public class VpcFlowLog extends AwsData {
 
+    public static final String TYPE = "vpclogs";
+
     // FlowLog data
     private SimpleStringProperty version = new SimpleStringProperty("");
     private SimpleStringProperty accountId = new SimpleStringProperty("");

@@ -65,24 +65,24 @@ abstract class XYChartController extends AbstractBaseController {
     }
 
     @Override
-    public void newEvent(Document documen) {
+    public void newEvent(Document document) {
 
-//        super.newEvent(data);
-//
-//        String s = EventUtils.getEventProperty(this.widget.getSeriesField(), data);
-//
-//        if (s != null) {
-//
-//            List<AwsData> events;
-//            if (singleSeries.containsKey(s)) {
-//                events = singleSeries.get(s);
-//            } else {
-//                events = new ArrayList<>();
-//                singleSeries.put(s, events);
-//            }
-//
+        super.newEvent(document);
+
+        String s = document.getField(this.widget.getSeriesField()).stringValue();
+
+        if (s != null) {
+
+            List<AwsData> events;
+            if (singleSeries.containsKey(s)) {
+                events = singleSeries.get(s);
+            } else {
+                events = new ArrayList<>();
+                singleSeries.put(s, events);
+            }
+
 //            events.add(data);
-//        }
+        }
     }
 
     public void finishedLoading(boolean reload) {
@@ -118,7 +118,7 @@ abstract class XYChartController extends AbstractBaseController {
                         item.getNode().setOnMousePressed((MouseEvent event) -> {
 
                             try {
-                                TopDocs result = LuceneUtils.performQuery(widget.luceneDir(), widget.getSeriesField(), serie.getName());
+                                TopDocs result = LuceneUtils.performQuery(this.widget.getType(), widget.getSeriesField(), serie.getName());
                                 eventTableService.setTableEvents(result, widget.getType());
 
                             } catch (Exception e) {

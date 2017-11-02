@@ -75,7 +75,7 @@ public class VpcLogEventTableController implements EventTableServiceListener, Da
     public void setEvents(TopDocs results) {
 
         try {
-            IndexSearcher searcher = LuceneUtils.createSearcher(VpcFlowLogService.LUCENE_DIR);
+            IndexSearcher searcher = LuceneUtils.createSearcher(VpcFlowLog.TYPE);
 
             List<VpcFlowLog> logs = new ArrayList<>();
 

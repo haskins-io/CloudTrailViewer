@@ -118,7 +118,7 @@ public class TableWidgetController extends AbstractBaseController {
                     KeyIntegerValue rowData = row.getItem();
 
                     try {
-                        TopDocs result = LuceneUtils.performQuery(widget.luceneDir(), widget.getSeriesField(), rowData.getField());
+                        TopDocs result = LuceneUtils.performQuery(this.widget.getType(), widget.getSeriesField(), rowData.getField());
                         eventTableService.setTableEvents(result, widget.getType());
 
                     } catch (Exception e) {

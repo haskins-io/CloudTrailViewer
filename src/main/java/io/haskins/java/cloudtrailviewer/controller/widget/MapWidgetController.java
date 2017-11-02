@@ -31,7 +31,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.search.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -79,7 +80,7 @@ public class MapWidgetController extends AbstractBaseController {
                                     String cityName = element.getTextContent();
 
                                     try {
-                                        TopDocs result = LuceneUtils.performQuery(widget.luceneDir(), widget.getSeriesField(), cityName);
+                                        TopDocs result = LuceneUtils.performQuery(this.widget.getType(), widget.getSeriesField(), cityName);
                                         eventTableService.setTableEvents(result, widget.getType());
 
                                     } catch (Exception e) {
@@ -155,6 +156,22 @@ public class MapWidgetController extends AbstractBaseController {
     }
 
     public void finishedLoading(boolean reload) {
+
+        if (latlngs.isEmpty()) {
+
+            try {
+
+                IndexReader reader = LuceneUtils.getReader(this.widget.getType());
+                for (int i=0; i<reader.maxDoc(); i++) {
+
+                    org.apache.lucene.document.Document doc = reader.document(i);
+                    newEvent(doc);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         StringBuilder output = new StringBuilder();
 

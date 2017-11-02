@@ -27,6 +27,8 @@ import java.util.Map;
 
 public class Event extends AwsData implements Serializable {
 
+    public static final String TYPE = "cloudtrail";
+
     private static final long serialVersionUID = 7492738943200865856L;
 
 

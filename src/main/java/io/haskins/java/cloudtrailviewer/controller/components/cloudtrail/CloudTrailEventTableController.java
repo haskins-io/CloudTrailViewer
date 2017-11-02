@@ -161,7 +161,7 @@ public class CloudTrailEventTableController implements EventTableServiceListener
     public void setEvents(TopDocs results) {
 
         try {
-            IndexSearcher searcher = LuceneUtils.createSearcher(EventService.LUCENE_DIR);
+            IndexSearcher searcher = LuceneUtils.createSearcher(Event.TYPE);
 
             List<Event> logs = new ArrayList<>();
 

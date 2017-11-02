@@ -106,7 +106,7 @@ public class ChartPieWidgetController extends AbstractBaseController {
                 item.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 
                     try {
-                        TopDocs result = LuceneUtils.performQuery(widget.luceneDir(), widget.getSeriesField(), item.getName());
+                        TopDocs result = LuceneUtils.performQuery(this.widget.getType(), widget.getSeriesField(), item.getName());
                         eventTableService.setTableEvents(result, widget.getType());
 
                     } catch (Exception e) {
