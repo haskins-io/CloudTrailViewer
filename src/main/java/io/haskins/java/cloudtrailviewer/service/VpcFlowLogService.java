@@ -28,7 +28,7 @@ public class VpcFlowLogService extends LuceneDataService {
     @Autowired
     public VpcFlowLogService(StatusBarController statusBarController, GeoService geoService1) {
         this.statusBarController = statusBarController;
-        this.geoService = geoService;
+        this.geoService = geoService1;
 
         logger = Logger.getLogger("VpcFlowLogService");
     }
@@ -43,8 +43,8 @@ public class VpcFlowLogService extends LuceneDataService {
         return LuceneUtils.getTopFromLucence(VpcFlowLog.TYPE, top, series);
     }
 
-    String getLucenceDir() {
-        return LuceneUtils.VPC_DIR;
+    String getType() {
+        return VpcFlowLog.TYPE;
     }
 
     void createDocument(Matcher matcher) {

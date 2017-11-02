@@ -12,7 +12,7 @@
         <FXCollections fx:factory="observableArrayList">
             <KeyStringValue key="Api Version" value="apiVersion"/>
             <KeyStringValue key="Aws Region" value="awsRegion"/>
-            <KeyStringValue key="City" value="city"/>
+            <KeyStringValue key="City" value="srcCity"/>
             <KeyStringValue key="Continent" value="continent"/>
             <KeyStringValue key="Country" value="country"/>
             <KeyStringValue key="Error Code" value="errorCode"/>

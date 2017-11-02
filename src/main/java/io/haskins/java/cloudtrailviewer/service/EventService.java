@@ -49,21 +49,21 @@ public class EventService extends LuceneDataService {
         return LuceneUtils.getTopFromLucence(Event.TYPE, top, series);
     }
 
-    String getLucenceDir() {
-        return LuceneUtils.CLOUDTRAIL_DIR;
+    String getType() {
+        return Event.TYPE;
     }
 
     @Autowired
-    public EventService(AccountService accountDao, GeoService geoService,
-            StatusBarController statusBarController, AwsService awsService) {
+    public EventService(AccountService accountDao1, GeoService geoService1,
+            StatusBarController statusBarController1, AwsService awsService1) {
 
         logger = Logger.getLogger("EventService");
 
-        this.accountDao = accountDao;
-        this.geoService = geoService;
-        this.awsService = awsService;
+        this.accountDao = accountDao1;
+        this.geoService = geoService1;
+        this.awsService = awsService1;
 
-        this.statusBarController = statusBarController;
+        this.statusBarController = statusBarController1;
     }
 
     public void processRecords(List<String> records, CompositeFilter filter, int requestType) {

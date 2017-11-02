@@ -163,8 +163,6 @@ public class MapWidgetController extends AbstractBaseController {
             for (org.apache.lucene.document.Document doc : documents) {
                 newEvent(doc);
             }
-
-            documents.clear();
         }
 
         StringBuilder output = new StringBuilder();

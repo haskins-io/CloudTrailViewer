@@ -26,7 +26,7 @@ public class ElbLogService extends LuceneDataService {
     @Autowired
     public ElbLogService(StatusBarController statusBarController, GeoService geoService1) {
         this.statusBarController = statusBarController;
-        this.geoService = geoService;
+        this.geoService = geoService1;
 
         logger = Logger.getLogger("ElbLogService");
     }
@@ -41,8 +41,8 @@ public class ElbLogService extends LuceneDataService {
         return LuceneUtils.getTopFromLucence(ElbLog.TYPE, top, series);
     }
 
-    String getLucenceDir() {
-        return LuceneUtils.ELB_DIR;
+    String getType() {
+        return ElbLog.TYPE;
     }
 
     @Override

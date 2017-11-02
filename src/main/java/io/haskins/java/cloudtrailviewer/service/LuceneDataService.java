@@ -39,7 +39,7 @@ public abstract class LuceneDataService extends DataService {
     abstract void createDocument(Matcher m);
     abstract void createDocument(Event e);
 
-    abstract String getLucenceDir();
+    abstract String getType();
 
     public static final int FILE_LOCATION_LOCAL = 1;
     public static final int FILE_LOCATION_S3 = 2;
@@ -251,7 +251,7 @@ public abstract class LuceneDataService extends DataService {
     ////////////////////////////////////////////////////////////////////////////
     private void index() throws IOException {
 
-        IndexWriter writer = LuceneUtils.createWriter(getLucenceDir());
+        IndexWriter writer = LuceneUtils.createWriter(getType());
         writer.deleteAll();
         writer.addDocuments(documents);
         writer.commit();
