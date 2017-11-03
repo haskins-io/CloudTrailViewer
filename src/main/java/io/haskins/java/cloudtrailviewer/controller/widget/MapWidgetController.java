@@ -156,14 +156,12 @@ public class MapWidgetController extends AbstractBaseController {
 
     public void finishedLoading(boolean reload) {
 
-        if (latlngs.isEmpty()) {
+        latlngs.clear();
+        keyValueMap.clear();
 
-            keyValueMap.clear();
-
-            List<org.apache.lucene.document.Document> documents = LuceneUtils.getAllDocuments(this.widget.getType());
-            for (org.apache.lucene.document.Document doc : documents) {
-                newEvent(doc);
-            }
+        List<org.apache.lucene.document.Document> documents = LuceneUtils.getAllDocuments(this.widget.getType());
+        for (org.apache.lucene.document.Document doc : documents) {
+            newEvent(doc);
         }
 
         StringBuilder output = new StringBuilder();

@@ -44,8 +44,6 @@ import java.util.Map;
  */
 public class ChartBarStackedWidgetController extends XYChartController {
 
-//    @FXML private StackedBarChart chart;
-
     public BorderPane loadFXML() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/ChartBarStackedWidget.fxml"));
         loader.setController(this);

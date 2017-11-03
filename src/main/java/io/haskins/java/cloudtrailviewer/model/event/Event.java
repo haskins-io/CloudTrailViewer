@@ -383,6 +383,19 @@ public class Event extends AwsData implements Serializable {
         setSharedEventID(d.getField("sharedEventID").stringValue());
         setVpcEndpointId(d.getField("vpcEndpointId").stringValue());
 
+        if (d.getField("userIdentity.type") != null) {
+            setUserIdentity(new UserIdentity().withDocument(d));
+
+            if (d.getField("userIdentity.sessionContext.sessionIssuer.type") != null) {
+
+                SessionContext sc = new SessionContext();
+                sc.setSessionIssuer(new SessionIssuer().withDocument(d));
+
+                getUserIdentity().setSessionContext(sc);
+
+            }
+        }
+
         return this;
     }
 

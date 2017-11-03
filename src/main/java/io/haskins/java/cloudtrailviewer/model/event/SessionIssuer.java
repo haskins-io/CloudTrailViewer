@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package io.haskins.java.cloudtrailviewer.model.event;
 
+import org.apache.lucene.document.Document;
+
 import java.io.Serializable;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -155,5 +157,16 @@ public class SessionIssuer implements Serializable {
         if (getUserName() != null) { modelData.append(getUserName()).append(", "); }
         
         return modelData.toString();
+    }
+
+    public SessionIssuer withDocument(Document d) {
+
+        setType(d.getField("userIdentity.sessionContext.sessionIssuer.type").stringValue());
+        setPrincipalId(d.getField("userIdentity.sessionContext.sessionIssuer.principalId").stringValue());
+        setArn(d.getField("userIdentity.sessionContext.sessionIssuer.arn").stringValue());
+        setAccountId(d.getField("userIdentity.sessionContext.sessionIssuer.accountId").stringValue());
+        setUserName(d.getField("userIdentity.sessionContext.sessionIssuer.userName").stringValue());
+
+        return this;
     }
 }

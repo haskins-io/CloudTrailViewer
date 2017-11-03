@@ -124,7 +124,6 @@ public abstract class AbstractBaseController
 
     public abstract void finishedLoading(boolean reload);
 
-
     private void addToKeyValueMap(Document document) {
 
 

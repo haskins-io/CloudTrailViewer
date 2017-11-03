@@ -22,6 +22,7 @@ import java.io.Serializable;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.google.gson.annotations.SerializedName;
+import org.apache.lucene.document.Document;
 
 
 public class UserIdentity implements Serializable {
@@ -164,60 +165,7 @@ public class UserIdentity implements Serializable {
     public void setWebIdFederationData(String webIdFederationData) {
         this.webIdFederationData = webIdFederationData;
     }
-    
-    public DefaultMutableTreeNode getTree() {
-        
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("User Identity");
-        
-        if (getType() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Type");
-            node.add(new DefaultMutableTreeNode(getType()));
-            root.add(node);
-        }
-        
-        if (getPrincipalId() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Principal Id");
-            node.add(new DefaultMutableTreeNode(getPrincipalId()));
-            root.add(node);
-        }
-        
-        if (getArn() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Arn");
-            node.add(new DefaultMutableTreeNode(getArn()));
-            root.add(node);
-        }
-        
-        if (getAccountId() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Account Id");
-            node.add(new DefaultMutableTreeNode(getAccountId()));
-            root.add(node);
-        }
-                        
-        if (getUserName() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Username");
-            node.add(new DefaultMutableTreeNode(getUserName()));
-            root.add(node);
-        }
-        
-        if (getInvokedBy() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Invoked By");
-            node.add(new DefaultMutableTreeNode(getInvokedBy()));
-            root.add(node);
-        }
-        
-        if (getWebIdFederationData() != null) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode("Web Id Federation Data");
-            node.add(new DefaultMutableTreeNode(getWebIdFederationData()));
-            root.add(node);
-        }
-        
-        if (getSessionContext() != null) {
-            root.add(getSessionContext().getTree());
-        }
-        
-        return root;
-    }
-    
+
     @Override
     public String toString() {
         
@@ -234,5 +182,19 @@ public class UserIdentity implements Serializable {
         if (getWebIdFederationData() != null) { modelData.append(getWebIdFederationData()).append(", "); }
         
         return modelData.toString();
+    }
+
+    public UserIdentity withDocument(Document d) {
+
+        this.setType(d.getField("userIdentity.type").stringValue());
+        this.setPrincipalId(d.getField("userIdentity.principalId").stringValue());
+        this.setArn(d.getField("userIdentity.arn").stringValue());
+        this.setAccountId(d.getField("userIdentity.accountId").stringValue());
+        this.setAccessKeyId(d.getField("userIdentity.accessKeyId").stringValue());
+        this.setUserName(d.getField("userIdentity.userName").stringValue());
+        this.setInvokedBy(d.getField("userIdentity.invokedBy").stringValue());
+
+        return this;
+
     }
 }
