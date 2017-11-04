@@ -19,9 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.model;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import io.haskins.java.cloudtrailviewer.service.ElbLogService;
-import io.haskins.java.cloudtrailviewer.service.EventService;
-import io.haskins.java.cloudtrailviewer.service.VpcFlowLogService;
 
 /**
  * Class that models a widget

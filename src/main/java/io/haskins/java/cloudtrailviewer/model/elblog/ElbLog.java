@@ -30,7 +30,7 @@ public class ElbLog extends AwsData {
         return eventTime;
     }
     public void setEventTime(String timestamp) {
-        this.eventTime = eventTime;
+        this.eventTime = timestamp;
     }
 
     public String getElb() {

@@ -51,9 +51,7 @@ public class AccountPanelController {
         configureTableView();
 
         List<AwsAccount> accounts = accountDao.getAllAccounts(false);
-        for (AwsAccount account : accounts) {
-            data.add(account);
-        }
+        data.addAll(accounts);
     }
 
     private void configureTableView() {

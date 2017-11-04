@@ -132,7 +132,7 @@ public abstract class AbstractBaseController
 
 
         try {
-            String propertyValue = document.getField(this.widget.getSeriesField()).stringValue();;
+            String propertyValue = document.getField(this.widget.getSeriesField()).stringValue();
 
             if (propertyValue != null) {
 

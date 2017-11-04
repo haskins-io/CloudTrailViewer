@@ -16,7 +16,6 @@ import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.concurrent.Task;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 
 import java.io.*;

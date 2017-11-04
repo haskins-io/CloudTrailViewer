@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.model.event;
 
 import java.io.Serializable;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.google.gson.annotations.SerializedName;
 import org.apache.lucene.document.Document;

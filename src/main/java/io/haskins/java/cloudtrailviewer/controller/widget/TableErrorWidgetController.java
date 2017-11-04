@@ -28,7 +28,6 @@ import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.collections.ObservableList;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.misc.TermStats;
 
 import java.util.ArrayList;
 import java.util.List;
