@@ -45,15 +45,15 @@ public class DialogAction {
         return actionCode;
     }
 
-    public void setActionCode(int actionCode) {
+    void setActionCode(int actionCode) {
         this.actionCode = actionCode;
     }
 
-    public Object getActionPayload() {
+    Object getActionPayload() {
         return actionPayload;
     }
 
-    public void setActionPayload(Object actionPayload) {
+    void setActionPayload(Object actionPayload) {
         this.actionPayload = actionPayload;
     }
 }

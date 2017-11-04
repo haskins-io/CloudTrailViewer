@@ -99,7 +99,7 @@ public class DashboardWidget {
         this.style = style;
     }
 
-    public String getOrientation() {
+    String getOrientation() {
         return orientation;
     }
 

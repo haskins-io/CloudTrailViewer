@@ -45,8 +45,6 @@ public abstract class LuceneDataService extends DataService {
 
     private static final int BUFFER_SIZE = 32;
 
-//    List<Document> documents = new ArrayList<>();
-
     private Pattern pattern;
 
     AccountService accountDao;
@@ -54,7 +52,7 @@ public abstract class LuceneDataService extends DataService {
     StatusBarController statusBarController;
     GeoService geoService;
 
-    protected IndexWriter writer;
+    IndexWriter writer;
 
     void process(List<String> files, String regexPattern, final CompositeFilter filters, int file_location) {
 
@@ -251,17 +249,4 @@ public abstract class LuceneDataService extends DataService {
 
         return null;
     }
-
-//    ////////////////////////////////////////////////////////////////////////////
-//    ///// Lucene utiltiy methods
-//    ////////////////////////////////////////////////////////////////////////////
-//    private void index() throws IOException {
-//
-//        IndexWriter writer = LuceneUtils.createWriter(getType());
-//        writer.deleteAll();
-//        writer.addDocuments(documents);
-//        writer.commit();
-//        writer.close();
-//    }
-
 }

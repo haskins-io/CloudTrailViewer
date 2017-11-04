@@ -2,7 +2,6 @@ package io.haskins.java.cloudtrailviewer.service;
 
 import io.haskins.java.cloudtrailviewer.controller.components.StatusBarController;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
-import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.elblog.ElbLog;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
@@ -21,7 +20,6 @@ import java.util.regex.Matcher;
 
 @Service
 public class ElbLogService extends LuceneDataService {
-
 
     @Autowired
     public ElbLogService(StatusBarController statusBarController, GeoService geoService1) {
@@ -77,14 +75,8 @@ public class ElbLogService extends LuceneDataService {
                 l.newEvent(document);
             }
         }
-
-//        documents.add(document);
     }
 
     void createDocument(Event e) { /* Not needed */ }
-
-    List<? extends AwsData> getDataDb() {
-        return null;
-    }
 
 }

@@ -20,7 +20,6 @@ package io.haskins.java.cloudtrailviewer.service;
 
 import io.haskins.java.cloudtrailviewer.controller.components.StatusBarController;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
-import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.AwsService;
@@ -44,7 +43,6 @@ import java.util.regex.Matcher;
  */
 @Service
 public class EventService extends LuceneDataService {
-
 
     public TermStats[] getTop(int top, String series) throws Exception {
         return LuceneUtils.getTopFromLucence(Event.TYPE, top, series);
@@ -127,10 +125,4 @@ public class EventService extends LuceneDataService {
             }
         }
     }
-
-    List<? extends AwsData> getDataDb() {
-        return null;
-    }
-
-
 }

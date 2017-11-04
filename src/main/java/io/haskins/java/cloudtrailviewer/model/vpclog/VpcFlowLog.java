@@ -154,7 +154,6 @@ public class VpcFlowLog extends AwsData {
         setLogStatus(d.getField("logStatus").stringValue());
 
         return this;
-
     }
 
 }

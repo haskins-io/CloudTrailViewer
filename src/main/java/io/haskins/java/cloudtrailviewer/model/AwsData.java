@@ -58,7 +58,7 @@ public class AwsData {
     public void setLatLng(String LatLong) {
         this.latLng = LatLong;
     }
-    public String getLatLng() {
+    protected String getLatLng() {
         return this.latLng;
     }
 }

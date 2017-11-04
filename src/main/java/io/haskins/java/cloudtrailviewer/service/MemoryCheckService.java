@@ -53,7 +53,6 @@ public class MemoryCheckService {
             }
         };
 
-
         new Thread(task).start();
     }
 }

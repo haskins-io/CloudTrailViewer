@@ -31,10 +31,10 @@ import javafx.beans.property.StringProperty;
  */
 public class AwsAccount implements WarningCell {
 
-    public static final int S3_BUCKET = 3;
-    public static final int API_KEY = 4;
-    public static final int API_SECRET = 5;
-    public static final int PROFILE = 6;
+    private static final int S3_BUCKET = 3;
+    private static final int API_KEY = 4;
+    private static final int API_SECRET = 5;
+    private static final int PROFILE = 6;
 
     private final IntegerProperty id;
     private final StringProperty name;
@@ -51,7 +51,7 @@ public class AwsAccount implements WarningCell {
         this(0, "","","","","","","");
     }
 
-    public AwsAccount(int id, String name, String acctNum, String acctAlias, String bucket, String key, String secret, String prefix) {
+    AwsAccount(int id, String name, String acctNum, String acctAlias, String bucket, String key, String secret, String prefix) {
         this(id, name, acctNum, acctAlias, bucket, key, secret, prefix,null);
     }
 
@@ -119,7 +119,7 @@ public class AwsAccount implements WarningCell {
     public void setPrefix(String prefix) {
         this.prefix.set(prefix);
     }
-    public String getPrefix() {
+    String getPrefix() {
         return prefix.get();
     }
 

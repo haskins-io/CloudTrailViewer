@@ -28,16 +28,16 @@ class AwsAlias  {
     private final String number;
     private final String alias;
 
-    public AwsAlias(String account_number, String account_alias) {
+    AwsAlias(String account_number, String account_alias) {
         this.number = account_number;
         this.alias = account_alias;
     }
 
-    public String getAccountNumber() {
+    String getAccountNumber() {
         return this.number;
     }
 
-    public String getAccountAlias() {
+    String getAccountAlias() {
         return this.alias;
     }
 }
