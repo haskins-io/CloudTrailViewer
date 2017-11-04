@@ -24,6 +24,7 @@ import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
 import io.haskins.java.cloudtrailviewer.service.DataService;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.collections.ObservableList;
@@ -49,7 +50,7 @@ import java.util.List;
  */
 public class TableWidgetController extends AbstractBaseController {
 
-    @FXML private TableView tableView;
+    @FXML protected TableView tableView;
 
     public BorderPane loadFXML() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/widget/TableWidget.fxml"));
@@ -80,7 +81,6 @@ public class TableWidgetController extends AbstractBaseController {
             data = tableView.getItems();
         }
 
-
         try {
             List<KeyIntegerValue> items = new ArrayList<>();
 
@@ -100,9 +100,10 @@ public class TableWidgetController extends AbstractBaseController {
     }
 
     @Override
-    public void configure(DashboardWidget widget, EventTableService eventTableService, DataService databaseService) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService,
+                          DataService dataService, DatabaseService databaseService) {
 
-        super.configure(widget, eventTableService, databaseService);
+        super.configure(widget, eventTableService, dataService, databaseService);
 
         tableView.setPrefWidth(widget.getWidth());
         tableView.setPrefHeight(widget.getHeight());

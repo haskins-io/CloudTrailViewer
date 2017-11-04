@@ -40,6 +40,10 @@ public class CloudTrailToolBarController extends ToolBarController {
 
     @FXML private Button btnS3;
 
+    @FXML private Button btnError;
+    @FXML private Button btnResource;
+    @FXML private Button btnSecurity;
+
     private final EventService eventService;
     private final AccountService accountDao;
     private final DashboardService dashboardService;
@@ -68,6 +72,15 @@ public class CloudTrailToolBarController extends ToolBarController {
 
         btnS3.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.CLOUD_DOWNLOAD));
         btnS3.setTooltip(new Tooltip("Load Files from S3"));
+
+        btnError.setTooltip(new Tooltip("Add Error Widget"));
+        btnError.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE));
+
+        btnResource.setTooltip(new Tooltip("Add Resource Widget"));
+        btnResource.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SERVER));
+
+        btnSecurity.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SHIELD));
+        btnSecurity.setTooltip(new Tooltip("Add Security Widget"));
 
     }
 
@@ -118,6 +131,42 @@ public class CloudTrailToolBarController extends ToolBarController {
         dashboardService.addWidgetToDashboard(newWidget, this.eventService);
     }
 
+    @FXML private void doError() {
+        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableError");
+
+        configureFixedWidgets(newWidget);
+
+        newWidget.setTitle("Errors");
+        newWidget.setSeriesField("errorCode");
+
+        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
+    }
+
+    @FXML private void doResource() {
+
+        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableResources");
+
+        configureFixedWidgets(newWidget);
+
+        newWidget.setTitle("Resources");
+        newWidget.setSeriesField("eventName");
+
+        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
+
+    }
+
+    @FXML private void doSecurity() {
+
+        DashboardWidget newWidget = new DashboardWidget("cloudtrail","TableSecurity");
+
+        configureFixedWidgets(newWidget);
+
+        newWidget.setTitle("Security");
+        newWidget.setSeriesField("eventName");
+
+        dashboardService.addWidgetToDashboard(newWidget, this.eventService);
+    }
+
 
     @FXML private void allEvents() {
         this.eventTableService.setTableEvents(LuceneUtils.getAllDocuments(Event.TYPE), Event.TYPE);
@@ -164,6 +213,15 @@ public class CloudTrailToolBarController extends ToolBarController {
 
             return null;
         }
+    }
+
+    private void configureFixedWidgets(DashboardWidget widget) {
+
+        widget.setChartType(AbstractBaseController.WIDGET_TYPE_ALL);
+        widget.setTop(-1);
+
+        widget.setWidth(335);
+        widget.setHeight(327);
     }
 
 }

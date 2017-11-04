@@ -23,6 +23,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.service.DataService;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
@@ -61,9 +62,10 @@ public class ChartBarStackedWidgetController extends XYChartController {
     }
 
     @Override
-    public void configure(DashboardWidget widget, EventTableService eventTableService, DataService databaseService) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService,
+                          DataService dataService, DatabaseService databaseService) {
 
-        super.configure(widget, eventTableService, databaseService);
+        super.configure(widget, eventTableService, dataService, databaseService);
 
         chart.setPrefWidth(widget.getWidth());
         chart.setPrefHeight(widget.getHeight());

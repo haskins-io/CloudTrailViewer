@@ -26,6 +26,7 @@ import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
 import io.haskins.java.cloudtrailviewer.service.DataService;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import io.haskins.java.cloudtrailviewer.utils.DragResizeWidget;
@@ -65,6 +66,7 @@ public abstract class AbstractBaseController
 
     protected EventTableService eventTableService;
     protected DataService dataService;
+    protected DatabaseService databaseService;
 
     protected BorderPane fxmlObject = null;
 
@@ -84,13 +86,15 @@ public abstract class AbstractBaseController
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// public methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void configure(DashboardWidget widget, EventTableService eventTableService, DataService dataService1) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService,
+                          DataService dataService1, DatabaseService databaseService1) {
 
         this.widget = widget;
         this.widget.setIcon(getWidgetIcon());
 
         this.eventTableService = eventTableService;
         this.dataService = dataService1;
+        this.databaseService = databaseService1;
 
         widgetControlsController.init(this, widget);
 

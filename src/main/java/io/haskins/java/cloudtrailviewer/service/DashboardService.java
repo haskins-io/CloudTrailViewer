@@ -130,7 +130,7 @@ public class DashboardService implements WidgetListener {
                 AbstractBaseController controller = (AbstractBaseController)c.newInstance();
                 pane.getChildren().add(controller.loadFXML());
 
-                controller.configure(widget, eventTableService, dataService);
+                controller.configure(widget, eventTableService, dataService, databaseService);
                 controller.addWidgetListener(this);
 
                 dataService.registerAsListener(controller);

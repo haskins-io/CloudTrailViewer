@@ -21,11 +21,19 @@ package io.haskins.java.cloudtrailviewer.controller.widget;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
+import io.haskins.java.cloudtrailviewer.model.dao.ResultSetRow;
+import io.haskins.java.cloudtrailviewer.model.observable.KeyIntegerValue;
 import io.haskins.java.cloudtrailviewer.service.DataService;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
+import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
+import javafx.collections.ObservableList;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.misc.TermStats;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller that provides a widget for showing Events that the user has defined as being resource related.
@@ -41,13 +49,59 @@ public class TableResourcesWidgetController extends TableWidgetController {
     }
 
     @Override
-    public void configure(DashboardWidget widget, EventTableService eventTableService, DataService databaseService) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService,
+                          DataService dataService, DatabaseService databaseService) {
 
-        super.configure(widget, eventTableService, databaseService);
+        super.configure(widget, eventTableService, dataService, databaseService);
 
         widgetControlsController.hideEditButton();
 
         loadResourceEvents();
+    }
+
+    @Override
+    public void finishedLoading(boolean reload) {
+
+        ObservableList<KeyIntegerValue> data;
+        if (reload) {
+            tableView.getItems().clear();
+            data = tableView.getItems();
+        } else {
+            data = tableView.getItems();
+        }
+
+        try {
+            List<KeyIntegerValue> items = new ArrayList<>();
+
+            List<Document> documents = LuceneUtils.getAllDocuments(this.widget.getType());
+            for (Document doc : documents) {
+
+                if (resourceEvents.contains(doc.getField("eventName").stringValue())) {
+                    newEvent(doc);
+                }
+            }
+
+            for (Map.Entry<String, Integer> entry : keyValueMap.entrySet()) {
+                data.add(new KeyIntegerValue(entry.getKey(), entry.getValue()));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void newEvent(Document document) {
+
+        String eventName = document.getField("eventName").stringValue();
+
+        int count = 0;
+        if (keyValueMap.containsKey(eventName)) {
+            count = keyValueMap.get(eventName);
+        }
+        count++;
+        keyValueMap.put(eventName, count);
+
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -57,10 +111,10 @@ public class TableResourcesWidgetController extends TableWidgetController {
 
         String query = "SELECT api_call FROM aws_resources";
 
-//        List<ResultSetRow> rows = databaseService.executeCursorStatement(query);
-//        for (ResultSetRow row : rows) {
-//            String aws_name = (String)row.get("api_call");
-//            resourceEvents.add(aws_name);
-//        }
+        List<ResultSetRow> rows = databaseService.executeCursorStatement(query);
+        for (ResultSetRow row : rows) {
+            String aws_name = (String)row.get("api_call");
+            resourceEvents.add(aws_name);
+        }
     }
 }

@@ -22,6 +22,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.service.DataService;
+import io.haskins.java.cloudtrailviewer.service.DatabaseService;
 import io.haskins.java.cloudtrailviewer.service.EventTableService;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import javafx.collections.ObservableList;
@@ -69,9 +70,10 @@ public class ChartPieWidgetController extends AbstractBaseController {
     }
 
     @Override
-    public void configure(DashboardWidget widget, EventTableService eventTableService, DataService databaseService) {
+    public void configure(DashboardWidget widget, EventTableService eventTableService,
+                          DataService dataService, DatabaseService databaseService) {
 
-        super.configure(widget, eventTableService, databaseService);
+        super.configure(widget, eventTableService, dataService, databaseService);
 
         pieChart.setPrefWidth(widget.getWidth());
         pieChart.setPrefHeight(widget.getHeight());
