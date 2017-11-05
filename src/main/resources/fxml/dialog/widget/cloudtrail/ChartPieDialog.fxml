@@ -31,7 +31,7 @@
     <ChoiceBox prefWidth="150.0" fx:id="chartType" value="Top"  GridPane.columnIndex="1" GridPane.rowIndex="2">
         <items>
             <FXCollections fx:factory="observableArrayList">
-                <String fx:value="All"/>
+                <!--<String fx:value="All"/>-->
                 <String fx:value="Top"/>
             </FXCollections>
         </items>
