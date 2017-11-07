@@ -82,6 +82,7 @@ public class DatabaseService {
             migrationService.createVersion6(conn, currentVersion);
             migrationService.createVersion7(conn, currentVersion);
             migrationService.createVersion8(conn, currentVersion);
+            migrationService.createVersion9(conn, currentVersion);
         }
     }
 

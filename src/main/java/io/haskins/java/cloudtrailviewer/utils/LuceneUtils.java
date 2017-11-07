@@ -63,7 +63,6 @@ public class LuceneUtils {
         return new IndexSearcher(reader);
     }
 
-
     public static List<Document> getAllDocuments(String type)  {
 
         List<Document> documents = new ArrayList<>();

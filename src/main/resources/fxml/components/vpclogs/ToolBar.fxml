@@ -8,6 +8,7 @@
          fx:controller="io.haskins.java.cloudtrailviewer.controller.components.vpclogs.VpcLogToolBarController">
 
     <Button fx:id="btnLocal" mnemonicParsing="false" onAction="#doLocal"/>
+    <Button fx:id="btnS3" mnemonicParsing="false" onAction="#doS3"/>
     <Separator/>
     <Button fx:id="btnAllEvents" mnemonicParsing="false" onAction="#allEvents"/>
     <Separator/>

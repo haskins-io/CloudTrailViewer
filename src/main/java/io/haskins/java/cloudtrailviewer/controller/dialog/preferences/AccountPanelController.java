@@ -105,14 +105,42 @@ public class AccountPanelController {
 
         TableColumn<AwsAccount, String> bucketCol =  new TableColumn<>("S3 Bucket");
         bucketCol.setMinWidth(100);
-        bucketCol.setCellValueFactory(new PropertyValueFactory<>("bucket"));
+        bucketCol.setCellValueFactory(new PropertyValueFactory<>("ctBucket"));
 
         bucketCol.setCellFactory(TextFieldTableCell.forTableColumn());
         bucketCol.setOnEditCommit(
                 (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
 
                     AwsAccount acct = t.getTableView().getItems().get(t.getTablePosition().getRow());
-                    acct.setBucket(t.getNewValue());
+                    acct.setCtBucket(t.getNewValue());
+
+                    accountDao.updateAccount(acct);
+                });
+
+        TableColumn<AwsAccount, String> elbBucketCol =  new TableColumn<>("Elb Bucket");
+        elbBucketCol.setMinWidth(100);
+        elbBucketCol.setCellValueFactory(new PropertyValueFactory<>("elbBucket"));
+
+        elbBucketCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        elbBucketCol.setOnEditCommit(
+                (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
+
+                    AwsAccount acct = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                    acct.setElbBucket(t.getNewValue());
+
+                    accountDao.updateAccount(acct);
+                });
+
+        TableColumn<AwsAccount, String> vpcBucketCol =  new TableColumn<>("VPC Bucket");
+        vpcBucketCol.setMinWidth(100);
+        vpcBucketCol.setCellValueFactory(new PropertyValueFactory<>("vpcBucket"));
+
+        vpcBucketCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        vpcBucketCol.setOnEditCommit(
+                (TableColumn.CellEditEvent<AwsAccount, String> t) -> {
+
+                    AwsAccount acct = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                    acct.setVpcBucket(t.getNewValue());
 
                     accountDao.updateAccount(acct);
                 });
@@ -159,7 +187,7 @@ public class AccountPanelController {
                     accountDao.updateAccount(acct);
                 });
 
-        tableView.getColumns().addAll(nameCol, acctNumCol, acctAliasCol, bucketCol, keyCol, secretCol, profileCol);
+        tableView.getColumns().addAll(nameCol, acctNumCol, acctAliasCol, bucketCol, elbBucketCol, vpcBucketCol, keyCol, secretCol, profileCol);
     }
 
     @FXML

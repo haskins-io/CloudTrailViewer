@@ -32,7 +32,7 @@ public abstract class LogsController {
 
             FileChooserController controller = loader.getController();
 
-            controller.init(dialogStage, null, null);
+            controller.init(dialogStage, null, null, "");
 
             dialogStage.showAndWait();
 

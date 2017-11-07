@@ -2,13 +2,12 @@ package io.haskins.java.cloudtrailviewer.controller.components.cloudtrail;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import io.haskins.java.cloudtrailviewer.CloudTrailViewer;
 import io.haskins.java.cloudtrailviewer.controller.components.ToolBarController;
-import io.haskins.java.cloudtrailviewer.controller.dialog.filechooser.FileChooserController;
 import io.haskins.java.cloudtrailviewer.controller.widget.AbstractBaseController;
 import io.haskins.java.cloudtrailviewer.model.DashboardWidget;
 import io.haskins.java.cloudtrailviewer.model.DialogAction;
 import io.haskins.java.cloudtrailviewer.model.LoadLogsRequest;
+import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.AccountService;
 import io.haskins.java.cloudtrailviewer.service.DashboardService;
@@ -18,17 +17,12 @@ import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import io.haskins.java.cloudtrailviewer.utils.WidgetUtils;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.util.List;
 
 /**
  * Controller for ToolBar
@@ -38,40 +32,45 @@ import java.io.IOException;
 @Component
 public class CloudTrailToolBarController extends ToolBarController {
 
-    @FXML private Button btnS3;
-
     @FXML private Button btnError;
     @FXML private Button btnResource;
     @FXML private Button btnSecurity;
 
     private final EventService eventService;
-    private final AccountService accountDao;
     private final DashboardService dashboardService;
     private final EventTableService eventTableService;
-    private final AwsService awsService;
-
 
     @Autowired
     public CloudTrailToolBarController(
             DashboardService dashboardService, EventService eventService,
-            AccountService accountDao, EventTableService eventTableService,
-            AwsService awsService) {
+            AccountService accountDao1, EventTableService eventTableService,
+            AwsService awsService1) {
 
         this.dashboardService = dashboardService;
         this.eventService = eventService;
-        this.accountDao = accountDao;
+        this.accountDao = accountDao1;
         this.eventTableService = eventTableService;
-        this.awsService = awsService;
+        this.awsService = awsService1;
     }
+
+    public String getBucketName() {
+
+        String bucket = "";
+
+        List<AwsAccount> accounts = accountDao.getAllAccountsWithBucket();
+        for (AwsAccount account : accounts) {
+            bucket = account.getCtBucket();
+        }
+
+        return bucket;
+    }
+
 
     @FXML
     @Override
     public void initialize() {
 
         super.initialize();
-
-        btnS3.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.CLOUD_DOWNLOAD));
-        btnS3.setTooltip(new Tooltip("Load Files from S3"));
 
         btnError.setTooltip(new Tooltip("Add Error Widget"));
         btnError.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE));
@@ -81,7 +80,6 @@ public class CloudTrailToolBarController extends ToolBarController {
 
         btnSecurity.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SHIELD));
         btnSecurity.setTooltip(new Tooltip("Add Security Widget"));
-
     }
 
     @FXML private void doLocal() {
@@ -152,7 +150,6 @@ public class CloudTrailToolBarController extends ToolBarController {
         newWidget.setSeriesField("eventName");
 
         dashboardService.addWidgetToDashboard(newWidget, this.eventService);
-
     }
 
     @FXML private void doSecurity() {
@@ -167,7 +164,6 @@ public class CloudTrailToolBarController extends ToolBarController {
         dashboardService.addWidgetToDashboard(newWidget, this.eventService);
     }
 
-
     @FXML private void allEvents() {
         this.eventTableService.setTableEvents(LuceneUtils.getAllDocuments(Event.TYPE), Event.TYPE);
     }
@@ -179,42 +175,6 @@ public class CloudTrailToolBarController extends ToolBarController {
         }
     }
 
-    private LoadLogsRequest showFileChooser(boolean localFiles) {
-
-        try {
-
-            String fxmlFile = "/fxml/dialog/filechooser/FileChooser.fxml";
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(CloudTrailViewer.class.getResource(fxmlFile));
-            Pane page = loader.load();
-
-            Scene scene = new Scene(page);
-            scene.getStylesheets().add(getClass().getResource("/style/fileChooser.css").toExternalForm());
-
-            Stage dialogStage = new Stage();
-            dialogStage.initModality(Modality.APPLICATION_MODAL);
-            dialogStage.setScene(scene);
-
-            FileChooserController controller = loader.getController();
-
-            if (localFiles) {
-                controller.init(dialogStage, null, null);
-            } else {
-                controller.init(dialogStage, accountDao, awsService);
-            }
-
-            dialogStage.showAndWait();
-
-            return controller.getSelectedItems();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
     private void configureFixedWidgets(DashboardWidget widget) {
 
         widget.setChartType(AbstractBaseController.WIDGET_TYPE_ALL);
@@ -223,5 +183,4 @@ public class CloudTrailToolBarController extends ToolBarController {
         widget.setWidth(335);
         widget.setHeight(327);
     }
-
 }

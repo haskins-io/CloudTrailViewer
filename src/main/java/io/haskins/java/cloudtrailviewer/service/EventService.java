@@ -52,6 +52,10 @@ public class EventService extends LuceneDataService {
         return Event.TYPE;
     }
 
+    public String getBucketName() {
+        return activeAccount.getCtBucket();
+    }
+
     @Autowired
     public EventService(AccountService accountDao1, GeoService geoService1,
             StatusBarController statusBarController1, AwsService awsService1) {

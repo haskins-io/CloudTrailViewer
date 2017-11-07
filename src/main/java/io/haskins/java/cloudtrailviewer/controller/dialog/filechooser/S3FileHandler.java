@@ -39,14 +39,19 @@ class S3FileHandler extends FileHandler {
     private AwsAccount currentAccount = null;
     private String prefix = "";
 
+    private String bucketName = "";
+
     private final AwsService awsService;
 
     S3FileHandler(
             ListView<FileListModel> listView, AwsAccount awsAccount,
-            FileListControllerListener listener, AwsService awsService) {
+            FileListControllerListener listener, AwsService awsService,
+            String bucket) {
 
         this.listView = listView;
         listView.setItems(data);
+
+        bucketName = bucket;
 
         this.fileListControllerListener = listener;
         this.currentAccount = awsAccount;
@@ -132,7 +137,7 @@ class S3FileHandler extends FileHandler {
     private ObjectListing s3ListObjects(String pathPrefix, String delimiter) {
 
         ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
-        listObjectsRequest.setBucketName(currentAccount.getBucket());
+        listObjectsRequest.setBucketName(bucketName);
         listObjectsRequest.setPrefix(pathPrefix);
 
         if (delimiter != null) {
@@ -170,7 +175,7 @@ class S3FileHandler extends FileHandler {
 
         AmazonS3 s3Client = awsService.getS3Client(currentAccount);
 
-        ObjectListing current = s3Client.listObjects(currentAccount.getBucket(), path);
+        ObjectListing current = s3Client.listObjects(bucketName, path);
         List<S3ObjectSummary> objectSummaries = current.getObjectSummaries();
 
         for (final S3ObjectSummary objectSummary : objectSummaries) {

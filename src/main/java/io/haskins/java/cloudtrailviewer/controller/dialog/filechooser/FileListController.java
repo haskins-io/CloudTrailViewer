@@ -56,8 +56,8 @@ public class FileListController extends ListView<FileListModel> {
     /**
      * Initialises the Class, and attempts to load the first batch of files from S3
      */
-    public void init(AwsAccount currentAccount, FileListControllerListener listener, AwsService awsService) {
-        fileHandler = new S3FileHandler(this, currentAccount, listener, awsService);
+    public void init(AwsAccount currentAccount, FileListControllerListener listener, AwsService awsService, String bucket) {
+        fileHandler = new S3FileHandler(this, currentAccount, listener, awsService, bucket);
     }
 
     public void setScanning(boolean isScanning) {

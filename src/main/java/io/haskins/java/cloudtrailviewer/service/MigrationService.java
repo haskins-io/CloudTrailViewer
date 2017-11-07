@@ -292,6 +292,27 @@ class MigrationService {
         }
     }
 
+    void createVersion9(Connection conn, CurrentDbVersion currentVersion) {
+
+        if (currentVersion.getDbVersion() < 9) {
+
+            StringBuilder addElbLogsBucketColumn = new StringBuilder();
+            addElbLogsBucketColumn.append("ALTER TABLE aws_credentials ");
+            addElbLogsBucketColumn.append("ADD COLUMN elb_bucket VARCHAR(65)");
+            databaseService.doExecute(addElbLogsBucketColumn.toString());
+
+            StringBuilder addVpcLogsBucketColumn = new StringBuilder();
+            addElbLogsBucketColumn.append("ALTER TABLE aws_credentials ");
+            addElbLogsBucketColumn.append("ADD COLUMN vpc_bucket VARCHAR(65)");
+            databaseService.doExecute(addElbLogsBucketColumn.toString());
+
+            String insertQuery = "UPDATE db_properties SET db_version = 9 WHERE id = 1";
+            databaseService.doInsertUpdate(insertQuery);
+
+            currentVersion.setDbVersion(9);
+        }
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     ///// private methods
     ////////////////////////////////////////////////////////////////////////////

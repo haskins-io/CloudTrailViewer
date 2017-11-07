@@ -5,6 +5,7 @@ import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.model.vpclog.VpcFlowLog;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
+import io.haskins.java.cloudtrailviewer.utils.AwsService;
 import io.haskins.java.cloudtrailviewer.utils.LuceneUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -25,11 +26,19 @@ import java.util.regex.Matcher;
 public class VpcFlowLogService extends LuceneDataService {
 
     @Autowired
-    public VpcFlowLogService(StatusBarController statusBarController, GeoService geoService1) {
+    public VpcFlowLogService(StatusBarController statusBarController, GeoService geoService1,
+                             AccountService accountDao1, AwsService awsService1) {
         this.statusBarController = statusBarController;
         this.geoService = geoService1;
 
+        this.awsService = awsService1;
+        this.accountDao = accountDao1;
+
         logger = Logger.getLogger("VpcFlowLogService");
+    }
+
+    public String getBucketName() {
+        return activeAccount.getVpcBucket();
     }
 
     public void processRecords(List<String> records, CompositeFilter filter, int requestType) {

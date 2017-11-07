@@ -18,7 +18,9 @@ public class AwsAccountTests {
         String name = "Test";
         String acctNum = "123456789012";
         String acctAlias = "TestAccount";
-        String bucket = "test-bucket";
+        String ctBucket = "ct-bucket";
+        String elbBucket = "elb-bucket";
+        String vpcBucket = "vpc-bucket";
         String key = "Key";
         String secret = "Secret";
         String prefix = "/root/";
@@ -28,7 +30,9 @@ public class AwsAccountTests {
                 name,
                 acctNum,
                 acctAlias,
-                bucket,
+                ctBucket,
+                elbBucket,
+                vpcBucket,
                 key,
                 secret,
                 prefix);
@@ -36,7 +40,9 @@ public class AwsAccountTests {
         assertEquals(act.getId(), id);
         assertEquals(act.getName(), name);
         assertEquals(act.getAcctNumber(), acctNum);
-        assertEquals(act.getBucket(), bucket);
+        assertEquals(act.getCtBucket(), ctBucket);
+        assertEquals(act.getElbBucket(), elbBucket);
+        assertEquals(act.getVpcBucket(), vpcBucket);
         assertEquals(act.getKey(), key);
         assertEquals(act.getSecret(), secret);
         assertEquals(act.getPrefix(), prefix);

@@ -162,6 +162,6 @@ public class AwsService {
     }
 
     public String getS3BucketForAccount(AwsAccount activeAccount) {
-        return activeAccount.getBucket();
+        return activeAccount.getCtBucket();
     }
 }

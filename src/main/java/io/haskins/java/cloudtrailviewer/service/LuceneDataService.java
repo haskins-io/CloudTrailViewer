@@ -40,6 +40,8 @@ public abstract class LuceneDataService extends DataService {
 
     abstract String getType();
 
+    abstract String getBucketName();
+
     public static final int FILE_LOCATION_LOCAL = 1;
     public static final int FILE_LOCATION_S3 = 2;
 
@@ -52,9 +54,11 @@ public abstract class LuceneDataService extends DataService {
     StatusBarController statusBarController;
     GeoService geoService;
 
+    AwsAccount activeAccount = null;
+
     IndexWriter writer;
 
-    void process(List<String> files, String regexPattern, final CompositeFilter filters, int file_location) {
+    void process(List<String> files, String regexPattern, final CompositeFilter filters, int fileLocation) {
 
         Task<Void> task = new Task<Void>() {
 
@@ -64,10 +68,9 @@ public abstract class LuceneDataService extends DataService {
                 writer = LuceneUtils.createWriter(getType());
                 writer.deleteAll();
 
-                AwsAccount activeAccount = null;
                 AmazonS3 s3Client = null;
 
-                if (file_location == FILE_LOCATION_S3) {
+                if (fileLocation == FILE_LOCATION_S3) {
                     activeAccount = awsService.getActiveAccount(accountDao);
                     s3Client = awsService.getS3Client(activeAccount);
                 }
@@ -88,13 +91,13 @@ public abstract class LuceneDataService extends DataService {
                     updateMessage(message);
 
 
-                    if (file_location == FILE_LOCATION_S3) {
-                        try (InputStream stream = loadEventFromS3(s3Client, activeAccount.getBucket(), filename)) {
+                    if (fileLocation == FILE_LOCATION_S3) {
+                        try (InputStream stream = loadEventFromS3(s3Client, getBucketName(), filename)) {
                             processStream(stream, filters, isJson);
                         } catch (Exception ioe) {
                             logger.log(Level.WARNING, "Failed to load file : " + filename, ioe);
                         }
-                    } else if (file_location == FILE_LOCATION_LOCAL) {
+                    } else if (fileLocation == FILE_LOCATION_LOCAL) {
                         try (InputStream stream = loadEventFromLocalFile(filename)) {
                             processStream(stream, filters, isJson);
                         } catch (Exception ioe) {
@@ -103,7 +106,6 @@ public abstract class LuceneDataService extends DataService {
                     }
                 }
 
-//                index();
                 writer.commit();
                 writer.close();
 
@@ -157,13 +159,13 @@ public abstract class LuceneDataService extends DataService {
         }
     }
 
-    private List<Event> createEvents(String json_string) {
+    private List<Event> createEvents(String jsonString) {
 
         Gson g = new Gson();
 
         List<Event> events = new ArrayList<>();
 
-        JsonObject jsonObject = new JsonParser().parse(json_string).getAsJsonObject();
+        JsonObject jsonObject = new JsonParser().parse(jsonString).getAsJsonObject();
         JsonArray records = (JsonArray) jsonObject.get("Records");
 
         for (Object record : records) {

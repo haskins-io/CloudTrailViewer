@@ -56,7 +56,7 @@ public class FileChooserController implements FileListControllerListener, Filter
 
     private Stage dialogStage;
 
-    public void init(Stage dialogStage, AccountService accountDao, AwsService awsService) {
+    public void init(Stage dialogStage, AccountService accountDao, AwsService awsService, String bucket) {
 
         this.dialogStage = dialogStage;
 
@@ -64,7 +64,7 @@ public class FileChooserController implements FileListControllerListener, Filter
             this.accountDao = accountDao;
             getAccounts();
 
-            fileListController.init(currentAccount, this, awsService);
+            fileListController.init(currentAccount, this, awsService, bucket);
         } else {
             fileListController.init(this);
         }

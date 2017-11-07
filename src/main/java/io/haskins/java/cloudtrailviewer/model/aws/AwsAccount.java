@@ -31,16 +31,20 @@ import javafx.beans.property.StringProperty;
  */
 public class AwsAccount implements WarningCell {
 
-    private static final int S3_BUCKET = 3;
-    private static final int API_KEY = 4;
-    private static final int API_SECRET = 5;
-    private static final int PROFILE = 6;
+    private static final int CELL_CT_BUCKET = 3;
+    private static final int CELL_ELB_BUCKET = 4;
+    private static final int CELL_VPC_BUCKET = 5;
+    private static final int CELL_API_KEY = 6;
+    private static final int CELL_API_SECRET = 7;
+    private static final int CELL_PROFILE = 8;
 
     private final IntegerProperty id;
     private final StringProperty name;
     private StringProperty acctNumber;
     private StringProperty acctAlias;
-    private final StringProperty bucket;
+    private final StringProperty ctBucket;
+    private final StringProperty elbBucket;
+    private final StringProperty vpcBucket;
     private final StringProperty key;
     private final StringProperty secret;
     private StringProperty prefix;
@@ -48,20 +52,22 @@ public class AwsAccount implements WarningCell {
 
     public AwsAccount() {
 
-        this(0, "","","","","","","");
+        this(0, "","","","","","", "","","");
     }
 
-    AwsAccount(int id, String name, String acctNum, String acctAlias, String bucket, String key, String secret, String prefix) {
-        this(id, name, acctNum, acctAlias, bucket, key, secret, prefix,null);
+    AwsAccount(int id, String name, String acctNum, String acctAlias, String ctBucket, String elbBucket, String vpcBucket, String key, String secret, String prefix) {
+        this(id, name, acctNum, acctAlias, ctBucket, elbBucket, vpcBucket, key, secret, prefix,null);
     }
 
-    public AwsAccount(int id, String name, String acctNum, String acctAlias, String bucket, String key, String secret, String prefix, String profile) {
+    public AwsAccount(int id, String name, String acctNum, String acctAlias, String ctBucket, String elbBucket, String vpcBucket, String key, String secret, String prefix, String profile) {
 
         this.id = new SimpleIntegerProperty(id);
         this.name = new SimpleStringProperty(name);
         this.acctNumber = new SimpleStringProperty(acctNum);
         this.acctAlias = new SimpleStringProperty(acctAlias);
-        this.bucket = new SimpleStringProperty(bucket);
+        this.ctBucket = new SimpleStringProperty(ctBucket);
+        this.elbBucket = new SimpleStringProperty(elbBucket);
+        this.vpcBucket = new SimpleStringProperty(vpcBucket);
         this.key = new SimpleStringProperty(key);
         this.secret = new SimpleStringProperty(secret);
         this.prefix = new SimpleStringProperty(prefix);
@@ -95,11 +101,23 @@ public class AwsAccount implements WarningCell {
         return this.acctAlias.get();
     }
 
-    public void setBucket(String bucket) {
-        this.bucket.set(bucket);
+    public void setCtBucket(String ctBucket) {
+        this.ctBucket.set(ctBucket);
     }
-    public String getBucket() {
-        return bucket.get();
+    public String getCtBucket() {
+        return ctBucket.get();
+    }
+
+    public void setElbBucket(String elbBucket) {
+        this.elbBucket.set(elbBucket);
+    }
+    public String getElbBucket() { return elbBucket.get(); }
+
+    public void setVpcBucket(String vpcBucket) {
+        this.vpcBucket.set(vpcBucket);
+    }
+    public String getVpcBucket() {
+        return vpcBucket.get();
     }
 
     public void setKey(String key) {
@@ -133,10 +151,16 @@ public class AwsAccount implements WarningCell {
     public boolean displayWarning(int index) {
 
         switch(index) {
-            case S3_BUCKET:
-                return this.getBucket() == null || this.getBucket().length() == 0;
+            case CELL_CT_BUCKET:
+                return this.getCtBucket() == null || this.getCtBucket().length() == 0;
 
-            case API_KEY:
+            case CELL_ELB_BUCKET:
+                return this.getElbBucket() == null || this.getElbBucket().length() == 0;
+
+            case CELL_VPC_BUCKET:
+                return this.getVpcBucket() == null || this.getVpcBucket().length() == 0;
+
+            case CELL_API_KEY:
 
                 if (this.getKey() == null && this.getSecret() == null && this.getProfile() == null) {
                     return true;
@@ -150,7 +174,10 @@ public class AwsAccount implements WarningCell {
                     return true;
                 }
 
-            case API_SECRET:
+                return false;
+
+            case CELL_API_SECRET:
+            case CELL_PROFILE:
 
                 if (this.getKey() == null && this.getSecret() == null && this.getProfile() == null) {
                     return true;
@@ -164,22 +191,12 @@ public class AwsAccount implements WarningCell {
                     return true;
                 }
 
-            case PROFILE:
+                return false;
 
-                if (this.getKey() == null && this.getSecret() == null && this.getProfile() == null) {
-                    return true;
-                }
-
-                if (this.getProfile() != null && this.getProfile().length() > 0) {
-                    return false;
-                }
-
-                if ((this.getProfile() == null || this.getProfile().length() == 0) && (this.getKey() != null || this.getKey().length() > 0)) {
-                    return true;
-                }
+            default:
+                return false;
         }
-
-        return false;
-
     }
+
+
 }

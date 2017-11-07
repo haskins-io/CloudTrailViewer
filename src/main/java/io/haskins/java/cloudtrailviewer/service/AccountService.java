@@ -145,6 +145,8 @@ public class AccountService {
                 (String) row.get("aws_acct"),
                 (String) row.get("alias"),
                 (String) row.get("aws_bucket"),
+                (String) row.get("elb_bucket"),
+                (String) row.get("vpc_bucket"),
                 (String) row.get("aws_key"),
                 (String) row.get("aws_secret"),
                 (String) row.get("aws_prefix"),
@@ -168,8 +170,16 @@ public class AccountService {
                 query.append(" alias, ");
             }
 
-            if (account.getBucket() != null && account.getBucket().length() > 0) {
+            if (account.getCtBucket() != null && account.getCtBucket().length() > 0) {
                 query.append(" aws_bucket, ");
+            }
+
+            if (account.getElbBucket() != null && account.getElbBucket().length() > 0) {
+                query.append(" elb_bucket, ");
+            }
+
+            if (account.getVpcBucket() != null && account.getVpcBucket().length() > 0) {
+                query.append(" vpc_bucket, ");
             }
 
             query.append(" aws_key, aws_secret, profile, aws_prefix, active)");
@@ -184,8 +194,8 @@ public class AccountService {
                 query.append("'").append(account.getAcctAlias()).append("',");
             }
 
-            if (account.getBucket() != null && account.getBucket().length() > 0) {
-                query.append("'").append(account.getBucket()).append("'").append(",");
+            if (account.getCtBucket() != null && account.getCtBucket().length() > 0) {
+                query.append("'").append(account.getCtBucket()).append("'").append(",");
             }
 
             query.append("'").append(account.getKey()).append("'").append(",");
@@ -200,15 +210,22 @@ public class AccountService {
             int id = databaseService.doInsertUpdate(query.toString());
             account.setId(id);
 
-
         } else {
 
             StringBuilder updateQuery = new StringBuilder();
             updateQuery.append("UPDATE aws_credentials SET");
             updateQuery.append(" aws_name = '").append(account.getName()).append("',");
 
-            if (account.getBucket()!= null && account.getBucket().length() > 0) {
-                updateQuery.append(" aws_bucket = '").append(account.getBucket()).append("',");
+            if (account.getCtBucket()!= null && account.getCtBucket().length() > 0) {
+                updateQuery.append(" aws_bucket = '").append(account.getCtBucket()).append("',");
+            }
+
+            if (account.getElbBucket()!= null && account.getElbBucket().length() > 0) {
+                updateQuery.append(" elb_bucket = '").append(account.getElbBucket()).append("',");
+            }
+
+            if (account.getVpcBucket()!= null && account.getVpcBucket().length() > 0) {
+                updateQuery.append(" vpc_bucket = '").append(account.getVpcBucket()).append("',");
             }
 
             if (account.getAcctNumber()!= null && account.getAcctNumber().length() > 0) {
@@ -227,12 +244,10 @@ public class AccountService {
             updateQuery.append(" WHERE id = ").append(account.getId());
 
             databaseService.doInsertUpdate(updateQuery.toString());
-
         }
     }
 
     public void deleteAccount(AwsAccount account) {
-
         String query = "DELETE FROM aws_credentials WHERE id = " +  account.getId();
         databaseService.doInsertUpdate(query);
     }
