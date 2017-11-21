@@ -48,6 +48,7 @@
             <fx:include source="ToolBar.fxml" />
 
             <HBox fx:id="hboxPopup">
+                <Button fx:id="save" onAction="#save"/>
                 <Button fx:id="popupMenu" onAction="#showPopupMenu"/>
             </HBox>
 

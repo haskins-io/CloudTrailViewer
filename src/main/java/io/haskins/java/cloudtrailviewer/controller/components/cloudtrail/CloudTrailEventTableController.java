@@ -40,9 +40,12 @@ import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.*;
 import java.util.List;
 
 /**
@@ -60,6 +63,7 @@ public class CloudTrailEventTableController implements EventTableServiceListener
     @FXML private Label resultCount;
 
     @FXML private HBox hboxPopup;
+    @FXML private Button save;
     @FXML private Button popupMenu;
 
     private ContextMenu colPopup = new ContextMenu();
@@ -83,6 +87,31 @@ public class CloudTrailEventTableController implements EventTableServiceListener
     @FXML
     private void showPopupMenu() {
         colPopup.show(popupMenu, Side.LEFT, 0, 0);
+    }
+
+    @FXML
+    private void save() throws IOException {
+
+        Stage dialogStage = new Stage();
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Table Data");
+        File file = fileChooser.showSaveDialog(dialogStage);
+        if (file != null) {
+
+            FileOutputStream fos = new FileOutputStream(file);
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+            List<AwsData> events = this.tableView.getItems();
+            for (AwsData e : events) {
+
+                bw.write(e.toString());
+                bw.newLine();
+            }
+
+            bw.close();
+        }
+
     }
 
     @FXML
@@ -142,6 +171,8 @@ public class CloudTrailEventTableController implements EventTableServiceListener
 
         HBox.setHgrow(hboxPopup, Priority.ALWAYS);
         hboxPopup.setAlignment(Pos.CENTER_RIGHT);
+
+        save.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SAVE));
         popupMenu.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.COG));
 
         createPopupMenu();
