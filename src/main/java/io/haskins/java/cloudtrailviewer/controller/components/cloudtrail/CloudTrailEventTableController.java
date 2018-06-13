@@ -96,6 +96,7 @@ public class CloudTrailEventTableController implements EventTableServiceListener
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Table Data");
+        fileChooser.setInitialFileName("CloudTrailExport.csv");
         File file = fileChooser.showSaveDialog(dialogStage);
         if (file != null) {
 
