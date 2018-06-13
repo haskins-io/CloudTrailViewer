@@ -82,9 +82,9 @@ public class SessionContext implements Serializable {
         
         StringBuilder modelData = new StringBuilder();
         
-        if (getAttributes() != null) { modelData.append(getAttributes().toString()).append(", "); }
-        if (getSessionIssuer() != null) { modelData.append(getSessionIssuer().toString()).append(", "); }
-        
+        if (getAttributes() != null) { modelData.append(getAttributes().toString()).append(", "); } else { modelData.append(", "); }
+        if (getSessionIssuer() != null) { modelData.append(getSessionIssuer().toString()).append(", "); } else { modelData.append(",,,,,"); }
+
         return modelData.toString();
     }
 }

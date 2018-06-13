@@ -224,16 +224,16 @@ public class UserIdentity implements Serializable {
         
         StringBuilder modelData = new StringBuilder();
         
-        if (getType() != null) { modelData.append(getType()).append(", "); }
-        if (getPrincipalId() != null) { modelData.append(getPrincipalId()).append(", "); }
-        if (getArn() != null) { modelData.append(getArn()).append(", "); }
-        if (getAccountId() != null) { modelData.append(getAccountId()).append(", "); }
-        if (getAccessKeyId() != null) { modelData.append(getAccessKeyId()).append(", "); }
-        if (getUserName() != null) { modelData.append(getUserName()).append(", "); }
-        if (getInvokedBy() != null) { modelData.append(getInvokedBy()).append(", "); }
-        if (getSessionContext() != null) { modelData.append(getSessionContext().toString()).append(", "); }
-        if (getWebIdFederationData() != null) { modelData.append(getWebIdFederationData()).append(", "); }
-        
+        if (getType() != null) { modelData.append(getType()).append(", "); } else { modelData.append(", "); }
+        if (getPrincipalId() != null) { modelData.append(getPrincipalId()).append(", "); } else { modelData.append(", "); }
+        if (getArn() != null) { modelData.append(getArn()).append(", "); } else { modelData.append(", "); }
+        if (getAccountId() != null) { modelData.append(getAccountId()).append(", "); } else { modelData.append(", "); }
+        if (getAccessKeyId() != null) { modelData.append(getAccessKeyId()).append(", "); } else { modelData.append(", "); }
+        if (getUserName() != null) { modelData.append(getUserName()).append(", "); } else { modelData.append(", "); }
+        if (getInvokedBy() != null) { modelData.append(getInvokedBy()).append(", "); } else { modelData.append(", "); }
+        if (getSessionContext() != null) { modelData.append(getSessionContext().toString()).append(", "); } else { modelData.append(",,,,,,,"); }
+        if (getWebIdFederationData() != null) { modelData.append(getWebIdFederationData()).append(", "); } else { modelData.append(", "); }
+
         return modelData.toString();
     }
 }

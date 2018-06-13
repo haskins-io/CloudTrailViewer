@@ -148,12 +148,12 @@ public class SessionIssuer implements Serializable {
         
         StringBuilder modelData = new StringBuilder();
         
-        if (getType() != null) { modelData.append(getType()).append(", "); }
-        if (getPrincipalId() != null) { modelData.append(getPrincipalId()).append(", "); }
-        if (getArn() != null) { modelData.append(getArn()).append(", "); }
-        if (getAccountId() != null) { modelData.append(getAccountId()).append(", "); }
-        if (getUserName() != null) { modelData.append(getUserName()).append(", "); }
-        
+        if (getType() != null) { modelData.append(getType()).append(", "); } else { modelData.append(", "); }
+        if (getPrincipalId() != null) { modelData.append(getPrincipalId()).append(", "); } else { modelData.append(", "); }
+        if (getArn() != null) { modelData.append(getArn()).append(", "); } else { modelData.append(", "); }
+        if (getAccountId() != null) { modelData.append(getAccountId()).append(", "); } else { modelData.append(", "); }
+        if (getUserName() != null) { modelData.append(getUserName()).append(", "); } else { modelData.append(", "); }
+
         return modelData.toString();
     }
 }

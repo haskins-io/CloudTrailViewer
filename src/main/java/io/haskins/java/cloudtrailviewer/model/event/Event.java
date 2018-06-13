@@ -375,29 +375,36 @@ public class Event extends AwsData implements Serializable {
         
         StringBuilder modelData = new StringBuilder();
         
-        if (getEventVersion() != null) { modelData.append(getEventVersion()).append(", "); }
-        if (getUserIdentity() != null) { modelData.append(getUserIdentity().toString()).append(", "); }
-        if (getEventTime() != null) { modelData.append(getEventTime()).append(", "); }
-        if (getEventSource() != null) { modelData.append(getEventSource()).append(", "); }
-        if (getEventName() != null) { modelData.append(getEventName()).append(", "); }
-        if (getAwsRegion() != null) { modelData.append(getAwsRegion()).append(", "); }
-        if (getSourceIPAddress() != null) { modelData.append(getSourceIPAddress()).append(", "); }
-        if (getUserAgent() != null) { modelData.append(getUserAgent()).append(", "); }
-        if (getRequestParameters() != null) { modelData.append(getRequestParameters().toString()).append(", "); }
-        if (getResponseElements() != null) { modelData.append(getResponseElements().toString()).append(", "); }
-        if (getRequestId() != null) { modelData.append(getRequestId()).append(", "); }
-        if (getEventId() != null) { modelData.append(getEventId()).append(", "); }
-        if (getErrorCode() != null) { modelData.append(getErrorCode()).append(", "); }
-        if (getErrorMessage() != null) { modelData.append(getErrorMessage()).append(", "); }
-        if (getReadOnly() != null) { modelData.append(getReadOnly()).append(", "); }
-        if (getEventType() != null) { modelData.append(getEventType()).append(", "); }
-        if (getRecipientAccountId() != null) { modelData.append(getRecipientAccountId()).append(", "); }
+        if (getEventVersion() != null) { modelData.append(getEventVersion()).append(", "); } else { modelData.append(", "); }
+        if (getUserIdentity() != null) { modelData.append(getUserIdentity().toString()).append(", "); } else { modelData.append(",,,,,,,,,,,,,,,,"); }
+        if (getEventTime() != null) { modelData.append(getEventTime()).append(", "); } else { modelData.append(", "); }
+        if (getEventSource() != null) { modelData.append(getEventSource()).append(", "); } else { modelData.append(", "); }
+        if (getEventName() != null) { modelData.append(getEventName()).append(", "); } else { modelData.append(", "); }
+        if (getAwsRegion() != null) { modelData.append(getAwsRegion()).append(", "); } else { modelData.append(", "); }
+        if (getSourceIPAddress() != null) { modelData.append(getSourceIPAddress()).append(", "); } else { modelData.append(", "); }
+        if (getUserAgent() != null) {
+
+            String userAgent = getUserAgent().replaceAll(",","");
+
+            modelData.append(userAgent).append(", "); }
+            else {
+            modelData.append(", ");
+        }
+//        if (getRequestParameters() != null) { modelData.append(getRequestParameters().toString()).append(", "); } else { modelData.append(", "); }
+//        if (getResponseElements() != null) { modelData.append(getResponseElements().toString()).append(", "); } else { modelData.append(", "); }
+        if (getRequestId() != null) { modelData.append(getRequestId()).append(", "); } else { modelData.append(", "); }
+        if (getEventId() != null) { modelData.append(getEventId()).append(", "); } else { modelData.append(", "); }
+        if (getErrorCode() != null) { modelData.append(getErrorCode()).append(", "); } else { modelData.append(", "); }
+        if (getErrorMessage() != null) { modelData.append(getErrorMessage()).append(", "); } else { modelData.append(", "); }
+        if (getReadOnly() != null) { modelData.append(getReadOnly()).append(", "); } else { modelData.append(", "); }
+        if (getEventType() != null) { modelData.append(getEventType()).append(", "); } else { modelData.append(", "); }
+        if (getRecipientAccountId() != null) { modelData.append(getRecipientAccountId()).append(", "); } else { modelData.append(", "); }
 //        if (getAdditionalEventData() != null) { modelData.append(getAdditionalEventData().toString()).append(", "); }
-        if (getContinent() != null) { modelData.append(getContinent()).append(", "); }
-        if (getCountry() != null) { modelData.append(getCountry()).append(", "); }
-        if (getCity() != null) { modelData.append(getCity()).append(", "); }
-        if (getLatLng() != null) { modelData.append(getLatLng()).append(", "); }
-        
+        if (getContinent() != null) { modelData.append(getContinent()).append(", "); } else { modelData.append(", "); }
+        if (getCountry() != null) { modelData.append(getCountry()).append(", "); } else { modelData.append(", "); }
+        if (getCity() != null) { modelData.append(getCity()).append(", "); } else { modelData.append(", "); }
+        if (getLatLng() != null) { modelData.append(getLatLng()).append(", "); } else { modelData.append(", "); }
+
         return modelData.toString();
     }
 
