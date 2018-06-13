@@ -47,7 +47,4 @@ class DateFormatter {
         return df_with_zone.get().parse(dateString).getTime();
     }
 
-    Date convertStringToDate(String dateString) throws ParseException {
-        return df_with_zone.get().parse(dateString);
-    }
 }

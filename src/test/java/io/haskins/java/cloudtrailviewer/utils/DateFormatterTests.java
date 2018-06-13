@@ -29,17 +29,4 @@ public class DateFormatterTests {
         }
     }
 
-    @Test
-    public void convertStringToDateTest() {
-
-        Date expected = new Date(1483264800000L);
-
-        try {
-            Date result = formatter.convertStringToDate("2017-01-01T10:00:00Z");
-            assertEquals(expected, result);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
