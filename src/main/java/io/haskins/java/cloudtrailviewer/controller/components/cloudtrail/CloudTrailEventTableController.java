@@ -167,6 +167,8 @@ public class CloudTrailEventTableController implements EventTableServiceListener
 
     }
 
+    public void scannedEvent() { }
+
     @Override
     public void newEvents(List<? extends AwsData> events) {
 

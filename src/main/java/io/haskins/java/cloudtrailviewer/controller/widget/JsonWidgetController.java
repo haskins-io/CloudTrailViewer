@@ -71,6 +71,8 @@ public class JsonWidgetController extends AbstractBaseController {
 
     }
 
+    public void scannedEvent() { }
+
     @Override
     public void loadingFile(int fileNum, int totalFiles) {
 

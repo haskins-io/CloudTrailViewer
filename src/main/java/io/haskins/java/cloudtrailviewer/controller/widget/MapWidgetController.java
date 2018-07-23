@@ -124,6 +124,8 @@ public class MapWidgetController extends AbstractBaseController {
         }
     }
 
+    public void scannedEvent() { }
+
     public void loadingFile(int fileName, int totalFiles) { }
 
     public void finishedLoading(boolean reload) {

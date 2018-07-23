@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.controller.components;
 
 import io.haskins.java.cloudtrailviewer.model.AwsData;
-import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -37,6 +36,7 @@ public class StatusBarController implements DataServiceListener {
 
     @FXML public Label message;
     @FXML private Label loadedEvents;
+    @FXML private Label scannedEvents;
     @FXML private Label fromDate;
     @FXML private Label toDate;
 
@@ -46,10 +46,12 @@ public class StatusBarController implements DataServiceListener {
     private long latestEventLong = -1;
     private String latestEventString;
 
+    private long numScannedEvents;
     private long numEventsLoaded;
 
     @FXML
     public void initialize() {
+        scannedEvents.setText("Scanned Events : 0");
         loadedEvents.setText("Loaded Events : 0");
     }
 
@@ -58,7 +60,6 @@ public class StatusBarController implements DataServiceListener {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void newEvent(AwsData data) {
-
 
         if (earliestEventLong == -1 || data.getTimestamp() < earliestEventLong) {
             earliestEventLong = data.getTimestamp();
@@ -75,6 +76,19 @@ public class StatusBarController implements DataServiceListener {
         Platform.runLater(new Runnable() {
             @Override public void run() {
                 loadedEvents.setText(String.valueOf("Loaded Events : " + numEventsLoaded));
+            }
+        });
+
+    }
+
+    @Override
+    public void scannedEvent() {
+
+        numScannedEvents++;
+
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                scannedEvents.setText(String.valueOf("Scanned Events : " + numScannedEvents));
             }
         });
 
@@ -106,6 +120,7 @@ public class StatusBarController implements DataServiceListener {
     @Override
     public void clearEvents() {
         numEventsLoaded = 0;
+        numScannedEvents = 0;
         message.setVisible(false);
         fromDate.setVisible(false);
         toDate.setVisible(false);

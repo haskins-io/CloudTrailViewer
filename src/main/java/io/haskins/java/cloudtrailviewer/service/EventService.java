@@ -19,34 +19,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import io.haskins.java.cloudtrailviewer.controller.components.StatusBarController;
 import io.haskins.java.cloudtrailviewer.filter.CompositeFilter;
 import io.haskins.java.cloudtrailviewer.model.AwsData;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
-import io.haskins.java.cloudtrailviewer.model.event.Event;
 import io.haskins.java.cloudtrailviewer.service.listener.DataServiceListener;
+import io.haskins.java.cloudtrailviewer.service.utils.FileProcessingThread;
 import io.haskins.java.cloudtrailviewer.utils.AwsService;
-import io.haskins.java.cloudtrailviewer.utils.EventUtils;
 import javafx.concurrent.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.ZipException;
 
 /**
  * Service responsible for handling CloudTrail events.
@@ -84,6 +73,8 @@ public class EventService extends DataService {
 
     public void loadFiles(List<String> filenames, final CompositeFilter filters, int file_type) {
 
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+
         Task<Void> task = new Task<Void>() {
 
             @Override
@@ -106,19 +97,18 @@ public class EventService extends DataService {
                     String message = "Processing file " + count + " of " + filenames.size();
                     updateMessage(message);
 
-                    if (file_type == FILE_TYPE_S3) {
-                        try (InputStream stream = loadEventFromS3(s3Client, activeAccount.getBucket(), filename)) {
-                            processStream(stream, filters);
-                        } catch (Exception ioe) {
-                            LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
-                        }
-                    } else if (file_type == FILE_TYPE_LOCAL) {
-                        try (InputStream stream = loadEventFromLocalFile(filename)) {
-                            processStream(stream, filters);
-                        } catch (Exception ioe) {
-                            LOGGER.log(Level.WARNING, "Failed to load file : " + filename, ioe);
-                        }
-                    }
+                    FileProcessingThread worker = new FileProcessingThread(
+                            filename, file_type, filters,
+                            s3Client, activeAccount, geoService,
+                            eventDb, listeners
+                    );
+
+                    executor.execute(worker);
+                }
+
+                executor.shutdown();
+
+                while (!executor.isTerminated()) {
                 }
 
                 return null;
@@ -159,109 +149,4 @@ public class EventService extends DataService {
         return getAllEvents();
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    ///// private methods
-    ////////////////////////////////////////////////////////////////////////////
-    private static InputStream loadEventFromLocalFile(final String file) throws IOException {
-
-        byte[] encoded = Files.readAllBytes(Paths.get(file));
-        return new ByteArrayInputStream(encoded);
-    }
-
-    private InputStream loadEventFromS3(AmazonS3 s3Client, String bucketName, final String key) {
-
-        S3Object s3Object = s3Client.getObject(new GetObjectRequest(bucketName, key));
-        return s3Object.getObjectContent();
-    }
-
-    private String uncompress(InputStream stream) {
-
-        StringBuilder json = new StringBuilder();
-
-        try (GZIPInputStream gzis = new GZIPInputStream(stream, BUFFER_SIZE)) {
-
-            try (BufferedReader bf = new BufferedReader(new InputStreamReader(gzis, "UTF-8"))) {
-
-                String line;
-                while ((line = bf.readLine()) != null) {
-                    json.append(line);
-                }
-            }
-        } catch (ZipException ex) {
-            json.append(loadUncompressedFile(stream));
-        } catch (UnsupportedEncodingException ex) {
-            LOGGER.log(Level.WARNING, "File encoding not recognised : ", ex);
-        } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "Problem uncompressing file data : ", ex);
-        }
-
-        return json.toString();
-    }
-
-    private String loadUncompressedFile(InputStream stream) {
-
-        StringBuilder json = new StringBuilder();
-
-        Scanner scanner = new Scanner(stream, "UTF-8");
-        while (scanner.hasNext()) {
-            String line = scanner.next();
-            json.append(line.replaceAll("(\\r|\\n|\\t)", ""));
-        }
-
-        // check if the first character is a { otherwise add one
-        String firstChars = json.substring(0, 2);
-        if (firstChars.equalsIgnoreCase("Re")) {
-            json.insert(0, "{\"");
-        } else if (firstChars.equalsIgnoreCase("\"R")) {
-            json.insert(0, "{");
-        }
-
-        return json.toString();
-    }
-
-    private List<Event> createEvents(String json_string) {
-
-        Gson g = new Gson();
-
-        List<Event> events = new ArrayList<>();
-
-        JsonObject jsonObject = new JsonParser().parse(json_string).getAsJsonObject();
-        JsonArray records = (JsonArray) jsonObject.get("Records");
-
-        for (Object record : records) {
-
-            try {
-                JsonObject obj = (JsonObject) record;
-                Event e = g.fromJson(obj, Event.class);
-                events.add(e);
-            } catch (Exception e) {
-                LOGGER.log(Level.WARNING, "Create Event from JSON : ", e);
-            }
-        }
-
-        return events;
-    }
-
-    private void processStream(InputStream stream, CompositeFilter filter) {
-
-        List<Event> events = createEvents(uncompress(stream));
-        for (Event event : events) {
-
-            EventUtils.addTimestamp(event);
-            if (filter.passes(event)) {
-
-                try {
-                    geoService.populateGeoData(event);
-                } catch (Exception e) {
-                    LOGGER.log(Level.WARNING, "Failed populate Location information");
-                }
-
-                eventDb.add(event);
-
-                for (DataServiceListener l : listeners) {
-                    l.newEvent(event);
-                }
-            }
-        }
-    }
 }

@@ -22,6 +22,7 @@
 
     <right>
         <HBox>
+            <Label fx:id="scannedEvents" prefHeight="17.0" prefWidth="150.0"/>
             <Label fx:id="loadedEvents" prefHeight="17.0" prefWidth="150.0"/>
             <Label fx:id="memoryUsage"/>
         </HBox>

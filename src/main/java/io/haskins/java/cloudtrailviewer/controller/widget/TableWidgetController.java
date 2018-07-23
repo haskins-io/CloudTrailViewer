@@ -72,6 +72,8 @@ public class TableWidgetController extends AbstractBaseController {
         }
     }
 
+    public void scannedEvent() { }
+
     public void loadingFile(int fileName, int totalFiles) { }
 
     @Override

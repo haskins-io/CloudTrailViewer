@@ -43,7 +43,7 @@ import java.util.regex.Pattern;
  * Created by markhaskins on 05/01/2017.
  */
 @Service
-class GeoService {
+public class GeoService {
 
     private final static Logger LOGGER = Logger.getLogger("GeoService");
 
@@ -62,7 +62,7 @@ class GeoService {
         }
     }
 
-    void populateGeoData(AwsData data) {
+    public void populateGeoData(AwsData data) {
 
         if (reader == null) {
             return;

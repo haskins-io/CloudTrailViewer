@@ -30,6 +30,8 @@ import java.util.List;
  */
 public interface DataServiceListener {
 
+    void scannedEvent();
+
     /**
      * A new Event
      * @param data the new AwsData

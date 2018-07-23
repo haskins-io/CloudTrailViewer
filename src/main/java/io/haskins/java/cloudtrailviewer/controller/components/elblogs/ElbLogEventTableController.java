@@ -70,6 +70,8 @@ public class ElbLogEventTableController implements EventTableServiceListener, Da
 
     }
 
+    public void scannedEvent() { }
+
     @Override
     public void newEvents(List<? extends AwsData> events) {
 

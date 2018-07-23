@@ -75,6 +75,8 @@ public class VpcLogEventTableController implements EventTableServiceListener, Da
         }
     }
 
+    public void scannedEvent() { }
+
     @Override
     public void newEvent(AwsData event) {
 

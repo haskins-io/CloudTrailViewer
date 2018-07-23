@@ -69,6 +69,8 @@ abstract class XYChartController extends AbstractBaseController {
         }
     }
 
+    public void scannedEvent() { }
+
     @Override
     public void newEvent(AwsData data) {
 
