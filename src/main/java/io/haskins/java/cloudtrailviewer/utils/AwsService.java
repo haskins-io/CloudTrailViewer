@@ -19,10 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package io.haskins.java.cloudtrailviewer.utils;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import io.haskins.java.cloudtrailviewer.model.aws.AwsAccount;
 import io.haskins.java.cloudtrailviewer.service.AccountService;
 import org.springframework.stereotype.Service;
@@ -143,7 +144,9 @@ public class AwsService {
              (secret != null && secret.trim().length() > 10) )
         {
             AWSCredentials credentials = new BasicAWSCredentials(key, secret);
-            return new AmazonS3Client(credentials);
+            return AmazonS3ClientBuilder.standard()
+                    .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                    .build();
         }
 
         return null;
@@ -155,7 +158,9 @@ public class AwsService {
 
         if (profile != null && profile.trim().length() > 1) {
             AWSCredentials credentials = new ProfileCredentialsProvider(currentAccount.getProfile()).getCredentials();
-            return new AmazonS3Client(credentials);
+            return AmazonS3ClientBuilder.standard()
+                    .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                    .build();
         }
 
         return null;
