@@ -6,6 +6,7 @@ CreateMultipartUpload
 DeleteBucket
 DeleteBucketAnalyticsConfiguration
 DeleteBucketCors
+DeleteBucketEncryption
 DeleteBucketInventoryConfiguration
 DeleteBucketLifecycle
 DeleteBucketMetricsConfiguration
@@ -16,10 +17,12 @@ DeleteBucketWebsite
 DeleteObject
 DeleteObjectTagging
 DeleteObjects
+DeletePublicAccessBlock
 GetBucketAccelerateConfiguration
 GetBucketAcl
 GetBucketAnalyticsConfiguration
 GetBucketCors
+GetBucketEncryption
 GetBucketInventoryConfiguration
 GetBucketLifecycle
 GetBucketLifecycleConfiguration
@@ -29,6 +32,7 @@ GetBucketMetricsConfiguration
 GetBucketNotification
 GetBucketNotificationConfiguration
 GetBucketPolicy
+GetBucketPolicyStatus
 GetBucketReplication
 GetBucketRequestPayment
 GetBucketTagging
@@ -36,8 +40,12 @@ GetBucketVersioning
 GetBucketWebsite
 GetObject
 GetObjectAcl
+GetObjectLegalHold
+GetObjectLockConfiguration
+GetObjectRetention
 GetObjectTagging
 GetObjectTorrent
+GetPublicAccessBlock
 HeadBucket
 HeadObject
 ListBucketAnalyticsConfigurations
@@ -53,6 +61,7 @@ PutBucketAccelerateConfiguration
 PutBucketAcl
 PutBucketAnalyticsConfiguration
 PutBucketCors
+PutBucketEncryption
 PutBucketInventoryConfiguration
 PutBucketLifecycle
 PutBucketLifecycleConfiguration
@@ -68,7 +77,12 @@ PutBucketVersioning
 PutBucketWebsite
 PutObject
 PutObjectAcl
+PutObjectLegalHold
+PutObjectLockConfiguration
+PutObjectRetention
 PutObjectTagging
+PutPublicAccessBlock
 RestoreObject
+SelectObjectContent
 UploadPart
 UploadPartCopy

@@ -17,6 +17,7 @@ DeleteTrafficPolicy
 DeleteTrafficPolicyInstance
 DeleteVPCAssociationAuthorization
 DisassociateVPCFromHostedZone
+GetAccountLimit
 GetChange
 GetCheckerIpRanges
 GetGeoLocation
@@ -26,8 +27,10 @@ GetHealthCheckLastFailureReason
 GetHealthCheckStatus
 GetHostedZone
 GetHostedZoneCount
+GetHostedZoneLimit
 GetQueryLoggingConfig
 GetReusableDelegationSet
+GetReusableDelegationSetLimit
 GetTrafficPolicy
 GetTrafficPolicyInstance
 GetTrafficPolicyInstanceCount
@@ -35,6 +38,7 @@ ListGeoLocations
 ListHealthChecks
 ListHostedZones
 ListHostedZonesByName
+ListHostedZonesByVPC
 ListQueryLoggingConfigs
 ListResourceRecordSets
 ListReusableDelegationSets

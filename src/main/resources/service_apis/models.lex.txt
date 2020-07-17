@@ -21,6 +21,7 @@ GetBuiltinIntent
 GetBuiltinIntents
 GetBuiltinSlotTypes
 GetExport
+GetImport
 GetIntent
 GetIntentVersions
 GetIntents
@@ -28,7 +29,11 @@ GetSlotType
 GetSlotTypeVersions
 GetSlotTypes
 GetUtterancesView
+ListTagsForResource
 PutBot
 PutBotAlias
 PutIntent
 PutSlotType
+StartImport
+TagResource
+UntagResource

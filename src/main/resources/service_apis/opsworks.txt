@@ -30,6 +30,7 @@ DescribeInstances
 DescribeLayers
 DescribeLoadBasedAutoScaling
 DescribeMyUserProfile
+DescribeOperatingSystems
 DescribePermissions
 DescribeRaidArrays
 DescribeRdsDbInstances

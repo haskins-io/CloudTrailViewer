@@ -1,3 +1,5 @@
+AcceptDomainTransferFromAnotherAwsAccount
+CancelDomainTransferToAnotherAwsAccount
 CheckDomainAvailability
 CheckDomainTransferability
 DeleteTagsForDomain
@@ -13,10 +15,12 @@ ListDomains
 ListOperations
 ListTagsForDomain
 RegisterDomain
+RejectDomainTransferFromAnotherAwsAccount
 RenewDomain
 ResendContactReachabilityEmail
 RetrieveDomainAuthCode
 TransferDomain
+TransferDomainToAnotherAwsAccount
 UpdateDomainContact
 UpdateDomainContactPrivacy
 UpdateDomainNameservers

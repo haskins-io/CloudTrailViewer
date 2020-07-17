@@ -20,6 +20,7 @@ DescribeActivities
 DescribeComments
 DescribeDocumentVersions
 DescribeFolderContents
+DescribeGroups
 DescribeNotificationSubscriptions
 DescribeResourcePermissions
 DescribeRootFolders
@@ -30,6 +31,7 @@ GetDocumentPath
 GetDocumentVersion
 GetFolder
 GetFolderPath
+GetResources
 InitiateDocumentVersionUpload
 RemoveAllResourcePermissions
 RemoveResourcePermission

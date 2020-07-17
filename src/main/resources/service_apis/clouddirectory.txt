@@ -23,8 +23,11 @@ DetachPolicy
 DetachTypedLink
 DisableDirectory
 EnableDirectory
+GetAppliedSchemaVersion
 GetDirectory
 GetFacet
+GetLinkAttributes
+GetObjectAttributes
 GetObjectInformation
 GetSchemaAsJson
 GetTypedLinkFacetInformation
@@ -36,6 +39,7 @@ ListFacetAttributes
 ListFacetNames
 ListIncomingTypedLinks
 ListIndex
+ListManagedSchemaArns
 ListObjectAttributes
 ListObjectChildren
 ListObjectParentPaths
@@ -54,6 +58,9 @@ RemoveFacetFromObject
 TagResource
 UntagResource
 UpdateFacet
+UpdateLinkAttributes
 UpdateObjectAttributes
 UpdateSchema
 UpdateTypedLinkFacet
+UpgradeAppliedSchema
+UpgradePublishedSchema

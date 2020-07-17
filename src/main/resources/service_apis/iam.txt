@@ -31,6 +31,7 @@ DeleteOpenIDConnectProvider
 DeletePolicy
 DeletePolicyVersion
 DeleteRole
+DeleteRolePermissionsBoundary
 DeleteRolePolicy
 DeleteSAMLProvider
 DeleteSSHPublicKey
@@ -39,6 +40,7 @@ DeleteServiceLinkedRole
 DeleteServiceSpecificCredential
 DeleteSigningCertificate
 DeleteUser
+DeleteUserPermissionsBoundary
 DeleteUserPolicy
 DeleteVirtualMFADevice
 DetachGroupPolicy
@@ -46,6 +48,8 @@ DetachRolePolicy
 DetachUserPolicy
 EnableMFADevice
 GenerateCredentialReport
+GenerateOrganizationsAccessReport
+GenerateServiceLastAccessedDetails
 GetAccessKeyLastUsed
 GetAccountAuthorizationDetails
 GetAccountPasswordPolicy
@@ -58,6 +62,7 @@ GetGroupPolicy
 GetInstanceProfile
 GetLoginProfile
 GetOpenIDConnectProvider
+GetOrganizationsAccessReport
 GetPolicy
 GetPolicyVersion
 GetRole
@@ -65,6 +70,8 @@ GetRolePolicy
 GetSAMLProvider
 GetSSHPublicKey
 GetServerCertificate
+GetServiceLastAccessedDetails
+GetServiceLastAccessedDetailsWithEntities
 GetServiceLinkedRoleDeletionStatus
 GetUser
 GetUserPolicy
@@ -82,8 +89,10 @@ ListInstanceProfilesForRole
 ListMFADevices
 ListOpenIDConnectProviders
 ListPolicies
+ListPoliciesGrantingServiceAccess
 ListPolicyVersions
 ListRolePolicies
+ListRoleTags
 ListRoles
 ListSAMLProviders
 ListSSHPublicKeys
@@ -91,10 +100,13 @@ ListServerCertificates
 ListServiceSpecificCredentials
 ListSigningCertificates
 ListUserPolicies
+ListUserTags
 ListUsers
 ListVirtualMFADevices
 PutGroupPolicy
+PutRolePermissionsBoundary
 PutRolePolicy
+PutUserPermissionsBoundary
 PutUserPolicy
 RemoveClientIDFromOpenIDConnectProvider
 RemoveRoleFromInstanceProfile
@@ -102,14 +114,20 @@ RemoveUserFromGroup
 ResetServiceSpecificCredential
 ResyncMFADevice
 SetDefaultPolicyVersion
+SetSecurityTokenServicePreferences
 SimulateCustomPolicy
 SimulatePrincipalPolicy
+TagRole
+TagUser
+UntagRole
+UntagUser
 UpdateAccessKey
 UpdateAccountPasswordPolicy
 UpdateAssumeRolePolicy
 UpdateGroup
 UpdateLoginProfile
 UpdateOpenIDConnectProviderThumbprint
+UpdateRole
 UpdateRoleDescription
 UpdateSAMLProvider
 UpdateSSHPublicKey

@@ -8,6 +8,7 @@ DeleteQueue
 GetQueueAttributes
 GetQueueUrl
 ListDeadLetterSourceQueues
+ListQueueTags
 ListQueues
 PurgeQueue
 ReceiveMessage
@@ -15,3 +16,5 @@ RemovePermission
 SendMessage
 SendMessageBatch
 SetQueueAttributes
+TagQueue
+UntagQueue

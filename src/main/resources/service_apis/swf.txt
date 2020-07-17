@@ -14,6 +14,7 @@ ListActivityTypes
 ListClosedWorkflowExecutions
 ListDomains
 ListOpenWorkflowExecutions
+ListTagsForResource
 ListWorkflowTypes
 PollForActivityTask
 PollForDecisionTask
@@ -28,4 +29,9 @@ RespondActivityTaskFailed
 RespondDecisionTaskCompleted
 SignalWorkflowExecution
 StartWorkflowExecution
+TagResource
 TerminateWorkflowExecution
+UndeprecateActivityType
+UndeprecateDomain
+UndeprecateWorkflowType
+UntagResource

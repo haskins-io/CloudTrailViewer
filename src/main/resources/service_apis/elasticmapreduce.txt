@@ -9,6 +9,8 @@ DescribeCluster
 DescribeJobFlows
 DescribeSecurityConfiguration
 DescribeStep
+GetBlockPublicAccessConfiguration
+GetManagedScalingPolicy
 ListBootstrapActions
 ListClusters
 ListInstanceFleets
@@ -16,10 +18,14 @@ ListInstanceGroups
 ListInstances
 ListSecurityConfigurations
 ListSteps
+ModifyCluster
 ModifyInstanceFleet
 ModifyInstanceGroups
 PutAutoScalingPolicy
+PutBlockPublicAccessConfiguration
+PutManagedScalingPolicy
 RemoveAutoScalingPolicy
+RemoveManagedScalingPolicy
 RemoveTags
 RunJobFlow
 SetTerminationProtection

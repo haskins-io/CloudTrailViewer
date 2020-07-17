@@ -5,6 +5,7 @@ DeleteBudget
 DeleteNotification
 DeleteSubscriber
 DescribeBudget
+DescribeBudgetPerformanceHistory
 DescribeBudgets
 DescribeNotificationsForBudget
 DescribeSubscribersForNotification

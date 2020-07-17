@@ -1,10 +1,13 @@
+CopyBackupToRegion
 CreateCluster
 CreateHsm
+DeleteBackup
 DeleteCluster
 DeleteHsm
 DescribeBackups
 DescribeClusters
 InitializeCluster
 ListTags
+RestoreBackup
 TagResource
 UntagResource

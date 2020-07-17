@@ -9,7 +9,11 @@ DescribeEvents
 DescribeNodeAssociationStatus
 DescribeServers
 DisassociateNode
+ExportServerEngineAttribute
+ListTagsForResource
 RestoreServer
 StartMaintenance
+TagResource
+UntagResource
 UpdateServer
 UpdateServerEngineAttributes

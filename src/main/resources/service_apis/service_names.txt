@@ -1,10 +1,33 @@
+a2i-runtime.sagemaker : Amazon Augmented AI Runtime
+a4b : Alexa For Business
+access-analyzer : Access Analyzer
 acm : AWS Certificate Manager
-apigateway : Amazon API Gateway
+acm-pca : AWS Certificate Manager Private Certificate Authority
+amplify : AWS Amplify
+api.detective : Amazon Detective
+api.ecr : Amazon EC2 Container Registry
+api.elastic-inference : Amazon Elastic  Inference
+api.mediatailor : AWS MediaTailor
+api.pricing : AWS Price List Service
+api.sagemaker : Amazon SageMaker Service
+api.tunneling.iot : AWS IoT Secure Tunneling
+apigateway : AmazonApiGatewayV2
+appconfig : Amazon AppConfig
+application-autoscaling : Application Auto Scaling
+applicationinsights : Amazon CloudWatch Application Insights
+appmesh : AWS App Mesh
 appstream2 : Amazon AppStream
+appsync : AWS AppSync
 athena : Amazon Athena
 autoscaling : Auto Scaling
+autoscaling-plans : AWS Auto Scaling Plans
+backup : AWS Backup
 batch : AWS Batch
 budgets : AWS Budgets
+catalog.marketplace : AWS Marketplace Catalog Service
+ce : AWS Cost Explorer Service
+chime : Amazon Chime
+cloud9 : AWS Cloud9
 clouddirectory : Amazon CloudDirectory
 cloudformation : AWS CloudFormation
 cloudfront : Amazon CloudFront
@@ -13,28 +36,46 @@ cloudhsmv2 : AWS CloudHSM V2
 cloudsearch : Amazon CloudSearch
 cloudsearchdomain : Amazon CloudSearch Domain
 cloudtrail : AWS CloudTrail
+codeartifact : CodeArtifact
 codebuild : AWS CodeBuild
 codecommit : AWS CodeCommit
 codedeploy : AWS CodeDeploy
+codeguru-profiler : Amazon CodeGuru Profiler
+codeguru-reviewer : Amazon CodeGuru Reviewer
 codepipeline : AWS CodePipeline
 codestar : AWS CodeStar
+codestar-connections : AWS CodeStar connections
+codestar-notifications : AWS CodeStar Notifications
 cognito-identity : Amazon Cognito Identity
 cognito-idp : Amazon Cognito Identity Provider
 cognito-sync : Amazon Cognito Sync
+comprehend : Amazon Comprehend
+comprehendmedical : AWS Comprehend Medical
+compute-optimizer : AWS Compute Optimizer
 config : AWS Config
+connect : Amazon Connect Service
 cur : AWS Cost and Usage Report Service
 data.iot : AWS IoT Data Plane
+data.iotevents : AWS IoT Events Data
+data.jobs.iot : AWS IoT Jobs Data Plane
+data.mediastore : AWS Elemental MediaStore Data Plane
+dataexchange : AWS Data Exchange
 datapipeline : AWS Data Pipeline
+datasync : AWS DataSync
 dax : Amazon DynamoDB Accelerator (DAX)
 devicefarm : AWS Device Farm
+devices.iot1click : AWS IoT 1-Click Devices Service
 directconnect : AWS Direct Connect
 discovery : AWS Application Discovery Service
+dlm : Amazon Data Lifecycle Manager
 dms : AWS Database Migration Service
 ds : AWS Directory Service
 dynamodb : Amazon DynamoDB
+ebs : Amazon Elastic Block Store
 ec2 : Amazon Elastic Compute Cloud
-ecr : Amazon EC2 Container Registry
+ec2-instance-connect : AWS EC2 Instance Connect
 ecs : Amazon EC2 Container Service
+eks : Amazon Elastic Kubernetes Service
 elasticache : Amazon ElastiCache
 elasticbeanstalk : AWS Elastic Beanstalk
 elasticfilesystem : Amazon Elastic File System
@@ -44,48 +85,109 @@ elastictranscoder : Amazon Elastic Transcoder
 email : Amazon Simple Email Service
 entitlement.marketplace : AWS Marketplace Entitlement Service
 es : Amazon Elasticsearch Service
-events : Amazon CloudWatch Events
+events : Amazon EventBridge
+execute-api : AmazonApiGatewayManagementApi
 firehose : Amazon Kinesis Firehose
+fms : Firewall Management Service
+forecast : Amazon Forecast Service
+forecastquery : Amazon Forecast Query Service
+frauddetector : Amazon Fraud Detector
+fsx : Amazon FSx
 gamelift : Amazon GameLift
 glacier : Amazon Glacier
+globalaccelerator : AWS Global Accelerator
 glue : AWS Glue
 greengrass : AWS Greengrass
+groundstation : AWS Ground Station
+guardduty : Amazon GuardDuty
 health : AWS Health APIs and Notifications
+honeycode : Amazon Honeycode
 iam : AWS Identity and Access Management
+imagebuilder : EC2 Image Builder
 importexport : AWS Import/Export
 inspector : Amazon Inspector
 iot : AWS IoT
+iotanalytics : AWS IoT Analytics
+iotevents : AWS IoT Events
+iotsitewise : AWS IoT SiteWise
+iotthingsgraph : AWS IoT Things Graph
+ivs : Amazon Interactive Video Service
+kafka : Managed Streaming for Kafka
+kendra : AWSKendraFrontendService
 kinesis : Amazon Kinesis
 kinesisanalytics : Amazon Kinesis Analytics
+kinesisvideo : Amazon Kinesis Video Streams Media
 kms : AWS Key Management Service
+lakeformation : AWS Lake Formation
 lambda : AWS Lambda
+license-manager : AWS License Manager
 lightsail : Amazon Lightsail
 logs : Amazon CloudWatch Logs
 machinelearning : Amazon Machine Learning
+macie : Amazon Macie
+macie2 : Amazon Macie 2
+managedblockchain : Amazon Managed Blockchain
 marketplacecommerceanalytics : AWS Marketplace Commerce Analytics
+mediaconnect : AWS MediaConnect
+mediaconvert : AWS Elemental MediaConvert
+medialive : AWS Elemental MediaLive
+mediapackage : AWS Elemental MediaPackage
+mediapackage-vod : AWS Elemental MediaPackage VOD
+mediastore : AWS Elemental MediaStore
 metering.marketplace : AWSMarketplace Metering
 mgh : AWS Migration Hub
+migrationhub-config : AWS Migration Hub Config
 mobile : AWS Mobile
 mobileanalytics : Amazon Mobile Analytics
 models.lex : Amazon Lex Model Building Service
 monitoring : Amazon CloudWatch
+mq : AmazonMQ
 mturk-requester : Amazon Mechanical Turk
+networkmanager : AWS Network Manager
+oidc : AWS SSO OIDC
 opsworks : AWS OpsWorks
-opsworks-cm : AWS OpsWorks for Chef Automate
+opsworks-cm : AWS OpsWorks CM
 organizations : AWS Organizations
+outposts : AWS Outposts
+participant.connect : Amazon Connect Participant Service
+personalize : Amazon Personalize
+personalize-events : Amazon Personalize Events
+personalize-runtime : Amazon Personalize Runtime
+pi : AWS Performance Insights
 pinpoint : Amazon Pinpoint
 polly : Amazon Polly
-rds : Amazon Relational Database Service
+portal.sso : AWS Single Sign-On
+projects.iot1click : AWS IoT 1-Click Projects Service
+qldb : Amazon QLDB
+quicksight : Amazon QuickSight
+ram : AWS Resource Access Manager
+rds : Amazon DocumentDB with MongoDB compatibility
+rds-data : AWS RDS DataService
 redshift : Amazon Redshift
 rekognition : Amazon Rekognition
+resource-groups : AWS Resource Groups
+robomaker : AWS RoboMaker
 route53 : Amazon Route 53
 route53domains : Amazon Route 53 Domains
+route53resolver : Amazon Route 53 Resolver
 runtime.lex : Amazon Lex Runtime Service
+runtime.sagemaker : Amazon SageMaker Runtime
 s3 : Amazon Simple Storage Service
+s3-control : AWS S3 Control
+savingsplans : AWS Savings Plans
+schemas : Schemas
 sdb : Amazon SimpleDB
+secretsmanager : AWS Secrets Manager
+securityhub : AWS SecurityHub
+serverlessrepo : AWSServerlessApplicationRepository
 servicecatalog : AWS Service Catalog
+servicediscovery : AWS Cloud Map
+servicequotas : Service Quotas
+session.qldb : Amazon QLDB Session
 shield : AWS Shield
+signer : AWS Signer
 sms : AWS Server Migration Service
+sms-voice.pinpoint : Amazon Pinpoint SMS and Voice Service
 snowball : Amazon Import/Export Snowball
 sns : Amazon Simple Notification Service
 sqs : Amazon Simple Queue Service
@@ -96,9 +198,18 @@ streams.dynamodb : Amazon DynamoDB Streams
 sts : AWS Security Token Service
 support : AWS Support
 swf : Amazon Simple Workflow Service
+synthetics : Synthetics
 tagging : AWS Resource Groups Tagging API
+textract : Amazon Textract
+transcribe : Amazon Transcribe Service
+transfer : AWS Transfer Family
+translate : Amazon Translate
 waf : AWS WAF
 waf-regional : AWS WAF Regional
+wafv2 : AWS WAFV2
 workdocs : Amazon WorkDocs
+worklink : Amazon WorkLink
+workmail : Amazon WorkMail
+workmailmessageflow : Amazon WorkMail Message Flow
 workspaces : Amazon WorkSpaces
 xray : AWS X-Ray

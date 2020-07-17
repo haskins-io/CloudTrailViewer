@@ -1,2 +1,5 @@
+DeleteSession
+GetSession
 PostContent
 PostText
+PutSession

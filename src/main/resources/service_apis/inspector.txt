@@ -1,6 +1,7 @@
 AddAttributesToFindings
 CreateAssessmentTarget
 CreateAssessmentTemplate
+CreateExclusionsPreview
 CreateResourceGroup
 DeleteAssessmentRun
 DeleteAssessmentTarget
@@ -9,16 +10,19 @@ DescribeAssessmentRuns
 DescribeAssessmentTargets
 DescribeAssessmentTemplates
 DescribeCrossAccountAccessRole
+DescribeExclusions
 DescribeFindings
 DescribeResourceGroups
 DescribeRulesPackages
 GetAssessmentReport
+GetExclusionsPreview
 GetTelemetryMetadata
 ListAssessmentRunAgents
 ListAssessmentRuns
 ListAssessmentTargets
 ListAssessmentTemplates
 ListEventSubscriptions
+ListExclusions
 ListFindings
 ListRulesPackages
 ListTagsForResource

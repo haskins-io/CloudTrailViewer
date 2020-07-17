@@ -10,8 +10,10 @@ DescribeJob
 GetJobManifest
 GetJobUnlockCode
 GetSnowballUsage
+GetSoftwareUpdates
 ListClusterJobs
 ListClusters
+ListCompatibleImages
 ListJobs
 UpdateCluster
 UpdateJob

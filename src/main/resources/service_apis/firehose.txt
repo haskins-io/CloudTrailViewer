@@ -1,8 +1,12 @@
 CreateDeliveryStream
 DeleteDeliveryStream
 DescribeDeliveryStream
-GetKinesisStream
 ListDeliveryStreams
+ListTagsForDeliveryStream
 PutRecord
 PutRecordBatch
+StartDeliveryStreamEncryption
+StopDeliveryStreamEncryption
+TagDeliveryStream
+UntagDeliveryStream
 UpdateDestination

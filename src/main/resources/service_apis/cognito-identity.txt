@@ -10,9 +10,12 @@ GetOpenIdToken
 GetOpenIdTokenForDeveloperIdentity
 ListIdentities
 ListIdentityPools
+ListTagsForResource
 LookupDeveloperIdentity
 MergeDeveloperIdentities
 SetIdentityPoolRoles
+TagResource
 UnlinkDeveloperIdentity
 UnlinkIdentity
+UntagResource
 UpdateIdentityPool

@@ -4,6 +4,8 @@ CreateCustomActionType
 CreatePipeline
 DeleteCustomActionType
 DeletePipeline
+DeleteWebhook
+DeregisterWebhookWithThirdParty
 DisableStageTransition
 EnableStageTransition
 GetJobDetails
@@ -11,9 +13,12 @@ GetPipeline
 GetPipelineExecution
 GetPipelineState
 GetThirdPartyJobDetails
+ListActionExecutions
 ListActionTypes
 ListPipelineExecutions
 ListPipelines
+ListTagsForResource
+ListWebhooks
 PollForJobs
 PollForThirdPartyJobs
 PutActionRevision
@@ -22,6 +27,11 @@ PutJobFailureResult
 PutJobSuccessResult
 PutThirdPartyJobFailureResult
 PutThirdPartyJobSuccessResult
+PutWebhook
+RegisterWebhookWithThirdParty
 RetryStageExecution
 StartPipelineExecution
+StopPipelineExecution
+TagResource
+UntagResource
 UpdatePipeline

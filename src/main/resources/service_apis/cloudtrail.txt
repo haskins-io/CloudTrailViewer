@@ -3,11 +3,15 @@ CreateTrail
 DeleteTrail
 DescribeTrails
 GetEventSelectors
+GetInsightSelectors
+GetTrail
 GetTrailStatus
 ListPublicKeys
 ListTags
+ListTrails
 LookupEvents
 PutEventSelectors
+PutInsightSelectors
 RemoveTags
 StartLogging
 StopLogging

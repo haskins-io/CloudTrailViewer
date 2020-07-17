@@ -1,5 +1,6 @@
 AbortEnvironmentUpdate
 ApplyEnvironmentManagedAction
+AssociateEnvironmentOperationsRole
 CheckDNSAvailability
 ComposeEnvironments
 CreateApplication
@@ -13,6 +14,7 @@ DeleteApplicationVersion
 DeleteConfigurationTemplate
 DeleteEnvironmentConfiguration
 DeletePlatformVersion
+DescribeAccountAttributes
 DescribeApplicationVersions
 DescribeApplications
 DescribeConfigurationOptions
@@ -25,7 +27,9 @@ DescribeEnvironments
 DescribeEvents
 DescribeInstancesHealth
 DescribePlatformVersion
+DisassociateEnvironmentOperationsRole
 ListAvailableSolutionStacks
+ListPlatformBranches
 ListPlatformVersions
 ListTagsForResource
 RebuildEnvironment

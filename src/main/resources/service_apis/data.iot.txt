@@ -1,4 +1,5 @@
 DeleteThingShadow
 GetThingShadow
+ListNamedShadowsForThing
 Publish
 UpdateThingShadow

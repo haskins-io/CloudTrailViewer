@@ -1,13 +1,9 @@
-DeleteScalingPolicy
-DeregisterScalableTarget
-DescribeScalableTargets
-DescribeScalingActivities
-DescribeScalingPolicies
-PutScalingPolicy
-RegisterScalableTarget
 AttachInstances
 AttachLoadBalancerTargetGroups
 AttachLoadBalancers
+BatchDeleteScheduledAction
+BatchPutScheduledUpdateGroupAction
+CancelInstanceRefresh
 CompleteLifecycleAction
 CreateAutoScalingGroup
 CreateLaunchConfiguration
@@ -24,6 +20,7 @@ DescribeAdjustmentTypes
 DescribeAutoScalingGroups
 DescribeAutoScalingInstances
 DescribeAutoScalingNotificationTypes
+DescribeInstanceRefreshes
 DescribeLaunchConfigurations
 DescribeLifecycleHookTypes
 DescribeLifecycleHooks
@@ -32,6 +29,7 @@ DescribeLoadBalancers
 DescribeMetricCollectionTypes
 DescribeNotificationConfigurations
 DescribePolicies
+DescribeScalingActivities
 DescribeScalingProcessTypes
 DescribeScheduledActions
 DescribeTags
@@ -46,12 +44,14 @@ ExecutePolicy
 ExitStandby
 PutLifecycleHook
 PutNotificationConfiguration
+PutScalingPolicy
 PutScheduledUpdateGroupAction
 RecordLifecycleActionHeartbeat
 ResumeProcesses
 SetDesiredCapacity
 SetInstanceHealth
 SetInstanceProtection
+StartInstanceRefresh
 SuspendProcesses
 TerminateInstanceInAutoScalingGroup
 UpdateAutoScalingGroup

@@ -2,6 +2,7 @@ AssumeRole
 AssumeRoleWithSAML
 AssumeRoleWithWebIdentity
 DecodeAuthorizationMessage
+GetAccessKeyInfo
 GetCallerIdentity
 GetFederationToken
 GetSessionToken

@@ -17,6 +17,7 @@ ListPhoneNumbersOptedOut
 ListPlatformApplications
 ListSubscriptions
 ListSubscriptionsByTopic
+ListTagsForResource
 ListTopics
 OptInPhoneNumber
 Publish
@@ -27,4 +28,6 @@ SetSMSAttributes
 SetSubscriptionAttributes
 SetTopicAttributes
 Subscribe
+TagResource
 Unsubscribe
+UntagResource
