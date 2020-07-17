@@ -1,0 +1,5 @@
+DeleteHumanLoop
+DescribeHumanLoop
+ListHumanLoops
+StartHumanLoop
+StopHumanLoop

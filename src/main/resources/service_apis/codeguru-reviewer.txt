@@ -1,0 +1,10 @@
+AssociateRepository
+DescribeCodeReview
+DescribeRecommendationFeedback
+DescribeRepositoryAssociation
+DisassociateRepository
+ListCodeReviews
+ListRecommendationFeedback
+ListRecommendations
+ListRepositoryAssociations
+PutRecommendationFeedback

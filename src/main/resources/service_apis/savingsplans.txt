@@ -1,0 +1,8 @@
+CreateSavingsPlan
+DescribeSavingsPlanRates
+DescribeSavingsPlans
+DescribeSavingsPlansOfferingRates
+DescribeSavingsPlansOfferings
+ListTagsForResource
+TagResource
+UntagResource

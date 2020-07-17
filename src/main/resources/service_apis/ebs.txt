@@ -1,0 +1,6 @@
+CompleteSnapshot
+GetSnapshotBlock
+ListChangedBlocks
+ListSnapshotBlocks
+PutSnapshotBlock
+StartSnapshot

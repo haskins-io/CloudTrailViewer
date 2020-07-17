@@ -1,0 +1,6 @@
+CreateScalingPlan
+DeleteScalingPlan
+DescribeScalingPlanResources
+DescribeScalingPlans
+GetScalingPlanResourceForecastData
+UpdateScalingPlan

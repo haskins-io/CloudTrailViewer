@@ -1,0 +1,6 @@
+AnalyzeDocument
+DetectDocumentText
+GetDocumentAnalysis
+GetDocumentTextDetection
+StartDocumentAnalysis
+StartDocumentTextDetection

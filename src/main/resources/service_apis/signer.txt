@@ -1,0 +1,12 @@
+CancelSigningProfile
+DescribeSigningJob
+GetSigningPlatform
+GetSigningProfile
+ListSigningJobs
+ListSigningPlatforms
+ListSigningProfiles
+ListTagsForResource
+PutSigningProfile
+StartSigningJob
+TagResource
+UntagResource

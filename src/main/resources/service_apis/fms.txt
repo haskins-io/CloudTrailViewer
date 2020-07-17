@@ -1,0 +1,17 @@
+AssociateAdminAccount
+DeleteNotificationChannel
+DeletePolicy
+DisassociateAdminAccount
+GetAdminAccount
+GetComplianceDetail
+GetNotificationChannel
+GetPolicy
+GetProtectionStatus
+ListComplianceStatus
+ListMemberAccounts
+ListPolicies
+ListTagsForResource
+PutNotificationChannel
+PutPolicy
+TagResource
+UntagResource

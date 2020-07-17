@@ -1,0 +1,3 @@
+DeleteConnection
+GetConnection
+PostToConnection

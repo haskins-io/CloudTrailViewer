@@ -1,0 +1,4 @@
+GetRoleCredentials
+ListAccountRoles
+ListAccounts
+Logout

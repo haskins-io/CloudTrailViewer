@@ -1,0 +1,14 @@
+CreateApplication
+CreateApplicationVersion
+CreateCloudFormationChangeSet
+CreateCloudFormationTemplate
+DeleteApplication
+GetApplication
+GetApplicationPolicy
+GetCloudFormationTemplate
+ListApplicationDependencies
+ListApplicationVersions
+ListApplications
+PutApplicationPolicy
+UnshareApplication
+UpdateApplication

@@ -1,0 +1,6 @@
+CancelChangeSet
+DescribeChangeSet
+DescribeEntity
+ListChangeSets
+ListEntities
+StartChangeSet

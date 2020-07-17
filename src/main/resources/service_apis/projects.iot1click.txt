@@ -1,0 +1,16 @@
+AssociateDeviceWithPlacement
+CreatePlacement
+CreateProject
+DeletePlacement
+DeleteProject
+DescribePlacement
+DescribeProject
+DisassociateDeviceFromPlacement
+GetDevicesInPlacement
+ListPlacements
+ListProjects
+ListTagsForResource
+TagResource
+UntagResource
+UpdatePlacement
+UpdateProject

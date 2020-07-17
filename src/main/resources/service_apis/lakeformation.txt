@@ -1,0 +1,13 @@
+BatchGrantPermissions
+BatchRevokePermissions
+DeregisterResource
+DescribeResource
+GetDataLakeSettings
+GetEffectivePermissionsForPath
+GrantPermissions
+ListPermissions
+ListResources
+PutDataLakeSettings
+RegisterResource
+RevokePermissions
+UpdateResource

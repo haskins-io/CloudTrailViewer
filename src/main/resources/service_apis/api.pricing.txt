@@ -1,0 +1,3 @@
+DescribeServices
+GetAttributeValues
+GetProducts

@@ -1,0 +1,8 @@
+CreateLifecyclePolicy
+DeleteLifecyclePolicy
+GetLifecyclePolicies
+GetLifecyclePolicy
+ListTagsForResource
+TagResource
+UntagResource
+UpdateLifecyclePolicy

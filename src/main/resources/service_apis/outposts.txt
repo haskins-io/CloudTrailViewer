@@ -1,0 +1,7 @@
+CreateOutpost
+DeleteOutpost
+DeleteSite
+GetOutpost
+GetOutpostInstanceTypes
+ListOutposts
+ListSites

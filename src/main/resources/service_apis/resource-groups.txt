@@ -1,0 +1,12 @@
+CreateGroup
+DeleteGroup
+GetGroup
+GetGroupQuery
+GetTags
+ListGroupResources
+ListGroups
+SearchResources
+Tag
+Untag
+UpdateGroup
+UpdateGroupQuery

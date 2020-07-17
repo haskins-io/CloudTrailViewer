@@ -1,0 +1,16 @@
+CreateDetectorModel
+CreateInput
+DeleteDetectorModel
+DeleteInput
+DescribeDetectorModel
+DescribeInput
+DescribeLoggingOptions
+ListDetectorModelVersions
+ListDetectorModels
+ListInputs
+ListTagsForResource
+PutLoggingOptions
+TagResource
+UntagResource
+UpdateDetectorModel
+UpdateInput

@@ -1,0 +1,4 @@
+BatchPutMessage
+BatchUpdateDetector
+DescribeDetector
+ListDetectors

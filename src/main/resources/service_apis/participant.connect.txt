@@ -1,0 +1,5 @@
+CreateParticipantConnection
+DisconnectParticipant
+GetTranscript
+SendEvent
+SendMessage

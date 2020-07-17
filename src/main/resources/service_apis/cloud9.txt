@@ -1,0 +1,13 @@
+CreateEnvironmentEC2
+CreateEnvironmentMembership
+DeleteEnvironment
+DeleteEnvironmentMembership
+DescribeEnvironmentMemberships
+DescribeEnvironmentStatus
+DescribeEnvironments
+ListEnvironments
+ListTagsForResource
+TagResource
+UntagResource
+UpdateEnvironment
+UpdateEnvironmentMembership

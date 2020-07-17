@@ -1,0 +1,9 @@
+DeleteTerminology
+DescribeTextTranslationJob
+GetTerminology
+ImportTerminology
+ListTerminologies
+ListTextTranslationJobs
+StartTextTranslationJob
+StopTextTranslationJob
+TranslateText

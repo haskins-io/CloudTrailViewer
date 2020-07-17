@@ -1,0 +1,14 @@
+CancelDataRepositoryTask
+CreateBackup
+CreateDataRepositoryTask
+CreateFileSystem
+CreateFileSystemFromBackup
+DeleteBackup
+DeleteFileSystem
+DescribeBackups
+DescribeDataRepositoryTasks
+DescribeFileSystems
+ListTagsForResource
+TagResource
+UntagResource
+UpdateFileSystem

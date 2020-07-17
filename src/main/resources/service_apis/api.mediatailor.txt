@@ -1,0 +1,7 @@
+DeletePlaybackConfiguration
+GetPlaybackConfiguration
+ListPlaybackConfigurations
+ListTagsForResource
+PutPlaybackConfiguration
+TagResource
+UntagResource
