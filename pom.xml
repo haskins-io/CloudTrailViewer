@@ -7,7 +7,7 @@
 
     <groupId>io.haskins.java</groupId>
     <artifactId>cloudtrail-viewer</artifactId>
-    <version>3.1.1</version>
+    <version>3.1.2</version>
     <packaging>jar</packaging>
 
     <name>CloudTrail Viewer</name>
@@ -27,7 +27,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <awssdk.version>1.11.820</awssdk.version>
+        <awssdk.version>1.11.952</awssdk.version>
     </properties>
 
     <repositories>

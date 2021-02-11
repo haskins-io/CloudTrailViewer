@@ -112,28 +112,41 @@ class S3FileHandler extends FileHandler {
 
         listView.getItems().clear();
 
-        ObjectListing objectListing = s3ListObjects(prefix, "/");
+        ObjectListing objectListing = null;
+        String marker = "";
 
-        // Add .. if not at root
-        if (prefix.trim().length() != 0) {
-            FileListModel model = new FileListModel(MOVE_BACK, MOVE_BACK, FileListModel.FILE_BACK);
-            listView.getItems().add(model);
-        }
+        do {
+            objectListing = s3ListObjects(prefix, "/", marker);
 
-        addDirectories(objectListing);
-        addFileKeys(objectListing);
+            if (objectListing.isTruncated()) {
+                objectListing.getNextMarker();
+            }
+
+            // Add .. if not at root
+            if (prefix.trim().length() != 0) {
+                FileListModel model = new FileListModel(MOVE_BACK, MOVE_BACK, FileListModel.FILE_BACK);
+                listView.getItems().add(model);
+            }
+
+            addDirectories(objectListing);
+            addFileKeys(objectListing);
+
+        } while (objectListing.isTruncated());
     }
 
     private void updateAccountPrefix(String newPrefix) {
         currentAccount.setPrefix(newPrefix);
     }
 
-
-    private ObjectListing s3ListObjects(String pathPrefix, String delimiter) {
+    private ObjectListing s3ListObjects(String pathPrefix, String delimiter, String marker) {
 
         ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
         listObjectsRequest.setBucketName(currentAccount.getBucket());
         listObjectsRequest.setPrefix(pathPrefix);
+
+        if (!marker.isEmpty()) {
+            listObjectsRequest.setMarker(marker);
+        }
 
         if (delimiter != null) {
             listObjectsRequest.setDelimiter(delimiter);
