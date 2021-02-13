@@ -1,0 +1,8 @@
+CreateFHIRDatastore
+DeleteFHIRDatastore
+DescribeFHIRDatastore
+DescribeFHIRExportJob
+DescribeFHIRImportJob
+ListFHIRDatastores
+StartFHIRExportJob
+StartFHIRImportJob

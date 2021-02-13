@@ -21,6 +21,7 @@ DescribeAsset
 DescribeAssetModel
 DescribeAssetProperty
 DescribeDashboard
+DescribeDefaultEncryptionConfiguration
 DescribeGateway
 DescribeGatewayCapabilityConfiguration
 DescribeLoggingOptions
@@ -32,6 +33,7 @@ GetAssetPropertyValue
 GetAssetPropertyValueHistory
 ListAccessPolicies
 ListAssetModels
+ListAssetRelationships
 ListAssets
 ListAssociatedAssets
 ListDashboards
@@ -40,6 +42,7 @@ ListPortals
 ListProjectAssets
 ListProjects
 ListTagsForResource
+PutDefaultEncryptionConfiguration
 PutLoggingOptions
 TagResource
 UntagResource

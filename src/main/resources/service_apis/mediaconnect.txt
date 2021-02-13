@@ -4,10 +4,15 @@ AddFlowVpcInterfaces
 CreateFlow
 DeleteFlow
 DescribeFlow
+DescribeOffering
+DescribeReservation
 GrantFlowEntitlements
 ListEntitlements
 ListFlows
+ListOfferings
+ListReservations
 ListTagsForResource
+PurchaseOffering
 RemoveFlowOutput
 RemoveFlowSource
 RemoveFlowVpcInterface

@@ -1,0 +1,3 @@
+CreateEndpoint
+DeleteEndpoint
+ListEndpoints

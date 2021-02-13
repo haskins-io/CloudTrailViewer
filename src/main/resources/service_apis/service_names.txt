@@ -3,26 +3,37 @@ a4b : Alexa For Business
 access-analyzer : Access Analyzer
 acm : AWS Certificate Manager
 acm-pca : AWS Certificate Manager Private Certificate Authority
+airflow : AmazonMWAA
 amplify : AWS Amplify
+amplifybackend : AmplifyBackend
 api.detective : Amazon Detective
 api.ecr : Amazon EC2 Container Registry
+api.ecr-public : Amazon Elastic Container Registry Public
 api.elastic-inference : Amazon Elastic  Inference
+api.fleethub.iot : AWS IoT Fleet Hub
+api.iotdeviceadvisor : AWS IoT Core Device Advisor
+api.iotwireless : AWS IoT Wireless
 api.mediatailor : AWS MediaTailor
 api.pricing : AWS Price List Service
 api.sagemaker : Amazon SageMaker Service
 api.tunneling.iot : AWS IoT Secure Tunneling
 apigateway : AmazonApiGatewayV2
+app-integrations : Amazon AppIntegrations Service
 appconfig : Amazon AppConfig
+appflow : Amazon Appflow
 application-autoscaling : Application Auto Scaling
 applicationinsights : Amazon CloudWatch Application Insights
 appmesh : AWS App Mesh
 appstream2 : Amazon AppStream
 appsync : AWS AppSync
+aps : Amazon Prometheus Service
 athena : Amazon Athena
+auditmanager : AWS Audit Manager
 autoscaling : Auto Scaling
 autoscaling-plans : AWS Auto Scaling Plans
 backup : AWS Backup
 batch : AWS Batch
+braket : Braket
 budgets : AWS Budgets
 catalog.marketplace : AWS Marketplace Catalog Service
 ce : AWS Cost Explorer Service
@@ -54,17 +65,20 @@ comprehendmedical : AWS Comprehend Medical
 compute-optimizer : AWS Compute Optimizer
 config : AWS Config
 connect : Amazon Connect Service
+contact-lens : Amazon Connect Contact Lens
 cur : AWS Cost and Usage Report Service
 data.iot : AWS IoT Data Plane
 data.iotevents : AWS IoT Events Data
 data.jobs.iot : AWS IoT Jobs Data Plane
 data.mediastore : AWS Elemental MediaStore Data Plane
+databrew : AWS Glue DataBrew
 dataexchange : AWS Data Exchange
 datapipeline : AWS Data Pipeline
 datasync : AWS DataSync
 dax : Amazon DynamoDB Accelerator (DAX)
 devicefarm : AWS Device Farm
 devices.iot1click : AWS IoT 1-Click Devices Service
+devops-guru : Amazon DevOps Guru
 directconnect : AWS Direct Connect
 discovery : AWS Application Discovery Service
 dlm : Amazon Data Lifecycle Manager
@@ -75,6 +89,7 @@ ebs : Amazon Elastic Block Store
 ec2 : Amazon Elastic Compute Cloud
 ec2-instance-connect : AWS EC2 Instance Connect
 ecs : Amazon EC2 Container Service
+edge.sagemaker : Amazon Sagemaker Edge Manager
 eks : Amazon Elastic Kubernetes Service
 elasticache : Amazon ElastiCache
 elasticbeanstalk : AWS Elastic Beanstalk
@@ -83,10 +98,12 @@ elasticloadbalancing : Elastic Load Balancing
 elasticmapreduce : Amazon Elastic MapReduce
 elastictranscoder : Amazon Elastic Transcoder
 email : Amazon Simple Email Service
+emr-containers : Amazon EMR Containers
 entitlement.marketplace : AWS Marketplace Entitlement Service
 es : Amazon Elasticsearch Service
 events : Amazon EventBridge
 execute-api : AmazonApiGatewayManagementApi
+featurestore-runtime.sagemaker : Amazon SageMaker Feature Store Runtime
 firehose : Amazon Kinesis Firehose
 fms : Firewall Management Service
 forecast : Amazon Forecast Service
@@ -94,17 +111,21 @@ forecastquery : Amazon Forecast Query Service
 frauddetector : Amazon Fraud Detector
 fsx : Amazon FSx
 gamelift : Amazon GameLift
+geo : Amazon Location Service
 glacier : Amazon Glacier
 globalaccelerator : AWS Global Accelerator
 glue : AWS Glue
-greengrass : AWS Greengrass
+greengrass : AWS IoT Greengrass V2
 groundstation : AWS Ground Station
 guardduty : Amazon GuardDuty
 health : AWS Health APIs and Notifications
+healthlake : Amazon HealthLake
 honeycode : Amazon Honeycode
 iam : AWS Identity and Access Management
+identitystore : AWS SSO Identity Store
 imagebuilder : EC2 Image Builder
 importexport : AWS Import/Export
+ingest.timestream : Amazon Timestream Write
 inspector : Amazon Inspector
 iot : AWS IoT
 iotanalytics : AWS IoT Analytics
@@ -123,6 +144,7 @@ lambda : AWS Lambda
 license-manager : AWS License Manager
 lightsail : Amazon Lightsail
 logs : Amazon CloudWatch Logs
+lookoutvision : Amazon Lookout for Vision
 machinelearning : Amazon Machine Learning
 macie : Amazon Macie
 macie2 : Amazon Macie 2
@@ -139,10 +161,12 @@ mgh : AWS Migration Hub
 migrationhub-config : AWS Migration Hub Config
 mobile : AWS Mobile
 mobileanalytics : Amazon Mobile Analytics
+models-v2-lex : Amazon Lex Model Building V2
 models.lex : Amazon Lex Model Building Service
 monitoring : Amazon CloudWatch
 mq : AmazonMQ
 mturk-requester : Amazon Mechanical Turk
+network-firewall : AWS Network Firewall
 networkmanager : AWS Network Manager
 oidc : AWS SSO OIDC
 opsworks : AWS OpsWorks
@@ -157,23 +181,28 @@ pi : AWS Performance Insights
 pinpoint : Amazon Pinpoint
 polly : Amazon Polly
 portal.sso : AWS Single Sign-On
+profile : Amazon Connect Customer Profiles
 projects.iot1click : AWS IoT 1-Click Projects Service
 qldb : Amazon QLDB
+query.timestream : Amazon Timestream Query
 quicksight : Amazon QuickSight
 ram : AWS Resource Access Manager
 rds : Amazon DocumentDB with MongoDB compatibility
 rds-data : AWS RDS DataService
 redshift : Amazon Redshift
+redshift-data : Redshift Data API Service
 rekognition : Amazon Rekognition
 resource-groups : AWS Resource Groups
 robomaker : AWS RoboMaker
 route53 : Amazon Route 53
 route53domains : Amazon Route 53 Domains
 route53resolver : Amazon Route 53 Resolver
+runtime-v2-lex : Amazon Lex Runtime V2
 runtime.lex : Amazon Lex Runtime Service
 runtime.sagemaker : Amazon SageMaker Runtime
 s3 : Amazon Simple Storage Service
 s3-control : AWS S3 Control
+s3-outposts : Amazon S3 on Outposts
 savingsplans : AWS Savings Plans
 schemas : Schemas
 sdb : Amazon SimpleDB
@@ -181,6 +210,7 @@ secretsmanager : AWS Secrets Manager
 securityhub : AWS SecurityHub
 serverlessrepo : AWSServerlessApplicationRepository
 servicecatalog : AWS Service Catalog
+servicecatalog-appregistry : AWS Service Catalog App Registry
 servicediscovery : AWS Cloud Map
 servicequotas : Service Quotas
 session.qldb : Amazon QLDB Session
@@ -192,6 +222,7 @@ snowball : Amazon Import/Export Snowball
 sns : Amazon Simple Notification Service
 sqs : Amazon Simple Queue Service
 ssm : Amazon Simple Systems Manager (SSM)
+sso : AWS Single Sign-On Admin
 states : AWS Step Functions
 storagegateway : AWS Storage Gateway
 streams.dynamodb : Amazon DynamoDB Streams
@@ -207,6 +238,7 @@ translate : Amazon Translate
 waf : AWS WAF
 waf-regional : AWS WAF Regional
 wafv2 : AWS WAFV2
+wellarchitected : AWS Well-Architected Tool
 workdocs : Amazon WorkDocs
 worklink : Amazon WorkLink
 workmail : Amazon WorkMail

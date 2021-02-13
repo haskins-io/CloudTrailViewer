@@ -3,13 +3,17 @@ AssociateDRTRole
 AssociateHealthCheck
 AssociateProactiveEngagementDetails
 CreateProtection
+CreateProtectionGroup
 CreateSubscription
 DeleteProtection
+DeleteProtectionGroup
 DeleteSubscription
 DescribeAttack
+DescribeAttackStatistics
 DescribeDRTAccess
 DescribeEmergencyContactSettings
 DescribeProtection
+DescribeProtectionGroup
 DescribeSubscription
 DisableProactiveEngagement
 DisassociateDRTLogBucket
@@ -18,6 +22,9 @@ DisassociateHealthCheck
 EnableProactiveEngagement
 GetSubscriptionState
 ListAttacks
+ListProtectionGroups
 ListProtections
+ListResourcesInProtectionGroup
 UpdateEmergencyContactSettings
+UpdateProtectionGroup
 UpdateSubscription

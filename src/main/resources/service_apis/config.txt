@@ -14,6 +14,7 @@ DeleteRemediationConfiguration
 DeleteRemediationExceptions
 DeleteResourceConfig
 DeleteRetentionConfiguration
+DeleteStoredQuery
 DeliverConfigSnapshot
 DescribeAggregateComplianceByConfigRules
 DescribeAggregationAuthorizations
@@ -53,8 +54,10 @@ GetDiscoveredResourceCounts
 GetOrganizationConfigRuleDetailedStatus
 GetOrganizationConformancePackDetailedStatus
 GetResourceConfigHistory
+GetStoredQuery
 ListAggregateDiscoveredResources
 ListDiscoveredResources
+ListStoredQueries
 ListTagsForResource
 PutAggregationAuthorization
 PutConfigRule
@@ -63,12 +66,14 @@ PutConfigurationRecorder
 PutConformancePack
 PutDeliveryChannel
 PutEvaluations
+PutExternalEvaluation
 PutOrganizationConfigRule
 PutOrganizationConformancePack
 PutRemediationConfigurations
 PutRemediationExceptions
 PutResourceConfig
 PutRetentionConfiguration
+PutStoredQuery
 SelectAggregateResourceConfig
 SelectResourceConfig
 StartConfigRulesEvaluation

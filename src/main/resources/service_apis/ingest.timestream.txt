@@ -1,0 +1,15 @@
+CreateDatabase
+CreateTable
+DeleteDatabase
+DeleteTable
+DescribeDatabase
+DescribeEndpoints
+DescribeTable
+ListDatabases
+ListTables
+ListTagsForResource
+TagResource
+UntagResource
+UpdateDatabase
+UpdateTable
+WriteRecords

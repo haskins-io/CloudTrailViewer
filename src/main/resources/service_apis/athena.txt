@@ -15,6 +15,7 @@ GetTableMetadata
 GetWorkGroup
 ListDataCatalogs
 ListDatabases
+ListEngineVersions
 ListNamedQueries
 ListQueryExecutions
 ListTableMetadata

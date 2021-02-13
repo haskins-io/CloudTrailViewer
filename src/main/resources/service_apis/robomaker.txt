@@ -1,7 +1,10 @@
+BatchDeleteWorlds
 BatchDescribeSimulationJob
 CancelDeploymentJob
 CancelSimulationJob
 CancelSimulationJobBatch
+CancelWorldExportJob
+CancelWorldGenerationJob
 CreateDeploymentJob
 CreateFleet
 CreateRobot
@@ -10,10 +13,14 @@ CreateRobotApplicationVersion
 CreateSimulationApplication
 CreateSimulationApplicationVersion
 CreateSimulationJob
+CreateWorldExportJob
+CreateWorldGenerationJob
+CreateWorldTemplate
 DeleteFleet
 DeleteRobot
 DeleteRobotApplication
 DeleteSimulationApplication
+DeleteWorldTemplate
 DeregisterRobot
 DescribeDeploymentJob
 DescribeFleet
@@ -22,6 +29,11 @@ DescribeRobotApplication
 DescribeSimulationApplication
 DescribeSimulationJob
 DescribeSimulationJobBatch
+DescribeWorld
+DescribeWorldExportJob
+DescribeWorldGenerationJob
+DescribeWorldTemplate
+GetWorldTemplateBody
 ListDeploymentJobs
 ListFleets
 ListRobotApplications
@@ -30,6 +42,10 @@ ListSimulationApplications
 ListSimulationJobBatches
 ListSimulationJobs
 ListTagsForResource
+ListWorldExportJobs
+ListWorldGenerationJobs
+ListWorldTemplates
+ListWorlds
 RegisterRobot
 RestartSimulationJob
 StartSimulationJobBatch
@@ -38,3 +54,4 @@ TagResource
 UntagResource
 UpdateRobotApplication
 UpdateSimulationApplication
+UpdateWorldTemplate

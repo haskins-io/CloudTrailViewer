@@ -27,6 +27,7 @@ DescribeConstraint
 DescribeCopyProductStatus
 DescribePortfolio
 DescribePortfolioShareStatus
+DescribePortfolioShares
 DescribeProduct
 DescribeProductAsAdmin
 DescribeProductView
@@ -48,6 +49,8 @@ EnableAWSOrganizationsAccess
 ExecuteProvisionedProductPlan
 ExecuteProvisionedProductServiceAction
 GetAWSOrganizationsAccessStatus
+GetProvisionedProductOutputs
+ImportAsProvisionedProduct
 ListAcceptedPortfolioShares
 ListBudgetsForResource
 ListConstraintsForPortfolio
@@ -75,6 +78,7 @@ SearchProvisionedProducts
 TerminateProvisionedProduct
 UpdateConstraint
 UpdatePortfolio
+UpdatePortfolioShare
 UpdateProduct
 UpdateProvisionedProduct
 UpdateProvisionedProductProperties

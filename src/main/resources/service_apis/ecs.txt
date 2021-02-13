@@ -41,6 +41,7 @@ SubmitContainerStateChange
 SubmitTaskStateChange
 TagResource
 UntagResource
+UpdateCapacityProvider
 UpdateClusterSettings
 UpdateContainerAgent
 UpdateContainerInstancesState

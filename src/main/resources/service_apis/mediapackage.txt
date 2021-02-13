@@ -1,3 +1,4 @@
+ConfigureLogs
 CreateChannel
 CreateHarvestJob
 CreateOriginEndpoint

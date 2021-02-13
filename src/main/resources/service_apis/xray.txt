@@ -6,6 +6,10 @@ DeleteSamplingRule
 GetEncryptionConfig
 GetGroup
 GetGroups
+GetInsight
+GetInsightEvents
+GetInsightImpactGraph
+GetInsightSummaries
 GetSamplingRules
 GetSamplingStatisticSummaries
 GetSamplingTargets
@@ -13,8 +17,11 @@ GetServiceGraph
 GetTimeSeriesServiceStatistics
 GetTraceGraph
 GetTraceSummaries
+ListTagsForResource
 PutEncryptionConfig
 PutTelemetryRecords
 PutTraceSegments
+TagResource
+UntagResource
 UpdateGroup
 UpdateSamplingRule

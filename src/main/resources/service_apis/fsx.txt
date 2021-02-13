@@ -1,3 +1,4 @@
+AssociateFileSystemAliases
 CancelDataRepositoryTask
 CreateBackup
 CreateDataRepositoryTask
@@ -7,7 +8,9 @@ DeleteBackup
 DeleteFileSystem
 DescribeBackups
 DescribeDataRepositoryTasks
+DescribeFileSystemAliases
 DescribeFileSystems
+DisassociateFileSystemAliases
 ListTagsForResource
 TagResource
 UntagResource

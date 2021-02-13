@@ -99,6 +99,7 @@ DescribePendingMaintenanceActions
 DescribeSourceRegions
 DescribeValidDBInstanceModifications
 FailoverDBCluster
+FailoverGlobalCluster
 ImportInstallationMedia
 ModifyCertificates
 ModifyCurrentDBClusterCapacity
@@ -124,7 +125,9 @@ RestoreDBInstanceFromS3
 StartActivityStream
 StartDBCluster
 StartDBInstance
+StartDBInstanceAutomatedBackupsReplication
 StartExportTask
 StopActivityStream
 StopDBCluster
 StopDBInstance
+StopDBInstanceAutomatedBackupsReplication

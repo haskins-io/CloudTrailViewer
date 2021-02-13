@@ -52,6 +52,7 @@ GetResourceDefinitionVersion
 GetServiceRoleForAccount
 GetSubscriptionDefinition
 GetSubscriptionDefinitionVersion
+GetThingRuntimeConfiguration
 ListBulkDeploymentDetailedReports
 ListBulkDeployments
 ListConnectorDefinitionVersions
@@ -88,3 +89,19 @@ UpdateGroupCertificateConfiguration
 UpdateLoggerDefinition
 UpdateResourceDefinition
 UpdateSubscriptionDefinition
+UpdateThingRuntimeConfiguration
+CancelDeployment
+CreateComponentVersion
+DeleteComponent
+DeleteCoreDevice
+DescribeComponent
+GetComponent
+GetComponentVersionArtifact
+GetCoreDevice
+GetDeployment
+ListComponentVersions
+ListComponents
+ListCoreDevices
+ListEffectiveDeployments
+ListInstalledComponents
+ResolveComponentCandidates

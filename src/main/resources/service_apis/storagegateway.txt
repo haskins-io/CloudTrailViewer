@@ -13,6 +13,7 @@ CreateSMBFileShare
 CreateSnapshot
 CreateSnapshotFromVolumeRecoveryPoint
 CreateStorediSCSIVolume
+CreateTapePool
 CreateTapeWithBarcode
 CreateTapes
 DeleteAutomaticTapeCreationPolicy
@@ -23,9 +24,11 @@ DeleteGateway
 DeleteSnapshotSchedule
 DeleteTape
 DeleteTapeArchive
+DeleteTapePool
 DeleteVolume
 DescribeAvailabilityMonitorTest
 DescribeBandwidthRateLimit
+DescribeBandwidthRateLimitSchedule
 DescribeCache
 DescribeCachediSCSIVolumes
 DescribeChapCredentials
@@ -50,6 +53,7 @@ ListFileShares
 ListGateways
 ListLocalDisks
 ListTagsForResource
+ListTapePools
 ListTapes
 ListVolumeInitiators
 ListVolumeRecoveryPoints
@@ -67,12 +71,14 @@ StartAvailabilityMonitorTest
 StartGateway
 UpdateAutomaticTapeCreationPolicy
 UpdateBandwidthRateLimit
+UpdateBandwidthRateLimitSchedule
 UpdateChapCredentials
 UpdateGatewayInformation
 UpdateGatewaySoftwareNow
 UpdateMaintenanceStartTime
 UpdateNFSFileShare
 UpdateSMBFileShare
+UpdateSMBFileShareVisibility
 UpdateSMBSecurityStrategy
 UpdateSnapshotSchedule
 UpdateVTLDeviceType

@@ -7,9 +7,11 @@ DeleteBucket
 DeleteBucketAnalyticsConfiguration
 DeleteBucketCors
 DeleteBucketEncryption
+DeleteBucketIntelligentTieringConfiguration
 DeleteBucketInventoryConfiguration
 DeleteBucketLifecycle
 DeleteBucketMetricsConfiguration
+DeleteBucketOwnershipControls
 DeleteBucketPolicy
 DeleteBucketReplication
 DeleteBucketTagging
@@ -23,6 +25,7 @@ GetBucketAcl
 GetBucketAnalyticsConfiguration
 GetBucketCors
 GetBucketEncryption
+GetBucketIntelligentTieringConfiguration
 GetBucketInventoryConfiguration
 GetBucketLifecycle
 GetBucketLifecycleConfiguration
@@ -31,6 +34,7 @@ GetBucketLogging
 GetBucketMetricsConfiguration
 GetBucketNotification
 GetBucketNotificationConfiguration
+GetBucketOwnershipControls
 GetBucketPolicy
 GetBucketPolicyStatus
 GetBucketReplication
@@ -49,6 +53,7 @@ GetPublicAccessBlock
 HeadBucket
 HeadObject
 ListBucketAnalyticsConfigurations
+ListBucketIntelligentTieringConfigurations
 ListBucketInventoryConfigurations
 ListBucketMetricsConfigurations
 ListBuckets
@@ -62,6 +67,7 @@ PutBucketAcl
 PutBucketAnalyticsConfiguration
 PutBucketCors
 PutBucketEncryption
+PutBucketIntelligentTieringConfiguration
 PutBucketInventoryConfiguration
 PutBucketLifecycle
 PutBucketLifecycleConfiguration
@@ -69,6 +75,7 @@ PutBucketLogging
 PutBucketMetricsConfiguration
 PutBucketNotification
 PutBucketNotificationConfiguration
+PutBucketOwnershipControls
 PutBucketPolicy
 PutBucketReplication
 PutBucketRequestPayment

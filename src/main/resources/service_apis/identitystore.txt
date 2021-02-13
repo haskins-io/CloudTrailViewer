@@ -1,0 +1,4 @@
+DescribeGroup
+DescribeUser
+ListGroups
+ListUsers

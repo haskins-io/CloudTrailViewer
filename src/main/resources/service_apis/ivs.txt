@@ -3,11 +3,15 @@ BatchGetStreamKey
 CreateChannel
 CreateStreamKey
 DeleteChannel
+DeletePlaybackKeyPair
 DeleteStreamKey
 GetChannel
+GetPlaybackKeyPair
 GetStream
 GetStreamKey
+ImportPlaybackKeyPair
 ListChannels
+ListPlaybackKeyPairs
 ListStreamKeys
 ListStreams
 ListTagsForResource

@@ -3,6 +3,7 @@ CreateAgent
 CreateLocationEfs
 CreateLocationFsxWindows
 CreateLocationNfs
+CreateLocationObjectStorage
 CreateLocationS3
 CreateLocationSmb
 CreateTask
@@ -13,6 +14,7 @@ DescribeAgent
 DescribeLocationEfs
 DescribeLocationFsxWindows
 DescribeLocationNfs
+DescribeLocationObjectStorage
 DescribeLocationS3
 DescribeLocationSmb
 DescribeTask
@@ -27,3 +29,4 @@ TagResource
 UntagResource
 UpdateAgent
 UpdateTask
+UpdateTaskExecution

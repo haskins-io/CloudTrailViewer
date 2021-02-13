@@ -1,9 +1,14 @@
+CreateParallelData
+DeleteParallelData
 DeleteTerminology
 DescribeTextTranslationJob
+GetParallelData
 GetTerminology
 ImportTerminology
+ListParallelData
 ListTerminologies
 ListTextTranslationJobs
 StartTextTranslationJob
 StopTextTranslationJob
 TranslateText
+UpdateParallelData

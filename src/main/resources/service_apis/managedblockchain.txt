@@ -14,7 +14,10 @@ ListNetworks
 ListNodes
 ListProposalVotes
 ListProposals
+ListTagsForResource
 RejectInvitation
+TagResource
+UntagResource
 UpdateMember
 UpdateNode
 VoteOnProposal

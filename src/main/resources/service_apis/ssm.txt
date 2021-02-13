@@ -7,6 +7,7 @@ CreateAssociationBatch
 CreateDocument
 CreateMaintenanceWindow
 CreateOpsItem
+CreateOpsMetadata
 CreatePatchBaseline
 CreateResourceDataSync
 DeleteActivation
@@ -14,6 +15,7 @@ DeleteAssociation
 DeleteDocument
 DeleteInventory
 DeleteMaintenanceWindow
+DeleteOpsMetadata
 DeleteParameter
 DeleteParameters
 DeletePatchBaseline
@@ -69,6 +71,7 @@ GetMaintenanceWindowExecutionTask
 GetMaintenanceWindowExecutionTaskInvocation
 GetMaintenanceWindowTask
 GetOpsItem
+GetOpsMetadata
 GetOpsSummary
 GetParameter
 GetParameterHistory
@@ -84,9 +87,12 @@ ListCommandInvocations
 ListCommands
 ListComplianceItems
 ListComplianceSummaries
+ListDocumentMetadataHistory
 ListDocumentVersions
 ListDocuments
 ListInventoryEntries
+ListOpsItemEvents
+ListOpsMetadata
 ListResourceComplianceSummaries
 ListResourceDataSync
 ListTagsForResource
@@ -105,6 +111,7 @@ SendAutomationSignal
 SendCommand
 StartAssociationsOnce
 StartAutomationExecution
+StartChangeRequestExecution
 StartSession
 StopAutomationExecution
 TerminateSession
@@ -112,11 +119,13 @@ UpdateAssociation
 UpdateAssociationStatus
 UpdateDocument
 UpdateDocumentDefaultVersion
+UpdateDocumentMetadata
 UpdateMaintenanceWindow
 UpdateMaintenanceWindowTarget
 UpdateMaintenanceWindowTask
 UpdateManagedInstanceRole
 UpdateOpsItem
+UpdateOpsMetadata
 UpdatePatchBaseline
 UpdateResourceDataSync
 UpdateServiceSetting

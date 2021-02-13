@@ -8,6 +8,8 @@ DescribeBackups
 DescribeClusters
 InitializeCluster
 ListTags
+ModifyBackupAttributes
+ModifyCluster
 RestoreBackup
 TagResource
 UntagResource

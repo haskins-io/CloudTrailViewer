@@ -10,6 +10,7 @@ DescribeCodeBinding
 DescribeDiscoverer
 DescribeRegistry
 DescribeSchema
+ExportSchema
 GetCodeBindingSource
 GetDiscoveredSchema
 GetResourcePolicy

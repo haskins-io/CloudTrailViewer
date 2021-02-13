@@ -1,5 +1,6 @@
 AddTagsToResource
 ApplyPendingMaintenanceAction
+CancelReplicationTaskAssessmentRun
 CreateEndpoint
 CreateEventSubscription
 CreateReplicationInstance
@@ -12,7 +13,9 @@ DeleteEventSubscription
 DeleteReplicationInstance
 DeleteReplicationSubnetGroup
 DeleteReplicationTask
+DeleteReplicationTaskAssessmentRun
 DescribeAccountAttributes
+DescribeApplicableIndividualAssessments
 DescribeCertificates
 DescribeConnections
 DescribeEndpointTypes
@@ -27,6 +30,8 @@ DescribeReplicationInstanceTaskLogs
 DescribeReplicationInstances
 DescribeReplicationSubnetGroups
 DescribeReplicationTaskAssessmentResults
+DescribeReplicationTaskAssessmentRuns
+DescribeReplicationTaskIndividualAssessments
 DescribeReplicationTasks
 DescribeSchemas
 DescribeTableStatistics
@@ -37,11 +42,13 @@ ModifyEventSubscription
 ModifyReplicationInstance
 ModifyReplicationSubnetGroup
 ModifyReplicationTask
+MoveReplicationTask
 RebootReplicationInstance
 RefreshSchemas
 ReloadTables
 RemoveTagsFromResource
 StartReplicationTask
 StartReplicationTaskAssessment
+StartReplicationTaskAssessmentRun
 StopReplicationTask
 TestConnection

@@ -21,6 +21,7 @@ DescribeReservedElasticsearchInstanceOfferings
 DescribeReservedElasticsearchInstances
 DissociatePackage
 GetCompatibleElasticsearchVersions
+GetPackageVersionHistory
 GetUpgradeHistory
 GetUpgradeStatus
 ListDomainNames
@@ -34,4 +35,5 @@ RejectInboundCrossClusterSearchConnection
 RemoveTags
 StartElasticsearchServiceSoftwareUpdate
 UpdateElasticsearchDomainConfig
+UpdatePackage
 UpgradeElasticsearchDomain

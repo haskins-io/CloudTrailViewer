@@ -1,11 +1,13 @@
 CancelImageCreation
 CreateComponent
+CreateContainerRecipe
 CreateDistributionConfiguration
 CreateImage
 CreateImagePipeline
 CreateImageRecipe
 CreateInfrastructureConfiguration
 DeleteComponent
+DeleteContainerRecipe
 DeleteDistributionConfiguration
 DeleteImage
 DeleteImagePipeline
@@ -13,6 +15,8 @@ DeleteImageRecipe
 DeleteInfrastructureConfiguration
 GetComponent
 GetComponentPolicy
+GetContainerRecipe
+GetContainerRecipePolicy
 GetDistributionConfiguration
 GetImage
 GetImagePipeline
@@ -23,6 +27,7 @@ GetInfrastructureConfiguration
 ImportComponent
 ListComponentBuildVersions
 ListComponents
+ListContainerRecipes
 ListDistributionConfigurations
 ListImageBuildVersions
 ListImagePipelineImages
@@ -32,6 +37,7 @@ ListImages
 ListInfrastructureConfigurations
 ListTagsForResource
 PutComponentPolicy
+PutContainerRecipePolicy
 PutImagePolicy
 PutImageRecipePolicy
 StartImagePipelineExecution

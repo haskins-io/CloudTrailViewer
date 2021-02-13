@@ -1,5 +1,6 @@
 AcceptSharedDirectory
 AddIpRoutes
+AddRegion
 AddTagsToResource
 CancelSchemaExtension
 ConnectDirectory
@@ -24,12 +25,15 @@ DescribeDirectories
 DescribeDomainControllers
 DescribeEventTopics
 DescribeLDAPSSettings
+DescribeRegions
 DescribeSharedDirectories
 DescribeSnapshots
 DescribeTrusts
+DisableClientAuthentication
 DisableLDAPS
 DisableRadius
 DisableSso
+EnableClientAuthentication
 EnableLDAPS
 EnableRadius
 EnableSso
@@ -44,6 +48,7 @@ RegisterCertificate
 RegisterEventTopic
 RejectSharedDirectory
 RemoveIpRoutes
+RemoveRegion
 RemoveTagsFromResource
 ResetUserPassword
 RestoreFromSnapshot

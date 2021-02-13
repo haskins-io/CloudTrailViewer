@@ -25,7 +25,10 @@ ListPackageVersions
 ListPackages
 ListRepositories
 ListRepositoriesInDomain
+ListTagsForResource
 PutDomainPermissionsPolicy
 PutRepositoryPermissionsPolicy
+TagResource
+UntagResource
 UpdatePackageVersionsStatus
 UpdateRepository

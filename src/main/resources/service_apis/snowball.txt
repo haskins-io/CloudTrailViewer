@@ -3,10 +3,12 @@ CancelJob
 CreateAddress
 CreateCluster
 CreateJob
+CreateReturnShippingLabel
 DescribeAddress
 DescribeAddresses
 DescribeCluster
 DescribeJob
+DescribeReturnShippingLabel
 GetJobManifest
 GetJobUnlockCode
 GetSnowballUsage
@@ -17,3 +19,4 @@ ListCompatibleImages
 ListJobs
 UpdateCluster
 UpdateJob
+UpdateJobShipmentState

@@ -9,8 +9,11 @@ DescribeJobDefinitions
 DescribeJobQueues
 DescribeJobs
 ListJobs
+ListTagsForResource
 RegisterJobDefinition
 SubmitJob
+TagResource
 TerminateJob
+UntagResource
 UpdateComputeEnvironment
 UpdateJobQueue

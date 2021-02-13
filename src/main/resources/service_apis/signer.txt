@@ -1,12 +1,17 @@
+AddProfilePermission
 CancelSigningProfile
 DescribeSigningJob
 GetSigningPlatform
 GetSigningProfile
+ListProfilePermissions
 ListSigningJobs
 ListSigningPlatforms
 ListSigningProfiles
 ListTagsForResource
 PutSigningProfile
+RemoveProfilePermission
+RevokeSignature
+RevokeSigningProfile
 StartSigningJob
 TagResource
 UntagResource

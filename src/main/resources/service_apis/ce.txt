@@ -1,8 +1,16 @@
+CreateAnomalyMonitor
+CreateAnomalySubscription
 CreateCostCategoryDefinition
+DeleteAnomalyMonitor
+DeleteAnomalySubscription
 DeleteCostCategoryDefinition
 DescribeCostCategoryDefinition
+GetAnomalies
+GetAnomalyMonitors
+GetAnomalySubscriptions
 GetCostAndUsage
 GetCostAndUsageWithResources
+GetCostCategories
 GetCostForecast
 GetDimensionValues
 GetReservationCoverage
@@ -16,4 +24,7 @@ GetSavingsPlansUtilizationDetails
 GetTags
 GetUsageForecast
 ListCostCategoryDefinitions
+ProvideAnomalyFeedback
+UpdateAnomalyMonitor
+UpdateAnomalySubscription
 UpdateCostCategoryDefinition

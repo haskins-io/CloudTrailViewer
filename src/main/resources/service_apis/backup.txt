@@ -10,6 +10,7 @@ DeleteRecoveryPoint
 DescribeBackupJob
 DescribeBackupVault
 DescribeCopyJob
+DescribeGlobalSettings
 DescribeProtectedResource
 DescribeRecoveryPoint
 DescribeRegionSettings
@@ -44,5 +45,6 @@ StopBackupJob
 TagResource
 UntagResource
 UpdateBackupPlan
+UpdateGlobalSettings
 UpdateRecoveryPointLifecycle
 UpdateRegionSettings

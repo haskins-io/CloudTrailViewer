@@ -1,0 +1,13 @@
+CreateSuiteDefinition
+DeleteSuiteDefinition
+GetSuiteDefinition
+GetSuiteRun
+GetSuiteRunReport
+ListSuiteDefinitions
+ListSuiteRuns
+ListTagsForResource
+ListTestCases
+StartSuiteRun
+TagResource
+UntagResource
+UpdateSuiteDefinition

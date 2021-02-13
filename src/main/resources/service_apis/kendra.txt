@@ -3,17 +3,21 @@ BatchPutDocument
 CreateDataSource
 CreateFaq
 CreateIndex
+CreateThesaurus
 DeleteDataSource
 DeleteFaq
 DeleteIndex
+DeleteThesaurus
 DescribeDataSource
 DescribeFaq
 DescribeIndex
+DescribeThesaurus
 ListDataSourceSyncJobs
 ListDataSources
 ListFaqs
 ListIndices
 ListTagsForResource
+ListThesauri
 Query
 StartDataSourceSyncJob
 StopDataSourceSyncJob
@@ -22,3 +26,4 @@ TagResource
 UntagResource
 UpdateDataSource
 UpdateIndex
+UpdateThesaurus

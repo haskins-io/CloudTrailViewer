@@ -1,0 +1,3 @@
+CancelQuery
+DescribeEndpoints
+Query

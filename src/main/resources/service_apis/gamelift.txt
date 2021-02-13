@@ -35,6 +35,7 @@ DescribeFleetPortSettings
 DescribeFleetUtilization
 DescribeGameServer
 DescribeGameServerGroup
+DescribeGameServerInstances
 DescribeGameSessionDetails
 DescribeGameSessionPlacement
 DescribeGameSessionQueues

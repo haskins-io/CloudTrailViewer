@@ -9,3 +9,4 @@ ListHosts
 ListTagsForResource
 TagResource
 UntagResource
+UpdateHost

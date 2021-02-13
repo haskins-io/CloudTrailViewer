@@ -28,8 +28,10 @@ GetFindingsStatistics
 GetIPSet
 GetInvitationsCount
 GetMasterAccount
+GetMemberDetectors
 GetMembers
 GetThreatIntelSet
+GetUsageStatistics
 InviteMembers
 ListDetectors
 ListFilters
@@ -50,6 +52,7 @@ UpdateDetector
 UpdateFilter
 UpdateFindingsFeedback
 UpdateIPSet
+UpdateMemberDetectors
 UpdateOrganizationConfiguration
 UpdatePublishingDestination
 UpdateThreatIntelSet

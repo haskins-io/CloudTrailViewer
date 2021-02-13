@@ -1,4 +1,5 @@
 AssociateRepository
+CreateCodeReview
 DescribeCodeReview
 DescribeRecommendationFeedback
 DescribeRepositoryAssociation
@@ -7,4 +8,7 @@ ListCodeReviews
 ListRecommendationFeedback
 ListRecommendations
 ListRepositoryAssociations
+ListTagsForResource
 PutRecommendationFeedback
+TagResource
+UntagResource

@@ -4,15 +4,18 @@ BatchGetImage
 CompleteLayerUpload
 CreateRepository
 DeleteLifecyclePolicy
+DeleteRegistryPolicy
 DeleteRepository
 DeleteRepositoryPolicy
 DescribeImageScanFindings
 DescribeImages
+DescribeRegistry
 DescribeRepositories
 GetAuthorizationToken
 GetDownloadUrlForLayer
 GetLifecyclePolicy
 GetLifecyclePolicyPreview
+GetRegistryPolicy
 GetRepositoryPolicy
 InitiateLayerUpload
 ListImages
@@ -21,6 +24,8 @@ PutImage
 PutImageScanningConfiguration
 PutImageTagMutability
 PutLifecyclePolicy
+PutRegistryPolicy
+PutReplicationConfiguration
 SetRepositoryPolicy
 StartImageScan
 StartLifecyclePolicyPreview

@@ -1,4 +1,5 @@
 AcceptReservedInstancesExchangeQuote
+AcceptTransitGatewayMulticastDomainAssociations
 AcceptTransitGatewayPeeringAttachment
 AcceptTransitGatewayVpcAttachment
 AcceptVpcEndpointConnections
@@ -12,6 +13,7 @@ AssignPrivateIpAddresses
 AssociateAddress
 AssociateClientVpnTargetNetwork
 AssociateDhcpOptions
+AssociateEnclaveCertificateIamRole
 AssociateIamInstanceProfile
 AssociateRouteTable
 AssociateSubnetCidrBlock
@@ -40,6 +42,7 @@ CopyFpgaImage
 CopyImage
 CopySnapshot
 CreateCapacityReservation
+CreateCarrierGateway
 CreateClientVpnEndpoint
 CreateClientVpnRoute
 CreateCustomerGateway
@@ -62,6 +65,7 @@ CreateManagedPrefixList
 CreateNatGateway
 CreateNetworkAcl
 CreateNetworkAclEntry
+CreateNetworkInsightsPath
 CreateNetworkInterface
 CreateNetworkInterfacePermission
 CreatePlacementGroup
@@ -79,8 +83,11 @@ CreateTrafficMirrorFilterRule
 CreateTrafficMirrorSession
 CreateTrafficMirrorTarget
 CreateTransitGateway
+CreateTransitGatewayConnect
+CreateTransitGatewayConnectPeer
 CreateTransitGatewayMulticastDomain
 CreateTransitGatewayPeeringAttachment
+CreateTransitGatewayPrefixListReference
 CreateTransitGatewayRoute
 CreateTransitGatewayRouteTable
 CreateTransitGatewayVpcAttachment
@@ -93,6 +100,7 @@ CreateVpcPeeringConnection
 CreateVpnConnection
 CreateVpnConnectionRoute
 CreateVpnGateway
+DeleteCarrierGateway
 DeleteClientVpnEndpoint
 DeleteClientVpnRoute
 DeleteCustomerGateway
@@ -111,6 +119,8 @@ DeleteManagedPrefixList
 DeleteNatGateway
 DeleteNetworkAcl
 DeleteNetworkAclEntry
+DeleteNetworkInsightsAnalysis
+DeleteNetworkInsightsPath
 DeleteNetworkInterface
 DeleteNetworkInterfacePermission
 DeletePlacementGroup
@@ -127,8 +137,11 @@ DeleteTrafficMirrorFilterRule
 DeleteTrafficMirrorSession
 DeleteTrafficMirrorTarget
 DeleteTransitGateway
+DeleteTransitGatewayConnect
+DeleteTransitGatewayConnectPeer
 DeleteTransitGatewayMulticastDomain
 DeleteTransitGatewayPeeringAttachment
+DeleteTransitGatewayPrefixListReference
 DeleteTransitGatewayRoute
 DeleteTransitGatewayRouteTable
 DeleteTransitGatewayVpcAttachment
@@ -148,11 +161,13 @@ DeregisterTransitGatewayMulticastGroupMembers
 DeregisterTransitGatewayMulticastGroupSources
 DescribeAccountAttributes
 DescribeAddresses
+DescribeAddressesAttribute
 DescribeAggregateIdFormat
 DescribeAvailabilityZones
 DescribeBundleTasks
 DescribeByoipCidrs
 DescribeCapacityReservations
+DescribeCarrierGateways
 DescribeClassicLinkInstances
 DescribeClientVpnAuthorizationRules
 DescribeClientVpnConnections
@@ -206,6 +221,8 @@ DescribeManagedPrefixLists
 DescribeMovingAddresses
 DescribeNatGateways
 DescribeNetworkAcls
+DescribeNetworkInsightsAnalyses
+DescribeNetworkInsightsPaths
 DescribeNetworkInterfaceAttribute
 DescribeNetworkInterfacePermissions
 DescribeNetworkInterfaces
@@ -238,6 +255,8 @@ DescribeTrafficMirrorFilters
 DescribeTrafficMirrorSessions
 DescribeTrafficMirrorTargets
 DescribeTransitGatewayAttachments
+DescribeTransitGatewayConnectPeers
+DescribeTransitGatewayConnects
 DescribeTransitGatewayMulticastDomains
 DescribeTransitGatewayPeeringAttachments
 DescribeTransitGatewayRouteTables
@@ -273,6 +292,7 @@ DisableVpcClassicLink
 DisableVpcClassicLinkDnsSupport
 DisassociateAddress
 DisassociateClientVpnTargetNetwork
+DisassociateEnclaveCertificateIamRole
 DisassociateIamInstanceProfile
 DisassociateRouteTable
 DisassociateSubnetCidrBlock
@@ -290,6 +310,7 @@ ExportClientVpnClientCertificateRevocationList
 ExportClientVpnClientConfiguration
 ExportImage
 ExportTransitGatewayRoutes
+GetAssociatedEnclaveCertificateIamRoles
 GetAssociatedIpv6PoolCidrs
 GetCapacityReservationUsage
 GetCoipPoolUsage
@@ -298,6 +319,7 @@ GetConsoleScreenshot
 GetDefaultCreditSpecification
 GetEbsDefaultKmsKeyId
 GetEbsEncryptionByDefault
+GetGroupsForCapacityReservation
 GetHostReservationPurchasePreview
 GetLaunchTemplateData
 GetManagedPrefixListAssociations
@@ -306,6 +328,7 @@ GetPasswordData
 GetReservedInstancesExchangeQuote
 GetTransitGatewayAttachmentPropagations
 GetTransitGatewayMulticastDomainAssociations
+GetTransitGatewayPrefixListReferences
 GetTransitGatewayRouteTableAssociations
 GetTransitGatewayRouteTablePropagations
 ImportClientVpnClientCertificateRevocationList
@@ -314,6 +337,7 @@ ImportInstance
 ImportKeyPair
 ImportSnapshot
 ImportVolume
+ModifyAddressAttribute
 ModifyAvailabilityZoneGroup
 ModifyCapacityReservation
 ModifyClientVpnEndpoint
@@ -341,6 +365,8 @@ ModifySubnetAttribute
 ModifyTrafficMirrorFilterNetworkServices
 ModifyTrafficMirrorFilterRule
 ModifyTrafficMirrorSession
+ModifyTransitGateway
+ModifyTransitGatewayPrefixListReference
 ModifyTransitGatewayVpcAttachment
 ModifyVolume
 ModifyVolumeAttribute
@@ -352,6 +378,7 @@ ModifyVpcEndpointServicePermissions
 ModifyVpcPeeringConnectionOptions
 ModifyVpcTenancy
 ModifyVpnConnection
+ModifyVpnConnectionOptions
 ModifyVpnTunnelCertificate
 ModifyVpnTunnelOptions
 MonitorInstances
@@ -365,6 +392,7 @@ RegisterImage
 RegisterInstanceEventNotificationAttributes
 RegisterTransitGatewayMulticastGroupMembers
 RegisterTransitGatewayMulticastGroupSources
+RejectTransitGatewayMulticastDomainAssociations
 RejectTransitGatewayPeeringAttachment
 RejectTransitGatewayVpcAttachment
 RejectVpcEndpointConnections
@@ -380,6 +408,7 @@ ReplaceTransitGatewayRoute
 ReportInstanceStatus
 RequestSpotFleet
 RequestSpotInstances
+ResetAddressAttribute
 ResetEbsDefaultKmsKeyId
 ResetFpgaImageAttribute
 ResetImageAttribute
@@ -398,6 +427,7 @@ SearchTransitGatewayMulticastGroups
 SearchTransitGatewayRoutes
 SendDiagnosticInterrupt
 StartInstances
+StartNetworkInsightsAnalysis
 StartVpcEndpointServicePrivateDnsVerification
 StopInstances
 TerminateClientVpnConnections

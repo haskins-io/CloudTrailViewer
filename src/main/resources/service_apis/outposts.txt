@@ -5,3 +5,6 @@ GetOutpost
 GetOutpostInstanceTypes
 ListOutposts
 ListSites
+ListTagsForResource
+TagResource
+UntagResource

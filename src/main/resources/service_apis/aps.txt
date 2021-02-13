@@ -1,0 +1,5 @@
+CreateWorkspace
+DeleteWorkspace
+DescribeWorkspace
+ListWorkspaces
+UpdateWorkspaceAlias

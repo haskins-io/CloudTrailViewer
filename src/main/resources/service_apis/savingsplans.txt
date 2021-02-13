@@ -1,4 +1,5 @@
 CreateSavingsPlan
+DeleteQueuedSavingsPlan
 DescribeSavingsPlanRates
 DescribeSavingsPlans
 DescribeSavingsPlansOfferingRates

@@ -11,6 +11,8 @@ CreateCacheSubnetGroup
 CreateGlobalReplicationGroup
 CreateReplicationGroup
 CreateSnapshot
+CreateUser
+CreateUserGroup
 DecreaseNodeGroupsInGlobalReplicationGroup
 DecreaseReplicaCount
 DeleteCacheCluster
@@ -20,6 +22,8 @@ DeleteCacheSubnetGroup
 DeleteGlobalReplicationGroup
 DeleteReplicationGroup
 DeleteSnapshot
+DeleteUser
+DeleteUserGroup
 DescribeCacheClusters
 DescribeCacheEngineVersions
 DescribeCacheParameterGroups
@@ -35,6 +39,8 @@ DescribeReservedCacheNodesOfferings
 DescribeServiceUpdates
 DescribeSnapshots
 DescribeUpdateActions
+DescribeUserGroups
+DescribeUsers
 DisassociateGlobalReplicationGroup
 FailoverGlobalReplicationGroup
 IncreaseNodeGroupsInGlobalReplicationGroup
@@ -47,6 +53,8 @@ ModifyCacheSubnetGroup
 ModifyGlobalReplicationGroup
 ModifyReplicationGroup
 ModifyReplicationGroupShardConfiguration
+ModifyUser
+ModifyUserGroup
 PurchaseReservedCacheNodesOffering
 RebalanceSlotsInGlobalReplicationGroup
 RebootCacheCluster

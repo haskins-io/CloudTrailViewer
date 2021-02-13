@@ -12,5 +12,8 @@ ListRequestedServiceQuotaChangeHistoryByQuota
 ListServiceQuotaIncreaseRequestsInTemplate
 ListServiceQuotas
 ListServices
+ListTagsForResource
 PutServiceQuotaIncreaseRequestIntoTemplate
 RequestServiceQuotaIncrease
+TagResource
+UntagResource

@@ -1,0 +1,15 @@
+CancelJobRun
+CreateManagedEndpoint
+CreateVirtualCluster
+DeleteManagedEndpoint
+DeleteVirtualCluster
+DescribeJobRun
+DescribeManagedEndpoint
+DescribeVirtualCluster
+ListJobRuns
+ListManagedEndpoints
+ListTagsForResource
+ListVirtualClusters
+StartJobRun
+TagResource
+UntagResource

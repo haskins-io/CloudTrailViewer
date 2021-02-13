@@ -133,6 +133,7 @@ DeleteRouteRequestParameter
 DeleteRouteResponse
 DeleteRouteSettings
 ExportApi
+ResetAuthorizersCache
 GetApi
 GetApiMapping
 GetApiMappings

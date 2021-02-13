@@ -12,9 +12,12 @@ GetRecommendations
 ListFindingsReports
 ListProfileTimes
 ListProfilingGroups
+ListTagsForResource
 PostAgentProfile
 PutPermission
 RemoveNotificationChannel
 RemovePermission
 SubmitFeedback
+TagResource
+UntagResource
 UpdateProfilingGroup

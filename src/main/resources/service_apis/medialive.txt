@@ -1,4 +1,9 @@
+AcceptInputDeviceTransfer
+BatchDelete
+BatchStart
+BatchStop
 BatchUpdateSchedule
+CancelInputDeviceTransfer
 CreateChannel
 CreateInput
 CreateInputSecurityGroup
@@ -16,6 +21,7 @@ DeleteTags
 DescribeChannel
 DescribeInput
 DescribeInputDevice
+DescribeInputDeviceThumbnail
 DescribeInputSecurityGroup
 DescribeMultiplex
 DescribeMultiplexProgram
@@ -23,6 +29,7 @@ DescribeOffering
 DescribeReservation
 DescribeSchedule
 ListChannels
+ListInputDeviceTransfers
 ListInputDevices
 ListInputSecurityGroups
 ListInputs
@@ -32,10 +39,12 @@ ListOfferings
 ListReservations
 ListTagsForResource
 PurchaseOffering
+RejectInputDeviceTransfer
 StartChannel
 StartMultiplex
 StopChannel
 StopMultiplex
+TransferInputDevice
 UpdateChannel
 UpdateChannelClass
 UpdateInput

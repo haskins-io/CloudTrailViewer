@@ -5,6 +5,7 @@ AddApplicationOutput
 AddApplicationReferenceDataSource
 AddApplicationVpcConfiguration
 CreateApplication
+CreateApplicationPresignedUrl
 CreateApplicationSnapshot
 DeleteApplication
 DeleteApplicationCloudWatchLoggingOption

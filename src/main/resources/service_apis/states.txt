@@ -16,6 +16,7 @@ SendTaskFailure
 SendTaskHeartbeat
 SendTaskSuccess
 StartExecution
+StartSyncExecution
 StopExecution
 TagResource
 UntagResource

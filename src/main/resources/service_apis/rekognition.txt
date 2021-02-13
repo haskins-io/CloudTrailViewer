@@ -16,6 +16,7 @@ DetectCustomLabels
 DetectFaces
 DetectLabels
 DetectModerationLabels
+DetectProtectiveEquipment
 DetectText
 GetCelebrityInfo
 GetCelebrityRecognition

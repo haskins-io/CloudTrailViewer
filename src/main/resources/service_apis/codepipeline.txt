@@ -8,6 +8,7 @@ DeleteWebhook
 DeregisterWebhookWithThirdParty
 DisableStageTransition
 EnableStageTransition
+GetActionType
 GetJobDetails
 GetPipeline
 GetPipelineExecution
@@ -34,4 +35,5 @@ StartPipelineExecution
 StopPipelineExecution
 TagResource
 UntagResource
+UpdateActionType
 UpdatePipeline

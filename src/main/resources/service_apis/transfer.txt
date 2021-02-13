@@ -3,9 +3,11 @@ CreateUser
 DeleteServer
 DeleteSshPublicKey
 DeleteUser
+DescribeSecurityPolicy
 DescribeServer
 DescribeUser
 ImportSshPublicKey
+ListSecurityPolicies
 ListServers
 ListTagsForResource
 ListUsers

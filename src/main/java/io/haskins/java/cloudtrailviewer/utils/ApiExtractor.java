@@ -39,8 +39,8 @@ class ApiExtractor {
     
     public static void main(String[] args) {
         
-        String source = "/Users/mark.haskins/Temp/apis";
-        String destination = "/Users/mark.haskins/Temp/output/";
+        String source = "/Users/markhaskins/Temp/apis";
+        String destination = "/Users/markhaskins/Temp/output/";
         
         Map<String, String> serviceNames = new TreeMap<>();
         Map<String, List<String>> serviceAPIs = new TreeMap<>();
@@ -55,7 +55,7 @@ class ApiExtractor {
 
                 String filename = f.getName();
 
-                if (filename.contains("min")) {
+                if (filename.contains(".min.json")) {
 
                     try {
                         JsonNode rootNode = m.readTree(f.getAbsoluteFile());

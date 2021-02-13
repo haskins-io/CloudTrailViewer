@@ -8,12 +8,14 @@ GetId
 GetIdentityPoolRoles
 GetOpenIdToken
 GetOpenIdTokenForDeveloperIdentity
+GetPrincipalTagAttributeMap
 ListIdentities
 ListIdentityPools
 ListTagsForResource
 LookupDeveloperIdentity
 MergeDeveloperIdentities
 SetIdentityPoolRoles
+SetPrincipalTagAttributeMap
 TagResource
 UnlinkDeveloperIdentity
 UnlinkIdentity
