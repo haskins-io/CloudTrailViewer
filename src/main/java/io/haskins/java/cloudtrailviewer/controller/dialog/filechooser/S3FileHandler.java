@@ -119,7 +119,7 @@ class S3FileHandler extends FileHandler {
             objectListing = s3ListObjects(prefix, "/", marker);
 
             if (objectListing.isTruncated()) {
-                objectListing.getNextMarker();
+                marker = objectListing.getNextMarker();
             }
 
             // Add .. if not at root
