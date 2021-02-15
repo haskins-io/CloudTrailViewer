@@ -115,17 +115,17 @@ class S3FileHandler extends FileHandler {
         ObjectListing objectListing = null;
         String marker = "";
 
+        // Add .. if not at root
+        if (prefix.trim().length() != 0) {
+            FileListModel model = new FileListModel(MOVE_BACK, MOVE_BACK, FileListModel.FILE_BACK);
+            listView.getItems().add(model);
+        }
+
         do {
             objectListing = s3ListObjects(prefix, "/", marker);
 
             if (objectListing.isTruncated()) {
                 marker = objectListing.getNextMarker();
-            }
-
-            // Add .. if not at root
-            if (prefix.trim().length() != 0) {
-                FileListModel model = new FileListModel(MOVE_BACK, MOVE_BACK, FileListModel.FILE_BACK);
-                listView.getItems().add(model);
             }
 
             addDirectories(objectListing);
